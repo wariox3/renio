@@ -1,0 +1,135 @@
+<form [formGroup]="formularioEmpresaNuevo" (ngSubmit)="formSubmit()">
+  <div class="fv-row mb-10">
+    <label class="form-label fs-6 fw-bolder text-dark">NOMBRE</label>
+    <input
+      formControlName="nombre"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid': formularioEmpresaNuevo.controls['nombre'].invalid,
+        'is-valid': formularioEmpresaNuevo.controls['nombre'].valid
+      }"
+    />
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El campo es requerido',
+        control: formularioEmpresaNuevo.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'El campo contiene caracteres no validos',
+        control: formularioEmpresaNuevo.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minLength',
+        message: 'El campo debe contener mínimo 3 caracteres',
+        control: formularioEmpresaNuevo.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'maxLength',
+        message: 'El campo debe contener máximo 50 caracteres',
+        control: formularioEmpresaNuevo.controls['nombre']
+      }"
+    ></ng-container>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label fs-6 fw-bolder text-dark">NIT</label>
+    <input
+      formControlName="nit"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      (blur)="obtenerDigitoVerificacion()"
+      [ngClass]="{
+        'is-invalid': formularioEmpresaNuevo.controls['nit'].invalid,
+        'is-valid': formularioEmpresaNuevo.controls['nit'].valid
+      }"
+    />
+
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El campo es requerido',
+        control: formularioEmpresaNuevo.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'maxLength',
+        message: 'El campo debe contener máximo 20 caracteres',
+        control: formularioEmpresaNuevo.controls['nit']
+      }"
+    ></ng-container>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label fs-6 fw-bolder text-dark">DV</label>
+    <input
+      class="form-control bg-transparent"
+      formControlName="digitoVerificacion"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+          formularioEmpresaNuevo.controls['digitoVerificacion'].invalid,
+        'is-valid': formularioEmpresaNuevo.controls['digitoVerificacion'].valid
+      }"
+    />
+
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El campo es requerido',
+        control: formularioEmpresaNuevo.controls['digitoVerificacion']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minLength',
+        message: 'El campo debe contener mínimo 1 caracteres',
+        control: formularioEmpresaNuevo.controls['digitoVerificacion']
+      }"
+    ></ng-container>
+  </div>
+
+  <button
+    type="submit"
+    id="kt_sign_in_submit"
+    class="btn btn-lg btn-primary w-100 mb-5"
+    #btnGuardar
+  >
+    Guardar
+  </button>
+</form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
