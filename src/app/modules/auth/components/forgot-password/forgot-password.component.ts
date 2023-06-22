@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 enum ErrorStates {
   NotSubmitted,
@@ -16,48 +17,68 @@ enum ErrorStates {
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
-  errorState: ErrorStates = ErrorStates.NotSubmitted;
-  errorStates = ErrorStates;
-  isLoading$: Observable<boolean>;
+  formularioRestablecerClave: FormGroup;
+  @ViewChild('btnGuardar', { read: ElementRef })
+  btnGuardar!: ElementRef<HTMLButtonElement>;
 
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  constructor(private fb: FormBuilder, private authService: AuthService) {
-    this.isLoading$ = this.authService.isLoading$;
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private renderer2: Renderer2,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
     this.initForm();
   }
 
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.forgotPasswordForm.controls;
+  get formFields() {
+    return this.formularioRestablecerClave.controls;
   }
 
   initForm() {
-    this.forgotPasswordForm = this.fb.group({
-      email: [
-        'admin@demo.com',
+    this.formularioRestablecerClave = this.formBuilder.group({
+      usuario: [
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
           Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
         ]),
       ],
     });
   }
 
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
-    const forgotPasswordSubscr = this.authService
-      .forgotPassword(this.f.email.value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
+    if (this.formularioRestablecerClave.valid) {
+      this.renderer2.setAttribute(
+        this.btnGuardar.nativeElement,
+        'disabled',
+        'true'
+      );
+      this.renderer2.setProperty(
+        this.btnGuardar.nativeElement,
+        'innerHTML',
+        'Procesando'
+      );
+      this.authService
+      .recuperarClave(this.formFields.usuario.value)
+      .subscribe({
+        next: () => {
+          // this.swalService.mensajeValidacion(
+          //   dataFormularioRecuperarClave.username
+          // );
+        },
+        error: ({ error }) => {
+          console.log(error);
+        },
       });
-    this.unsubscribe.push(forgotPasswordSubscr);
+    } else {
+      this.formularioRestablecerClave.markAllAsTouched()
+    }
+
   }
 }

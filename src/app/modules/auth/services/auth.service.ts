@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Token } from "@interfaces/usuario/token"
 import { TokenService } from './token.service';
 import { AuthHTTPService } from './auth-http';
+import { chackRequiereToken } from '@interceptores/token.interceptor';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -18,9 +19,6 @@ export class AuthService implements OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
-
-  // public fields
-  private apiUrl = `${environment.URL_API_MUUP}/seguridad/login/`
 
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -53,7 +51,7 @@ export class AuthService implements OnDestroy {
   login(email: string, password: string) {
     return this.http
       .post<Token>(
-        `${this.apiUrl}`,
+        `${environment.URL_API_MUUP}/seguridad/login/`,
         { username: email, password: password },
         //{ context: chackRequiereToken() }
       )
@@ -107,27 +105,42 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  // need create new user then login
-  registration(user: UserModel): Observable<any> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
-      map(() => {
-        this.isLoadingSubject.next(false);
-      }),
-      switchMap(() => this.login(user.email, user.password)),
-      catchError((err) => {
-        console.error('err', err);
-        return of(undefined);
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
+  registration(data: any) {
+    return this.http.post(
+      `${environment.URL_API_MUUP}/seguridad/usuario/`,
+      {
+        username: data.username,
+        password: data.clave,
+      },
+      {
+        context: chackRequiereToken(),
+      }
     );
+
+    // this.isLoadingSubject.next(true);
+    // return this.authHttpService.createUser(user).pipe(
+    //   map(() => {
+    //     this.isLoadingSubject.next(false);
+    //   }),
+    //   switchMap(() => this.login(user.email, user.password)),
+    //   catchError((err) => {
+    //     console.error('err', err);
+    //     return of(undefined);
+    //   }),
+    //   finalize(() => this.isLoadingSubject.next(false))
+    // );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
-    this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+  recuperarClave(email: string) {
+    return this.http.post(
+      `${environment.URL_API_MUUP}/seguridad/verificacion/nuevo/`,
+      { username: email, accion: 'clave' },
+      { context: chackRequiereToken() }
+    );
+    // this.isLoadingSubject.next(true);
+    // return this.authHttpService
+    //   .forgotPassword(email)
+    //   .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
   // private methods
@@ -157,7 +170,7 @@ export class AuthService implements OnDestroy {
 
   refreshToken(refreshToken: string){
     return this.http.post<Token>(
-      `${this.apiUrl}`,
+      `${environment.URL_API_MUUP}`,
       {refreshToken}
     ).pipe(
       tap((respuesta: Token) => {

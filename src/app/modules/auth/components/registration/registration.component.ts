@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -12,56 +18,36 @@ import { first } from 'rxjs/operators';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
-export class RegistrationComponent implements OnInit, OnDestroy {
-  registrationForm: FormGroup;
-  hasError: boolean;
-  isLoading$: Observable<boolean>;
-
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+export class RegistrationComponent implements OnInit {
+  formularioRegistro: FormGroup;
+  @ViewChild('btnCrear', { read: ElementRef })
+  btnCrear!: ElementRef<HTMLButtonElement>;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) {
-    this.isLoading$ = this.authService.isLoading$;
-    // redirect to home if already logged in
-    if (this.authService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
-  }
+    private router: Router,
+    private renderer2: Renderer2
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
   }
 
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.registrationForm.controls;
-  }
-
   initForm() {
-    this.registrationForm = this.fb.group(
+    this.formularioRegistro = this.formBuilder.group(
       {
-        fullname: [
+        usuario: [
           '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-          ]),
-        ],
-        email: [
-          'qwe@qwe.qwe',
           Validators.compose([
             Validators.required,
             Validators.email,
             Validators.minLength(3),
-            Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+            Validators.maxLength(100),
+            Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
           ]),
         ],
-        password: [
+        clave: [
           '',
           Validators.compose([
             Validators.required,
@@ -69,7 +55,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
           ]),
         ],
-        cPassword: [
+        confirmarClave: [
           '',
           Validators.compose([
             Validators.required,
@@ -77,38 +63,81 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
           ]),
         ],
-        agree: [false, Validators.compose([Validators.required])],
+        terminosCondiciones: [false, Validators.compose([Validators.required])],
       },
       {
-        validator: ConfirmPasswordValidator.MatchPassword,
+        validator: ConfirmPasswordValidator.validarClave,
       }
     );
   }
 
-  submit() {
-    this.hasError = false;
-    const result: {
-      [key: string]: string;
-    } = {};
-    Object.keys(this.f).forEach((key) => {
-      result[key] = this.f[key].value;
-    });
-    const newUser = new UserModel();
-    newUser.setUser(result);
-    const registrationSubscr = this.authService
-      .registration(newUser)
-      .pipe(first())
-      .subscribe((user: UserModel) => {
-        if (user) {
-          this.router.navigate(['/']);
-        } else {
-          this.hasError = true;
-        }
-      });
-    this.unsubscribe.push(registrationSubscr);
+  // convenience getter for easy access to form fields
+  get formFields() {
+    return this.formularioRegistro.controls;
   }
 
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  submit() {
+    console.log(this.formularioRegistro);
+    console.log(this.formularioRegistro.valid);
+
+    if (this.formularioRegistro.valid) {
+      this.renderer2.setAttribute(
+        this.btnCrear.nativeElement,
+        'disabled',
+        'true'
+      );
+      this.renderer2.setProperty(
+        this.btnCrear.nativeElement,
+        'innerHTML',
+        'Procesando'
+      );
+      this.authService.registration(this.formularioRegistro.value).subscribe({
+        next: () => {
+          // this.swalService.mensajaSuccess(
+          //   'Cuenta creada con éxito',
+          //   'Se ha envidiado un correo para poder verificar la cuenta'
+          // );
+          this.router.navigate(['/auth/login']);
+        },
+        error: ({ error }) => {
+          this.renderer2.setAttribute(
+            this.btnCrear.nativeElement,
+            'disabled',
+            'true'
+          );
+          this.renderer2.setProperty(
+            this.btnCrear.nativeElement,
+            'innerHTML',
+            'Crear'
+          );
+          // this.envioFormularioCompleto = true;
+          // this.swalService.mensajeError(
+          //   'Error verificación',
+          //   `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          // );
+        },
+      });
+    } else {
+      this.formularioRegistro.markAllAsTouched();
+    }
+    // const result: {
+    //   [key: string]: string;
+    // } = {};
+    // Object.keys(this.f).forEach((key) => {
+    //   result[key] = this.f[key].value;
+    // });
+    // const newUser = new UserModel();
+    // newUser.setUser(result);
+    // const registrationSubscr = this.authService
+    //   .registration(newUser)
+    //   .pipe(first())
+    //   .subscribe((user: UserModel) => {
+    //     if (user) {
+    //       this.router.navigate(['/']);
+    //     } else {
+    //       this.hasError = true;
+    //     }
+    //   });
+    // this.unsubscribe.push(registrationSubscr);
   }
 }

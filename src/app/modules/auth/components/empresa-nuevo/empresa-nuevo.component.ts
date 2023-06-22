@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild,   Renderer2} from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../services/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -13,16 +14,17 @@ export class EmpresaNuevoComponent implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
 
-  ngOnInit(): void {
-    this.initForm();
-  }
-
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private renderer2: Renderer2
+    private renderer2: Renderer2,
+    private router: Router
   ){}
+
+  ngOnInit(): void {
+    this.initForm();
+  }
 
   initForm() {
     this.formularioEmpresaNuevo = this.formBuilder.group({
@@ -76,8 +78,7 @@ export class EmpresaNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
-            this.limpiarFormulario()
-
+            this.router.navigate(['/auth/empresa'])
           },
           error: ({error})=>{
             this.renderer2.setAttribute(

@@ -45,7 +45,7 @@
 
   <!--begin::Separator-->
   <div class="separator separator-content my-14">
-    <span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
+    <span class="w-125px text-gray-500 fw-semibold fs-7">O por correo electrónico</span>
   </div>
   <!--end::Separator-->
 
@@ -53,7 +53,7 @@
   <ng-container *ngIf="hasError">
     <div class="mb-lg-15 alert alert-danger">
       <div class="alert-text font-weight-bold">
-        The login details are incorrect
+        Los datos de acceso son incorrectos
       </div>
     </div>
   </ng-container>
@@ -61,7 +61,7 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-8">
-    <label class="form-label fs-6 fw-bolder text-dark">Email</label>
+    <label class="form-label fs-6 fw-bolder text-dark">Usuario</label>
     <input class="form-control bg-transparent" type="email" name="email" formControlName="email" autocomplete="off"
       [ngClass]="{
         'is-invalid': loginForm.controls['email'].invalid,
@@ -93,7 +93,7 @@
   <!--begin::Form group-->
   <div class="fv-row mb-3">
 
-    <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+    <label class="form-label fw-bolder text-dark fs-6 mb-0">Clave</label>
 
     <input class="form-control bg-transparent" type="password" name="password" autocomplete="off"
       formControlName="password" [ngClass]="{
@@ -125,7 +125,7 @@
 
     <!--begin::Link-->
     <a routerLink="/auth/forgot-password" class="link-primary">
-      Forgot Password ?
+      ¿Ha olvidado la contraseña?
     </a>
     <!--end::Link-->
   </div>
@@ -147,10 +147,10 @@
   </div>
 
   <div class="text-gray-500 text-center fw-semibold fs-6">
-    Not a Member yet?
+    ¿Aún no es miembro?
 
     <a routerLink="/auth/registration" class="link-primary">
-      Sign up
+      Regístrate
     </a>
   </div>
 

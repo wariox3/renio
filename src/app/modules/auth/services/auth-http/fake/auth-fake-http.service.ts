@@ -16,7 +16,7 @@ const API_USERS_URL = `${environment.apiUrl}/users`;
 export class AuthHTTPService {
   constructor(private http: HttpClient) {}
 
-  // public methods
+
   login(email: string, password: string): Observable<any> {
     const notFoundError = new Error('Not Found');
     if (!email || !password) {
