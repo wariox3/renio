@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <ng-container *ngIf="datos && datos.length > 0">
+        <ng-container *ngFor="let item of datos[0] | keyvalue">
+          <th>{{ item.key }}</th>
+        </ng-container>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of datos">
+      <td *ngFor="let value of item | keyvalue">
+        {{ value.value }}
+      </td>
+    </tr>
+  </tbody>
+</table>

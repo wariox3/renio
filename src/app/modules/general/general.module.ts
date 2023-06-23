@@ -6,6 +6,7 @@ import { ContactoListaComponent } from './componentes/contacto/contacto-lista/co
 import { ContactoNuevoComponent } from './componentes/contacto/contacto-nuevo/contacto-nuevo.component';
 import { ContactoEditarComponent } from './componentes/contacto/contacto-editar/contacto-editar.component';
 import { ContactoDetalleComponent } from './componentes/contacto/contacto-detalle/contacto-detalle.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ContactoDetalleComponent } from './componentes/contacto/contacto-detall
   ],
   imports: [
     CommonModule,
-    GeneralRoutingModule
+    GeneralRoutingModule,
+    TablaComponent
   ]
 })
 export class GeneralModule { }
