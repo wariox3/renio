@@ -18,5 +18,7 @@ export const AutentificacionGuard: CanMatchFn = () => {
       return true
     }
   }
-  return true;
+
+  router.navigate(['/auth/login'])
+  return false;
 };
