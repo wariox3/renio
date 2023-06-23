@@ -26,6 +26,7 @@ export class TokenService {
 
   eliminarToken(){
     removeCookie('token',  {path: '/', domain:  '.muup.online' })
+    removeCookie('token',  {path: '/'})
   }
 
   guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {
@@ -43,6 +44,8 @@ export class TokenService {
 
   eliminarRefreshToken(){
     removeCookie('RefreshToken',  {path: '/',  domain: '.muup.online'})
+    removeCookie('RefreshToken',  {path: '/'})
+
   }
 
   validarToken(){

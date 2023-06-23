@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Token } from "@interfaces/usuario/token"
 import { TokenService } from './token.service';
 import { chackRequiereToken } from '@interceptores/token.interceptor';
+import { removeCookie } from 'typescript-cookie';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -75,7 +76,14 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
+    localStorage.clear();
     localStorage.removeItem(this.authLocalStorageToken);
+    // localStorage.removeItem('ruta');
+    // localStorage.removeItem('usuario');
+    this.tokenService.eliminarToken();
+    this.tokenService.eliminarRefreshToken();
+    removeCookie('empresa',  {path: '/', domain:  '.muup.online' })
+    removeCookie('usuario',  {path: '/', domain:  '.muup.online' })
     this.router.navigate(['/auth/login'], {
       queryParams: {},
     });
