@@ -43,6 +43,6 @@ export class EmpresaComponent implements OnInit {
       nombre: 'demo',
       logo: 'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
     };
-    window.location.href = `http://${empresaSeleccionada}.muup.online/dashboard`;
+    window.location.href = `http://${empresaSeleccionada}.muup.online`;
   }
 }
