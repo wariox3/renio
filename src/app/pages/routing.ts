@@ -44,6 +44,11 @@ const Routing: Routes = [
     data: { layout: 'light-sidebar' },
   },
   {
+    path: ':ruta',
+    loadChildren: () => 
+     import('../modules/general/general.module').then((m) => m.GeneralModule)
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
