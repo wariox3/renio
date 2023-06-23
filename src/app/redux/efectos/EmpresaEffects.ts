@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { empresaActionInit } from '@store/actions/empresa.actions';
+import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { map, tap } from 'rxjs/operators';
 import { setCookie } from 'typescript-cookie';
 
