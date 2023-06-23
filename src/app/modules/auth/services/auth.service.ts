@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Token } from "@interfaces/usuario/token"
 import { TokenService } from './token.service';
-import { AuthHTTPService } from './auth-http';
 import { chackRequiereToken } from '@interceptores/token.interceptor';
 export type UserType = UserModel | undefined;
 
@@ -37,14 +36,11 @@ export class AuthService implements OnDestroy {
     private http: HttpClient,
     private router: Router,
     private tokenService: TokenService,
-    private authHttpService: AuthHTTPService
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
-    const subscr = this.getUserByToken().subscribe();
-    this.unsubscribe.push(subscr);
   }
 
   // public methods
@@ -53,7 +49,7 @@ export class AuthService implements OnDestroy {
       .post<Token>(
         `${environment.URL_API_MUUP}/seguridad/login/`,
         { username: email, password: password },
-        //{ context: chackRequiereToken() }
+        { context: chackRequiereToken() }
       )
       .pipe(
         tap((respuesta: Token) => {
@@ -83,26 +79,6 @@ export class AuthService implements OnDestroy {
     this.router.navigate(['/auth/login'], {
       queryParams: {},
     });
-  }
-
-  getUserByToken(): Observable<UserType> {
-    const auth = this.getAuthFromLocalStorage();
-    if (!auth || !auth.authToken) {
-      return of(undefined);
-    }
-
-    this.isLoadingSubject.next(true);
-    return this.authHttpService.getUserByToken(auth.authToken).pipe(
-      map((user: UserType) => {
-        if (user) {
-          this.currentUserSubject.next(user);
-        } else {
-          this.logout();
-        }
-        return user;
-      }),
-      finalize(() => this.isLoadingSubject.next(false))
-    );
   }
 
   registration(data: any) {

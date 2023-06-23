@@ -18,14 +18,14 @@ import { registerLocaleData } from '@angular/common';
 import localeEsCo from '@angular/common/locales/es-CO';
 
 
-function appInitializer(authService: AuthService) {
-  return () => {
-    return new Promise((resolve) => {
-      //@ts-ignore
-      authService.getUserByToken().subscribe().add(resolve);
-    });
-  };
-}
+// function appInitializer(authService: AuthService) {
+//   return () => {
+//     return new Promise((resolve) => {
+//       //@ts-ignore
+//       authService.getUserByToken().subscribe().add(resolve);
+//     });
+//   };
+// }
 
 registerLocaleData(localeEsCo, 'es-CO');
 
@@ -52,12 +52,12 @@ registerLocaleData(localeEsCo, 'es-CO');
     NgbModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      multi: true,
-      deps: [AuthService],
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: appInitializer,
+    //   multi: true,
+    //   deps: [AuthService],
+    // },
     { provide: LOCALE_ID, useValue: 'es-CO' }
 
   ],

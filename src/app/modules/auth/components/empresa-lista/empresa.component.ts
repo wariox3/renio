@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpresaService } from '../../services/empresa.service';
 import { Router } from '@angular/router';
-
-export interface PeriodicElement {
+interface Empresa {
   id: number;
   usuario_id: number;
   empresa_id: number;
@@ -16,29 +15,32 @@ export interface PeriodicElement {
 })
 export class EmpresaComponent implements OnInit {
 
-  arrEmpresas: any[] = [];
+  arrEmpresas: Empresa[] = [];
+lista:string[]=[];
 
 
   constructor(
     private router: Router,
     private empresaService: EmpresaService
   ) {
-    this.consultarLista();
 
   }
 
   ngOnInit() {
+    this.consultarLista();
     localStorage.setItem('SeleccionarEmpresa', 'false');
   }
 
   consultarLista() {
-    console.log("consultar empresas");
+
     this.empresaService.lista("1")
     .subscribe({
-      next:(respuesta: any)=>{
+      next:(respuesta)=>{
         this.arrEmpresas = respuesta
       },
       error: ({ error }): void => {
+        console.log(error);
+
         // this.swalService.mensajeError(
         //   'Error consulta',
         //   `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
