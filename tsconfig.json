@@ -45,8 +45,8 @@
       "@guardias/*": [
         "src/app/guardias/*"
       ],
-      "@store/*": [
-        "src/app/store/*"
+      "@redux/*": [
+        "src/app/redux/*"
       ],
       "@interfaces/*": [
         "src/app/interfaces/*"
