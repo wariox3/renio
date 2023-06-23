@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AlertaService } from '@comun/services/alerta.service';
 
 enum ErrorStates {
   NotSubmitted,
@@ -25,7 +26,8 @@ export class ForgotPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private renderer2: Renderer2,
-    private router: Router
+    private router: Router,
+    private alertaService: AlertaService,
   ) {
   }
 
@@ -68,12 +70,19 @@ export class ForgotPasswordComponent implements OnInit {
       .recuperarClave(this.formFields.usuario.value)
       .subscribe({
         next: () => {
-          // this.swalService.mensajeValidacion(
-          //   dataFormularioRecuperarClave.username
-          // );
+          this.alertaService.mensajeValidacion(this.formFields.usuario.value);
         },
         error: ({ error }) => {
-          console.log(error);
+          this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+          this.renderer2.setProperty(
+            this.btnGuardar.nativeElement,
+            'innerHTML',
+            'Reestablecer'
+          );
+          this.alertaService.mensajeError(
+            'Error verificación',
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          );
         },
       });
     } else {

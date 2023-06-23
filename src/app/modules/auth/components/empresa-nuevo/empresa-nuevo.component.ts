@@ -81,15 +81,11 @@ export class EmpresaNuevoComponent implements OnInit {
             this.router.navigate(['/auth/empresa'])
           },
           error: ({error})=>{
-            this.renderer2.setAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled',
-              'true'
-            );
+            this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
             this.renderer2.setProperty(
               this.btnGuardar.nativeElement,
               'innerHTML',
-              'Procesando'
+              'Guardar'
             );
           // this.swalService.mensajeError(
           //   'Error consulta',

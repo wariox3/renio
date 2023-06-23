@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { Usuario } from '@interfaces/usuario/usuario';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
+  @ViewChild('btnContinuar', { read: ElementRef })
+  btnContinuar!: ElementRef<HTMLButtonElement>;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -30,10 +33,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private route: ActivatedRoute,
     private router: Router,
     private store: Store,
-
+    private alertaService: AlertaService,
+    private renderer2: Renderer2,
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -76,41 +79,61 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hasError = false;
-    const loginSubscr = this.authService
-      .login(this.f.email.value, this.f.password.value)
-      .subscribe({
-        next: (respuesta: Token)=> {
-          //actualizar el store de redux
-          this.store.dispatch(
-            usuarioActionInit({ usuario: {
-              id: respuesta.user.id,
-              username: respuesta.user.username,
-              cargo: 'admin',
-              imgen:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
-            } })
-          );
-          let dominioActual = window.location.host
-          let esSubdominio = dominioActual.split('.').length > 2;
-          if (esSubdominio) {
-            const empresa = {
-              nombre: "Demo",
-              logo:
-               "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png"
+    if(this.loginForm.valid){
+      this.renderer2.setAttribute(
+        this.btnContinuar.nativeElement,
+        'disabled',
+        'true'
+      );
+      this.renderer2.setProperty(
+        this.btnContinuar.nativeElement,
+        'innerHTML',
+        'Procesando'
+      );
+      const loginSubscr = this.authService
+        .login(this.f.email.value, this.f.password.value)
+        .subscribe({
+          next: (respuesta: Token)=> {
+            //actualizar el store de redux
+            this.store.dispatch(
+              usuarioActionInit({ usuario: {
+                id: respuesta.user.id,
+                username: respuesta.user.username,
+                cargo: 'admin',
+                imgen:
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
+              } })
+            );
+            let dominioActual = window.location.host
+            let esSubdominio = dominioActual.split('.').length > 2;
+            if (esSubdominio) {
+              const empresa = {
+                nombre: "Demo",
+                logo:
+                 "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png"
+              }
+              this.store.dispatch(empresaActionInit({ empresa }));
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/auth/empresa']);
             }
-            this.store.dispatch(empresaActionInit({ empresa }));
-            this.router.navigate(['/dashboard']);
-          } else {
-            this.router.navigate(['/auth/empresa']);
+          },
+          error: ({error})=> {
+            this.renderer2.removeAttribute(this.btnContinuar.nativeElement, 'disabled');
+            this.renderer2.setProperty(
+              this.btnContinuar.nativeElement,
+              'innerHTML',
+              'Continuar'
+            );
+            this.alertaService.mensajeError('Error', error.error);
           }
-        },
-        error: ({error})=> {
-          console.log(error)
-        }
 
-      });
-    this.unsubscribe.push(loginSubscr);
+        });
+      this.unsubscribe.push(loginSubscr);
+    } else {
+      this.loginForm.markAllAsTouched()
+    }
+
   }
 
   ngOnDestroy() {

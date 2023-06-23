@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
+import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({
   selector: 'app-registration',
@@ -27,7 +28,8 @@ export class RegistrationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private renderer2: Renderer2
+    private renderer2: Renderer2,
+    private alertaService: AlertaService,
   ) {}
 
   ngOnInit(): void {
@@ -77,9 +79,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.formularioRegistro);
-    console.log(this.formularioRegistro.valid);
-
     if (this.formularioRegistro.valid) {
       this.renderer2.setAttribute(
         this.btnCrear.nativeElement,
@@ -93,28 +92,23 @@ export class RegistrationComponent implements OnInit {
       );
       this.authService.registration(this.formularioRegistro.value).subscribe({
         next: () => {
-          // this.swalService.mensajaSuccess(
-          //   'Cuenta creada con éxito',
-          //   'Se ha envidiado un correo para poder verificar la cuenta'
-          // );
+          this.alertaService.mensajaExitoso(
+            'Cuenta creada con éxito',
+            'Se ha envidiado un correo para poder verificar la cuenta'
+          );
           this.router.navigate(['/auth/login']);
         },
         error: ({ error }) => {
-          this.renderer2.setAttribute(
-            this.btnCrear.nativeElement,
-            'disabled',
-            'true'
-          );
+          this.renderer2.removeAttribute(this.btnCrear.nativeElement, 'disabled');
           this.renderer2.setProperty(
             this.btnCrear.nativeElement,
             'innerHTML',
             'Crear'
           );
-          // this.envioFormularioCompleto = true;
-          // this.swalService.mensajeError(
-          //   'Error verificación',
-          //   `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-          // );
+          this.alertaService.mensajeError(
+            'Error verificación',
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          );
         },
       });
     } else {
