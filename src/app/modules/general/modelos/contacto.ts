@@ -1,4 +1,4 @@
-export interface ContactoNuevo {
+export interface Contacto {
   numero_identificacion: string;
   digito_verificacion: string | null;
   nombre_corto: string;

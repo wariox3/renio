@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Contacto } from '../../../modelos/contacto';
+import { ContactoService } from '../../../servicios/contacto.service';
 
 @Component({
   selector: 'app-contacto-lista',
@@ -7,8 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactoListaComponent implements OnInit {
 
+  arrContacto: Contacto[] = [];
+
+  constructor(
+    private contactoService: ContactoService,
+  ){}
+
   ngOnInit(): void {
-    
+    this.consultarLista();
+  }
+
+  consultarLista(): void{
+    this.contactoService.lista()
+      .subscribe((respuesta) => {
+        console.log(respuesta)
+        this.arrContacto = respuesta;
+        // this.changeDetectorRef.detectChanges();
+      });
   }
 
 }
