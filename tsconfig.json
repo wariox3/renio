@@ -30,8 +30,8 @@
       "@assets": [
         "src/assets/*"
       ],
-      "@core/*": [
-        "src/app/core/*"
+      "@modulos/*": [
+        "src/app/modules/*"
       ],
       "@pipe/*": [
         "src/app/comun/pipe/*"

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AutentificacionGuard } from './modules/auth/services/auth.guard';
+import { AutentificacionGuard } from '@guardias/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    //canActivate: [AutentificacionGuard],
+    canActivate: [AutentificacionGuard],
     loadChildren: () =>
       import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
   },
