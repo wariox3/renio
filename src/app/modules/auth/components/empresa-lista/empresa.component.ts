@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EmpresaService } from '../../services/empresa.service';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 interface Empresa {
   id: number;
   usuario_id: number;
@@ -16,37 +17,24 @@ interface Empresa {
 export class EmpresaComponent implements OnInit {
 
   arrEmpresas: Empresa[] = [];
-lista:string[]=[];
-
 
   constructor(
     private router: Router,
-    private empresaService: EmpresaService
-  ) {
-
-  }
+    private empresaService: EmpresaService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
-    this.consultarLista();
     localStorage.setItem('SeleccionarEmpresa', 'false');
+    this.consultarLista();
   }
 
   consultarLista() {
-
     this.empresaService.lista("1")
-    .subscribe({
-      next:(respuesta)=>{
-        this.arrEmpresas = respuesta
-      },
-      error: ({ error }): void => {
-        console.log(error);
-
-        // this.swalService.mensajeError(
-        //   'Error consulta',
-        //   `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-        // );
-      },
-    })
+      .subscribe((respuesta) => {
+        this.arrEmpresas = respuesta;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   seleccionarEmpresa(empresaSeleccionada: string) {
