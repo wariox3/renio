@@ -1,8 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild,   Renderer2} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  Renderer2,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../services/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { Router } from '@angular/router';
+import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { Store } from '@ngrx/store';
+import { switchMap } from 'rxjs';
+import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -19,8 +29,10 @@ export class EmpresaNuevoComponent implements OnInit {
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
     private renderer2: Renderer2,
-    private router: Router
-  ){}
+    private router: Router,
+    private store: Store,
+    private alertaService: AlertaService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -45,7 +57,6 @@ export class EmpresaNuevoComponent implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
-
     });
   }
 
@@ -66,8 +77,18 @@ export class EmpresaNuevoComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
-        this.empresaService.nuevo(this.formularioEmpresaNuevo.value, "1").subscribe({
-          next:(respuesta)=>{
+      this.store
+        .select(obtenerId)
+        .pipe(
+          switchMap(([usuarioId]) =>
+            this.empresaService.nuevo(
+              this.formularioEmpresaNuevo.value,
+              usuarioId
+            )
+          )
+        )
+        .subscribe({
+          next: (respuesta) => {
             this.renderer2.setAttribute(
               this.btnGuardar.nativeElement,
               'disabled',
@@ -78,39 +99,23 @@ export class EmpresaNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
-            this.router.navigate(['/auth/empresa'])
+            this.alertaService.mensajaExitoso(
+              'Nueva empresa creada', ""
+            );
+            this.router.navigate(['/auth/empresa']);
           },
-          error: ({error})=>{
-            this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+          error: ({ error }) => {
+            this.renderer2.removeAttribute(
+              this.btnGuardar.nativeElement,
+              'disabled'
+            );
             this.renderer2.setProperty(
               this.btnGuardar.nativeElement,
               'innerHTML',
               'Guardar'
             );
-          // this.swalService.mensajeError(
-          //   'Error consulta',
-          //   `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-          // );
-          }
-        })
-
-      // this.stores.select(obtenerId)
-      // .pipe(
-      //   switchMap(([usuarioId])=>this.empresaService.nuevo(dataFormularioEmpresaNuevo, usuarioId))
-      // )
-      // .subscribe({
-      //   next:(respuesta: any)=>{
-      //     this.recargarlista.emit(true);
-      //     this.swalService.mensajaSuccess(
-      //         'Nueva empresa creada', ""
-      //       );
-      //       this.envioFormularioCompleto = true;
-      //   },
-      //   error: ({ error }): void => {
-      //     this.envioFormularioCompleto = true;
-      //   },
-      // })
-
+          },
+        });
     } else {
       this.formularioEmpresaNuevo.markAllAsTouched();
     }
@@ -125,7 +130,7 @@ export class EmpresaNuevoComponent implements OnInit {
       let dv = this.devuelveDigitoVerificacionService.digitoVerificacion(
         parseInt(this.formFields.nit.value)
       );
-      if(dv){
+      if (dv) {
         this.formFields.digitoVerificacion.setValue(`${dv}`);
       }
     }
