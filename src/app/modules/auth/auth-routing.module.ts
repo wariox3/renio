@@ -44,7 +44,7 @@ const routes: Routes = [
         component: EmpresaNuevoComponent,
       },
       {
-        path: 'varificacion/:token',
+        path: 'verificacion/:token',
         component: VerificacionCuentaComponent
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
