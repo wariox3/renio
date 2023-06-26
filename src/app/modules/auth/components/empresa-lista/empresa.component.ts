@@ -1,7 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EmpresaService } from '../../services/empresa.service';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { AlertaService } from '@comun/services/alerta.service';
 interface Empresa {
   id: number;
   usuario_id: number;
@@ -20,7 +23,9 @@ export class EmpresaComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private store: Store,
     private empresaService: EmpresaService,
+    private alertaMensaje: AlertaService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
@@ -30,11 +35,21 @@ export class EmpresaComponent implements OnInit {
   }
 
   consultarLista() {
-    this.empresaService.lista("1")
-      .subscribe((respuesta) => {
+    this.store.select(obtenerId)
+    .pipe(
+      switchMap(([usuarioId])=>this.empresaService.lista(usuarioId))
+    ).subscribe({
+      next:(respuesta) => {
         this.arrEmpresas = respuesta;
         this.changeDetectorRef.detectChanges();
-      });
+      },
+      error: ({ error }): void => {
+        this.alertaMensaje.mensajeError(
+          'Error consulta',
+          `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+        );
+      },
+    })
   }
 
   seleccionarEmpresa(empresaSeleccionada: string) {
