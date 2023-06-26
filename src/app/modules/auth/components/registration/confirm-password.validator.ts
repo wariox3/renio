@@ -10,9 +10,6 @@ export class ConfirmPasswordValidator {
 
     const clave = control.get('clave')?.value
     const confimarClave = control.get('confirmarClave')?.value
-    console.log({
-      clave, confimarClave
-    });
 
     if(clave !== confimarClave){
       control.get('confirmarClave')?.setErrors({ clavesDiferentes: true });

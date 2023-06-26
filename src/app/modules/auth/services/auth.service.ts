@@ -6,10 +6,12 @@ import { AuthModel } from '../models/auth.model';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Token } from "@interfaces/usuario/token"
+import { Token } from '@interfaces/usuario/token';
 import { TokenService } from './token.service';
 import { chackRequiereToken } from '@interceptores/token.interceptor';
 import { removeCookie } from 'typescript-cookie';
+import { TokenVerificacion } from '../models/token-verificacion';
+import { TokenReenviarValidacion } from '../models/token-reenviar-validacion';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -36,7 +38,7 @@ export class AuthService implements OnDestroy {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private tokenService: TokenService,
+    private tokenService: TokenService
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
@@ -44,7 +46,6 @@ export class AuthService implements OnDestroy {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  // public methods
   login(email: string, password: string) {
     return this.http
       .post<Token>(
@@ -54,25 +55,16 @@ export class AuthService implements OnDestroy {
       )
       .pipe(
         tap((respuesta: Token) => {
-          let calcularTresHoras = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
+          let calcularTresHoras = new Date(
+            new Date().getTime() + 3 * 60 * 60 * 1000
+          );
           this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
-          this.tokenService.guardarRefreshToken(respuesta['refresh-token'], calcularTresHoras);
+          this.tokenService.guardarRefreshToken(
+            respuesta['refresh-token'],
+            calcularTresHoras
+          );
         })
       );
-
-    // this.isLoadingSubject.next(true);
-    // return this.authHttpService.login(email, password).pipe(
-    //   map((auth: AuthModel) => {
-    //     const result = this.setAuthFromLocalStorage(auth);
-    //     return result;
-    //   }),
-    //   switchMap(() => this.getUserByToken()),
-    //   catchError((err) => {
-    //     console.error('err', err);
-    //     return of(undefined);
-    //   }),
-    //   finalize(() => this.isLoadingSubject.next(false))
-    // );
   }
 
   logout() {
@@ -82,8 +74,8 @@ export class AuthService implements OnDestroy {
     // localStorage.removeItem('usuario');
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
-    removeCookie('empresa',  {path: '/', domain:  '.muup.online' })
-    removeCookie('usuario',  {path: '/', domain:  '.muup.online' })
+    removeCookie('empresa', { path: '/', domain: '.muup.online' });
+    removeCookie('usuario', { path: '/', domain: '.muup.online' });
     this.router.navigate(['/auth/login'], {
       queryParams: {},
     });
@@ -93,26 +85,13 @@ export class AuthService implements OnDestroy {
     return this.http.post(
       `${environment.URL_API_MUUP}/seguridad/usuario/`,
       {
-        username: data.username,
+        username: data.usuario,
         password: data.clave,
       },
       {
         context: chackRequiereToken(),
       }
     );
-
-    // this.isLoadingSubject.next(true);
-    // return this.authHttpService.createUser(user).pipe(
-    //   map(() => {
-    //     this.isLoadingSubject.next(false);
-    //   }),
-    //   switchMap(() => this.login(user.email, user.password)),
-    //   catchError((err) => {
-    //     console.error('err', err);
-    //     return of(undefined);
-    //   }),
-    //   finalize(() => this.isLoadingSubject.next(false))
-    // );
   }
 
   recuperarClave(email: string) {
@@ -121,49 +100,40 @@ export class AuthService implements OnDestroy {
       { username: email, accion: 'clave' },
       { context: chackRequiereToken() }
     );
-    // this.isLoadingSubject.next(true);
-    // return this.authHttpService
-    //   .forgotPassword(email)
-    //   .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
-  // private methods
-  private setAuthFromLocalStorage(auth: AuthModel): boolean {
-    // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
-    if (auth && auth.authToken) {
-      localStorage.setItem(this.authLocalStorageToken, JSON.stringify(auth));
-      return true;
-    }
-    return false;
-  }
-
-  private getAuthFromLocalStorage(): AuthModel | undefined {
-    try {
-      const lsValue = localStorage.getItem(this.authLocalStorageToken);
-      if (!lsValue) {
-        return undefined;
-      }
-
-      const authData = JSON.parse(lsValue);
-      return authData;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-    }
-  }
-
-  refreshToken(refreshToken: string){
-    return this.http.post<Token>(
-      `${environment.URL_API_MUUP}`,
-      {refreshToken}
-    ).pipe(
-      tap((respuesta: Token) => {
-        let calcularTresHoras = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
-
-        this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
-        this.tokenService.guardarRefreshToken(respuesta['refresh-token'], calcularTresHoras);
-      })
+  validacion(token: string) {
+    return this.http.post<TokenVerificacion>(
+      `${environment.URL_API_MUUP}/seguridad/verificacion/token/`,
+      { token },
+      { context: chackRequiereToken() }
     );
+  }
+
+  reenviarValidacion(codigoUsuario: number) {
+    return this.http.post<TokenReenviarValidacion>(
+      `${environment.URL_API_MUUP}/seguridad/verificacion/nuevo/`,
+      { codigoUsuario },
+      { context: chackRequiereToken() }
+    );
+  }
+
+  refreshToken(refreshToken: string) {
+    return this.http
+      .post<Token>(`${environment.URL_API_MUUP}`, { refreshToken })
+      .pipe(
+        tap((respuesta: Token) => {
+          let calcularTresHoras = new Date(
+            new Date().getTime() + 3 * 60 * 60 * 1000
+          );
+
+          this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
+          this.tokenService.guardarRefreshToken(
+            respuesta['refresh-token'],
+            calcularTresHoras
+          );
+        })
+      );
   }
 
   ngOnDestroy() {

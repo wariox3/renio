@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { EmpresaComponent } from './components/empresa-lista/empresa.component';
 import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'empresa/nuevo',
         component: EmpresaNuevoComponent,
+      },
+      {
+        path: 'varificacion/:token',
+        component: VerificacionCuentaComponent
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '**', redirectTo: 'login', pathMatch: 'full' },
