@@ -12,6 +12,7 @@ import { chackRequiereToken } from '@interceptores/token.interceptor';
 import { removeCookie } from 'typescript-cookie';
 import { TokenVerificacion } from '../models/token-verificacion';
 import { TokenReenviarValidacion } from '../models/token-reenviar-validacion';
+import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -134,6 +135,14 @@ export class AuthService implements OnDestroy {
           );
         })
       );
+  }
+
+  reiniciarClave(id: string, password: string){
+    return this.http.post<ConfimarcionClaveReinicio>(
+      `${environment.URL_API_MUUP}/seguridad/clave/cambiar/`,
+      { id: id, password: password },
+      { context: chackRequiereToken() }
+    )
   }
 
   ngOnDestroy() {

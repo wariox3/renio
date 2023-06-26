@@ -8,6 +8,7 @@ import { EmpresaComponent } from './components/empresa-lista/empresa.component';
 import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
+import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'verificacion/:token',
         component: VerificacionCuentaComponent
+      },
+      {
+        path: 'clave/cambiar/:token',
+        component: ReiniciarClaveComponent,
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '**', redirectTo: 'login', pathMatch: 'full' },
