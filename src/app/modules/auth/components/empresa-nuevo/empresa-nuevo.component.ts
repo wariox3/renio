@@ -114,6 +114,10 @@ export class EmpresaNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
+            this.alertaService.mensajeError(
+              'Error consulta',
+              `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+            );
           },
         });
     } else {
