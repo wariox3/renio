@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { LayoutType } from '../../../core/configs/config';
 import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
+import { Store } from '@ngrx/store';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-header-menu',
@@ -10,7 +12,14 @@ import { LayoutService } from '../../../core/layout.service';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent implements OnInit {
-  constructor(private router: Router, private layout: LayoutService, private layoutInit: LayoutInitService) {}
+  arrMenu = ['cartera', 'compra', 'contabilidad', 'humano', 'venta'];
+
+  constructor(
+    private router: Router,
+    private layout: LayoutService,
+    private layoutInit: LayoutInitService,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {}
 
@@ -22,13 +31,20 @@ export class HeaderMenuComponent implements OnInit {
     this.layoutInit.setBaseLayoutType(layoutType);
   }
 
-  setToolbar(toolbarLayout: 'classic' | 'accounting' | 'extended' | 'reports' | 'saas') {
-    const currentConfig = {...this.layout.layoutConfigSubject.value};
+  setToolbar(
+    toolbarLayout: 'classic' | 'accounting' | 'extended' | 'reports' | 'saas'
+  ) {
+    const currentConfig = { ...this.layout.layoutConfigSubject.value };
     if (currentConfig && currentConfig.app && currentConfig.app.toolbar) {
       currentConfig.app.toolbar.layout = toolbarLayout;
-      this.layout.saveBaseConfig(currentConfig)
+      this.layout.saveBaseConfig(currentConfig);
     }
   }
+
+  navegar(ruta: string){
+    this.store.dispatch(selecionModuloAction({seleccion: ruta}))
+  }
+
 }
 
 const getCurrentUrl = (pathname: string): string => {
@@ -37,6 +53,7 @@ const getCurrentUrl = (pathname: string): string => {
 
 const checkIsActive = (pathname: string, url: string) => {
   const current = getCurrentUrl(pathname);
+
   if (!current || !url) {
     return false;
   }

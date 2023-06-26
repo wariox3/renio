@@ -12,10 +12,9 @@ const Routing: Routes = [
       import('./builder/builder.module').then((m) => m.BuilderModule),
   },
   {
-    path: 'crafted/pages/profile',
+    path: 'profile',
     loadChildren: () =>
       import('../modules/profile/profile.module').then((m) => m.ProfileModule),
-    data: { layout: 'light-sidebar' },
   },
   {
     path: 'crafted/account',
@@ -45,7 +44,7 @@ const Routing: Routes = [
   },
   {
     path: ':ruta',
-    loadChildren: () => 
+    loadChildren: () =>
      import('../modules/general/general.module').then((m) => m.GeneralModule)
   },
   {

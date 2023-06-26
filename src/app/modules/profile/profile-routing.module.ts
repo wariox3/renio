@@ -13,7 +13,7 @@ const routes: Routes = [
     component: ProfileComponent,
     children: [
       {
-        path: 'overview',
+        path: 'resumen',
         component: OverviewComponent,
       },
       {
@@ -32,8 +32,8 @@ const routes: Routes = [
         path: 'connections',
         component: ConnectionsComponent,
       },
-      { path: '', redirectTo: 'overview', pathMatch: 'full' },
-      { path: '**', redirectTo: 'overview', pathMatch: 'full' },
+      { path: '', redirectTo: 'resumen', pathMatch: 'full' },
+      { path: '**', redirectTo: 'resumen', pathMatch: 'full' },
     ],
   },
 ];
