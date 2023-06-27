@@ -121,7 +121,7 @@
   <!--begin::Form group-->
   <div class="fv-row mb-8">
     <label class="form-label fw-bolder text-dark fs-6">Clave</label>
-    <div class="input-group">
+    <div class="input-wrapper">
       <input
         class="form-control bg-transparent"
         [type]="cambiarTipoCampoClave"
@@ -134,22 +134,15 @@
           'is-valid': formularioRegistro.controls['clave'].valid
         }"
       />
-      <button
-        type="button"
-        class="input-group-text"
-        id="basic-addon1"
-        (click)="visualizarClave()"
-      >
-        <i
-          class="fa-regular"
-          [ngClass]="{
-            'fa-eye': cambiarTipoCampoClave === 'password',
-            'fa-eye-slash': cambiarTipoCampoClave === 'text'
-          }"
-        ></i>
-      </button>
+      <i
+      (click)="visualizarClave()"
+      class="fa-regular"
+      [ngClass]="{
+        'fa-eye': cambiarTipoCampoClave === 'password',
+        'fa-eye-slash': cambiarTipoCampoClave === 'text'
+      }"
+    ></i>
     </div>
-
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
@@ -180,7 +173,7 @@
   <!--begin::Form group-->
   <div class="fv-row mb-8">
     <label class="form-label fw-bolder text-dark fs-6">Confirmar clave</label>
-    <div class="input-group">
+    <div class="input-wrapper">
       <input
         class="form-control bg-transparent"
         [type]="cambiarTipoCampoConfirmarClave"
@@ -193,20 +186,15 @@
           'is-valid': formularioRegistro.controls['confirmarClave'].valid
         }"
       />
-      <button
-        type="button"
-        class="input-group-text"
-        id="basic-addon1"
-        (click)="visualizarConfirmarClave()"
-      >
-        <i
-          class="fa-regular"
-          [ngClass]="{
-            'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
-            'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
-          }"
-        ></i>
-      </button>
+      <i
+      (click)="visualizarConfirmarClave()"
+
+      class="fa-regular"
+      [ngClass]="{
+        'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
+        'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
+      }"
+    ></i>
     </div>
     <ng-container
       [ngTemplateOutlet]="formError"

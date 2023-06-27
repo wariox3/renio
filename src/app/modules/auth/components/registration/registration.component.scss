@@ -1,13 +1,17 @@
-:host {
-  width: 100%;
-  @media (min-width: 992px) {
-    .login-form {
-      width: 100%;
-      max-width: 450px;
+.input-wrapper {
+  position: relative;
+  display: flex;
+}
 
-      .mat-form-field {
-        width: 100%;
-      }
-    }
-  }
+.input-wrapper input {
+  padding-right: 75px; /* Ajusta el espaciado derecho para el ícono */
+  box-sizing: border-box;
+}
+
+.input-wrapper i {
+  font-size: 1.4rem;
+  position: absolute;
+  right: 45px; /* Ajusta la posición horizontal del ícono */
+  top: 50%;
+  transform: translateY(-50%);
 }

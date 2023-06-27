@@ -10,6 +10,7 @@ import { ConfirmPasswordValidator } from '../registration/confirm-password.valid
 
 @Component({
   templateUrl: './reiniciar-clave.component.html',
+  styleUrls: ['./reiniciar-clave.component.scss'],
 })
 export class ReiniciarClaveComponent implements OnInit {
 
