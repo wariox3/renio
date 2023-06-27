@@ -18,8 +18,11 @@ import { AlertaService } from '@comun/services/alerta.service';
 })
 export class RegistrationComponent implements OnInit {
   formularioRegistro: FormGroup;
+  cambiarTipoCampoClave: ("text"|"password") = "password"
+  cambiarTipoCampoConfirmarClave: ("text"|"password") = "password"
   @ViewChild('btnCrear', { read: ElementRef })
   btnCrear!: ElementRef<HTMLButtonElement>;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +34,22 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  visualizarClave(){
+    if(this.cambiarTipoCampoClave === "password"){
+      this.cambiarTipoCampoClave = 'text'
+    } else{
+      this.cambiarTipoCampoClave = 'password'
+    }
+  }
+
+  visualizarConfirmarClave(){
+    if(this.cambiarTipoCampoConfirmarClave === "password"){
+      this.cambiarTipoCampoConfirmarClave = 'text'
+    } else{
+      this.cambiarTipoCampoConfirmarClave = 'password'
+    }
   }
 
   initForm() {
@@ -70,10 +89,10 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  // convenience getter for easy access to form fields
   get formFields() {
     return this.formularioRegistro.controls;
   }
+
 
   submit() {
     if (this.formularioRegistro.valid) {

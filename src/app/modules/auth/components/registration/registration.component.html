@@ -26,7 +26,7 @@
         href="#"
         class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100"
       > -->
-        <!-- <img
+      <!-- <img
           alt="Logo"
           src="./assets/media/svg/brand-logos/google-icon.svg"
           class="h-15px me-3"
@@ -121,18 +121,35 @@
   <!--begin::Form group-->
   <div class="fv-row mb-8">
     <label class="form-label fw-bolder text-dark fs-6">Clave</label>
-    <input
-      class="form-control bg-transparent"
-      type="password"
-      placeholder="Password"
-      name="password"
-      formControlName="clave"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid': formularioRegistro.controls['clave'].invalid,
-        'is-valid': formularioRegistro.controls['clave'].valid
-      }"
-    />
+    <div class="input-group">
+      <input
+        class="form-control bg-transparent"
+        [type]="cambiarTipoCampoClave"
+        placeholder="Password"
+        name="password"
+        formControlName="clave"
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid': formularioRegistro.controls['clave'].invalid,
+          'is-valid': formularioRegistro.controls['clave'].valid
+        }"
+      />
+      <button
+        type="button"
+        class="input-group-text"
+        id="basic-addon1"
+        (click)="visualizarClave()"
+      >
+        <i
+          class="fa-regular"
+          [ngClass]="{
+            'fa-eye': cambiarTipoCampoClave === 'password',
+            'fa-eye-slash': cambiarTipoCampoClave === 'text'
+          }"
+        ></i>
+      </button>
+    </div>
+
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
@@ -163,18 +180,34 @@
   <!--begin::Form group-->
   <div class="fv-row mb-8">
     <label class="form-label fw-bolder text-dark fs-6">Confirmar clave</label>
-    <input
-      class="form-control bg-transparent"
-      type="password"
-      placeholder="Confirm password"
-      name="cPassword"
-      autocomplete="off"
-      formControlName="confirmarClave"
-      [ngClass]="{
-        'is-invalid': formularioRegistro.controls['confirmarClave'].invalid,
-        'is-valid': formularioRegistro.controls['confirmarClave'].valid
-      }"
-    />
+    <div class="input-group">
+      <input
+        class="form-control bg-transparent"
+        [type]="cambiarTipoCampoConfirmarClave"
+        placeholder="Confirm password"
+        name="cPassword"
+        autocomplete="off"
+        formControlName="confirmarClave"
+        [ngClass]="{
+          'is-invalid': formularioRegistro.controls['confirmarClave'].invalid,
+          'is-valid': formularioRegistro.controls['confirmarClave'].valid
+        }"
+      />
+      <button
+      type="button"
+      class="input-group-text"
+      id="basic-addon1"
+      (click)="visualizarConfirmarClave()"
+    >
+      <i
+        class="fa-regular"
+        [ngClass]="{
+          'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
+          'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
+        }"
+      ></i>
+    </button>
+    </div>
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
@@ -238,15 +271,23 @@
     </label>
   </div>
   <div
-  *ngIf="formularioRegistro.controls.terminosCondiciones?.touched && formularioRegistro.controls.terminosCondiciones?.hasError('required')"
->
-  El campo es requerido
-</div>
+    *ngIf="
+      formularioRegistro.controls.terminosCondiciones?.touched &&
+      formularioRegistro.controls.terminosCondiciones?.hasError('required')
+    "
+  >
+    El campo es requerido
+  </div>
   <!--end::Form group-->
 
   <!--begin::Form group-->
   <div class="d-grid mt-8 mb-10">
-    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary" #btnCrear>
+    <button
+      type="submit"
+      id="kt_sign_up_submit"
+      class="btn btn-primary"
+      #btnCrear
+    >
       Crear
     </button>
   </div>

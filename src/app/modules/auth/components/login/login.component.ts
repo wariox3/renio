@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
+  cambiarTipoCampoClave: ("text"|"password") = "password"
   @ViewChild('btnContinuar', { read: ElementRef })
   btnContinuar!: ElementRef<HTMLButtonElement>;
 
@@ -52,6 +53,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   // convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls;
+  }
+
+  visualizarClave(){
+    if(this.cambiarTipoCampoClave === "password"){
+      this.cambiarTipoCampoClave = 'text'
+    } else{
+      this.cambiarTipoCampoClave = 'password'
+    }
   }
 
   initForm() {

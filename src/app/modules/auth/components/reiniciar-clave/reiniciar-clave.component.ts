@@ -12,9 +12,11 @@ import { ConfirmPasswordValidator } from '../registration/confirm-password.valid
   templateUrl: './reiniciar-clave.component.html',
 })
 export class ReiniciarClaveComponent implements OnInit {
-  
+
   codigo_usuario: string = ""
   formularioReiniciarClave: FormGroup;
+  cambiarTipoCampoClave: ("text"|"password") = "password"
+  cambiarTipoCampoConfirmarClave: ("text"|"password") = "password"
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
 
@@ -32,6 +34,22 @@ export class ReiniciarClaveComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.validarToken();
+  }
+
+  visualizarClave(){
+    if(this.cambiarTipoCampoClave === "password"){
+      this.cambiarTipoCampoClave = 'text'
+    } else{
+      this.cambiarTipoCampoClave = 'password'
+    }
+  }
+
+  visualizarConfirmarClave(){
+    if(this.cambiarTipoCampoConfirmarClave === "password"){
+      this.cambiarTipoCampoConfirmarClave = 'text'
+    } else{
+      this.cambiarTipoCampoConfirmarClave = 'password'
+    }
   }
 
   initForm() {
@@ -95,7 +113,7 @@ export class ReiniciarClaveComponent implements OnInit {
       this.store
         .select(obtenerId)
         .pipe(
-          switchMap(([usuarioId]) =>                        
+          switchMap(([usuarioId]) =>
             this.authService.reiniciarClave(
               this.codigo_usuario,
               this.formFields.clave.value
@@ -103,7 +121,7 @@ export class ReiniciarClaveComponent implements OnInit {
           )
         )
         .subscribe({
-          next: (respuesta) => {            
+          next: (respuesta) => {
             this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
             this.renderer2.setProperty(
               this.btnGuardar.nativeElement,
@@ -123,7 +141,7 @@ export class ReiniciarClaveComponent implements OnInit {
             'innerHTML',
             'Guardar'
           );
-          
+
           this.alertaService.mensajeError(
             'Error consulta',
             `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
