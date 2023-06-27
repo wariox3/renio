@@ -104,11 +104,7 @@ export class ReiniciarClaveComponent implements OnInit {
         )
         .subscribe({
           next: (respuesta) => {            
-            this.renderer2.setAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled',
-              'true'
-            );
+            this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
             this.renderer2.setProperty(
               this.btnGuardar.nativeElement,
               'innerHTML',

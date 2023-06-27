@@ -70,6 +70,12 @@ export class ForgotPasswordComponent implements OnInit {
       .recuperarClave(this.formFields.usuario.value)
       .subscribe({
         next: () => {
+          this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+          this.renderer2.setProperty(
+            this.btnGuardar.nativeElement,
+            'innerHTML',
+            'Reestablecer'
+          );
           this.alertaService.mensajeValidacion(this.formFields.usuario.value);
         },
         error: ({ error }) => {
