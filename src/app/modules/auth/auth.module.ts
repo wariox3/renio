@@ -11,6 +11,7 @@ import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
 import { EmpresaComponent } from './components/empresa-lista/empresa.component';
 import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.component';
+import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.
     AuthComponent,
     EmpresaComponent,
     EmpresaNuevoComponent,
+    ReiniciarClaveComponent
   ],
   imports: [
     CommonModule,

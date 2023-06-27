@@ -2,73 +2,16 @@
   class="form w-100"
   novalidate="novalidate"
   id="kt_login_signup_form"
-  [formGroup]="formularioRegistro"
+  [formGroup]="formularioReiniciarClave"
   (ngSubmit)="submit()"
 >
   <!--begin::Heading-->
   <div class="text-center mb-11">
     <!--begin::Title-->
-    <h1 class="text-dark fw-bolder mb-3">Regístrese</h1>
+    <h1 class="text-dark fw-bolder mb-3">Cambiar  clave</h1>
     <!--end::Title-->
-
-    <!--begin::Subtitle-->
-    <div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div>
-    <!--end::Subtitle--->
   </div>
   <!--begin::Heading-->
-
-  <!--begin::Login options-->
-  <div class="row g-3 mb-9">
-    <!--begin::Col-->
-    <div class="col-md-6">
-      <!--begin::Google link--->
-      <a
-        href="#"
-        class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100"
-      >
-        <img
-          alt="Logo"
-          src="./assets/media/svg/brand-logos/google-icon.svg"
-          class="h-15px me-3"
-        />
-        Iniciar sesión con Google
-      </a>
-      <!--end::Google link--->
-    </div>
-    <!--end::Col-->
-
-    <!--begin::Col-->
-    <div class="col-md-6">
-      <!--begin::Google link--->
-      <a
-        href="#"
-        class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100"
-      >
-        <img
-          alt="Logo"
-          src="./assets/media/svg/brand-logos/apple-black.svg"
-          class="theme-light-show h-15px me-3"
-        />
-        <img
-          alt="Logo"
-          src="./assets/media/svg/brand-logos/apple-black-dark.svg"
-          class="theme-dark-show h-15px me-3"
-        />
-        Iniciar sesión con Apple
-      </a>
-      <!--end::Google link--->
-    </div>
-    <!--end::Col-->
-  </div>
-  <!--end::Login options-->
-
-  <!--begin::Separator-->
-  <div class="separator separator-content my-14">
-    <span class="w-125px text-gray-500 fw-semibold fs-7"
-      >O con correo electrónico</span
-    >
-  </div>
-  <!--end::Separator-->
 
 
   <!--begin::Form group-->
@@ -77,13 +20,13 @@
     <input
       class="form-control bg-transparent"
       type="password"
-      placeholder="Password"
+      placeholder="Clave"
       name="password"
       formControlName="clave"
       autocomplete="off"
       [ngClass]="{
-        'is-invalid': formularioRegistro.controls['clave'].invalid,
-        'is-valid': formularioRegistro.controls['clave'].valid
+        'is-invalid': formularioReiniciarClave.controls['clave'].invalid,
+        'is-valid': formularioReiniciarClave.controls['clave'].valid
       }"
     />
     <ng-container
@@ -91,7 +34,7 @@
       [ngTemplateOutletContext]="{
         validation: 'required',
         message: 'El campo es requerido',
-        control: formularioRegistro.controls['clave']
+        control: formularioReiniciarClave.controls['clave']
       }"
     ></ng-container>
     <ng-container
@@ -99,7 +42,7 @@
       [ngTemplateOutletContext]="{
         validation: 'minlength',
         message: 'El campo debe contener mínimo 3 caracteres',
-        control: formularioRegistro.controls['clave']
+        control: formularioReiniciarClave.controls['clave']
       }"
     ></ng-container>
     <ng-container
@@ -107,7 +50,7 @@
       [ngTemplateOutletContext]="{
         validation: 'maxLength',
         message: 'El campo debe contener máximo 50 caracteres',
-        control: formularioRegistro.controls['clave']
+        control: formularioReiniciarClave.controls['clave']
       }"
     ></ng-container>
   </div>
@@ -119,13 +62,13 @@
     <input
       class="form-control bg-transparent"
       type="password"
-      placeholder="Confirm password"
+      placeholder="Confirmar clave"
       name="cPassword"
       autocomplete="off"
       formControlName="confirmarClave"
       [ngClass]="{
-        'is-invalid': formularioRegistro.controls['confirmarClave'].invalid,
-        'is-valid': formularioRegistro.controls['confirmarClave'].valid
+        'is-invalid': formularioReiniciarClave.controls['confirmarClave'].invalid,
+        'is-valid': formularioReiniciarClave.controls['confirmarClave'].valid
       }"
     />
     <ng-container
@@ -133,7 +76,7 @@
       [ngTemplateOutletContext]="{
         validation: 'required',
         message: 'El campo es requerido',
-        control: formularioRegistro.controls['confirmarClave']
+        control: formularioReiniciarClave.controls['confirmarClave']
       }"
     ></ng-container>
     <ng-container
@@ -141,7 +84,7 @@
       [ngTemplateOutletContext]="{
         validation: 'minlength',
         message: 'El campo debe contener mínimo 3 caracteres',
-        control: formularioRegistro.controls['confirmarClave']
+        control: formularioReiniciarClave.controls['confirmarClave']
       }"
     ></ng-container>
     <ng-container
@@ -149,13 +92,13 @@
       [ngTemplateOutletContext]="{
         validation: 'maxLength',
         message: 'El campo debe contener máximo 50 caracteres',
-        control: formularioRegistro.controls['confirmarClave']
+        control: formularioReiniciarClave.controls['confirmarClave']
       }"
     ></ng-container>
     <div
       *ngIf="
-        formularioRegistro.controls.confirmarClave?.touched &&
-        formularioRegistro.controls.confirmarClave?.hasError('clavesDiferentes')
+        formularioReiniciarClave.controls.confirmarClave?.touched &&
+        formularioReiniciarClave.controls.confirmarClave?.hasError('clavesDiferentes')
       "
     >
       <div class="fv-plugins-message-container">
@@ -167,40 +110,11 @@
   </div>
   <!--end::Form group-->
 
-  <!--begin::Form group-->
-  <div class="fv-row">
-    <label class="form-check form-check-inline">
-      <input
-        id="kt_login_toc_agree"
-        type="checkbox"
-        formControlName="terminosCondiciones"
-        name="agree"
-        class="form-check-input"
-      />
-      <span
-        for="kt_login_toc_agree"
-        class="form-check-label fw-semibold text-gray-700 fs-base ms-1"
-      >
-        Acepto los&nbsp;<a
-          href="https://keenthemes.com/metronic/?page=faq"
-          target="_blank"
-          class="ms-1 link-primary"
-          >Terminos</a
-        >.
-      </span>
-    </label>
-  </div>
-  <div
-  *ngIf="formularioRegistro.controls.terminosCondiciones?.touched && formularioRegistro.controls.terminosCondiciones?.hasError('required')"
->
-  El campo es requerido
-</div>
-  <!--end::Form group-->
 
   <!--begin::Form group-->
   <div class="d-grid mt-8 mb-10">
-    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary" #btnCrear>
-      Crear
+    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary" #btnGuardar>
+      Guardar
     </button>
   </div>
   <!--end::Form group-->

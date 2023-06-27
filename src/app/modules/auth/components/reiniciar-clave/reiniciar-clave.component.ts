@@ -12,7 +12,7 @@ import { ConfirmPasswordValidator } from '../registration/confirm-password.valid
   templateUrl: './reiniciar-clave.component.html',
 })
 export class ReiniciarClaveComponent implements OnInit {
-
+  
   codigo_usuario: string = ""
   formularioReiniciarClave: FormGroup;
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -21,17 +21,43 @@ export class ReiniciarClaveComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private renderer2: Renderer2,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private router: Router,
+    private renderer2: Renderer2,
     private alertaService: AlertaService,
     private store: Store
   ) {}
 
-  ngOnInit() {
-    //this.initForm();
+  ngOnInit(): void {
+    this.initForm();
     this.validarToken();
+  }
+
+  initForm() {
+    this.formularioReiniciarClave = this.formBuilder.group(
+      {
+        clave: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ]),
+        ],
+        confirmarClave: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ]),
+        ],
+      },
+      {
+        validator: ConfirmPasswordValidator.validarClave,
+      }
+    );
   }
 
   validarToken(){
@@ -49,43 +75,6 @@ export class ReiniciarClaveComponent implements OnInit {
     });
   }
 
-  initForm() {
-    this.formularioReiniciarClave = this.formBuilder.group(
-      {
-        usuario: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.email,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-            Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
-          ]),
-        ],
-        clave: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-          ]),
-        ],
-        confirmarClave: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-          ]),
-        ],
-        terminosCondiciones: [false, Validators.compose([Validators.required])],
-      },
-      {
-        validator: ConfirmPasswordValidator.validarClave,
-      }
-    );
-    
-  }
 
   get formFields() {
     return this.formularioReiniciarClave.controls;
@@ -106,15 +95,15 @@ export class ReiniciarClaveComponent implements OnInit {
       this.store
         .select(obtenerId)
         .pipe(
-          switchMap(([usuarioId]) =>
+          switchMap(([usuarioId]) =>                        
             this.authService.reiniciarClave(
-              usuarioId,
-              this.formFields.password.value
+              this.codigo_usuario,
+              this.formFields.clave.value
             )
           )
         )
         .subscribe({
-          next: (respuesta) => {
+          next: (respuesta) => {            
             this.renderer2.setAttribute(
               this.btnGuardar.nativeElement,
               'disabled',
@@ -129,31 +118,25 @@ export class ReiniciarClaveComponent implements OnInit {
             'Cambio exitoso',
             `por favor ingrese con su nueva clave`
           );
-            this.router.navigate(['/auth/login']);
-          },
-          error: ({ error }) => {
-            this.renderer2.removeAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled'
-            );
-            this.renderer2.setProperty(
-              this.btnGuardar.nativeElement,
-              'innerHTML',
-              'Guardar'
-            );
-            this.alertaService.mensajeError(
-              'Error consulta',
-              `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-            );
-          },
-        });
+          this.router.navigate(['/auth/login']);
+        },
+        error: ( error ) => {
+          this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+          this.renderer2.setProperty(
+            this.btnGuardar.nativeElement,
+            'innerHTML',
+            'Guardar'
+          );
+          
+          this.alertaService.mensajeError(
+            'Error consulta',
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          );
+        },
+      });
     } else {
       this.formularioReiniciarClave.markAllAsTouched();
     }
-  }
-
-  limpiarFormulario() {
-    this.formularioReiniciarClave.reset();
   }
 
 }
