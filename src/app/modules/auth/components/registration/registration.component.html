@@ -162,7 +162,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'minlength',
-        message: 'El campo debe contener mínimo 3 caracteres',
+        message: 'El campo debe contener mínimo 8 caracteres',
         control: formularioRegistro.controls['clave']
       }"
     ></ng-container>
@@ -194,19 +194,19 @@
         }"
       />
       <button
-      type="button"
-      class="input-group-text"
-      id="basic-addon1"
-      (click)="visualizarConfirmarClave()"
-    >
-      <i
-        class="fa-regular"
-        [ngClass]="{
-          'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
-          'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
-        }"
-      ></i>
-    </button>
+        type="button"
+        class="input-group-text"
+        id="basic-addon1"
+        (click)="visualizarConfirmarClave()"
+      >
+        <i
+          class="fa-regular"
+          [ngClass]="{
+            'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
+            'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
+          }"
+        ></i>
+      </button>
     </div>
     <ng-container
       [ngTemplateOutlet]="formError"
@@ -220,7 +220,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'minlength',
-        message: 'El campo debe contener mínimo 3 caracteres',
+        message: 'El campo debe contener mínimo 8 caracteres',
         control: formularioRegistro.controls['confirmarClave']
       }"
     ></ng-container>
@@ -270,14 +270,15 @@
       </span>
     </label>
   </div>
-  <div
-    *ngIf="
-      formularioRegistro.controls.terminosCondiciones?.touched &&
-      formularioRegistro.controls.terminosCondiciones?.hasError('required')
-    "
-  >
-    El campo es requerido
-  </div>
+  <ng-container
+    [ngTemplateOutlet]="formError"
+    [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'El campo es requerido',
+      control: formularioRegistro.controls['terminosCondiciones']
+    }"
+  ></ng-container>
+
   <!--end::Form group-->
 
   <!--begin::Form group-->

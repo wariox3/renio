@@ -69,7 +69,7 @@ export class RegistrationComponent implements OnInit {
           '',
           Validators.compose([
             Validators.required,
-            Validators.minLength(3),
+            Validators.minLength(8),
             Validators.maxLength(100),
           ]),
         ],
@@ -77,11 +77,11 @@ export class RegistrationComponent implements OnInit {
           '',
           Validators.compose([
             Validators.required,
-            Validators.minLength(3),
+            Validators.minLength(8),
             Validators.maxLength(100),
           ]),
         ],
-        terminosCondiciones: [false, Validators.compose([Validators.required])],
+        terminosCondiciones: [false, Validators.compose([Validators.requiredTrue])],
       },
       {
         validator: ConfirmPasswordValidator.validarClave,
@@ -95,38 +95,41 @@ export class RegistrationComponent implements OnInit {
 
 
   submit() {
+    console.log(this.formFields.terminosCondiciones.hasError('required'));
+    console.log(this.formFields.terminosCondiciones.hasError('clave'));
+
     if (this.formularioRegistro.valid) {
-      this.renderer2.setAttribute(
-        this.btnCrear.nativeElement,
-        'disabled',
-        'true'
-      );
-      this.renderer2.setProperty(
-        this.btnCrear.nativeElement,
-        'innerHTML',
-        'Procesando'
-      );
-      this.authService.registration(this.formularioRegistro.value).subscribe({
-        next: () => {
-          this.alertaService.mensajaExitoso(
-            'Cuenta creada con éxito',
-            'Se ha envidiado un correo para poder verificar la cuenta'
-          );
-          this.router.navigate(['/auth/login']);
-        },
-        error: ({ error }) => {
-          this.renderer2.removeAttribute(this.btnCrear.nativeElement, 'disabled');
-          this.renderer2.setProperty(
-            this.btnCrear.nativeElement,
-            'innerHTML',
-            'Crear'
-          );
-          this.alertaService.mensajeError(
-            'Error verificación',
-            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-          );
-        },
-      });
+      // this.renderer2.setAttribute(
+      //   this.btnCrear.nativeElement,
+      //   'disabled',
+      //   'true'
+      // );
+      // this.renderer2.setProperty(
+      //   this.btnCrear.nativeElement,
+      //   'innerHTML',
+      //   'Procesando'
+      // );
+      // this.authService.registration(this.formularioRegistro.value).subscribe({
+      //   next: () => {
+      //     this.alertaService.mensajaExitoso(
+      //       'Cuenta creada con éxito',
+      //       'Se ha envidiado un correo para poder verificar la cuenta'
+      //     );
+      //     this.router.navigate(['/auth/login']);
+      //   },
+      //   error: ({ error }) => {
+      //     this.renderer2.removeAttribute(this.btnCrear.nativeElement, 'disabled');
+      //     this.renderer2.setProperty(
+      //       this.btnCrear.nativeElement,
+      //       'innerHTML',
+      //       'Crear'
+      //     );
+      //     this.alertaService.mensajeError(
+      //       'Error verificación',
+      //       `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+      //     );
+      //   },
+      // });
     } else {
       this.formularioRegistro.markAllAsTouched();
     }
