@@ -8,12 +8,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./tabla.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule
 ]
 })
 export class TablaComponent {
 
-  @Input() cabeceras: any[] = [
+  @Input() encabezado: string[] = [
 
   ]
   @Input() datos : any[] = []
@@ -28,7 +28,12 @@ export class TablaComponent {
 
   objectEntries(obj: any) {
     console.log(obj);
-    
     return Object.entries(obj);
   }
+
+  obtenerDetalle(item: any){
+     
+
+  }
+
 }
