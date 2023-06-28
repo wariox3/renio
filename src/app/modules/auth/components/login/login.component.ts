@@ -9,6 +9,7 @@ import { Usuario } from '@interfaces/usuario/usuario';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { AlertaService } from '@comun/services/alerta.service';
+import { Empresa } from '@interfaces/usuario/empresa';
 
 @Component({
   selector: 'app-login',
@@ -116,10 +117,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             let dominioActual = window.location.host
             let esSubdominio = dominioActual.split('.').length > 2;
             if (esSubdominio) {
-              const empresa = {
+              const empresa: Empresa = {
                 nombre: "Demo",
-                logo:
-                 "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png"
+                imagen:
+                 "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
+                empresa_id: 1,
+                subdominio: "demo",
+                id: 1,
+                usuario_id: 1 
               }
               this.store.dispatch(empresaActionInit({ empresa }));
               this.router.navigate(['/dashboard']);

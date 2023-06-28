@@ -9,7 +9,12 @@ import { getCookie } from 'typescript-cookie';
 let empresaData = getCookie('empresa');
 let parsedState =  {
   nombre: "",
-  logo: ""
+  logo: "",
+  empresa_id: "",
+  id: "",
+  imagen: "",
+  subdominio: "",
+  usuario_id: "",
 };
 
 

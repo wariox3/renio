@@ -4,14 +4,8 @@ import { environment } from '@env/environment';
 //import { chackRequiereToken } from '@interceptores/token.interceptor';
 //import { EmpresaNuevo } from '@core/sitio/interfaces/formularios/empresa-nuevo';
 import { chackRequiereToken } from '../../../interceptores/token.interceptor';
+import { Empresa } from '@interfaces/usuario/empresa';
 
-
-interface Empresa {
-  id: number;
-  usuario_id: number;
-  empresa_id: number;
-  empresa: string;
-}
 
 @Injectable({
   providedIn: 'root'

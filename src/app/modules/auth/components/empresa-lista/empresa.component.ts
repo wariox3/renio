@@ -5,12 +5,7 @@ import { switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
-interface Empresa {
-  id: number;
-  usuario_id: number;
-  empresa_id: number;
-  empresa: string;
-}
+import { Empresa } from '@interfaces/usuario/empresa';
 
 @Component({
   selector: 'app-empresa',
