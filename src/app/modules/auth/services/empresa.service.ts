@@ -30,7 +30,8 @@ export class EmpresaService {
     return this.http.post(
       `${environment.URL_API_MUUP}/seguridad/empresa/nuevo/`,
       {
-        empresa: data.nombre,
+        nombre: data.nombre,
+        subdominio: data.nombre,
         usuario: codigoUsuario
       },
       // {
@@ -40,6 +41,6 @@ export class EmpresaService {
   }
 
   consultarNombre(){
-    
+
   }
 }

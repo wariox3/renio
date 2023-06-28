@@ -49,16 +49,7 @@ export class EmpresaNuevoComponent implements OnInit {
             Validators.minLength(3),
             Validators.maxLength(200),
             Validators.pattern(/^[a-z-0-9.-_]*$/),  // Se ha removido la restricción de mayúsculas
-
           ]),
-        ],
-        nit: [
-          '',
-          Validators.compose([Validators.required, Validators.maxLength(20)]),
-        ],
-        digitoVerificacion: [
-          '',
-          Validators.compose([Validators.required, Validators.minLength(1)]),
         ],
       },
     );

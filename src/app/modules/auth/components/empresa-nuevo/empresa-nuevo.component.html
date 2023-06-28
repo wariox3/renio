@@ -1,5 +1,6 @@
 <div class="card card-xl-stretch mb-5 mb-xl-8">
   <div class="card-body">
+    <a routerLink="/auth/empresa" class="btn btn-lg btn-secondary mb-5"> Atrás </a>
     <form [formGroup]="formularioEmpresaNuevo" (ngSubmit)="formSubmit()">
       <div class="fv-row mb-10">
         <label class="form-label fs-6 fw-bolder text-dark">NOMBRE</label>
@@ -60,69 +61,6 @@
           </div>
         </div>
       </div>
-      <div class="fv-row mb-10">
-        <label class="form-label fs-6 fw-bolder text-dark">NIT</label>
-        <input
-          formControlName="nit"
-          class="form-control bg-transparent"
-          type="number"
-          autocomplete="off"
-          (blur)="obtenerDigitoVerificacion()"
-          [ngClass]="{
-            'is-invalid': formularioEmpresaNuevo.controls['nit'].invalid,
-            'is-valid': formularioEmpresaNuevo.controls['nit'].valid
-          }"
-        />
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'El campo es requerido',
-            control: formularioEmpresaNuevo.controls['nombre']
-          }"
-        ></ng-container>
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxLength',
-            message: 'El campo debe contener máximo 20 caracteres',
-            control: formularioEmpresaNuevo.controls['nit']
-          }"
-        ></ng-container>
-      </div>
-      <div class="fv-row mb-10">
-        <label class="form-label fs-6 fw-bolder text-dark">DV</label>
-        <input
-          class="form-control bg-transparent"
-          formControlName="digitoVerificacion"
-          type="text"
-          autocomplete="off"
-          [ngClass]="{
-            'is-invalid':
-              formularioEmpresaNuevo.controls['digitoVerificacion'].invalid,
-            'is-valid':
-              formularioEmpresaNuevo.controls['digitoVerificacion'].valid
-          }"
-        />
-
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'El campo es requerido',
-            control: formularioEmpresaNuevo.controls['digitoVerificacion']
-          }"
-        ></ng-container>
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'minLength',
-            message: 'El campo debe contener mínimo 1 caracteres',
-            control: formularioEmpresaNuevo.controls['digitoVerificacion']
-          }"
-        ></ng-container>
-      </div>
-
       <button
         type="submit"
         id="kt_sign_in_submit"
