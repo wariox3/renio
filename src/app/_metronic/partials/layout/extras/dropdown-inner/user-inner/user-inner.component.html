@@ -1,17 +1,17 @@
 <ng-container>
   <div class="menu-item px-3">
     <div class="menu-content d-flex align-items-center px-3">
-      <div class="symbol symbol-50px me-5">
-        <img alt="Logo"     [src]="[usuarioImagen$ | async]" />
+      <div class="symbol symbol-50px me-3">
+        <img alt="Logo" [src]="[usuarioImagen$ | async]" />
       </div>
 
       <div class="d-flex flex-column">
         <div class="fw-bolder d-flex align-items-center fs-5">
-           {{usuarioNombre$ | async  }}
+          <small>{{ usuarioNombre$ | async }}</small>
         </div>
-        <a class="fw-bold text-muted text-hover-primary fs-7 cursor-pointer">
-          {{usuarioCargo$ | async}}
-        </a>
+        <small class="fw-bold text-muted fs-7">
+          {{ usuarioCargo$ | async }}
+        </small>
       </div>
     </div>
   </div>
@@ -19,9 +19,7 @@
   <div class="separator my-2"></div>
 
   <div class="menu-item px-5">
-    <a routerLink="profile" class="menu-link px-5">
-      Mi perfil
-    </a>
+    <a routerLink="profile" class="menu-link px-5"> Mi perfil </a>
   </div>
 
   <!-- <div class="menu-item px-5">
@@ -150,6 +148,8 @@
   </div> -->
 
   <div class="menu-item px-5">
-    <a (click)="logout()" class="menu-link px-5 cursor-pointer"> Cerrar sesión </a>
+    <a (click)="logout()" class="menu-link px-5 cursor-pointer">
+      Cerrar sesión
+    </a>
   </div>
 </ng-container>
