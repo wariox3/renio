@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
@@ -15,6 +15,7 @@ import { ConfirmPasswordValidator } from '../registration/confirm-password.valid
 export class ReiniciarClaveComponent implements OnInit {
 
   codigo_usuario: string = ""
+  inhabilitarBtnRestablecer: boolean = true
   formularioReiniciarClave: FormGroup;
   cambiarTipoCampoClave: ("text"|"password") = "password"
   cambiarTipoCampoConfirmarClave: ("text"|"password") = "password"
@@ -29,7 +30,8 @@ export class ReiniciarClaveComponent implements OnInit {
     private router: Router,
     private renderer2: Renderer2,
     private alertaService: AlertaService,
-    private store: Store
+    private store: Store,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -82,10 +84,13 @@ export class ReiniciarClaveComponent implements OnInit {
   validarToken(){
     const token = this.activatedRoute.snapshot.paramMap.get('token')!;
     this.authService.validacion(token).subscribe({
-      next: (respuesta: any): void => {
-        this.codigo_usuario = respuesta.verificacion.codigo_usuario_fk
+      next: (respuesta: any) => {
+        this.inhabilitarBtnRestablecer = false
+        this.codigo_usuario = respuesta.verificacion.codigo_usuario_fk,
+        this.changeDetectorRef.detectChanges();
+
       },
-      error: ({ error }): void => {
+      error: ({ error }) => {
         this.alertaService.mensajeError(
           'Error verificación',
           `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
@@ -116,7 +121,7 @@ export class ReiniciarClaveComponent implements OnInit {
         .pipe(
           switchMap(([usuarioId]) =>
             this.authService.reiniciarClave(
-              this.codigo_usuario,
+              usuarioId,
               this.formFields.clave.value
             )
           )
