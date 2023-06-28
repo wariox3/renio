@@ -41,7 +41,7 @@ export class HeaderMenuComponent implements OnInit {
     }
   }
 
-  navegar(ruta: string){
+  seleccionarMenu(ruta: string){
     this.store.dispatch(selecionModuloAction({seleccion: ruta}))
   }
 

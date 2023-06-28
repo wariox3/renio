@@ -16,7 +16,7 @@ export interface Menu {
 let nombreSeleccion = localStorage.getItem('ruta');
 
 export const initialState: Menu = {
-  seleccion: nombreSeleccion == null ? '' : nombreSeleccion,
+  seleccion: nombreSeleccion == null ? 'general' : nombreSeleccion,
   informacion: [
     {
       name: 'cartera',
@@ -220,7 +220,7 @@ export const initialState: Menu = {
       ],
     },
     {
-      name: '',
+      name: 'general',
       children: [
         {
           name: 'movimiento',
