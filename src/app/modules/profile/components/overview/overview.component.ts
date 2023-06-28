@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertaService } from '@comun/services/alerta.service';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
@@ -31,7 +31,8 @@ export class OverviewComponent implements OnInit {
     private resumenService: ResumenService,
     private formBuilder: FormBuilder,
     private renderer2: Renderer2,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -39,25 +40,21 @@ export class OverviewComponent implements OnInit {
     this.initForm();
   }
 
-  initForm() {
+  initForm() {    
     this.formularioResumen = this.formBuilder.group({
-      email: [
+      userName: [
         this.usuarioInformacion.name,
         Validators.compose([
           Validators.required,
-          Validators.email,
           Validators.minLength(3),
           Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
-          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
         ]),
       ],
-      password: [
+      lastName: [
         this.usuarioInformacion.last_name,
         Validators.compose([
-          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
         ]),
       ],
     });
@@ -69,6 +66,7 @@ export class OverviewComponent implements OnInit {
 
   visualizarFormulario() {
     this.habilitarEdicionFormulario = !this.habilitarEdicionFormulario;
+    this.initForm()
   }
 
 
@@ -84,6 +82,7 @@ export class OverviewComponent implements OnInit {
           "name": respuesta.name,
           "last_name":respuesta.last_name
         }
+        this.changeDetectorRef.detectChanges();
       },
       error(err) {
 
@@ -106,6 +105,7 @@ export class OverviewComponent implements OnInit {
   }
 
   formSubmit() {
+    
     if (this.formularioResumen.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
@@ -118,8 +118,26 @@ export class OverviewComponent implements OnInit {
         'Procesando'
       );
       if (this.formularioResumen.value.lastName && this.formularioResumen.value.userName) {
-        console.log("asd");
+        this.resumenService.actualizarInformacion(
+          this.usuarioInformacion.id,
+          this.formularioResumen.value.userName,
+          this.formularioResumen.value.lastName
+        ).subscribe({
+          next:(respuesta)=> {
+            console.log(respuesta);
+            
+            this.alertaService.mensajaExitoso(
+              'Se actualiza exitosa',
+              'Se ha actualizado'
+            );
 
+            this.consultarInformacion()
+          },
+          error: ({error}) => {
+            console.log(error);
+            
+          }
+        })
       }
     } else {
       this.formularioResumen.markAllAsTouched();
