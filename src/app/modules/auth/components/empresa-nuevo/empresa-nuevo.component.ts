@@ -13,6 +13,7 @@ import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
+import { ConfirmarNombreValidator } from './confirmar-nombre.validator';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -39,25 +40,28 @@ export class EmpresaNuevoComponent implements OnInit {
   }
 
   initForm() {
-    this.formularioEmpresaNuevo = this.formBuilder.group({
-      nombre: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
-        ]),
-      ],
-      nit: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(20)]),
-      ],
-      digitoVerificacion: [
-        '',
-        Validators.compose([Validators.required, Validators.minLength(1)]),
-      ],
-    });
+    this.formularioEmpresaNuevo = this.formBuilder.group(
+      {
+        nombre: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),  // Se ha removido la restricción de mayúsculas
+
+          ]),
+        ],
+        nit: [
+          '',
+          Validators.compose([Validators.required, Validators.maxLength(20)]),
+        ],
+        digitoVerificacion: [
+          '',
+          Validators.compose([Validators.required, Validators.minLength(1)]),
+        ],
+      },
+    );
   }
 
   // convenience getter for easy access to form fields
@@ -99,9 +103,7 @@ export class EmpresaNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
-            this.alertaService.mensajaExitoso(
-              'Nueva empresa creada', ""
-            );
+            this.alertaService.mensajaExitoso('Nueva empresa creada', '');
             this.router.navigate(['/auth/empresa']);
           },
           error: ({ error }) => {
@@ -138,5 +140,17 @@ export class EmpresaNuevoComponent implements OnInit {
         this.formFields.digitoVerificacion.setValue(`${dv}`);
       }
     }
+  }
+
+  cambiarTextoAMinusculas(){
+    this.formFields.nombre.setValue(this.formFields.nombre.value.toLowerCase())
+  }
+
+  confirmarExistencia(){
+    // console.log(this.formFields.nombre.value);
+
+    // if(this.formFields.nombre.value !== ""){
+    //   this.formFields.nombre.setErrors({ "EmpresaYaExiste": true });
+    // }
   }
 }

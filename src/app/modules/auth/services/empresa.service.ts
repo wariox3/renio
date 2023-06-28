@@ -38,4 +38,8 @@ export class EmpresaService {
       // }
     );
   }
+
+  consultarNombre(){
+    
+  }
 }
