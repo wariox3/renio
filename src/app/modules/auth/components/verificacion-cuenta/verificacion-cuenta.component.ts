@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 import { AuthService } from '@modulos/auth/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -10,17 +11,24 @@ import { AuthService } from '@modulos/auth/services/auth.service';
   styleUrls: ['./verificacion-cuenta.component.scss'],
 })
 export class VerificacionCuentaComponent implements OnInit {
-  visualizarBtnReenviarVerificacion = false;
+
+  verificacionToken: ('exitosa'|'error'|'cargando') = 'cargando';
+  verficacionErrorMensaje = ""
   codigoUsuario: number | null = null;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
+    this.consultarValidacion()
+  }
+
+  consultarValidacion() {
     const token = this.activatedRoute.snapshot.paramMap.get('token')!;
     this.authService.validacion(token).subscribe({
       next: (): void => {
@@ -28,17 +36,21 @@ export class VerificacionCuentaComponent implements OnInit {
           'Verificación correcta',
           'Por favor iniciar sesión'
         );
-        this.router.navigate(['/auth/login']);
+        this.verificacionToken = 'exitosa';
+        this.changeDetectorRef.detectChanges();
+
       },
-      error: ({ error }): void => {
+      error: ({ error }) => {
+        this.verificacionToken = 'error';
+        this.verficacionErrorMensaje = error.mensaje;
         if (error.codigo != 4) {
-          this.visualizarBtnReenviarVerificacion = true;
           this.codigoUsuario = error.codigoUsuario;
         }
         this.alertaService.mensajeError(
           'Error verificación',
           `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
         );
+        this.changeDetectorRef.detectChanges();
       },
     });
   }
@@ -55,7 +67,6 @@ export class VerificacionCuentaComponent implements OnInit {
             'Nueva verificación creada ',
             `La nueva verificación se ha enviado al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
           );
-          this.router.navigate(['/auth/login']);
         },
         error: ({ error }): void => {
           this.alertaService.mensajeError(

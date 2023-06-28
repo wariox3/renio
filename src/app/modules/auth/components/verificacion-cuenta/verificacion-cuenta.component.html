@@ -1,15 +1,17 @@
 <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-  <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
-    <div>
-      <a
-        class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5"
-        (click)="reenviarVerificacion()"
-      >
-        Reenviar token
-      </a>
-    </div>
-
-    <div class="fv-row mb-10">
+  <div [ngSwitch]="verificacionToken">
+    <div *ngSwitchCase="'exitosa'">
+      <div class="alert alert-success d-flex align-items-center p-5 mb-10">
+        <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4"
+          ><span class="path1"></span><span class="path2"></span
+        ></i>
+        <div class="d-flex flex-column">
+          <h4 class="mb-1 text-success">
+            ¡Felicitaciones por obtener la cuenta verificada!
+          </h4>
+          <span>Ya puedes a usar redoffice</span>
+        </div>
+      </div>
       <button
         type="submit"
         id="kt_sign_in_submit"
@@ -20,5 +22,25 @@
         Regresar inicio login
       </button>
     </div>
+    <div *ngSwitchCase="'error'">
+      <div class="alert alert-danger d-flex align-items-center p-5 mb-10">
+        <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"
+          ><span class="path1"></span><span class="path2"></span
+        ></i>
+        <div class="d-flex flex-column">
+          <h4 class="mb-1 text-danger">
+            Ocurrido un error
+          </h4>
+          <span>{{verficacionErrorMensaje}}</span>
+        </div>
+      </div>
+      <a
+        class="btn btn-danger btn-flex flex-center btn-light btn-lg w-100 mb-5"
+        (click)="reenviarVerificacion()"
+      >
+        Reenviar token
+      </a>
+    </div>
+    <div *ngSwitchCase="'cargando'">Procesando token...</div>
   </div>
 </div>
