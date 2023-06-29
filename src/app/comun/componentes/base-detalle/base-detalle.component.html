@@ -1,0 +1,20 @@
+<div class="container-grid">
+  <div class="ayuda">
+    <button>
+      <div class="tab-icon material-symbols-outlined">arrow_back</div>
+      Atras
+    </button>
+  </div>
+  <div class="botonera">
+    <ng-content select="base-acciones"></ng-content>
+  </div>
+  <div class="estados">
+    <ng-content select="base-estados"></ng-content>
+  </div>
+  <div class="detalle">
+    <ng-content select="base-tabla"></ng-content>
+  </div>
+  <div class="tap">
+    <ng-content select="base-tap"></ng-content>
+  </div>
+</div>

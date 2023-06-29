@@ -26,7 +26,9 @@ export class EmpresaService {
       {
         nombre: data.nombre,
         subdominio: data.nombre,
-        usuario: codigoUsuario
+        usuario: codigoUsuario,
+        imagen:
+        "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
       },
       // {
       //   context: chackRequiereToken(),

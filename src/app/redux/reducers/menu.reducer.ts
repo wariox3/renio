@@ -24,14 +24,14 @@ export const initialState: Menu = {
         {
           name: 'movimiento',
           icono: 'wysiwyg',
-          children: [{ name: 'Item' }, { name: 'Brussels sprouts' }],
+          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
         },
         {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'cartera/administracion/item/lista' },
-            { name: 'Contacto', url: 'cartera/administracion/contacto/lista' }
+            { name: 'item', url: 'cartera/administracion/item/lista' },
+            { name: 'contacto', url: 'cartera/administracion/contacto/lista' }
           ],
         },
         {
@@ -63,8 +63,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'compra/administracion/item/lista' },
-            { name: 'Contacto', url: 'compra/administracion/contacto/lista' }
+            { name: 'item', url: 'compra/administracion/item/lista' },
+            { name: 'contacto', url: 'compra/administracion/contacto/lista' }
           ],
         },
         {
@@ -96,8 +96,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'contabilidad/administracion/item/lista' },
-            { name: 'Contacto', url: 'contabilidad/administracion/contacto/lista' }
+            { name: 'item', url: 'contabilidad/administracion/item/lista' },
+            { name: 'contacto', url: 'contabilidad/administracion/contacto/lista' }
           ],
         },
         {
@@ -129,8 +129,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'humano/administracion/item/lista' },
-            { name: 'Contacto', url: 'humano/administracion/contacto/lista' }
+            { name: 'item', url: 'humano/administracion/item/lista' },
+            { name: 'contacto', url: 'humano/administracion/contacto/lista' }
           ],
         },
         {
@@ -157,7 +157,7 @@ export const initialState: Menu = {
           name: 'movimiento',
           icono: 'wysiwyg',
           children: [
-            { name: 'Item', },
+            { name: 'item', },
             { name: 'Brussels sprouts' },
           ],
         },
@@ -165,8 +165,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'venta/administracion/item/lista' },
-            { name: 'Contacto', url: 'venta/administracion/contacto/lista' }
+            { name: 'item', url: 'venta/administracion/item/lista' },
+            { name: 'contacto', url: 'venta/administracion/contacto/lista' }
           ],
         },
         {
@@ -198,8 +198,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'contabilidad/administracion/item/lista' },
-            { name: 'Contacto', url: 'contabilidad/administracion/contacto/lista' }
+            { name: 'item', url: 'contabilidad/administracion/item/lista' },
+            { name: 'contacto', url: 'contabilidad/administracion/contacto/lista' }
           ],
         },
         {
@@ -231,8 +231,8 @@ export const initialState: Menu = {
           name: 'administración',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'Item', url: 'general/administracion/item/lista' },
-            { name: 'Contacto', url: 'general/administracion/contacto/lista' }
+            { name: 'item', url: 'general/administracion/item/lista' },
+            { name: 'contacto', url: 'general/administracion/contacto/lista' }
           ],
         }
       ],

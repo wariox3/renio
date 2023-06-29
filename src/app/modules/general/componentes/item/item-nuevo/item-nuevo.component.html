@@ -1,1 +1,91 @@
-<p>item-nuevo works!</p>
+<app-comun-base-nuevo>
+  <section formulario>
+    <form [formGroup]="formularioItemNuevo" (ngSubmit)="formSubmit()">
+      <div class="fv-row mb-10">
+        <label class="required form-label">NOMBRE</label>
+        <input
+          formControlName="nombre"
+          class="form-control bg-transparent"
+          type="text"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid': formularioItemNuevo.controls['nombre'].invalid,
+            'is-valid': formularioItemNuevo.controls['nombre'].valid
+          }"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'El campo es requerido',
+            control: formularioItemNuevo.controls['nombre']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'El campo contiene caracteres no validos',
+            control: formularioItemNuevo.controls['nombre']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minLength',
+            message: 'El campo debe contener mínimo 3 caracteres',
+            control: formularioItemNuevo.controls['nombre']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'El campo debe contener máximo 50 caracteres',
+            control: formularioItemNuevo.controls['nombre']
+          }"
+        ></ng-container>
+        <div
+          *ngIf="
+            formularioItemNuevo.controls.nombre?.touched &&
+            formularioItemNuevo.controls.nombre?.hasError('EmpresaYaExiste')
+          "
+        >
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">Este nombre ya esta en uso </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-lg btn-primary mb-5"
+        #btnGuardar
+      >
+        Guardar
+      </button>
+    </form>
+
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <span role="alert">
+              {{ message }}
+            </span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-template>
+  </section>
+</app-comun-base-nuevo>

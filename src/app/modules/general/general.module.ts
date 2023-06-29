@@ -11,6 +11,10 @@ import { ItemListaComponent } from './componentes/item/item-lista/item-lista.com
 import { ItemNuevoComponent } from './componentes/item/item-nuevo/item-nuevo.component';
 import { ItemDetalleComponent } from './componentes/item/item-detalle/item-detalle.component';
 import { ItemEditarComponent } from './componentes/item/item-editar/item-editar.component';
+import { BaseListaComponent } from '@comun/componentes/base-lista/base-lista.component';
+import { BaseNuevoComponent } from '@comun/componentes/base-nuevo/base-nuevo.component';
+import { BaseDetalleComponent } from '@comun/componentes/base-detalle/base-detalle.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,9 +29,14 @@ import { ItemEditarComponent } from './componentes/item/item-editar/item-editar.
     ItemEditarComponent
   ],
   imports: [
+    BaseListaComponent,
+    BaseNuevoComponent,
+    BaseDetalleComponent,
     CommonModule,
     GeneralRoutingModule,
-    TablaComponent
+    TablaComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class GeneralModule { }

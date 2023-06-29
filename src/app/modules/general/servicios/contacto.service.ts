@@ -1,22 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Contacto } from '../modelos/contacto';
+import { Subdomino } from '@comun/services/subdomino';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContactoService {
+export class ContactoService extends Subdomino {
 
-  urlSubDominio: string = environment.URL_API_SUBDOMINIO;
-
-  constructor(private http: HttpClient, private stores: Store) {
-    // this.usuarioEmpresaNombre$.subscribe((empresaNombre) => {
-      this.urlSubDominio = this.urlSubDominio.replace('subdominio', 'demo');
-    // });
+  constructor(private http: HttpClient, private store: Store) {
+    super()
   }
-  
+
   lista() {
     return this.http.get<Contacto[]>(`${this.urlSubDominio}/general/contacto/`);
   }
