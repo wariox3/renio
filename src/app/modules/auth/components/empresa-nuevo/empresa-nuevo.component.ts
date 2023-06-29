@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   Renderer2,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../services/empresa.service';
@@ -32,7 +33,8 @@ export class EmpresaNuevoComponent implements OnInit {
     private renderer2: Renderer2,
     private router: Router,
     private store: Store,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -138,10 +140,16 @@ export class EmpresaNuevoComponent implements OnInit {
   }
 
   confirmarExistencia(){
-    // console.log(this.formFields.nombre.value);
 
-    // if(this.formFields.nombre.value !== ""){
-    //   this.formFields.nombre.setErrors({ "EmpresaYaExiste": true });
-    // }
+    if(this.formFields.nombre.value !== ""){
+      this.empresaService.consultarNombre(
+        this.formFields.nombre.value
+      ).subscribe(({validar})=> {
+        if(!validar){
+          this.formFields.nombre.setErrors({ "EmpresaYaExiste": true });
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    }
   }
 }

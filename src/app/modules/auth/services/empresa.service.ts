@@ -6,12 +6,10 @@ import { environment } from '@env/environment';
 import { chackRequiereToken } from '../../../interceptores/token.interceptor';
 import { Empresa } from '@interfaces/usuario/empresa';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmpresaService {
-
   constructor(private http: HttpClient) {}
 
   lista(codigoUsuario: string) {
@@ -28,15 +26,20 @@ export class EmpresaService {
         subdominio: data.nombre,
         usuario: codigoUsuario,
         imagen:
-        "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
-      },
+          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+      }
       // {
       //   context: chackRequiereToken(),
       // }
     );
   }
 
-  consultarNombre(){
-
+  consultarNombre(subdominio: string) {
+    return this.http.post<{ validar: boolean }>(
+      `${environment.URL_API_MUUP}/inquilino/empresa/validar/`,
+      {
+        subdominio,
+      }
+    );
   }
 }
