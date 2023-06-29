@@ -7,6 +7,10 @@ import { ContactoNuevoComponent } from './componentes/contacto/contacto-nuevo/co
 import { ContactoEditarComponent } from './componentes/contacto/contacto-editar/contacto-editar.component';
 import { ContactoDetalleComponent } from './componentes/contacto/contacto-detalle/contacto-detalle.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { ItemListaComponent } from './componentes/item/item-lista/item-lista.component';
+import { ItemNuevoComponent } from './componentes/item/item-nuevo/item-nuevo.component';
+import { ItemDetalleComponent } from './componentes/item/item-detalle/item-detalle.component';
+import { ItemEditarComponent } from './componentes/item/item-editar/item-editar.component';
 
 
 @NgModule({
@@ -14,7 +18,11 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
     ContactoListaComponent,
     ContactoNuevoComponent,
     ContactoEditarComponent,
-    ContactoDetalleComponent
+    ContactoDetalleComponent,
+    ItemListaComponent,
+    ItemNuevoComponent,
+    ItemDetalleComponent,
+    ItemEditarComponent
   ],
   imports: [
     CommonModule,
