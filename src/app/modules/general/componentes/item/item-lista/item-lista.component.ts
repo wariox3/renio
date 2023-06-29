@@ -1,26 +1,21 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
-import { ItemService } from '@modulos/general/servicios/item.service';
 
 @Component({
   selector: 'app-item-lista',
   templateUrl: './item-lista.component.html',
-  styleUrls: ['./item-lista.component.scss']
+  styleUrls: ['./item-lista.component.scss'],
 })
 export class ItemListaComponent implements OnInit {
   arrItems: Item[] = [];
-  arrEncabezado: string[] = [
-    "nombre",
-    "referencia",
-    "costo",
-    "precio",
-  ]
+  arrEncabezado: string[] = ['nombre'];
 
   constructor(
-    private itemService: ItemService,
+    private httpService: HttpService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -28,15 +23,13 @@ export class ItemListaComponent implements OnInit {
   }
 
   consultarLista(): void {
-    this.itemService.lista().subscribe((respuesta) => {
+    this.httpService.get<Item>('general/item/').subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();
     });
   }
 
-  detalle(){
+  detalle() {
     this.router.navigate(['/detalle']);
   }
-
-
 }

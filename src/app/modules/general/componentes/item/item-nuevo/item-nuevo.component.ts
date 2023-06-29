@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
-import { ItemService } from '@modulos/general/servicios/item.service';
+import { HttpService } from '@comun/services/http.service';
+import { Item } from '@modulos/general/modelos/item';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { switchMap } from 'rxjs';
@@ -20,9 +21,8 @@ export class ItemNuevoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private itemService: ItemService,
+    private httpService: HttpService,
     private renderer2: Renderer2,
-    private router: Router,
     private store: Store,
     private alertaService: AlertaService
   ) {}
@@ -67,8 +67,11 @@ export class ItemNuevoComponent implements OnInit {
         .select(obtenerId)
         .pipe(
           switchMap(([usuarioId]) =>
-            this.itemService.nuevo(
-              this.formFields.nombre.value,
+            this.httpService.post<Item>(
+              'general/item/',
+              {
+                nombre: this.formFields.nombre.value
+              },
             )
           )
         )
@@ -85,7 +88,6 @@ export class ItemNuevoComponent implements OnInit {
               'Guardar'
             );
             this.alertaService.mensajaExitoso('Nueva empresa creada', '');
-            this.router.navigate(['/auth/empresa']);
           },
           error: ({ error }) => {
             this.renderer2.removeAttribute(

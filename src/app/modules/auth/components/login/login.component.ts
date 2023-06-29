@@ -132,18 +132,13 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.router.navigate(['/auth/empresa']);
             }
           },
-          error: ({error})=> {
-            this.renderer2.removeAttribute(this.btnContinuar.nativeElement, 'disabled');
-            this.renderer2.setProperty(
-              this.btnContinuar.nativeElement,
-              'innerHTML',
-              'Continuar'
-            );
-            this.alertaService.mensajeError('Error', error.error);
-          }
-
         });
-      this.unsubscribe.push(loginSubscr);
+        this.renderer2.removeAttribute(this.btnContinuar.nativeElement, 'disabled');
+        this.renderer2.setProperty(
+          this.btnContinuar.nativeElement,
+          'innerHTML',
+          'Continuar'
+        );
     } else {
       this.loginForm.markAllAsTouched()
     }
