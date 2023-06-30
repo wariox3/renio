@@ -110,7 +110,7 @@ export class RegistrationComponent implements OnInit {
         next: () => {
           this.alertaService.mensajaExitoso(
             'Cuenta creada con éxito',
-            'Se ha envidiado un correo para poder verificar la cuenta'
+            'Se ha enviado un correo electrónico para verificar tu cuenta'
           );
           this.router.navigate(['/auth/login']);
         },
