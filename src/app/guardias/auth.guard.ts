@@ -8,7 +8,6 @@ import { TokenService } from '@modulos/auth/services/token.service';
 export const AutentificacionGuard: CanMatchFn = () => {
   const tokenValido = inject(TokenService).validarToken();
   const router = inject(Router);
-  console.log(tokenValido);
 
   if (tokenValido) {
 

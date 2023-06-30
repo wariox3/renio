@@ -40,7 +40,7 @@ export class OverviewComponent implements OnInit {
     this.initForm();
   }
 
-  initForm() {    
+  initForm() {
     this.formularioResumen = this.formBuilder.group({
       userName: [
         this.usuarioInformacion.name,
@@ -105,7 +105,7 @@ export class OverviewComponent implements OnInit {
   }
 
   formSubmit() {
-    
+
     if (this.formularioResumen.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
@@ -124,8 +124,6 @@ export class OverviewComponent implements OnInit {
           this.formularioResumen.value.lastName
         ).subscribe({
           next:(respuesta)=> {
-            console.log(respuesta);
-            
             this.alertaService.mensajaExitoso(
               'Se actualiza exitosa',
               'Se ha actualizado'
@@ -134,8 +132,6 @@ export class OverviewComponent implements OnInit {
             this.consultarInformacion()
           },
           error: ({error}) => {
-            console.log(error);
-            
           }
         })
       }

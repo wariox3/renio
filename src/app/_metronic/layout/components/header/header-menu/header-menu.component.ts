@@ -5,6 +5,7 @@ import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa-seleccion.selectors';
 
 @Component({
   selector: 'app-header-menu',
@@ -13,6 +14,8 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
 })
 export class HeaderMenuComponent implements OnInit {
   arrMenu = ['cartera', 'compra', 'contabilidad', 'humano', 'venta'];
+  empresaSeleccion$ = this.store.select(obtenerEmpresaSeleccion);
+
 
   constructor(
     private router: Router,
@@ -21,7 +24,8 @@ export class HeaderMenuComponent implements OnInit {
     private store: Store
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   calculateMenuItemCssClass(url: string): string {
     return checkIsActive(this.router.url, url) ? 'active' : '';

@@ -34,6 +34,12 @@ export class EmpresaService {
     );
   }
 
+  detalle(codigoEmpresa: string){
+    return this.http.get(
+      `${environment.URL_API_MUUP}/inquilino/empresa/${codigoEmpresa}`
+    )
+  }
+
   consultarNombre(subdominio: string) {
     return this.http.post<{ validar: boolean }>(
       `${environment.URL_API_MUUP}/inquilino/empresa/validar/`,

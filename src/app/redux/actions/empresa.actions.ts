@@ -10,3 +10,8 @@ export const GuardarEmpresaAction = createAction(
   '[Empresa] Guardar Empresa localstore',
   props<{empresa: Empresa}>()
 );
+
+export const empresaSeleccionAction = createAction(
+  '[Empresa] Seleccionar Empresa',
+  props<{ seleccion: boolean }>()
+);

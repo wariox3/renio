@@ -5,4 +5,5 @@ export interface Empresa {
   nombre: string | null;
   subdominio: string;
   usuario_id: number;
+  seleccion?: boolean
 }

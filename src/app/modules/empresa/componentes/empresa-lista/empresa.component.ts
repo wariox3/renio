@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa } from '@interfaces/usuario/empresa';
+import { empresaActionInit, empresaSeleccionAction } from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-empresa',
@@ -25,7 +26,6 @@ export class EmpresaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    localStorage.setItem('SeleccionarEmpresa', 'false');
     this.consultarLista();
   }
 
@@ -47,12 +47,20 @@ export class EmpresaComponent implements OnInit {
     })
   }
 
-  seleccionarEmpresa(empresaSeleccionada: string) {
-    localStorage.setItem('SeleccionarEmpresa', 'true');
-    const empresa = {
-      nombre: 'demo',
-      logo: 'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
-    };
-    window.location.href = `http://${empresaSeleccionada}.muup.online`;
+  seleccionarEmpresa(empresaSeleccionada: Number) {
+    this.empresaService.detalle(`${empresaSeleccionada}`).subscribe((respuesta: any) => {
+      const empresa: Empresa = {
+        nombre: respuesta.nombre,
+        imagen:
+         "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
+        empresa_id: 1,
+        subdominio: respuesta.subdominio,
+        id: 1,
+        usuario_id: 1,
+        seleccion:true
+      }
+      this.store.dispatch(empresaActionInit({ empresa }));
+      window.location.href = `http://${respuesta.subdominio}.muup.online`;
+    })
   }
 }

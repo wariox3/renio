@@ -114,16 +114,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
               } })
             );
-            const empresa: Empresa = {
-              nombre: "Demo",
-              imagen:
-               "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
-              empresa_id: 1,
-              subdominio: "demo",
-              id: 1,
-              usuario_id: 1
-            }
-            this.store.dispatch(empresaActionInit({ empresa }));
             let dominioActual = window.location.host
             let esSubdominio = dominioActual.split('.').length > 2;
             if (esSubdominio) {

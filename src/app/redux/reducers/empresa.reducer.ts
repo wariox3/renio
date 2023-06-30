@@ -1,24 +1,25 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   empresaActionInit,
+  empresaSeleccionAction
 } from '../actions/empresa.actions';
 import { Empresa } from '@interfaces/usuario/empresa';
 import { getCookie } from 'typescript-cookie';
 
 
 let empresaData = getCookie('empresa');
-let parsedState =  {
+let estadoAnalizado: Empresa =  {
   nombre: "",
-  logo: "",
-  empresa_id: "",
-  id: "",
   imagen: "",
+  empresa_id: 0,
+  id: 0,
   subdominio: "",
-  usuario_id: "",
+  usuario_id: 0,
+  seleccion: false
 };
 
 
-export const initialState: Empresa = empresaData ? JSON.parse(empresaData) : parsedState;
+export const initialState: Empresa = empresaData ? JSON.parse(empresaData) : estadoAnalizado;
 
 export const empresaReducer = createReducer(
   initialState,
@@ -26,6 +27,12 @@ export const empresaReducer = createReducer(
     return {
       ...state,
       ...empresa,
+    };
+  }),
+  on(empresaSeleccionAction, (state, { seleccion }) => {
+    return {
+      ...state,
+      seleccion: seleccion,
     };
   })
 );
