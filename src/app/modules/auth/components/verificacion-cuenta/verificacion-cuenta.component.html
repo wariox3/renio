@@ -7,9 +7,9 @@
         ></i>
         <div class="d-flex flex-column">
           <h4 class="mb-1 text-success">
-            ¡Felicitaciones por obtener la cuenta verificada!
+            Cuenta verificada con éxito
           </h4>
-          <span>Ya puedes a usar redoffice</span>
+          <span>Ya puedes empezar a usar redoffice</span>
         </div>
       </div>
       <button
@@ -19,7 +19,7 @@
         type="submit"
         (click)="login()"
       >
-        Regresar inicio login
+        Regresar a la página de inicio
       </button>
     </div>
     <div *ngSwitchCase="'error'">
@@ -29,7 +29,7 @@
         ></i>
         <div class="d-flex flex-column">
           <h4 class="mb-1 text-danger">
-            Ocurrido un error
+            Se ha presentado un error
           </h4>
           <span>{{verficacionErrorMensaje}}</span>
         </div>
