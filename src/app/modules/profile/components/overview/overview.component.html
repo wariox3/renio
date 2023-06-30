@@ -48,7 +48,7 @@
                 <div class="col-md-6 col-sm-12">
                   <ng-container *ngIf="habilitarEdicionFormulario; else userName">
                     <div class="w-100">
-                      <label class="form-label fs-6 fw-bolder text-dark required">USUARIO</label>
+                      <label class="form-label fs-6 fw-bolder text-dark required">Usuario</label>
                       <input
                         type="text"
                         formControlName="userName"
@@ -64,7 +64,7 @@
                     </div>
                   </ng-container>
                   <ng-template #userName>
-                    <label class="form-label fs-6 fw-bolder text-dark">USUARIO</label>
+                    <label class="form-label fs-6 fw-bolder text-dark">Usuario</label>
                     <p>
                       {{ usuarioInformacion.name }}
                     </p>
@@ -74,7 +74,7 @@
                   <ng-container *ngIf="habilitarEdicionFormulario; else lastName">
                     <div class="w-100">
                       <label class="form-label fs-6 fw-bolder text-dark"
-                        >APELLIDO</label
+                        >Apellido</label
                       >
                       <input
                         type="text"
@@ -91,7 +91,7 @@
                     </div>
                   </ng-container>
                   <ng-template #lastName>
-                    <label class="form-label fs-6 fw-bolder text-dark">APELLIDO</label>
+                    <label class="form-label fs-6 fw-bolder text-dark">Apellido</label>
                     <p>
                       {{ usuarioInformacion.last_name }}
                     </p>
@@ -102,7 +102,7 @@
                 <div class="col-6 col-sm-12">
                   <ng-container *ngIf="habilitarEdicionFormulario; else telefono">
                       <div>
-                        <label class="form-label fs-6 fw-bolder text-dark">PAIS</label>
+                        <label class="form-label fs-6 fw-bolder text-dark">Pais</label>
                         <select class="form-select form-select">
                           <option value="93">Afganistán +93</option>
                           <option value="358">Islas Aland +358</option>
@@ -372,7 +372,7 @@
                         </select>
                       </div>
                       <div>
-                        <label class="form-label fs-6 fw-bolder text-dark">TELÉFONO</label>
+                        <label class="form-label fs-6 fw-bolder text-dark">Teléfono</label>
 
                         <input
                           type="number"
@@ -381,7 +381,7 @@
                       </div>
                   </ng-container>
                   <ng-template #telefono>
-                    <label class="form-label fs-6 fw-bolder text-dark">TELÉFONO</label>
+                    <label class="form-label fs-6 fw-bolder text-dark">Teléfono</label>
                   </ng-template>
                 </div>
               </div>
