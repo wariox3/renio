@@ -1,16 +1,8 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { first } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 
-enum ErrorStates {
-  NotSubmitted,
-  HasError,
-  NoError,
-}
 
 @Component({
   selector: 'app-forgot-password',
@@ -19,14 +11,13 @@ enum ErrorStates {
 })
 export class ForgotPasswordComponent implements OnInit {
   formularioRestablecerClave: FormGroup;
-  @ViewChild('btnGuardar', { read: ElementRef })
-  btnGuardar!: ElementRef<HTMLButtonElement>;
+  @ViewChild('btnRestablecer', { read: ElementRef })
+  btnRestablecer!: ElementRef<HTMLButtonElement>;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private renderer2: Renderer2,
-    private router: Router,
     private alertaService: AlertaService,
   ) {
   }
@@ -55,43 +46,45 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   submit() {
+    this.renderer2.setAttribute(
+      this.btnRestablecer.nativeElement,
+      'disabled',
+      'true'
+    );
+    this.renderer2.setProperty(
+      this.btnRestablecer.nativeElement,
+      'innerHTML',
+      'Procesando'
+    );
     if (this.formularioRestablecerClave.valid) {
-      this.renderer2.setAttribute(
-        this.btnGuardar.nativeElement,
-        'disabled',
-        'true'
-      );
-      this.renderer2.setProperty(
-        this.btnGuardar.nativeElement,
-        'innerHTML',
-        'Procesando'
-      );
       this.authService
       .recuperarClave(this.formFields.usuario.value)
       .subscribe({
         next: () => {
-          this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+          this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
           this.renderer2.setProperty(
-            this.btnGuardar.nativeElement,
+            this.btnRestablecer.nativeElement,
             'innerHTML',
             'Reestablecer'
           );
           this.alertaService.mensajeValidacion(this.formFields.usuario.value);
         },
-        error: ({ error }) => {
-          this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+        error: () => {
+          this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
           this.renderer2.setProperty(
-            this.btnGuardar.nativeElement,
+            this.btnRestablecer.nativeElement,
             'innerHTML',
             'Reestablecer'
-          );
-          this.alertaService.mensajeError(
-            'Error verificación',
-            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
           );
         },
       });
     } else {
+      this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
+      this.renderer2.setProperty(
+        this.btnRestablecer.nativeElement,
+        'innerHTML',
+        'Reestablecer'
+      );
       this.formularioRestablecerClave.markAllAsTouched()
     }
 

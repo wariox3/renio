@@ -20,7 +20,6 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
       .pipe(
         catchError((error: HttpErrorResponse)=>{
           let errorMessage: string;
-          console.log(error);
 
           if (error.error instanceof ErrorEvent) {
             // Error de cliente
@@ -36,7 +35,15 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
                 break;
               // Agrega más casos según tus necesidades
               default:
-                errorMessage = `Código de error: ${error.error.error}`;
+                let objError = error.error
+
+                if(objError.hasOwnProperty('error')){
+                  errorMessage = `Código de error: ${objError.error}`;
+                }
+                if(objError.hasOwnProperty('mensaje')){
+                  errorMessage = `Código de error: ${objError.mensaje}`;
+
+                }
 
                 break;
             }
