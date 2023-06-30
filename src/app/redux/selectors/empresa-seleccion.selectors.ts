@@ -5,6 +5,6 @@ const Empresa = createFeatureSelector<Empresa>('empresa');
 
 export const obtenerEmpresaSeleccion = createSelector(
   Empresa,
-  (EmpresaSeleccion) => `${EmpresaSeleccion.seleccion}`
+  (empresaSeleccion) => empresaSeleccion.seleccion
 );
 

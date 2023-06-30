@@ -1,24 +1,21 @@
-<ng-container *ngIf="empresaSeleccion$ | async as empresaSeleccion">
-  <ng-container *ngIf="!empresaSeleccion">
-    <!-- Dashboard -->
-    <div class="menu-item me-lg-1">
-      <a
-        class="menu-link py-3"
-        routerLinkActive="active menu-here"
-        routerLink="/dashboard"
-        (click)="seleccionarMenu('general')"
-        ><span class="menu-title" translate="MENU.DASHBOARD"></span
-      ></a>
-    </div>
+<ng-container *ngIf="visualizarMenuApps">
+  <div class="menu-item me-lg-1">
+    <a
+      class="menu-link py-3"
+      routerLinkActive="active menu-here"
+      routerLink="/dashboard"
+      (click)="seleccionarMenu('general')"
+      ><span class="menu-title" translate="MENU.DASHBOARD"></span
+    ></a>
+  </div>
 
-    <div class="menu-item me-lg-1" *ngFor="let item of arrMenu">
-      <a
-        class="menu-link py-3"
-        routerLinkActive="active menu-here"
-        routerLink="/{{ item }}"
-        (click)="seleccionarMenu(item)"
-        ><span class="menu-title">{{ item | titlecase }}</span></a
-      >
-    </div>
-  </ng-container>
+  <div class="menu-item me-lg-1" *ngFor="let item of arrMenu">
+    <a
+      class="menu-link py-3"
+      routerLinkActive="active menu-here"
+      routerLink="/{{ item }}"
+      (click)="seleccionarMenu(item)"
+      ><span class="menu-title">{{ item | titlecase }}</span></a
+    >
+  </div>
 </ng-container>
