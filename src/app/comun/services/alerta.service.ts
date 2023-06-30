@@ -50,7 +50,7 @@ export class AlertaService {
     Swal.fire({
       title: '<strong>Proceso de verificación</strong>',
       icon: 'info',
-      html: 'Sé a envío un correo de verificación',
+      html: 'Se ha enviado un correo de verificación.',
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
