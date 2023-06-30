@@ -1,5 +1,6 @@
 <!--begin::Form-->
-<form
+<div class="card p-20">
+  <form
   class="form w-100"
   [formGroup]="loginForm"
   novalidate="novalidate"
@@ -8,7 +9,7 @@
 >
   <!--begin::Heading-->
   <div class="text-center mb-11">
-    <h1 class="text-dark fw-bolder mb-3">Iniciar sessión</h1>
+    <h1 class="text-dark fw-bolder mb-3">Iniciar sesión</h1>
     <!--begin::Subtitle-->
     <div class="text-gray-500 fw-semibold fs-6"></div>
     <!--end::Subtitle--->
@@ -80,16 +81,17 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-8">
-    <label class="form-label fs-6 fw-bolder text-dark">Usuario</label>
+    <label class="form-label fs-6 fw-bolder text-dark">Correo</label>
     <input
       class="form-control bg-transparent"
       type="email"
       name="email"
+      placeholder="Correo"
       formControlName="email"
       autocomplete="off"
       [ngClass]="{
-        'is-invalid': loginForm.controls['email'].invalid,
-        'is-valid': loginForm.controls['email'].valid
+        'is-invalid': loginForm.controls['email'].touched && loginForm.controls['email'].invalid,
+        'is-valid': loginForm.controls['email'].touched && loginForm.controls['email'].valid
       }"
     />
     <ng-container
@@ -129,17 +131,18 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-3">
-    <label class="form-label fw-bolder text-dark fs-6 mb-0">Clave</label>
+    <label class="form-label fw-bolder text-dark fs-6 mb-0 requerido">Contraseña</label>
     <div class="input-wrapper">
       <input
         class="form-control bg-transparent"
         [type]="cambiarTipoCampoClave"
         name="password"
+        placeholder="Contraseña"
         autocomplete="off"
         formControlName="password"
         [ngClass]="{
-          'is-invalid': loginForm.controls['password'].invalid,
-          'is-valid': loginForm.controls['password'].valid
+          'is-invalid': loginForm.controls['password'].touched && loginForm.controls['password'].invalid,
+          'is-valid': loginForm.controls['password'].touched && loginForm.controls['password'].valid
         }"
       />
       <i
@@ -184,7 +187,7 @@
 
     <!--begin::Link-->
     <a routerLink="/auth/forgot-password" class="link-primary">
-      ¿Ha olvidado la contraseña?
+      ¿Olvidaste tu contraseña?
     </a>
     <!--end::Link-->
   </div>
@@ -198,13 +201,12 @@
       class="btn btn-primary"
       #btnContinuar
     >
-      Continuar
+      INGRESAR
     </button>
   </div>
 
   <div class="text-gray-500 text-center fw-semibold fs-6">
-    ¿Aún no es miembro?
-
+    ¿Aún no tienes una cuenta?
     <a routerLink="/auth/registration" class="link-primary"> Regístrate </a>
   </div>
 
@@ -229,3 +231,4 @@
     </div>
   </ng-container>
 </ng-template>
+</div>

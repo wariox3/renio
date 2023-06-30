@@ -1,3 +1,24 @@
-<app-comun-tabla [datos]="arrContacto" [encabezado]="arrEncabezado"></app-comun-tabla>
-<br>
-<a routerLink="/general/administracion/contacto/nuevo">Nuevo</a>
+<app-comun-base-lista>
+    <section base-filtros>
+      <div class="card card-px-1 shadow-sm">
+        <div class="card-header">
+          <h3 class="card-title">Filtros</h3>
+        </div>
+        <div class="card-body">
+
+        </div>
+      </div>
+    </section>
+    <section base-acciones>
+      <a [routerLink]="['../nuevo']" class="btn btn-sm btn-primary">
+        Nuevo
+      </a>
+    </section>
+    <section base-tabla>
+      <div class="card card-px-0 shadow-sm">
+        <div class="card-body">
+            <app-comun-tabla [datos]="arrContacto" [encabezado]="arrEncabezado"></app-comun-tabla>
+        </div>
+      </div>
+    </section>
+  </app-comun-base-lista>
