@@ -8,15 +8,17 @@ import { TokenService } from '@modulos/auth/services/token.service';
 export const AutentificacionGuard: CanMatchFn = () => {
   const tokenValido = inject(TokenService).validarToken();
   const router = inject(Router);
+  console.log(tokenValido);
 
   if (tokenValido) {
-    const existeCookieEmpresa = localStorage.getItem('SeleccionarEmpresa');
-    if (existeCookieEmpresa === 'false') {
-      router.navigate(['/auth/login'])
-      return false
-    }else {
-      return true
-    }
+
+    // const existeCookieEmpresa = localStorage.getItem('SeleccionarEmpresa');
+    // if (existeCookieEmpresa === 'false') {
+    //   router.navigate(['/auth/login'])
+    //   return false
+    // }else {
+    return true
+    // }
   }
 
   router.navigate(['/auth/login'])

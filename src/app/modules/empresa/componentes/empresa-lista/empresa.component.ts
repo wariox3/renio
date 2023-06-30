@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { EmpresaService } from '../../services/empresa.service';
+import { EmpresaService } from '../../servicios/empresa.service';
 import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';

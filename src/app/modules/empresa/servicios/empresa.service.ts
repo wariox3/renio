@@ -23,7 +23,7 @@ export class EmpresaService {
       `${environment.URL_API_MUUP}/seguridad/empresa/nuevo/`,
       {
         nombre: data.nombre,
-        subdominio: data.nombre,
+        subdominio: data.subdominio,
         usuario: codigoUsuario,
         imagen:
           'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',

@@ -45,11 +45,18 @@ const Routing: Routes = [
   {
     path: ':ruta',
     loadChildren: () =>
-     import('../modules/general/general.module').then((m) => m.GeneralModule)
+      import('../modules/general/general.module').then((m) => m.GeneralModule),
+  },
+  {
+    path: 'empresa',
+    loadChildren: () =>
+      import('../modules/empresa/empresa.module').then((m) => m.EmpresaModule),
+    data: { layout: 'dark-header' },
+
   },
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/empresa/lista',
     pathMatch: 'full',
   },
   {

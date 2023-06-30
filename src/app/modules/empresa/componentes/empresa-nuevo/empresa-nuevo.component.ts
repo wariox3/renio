@@ -7,14 +7,13 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmpresaService } from '../../services/empresa.service';
+import { EmpresaService } from '../../servicios/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { Router } from '@angular/router';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
-import { ConfirmarNombreValidator } from './confirmar-nombre.validator';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -49,8 +48,17 @@ export class EmpresaNuevoComponent implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.minLength(3),
-            Validators.maxLength(200),
+            Validators.maxLength(100),
             Validators.pattern(/^[a-z-0-9.-_]*$/),  // Se ha removido la restricción de mayúsculas
+          ]),
+        ],
+        subdominio: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+            Validators.pattern(/^[a-z-0-9]*$/),  // Se ha removido la restricción de mayúsculas
           ]),
         ],
       },
@@ -97,7 +105,7 @@ export class EmpresaNuevoComponent implements OnInit {
               'Guardar'
             );
             this.alertaService.mensajaExitoso('Nueva empresa creada', '');
-            this.router.navigate(['/auth/empresa']);
+            this.router.navigate(['/empresa/lista']);
           },
           error: ({ error }) => {
             this.renderer2.removeAttribute(
@@ -141,12 +149,12 @@ export class EmpresaNuevoComponent implements OnInit {
 
   confirmarExistencia(){
 
-    if(this.formFields.nombre.value !== ""){
+    if(this.formFields.subdominio.value !== ""){
       this.empresaService.consultarNombre(
-        this.formFields.nombre.value
+        this.formFields.subdominio.value
       ).subscribe(({validar})=> {
         if(!validar){
-          this.formFields.nombre.setErrors({ "EmpresaYaExiste": true });
+          this.formFields.subdominio.setErrors({ "EmpresaYaExiste": true });
           this.changeDetectorRef.detectChanges();
         }
       })

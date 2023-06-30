@@ -129,7 +129,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (esSubdominio) {
               this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate(['/auth/empresa']);
+              this.router.navigate(['/empresa/lista']);
             }
           },
         });

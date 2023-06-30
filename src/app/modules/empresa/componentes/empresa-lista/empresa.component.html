@@ -1,0 +1,98 @@
+<div class="row">
+  <!--begin::Col-->
+  <div class="col-xl-12">
+    <!--begin::Tables Widget 9-->
+    <div class="card card-xl-stretch mb-5 mb-xl-8">
+      <!--begin::Header-->
+      <div class="card-header">
+        <div class="card-title m-0">
+          <h3 class="fw-bolder m-0">Empresas</h3>
+        </div>
+        <a
+          routerlink="/crafted/account/settings"
+          class="btn btn-primary align-self-center"
+          ng-reflect-router-link="/crafted/account/settings"
+          [routerLink]="['../nuevo']"
+        >
+          Nuevo
+        </a>
+      </div>
+      <div class="card-body">
+        <!--begin::Table container-->
+        <div class="table-responsive">
+          <!--begin::Table-->
+          <table class="table table-row-dashed table-row-gray-300 ">
+            <!--begin::Table head-->
+            <!-- <thead>
+              <tr class="fw-bolder text-muted">
+                <th class="min-w-100px">ID</th>
+                <th class="min-w-150px">Empresa</th>
+                <th class="min-w-50px"></th>
+                <th class="min-w-100px"></th>
+              </tr>
+            </thead> -->
+            <tbody>
+              <ng-container *ngIf="arrEmpresas.length > 0; else sinEmpresas">
+                <tr
+                  *ngFor="let item of arrEmpresas"
+                  style="height: calc(82px - 0.6rem) !important"
+                >
+                  <!-- <td>
+                    <span class="text-muted fw-bold text-muted d-block fs-7">{{
+                      item.id
+                    }}</span>
+                  </td> -->
+                  <td style="width: 120px">
+                    <ng-container *ngIf="item.imagen">
+                      <img
+                        src="{{ item.imagen }}"
+                        alt="LOGO"
+                        style="
+                          width: auto;
+                          height: auto;
+                          max-height: 35px;
+                          max-width: 120px;
+                        "
+                      />
+                    </ng-container>
+                  </td>
+                  <td>
+                    <p class="text-dark fw-bolder text-hover-primary fs-6">
+                      {{ item.nombre }}
+                    </p>
+                    <span class="text-muted fw-bold text-muted d-block fs-7"
+                      >{{ item.subdominio }}.muup.online</span
+                    >
+                  </td>
+                  <!-- <td class="w-50px">
+                    <div class="d-flex justify-content-end flex-shrink-0">
+                      <a href="#" class="btn btn-icon btn-primary btn-sm me-1"><i class="bi bi-chat-square-text-fill fs-4"></i></a>
+                      <a href="#" class="btn btn-icon btn-primary btn-sm me-1"><i class="bi bi-chat-square-text-fill fs-4"></i></a>
+                    </div>
+                  </td> -->
+                  <td class="w-50px text-end">
+                    <button
+                      href="#"
+                      class="btn btn-bg-primary btn-color-white"
+                      (click)="seleccionarEmpresa(item.subdominio)"
+                    >
+                      Conectar
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #sinEmpresas>
+                <tr>
+                  <td colspan="4">No cuenta con empresas creadas</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--begin::Body-->
+    </div>
+    <!--end::Tables Widget 9-->
+  </div>
+  <!--end::Col-->
+</div>

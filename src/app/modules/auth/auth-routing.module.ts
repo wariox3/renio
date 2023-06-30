@@ -4,8 +4,6 @@ import { AuthComponent } from './auth.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { EmpresaComponent } from './components/empresa-lista/empresa.component';
-import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
@@ -35,14 +33,6 @@ const routes: Routes = [
       {
         path: 'logout',
         component: LogoutComponent,
-      },
-      {
-        path: 'empresa',
-        component: EmpresaComponent,
-      },
-      {
-        path: 'empresa/nuevo',
-        component: EmpresaNuevoComponent,
       },
       {
         path: 'verificacion/:token',

@@ -9,8 +9,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LogoutComponent } from './components/logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
-import { EmpresaComponent } from './components/empresa-lista/empresa.component';
-import { EmpresaNuevoComponent } from './components/empresa-nuevo/empresa-nuevo.component';
+
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
 
@@ -21,8 +20,6 @@ import { VerificacionCuentaComponent } from './components/verificacion-cuenta/ve
     ForgotPasswordComponent,
     LogoutComponent,
     AuthComponent,
-    EmpresaComponent,
-    EmpresaNuevoComponent,
     ReiniciarClaveComponent,
     VerificacionCuentaComponent
   ],

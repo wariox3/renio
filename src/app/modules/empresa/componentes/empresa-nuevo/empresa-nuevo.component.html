@@ -1,0 +1,156 @@
+<div class="row">
+  <!--begin::Col-->
+  <div class="col-xl-12">
+    <!--begin::Tables Widget 9-->
+    <div class="card card-xl-stretch mb-5 mb-xl-8">
+      <!--begin::Header-->
+      <div class="card-header">
+        <div class="card-title m-0">
+          <h3 class="fw-bolder m-0">Empresa nuevo</h3>
+        </div>
+        <a
+          class="btn btn-primary align-self-center"
+          ng-reflect-router-link="/crafted/account/settings"
+          [routerLink]="['../lista']"
+        >
+         Atrás
+        </a>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formularioEmpresaNuevo" (ngSubmit)="formSubmit()">
+          <div class="fv-row mb-10">
+            <label class="form-label required">Nombre</label>
+            <input
+              formControlName="nombre"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid': formFields['nombre'].touched && formFields['nombre'].invalid,
+                'is-valid': formFields['nombre'].touched && formFields['nombre'].valid
+              }"
+              (keyup)="cambiarTextoAMinusculas()"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'El campo es requerido',
+                control: formularioEmpresaNuevo.controls['nombre']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'El campo contiene caracteres no validos',
+                control: formularioEmpresaNuevo.controls['nombre']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'minLength',
+                message: 'El campo debe contener mínimo 3 caracteres',
+                control: formularioEmpresaNuevo.controls['nombre']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxLength',
+                message: 'El campo debe contener máximo 50 caracteres',
+                control: formularioEmpresaNuevo.controls['nombre']
+              }"
+            ></ng-container>
+          </div>
+          <div class="fv-row mb-10">
+            <label class="form-label required">Subdominio</label>
+            <input
+              formControlName="subdominio"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid': formFields['subdominio'].touched && formFields['subdominio'].invalid,
+                'is-valid': formFields['subdominio'].touched && formFields['subdominio'].valid
+              }"
+              (keyup)="cambiarTextoAMinusculas()"
+              (blur)="confirmarExistencia()"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'El campo es requerido',
+                control: formFields['subdominio']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'El campo contiene caracteres no validos',
+                control: formFields['subdominio']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'minLength',
+                message: 'El campo debe contener mínimo 3 caracteres',
+                control: formFields['subdominio']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxLength',
+                message: 'El campo debe contener máximo 100 caracteres',
+                control: formFields['subdominio']
+              }"
+            ></ng-container>
+            <div
+              *ngIf="
+                formularioEmpresaNuevo.controls.subdominio?.touched &&
+                formularioEmpresaNuevo.controls.subdominio?.hasError('EmpresaYaExiste')
+              "
+            >
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <span role="alert">Nombre en uso</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fv-row d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" type="submit" #btnGuardar>Guardar</button>
+          </div>
+        </form>
+        <ng-template
+          #formError
+          let-control="control"
+          let-message="message"
+          let-validation="validation"
+        >
+          <ng-container
+            *ngIf="
+              control.hasError(validation) && (control.dirty || control.touched)
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  {{ message }}
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <!--begin::Body-->
+    </div>
+    <!--end::Tables Widget 9-->
+  </div>
+  <!--end::Col-->
+</div>
