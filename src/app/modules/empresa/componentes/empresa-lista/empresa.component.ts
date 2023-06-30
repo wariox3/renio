@@ -49,8 +49,6 @@ export class EmpresaComponent implements OnInit {
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
     this.empresaService.detalle(`${empresaSeleccionada}`).subscribe((respuesta: any) => {
-      console.log(respuesta);
-
       const empresa: Empresa = {
         nombre: respuesta.nombre,
         imagen:
@@ -62,7 +60,7 @@ export class EmpresaComponent implements OnInit {
         seleccion:true
       }
       this.store.dispatch(empresaActionInit({ empresa }));
-      window.location.href = `http://${respuesta.subdominio}.muup.online`;
+      window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
     })
   }
 }
