@@ -13,7 +13,7 @@
           ng-reflect-router-link="/crafted/account/settings"
           [routerLink]="['../lista']"
         >
-         Atrás
+          Atrás
         </a>
       </div>
       <div class="card-body">
@@ -26,8 +26,10 @@
               type="text"
               autocomplete="off"
               [ngClass]="{
-                'is-invalid': formFields['nombre'].touched && formFields['nombre'].invalid,
-                'is-valid': formFields['nombre'].touched && formFields['nombre'].valid
+                'is-invalid':
+                  formFields['nombre'].touched && formFields['nombre'].invalid,
+                'is-valid':
+                  formFields['nombre'].touched && formFields['nombre'].valid
               }"
               (keyup)="cambiarTextoAMinusculas()"
             />
@@ -50,7 +52,7 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'minLength',
+                validation: 'minlength',
                 message: 'El campo debe contener mínimo 3 caracteres',
                 control: formularioEmpresaNuevo.controls['nombre']
               }"
@@ -58,8 +60,8 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'maxLength',
-                message: 'El campo debe contener máximo 50 caracteres',
+                validation: 'maxlength',
+                message: 'El campo debe contener máximo 100 caracteres',
                 control: formularioEmpresaNuevo.controls['nombre']
               }"
             ></ng-container>
@@ -72,8 +74,12 @@
               type="text"
               autocomplete="off"
               [ngClass]="{
-                'is-invalid': formFields['subdominio'].touched && formFields['subdominio'].invalid,
-                'is-valid': formFields['subdominio'].touched && formFields['subdominio'].valid
+                'is-invalid':
+                  formFields['subdominio'].touched &&
+                  formFields['subdominio'].invalid,
+                'is-valid':
+                  formFields['subdominio'].touched &&
+                  formFields['subdominio'].valid
               }"
               (keyup)="cambiarTextoAMinusculas()"
               (blur)="confirmarExistencia()"
@@ -97,7 +103,7 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'minLength',
+                validation: 'minlength',
                 message: 'El campo debe contener mínimo 3 caracteres',
                 control: formFields['subdominio']
               }"
@@ -105,7 +111,7 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'maxLength',
+                validation: 'maxlength',
                 message: 'El campo debe contener máximo 100 caracteres',
                 control: formFields['subdominio']
               }"
@@ -113,7 +119,9 @@
             <div
               *ngIf="
                 formularioEmpresaNuevo.controls.subdominio?.touched &&
-                formularioEmpresaNuevo.controls.subdominio?.hasError('EmpresaYaExiste')
+                formularioEmpresaNuevo.controls.subdominio?.hasError(
+                  'EmpresaYaExiste'
+                )
               "
             >
               <div class="fv-plugins-message-container">
@@ -124,7 +132,14 @@
             </div>
           </div>
           <div class="fv-row d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" type="submit" #btnGuardar>Guardar</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              type="submit"
+              #btnGuardar
+            >
+              Guardar
+            </button>
           </div>
         </form>
         <ng-template
