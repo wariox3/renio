@@ -114,16 +114,12 @@ export class RegistrationComponent implements OnInit {
           );
           this.router.navigate(['/auth/login']);
         },
-        error: ({ error }) => {
+        error: () => {
           this.renderer2.removeAttribute(this.btnCrear.nativeElement, 'disabled');
           this.renderer2.setProperty(
             this.btnCrear.nativeElement,
             'innerHTML',
             'Crear'
-          );
-          this.alertaService.mensajeError(
-            'Error verificación',
-            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
           );
         },
       });
@@ -132,3 +128,4 @@ export class RegistrationComponent implements OnInit {
     }
   }
 }
+
