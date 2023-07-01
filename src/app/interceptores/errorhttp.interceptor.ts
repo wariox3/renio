@@ -19,29 +19,31 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse)=>{
-          let errorMessage: string;
+          let errorCodigo: Number;
+          let errorMensaje: string;
 
           if (error.error instanceof ErrorEvent) {
             // Error de cliente
-            errorMessage = `Error: ${error.error.message}`;
+            errorMensaje = `Error: ${error.error.message}`;
           } else {
             // Error del servidor
             switch (error.status) {
               case 404:
-                errorMessage = 'El recurso solicitado no se encontró.';
+                errorMensaje = 'El recurso solicitado no se encontró.';
                 break;
               case 500:
-                errorMessage = 'Se produjo un error interno en el servidor.';
+                errorMensaje = 'Se produjo un error interno en el servidor.';
                 break;
               // Agrega más casos según tus necesidades
               default:
                 let objError = error.error
-
                 if(objError.hasOwnProperty('error')){
-                  errorMessage = `Código de error: ${objError.error}`;
+                  errorCodigo = objError.codigo;
+                  errorMensaje = `Código de error: ${objError.error}`;
                 }
                 if(objError.hasOwnProperty('mensaje')){
-                  errorMessage = `Código de error: ${objError.mensaje}`;
+                  errorCodigo = objError.codigo;
+                  errorMensaje = `Código de error: ${objError.mensaje}`;
 
                 }
 
@@ -49,7 +51,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
             }
           }
 
-          return throwError(() => this.alertService.mensajeError("Error:", errorMessage));
+          return throwError(() => this.alertService.mensajeError(`Error: ${errorCodigo}`, errorMensaje));
         })
       );
   }

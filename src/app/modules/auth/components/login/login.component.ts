@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         'innerHTML',
         'Procesando'
       );
-      const loginSubscr = this.authService
+      this.authService
         .login(this.f.email.value, this.f.password.value)
         .subscribe({
           next: (respuesta: Token)=> {
