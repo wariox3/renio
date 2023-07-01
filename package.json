@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "startsubdominio": "ng serve --host=demo.localhost",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "rtl": "webpack --config=rtl.config.js",
