@@ -86,7 +86,7 @@ export class ReiniciarClaveComponent implements OnInit {
     this.authService.validacion(token).subscribe({
       next: (respuesta: any) => {
         this.inhabilitarBtnRestablecer = false
-        this.codigo_usuario = respuesta.verificacion.codigo_usuario_fk,
+        this.codigo_usuario = respuesta.verificacion.usuario_id,
         this.changeDetectorRef.detectChanges();
 
       },
@@ -105,6 +105,8 @@ export class ReiniciarClaveComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.codigo_usuario);
+    
     if (this.formularioReiniciarClave.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
@@ -116,16 +118,10 @@ export class ReiniciarClaveComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
-      this.store
-        .select(obtenerId)
-        .pipe(
-          switchMap((usuarioId) =>
             this.authService.reiniciarClave(
-              usuarioId,
+              this.codigo_usuario,
               this.formFields.clave.value
             )
-          )
-        )
         .subscribe({
           next: (respuesta) => {
             this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
