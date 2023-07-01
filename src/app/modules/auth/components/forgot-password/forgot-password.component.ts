@@ -65,7 +65,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.renderer2.setProperty(
             this.btnRestablecer.nativeElement,
             'innerHTML',
-            'Reestablecer'
+            'Restablecer'
           );
           this.alertaService.mensajeValidacion(this.formFields.usuario.value);
         },
@@ -74,7 +74,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.renderer2.setProperty(
             this.btnRestablecer.nativeElement,
             'innerHTML',
-            'Reestablecer'
+            'Restablecer'
           );
         },
       });
@@ -83,7 +83,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.renderer2.setProperty(
         this.btnRestablecer.nativeElement,
         'innerHTML',
-        'Reestablecer'
+        'Restablecer'
       );
       this.formularioRestablecerClave.markAllAsTouched()
     }

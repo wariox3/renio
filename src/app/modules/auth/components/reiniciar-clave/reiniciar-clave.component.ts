@@ -119,7 +119,7 @@ export class ReiniciarClaveComponent implements OnInit {
       this.store
         .select(obtenerId)
         .pipe(
-          switchMap(([usuarioId]) =>
+          switchMap((usuarioId) =>
             this.authService.reiniciarClave(
               usuarioId,
               this.formFields.clave.value
