@@ -14,7 +14,7 @@ import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa-seleccion.sele
 })
 export class HeaderMenuComponent implements OnInit {
   arrMenu = ['cartera', 'compra', 'contabilidad', 'humano', 'venta'];
-  empresaSeleccion$ = this.store.select(obtenerEmpresaSeleccion);
+
   visualizarMenuApps = false
 
   constructor(
@@ -25,11 +25,11 @@ export class HeaderMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.empresaSeleccion$.subscribe((respuesta)=>{
-      if(respuesta){
-        this.visualizarMenuApps = respuesta;
-      }
-    })
+    let dominioActual = window.location.host
+    if (dominioActual.split('.').length > 2) {
+      this.visualizarMenuApps = true
+    }
+
   }
 
   calculateMenuItemCssClass(url: string): string {
