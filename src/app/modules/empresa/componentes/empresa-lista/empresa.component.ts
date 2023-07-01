@@ -32,7 +32,7 @@ export class EmpresaComponent implements OnInit {
   consultarLista() {
     this.store.select(obtenerId)
     .pipe(
-      switchMap(([usuarioId])=>this.empresaService.lista(usuarioId))
+      switchMap((usuarioId)=>this.empresaService.lista(usuarioId))
     ).subscribe({
       next:(respuesta) => {
         this.arrEmpresas = respuesta;

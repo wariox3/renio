@@ -24,6 +24,7 @@ export class EmpresaNuevoComponent implements OnInit {
   formularioEmpresaNuevo: FormGroup;
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
+  codigoUsuario = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,36 +34,38 @@ export class EmpresaNuevoComponent implements OnInit {
     private router: Router,
     private store: Store,
     private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+      this.codigoUsuario = codigoUsuario;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   initForm() {
-    this.formularioEmpresaNuevo = this.formBuilder.group(
-      {
-        nombre: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),  // Se ha removido la restricción de mayúsculas
-          ]),
-        ],
-        subdominio: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-            Validators.pattern(/^[a-z-0-9]*$/),  // Se ha removido la restricción de mayúsculas
-          ]),
-        ],
-      },
-    );
+    this.formularioEmpresaNuevo = this.formBuilder.group({
+      nombre: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-z-0-9.-_]*$/), // Se ha removido la restricción de mayúsculas
+        ]),
+      ],
+      subdominio: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-z-0-9]*$/), // Se ha removido la restricción de mayúsculas
+        ]),
+      ],
+    });
   }
 
   // convenience getter for easy access to form fields
@@ -82,18 +85,10 @@ export class EmpresaNuevoComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
-      this.store
-        .select(obtenerId)
-        .pipe(
-          switchMap(([usuarioId]) =>
-            this.empresaService.nuevo(
-              this.formularioEmpresaNuevo.value,
-              usuarioId
-            )
-          )
-        )
+      this.empresaService
+        .nuevo(this.formularioEmpresaNuevo.value, this.codigoUsuario)
         .subscribe({
-          next: (respuesta) => {
+          next: () => {
             this.renderer2.setAttribute(
               this.btnGuardar.nativeElement,
               'disabled',
@@ -107,7 +102,7 @@ export class EmpresaNuevoComponent implements OnInit {
             this.alertaService.mensajaExitoso('Nueva empresa creada', '');
             this.router.navigate(['/empresa/lista']);
           },
-          error: ({ error }) => {
+          error: () => {
             this.renderer2.removeAttribute(
               this.btnGuardar.nativeElement,
               'disabled'
@@ -116,10 +111,6 @@ export class EmpresaNuevoComponent implements OnInit {
               this.btnGuardar.nativeElement,
               'innerHTML',
               'Guardar'
-            );
-            this.alertaService.mensajeError(
-              'Error consulta',
-              `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
             );
           },
         });
@@ -143,21 +134,20 @@ export class EmpresaNuevoComponent implements OnInit {
     }
   }
 
-  cambiarTextoAMinusculas(){
-    this.formFields.nombre.setValue(this.formFields.nombre.value.toLowerCase())
+  cambiarTextoAMinusculas() {
+    this.formFields.nombre.setValue(this.formFields.nombre.value.toLowerCase());
   }
 
-  confirmarExistencia(){
-
-    if(this.formFields.subdominio.value !== ""){
-      this.empresaService.consultarNombre(
-        this.formFields.subdominio.value
-      ).subscribe(({validar})=> {
-        if(!validar){
-          this.formFields.subdominio.setErrors({ "EmpresaYaExiste": true });
-          this.changeDetectorRef.detectChanges();
-        }
-      })
+  confirmarExistencia() {
+    if (this.formFields.subdominio.value !== '') {
+      this.empresaService
+        .consultarNombre(this.formFields.subdominio.value)
+        .subscribe(({ validar }) => {
+          if (!validar) {
+            this.formFields.subdominio.setErrors({ EmpresaYaExiste: true });
+            this.changeDetectorRef.detectChanges();
+          }
+        });
     }
   }
 }
