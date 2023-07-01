@@ -29,9 +29,11 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
             // Error del servidor
             switch (error.status) {
               case 404:
+                errorCodigo = 404
                 errorMensaje = 'El recurso solicitado no se encontró.';
                 break;
               case 500:
+                errorCodigo = 500
                 errorMensaje = 'Se produjo un error interno en el servidor.';
                 break;
               // Agrega más casos según tus necesidades
@@ -39,11 +41,11 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
                 let objError = error.error
                 if(objError.hasOwnProperty('error')){
                   errorCodigo = objError.codigo;
-                  errorMensaje = `Código de error: ${objError.error}`;
+                  errorMensaje = objError.error;
                 }
                 if(objError.hasOwnProperty('mensaje')){
                   errorCodigo = objError.codigo;
-                  errorMensaje = `Código de error: ${objError.mensaje}`;
+                  errorMensaje = objError.mensaje
 
                 }
 
@@ -51,7 +53,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
             }
           }
 
-          return throwError(() => this.alertService.mensajeError(`Error: ${errorCodigo}`, errorMensaje));
+          return throwError(() => this.alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje));
         })
       );
   }
