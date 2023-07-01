@@ -47,7 +47,7 @@ export class VerificacionCuentaComponent implements OnInit {
           this.codigoUsuario = error.codigoUsuario;
         }
         this.alertaService.mensajeError(
-          'Error verificación',
+          'Error en la verificación',
           `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
         );
         this.changeDetectorRef.detectChanges();
@@ -64,13 +64,13 @@ export class VerificacionCuentaComponent implements OnInit {
       this.authService.reenviarValidacion(this.codigoUsuario).subscribe({
         next: (respuesta): void => {
           this.alertaService.mensajaExitoso(
-            'Nueva verificación creada ',
-            `La nueva verificación se ha enviado al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
+            'Nueva verificación creada',
+            `La nueva verificación se ha enviado nuevamente al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
           );
         },
         error: ({ error }): void => {
           this.alertaService.mensajeError(
-            'Error verificación',
+            'Error en la verificación',
             `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
           );
         },

@@ -97,7 +97,7 @@ export class AuthService implements OnDestroy {
 
   recuperarClave(email: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/nuevo/`,
+      `${environment.URL_API_MUUP}/seguridad/verificacion/`,
       { username: email, accion: 'clave' },
       { context: chackRequiereToken() }
     );
@@ -113,7 +113,7 @@ export class AuthService implements OnDestroy {
 
   reenviarValidacion(codigoUsuario: number) {
     return this.http.post<TokenReenviarValidacion>(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/nuevo/`,
+      `${environment.URL_API_MUUP}/seguridad/verificacion/`,
       { codigoUsuario },
       { context: chackRequiereToken() }
     );
