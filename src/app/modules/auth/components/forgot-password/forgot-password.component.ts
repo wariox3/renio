@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertaService } from '@comun/services/alerta.service';
@@ -10,7 +10,10 @@ import { AlertaService } from '@comun/services/alerta.service';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
+
+  ocultarFormularioRestablecerClave = false
   formularioRestablecerClave: FormGroup;
+
   @ViewChild('btnRestablecer', { read: ElementRef })
   btnRestablecer!: ElementRef<HTMLButtonElement>;
 
@@ -19,6 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
     private authService: AuthService,
     private renderer2: Renderer2,
     private alertaService: AlertaService,
+    private changeDetectorRef: ChangeDetectorRef,
+
   ) {
   }
 
@@ -67,7 +72,9 @@ export class ForgotPasswordComponent implements OnInit {
             'innerHTML',
             'Restablecer'
           );
+          this.ocultarFormularioRestablecerClave = true
           this.alertaService.mensajeValidacion(this.formFields.usuario.value);
+          this.changeDetectorRef.detectChanges();
         },
         error: () => {
           this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
