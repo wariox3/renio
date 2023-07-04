@@ -12,10 +12,13 @@ export class EmpresaEffects {
       this.actions$.pipe(
         ofType(empresaActionInit),
         tap((action) => {
+          let calcularTresHoras = new Date(
+            new Date().getTime() + 3 * 60 * 60 * 1000
+          );
           if(environment.production){
-            setCookie('empresa', JSON.stringify(action.empresa), { path: '/', domain: '.muup.online' })
+            setCookie('empresa', JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/', domain: '.muup.online' })
           }else {
-            setCookie('empresa', JSON.stringify(action.empresa), { path: '/'})
+            setCookie('empresa', JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/' })
           }
         })
       ),
