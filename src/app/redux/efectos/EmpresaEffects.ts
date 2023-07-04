@@ -24,8 +24,7 @@ export class EmpresaEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                sameSite: 'Lax',
-                domain: `${action.empresa.subdominio}.muup.online`,
+                domain: `.muup.online`,
               }
             );
           } else {
