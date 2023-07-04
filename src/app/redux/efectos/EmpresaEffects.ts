@@ -15,14 +15,29 @@ export class EmpresaEffects {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
           );
-          if(environment.production){
-            setCookie(`empresa-${action.empresa.subdominio}`, JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/', domain: `${action.empresa.subdominio}.muup.online` })
-          }else {
-            setCookie(`empresa-${action.empresa.subdominio}`, JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/', domain: `${action.empresa.subdominio}.muup.online` })
+          if (environment.production) {
+            setCookie(
+              `empresa-${action.empresa.subdominio}`,
+              JSON.stringify(action.empresa),
+              {
+                expires: calcularTresHoras,
+                path: '/',
+                domain: `${action.empresa.subdominio}.muup.online`,
+              }
+            );
+          } else {
+            setCookie(
+              `empresa-${action.empresa.subdominio}`,
+              JSON.stringify(action.empresa),
+              {
+                expires: calcularTresHoras,
+                path: '/',
+                domain: `${action.empresa.subdominio}.muup.online`,
+              }
+            );
           }
 
           window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
-
         })
       ),
     { dispatch: false }
