@@ -60,7 +60,6 @@ export class EmpresaComponent implements OnInit {
         seleccion:true
       }
       this.store.dispatch(empresaActionInit({ empresa }));
-      window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
     })
   }
 }

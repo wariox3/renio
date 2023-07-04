@@ -20,6 +20,9 @@ export class EmpresaEffects {
           }else {
             setCookie('empresa', JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/' })
           }
+
+          window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
+
         })
       ),
     { dispatch: false }
