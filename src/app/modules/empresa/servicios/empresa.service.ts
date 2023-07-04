@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { chackRequiereToken } from '../../../interceptores/token.interceptor';
 import { Empresa } from '@interfaces/usuario/empresa';
-import { getCookie } from 'typescript-cookie';
 
 @Injectable({
   providedIn: 'root',
@@ -49,27 +47,5 @@ export class EmpresaService {
     );
   }
 
-  obtenerToken() {
-    const refreshToken = getCookie('empresa')
-    if (!refreshToken) {
-      return false;
-    }
-    return refreshToken;
-  }
 
-  validarToken(){
-    const token = this.obtenerToken();
-    if (!token) {
-      return false;
-    }
-    const tokenDecodificado =  jwt_decode<JwtPayload>(token);
-    if(tokenDecodificado && tokenDecodificado?.exp){
-      const tokenFecha = new Date(0)
-      const fechaActual = new Date()
-      tokenFecha.setUTCSeconds(tokenDecodificado.exp)
-
-      return tokenFecha.getTime() > fechaActual.getTime()
-    }
-    return false
-  }
 }
