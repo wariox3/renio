@@ -10,6 +10,7 @@ import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 @Component({
   selector: 'app-user-inner',
   templateUrl: './user-inner.component.html',
+  styleUrls: ['user-inner.scss']
 })
 export class UserInnerComponent implements OnInit, OnDestroy {
   @HostBinding('class')
@@ -60,6 +61,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
+
 }
 
 interface LanguageFlag {

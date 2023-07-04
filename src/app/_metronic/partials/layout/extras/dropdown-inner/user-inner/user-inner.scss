@@ -1,0 +1,6 @@
+.usuario-nombre {
+  max-width: 180px; /* Establece el ancho máximo del campo usuarioNombre */
+  word-wrap: break-word; /* Permite el salto de línea dentro de palabras largas */
+  text-align: center; /* Centra el texto horizontalmente */
+  white-space: nowrap; /* Evita el salto de línea */
+}

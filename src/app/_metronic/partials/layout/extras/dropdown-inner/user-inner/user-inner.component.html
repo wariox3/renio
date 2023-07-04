@@ -7,7 +7,7 @@
 
       <div class="d-flex flex-column">
         <div class="fw-bolder d-flex align-items-center fs-5">
-          <small>{{ usuarioNombre$ | async }}</small>
+          <small class="usuario-nombre">{{ (usuarioNombre$ | async) ? (usuarioNombre$ | async)!.split('@')[0] : '' }}</small>
         </div>
         <small class="fw-bold text-muted fs-7">
           {{ usuarioCargo$ | async }}
