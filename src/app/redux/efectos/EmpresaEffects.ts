@@ -15,6 +15,8 @@ export class EmpresaEffects {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
           );
+          console.log(`${action.empresa.subdominio}.muup.online`);
+
           if (environment.production) {
             setCookie(
               `empresa-${action.empresa.subdominio}`,
@@ -22,7 +24,7 @@ export class EmpresaEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `${action.empresa.subdominio}.muup.online`,
+                domain: `.muup.online`,
               }
             );
           } else {
@@ -32,12 +34,11 @@ export class EmpresaEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `${action.empresa.subdominio}.muup.online`,
               }
             );
           }
 
-          window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
+          //window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
         })
       ),
     { dispatch: false }
