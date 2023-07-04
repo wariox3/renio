@@ -25,6 +25,8 @@ export class EmpresaNuevoComponent implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
+  visualizarBtnAtras = true;
+  procesando = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,8 +54,7 @@ export class EmpresaNuevoComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(100),
-          Validators.pattern(/^[a-z-0-9.-_]*$/), // Se ha removido la restricción de mayúsculas
+          Validators.maxLength(100), // Se ha removido la restricción de mayúsculas
         ]),
       ],
       subdominio: [
@@ -75,6 +76,8 @@ export class EmpresaNuevoComponent implements OnInit {
 
   formSubmit() {
     if (this.formularioEmpresaNuevo.valid) {
+      this.visualizarBtnAtras = false;
+      this.procesando = true;
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
         'disabled',
@@ -101,6 +104,7 @@ export class EmpresaNuevoComponent implements OnInit {
             );
             this.alertaService.mensajaExitoso('Nueva empresa creada', '');
             this.router.navigate(['/empresa/lista']);
+            this.procesando = false;
           },
           error: () => {
             this.renderer2.removeAttribute(
@@ -112,9 +116,12 @@ export class EmpresaNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
+            this.visualizarBtnAtras = true;
+            this.procesando = false;
           },
         });
     } else {
+      this.visualizarBtnAtras = false;
       this.formularioEmpresaNuevo.markAllAsTouched();
     }
   }
@@ -135,7 +142,7 @@ export class EmpresaNuevoComponent implements OnInit {
   }
 
   cambiarTextoAMinusculas() {
-    this.formFields.nombre.setValue(this.formFields.nombre.value.toLowerCase());
+    this.formFields.subdominio.setValue(this.formFields.subdominio.value.toLowerCase());
   }
 
   confirmarExistencia() {
