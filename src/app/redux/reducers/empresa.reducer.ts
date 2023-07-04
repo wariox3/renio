@@ -6,8 +6,9 @@ import {
 import { Empresa } from '@interfaces/usuario/empresa';
 import { getCookie } from 'typescript-cookie';
 
+let dominioActual = window.location.host
 
-let empresaData = getCookie('empresa');
+let empresaData = getCookie(`empresa-${dominioActual.split('.')[0]}`);
 let estadoAnalizado: Empresa =  {
   nombre: "",
   imagen: "",

@@ -65,7 +65,7 @@ registerLocaleData(localeEsCo, 'es-CO');
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorhttpInterceptor,multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: EmpresaCookieInterceptor,multi: true },
+    //{ provide: HTTP_INTERCEPTORS, useClass: EmpresaCookieInterceptor,multi: true },
     { provide: LOCALE_ID, useValue: 'es-CO' }
 
   ],

@@ -21,8 +21,8 @@ export class EmpresaCookieInterceptor implements HttpInterceptor {
         let empresa = JSON.parse(cookie)
 
         if((this.subdominioService.subdominioNombre() !== empresa.subdominio)){
-          alert("Cambio la empresa ir")
-          window.location.href = `http://${empresa.subdominio}.muup.online/dashboard`;
+          //alert("Cambio la empresa ir")
+          //window.location.href = `http://${empresa.subdominio}.muup.online/dashboard`;
         }
       }
     }

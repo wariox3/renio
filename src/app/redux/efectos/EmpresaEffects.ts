@@ -16,9 +16,9 @@ export class EmpresaEffects {
             new Date().getTime() + 3 * 60 * 60 * 1000
           );
           if(environment.production){
-            setCookie('empresa', JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/', domain: '.muup.online' })
+            setCookie(`empresa-${action.empresa.subdominio}}`, JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/', domain: '.muup.online' })
           }else {
-            setCookie('empresa', JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/' })
+            setCookie(`empresa-${action.empresa.subdominio}}`, JSON.stringify(action.empresa), {  expires: calcularTresHoras, path: '/' })
           }
 
           window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
