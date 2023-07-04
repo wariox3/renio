@@ -73,7 +73,10 @@ export class ForgotPasswordComponent implements OnInit {
             'Restablecer'
           );
           this.ocultarFormularioRestablecerClave = true
-          this.alertaService.mensajeValidacion(this.formFields.usuario.value);
+          this.alertaService.mensajaExitoso(
+            'Recuperación exitosa',
+            `Se ha enviado un correo de verificación.`
+          );
           this.changeDetectorRef.detectChanges();
         },
         error: () => {
