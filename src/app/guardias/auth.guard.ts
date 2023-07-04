@@ -20,7 +20,9 @@ export const AutentificacionGuard: CanMatchFn = () => {
   if (tokenValido) {
      if (tokenEmpresaValido) {
       if(empresaCookie){
-        const empresaObj = JSON.parse(empresaCookie);
+        const decodedValue = decodeURIComponent(empresaCookie);
+
+        const empresaObj = JSON.parse(decodedValue);
         console.log(empresaObj.nombre);
         return true
       }
