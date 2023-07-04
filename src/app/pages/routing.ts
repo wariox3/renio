@@ -1,5 +1,19 @@
 import { Routes } from '@angular/router';
 
+let redirectToValue: string = '/empresa/lista';
+
+function getRedirectTo(): string {
+  // Aquí puedes agregar tu lógica para determinar el valor de redirección
+  // basado en la variable o cualquier otra condición
+  let dominioActual = window.location.host
+  let esSubdominio = dominioActual.split('.').length > 2;
+
+  if(esSubdominio){
+    redirectToValue = "/dashboard"
+  }
+  return redirectToValue;
+}
+
 const Routing: Routes = [
   {
     path: 'dashboard',
@@ -56,7 +70,7 @@ const Routing: Routes = [
   },
   {
     path: '',
-    redirectTo: '/empresa/lista',
+    redirectTo: getRedirectTo(),
     pathMatch: 'full',
   },
   {
