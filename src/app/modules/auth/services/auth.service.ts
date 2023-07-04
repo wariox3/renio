@@ -137,8 +137,8 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  reiniciarClave(usuario_id: string, password: string){ 
-       
+  reiniciarClave(usuario_id: string, password: string){
+
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/cambiar-clave/`,
       { usuario_id, password: password },

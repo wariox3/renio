@@ -6,19 +6,22 @@ import {
 import { Empresa } from '@interfaces/usuario/empresa';
 import { TokenService } from '@modulos/auth/services/token.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { getCookie } from 'typescript-cookie';
 
 export const AutentificacionGuard: CanMatchFn = () => {
   const tokenValido = inject(TokenService).validarToken();
   const tokenEmpresaValido = inject(EmpresaService).validarToken();
-  const cookieEmpresa = inject(EmpresaService).obtenerToken();
+  const empresaCookie = getCookie('empresa');
+
+
   const router = inject(Router);
-  console.log({tokenEmpresaValido, cookieEmpresa});
+  console.log({tokenEmpresaValido, empresaCookie});
 
   if (tokenValido) {
      if (tokenEmpresaValido) {
-      if(cookieEmpresa){
-        let empresa: Empresa = JSON.parse(cookieEmpresa)
-        console.log(empresa.nombre);
+      if(empresaCookie){
+        const empresaObj = JSON.parse(empresaCookie);
+        console.log(empresaObj.nombre);
         return true
       }
       return true
