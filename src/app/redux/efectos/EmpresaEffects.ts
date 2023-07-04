@@ -24,7 +24,8 @@ export class EmpresaEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `.muup.online`,
+                sameSite: 'Lax',
+                domain: `${action.empresa.subdominio}.muup.online`,
               }
             );
           } else {
@@ -38,7 +39,7 @@ export class EmpresaEffects {
             );
           }
 
-          //window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
+          window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
         })
       ),
     { dispatch: false }
