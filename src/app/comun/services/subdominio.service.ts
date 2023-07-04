@@ -14,4 +14,8 @@ export class SubdominioService {
     let esSubdominio = this.dominioActual.split('.').length > 2;
     return esSubdominio;
   }
+
+  subdominioNombre() {
+    return this.dominioActual.split('.')[0];
+  }
 }

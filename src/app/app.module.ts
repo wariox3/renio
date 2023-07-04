@@ -17,6 +17,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { StoreApp, EffectsApp } from './redux';
 import { TokenInterceptor } from '@interceptores/token.interceptor';
+import { EmpresaCookieInterceptor } from '@interceptores/empresa-cookie.interceptor';
 import { ErrorhttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -64,6 +65,7 @@ registerLocaleData(localeEsCo, 'es-CO');
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorhttpInterceptor,multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: EmpresaCookieInterceptor,multi: true },
     { provide: LOCALE_ID, useValue: 'es-CO' }
 
   ],
