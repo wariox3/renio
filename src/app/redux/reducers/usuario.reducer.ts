@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   usuarioActionInit,
   usuarioActionBorrarInformacion,
+  usuarioActionActualizarNombreCorto
 } from '../actions/usuario.actions';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
@@ -25,6 +26,12 @@ export const usuarioReducer = createReducer(
     return {
       ...state,
       ...usuario,
+    };
+  }),
+  on(usuarioActionActualizarNombreCorto, (state, {nombre_corto})=>{
+    return {
+      ...state,
+      nombre_corto,
     };
   }),
   on(usuarioActionBorrarInformacion, (state) => {

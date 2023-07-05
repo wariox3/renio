@@ -9,3 +9,9 @@ export const usuarioActionInit = createAction(
 export const usuarioActionBorrarInformacion = createAction(
   '[Usuario] borrar informacion'
 );
+
+
+export const usuarioActionActualizarNombreCorto = createAction(
+  '[Usuario] actualizar nombre corto',
+  props<{"nombre_corto": string}>()
+);

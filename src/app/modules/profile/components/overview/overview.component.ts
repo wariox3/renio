@@ -14,6 +14,7 @@ import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { switchMap } from 'rxjs';
 import { arrPaises } from './listaPaises';
+import { usuarioActionActualizarNombreCorto } from '@redux/actions/usuario.actions';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -152,8 +153,8 @@ export class OverviewComponent implements OnInit {
         })
         .subscribe({
           next: (respuesta) => {
+            this.store.dispatch(usuarioActionActualizarNombreCorto({nombre_corto: this.formularioResumen.value.nombreCorto}))
             this.alertaService.mensajaExitoso('Actualización exitosa', '');
-
             this.consultarInformacion();
           },
         });
