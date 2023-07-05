@@ -71,12 +71,18 @@ export class AuthService implements OnDestroy {
   logout() {
     localStorage.clear();
     localStorage.removeItem(this.authLocalStorageToken);
-    // localStorage.removeItem('ruta');
-    // localStorage.removeItem('usuario');
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
-    removeCookie('empresa', { path: '/', domain: '.muup.online' });
     removeCookie('usuario', { path: '/', domain: '.muup.online' });
+
+    const empresaPatron = 'empresa-';
+    document.cookie.split(';').forEach(function (cookie) {
+      const cookieNombre = cookie.split('=')[0].trim();
+      if (cookieNombre.startsWith(empresaPatron)) {
+        removeCookie(cookieNombre);
+      }
+    });
+
     this.router.navigate(['/auth/login'], {
       queryParams: {},
     });
@@ -137,13 +143,12 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  reiniciarClave(usuario_id: string, password: string){
-
+  reiniciarClave(usuario_id: string, password: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/cambiar-clave/`,
       { usuario_id, password: password },
       { context: chackRequiereToken() }
-    )
+    );
   }
 
   ngOnDestroy() {
