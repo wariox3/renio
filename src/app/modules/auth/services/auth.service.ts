@@ -74,7 +74,7 @@ export class AuthService implements OnDestroy {
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
     removeCookie('usuario', { path: '/', domain: '.muup.online' });
-
+    removeCookie('usuario', { path: '/' });
     const empresaPatron = 'empresa-';
     document.cookie.split(';').forEach(function (cookie) {
       const cookieNombre = cookie.split('=')[0].trim();
