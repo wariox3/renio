@@ -105,8 +105,6 @@ export class ReiniciarClaveComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.codigo_usuario);
-    
     if (this.formularioReiniciarClave.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,

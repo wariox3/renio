@@ -15,7 +15,6 @@ export class EmpresaEffects {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
           );
-          console.log(`${action.empresa.subdominio}.muup.online`);
 
           if (environment.production) {
             setCookie(

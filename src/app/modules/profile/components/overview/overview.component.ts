@@ -34,7 +34,7 @@ export class OverviewComponent implements OnInit {
   usuarioImagen$ = this.store.select(obtenerImagen);
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
-
+  codigoUsuario = '';
   constructor(
     private store: Store,
     private resumenService: ResumenService,
@@ -45,8 +45,12 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.consultarInformacion();
     this.initForm();
+    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+      this.codigoUsuario = codigoUsuario;
+      this.changeDetectorRef.detectChanges();
+    });
+    this.consultarInformacion();
   }
 
   initForm() {
@@ -91,29 +95,25 @@ export class OverviewComponent implements OnInit {
   }
 
   consultarInformacion() {
-    this.store
-      .select(obtenerId)
-      .pipe(switchMap(([usuarioId]) => this.resumenService.perfil(usuarioId)))
-      .subscribe({
-        next: (respuesta: any) => {
-          console.log(respuesta);
-          let indicativo = ""
-          let telefono = ""
-          if(respuesta.telefono){
-            indicativo = respuesta.telefono.split(' ')[0];
-            telefono = respuesta.telefono.split(' ')[1];
-          }
-          this.usuarioInformacion = {
-            id: respuesta.id,
-            nombre: respuesta.nombre,
-            apellido: respuesta.apellido,
-            telefono: telefono,
-            nombreCorto: respuesta.nombre_corto,
-            indicativoPais: indicativo,
-          };
-          this.changeDetectorRef.detectChanges();
-        },
-      });
+    this.resumenService.perfil(this.codigoUsuario).subscribe({
+      next: (respuesta: any) => {
+        let indicativo = '';
+        let telefono = '';
+        if (respuesta.telefono) {
+          indicativo = respuesta.telefono.split(' ')[0];
+          telefono = respuesta.telefono.split(' ')[1];
+        }
+        this.usuarioInformacion = {
+          id: respuesta.id,
+          nombre: respuesta.nombre,
+          apellido: respuesta.apellido,
+          telefono: telefono,
+          nombreCorto: respuesta.nombre_corto,
+          indicativoPais: indicativo,
+        };
+        this.changeDetectorRef.detectChanges();
+      },
+    });
   }
 
   archivoSeleccionado(event: any) {
