@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { switchMap } from 'rxjs';
-
+import { arrPaises } from "./listaPaises"
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -19,7 +19,9 @@ export class OverviewComponent implements OnInit {
     nombre:"",
     apellido: "",
     telefono: "",
+    indicativoPais: ""
   }
+  arrPaises = arrPaises
   srcResult: string = '';
   habilitarEdicionFormulario: boolean = false;
   formularioResumen: FormGroup;
@@ -59,6 +61,9 @@ export class OverviewComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
+      indicativoPais: [
+        this.usuarioInformacion.indicativoPais,
+      ],
       telefono: [
         this.usuarioInformacion.telefono,
         Validators.compose([
@@ -93,18 +98,21 @@ export class OverviewComponent implements OnInit {
     )
     .subscribe({
       next: (respuesta: any) => {
+        let indicativo = respuesta.telefono.split(' ')[0];
+        let telefono = respuesta.telefono.split(' ')[1];
+
         this.usuarioInformacion = {
           "id": respuesta.id,
           "nombre":respuesta.nombre,
           "apellido":respuesta.apellido,
-          "telefono": respuesta.telefono,
-          "nombreCorto": respuesta.nombre_corto
+          "telefono": telefono,
+          "nombreCorto": respuesta.nombre_corto,
+          "indicativoPais": indicativo
         }
         this.changeDetectorRef.detectChanges();
-      },
-      error(err) {
+        console.log(this.usuarioInformacion, respuesta);
 
-      },
+      }
     })
   }
 
@@ -123,7 +131,6 @@ export class OverviewComponent implements OnInit {
   }
 
   formSubmit() {
-    
     if (this.formularioResumen.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
@@ -139,20 +146,20 @@ export class OverviewComponent implements OnInit {
           id: this.usuarioInformacion.id,
           nombre: this.formularioResumen.value.nombre,
           apellido: this.formularioResumen.value.apellido,
-          telefono: this.formularioResumen.value.telefono,
+          telefono: `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`,
           nombreCorto: this.formularioResumen.value.nombreCorto
         }
         ).subscribe({
           next:(respuesta)=> {
             this.alertaService.mensajaExitoso(
-              'Se actualiza exitosa',
-              'Se ha actualizado'
+              'Actualización exitosa',
+              ''
             );
 
             this.consultarInformacion()
           }
         })
-      
+
       this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
       this.renderer2.setProperty(
         this.btnGuardar.nativeElement,
