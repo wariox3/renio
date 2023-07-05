@@ -62,7 +62,40 @@
                         type="text"
                         formControlName="nombre"
                         class="form-control form-control-lg form-control"
+                        [ngClass]="{
+                          'is-invalid':
+                            formularioResumen.controls['nombre'].touched &&
+                            formularioResumen.controls['nombre'].invalid,
+                          'is-valid':
+                            formularioResumen.controls['nombre'].touched &&
+                            formularioResumen.controls['nombre'].valid
+                        }"
                       />
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'required',
+                          message: 'El campo es requerido',
+                          control: formularioResumen.controls['nombre']
+                        }"
+                      ></ng-container>
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'minlength',
+                          message: 'El campo debe contener mínimo 3 caracteres',
+                          control: formularioResumen.controls['nombre']
+                        }"
+                      ></ng-container>
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'maxlength',
+                          message:
+                            'El campo debe contener máximo 320 caracteres',
+                          control: formularioResumen.controls['nombre']
+                        }"
+                      ></ng-container>
                     </div>
                   </ng-container>
                   <ng-template #nombre>
@@ -86,7 +119,32 @@
                         type="text"
                         class="form-control form-control-lg form-control"
                         formControlName="apellido"
+                        [ngClass]="{
+                          'is-invalid':
+                            formularioResumen.controls['apellido'].touched &&
+                            formularioResumen.controls['apellido'].invalid,
+                          'is-valid':
+                            formularioResumen.controls['apellido'].touched &&
+                            formularioResumen.controls['apellido'].valid
+                        }"
                       />
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'minlength',
+                          message: 'El campo debe contener mínimo 3 caracteres',
+                          control: formularioResumen.controls['apellido']
+                        }"
+                      ></ng-container>
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'maxlength',
+                          message:
+                            'El campo debe contener máximo 100 caracteres',
+                          control: formularioResumen.controls['apellido']
+                        }"
+                      ></ng-container>
                     </div>
                   </ng-container>
                   <ng-template #apellido>
@@ -112,7 +170,33 @@
                         type="text"
                         class="form-control form-control-lg form-control"
                         formControlName="nombreCorto"
+                        [ngClass]="{
+                          'is-invalid':
+                            formularioResumen.controls['nombreCorto'].touched &&
+                            formularioResumen.controls['nombreCorto'].invalid,
+                          'is-valid':
+                            formularioResumen.controls['nombreCorto'].touched &&
+                            formularioResumen.controls['nombreCorto'].valid
+                        }"
                       />
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'minlength',
+                          message:
+                            'El campo debe contener mínimo 10 caracteres',
+                          control: formularioResumen.controls['nombreCorto']
+                        }"
+                      ></ng-container>
+                      <ng-container
+                        [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                          validation: 'maxlength',
+                          message:
+                            'El campo debe contener máximo 100 caracteres',
+                          control: formularioResumen.controls['nombreCorto']
+                        }"
+                      ></ng-container>
                     </div>
                   </ng-container>
                   <ng-template #nombreCorto>
@@ -140,7 +224,10 @@
                           <option
                             *ngFor="let pais of arrPaises"
                             [ngValue]="pais.dial_code"
-                            [selected]="usuarioInformacion.indicativoPais === pais.dial_code"
+                            [selected]="
+                              usuarioInformacion.indicativoPais ===
+                              pais.dial_code
+                            "
                           >
                             {{ pais.emoji }} {{ pais.name_es }}
                             {{ pais.dial_code }}
@@ -155,7 +242,33 @@
                           type="text"
                           class="form-control form-control-lg form-control"
                           formControlName="telefono"
+                          [ngClass]="{
+                            'is-invalid':
+                              formularioResumen.controls['telefono'].touched &&
+                              formularioResumen.controls['telefono'].invalid,
+                            'is-valid':
+                              formularioResumen.controls['telefono'].touched &&
+                              formularioResumen.controls['telefono'].valid
+                          }"
                         />
+                        <ng-container
+                          [ngTemplateOutlet]="formError"
+                          [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message:
+                              'El campo debe contener mínimo 3 caracteres',
+                            control: formularioResumen.controls['telefono']
+                          }"
+                        ></ng-container>
+                        <ng-container
+                          [ngTemplateOutlet]="formError"
+                          [ngTemplateOutletContext]="{
+                            validation: 'maxlength',
+                            message:
+                              'El campo debe contener máximo 40 caracteres',
+                            control: formularioResumen.controls['telefono']
+                          }"
+                        ></ng-container>
                       </div>
                     </div>
                   </ng-container>
@@ -187,6 +300,27 @@
             </div>
           </div>
         </form>
+        <!--end::Form-->
+        <ng-template
+          #formError
+          let-control="control"
+          let-message="message"
+          let-validation="validation"
+        >
+          <ng-container
+            *ngIf="
+              control.hasError(validation) && (control.dirty || control.touched)
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  {{ message }}
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
       </div>
     </div>
   </div>
