@@ -2,6 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 
+interface enviarDatosUsuario  {
+  id: String;
+  nombreCorto: String,
+  nombre: String,
+  apellido: String,
+  telefono: String
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +23,10 @@ export class ResumenService {
     );
   }
 
-  actualizarInformacion(id: string, name: string, last_name: string){
+  actualizarInformacion(data:enviarDatosUsuario){
     return this.http.put(
-      `${environment.URL_API_MUUP}/seguridad/usuario/${id}/`,
-      {"name": name,"last_name": last_name}
+      `${environment.URL_API_MUUP}/seguridad/usuario/${data.id}/`,
+      {"nombre": data.nombre, "apellido": data.apellido, "nombre_corto" : data.nombreCorto, "telefono": data.telefono}
     );
   }
 }

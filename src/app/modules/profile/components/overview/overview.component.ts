@@ -15,8 +15,10 @@ export class OverviewComponent implements OnInit {
 
   usuarioInformacion = {
     id: "",
-    name: "",
-    last_name: ""
+    nombreCorto: "",
+    nombre:"",
+    apellido: "",
+    telefono: "",
   }
   srcResult: string = '';
   habilitarEdicionFormulario: boolean = false;
@@ -42,18 +44,32 @@ export class OverviewComponent implements OnInit {
 
   initForm() {
     this.formularioResumen = this.formBuilder.group({
-      userName: [
-        this.usuarioInformacion.name,
+      nombre: [
+        this.usuarioInformacion.nombre,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
         ]),
       ],
-      lastName: [
-        this.usuarioInformacion.last_name,
+      apellido: [
+        this.usuarioInformacion.apellido,
         Validators.compose([
           Validators.minLength(3),
+          Validators.maxLength(100),
+        ]),
+      ],
+      telefono: [
+        this.usuarioInformacion.telefono,
+        Validators.compose([
+          Validators.minLength(3),
+          Validators.maxLength(40),
+        ]),
+      ],
+      nombreCorto: [
+        this.usuarioInformacion.nombreCorto,
+        Validators.compose([
+          Validators.minLength(10),
           Validators.maxLength(100),
         ]),
       ],
@@ -79,8 +95,10 @@ export class OverviewComponent implements OnInit {
       next: (respuesta: any) => {
         this.usuarioInformacion = {
           "id": respuesta.id,
-          "name": respuesta.name,
-          "last_name":respuesta.last_name
+          "nombre":respuesta.nombre,
+          "apellido":respuesta.apellido,
+          "telefono": respuesta.telefono,
+          "nombreCorto": respuesta.nombre_corto
         }
         this.changeDetectorRef.detectChanges();
       },
@@ -105,7 +123,7 @@ export class OverviewComponent implements OnInit {
   }
 
   formSubmit() {
-
+    
     if (this.formularioResumen.valid) {
       this.renderer2.setAttribute(
         this.btnGuardar.nativeElement,
@@ -117,11 +135,13 @@ export class OverviewComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
-      if (this.formularioResumen.value.lastName && this.formularioResumen.value.userName) {
-        this.resumenService.actualizarInformacion(
-          this.usuarioInformacion.id,
-          this.formularioResumen.value.userName,
-          this.formularioResumen.value.lastName
+        this.resumenService.actualizarInformacion({
+          id: this.usuarioInformacion.id,
+          nombre: this.formularioResumen.value.nombre,
+          apellido: this.formularioResumen.value.apellido,
+          telefono: this.formularioResumen.value.telefono,
+          nombreCorto: this.formularioResumen.value.nombreCorto
+        }
         ).subscribe({
           next:(respuesta)=> {
             this.alertaService.mensajaExitoso(
@@ -132,7 +152,7 @@ export class OverviewComponent implements OnInit {
             this.consultarInformacion()
           }
         })
-      }
+      
       this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
       this.renderer2.setProperty(
         this.btnGuardar.nativeElement,

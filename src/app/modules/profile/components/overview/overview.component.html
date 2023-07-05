@@ -46,32 +46,25 @@
             <div class="col-md-10 col-sm-12">
               <div class="row">
                 <div class="col-md-6 col-sm-12">
-                  <ng-container *ngIf="habilitarEdicionFormulario; else userName">
+                  <ng-container *ngIf="habilitarEdicionFormulario; else nombre">
                     <div class="w-100">
                       <label class="form-label fs-6 fw-bolder text-dark required">Nombre</label>
                       <input
                         type="text"
-                        formControlName="userName"
+                        formControlName="nombre"
                         class="form-control form-control-lg form-control"
                       />
-                      <!-- <div
-                        *ngIf="
-                          userNameField?.touched && userNameField?.hasError('required')
-                        "
-                      >
-                        El campo es requerido
-                      </div> -->
                     </div>
                   </ng-container>
-                  <ng-template #userName>
+                  <ng-template #nombre>
                     <label class="form-label fs-6 fw-bolder text-dark">Nombre</label>
                     <p>
-                      {{ usuarioInformacion.name }}
+                      {{ usuarioInformacion.nombre }}
                     </p>
                   </ng-template>
                 </div>
                 <div class="col-md-6 col-sm-12">
-                  <ng-container *ngIf="habilitarEdicionFormulario; else lastName">
+                  <ng-container *ngIf="habilitarEdicionFormulario; else apellido">
                     <div class="w-100">
                       <label class="form-label fs-6 fw-bolder text-dark"
                         >Apellido</label
@@ -79,27 +72,62 @@
                       <input
                         type="text"
                         class="form-control form-control-lg form-control"
-                        formControlName="lastName"
+                        formControlName="apellido"
                       />
-                      <!-- <div
-                        *ngIf="
-                          lastNameField?.touched && lastNameField?.hasError('required')
-                        "
-                      >
-                        El campo es requerido
-                      </div> -->
                     </div>
                   </ng-container>
-                  <ng-template #lastName>
+                  <ng-template #apellido>
                     <label class="form-label fs-6 fw-bolder text-dark">Apellido</label>
                     <p>
-                      {{ usuarioInformacion.last_name }}
+                      {{ usuarioInformacion.apellido }}
                     </p>
                   </ng-template>
                 </div>
               </div>
               <div class="row">
-                <div class="col-6 col-sm-12">
+                <div class="col-md-6 col-sm-12">
+                  <ng-container *ngIf="habilitarEdicionFormulario; else nombreCorto">
+                    <div class="w-100">
+                      <label class="form-label fs-6 fw-bolder text-dark"
+                        >Nombre corto</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control form-control-lg form-control"
+                        formControlName="nombreCorto"
+                      />
+                    </div>
+                  </ng-container>
+                  <ng-template #nombreCorto>
+                    <label class="form-label fs-6 fw-bolder text-dark">Nombre corto</label>
+                    <p>
+                      {{ usuarioInformacion.nombreCorto }}
+                    </p>
+                  </ng-template>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <ng-container *ngIf="habilitarEdicionFormulario; else telefono">
+                    <div class="w-100">
+                      <label class="form-label fs-6 fw-bolder text-dark"
+                        >Teléfono</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control form-control-lg form-control"
+                        formControlName="telefono"
+                      />
+                    </div>
+                  </ng-container>
+                  <ng-template #telefono>
+                    <label class="form-label fs-6 fw-bolder text-dark">Telefono</label>
+                    <p>
+                      {{ usuarioInformacion.telefono }}
+                    </p>
+                  </ng-template>
+                </div>
+              </div>
+              <!-- <div class="row"> -->
+                <!-- <div class="col-6 col-sm-12">
                   <ng-container *ngIf="habilitarEdicionFormulario; else telefono">
                       <div>
                         <label class="form-label fs-6 fw-bolder text-dark">Pais</label>
@@ -383,8 +411,8 @@
                   <ng-template #telefono>
                     <label class="form-label fs-6 fw-bolder text-dark">Teléfono</label>
                   </ng-template>
-                </div>
-              </div>
+                </div> -->
+              <!-- </div> -->
               <ng-container *ngIf="habilitarEdicionFormulario">
                 <div class="row mt-2">
                   <div class="col">
