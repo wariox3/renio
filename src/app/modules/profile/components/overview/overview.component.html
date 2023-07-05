@@ -48,7 +48,7 @@
                 <div class="col-md-6 col-sm-12">
                   <ng-container *ngIf="habilitarEdicionFormulario; else userName">
                     <div class="w-100">
-                      <label class="form-label fs-6 fw-bolder text-dark required">Usuario</label>
+                      <label class="form-label fs-6 fw-bolder text-dark required">Nombre</label>
                       <input
                         type="text"
                         formControlName="userName"
@@ -64,7 +64,7 @@
                     </div>
                   </ng-container>
                   <ng-template #userName>
-                    <label class="form-label fs-6 fw-bolder text-dark">Usuario</label>
+                    <label class="form-label fs-6 fw-bolder text-dark">Nombre</label>
                     <p>
                       {{ usuarioInformacion.name }}
                     </p>

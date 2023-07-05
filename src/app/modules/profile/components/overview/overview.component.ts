@@ -130,11 +130,15 @@ export class OverviewComponent implements OnInit {
             );
 
             this.consultarInformacion()
-          },
-          error: ({error}) => {
           }
         })
       }
+      this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
+      this.renderer2.setProperty(
+        this.btnGuardar.nativeElement,
+        'innerHTML',
+        'GUARDAR'
+      );
     } else {
       this.formularioResumen.markAllAsTouched();
     }
