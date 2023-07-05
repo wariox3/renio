@@ -2,7 +2,7 @@
 <div class="aside-logo flex-column-auto" id="kt_aside_logo">
   <!-- begin::Logo -->
   <ng-container *ngIf="asideTheme === 'dark'">
-    <a routerLink="/dashboard">
+    <a [routerLink]="navegar">
       <img
         alt="Logo"
         class="h-25px logo"
@@ -12,7 +12,7 @@
   </ng-container>
 
   <ng-container *ngIf="asideTheme === 'light'">
-    <a routerLink="/dashboard">
+    <a [routerLink]="navegar">
       <img
         alt="Logo"
         class="h-25px logo"

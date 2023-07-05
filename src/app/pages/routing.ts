@@ -5,11 +5,11 @@ let redirectToValue: string = '/empresa/lista';
 function getRedirectTo(): string {
   // Aquí puedes agregar tu lógica para determinar el valor de redirección
   // basado en la variable o cualquier otra condición
-  let dominioActual = window.location.host
+  let dominioActual = window.location.host;
   let esSubdominio = dominioActual.split('.').length > 2;
 
-  if(esSubdominio){
-    redirectToValue = "/dashboard"
+  if (esSubdominio) {
+    redirectToValue = '/dashboard';
   }
   return redirectToValue;
 }
@@ -29,6 +29,7 @@ const Routing: Routes = [
     path: 'profile',
     loadChildren: () =>
       import('../modules/profile/profile.module').then((m) => m.ProfileModule),
+    data: { layout: 'dark-header' },
   },
   {
     path: 'crafted/account',
@@ -66,7 +67,6 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/empresa/empresa.module').then((m) => m.EmpresaModule),
     data: { layout: 'dark-header' },
-
   },
   {
     path: '',

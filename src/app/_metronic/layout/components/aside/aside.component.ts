@@ -15,6 +15,7 @@ import {
   ToggleComponent,
   ScrollComponent,
 } from '../../../kt/components';
+import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({
   selector: 'app-aside',
@@ -28,8 +29,13 @@ export class AsideComponent implements OnInit, OnDestroy {
   appPreviewDocsUrl: string = environment.appPreviewDocsUrl;
   @ViewChild('ktAsideScroll', { static: true }) ktAsideScroll: ElementRef;
   private unsubscribe: Subscription[] = [];
+  navegar = this.subdominioService.esSubdominioActual() ? "/dashboard" : "/empresa/lista";
 
-  constructor(private layout: LayoutService, private router: Router) {}
+  constructor(
+    private layout: LayoutService,
+    private router: Router,
+    private subdominioService: SubdominioService
+  ) {}
 
   ngOnInit(): void {
     this.asideTheme = this.layout.getProp('aside.theme') as string;
