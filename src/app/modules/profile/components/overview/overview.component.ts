@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertaService } from '@comun/services/alerta.service';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
@@ -6,22 +13,21 @@ import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { switchMap } from 'rxjs';
-import { arrPaises } from "./listaPaises"
+import { arrPaises } from './listaPaises';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
-
   usuarioInformacion = {
-    id: "",
-    nombreCorto: "",
-    nombre:"",
-    apellido: "",
-    telefono: "",
-    indicativoPais: ""
-  }
-  arrPaises = arrPaises
+    id: '',
+    nombreCorto: '',
+    nombre: '',
+    apellido: '',
+    telefono: '',
+    indicativoPais: '',
+  };
+  arrPaises = arrPaises;
   srcResult: string = '';
   habilitarEdicionFormulario: boolean = false;
   formularioResumen: FormGroup;
@@ -29,18 +35,17 @@ export class OverviewComponent implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
 
-
   constructor(
     private store: Store,
     private resumenService: ResumenService,
     private formBuilder: FormBuilder,
     private renderer2: Renderer2,
     private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.consultarInformacion()
+    this.consultarInformacion();
     this.initForm();
   }
 
@@ -61,15 +66,10 @@ export class OverviewComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
-      indicativoPais: [
-        this.usuarioInformacion.indicativoPais,
-      ],
+      indicativoPais: [this.usuarioInformacion.indicativoPais],
       telefono: [
         this.usuarioInformacion.telefono,
-        Validators.compose([
-          Validators.minLength(3),
-          Validators.maxLength(40),
-        ]),
+        Validators.compose([Validators.minLength(3), Validators.maxLength(40)]),
       ],
       nombreCorto: [
         this.usuarioInformacion.nombreCorto,
@@ -81,39 +81,39 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-   get formFields() {
+  get formFields() {
     return this.formularioResumen.controls;
   }
 
   visualizarFormulario() {
     this.habilitarEdicionFormulario = !this.habilitarEdicionFormulario;
-    this.initForm()
+    this.initForm();
   }
 
-
-  consultarInformacion (){
-    this.store.select(obtenerId)
-    .pipe(
-      switchMap(([usuarioId]) => this.resumenService.perfil(usuarioId))
-    )
-    .subscribe({
-      next: (respuesta: any) => {
-        let indicativo = respuesta.telefono.split(' ')[0];
-        let telefono = respuesta.telefono.split(' ')[1];
-
-        this.usuarioInformacion = {
-          "id": respuesta.id,
-          "nombre":respuesta.nombre,
-          "apellido":respuesta.apellido,
-          "telefono": telefono,
-          "nombreCorto": respuesta.nombre_corto,
-          "indicativoPais": indicativo
-        }
-        this.changeDetectorRef.detectChanges();
-        console.log(this.usuarioInformacion, respuesta);
-
-      }
-    })
+  consultarInformacion() {
+    this.store
+      .select(obtenerId)
+      .pipe(switchMap(([usuarioId]) => this.resumenService.perfil(usuarioId)))
+      .subscribe({
+        next: (respuesta: any) => {
+          console.log(respuesta);
+          let indicativo = ""
+          let telefono = ""
+          if(respuesta.telefono){
+            indicativo = respuesta.telefono.split(' ')[0];
+            telefono = respuesta.telefono.split(' ')[1];
+          }
+          this.usuarioInformacion = {
+            id: respuesta.id,
+            nombre: respuesta.nombre,
+            apellido: respuesta.apellido,
+            telefono: telefono,
+            nombreCorto: respuesta.nombre_corto,
+            indicativoPais: indicativo,
+          };
+          this.changeDetectorRef.detectChanges();
+        },
+      });
   }
 
   archivoSeleccionado(event: any) {
@@ -142,23 +142,21 @@ export class OverviewComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
-        this.resumenService.actualizarInformacion({
+      this.resumenService
+        .actualizarInformacion({
           id: this.usuarioInformacion.id,
           nombre: this.formularioResumen.value.nombre,
           apellido: this.formularioResumen.value.apellido,
           telefono: `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`,
-          nombreCorto: this.formularioResumen.value.nombreCorto
-        }
-        ).subscribe({
-          next:(respuesta)=> {
-            this.alertaService.mensajaExitoso(
-              'Actualización exitosa',
-              ''
-            );
-
-            this.consultarInformacion()
-          }
+          nombreCorto: this.formularioResumen.value.nombreCorto,
         })
+        .subscribe({
+          next: (respuesta) => {
+            this.alertaService.mensajaExitoso('Actualización exitosa', '');
+
+            this.consultarInformacion();
+          },
+        });
 
       this.renderer2.removeAttribute(this.btnGuardar.nativeElement, 'disabled');
       this.renderer2.setProperty(

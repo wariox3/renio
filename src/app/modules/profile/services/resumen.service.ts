@@ -18,6 +18,7 @@ export class ResumenService {
   constructor(private http: HttpClient) {}
 
   perfil(codigoUsuario: string) {
+
     return this.http.get(
       `${environment.URL_API_MUUP}/seguridad/usuario/${codigoUsuario}/`
     );
