@@ -6,16 +6,8 @@
       <!--begin::Header-->
       <div class="card-header">
         <div class="card-title m-0">
-          <h3 class="fw-bolder m-0">Empresa nuevo</h3>
+          <h3 class="fw-bolder m-0">Nueva empresa</h3>
         </div>
-        <a
-          class="btn btn-primary align-self-center"
-          ng-reflect-router-link="/crafted/account/settings"
-          [routerLink]="['../lista']"
-          *ngIf="visualizarBtnAtras"
-        >
-          Atrás
-        </a>
       </div>
       <div class="card-body">
         <form [formGroup]="formularioEmpresaNuevo" (ngSubmit)="formSubmit()">
@@ -131,7 +123,15 @@
               </div>
             </div>
           </div>
-          <div class="fv-row d-flex justify-content-end">
+          <div class="fv-row d-flex justify-content-between">
+            <a
+            class="btn btn-secondary align-self-center"
+            ng-reflect-router-link="/crafted/account/settings"
+            [routerLink]="['../lista']"
+            *ngIf="visualizarBtnAtras"
+          >
+            Atrás
+          </a>
             <button
               type="submit"
               class="btn btn-primary"
