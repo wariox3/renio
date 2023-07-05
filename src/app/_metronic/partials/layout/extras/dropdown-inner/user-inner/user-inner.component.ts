@@ -3,9 +3,10 @@ import { Observable, Subscription } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
-import { obtenerNombre } from '@redux/selectors/usuario-nombre.selectors';
+import { obtenerEmpresaNombre } from '@redux/selectors/empresa-nombre.selectors';
 import { obtenerCargo } from '@redux/selectors/usuario-cargo.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
+import { obtenerUsuarioNombreCorto } from '@redux/selectors/usuario-nombre-corto.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -20,9 +21,10 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   language: LanguageFlag;
   user$: Observable<UserType>;
   langs = languages;
-  usuarioNombre$ = this.store.select(obtenerNombre);
+  usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
   usuarioCargo$ = this.store.select(obtenerCargo);
   usuarioImagen$ = this.store.select(obtenerImagen);
+  obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre)
   private unsubscribe: Subscription[] = [];
 
   constructor(

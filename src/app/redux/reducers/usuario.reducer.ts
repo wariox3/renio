@@ -8,11 +8,12 @@ import { getCookie } from 'typescript-cookie';
 
 let usuarioData = getCookie('usuario');
 
-let parsedState =  {
+let parsedState:Usuario =  {
   id: '',
   username: '',
   cargo: '',
   imgen: '',
+  nombre_corto: ''
 };
 
 

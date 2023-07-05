@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  Renderer2,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
@@ -25,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
-  cambiarTipoCampoClave: ("text"|"password") = "password"
+  cambiarTipoCampoClave: 'text' | 'password' = 'password';
   @ViewChild('btnContinuar', { read: ElementRef })
   btnContinuar!: ElementRef<HTMLButtonElement>;
 
@@ -38,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store,
     private alertaService: AlertaService,
-    private renderer2: Renderer2,
+    private renderer2: Renderer2
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -56,18 +64,18 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.loginForm.controls;
   }
 
-  visualizarClave(){
-    if(this.cambiarTipoCampoClave === "password"){
-      this.cambiarTipoCampoClave = 'text'
-    } else{
-      this.cambiarTipoCampoClave = 'password'
+  visualizarClave() {
+    if (this.cambiarTipoCampoClave === 'password') {
+      this.cambiarTipoCampoClave = 'text';
+    } else {
+      this.cambiarTipoCampoClave = 'password';
     }
   }
 
   initForm() {
     this.loginForm = this.fb.group({
       email: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -77,7 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         ]),
       ],
       password: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -89,7 +97,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    if(this.loginForm.valid){
+    if (this.loginForm.valid) {
       this.renderer2.setAttribute(
         this.btnContinuar.nativeElement,
         'disabled',
@@ -103,18 +111,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .subscribe({
-          next: (respuesta: Token)=> {
+          next: (respuesta: Token) => {
             //actualizar el store de redux
             this.store.dispatch(
-              usuarioActionInit({ usuario: {
-                id: respuesta.user.id,
-                username: respuesta.user.username,
-                cargo: 'admin',
-                imgen:
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
-              } })
+              usuarioActionInit({
+                usuario: {
+                  id: respuesta.user.id,
+                  username: respuesta.user.username,
+                  cargo: 'admin',
+                  imgen:
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
+                  nombre_corto: respuesta.user.nombre_corto
+                },
+              })
             );
-            let dominioActual = window.location.host
+            let dominioActual = window.location.host;
             let esSubdominio = dominioActual.split('.').length > 2;
             if (esSubdominio) {
               this.router.navigate(['/dashboard']);
@@ -123,16 +134,18 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
           },
         });
-        this.renderer2.removeAttribute(this.btnContinuar.nativeElement, 'disabled');
-        this.renderer2.setProperty(
-          this.btnContinuar.nativeElement,
-          'innerHTML',
-          'Continuar'
-        );
+      this.renderer2.removeAttribute(
+        this.btnContinuar.nativeElement,
+        'disabled'
+      );
+      this.renderer2.setProperty(
+        this.btnContinuar.nativeElement,
+        'innerHTML',
+        'Continuar'
+      );
     } else {
-      this.loginForm.markAllAsTouched()
+      this.loginForm.markAllAsTouched();
     }
-
   }
 
   ngOnDestroy() {

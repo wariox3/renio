@@ -3,4 +3,5 @@ export interface Usuario {
   username: string,
   cargo: string,
   imgen: string,
+  nombre_corto: string
 }
