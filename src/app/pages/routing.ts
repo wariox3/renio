@@ -69,6 +69,12 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'seguridad',
+    loadChildren: () =>
+      import('../modules/seguridad/seguridad.module').then((m) => m.SeguridadModule),
+    data: { layout: 'dark-header' },
+  },
+  {
     path: '',
     redirectTo: getRedirectTo(),
     pathMatch: 'full',

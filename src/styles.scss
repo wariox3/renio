@@ -15,3 +15,23 @@
 button, .btn {
   text-transform: uppercase !important;
 }
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.input-wrapper input {
+  padding-right: 75px; /* Ajusta el espaciado derecho para el ícono */
+  box-sizing: border-box;
+}
+
+.input-wrapper i {
+  font-size: 1.4rem;
+  position: absolute;
+  right: 45px; /* Ajusta la posición horizontal del ícono */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+}

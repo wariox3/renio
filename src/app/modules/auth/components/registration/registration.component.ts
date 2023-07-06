@@ -8,7 +8,7 @@ import {
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { ConfirmPasswordValidator } from './confirm-password.validator';
+import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({

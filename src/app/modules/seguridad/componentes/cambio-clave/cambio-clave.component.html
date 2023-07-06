@@ -1,0 +1,221 @@
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  [formGroup]="formularioCambioClave"
+  (ngSubmit)="submit()"
+>
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h3 class="card-title">Cambio de contraseña</h3>
+    </div>
+    <div class="card-body">
+      <div class="fv-row mb-8">
+        <label class="form-label fw-bolder text-dark fs-6"
+          >Contraseña actual</label
+        >
+        <div class="input-wrapper">
+          <input
+            class="form-control bg-transparent"
+            [type]="cambiarTipoCampoClave"
+            placeholder="Contraseña"
+            name="password"
+            formControlName="claveAnterior"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioCambioClave.controls['claveAnterior'].touched &&
+                formularioCambioClave.controls['claveAnterior'].invalid,
+              'is-valid':
+                formularioCambioClave.controls['claveAnterior'].touched &&
+                formularioCambioClave.controls['claveAnterior'].valid
+            }"
+          />
+          <i
+            (click)="visualizarClave()"
+            class="fa-regular"
+            [ngClass]="{
+              'fa-eye': cambiarTipoCampoClave === 'password',
+              'fa-eye-slash': cambiarTipoCampoClave === 'text'
+            }"
+          ></i>
+        </div>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'El campo es requerido',
+            control: formularioCambioClave.controls['claveAnterior']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'El campo debe contener mínimo 3 caracteres',
+            control: formularioCambioClave.controls['claveAnterior']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'El campo debe contener máximo 50 caracteres',
+            control: formularioCambioClave.controls['claveAnterior']
+          }"
+        ></ng-container>
+      </div>
+      <div class="fv-row mb-8">
+        <label class="form-label fw-bolder text-dark fs-6"
+          >Contraseña nueva</label
+        >
+        <div class="input-wrapper">
+          <input
+            class="form-control bg-transparent"
+            [type]="cambiarTipoCampoNuevaClave"
+            placeholder="Contraseña nueva"
+            name="password"
+            formControlName="nuevaClave"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioCambioClave.controls['nuevaClave'].touched &&
+                formularioCambioClave.controls['nuevaClave'].invalid,
+              'is-valid':
+                formularioCambioClave.controls['nuevaClave'].touched &&
+                formularioCambioClave.controls['nuevaClave'].valid
+            }"
+          />
+          <i
+            (click)="visualizarNuevaClave()"
+            class="fa-regular"
+            [ngClass]="{
+              'fa-eye': cambiarTipoCampoNuevaClave === 'password',
+              'fa-eye-slash': cambiarTipoCampoNuevaClave === 'text'
+            }"
+          ></i>
+        </div>
+
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'El campo es requerido',
+            control: formularioCambioClave.controls['nuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'El campo debe contener mínimo 3 caracteres',
+            control: formularioCambioClave.controls['nuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'El campo debe contener máximo 50 caracteres',
+            control: formularioCambioClave.controls['nuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'clavesDiferentes',
+            message: 'La nueva clave debe ser diferente a la anterior',
+            control: formularioCambioClave.controls['nuevaClave']
+          }"
+        ></ng-container>
+      </div>
+      <div class="fv-row mb-8">
+        <label class="form-label fw-bolder text-dark fs-6"
+          >Confirmar contraseña</label
+        >
+        <div class="input-wrapper">
+          <input
+            class="form-control bg-transparent"
+            [type]="cambiarTipoCampoConfirmarNuevaClave"
+            placeholder="Confirmar contraseña"
+            name="cPassword"
+            autocomplete="off"
+            formControlName="confirmarNuevaClave"
+            [ngClass]="{
+              'is-invalid':
+                formularioCambioClave.controls['confirmarNuevaClave'].touched &&
+                formularioCambioClave.controls['confirmarNuevaClave'].invalid,
+              'is-valid':
+                formularioCambioClave.controls['confirmarNuevaClave'].touched &&
+                formularioCambioClave.controls['confirmarNuevaClave'].valid
+            }"
+          />
+          <i
+            (click)="visualizarConfirmarNuevaClave()"
+            class="fa-regular"
+            [ngClass]="{
+              'fa-eye': cambiarTipoCampoConfirmarNuevaClave === 'password',
+              'fa-eye-slash': cambiarTipoCampoConfirmarNuevaClave === 'text'
+            }"
+          ></i>
+        </div>
+
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'El campo es requerido',
+            control: formularioCambioClave.controls['confirmarNuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'El campo debe contener mínimo 3 caracteres',
+            control: formularioCambioClave.controls['confirmarNuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'El campo debe contener máximo 50 caracteres',
+            control: formularioCambioClave.controls['confirmarNuevaClave']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'clavesDiferentes',
+            message: 'La contraseña nueva y la confirmación no coinciden',
+            control: formularioCambioClave.controls['confirmarNuevaClave']
+          }"
+        ></ng-container>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) && (control.dirty || control.touched)
+          "
+        >
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">
+                {{ message }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </div>
+  <!--end::Form group-->
+</form>
