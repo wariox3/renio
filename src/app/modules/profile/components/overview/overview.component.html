@@ -1,327 +1,319 @@
-<div class="row g-5 g-xxl-8">
-  <div class="col-xl-12">
-    <div class="card">
-      <div class="card-body pt-9">
-        <div
-          class="d-flex justify-content-between align-items-start flex-wrap mb-2"
+<form
+  class="form w-100"
+  [formGroup]="formularioResumen"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h3 class="card-title">Información personal</h3>
+      <div class="d-flex justify-content-end align-items-center">
+        <button
+          type="button"
+          class="btn btn-dark hover-scale"
+          (click)="visualizarFormulario()"
         >
-          <h1 class="text-dark">Información personal</h1>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="visualizarFormulario()"
-          >
-            <ng-container *ngIf="habilitarEdicionFormulario; else cancelar">
-              Cancelar
-            </ng-container>
-            <ng-template #cancelar> Editar </ng-template>
-          </button>
-        </div>
-        <form
-          class="form w-100"
-          [formGroup]="formularioResumen"
-          (ngSubmit)="formSubmit()"
-        >
-          <div class="row">
-            <div class="col-md-2 col-sm-12 d-flex flex-column ga">
-              <img
-                id="usuarioAvatar"
-                [src]="srcResult || [usuarioImagen$ | async]"
-                alt=""
-                height="120"
-                width="120"
+          <ng-container *ngIf="habilitarEdicionFormulario; else cancelar">
+            Cancelar
+          </ng-container>
+          <ng-template #cancelar>Editar</ng-template>
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2 col-sm-12 d-flex flex-column ga">
+          <div class="d-flex align-items-center justify-content-center">
+            <img
+              id="usuarioAvatar"
+              [src]="srcResult || [usuarioImagen$ | async]"
+              alt=""
+              height="120"
+              width="120"
+              style="object-fit: cover"
+            />
+          </div>
+          <ng-container *ngIf="habilitarEdicionFormulario">
+            <div class="d-flex align-items-center justify-content-center mt-2">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="fileInput.click()"
+                style="font-size: 14px; padding: 0.375rem 0.75rem"
+              >
+                Subir foto
+              </button>
+              <input
+                hidden
+                (change)="archivoSeleccionado($event)"
+                #fileInput
+                type="file"
+                id="file"
+                accept="image/png, image/jpeg"
               />
-              <ng-container *ngIf="habilitarEdicionFormulario">
-                <button
-                  type="button"
-                  class="btn btn-secondary mt-2"
-                  (click)="fileInput.click()"
-                >
-                  Subir foto
-                </button>
-                <input
-                  hidden
-                  (change)="archivoSeleccionado($event)"
-                  #fileInput
-                  type="file"
-                  id="file"
-                  accept="image/png, image/jpeg"
-                />
-              </ng-container>
             </div>
-            <div class="col-md-10 col-sm-12">
-              <div class="row">
-                <div class="col-md-6 col-sm-12">
-                  <ng-container *ngIf="habilitarEdicionFormulario; else nombre">
-                    <div class="w-100">
-                      <label
-                        class="form-label fs-6 fw-bolder text-dark required"
-                        >Nombre</label
-                      >
-                      <input
-                        type="text"
-                        formControlName="nombre"
-                        class="form-control form-control-lg form-control"
-                        [ngClass]="{
-                          'is-invalid':
-                            formularioResumen.controls['nombre'].touched &&
-                            formularioResumen.controls['nombre'].invalid,
-                          'is-valid':
-                            formularioResumen.controls['nombre'].touched &&
-                            formularioResumen.controls['nombre'].valid
-                        }"
-                      />
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'required',
-                          message: 'El campo es requerido',
-                          control: formularioResumen.controls['nombre']
-                        }"
-                      ></ng-container>
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'minlength',
-                          message: 'El campo debe contener mínimo 3 caracteres',
-                          control: formularioResumen.controls['nombre']
-                        }"
-                      ></ng-container>
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'maxlength',
-                          message:
-                            'El campo debe contener máximo 320 caracteres',
-                          control: formularioResumen.controls['nombre']
-                        }"
-                      ></ng-container>
-                    </div>
-                  </ng-container>
-                  <ng-template #nombre>
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Nombre</label
-                    >
-                    <p>
-                      {{ usuarioInformacion.nombre }}
-                    </p>
-                  </ng-template>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                  <ng-container
-                    *ngIf="habilitarEdicionFormulario; else apellido"
+          </ng-container>
+        </div>
+
+        <div class="col-md-10 col-sm-12">
+          <div class="row mt-4">
+            <div class="col-md-6 col-sm-12">
+              <ng-container *ngIf="habilitarEdicionFormulario; else nombre">
+                <div class="w-100">
+                  <label class="form-label fw-bolder text-dark fs-6"
+                    >Nombre</label
                   >
-                    <div class="w-100">
-                      <label class="form-label fs-6 fw-bolder text-dark"
-                        >Apellido</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control form-control-lg form-control"
-                        formControlName="apellido"
-                        [ngClass]="{
-                          'is-invalid':
-                            formularioResumen.controls['apellido'].touched &&
-                            formularioResumen.controls['apellido'].invalid,
-                          'is-valid':
-                            formularioResumen.controls['apellido'].touched &&
-                            formularioResumen.controls['apellido'].valid
-                        }"
-                      />
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'minlength',
-                          message: 'El campo debe contener mínimo 3 caracteres',
-                          control: formularioResumen.controls['apellido']
-                        }"
-                      ></ng-container>
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'maxlength',
-                          message:
-                            'El campo debe contener máximo 100 caracteres',
-                          control: formularioResumen.controls['apellido']
-                        }"
-                      ></ng-container>
-                    </div>
-                  </ng-container>
-                  <ng-template #apellido>
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Apellido</label
-                    >
-                    <p>
-                      {{ usuarioInformacion.apellido }}
-                    </p>
-                  </ng-template>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 col-sm-12">
-                  <ng-container
-                    *ngIf="habilitarEdicionFormulario; else nombreCorto"
-                  >
-                    <div class="w-100">
-                      <label class="form-label fs-6 fw-bolder text-dark"
-                        >Nombre para mostrar</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control form-control-lg form-control"
-                        formControlName="nombreCorto"
-                        [ngClass]="{
-                          'is-invalid':
-                            formularioResumen.controls['nombreCorto'].touched &&
-                            formularioResumen.controls['nombreCorto'].invalid,
-                          'is-valid':
-                            formularioResumen.controls['nombreCorto'].touched &&
-                            formularioResumen.controls['nombreCorto'].valid
-                        }"
-                      />
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'minlength',
-                          message:
-                            'El campo debe contener mínimo 10 caracteres',
-                          control: formularioResumen.controls['nombreCorto']
-                        }"
-                      ></ng-container>
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'maxlength',
-                          message:
-                            'El campo debe contener máximo 100 caracteres',
-                          control: formularioResumen.controls['nombreCorto']
-                        }"
-                      ></ng-container>
-                    </div>
-                  </ng-container>
-                  <ng-template #nombreCorto>
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Nombre para mostrar</label
-                    >
-                    <p>
-                      {{ usuarioInformacion.nombreCorto }}
-                    </p>
-                  </ng-template>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                  <ng-container
-                    *ngIf="habilitarEdicionFormulario; else telefono"
-                  >
-                    <div class="d-flex">
-                      <div>
-                        <label class="form-label fs-6 fw-bolder text-dark"
-                          >Pais</label
-                        >
-                        <select
-                          class="form-select"
-                          formControlName="indicativoPais"
-                        >
-                          <option
-                            *ngFor="let pais of arrPaises"
-                            [ngValue]="pais.dial_code"
-                            [selected]="
-                              usuarioInformacion.indicativoPais ===
-                              pais.dial_code
-                            "
-                          >
-                            {{ pais.emoji }} {{ pais.name_es }}
-                            {{ pais.dial_code }}
-                          </option>
-                        </select>
-                      </div>
-                      <div>
-                        <label class="form-label fs-6 fw-bolder text-dark"
-                          >Teléfono</label
-                        >
-                        <input
-                          type="number"
-                          class="form-control form-control-lg form-control"
-                          formControlName="telefono"
-                          [ngClass]="{
-                            'is-invalid':
-                              formularioResumen.controls['telefono'].touched &&
-                              formularioResumen.controls['telefono'].invalid,
-                            'is-valid':
-                              formularioResumen.controls['telefono'].touched &&
-                              formularioResumen.controls['telefono'].valid
-                          }"
-                        />
-                        <ng-container
-                          [ngTemplateOutlet]="formError"
-                          [ngTemplateOutletContext]="{
-                            validation: 'minlength',
-                            message:
-                              'El campo debe contener mínimo 3 caracteres',
-                            control: formularioResumen.controls['telefono']
-                          }"
-                        ></ng-container>
-                        <ng-container
-                          [ngTemplateOutlet]="formError"
-                          [ngTemplateOutletContext]="{
-                            validation: 'maxlength',
-                            message:
-                              'El campo debe contener máximo 40 caracteres',
-                            control: formularioResumen.controls['telefono']
-                          }"
-                        ></ng-container>
-                      </div>
-                    </div>
-                  </ng-container>
-                  <ng-template #telefono>
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Teléfono</label
-                    >
-                    <p>
-                      {{ usuarioInformacion.indicativoPais }}
-                      {{ usuarioInformacion.telefono }}
-                    </p>
-                  </ng-template>
-                </div>
-              </div>
-              <ng-container *ngIf="habilitarEdicionFormulario">
-                <div class="row mt-2">
-                  <div class="col">
-                    <button
-                      type="button"
-                      class="btn btn-lg btn-primary w-100 mb-5"
-                      (click)="formSubmit()"
-                      #btnGuardar
-                    >
-                      Guardar
-                    </button>
+                  <div class="input-wrapper">
+                    <input
+                      type="text"
+                      formControlName="nombre"
+                      class="form-control bg-transparent"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioResumen.controls['nombre'].touched &&
+                          formularioResumen.controls['nombre'].invalid,
+                        'is-valid':
+                          formularioResumen.controls['nombre'].touched &&
+                          formularioResumen.controls['nombre'].valid
+                      }"
+                    />
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'El campo es requerido',
+                        control: formularioResumen.controls['nombre']
+                      }"
+                    ></ng-container>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'minlength',
+                        message: 'El campo debe contener mínimo 3 caracteres',
+                        control: formularioResumen.controls['nombre']
+                      }"
+                    ></ng-container>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message: 'El campo debe contener máximo 320 caracteres',
+                        control: formularioResumen.controls['nombre']
+                      }"
+                    ></ng-container>
                   </div>
                 </div>
               </ng-container>
+              <ng-template #nombre>
+                <label class="form-label fs-6 fw-bolder text-dark"
+                  >Nombre</label
+                >
+                <p>
+                  {{ usuarioInformacion.nombre }}
+                </p>
+              </ng-template>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <ng-container *ngIf="habilitarEdicionFormulario; else apellido">
+                <div class="w-100">
+                  <label class="form-label fs-6 fw-bolder text-dark"
+                    >Apellido</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control bg-transparent"
+                    formControlName="apellido"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioResumen.controls['apellido'].touched &&
+                        formularioResumen.controls['apellido'].invalid,
+                      'is-valid':
+                        formularioResumen.controls['apellido'].touched &&
+                        formularioResumen.controls['apellido'].valid
+                    }"
+                  />
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'El campo debe contener mínimo 3 caracteres',
+                      control: formularioResumen.controls['apellido']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxlength',
+                      message: 'El campo debe contener máximo 100 caracteres',
+                      control: formularioResumen.controls['apellido']
+                    }"
+                  ></ng-container>
+                </div>
+              </ng-container>
+              <ng-template #apellido>
+                <label class="form-label fs-6 fw-bolder text-dark"
+                  >Apellido</label
+                >
+                <p>
+                  {{ usuarioInformacion.apellido }}
+                </p>
+              </ng-template>
             </div>
           </div>
-        </form>
-        <!--end::Form-->
-        <ng-template
-          #formError
-          let-control="control"
-          let-message="message"
-          let-validation="validation"
-        >
-          <ng-container
-            *ngIf="
-              control.hasError(validation) && (control.dirty || control.touched)
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert">
-                  {{ message }}
-                </span>
-              </div>
+          <div class="row mt-4">
+            <div class="col-md-6 col-sm-12">
+              <ng-container
+                *ngIf="habilitarEdicionFormulario; else nombreCorto"
+              >
+                <div class="w-100">
+                  <label class="form-label fs-6 fw-bolder text-dark required"
+                    >Nombre para mostrar</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nombreCorto"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioResumen.controls['nombreCorto'].touched &&
+                        formularioResumen.controls['nombreCorto'].invalid,
+                      'is-valid':
+                        formularioResumen.controls['nombreCorto'].touched &&
+                        formularioResumen.controls['nombreCorto'].valid
+                    }"
+                  />
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'minlength',
+                      message: 'El campo debe contener mínimo 10 caracteres',
+                      control: formularioResumen.controls['nombreCorto']
+                    }"
+                  ></ng-container>
+                  <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxlength',
+                      message: 'El campo debe contener máximo 100 caracteres',
+                      control: formularioResumen.controls['nombreCorto']
+                    }"
+                  ></ng-container>
+                </div>
+              </ng-container>
+              <ng-template #nombreCorto>
+                <label class="form-label fs-6 fw-bolder text-dark"
+                  >Nombre para mostrar</label
+                >
+                <p>
+                  {{ usuarioInformacion.nombreCorto }}
+                </p>
+              </ng-template>
             </div>
-          </ng-container>
-        </ng-template>
+            <div class="col-md-6 col-sm-12">
+              <ng-container *ngIf="habilitarEdicionFormulario; else telefono">
+                <div class="d-flex w-100">
+                  <div class="w-50">
+                    <label class="form-label fs-6 fw-bolder text-dark"
+                      >Pais</label
+                    >
+                    <select
+                      class="form-select"
+                      formControlName="indicativoPais"
+                    >
+                      <option
+                        *ngFor="let pais of arrPaises"
+                        [ngValue]="pais.dial_code"
+                        [selected]="
+                          usuarioInformacion.indicativoPais === pais.dial_code
+                        "
+                      >
+                        {{ pais.emoji }} {{ pais.name_es }}
+                        {{ pais.dial_code }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="w-50">
+                    <label class="form-label fs-6 fw-bolder text-dark"
+                      >Teléfono</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control form-control"
+                      formControlName="telefono"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioResumen.controls['telefono'].touched &&
+                          formularioResumen.controls['telefono'].invalid,
+                        'is-valid':
+                          formularioResumen.controls['telefono'].touched &&
+                          formularioResumen.controls['telefono'].valid
+                      }"
+                    />
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'minlength',
+                        message: 'El campo debe contener mínimo 3 caracteres',
+                        control: formularioResumen.controls['telefono']
+                      }"
+                    ></ng-container>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message: 'El campo debe contener máximo 40 caracteres',
+                        control: formularioResumen.controls['telefono']
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #telefono>
+                <label class="form-label fs-6 fw-bolder text-dark"
+                  >Teléfono</label
+                >
+                <p>
+                  {{ usuarioInformacion.indicativoPais }}
+                  {{ usuarioInformacion.telefono }}
+                </p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
       </div>
+      <div class="card-footer px-0 mt-2">
+        <div class="d-flex justify-content-end mt-2">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="formSubmit()"
+            *ngIf="habilitarEdicionFormulario"
+            #btnGuardar
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) && (control.dirty || control.touched)
+          "
+        >
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">
+                {{ message }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
     </div>
   </div>
-</div>
+</form>
