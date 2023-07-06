@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LogoutComponent } from './components/logout/logout.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
+import { InvitacionComponent } from './components/invitacion/invitacion.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'clave/cambiar/:token',
         component: ReiniciarClaveComponent,
+      },
+      {
+        path: 'invitacion/:token',
+        component: InvitacionComponent
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '**', redirectTo: 'login', pathMatch: 'full' },

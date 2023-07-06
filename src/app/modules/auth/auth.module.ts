@@ -12,6 +12,7 @@ import { TranslationModule } from '../i18n/translation.module';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
+import { InvitacionComponent } from './components/invitacion/invitacion.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { VerificacionCuentaComponent } from './components/verificacion-cuenta/ve
     LogoutComponent,
     AuthComponent,
     ReiniciarClaveComponent,
-    VerificacionCuentaComponent
+    VerificacionCuentaComponent,
+    InvitacionComponent
   ],
   imports: [
     CommonModule,
