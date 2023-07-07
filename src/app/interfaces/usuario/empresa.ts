@@ -14,3 +14,7 @@ export interface EmpresaInvitacion {
   usuario_id: string;
   invitado: string;
 }
+
+export interface EmpresaUsuariosInvicionAceptada extends Omit<Empresa, 'subdominio' | 'imagen' | 'seleccion'>{
+  username: string
+}

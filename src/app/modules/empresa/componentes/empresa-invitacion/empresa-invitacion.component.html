@@ -60,6 +60,50 @@
     </div>
   </div>
 </form>
+<br />
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">invitaciones</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <!--begin::Table-->
+      <table class="table table-row-dashed table-row-gray-300">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>USUARIO</th>
+            <th>ROL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <ng-container *ngIf="arrInvitaciones.length > 0; else sinEmpresas"> -->
+
+            <tr *ngFor="let invitacion of arrInvitaciones">
+                <td>
+                  {{ invitacion.id }}
+                </td>
+                <td>
+                  {{ invitacion.username }}
+                </td>
+                <td>
+                  {{ invitacion.rol }}
+                </td>
+            </tr>
+
+
+          <!-- </ng-container> -->
+          <!-- <ng-template #sinEmpresas>
+            <tr>
+              <td colspan="4">No cuenta con usuarios invitados</td>
+            </tr>
+          </ng-template> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <ng-template
   #formError
   let-control="control"

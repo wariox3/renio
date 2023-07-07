@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
+import { EmpresaUsuariosInvicionAceptada } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
@@ -12,6 +13,9 @@ import { obtenerId } from '@redux/selectors/usuario-id.selectors';
   styleUrls: ['./empresa-invitacion.component.scss'],
 })
 export class EmpresaInvitacionComponent implements OnInit {
+  arrInvitaciones: EmpresaUsuariosInvicionAceptada[] = [
+
+  ]
   formularioEmpresaInvitacion: FormGroup;
   usuarioCodigo = '';
   constructor(
@@ -20,14 +24,23 @@ export class EmpresaInvitacionComponent implements OnInit {
     private alertaService: AlertaService,
     private changeDetectorRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
-    private store: Store,
-
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.store.select(obtenerId).subscribe((codigoUsuario) => {
       this.usuarioCodigo = codigoUsuario;
+      this.changeDetectorRef.detectChanges();
+    });
+    this.consultarLista();
+  }
+
+  consultarLista() {
+    let empresaCodigo =
+    this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+    this.empresaService.listaInvitaciones(empresaCodigo).subscribe((respuesta: any) => {
+      this.arrInvitaciones = respuesta.usuarios;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -52,21 +65,23 @@ export class EmpresaInvitacionComponent implements OnInit {
   }
 
   formSubmit() {
-    const empresaCodigo = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+    let empresaCodigo =
+      this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
 
     if (this.formularioEmpresaInvitacion.valid) {
       this.empresaService
         .enviarInvitacion({
           empresa_id: empresaCodigo,
           invitado: this.formFields.nombre.value,
-          usuario_id: this.usuarioCodigo
+          usuario_id: this.usuarioCodigo,
         })
         .subscribe(() => {
           this.alertaService.mensajaExitoso(
             'Recuperación exitosa',
             `Se ha enviado un correo de verificación.`
           );
-          this.formularioEmpresaInvitacion.reset()
+          this.consultarLista()
+          this.formularioEmpresaInvitacion.reset();
         });
     } else {
       this.formularioEmpresaInvitacion.markAllAsTouched();
