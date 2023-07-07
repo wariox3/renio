@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { chackRequiereToken } from '../../../interceptores/token.interceptor';
-import { Empresa } from '@interfaces/usuario/empresa';
+import { Empresa, EmpresaInvitacion } from '@interfaces/usuario/empresa';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +31,10 @@ export class EmpresaService {
     );
   }
 
-  detalle(codigoEmpresa: string){
-    return this.http.get(
+  detalle(codigoEmpresa: string) {
+    return this.http.get<Empresa>(
       `${environment.URL_API_MUUP}/inquilino/empresa/${codigoEmpresa}`
-    )
+    );
   }
 
   consultarNombre(subdominio: string) {
@@ -47,5 +46,12 @@ export class EmpresaService {
     );
   }
 
-
+  enviarInvitacion(data: EmpresaInvitacion) {
+    return this.http.post(`${environment.URL_API_MUUP}/seguridad/verificacion/`, {
+      accion: 'invitar',
+      empresa_id: data.empresa_id,
+      usuario_id: data.usuario_id,
+      invitado: data.invitado,
+    });
+  }
 }

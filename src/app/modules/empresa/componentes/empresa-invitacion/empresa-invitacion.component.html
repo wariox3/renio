@@ -1,0 +1,80 @@
+<form
+  class="form w-100"
+  [formGroup]="formularioEmpresaInvitacion"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h3 class="card-title">Nueva invitación</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <label class="form-label fw-bolder text-dark fs-6">Nombre</label>
+          <input
+            type="text"
+            formControlName="nombre"
+            class="form-control bg-transparent"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpresaInvitacion.controls['nombre'].touched &&
+                formularioEmpresaInvitacion.controls['nombre'].invalid,
+              'is-valid':
+                formularioEmpresaInvitacion.controls['nombre'].touched &&
+                formularioEmpresaInvitacion.controls['nombre'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'El campo es requerido',
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'El campo debe contener mínimo 3 caracteres',
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'El campo debe contener máximo 320 caracteres',
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-end mt-2">
+        <button type="submit" class="btn btn-primary" #btnGuardar>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

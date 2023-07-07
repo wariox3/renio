@@ -21,7 +21,7 @@
         <!--begin::Table container-->
         <div class="table-responsive">
           <!--begin::Table-->
-          <table class="table table-row-dashed table-row-gray-300 ">
+          <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
             <!-- <thead>
               <tr class="fw-bolder text-muted">
@@ -34,18 +34,18 @@
             <tbody>
               <ng-container *ngIf="arrEmpresas.length > 0; else sinEmpresas">
                 <tr
-                  *ngFor="let item of arrEmpresas"
+                  *ngFor="let empresa of arrEmpresas"
                   style="height: calc(82px - 0.6rem) !important"
                 >
                   <!-- <td>
                     <span class="text-muted fw-bold text-muted d-block fs-7">{{
-                      item.id
+                      empresa.id
                     }}</span>
                   </td> -->
                   <td style="width: 120px">
-                    <ng-container *ngIf="item.imagen">
+                    <ng-container *ngIf="empresa.imagen">
                       <img
-                        src="{{ item.imagen }}"
+                        src="{{ empresa.imagen }}"
                         alt="LOGO"
                         style="
                           width: auto;
@@ -57,24 +57,67 @@
                     </ng-container>
                   </td>
                   <td>
-                    <p class="text-dark fw-bolder text-hover-primary fs-6">
-                      {{ item.nombre }}
+                    <p class="text-dark fw-bolder fs-6">
+                      {{ empresa.nombre }}
+                      <small class="badge badge-light-primary fs-8 fw-bold">{{
+                        empresa.rol
+                      }}</small>
                     </p>
+
                     <span class="text-muted fw-bold text-muted d-block fs-7"
-                      >{{ item.subdominio }}.muup.online</span
+                      >{{ empresa.subdominio }}.muup.online</span
                     >
                   </td>
-                  <!-- <td class="w-50px">
-                    <div class="d-flex justify-content-end flex-shrink-0">
-                      <a href="#" class="btn btn-icon btn-primary btn-sm me-1"><i class="bi bi-chat-square-text-fill fs-4"></i></a>
-                      <a href="#" class="btn btn-icon btn-primary btn-sm me-1"><i class="bi bi-chat-square-text-fill fs-4"></i></a>
+                  <td class="w-50px">
+                    <div ngbDropdown class="d-inline-block">
+                      <button
+                        type="button"
+                        class="btn btn-link text-hover-primary"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                      >
+                        <i class="bi bi-gear fs-2x"></i>
+                      </button>
+                      <div
+                        class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
+                        ngbDropdownMenu
+                        aria-labelledby="dropdownBasic1"
+                      >
+                        <div class="menu-item px-3">
+                          <div
+                            class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase"
+                          >
+                            Empresa {{ empresa.nombre }}
+                          </div>
+                        </div>
+
+                        <div class="menu-item px-3">
+                          <a
+                            [routerLink]="[
+                              '/empresa/' +
+                                empresa.empresa_id +
+                                '/invitacion/nuevo'
+                            ]"
+                            class="menu-link px-3 cursor-pointer"
+                            ngbDropdownItem
+                          >
+                            Invitaciones
+                          </a>
+                        </div>
+
+                        <div class="menu-item px-3 my-1">
+                          <a class="menu-link px-3 cursor-pointer">
+                            Configuración
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </td> -->
+                  </td>
                   <td class="w-50px text-end">
                     <button
                       href="#"
                       class="btn btn-bg-primary btn-color-white"
-                      (click)="seleccionarEmpresa(item.empresa_id)"
+                      (click)="seleccionarEmpresa(empresa.empresa_id)"
                     >
                       Conectar
                     </button>

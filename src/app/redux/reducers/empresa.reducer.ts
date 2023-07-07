@@ -16,7 +16,8 @@ let estadoAnalizado: Empresa =  {
   id: 0,
   subdominio: "",
   usuario_id: 0,
-  seleccion: false
+  seleccion: false,
+  rol: ""
 };
 
 

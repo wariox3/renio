@@ -6,4 +6,11 @@ export interface Empresa {
   subdominio: string;
   usuario_id: number;
   seleccion?: boolean
+  rol: string
+}
+
+export interface EmpresaInvitacion {
+  empresa_id: string;
+  usuario_id: string;
+  invitado: string;
 }

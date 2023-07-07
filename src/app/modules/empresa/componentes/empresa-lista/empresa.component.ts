@@ -48,7 +48,7 @@ export class EmpresaComponent implements OnInit {
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
-    this.empresaService.detalle(`${empresaSeleccionada}`).subscribe((respuesta: any) => {
+    this.empresaService.detalle(`${empresaSeleccionada}`).subscribe((respuesta) => {
       const empresa: Empresa = {
         nombre: respuesta.nombre,
         imagen:
@@ -57,7 +57,8 @@ export class EmpresaComponent implements OnInit {
         subdominio: respuesta.subdominio,
         id: 1,
         usuario_id: 1,
-        seleccion:true
+        seleccion:true,
+        rol: respuesta.rol
       }
       this.store.dispatch(empresaActionInit({ empresa }));
     })
