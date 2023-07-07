@@ -8,7 +8,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, switchMap, tap, of, map } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Token } from '@interfaces/usuario/token';
@@ -46,7 +46,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store,
     private alertaService: AlertaService,
-    private renderer2: Renderer2
+    private renderer2: Renderer2,
+    private activatedRoute: ActivatedRoute
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -97,6 +98,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    const tokenUrl = this.activatedRoute.snapshot.paramMap.get('token');
+
     if (this.loginForm.valid) {
       this.renderer2.setAttribute(
         this.btnContinuar.nativeElement,
@@ -110,8 +113,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       );
       this.authService
         .login(this.f.email.value, this.f.password.value)
-        .subscribe({
-          next: (respuesta: Token) => {
+        .pipe(
+          map((respuesta) => {
             //actualizar el store de redux
             this.store.dispatch(
               usuarioActionInit({
@@ -121,7 +124,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   cargo: 'admin',
                   imgen:
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
-                  nombre_corto: respuesta.user.nombre_corto
+                  nombre_corto: respuesta.user.nombre_corto,
                 },
               })
             );
@@ -132,8 +135,22 @@ export class LoginComponent implements OnInit, OnDestroy {
             } else {
               this.router.navigate(['/empresa/lista']);
             }
-          },
-        });
+          }),
+          switchMap(() => {
+            if (tokenUrl) {
+              return this.authService.confirmarInivitacion(tokenUrl);
+            }
+            return of({ mensaje: 'No se proporcionó un token de invitación' });
+          }),
+          map((respuestaConfirmarInivitacion: any)=>{
+            if (tokenUrl) {
+              if(respuestaConfirmarInivitacion.confirmar){
+                this.alertaService.mensajaExitoso("Gracias", "Invitacion aceptada")
+              }
+            }
+          })
+        )
+        .subscribe();
       this.renderer2.removeAttribute(
         this.btnContinuar.nativeElement,
         'disabled'
