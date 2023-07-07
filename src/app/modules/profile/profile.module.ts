@@ -8,6 +8,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
+import { SeguridadModule } from '../seguridad/seguridad.module'
 import {
   CardsModule,
   DropdownMenusModule,
@@ -15,6 +16,7 @@ import {
 } from '../../_metronic/partials';
 import { SharedModule } from '../../_metronic/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProjectsComponent,
     CampaignsComponent,
     DocumentsComponent,
-    ConnectionsComponent,
+    ConnectionsComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    SeguridadModule,
   ],
+  providers:[
+    NgbActiveModal
+  ]
 })
 export class ProfileModule {}

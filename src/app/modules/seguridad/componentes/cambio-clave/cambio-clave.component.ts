@@ -1,32 +1,35 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Input, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AuthService } from '@modulos/auth';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-cambio-clave',
+  selector: 'app-seguridad-cambio-clave',
   templateUrl: './cambio-clave.component.html',
   styleUrls: ['./cambio-clave.component.scss'],
 })
+
 export class CambioClaveComponent implements OnInit {
   codigoUsuario = '';
   formularioCambioClave: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoNuevaClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarNuevaClave: 'text' | 'password' = 'password';
+  @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
+  modalRef: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     private alertaService: AlertaService,
     private store: Store,
     private changeDetectorRef: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -64,14 +67,6 @@ export class CambioClaveComponent implements OnInit {
   initForm() {
     this.formularioCambioClave = this.formBuilder.group(
       {
-        claveAnterior: [
-          '',
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(100),
-          ]),
-        ],
         nuevaClave: [
           '',
           Validators.compose([
@@ -92,7 +87,6 @@ export class CambioClaveComponent implements OnInit {
       {
         validator: [
           ConfirmPasswordValidator.validarCambioClave,
-          ConfirmPasswordValidator.validarClaveDiferentes,
         ],
       }
     );
@@ -107,12 +101,19 @@ export class CambioClaveComponent implements OnInit {
         .reiniciarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
           this.alertaService.mensajaExitoso(
-            'Cambio exitoso',
-            `por favor ingrese con su nueva clave`
+            'Actualización exitosa',
+            `Recuerde iniciar sesion con su nueva contraseña`
           );
+          this.modalService.dismissAll();
         });
     } else {
       this.formularioCambioClave.markAllAsTouched();
     }
   }
+
+  open() {
+    this.formularioCambioClave.reset();
+    this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
+  }
+
 }

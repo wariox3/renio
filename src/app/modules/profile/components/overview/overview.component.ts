@@ -156,6 +156,7 @@ export class OverviewComponent implements OnInit {
             this.store.dispatch(usuarioActionActualizarNombreCorto({nombre_corto: this.formularioResumen.value.nombreCorto}))
             this.alertaService.mensajaExitoso('Actualización exitosa', '');
             this.consultarInformacion();
+            this.habilitarEdicionFormulario = !this.habilitarEdicionFormulario;
           },
         });
 

@@ -6,11 +6,13 @@ import { CambioClaveComponent } from './componentes/cambio-clave/cambio-clave.co
 import {SharedModule} from "../../_metronic/shared/shared.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {NgbActiveModal, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
-    CambioClaveComponent
+    CambioClaveComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,11 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModalModule
+  ],
+  exports: [
+    CambioClaveComponent
   ]
 })
 export class SeguridadModule { }
