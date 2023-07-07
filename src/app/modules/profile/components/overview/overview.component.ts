@@ -59,9 +59,8 @@ export class OverviewComponent implements OnInit {
       nombre: [
         this.usuarioInformacion.nombre,
         Validators.compose([
-          Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+          Validators.maxLength(320),
         ]),
       ],
       apellido: [
@@ -79,10 +78,11 @@ export class OverviewComponent implements OnInit {
       nombreCorto: [
         this.usuarioInformacion.nombreCorto,
         Validators.compose([
+          Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(100),
-        ]),
-      ],
+          Validators.maxLength(100)
+        ])
+      ]
     });
   }
 
@@ -153,7 +153,11 @@ export class OverviewComponent implements OnInit {
         })
         .subscribe({
           next: (respuesta) => {
-            this.store.dispatch(usuarioActionActualizarNombreCorto({nombre_corto: this.formularioResumen.value.nombreCorto}))
+            this.store.dispatch(
+              usuarioActionActualizarNombreCorto({
+                nombre_corto: this.formularioResumen.value.nombreCorto,
+              })
+            );
             this.alertaService.mensajaExitoso('Actualización exitosa', '');
             this.consultarInformacion();
             this.habilitarEdicionFormulario = !this.habilitarEdicionFormulario;
