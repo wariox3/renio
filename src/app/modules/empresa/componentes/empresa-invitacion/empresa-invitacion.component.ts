@@ -77,8 +77,8 @@ export class EmpresaInvitacionComponent implements OnInit {
         })
         .subscribe(() => {
           this.alertaService.mensajaExitoso(
-            'Recuperación exitosa',
-            `Se ha enviado un correo de verificación.`
+            'Invitación exitosa',
+            `Se ha enviado un correo de invitación.`
           );
           this.consultarLista()
           this.formularioEmpresaInvitacion.reset();
