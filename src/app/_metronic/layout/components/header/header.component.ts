@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from '../../core/layout.service';
 import { MenuComponent } from '../../../kt/components';
 import { ILayout, LayoutType } from '../../core/configs/config';
+import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({
   selector: 'app-header',
@@ -32,7 +33,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   appHeaderDefaulMenuDisplay: boolean;
   appPageTitleDisplay: boolean;
 
-  constructor(private layout: LayoutService, private router: Router) {
+  navegar = this.subdominioService.esSubdominioActual() ? "/dashboard" : "/empresa/lista";
+
+
+  constructor(private layout: LayoutService, private router: Router,     private subdominioService: SubdominioService) {
     this.routingChanges();
   }
 
