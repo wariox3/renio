@@ -1,8 +1,4 @@
-<form
-  class="form w-100"
-  [formGroup]="formularioEmpresaInvitacion"
-  (ngSubmit)="formSubmit()"
->
+<form class="form w-100" [formGroup]="formularioEmpresaInvitacion" (ngSubmit)="formSubmit()">
   <div class="card shadow-sm">
     <div class="card-header">
       <h3 class="card-title">Nueva invitación</h3>
@@ -10,11 +6,8 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <label class="form-label fw-bolder text-dark fs-6">Nombre</label>
-          <input
-            type="text"
-            formControlName="nombre"
-            class="form-control bg-transparent"
+          <label class="form-label fw-bolder text-dark fs-6 required">Correo</label>
+          <input type="text" formControlName="nombre" placeholder="Correo" class="form-control bg-transparent"
             [ngClass]="{
               'is-invalid':
                 formularioEmpresaInvitacion.controls['nombre'].touched &&
@@ -22,32 +15,32 @@
               'is-valid':
                 formularioEmpresaInvitacion.controls['nombre'].touched &&
                 formularioEmpresaInvitacion.controls['nombre'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'El campo es requerido',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'minlength',
               message: 'El campo debe contener mínimo 3 caracteres',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message: 'El campo debe contener máximo 320 caracteres',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"
-          ></ng-container>
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'email',
+            message: 'El campo no es un correo electrónico válido',
+            control: formularioEmpresaInvitacion.controls['nombre']
+          }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'El campo contiene caracteres no validos',
+          control: formularioEmpresaInvitacion.controls['nombre']
+        }"></ng-container>
         </div>
       </div>
     </div>
@@ -71,48 +64,26 @@
       <table class="table table-row-dashed table-row-gray-300">
         <thead>
           <tr>
-            <th>ID</th>
             <th>USUARIO</th>
             <th>ROL</th>
           </tr>
         </thead>
         <tbody>
-          <!-- <ng-container *ngIf="arrInvitaciones.length > 0; else sinEmpresas"> -->
-
-            <tr *ngFor="let invitacion of arrInvitaciones">
-                <td>
-                  {{ invitacion.id }}
-                </td>
-                <td>
-                  {{ invitacion.username }}
-                </td>
-                <td>
-                  {{ invitacion.rol }}
-                </td>
-            </tr>
-
-
-          <!-- </ng-container> -->
-          <!-- <ng-template #sinEmpresas>
-            <tr>
-              <td colspan="4">No cuenta con usuarios invitados</td>
-            </tr>
-          </ng-template> -->
-        </tbody>
+          <tr *ngFor="let invitacion of arrInvitaciones">
+            <td>
+              {{ invitacion.username }}
+            </td>
+            <td>
+              {{ invitacion.rol }}
+            </td>
+          </tr>
       </table>
     </div>
   </div>
 </div>
 
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert">
