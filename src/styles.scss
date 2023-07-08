@@ -37,4 +37,12 @@
   input[type='password'].form-control.is-valid {
     background-position: right calc(0.375em + 2.5rem) center;
   }
+
+  input[type='text'].form-control.is-invalid {
+    background-position: right calc(0.375em + 2.5rem) center;
+  }
+
+  input[type='text'].form-control.is-valid {
+    background-position: right calc(0.375em + 2.5rem) center;
+  }
 }
