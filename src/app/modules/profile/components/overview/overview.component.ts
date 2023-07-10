@@ -15,6 +15,7 @@ import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { switchMap } from 'rxjs';
 import { arrPaises } from './listaPaises';
 import { usuarioActionActualizarNombreCorto } from '@redux/actions/usuario.actions';
+import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -33,6 +34,7 @@ export class OverviewComponent implements OnInit {
   habilitarEdicionFormulario: boolean = false;
   formularioResumen: FormGroup;
   usuarioImagen$ = this.store.select(obtenerImagen);
+  usuarioCorreo = this.store.select(obtenerUsuarioCorreo)
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';

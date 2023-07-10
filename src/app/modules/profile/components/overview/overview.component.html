@@ -55,6 +55,16 @@
         <div class="col-md-10 col-sm-12">
           <div class="row mt-4">
             <div class="col-md-6 col-sm-12">
+              <label class="form-label fw-bolder text-dark fs-6"
+              >Correo</label
+            >
+            <p>
+              <small class="usuario-nombre">{{ usuarioCorreo | async }}</small>
+            </p>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-6 col-sm-12">
               <ng-container *ngIf="habilitarEdicionFormulario; else nombre">
                 <div class="w-100">
                   <label class="form-label fw-bolder text-dark fs-6"
