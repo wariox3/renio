@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertaService } from '@comun/services/alerta.service';
+import { Empresa } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
@@ -18,6 +19,7 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 export class EmpresaFormularioComponent implements OnInit {
   formularioEmpresa: FormGroup;
   codigoUsuario = '';
+  @Input() informacionEmpresa: any
   @Input() visualizarBtnAtras: boolean = true;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
 
@@ -37,7 +39,7 @@ export class EmpresaFormularioComponent implements OnInit {
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
       nombre: [
-        '',
+        this.informacionEmpresa.nombre,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -45,7 +47,7 @@ export class EmpresaFormularioComponent implements OnInit {
         ]),
       ],
       subdominio: [
-        '',
+        this.informacionEmpresa.subdominio,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),

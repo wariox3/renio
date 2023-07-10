@@ -35,21 +35,6 @@ export class EmpresaService {
     );
   }
 
-  editar(data: any, codigoUsuario: string, empresa_id: string) {
-    return this.http.put(
-      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/consulta-usuario/${empresa_id}`,
-      {
-        nombre: data.nombre,
-        subdominio: data.subdominio,
-        usuario: codigoUsuario,
-        imagen:
-          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
-      }
-      // {
-      //   context: chackRequiereToken(),
-      // }
-    );
-  }
 
   detalle(codigoEmpresa: string) {
     return this.http.get<Empresa>(
@@ -62,6 +47,23 @@ export class EmpresaService {
       `${environment.URL_API_MUUP}/inquilino/empresa/validar/`,
       {
         subdominio,
+      }
+    );
+  }
+
+  consultarInformacion(empresa_id: Number) {
+    return this.http.get(`${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`);
+  }
+
+  editar(data: any, codigoUsuario: string, empresa_id: Number) {
+    return this.http.put(
+      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
+      {
+        nombre: data.nombre,
+        subdominio: data.subdominio,
+        usuario: codigoUsuario,
+        imagen:
+          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
       }
     );
   }
