@@ -181,14 +181,6 @@
                   <ng-container
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
-                      validation: 'minlength',
-                      message: 'El campo debe contener mínimo 10 caracteres',
-                      control: formularioResumen.controls['nombreCorto']
-                    }"
-                  ></ng-container>
-                  <ng-container
-                    [ngTemplateOutlet]="formError"
-                    [ngTemplateOutletContext]="{
                       validation: 'maxlength',
                       message: 'El campo debe contener máximo 100 caracteres',
                       control: formularioResumen.controls['nombreCorto']

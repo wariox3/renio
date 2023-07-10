@@ -79,7 +79,6 @@ export class OverviewComponent implements OnInit {
         this.usuarioInformacion.nombreCorto,
         Validators.compose([
           Validators.required,
-          Validators.minLength(10),
           Validators.maxLength(100)
         ])
       ]
