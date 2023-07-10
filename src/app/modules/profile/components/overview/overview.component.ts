@@ -188,6 +188,7 @@ export class OverviewComponent implements OnInit {
       .subscribe({
         next: (respuesta) => {
           this.arrEmpresas = respuesta;
+          this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
           this.alertaService.mensajeError(
