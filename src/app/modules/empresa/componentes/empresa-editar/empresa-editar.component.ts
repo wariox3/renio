@@ -35,7 +35,7 @@ export class EmpresaEditarComponent implements OnInit {
 
   enviarFormulario(dataFormularioLogin: any){
     this.empresaService
-    .nuevo(dataFormularioLogin, this.codigoUsuario)
+    .editar(dataFormularioLogin, this.codigoUsuario, "5")
     .subscribe({
       next: () => {
         this.alertaService.mensajaExitoso('Nueva empresa creada', '');

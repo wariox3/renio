@@ -109,7 +109,13 @@
       </div>
     </div>
   </div>
-  <div class="fv-row d-flex justify-content-between">
+  <div
+    class="fv-row d-flex"
+    [ngClass]="{
+      'justify-content-between': visualizarBtnAtras === true,
+      'justify-content-end': visualizarBtnAtras === false
+    }"
+  >
     <a
       class="btn btn-secondary align-self-center"
       [routerLink]="['../lista']"

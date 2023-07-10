@@ -62,12 +62,9 @@ export class EmpresaFormularioComponent implements OnInit {
 
   formSubmit() {
     if (this.formularioEmpresa.valid) {
-      this.visualizarBtnAtras = false;
       this.procesando = true;
-
       return this.dataFormulario.emit(this.formularioEmpresa.value);
     } else {
-      this.visualizarBtnAtras = false;
       this.formularioEmpresa.markAllAsTouched();
     }
   }

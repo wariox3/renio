@@ -24,7 +24,20 @@ export class EmpresaService {
 
   nuevo(data: any, codigoUsuario: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/empresa/nuevo/`,
+      `${environment.URL_API_MUUP}/inquilino/empresa/`,
+      {
+        nombre: data.nombre,
+        subdominio: data.subdominio,
+        usuario: codigoUsuario,
+        imagen:
+          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+      }
+    );
+  }
+
+  editar(data: any, codigoUsuario: string, empresa_id: string) {
+    return this.http.put(
+      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/consulta-usuario/${empresa_id}`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,

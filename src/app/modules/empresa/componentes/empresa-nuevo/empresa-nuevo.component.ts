@@ -74,56 +74,18 @@ export class EmpresaNuevoComponent implements OnInit {
     return this.formularioEmpresaNuevo.controls;
   }
 
-  formSubmit() {
-    if (this.formularioEmpresaNuevo.valid) {
-      this.visualizarBtnAtras = false;
-      this.procesando = true;
-      this.renderer2.setAttribute(
-        this.btnGuardar.nativeElement,
-        'disabled',
-        'true'
-      );
-      this.renderer2.setProperty(
-        this.btnGuardar.nativeElement,
-        'innerHTML',
-        'Procesando'
-      );
-      this.empresaService
-        .nuevo(this.formularioEmpresaNuevo.value, this.codigoUsuario)
-        .subscribe({
-          next: () => {
-            this.renderer2.setAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled',
-              'true'
-            );
-            this.renderer2.setProperty(
-              this.btnGuardar.nativeElement,
-              'innerHTML',
-              'Guardar'
-            );
-            this.alertaService.mensajaExitoso('Nueva empresa creada', '');
-            this.router.navigate(['/empresa/lista']);
-            this.procesando = false;
-          },
-          error: () => {
-            this.renderer2.removeAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled'
-            );
-            this.renderer2.setProperty(
-              this.btnGuardar.nativeElement,
-              'innerHTML',
-              'Guardar'
-            );
-            this.visualizarBtnAtras = true;
-            this.procesando = false;
-          },
-        });
-    } else {
-      this.visualizarBtnAtras = false;
-      this.formularioEmpresaNuevo.markAllAsTouched();
-    }
+  enviarFormulario(dataFormularioLogin: any) {
+    this.visualizarBtnAtras = false;
+    this.procesando = true;
+    this.empresaService
+      .nuevo(dataFormularioLogin, this.codigoUsuario)
+      .subscribe({
+        next: () => {
+          this.alertaService.mensajaExitoso('Nueva empresa creada', '');
+          this.router.navigate(['/empresa/lista']);
+          this.procesando = false;
+        },
+      });
   }
 
   limpiarFormulario() {
@@ -142,7 +104,9 @@ export class EmpresaNuevoComponent implements OnInit {
   }
 
   cambiarTextoAMinusculas() {
-    this.formFields.subdominio.setValue(this.formFields.subdominio.value.toLowerCase());
+    this.formFields.subdominio.setValue(
+      this.formFields.subdominio.value.toLowerCase()
+    );
   }
 
   confirmarExistencia() {
