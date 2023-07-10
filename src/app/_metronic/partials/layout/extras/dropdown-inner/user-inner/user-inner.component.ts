@@ -7,6 +7,7 @@ import { obtenerEmpresaNombre } from '@redux/selectors/empresa-nombre.selectors'
 import { obtenerCargo } from '@redux/selectors/usuario-cargo.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { obtenerUsuarioNombreCorto } from '@redux/selectors/usuario-nombre-corto.selectors';
+import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -24,6 +25,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
   usuarioCargo$ = this.store.select(obtenerCargo);
   usuarioImagen$ = this.store.select(obtenerImagen);
+  usuarioCorreo = this.store.select(obtenerUsuarioCorreo)
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre)
   private unsubscribe: Subscription[] = [];
 

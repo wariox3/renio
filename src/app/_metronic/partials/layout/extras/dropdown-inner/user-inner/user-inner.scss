@@ -4,3 +4,15 @@
   text-align: center; /* Centra el texto horizontalmente */
   white-space: nowrap; /* Evita el salto de línea */
 }
+
+.usuario-correo {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+.usuario-correo {
+  font-size: 0.9em; /* Ajusta el tamaño de fuente según sea necesario */
+}
