@@ -5,7 +5,7 @@ ng-reflect-router-link="/crafted/account/settings"
 >
 Atras
 </a>
-<form class="form w-100" [formGroup]="formularioEmpresaInvitacion" (ngSubmit)="formSubmit()">
+<form class="form w-100  mb-4" [formGroup]="formularioEmpresaInvitacion" (ngSubmit)="formSubmit()">
   <div class="card shadow-sm">
     <div class="card-header">
       <h3 class="card-title">Nueva invitación</h3>
@@ -54,13 +54,12 @@ Atras
     <div class="card-footer">
       <div class="d-flex justify-content-end mt-2">
         <button type="submit" class="btn btn-primary" #btnGuardar>
-          Guardar
+          Invitar
         </button>
       </div>
     </div>
   </div>
 </form>
-<br />
 <div class="card shadow-sm">
   <div class="card-header">
     <h3 class="card-title">Usuarios</h3>

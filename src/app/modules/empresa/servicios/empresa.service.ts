@@ -69,4 +69,13 @@ export class EmpresaService {
       }
     );
   }
+
+  eliminar(empresa_id: Number){
+    return this.http.post(
+      `${environment.URL_API_MUUP}/`,
+      {
+        empresa_id,
+      }
+    )
+  }
 }

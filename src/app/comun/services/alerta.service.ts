@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertaService {
-
-  constructor() { }
+  constructor() {}
 
   mensajeError(title: string, text: string) {
     Swal.fire({
@@ -45,28 +44,23 @@ export class AlertaService {
       },
     });
   }
-
-  mensajeValidacion(userName: string) {
-    Swal.fire({
-      title: '<strong>Proceso de verificación</strong>',
-      icon: 'info',
-      html: 'Se ha enviado un correo de verificación.',
+  mensajeValidacion(
+    title: string,
+    html: string,
+    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
+  ) {
+    return Swal.fire({
+      title,
+      icon,
+      html,
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      timer: 5000,
-      timerProgressBar: true,
-      cancelButtonText: 'reenviar correo',
+      cancelButtonText: 'Cancelar',
       cancelButtonAriaLabel: 'Thumbs down',
       confirmButtonText: 'Aceptar',
       confirmButtonAriaLabel: 'aceptar',
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.cancel) {
-        this.mensajaExitoso(
-          'Correo de verificación',
-          `Se ha enviado un correo a ${userName}`
-        );
-      }
+      confirmButtonColor: '#009EF7',
     });
   }
 }

@@ -69,7 +69,11 @@
                     >
                   </td>
                   <td class="w-50px">
-                    <div ngbDropdown class="d-inline-block" *ngIf=" empresa.rol === 'propietario'">
+                    <div
+                      ngbDropdown
+                      class="d-inline-block"
+                      *ngIf="empresa.rol === 'propietario'"
+                    >
                       <button
                         type="button"
                         class="btn btn-link text-hover-primary"
@@ -84,14 +88,6 @@
                         aria-labelledby="dropdownBasic1"
                       >
                         <div class="menu-item px-3">
-                          <div
-                            class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase"
-                          >
-                            {{ empresa.nombre }}
-                          </div>
-                        </div>
-
-                        <div class="menu-item px-3">
                           <a
                             [routerLink]="[
                               '/empresa/' +
@@ -104,6 +100,13 @@
                             Invitaciones
                           </a>
                         </div>
+                        <div class="separator my-2"></div>
+                        <div class="menu-item px-3 my-1">
+                          <a class="menu-link px-3 cursor-pointer text-danger" (click)="eliminarEmpresa(empresa.empresa_id)">
+                            Eliminar
+                          </a>
+                        </div>
+                        <div class="separator my-2"></div>
                       </div>
                     </div>
                   </td>

@@ -6,7 +6,10 @@ import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa } from '@interfaces/usuario/empresa';
-import { empresaActionInit, empresaSeleccionAction } from '@redux/actions/empresa.actions';
+import {
+  empresaActionInit,
+  empresaSeleccionAction,
+} from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-empresa',
@@ -14,7 +17,6 @@ import { empresaActionInit, empresaSeleccionAction } from '@redux/actions/empres
   styleUrls: ['./empresa.component.scss'],
 })
 export class EmpresaComponent implements OnInit {
-
   arrEmpresas: Empresa[] = [];
 
   constructor(
@@ -22,7 +24,7 @@ export class EmpresaComponent implements OnInit {
     private store: Store,
     private empresaService: EmpresaService,
     private alertaMensaje: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -30,37 +32,53 @@ export class EmpresaComponent implements OnInit {
   }
 
   consultarLista() {
-    this.store.select(obtenerId)
-    .pipe(
-      switchMap((usuarioId)=>this.empresaService.lista(usuarioId))
-    ).subscribe({
-      next:(respuesta) => {
-        this.arrEmpresas = respuesta;
-        this.changeDetectorRef.detectChanges();
-      },
-      error: ({ error }): void => {
-        this.alertaMensaje.mensajeError(
-          'Error consulta',
-          `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-        );
-      },
-    })
+    this.store
+      .select(obtenerId)
+      .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
+      .subscribe({
+        next: (respuesta) => {
+          this.arrEmpresas = respuesta;
+          this.changeDetectorRef.detectChanges();
+        },
+        error: ({ error }): void => {
+          this.alertaMensaje.mensajeError(
+            'Error consulta',
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          );
+        },
+      });
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
-    this.empresaService.detalle(`${empresaSeleccionada}`).subscribe((respuesta) => {
-      const empresa: Empresa = {
-        nombre: respuesta.nombre,
-        imagen:
-         "https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png",
-        empresa_id: 1,
-        subdominio: respuesta.subdominio,
-        id: 1,
-        usuario_id: 1,
-        seleccion:true,
-        rol: respuesta.rol
-      }
-      this.store.dispatch(empresaActionInit({ empresa }));
-    })
+    this.empresaService
+      .detalle(`${empresaSeleccionada}`)
+      .subscribe((respuesta) => {
+        const empresa: Empresa = {
+          nombre: respuesta.nombre,
+          imagen:
+            'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+          empresa_id: 1,
+          subdominio: respuesta.subdominio,
+          id: 1,
+          usuario_id: 1,
+          seleccion: true,
+          rol: respuesta.rol,
+        };
+        this.store.dispatch(empresaActionInit({ empresa }));
+      });
+  }
+
+  eliminarEmpresa(empresa_id: Number) {
+    this.alertaMensaje
+      .mensajeValidacion(
+        'Eliminar empresa',
+        'este proceso no se puedo reversar',
+        'warning'
+      )
+      .then(({ isConfirmed }) => {
+        if (isConfirmed) {
+          this.empresaService.eliminar(empresa_id).subscribe()
+        }
+      });
   }
 }
