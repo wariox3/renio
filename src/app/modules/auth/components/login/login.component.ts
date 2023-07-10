@@ -158,7 +158,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.renderer2.setProperty(
         this.btnContinuar.nativeElement,
         'innerHTML',
-        'Continuar'
+        'INGRESAR'
       );
     } else {
       this.loginForm.markAllAsTouched();
