@@ -55,12 +55,12 @@
         <div class="col-md-10 col-sm-12">
           <div class="row mt-4">
             <div class="col-md-6 col-sm-12">
-              <label class="form-label fw-bolder text-dark fs-6"
-              >Correo</label
-            >
-            <p>
-              <small class="usuario-nombre">{{ usuarioCorreo | async }}</small>
-            </p>
+              <label class="form-label fw-bolder text-dark fs-6">Correo</label>
+              <p>
+                <small class="usuario-nombre">{{
+                  usuarioCorreo | async
+                }}</small>
+              </p>
             </div>
           </div>
           <div class="row mt-4">
@@ -326,3 +326,45 @@
 </form>
 <br />
 <app-seguridad-cambio-clave></app-seguridad-cambio-clave>
+<br />
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Empresas</h3>
+  </div>
+  <div class="table-responsive-sm p-3">
+    <table class="table table-row-dashed table-row-gray-300">
+      <tbody>
+        <ng-container *ngIf="arrEmpresas.length > 0; else sinEmpresas">
+          <tr *ngFor="let empresa of arrEmpresas" style="height: calc(82px - 0.6rem) !important">
+            <td style="width: 120px">
+              <ng-container *ngIf="empresa.imagen">
+                <img src="{{ empresa.imagen }}" alt="LOGO"
+                  style="width: auto; height: auto; max-height: 35px; max-width: 120px;" />
+              </ng-container>
+            </td>
+            <td>
+              <p class="text-dark fw-bolder fs-6">
+                {{ empresa.nombre }}
+                <small class="badge badge-light-primary fs-8 fw-bold">{{ empresa.rol }}</small>
+              </p>
+              <span class="text-muted fw-bold text-muted d-block fs-7">
+                {{ empresa.subdominio }}.muup.online
+              </span>
+            </td>
+            <td class="w-50px">
+              <div ngbDropdown class="d-inline-block" *ngIf="empresa.rol === 'propietario'">
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #sinEmpresas>
+          <tr>
+            <td colspan="4">No cuenta con empresas creadas</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

@@ -16,11 +16,14 @@ import { switchMap } from 'rxjs';
 import { arrPaises } from './listaPaises';
 import { usuarioActionActualizarNombreCorto } from '@redux/actions/usuario.actions';
 import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
+import { EmpresaService } from '../../../empresa/servicios/empresa.service';
+import { Empresa } from '@interfaces/usuario/empresa';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
+  arrEmpresas: Empresa[] = [];
   usuarioInformacion = {
     id: '',
     nombreCorto: '',
@@ -44,11 +47,13 @@ export class OverviewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private renderer2: Renderer2,
     private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private empresaService: EmpresaService,
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.consultarLista();
     this.store.select(obtenerId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
@@ -174,5 +179,22 @@ export class OverviewComponent implements OnInit {
     } else {
       this.formularioResumen.markAllAsTouched();
     }
+  }
+
+  consultarLista() {
+    this.store
+      .select(obtenerId)
+      .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
+      .subscribe({
+        next: (respuesta) => {
+          this.arrEmpresas = respuesta;
+        },
+        error: ({ error }): void => {
+          this.alertaService.mensajeError(
+            'Error consulta',
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+          );
+        },
+      });
   }
 }
