@@ -23,7 +23,7 @@ export class EmpresaComponent implements OnInit {
     private router: Router,
     private store: Store,
     private empresaService: EmpresaService,
-    private alertaMensaje: AlertaService,
+    private alertaService: AlertaService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -41,7 +41,7 @@ export class EmpresaComponent implements OnInit {
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
-          this.alertaMensaje.mensajeError(
+          this.alertaService.mensajeError(
             'Error consulta',
             `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
           );
@@ -69,15 +69,15 @@ export class EmpresaComponent implements OnInit {
   }
 
   eliminarEmpresa(empresa_id: Number) {
-    this.alertaMensaje
+    this.alertaService
       .mensajeValidacion(
-        'Eliminar empresa',
-        'este proceso no se puedo reversar',
+        'Eliminar usuario',
+        'Este proceso no tiene reversa',
         'warning'
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
-          this.empresaService.eliminar(empresa_id).subscribe()
+          this.empresaService.eliminarEmpresa(empresa_id).subscribe();
         }
       });
   }

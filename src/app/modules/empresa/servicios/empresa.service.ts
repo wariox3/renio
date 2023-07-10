@@ -70,7 +70,16 @@ export class EmpresaService {
     );
   }
 
-  eliminar(empresa_id: Number){
+  eliminarEmpresa(empresa_id: Number){
+    return this.http.post(
+      `${environment.URL_API_MUUP}/`,
+      {
+        empresa_id,
+      }
+    )
+  }
+
+  eliminarEmpresaUsuario(empresa_id: Number, usuario_id: Number){
     return this.http.post(
       `${environment.URL_API_MUUP}/`,
       {

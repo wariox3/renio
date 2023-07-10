@@ -87,4 +87,19 @@ export class EmpresaInvitacionComponent implements OnInit {
       this.formularioEmpresaInvitacion.markAllAsTouched();
     }
   }
+
+  eliminarInvitado(empresa_id: Number, usuario_id: Number) {
+    this.alertaService
+      .mensajeValidacion(
+        'Eliminar empresa',
+        'Este proceso no tiene reversa',
+        'warning'
+      )
+      .then(({ isConfirmed }) => {
+        if (isConfirmed) {
+          this.empresaService.eliminarEmpresaUsuario(empresa_id, usuario_id).subscribe();
+        }
+      });
+  }
+
 }

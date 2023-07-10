@@ -82,6 +82,18 @@ Atras
             <td>
               {{ invitacion.rol }}
             </td>
+            <td class="w-50px">
+
+              <button
+              type="button"
+              class="btn btn-link text-hover-danger"
+              title="Eliminar"
+              (click)="eliminarInvitado(invitacion.empresa_id, invitacion.usuario_id)"
+              *ngIf="invitacion.rol !== 'propietario' "
+            >
+              <i class="bi bi-trash fs-2x"></i>
+            </button>
+            </td>
           </tr>
       </table>
     </div>
