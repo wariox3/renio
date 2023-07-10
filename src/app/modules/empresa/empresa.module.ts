@@ -10,24 +10,33 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExtrasModule } from '../../_metronic/partials/layout/extras/extras.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { SharedModule } from '../../_metronic/shared/shared.module';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { EmpresaEditarComponent } from './componentes/empresa-editar/empresa-editar.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { EmpresaFormularioComponent } from './componentes/empresa-formulario/empresa-formulario.component';
 
 @NgModule({
-    declarations: [
-        EmpresaComponent,
-        EmpresaNuevoComponent,
-        EmpresaInvitacionComponent,
-    ],
-    imports: [
-        CommonModule,
-        EmpresaRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        ExtrasModule,
-        MatMenuModule,
-        SharedModule,
-        NgbDropdownModule
-    ]
+  declarations: [
+    EmpresaComponent,
+    EmpresaNuevoComponent,
+    EmpresaInvitacionComponent,
+    EmpresaEditarComponent,
+    EmpresaFormularioComponent,
+  ],
+  imports: [
+    CommonModule,
+    EmpresaRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    ExtrasModule,
+    MatMenuModule,
+    SharedModule,
+    NgbDropdownModule,
+    NgbModalModule,
+  ],
+  providers:[
+    NgbActiveModal
+  ]
 })
 export class EmpresaModule {}

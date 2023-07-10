@@ -187,7 +187,7 @@ export class OverviewComponent implements OnInit {
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrEmpresas = respuesta;
+          this.arrEmpresas = respuesta.empresas;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {

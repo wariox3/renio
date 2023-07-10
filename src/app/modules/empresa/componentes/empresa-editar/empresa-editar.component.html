@@ -1,0 +1,29 @@
+<div class="menu-item px-3">
+  <a
+    class="menu-link px-3 cursor-pointer"
+    (click)="openModal()"
+  >
+    Editar
+  </a>
+</div>
+
+<ng-template #dialogTemplate>
+  <form
+  class="form w-100"
+  novalidate="novalidate"
+>
+  <div class="card shadow-sm">
+    <div class="modal-header">
+      <h3 class="card-title">Editar empresa</h3>
+      <button type="button" class="btn btn-bg-light btn-color-danger" aria-label="Close" (click)="modalRef.dismiss('Cross click')"><i class="bi bi-x fs-2x"></i></button>
+    </div>
+    <div class="card-body">
+      <app-empresa-formulario
+        [visualizarBtnAtras]="visualizarBtnAtras"
+        (dataFormulario)="enviarFormulario($event)"
+      ></app-empresa-formulario>
+    </div>
+  </div>
+  <!--end::Form group-->
+</form>
+</ng-template>

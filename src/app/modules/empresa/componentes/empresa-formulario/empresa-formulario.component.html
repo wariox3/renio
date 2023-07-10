@@ -1,0 +1,142 @@
+<form [formGroup]="formularioEmpresa" (ngSubmit)="formSubmit()">
+  <div class="fv-row mb-10">
+    <label class="form-label required">Nombre</label>
+    <input
+      formControlName="nombre"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+          formularioEmpresa.controls['nombre'].touched &&
+          formularioEmpresa.controls['nombre'].invalid,
+        'is-valid':
+          formularioEmpresa.controls['nombre'].touched &&
+          formularioEmpresa.controls['nombre'].valid
+      }"
+    />
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El campo es requerido',
+        control: formularioEmpresa.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'El campo contiene caracteres no validos',
+        control: formularioEmpresa.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'El campo debe contener mínimo 3 caracteres',
+        control: formularioEmpresa.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'maxlength',
+        message: 'El campo debe contener máximo 100 caracteres',
+        control: formularioEmpresa.controls['nombre']
+      }"
+    ></ng-container>
+  </div>
+  <div class="fv-row mb-10">
+    <label class="form-label required">Subdominio</label>
+    <input
+      formControlName="subdominio"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+          formFields['subdominio'].touched && formFields['subdominio'].invalid,
+        'is-valid':
+          formFields['subdominio'].touched && formFields['subdominio'].valid
+      }"
+      (keyup)="cambiarTextoAMinusculas()"
+      (blur)="confirmarExistencia()"
+    />
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'El campo es requerido',
+        control: formFields['subdominio']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'El campo contiene caracteres no validos',
+        control: formFields['subdominio']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'El campo debe contener mínimo 3 caracteres',
+        control: formFields['subdominio']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'maxlength',
+        message: 'El campo debe contener máximo 100 caracteres',
+        control: formFields['subdominio']
+      }"
+    ></ng-container>
+    <div
+      *ngIf="
+        formularioEmpresa.controls.subdominio?.touched &&
+        formularioEmpresa.controls.subdominio?.hasError('EmpresaYaExiste')
+      "
+    >
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span role="alert">Nombre en uso</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fv-row d-flex justify-content-between">
+    <a
+      class="btn btn-secondary align-self-center"
+      [routerLink]="['../lista']"
+      *ngIf="visualizarBtnAtras"
+    >
+      Atrás
+    </a>
+    <button type="submit" class="btn btn-primary" type="submit" #btnGuardar>
+      Guardar
+    </button>
+  </div>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

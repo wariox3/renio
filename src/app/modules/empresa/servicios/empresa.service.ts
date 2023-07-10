@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
   Empresa,
-  EmpresaInvitacion
+  EmpresaInvitacion,
+  EmpresaLista
 } from '@interfaces/usuario/empresa';
 
 @Injectable({
@@ -12,9 +13,12 @@ import {
 export class EmpresaService {
   constructor(private http: HttpClient) {}
 
-  lista(codigoUsuario: string) {
-    return this.http.get<Empresa[]>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/empresa/${codigoUsuario}/`
+  lista(usuario_id: string) {
+    return this.http.post<EmpresaLista>(
+      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/consulta-usuario/`,
+      {
+        usuario_id
+      }
     );
   }
 

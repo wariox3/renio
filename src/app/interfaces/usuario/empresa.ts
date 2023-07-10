@@ -9,6 +9,11 @@ export interface Empresa {
   rol: string
 }
 
+
+export interface EmpresaLista {
+  empresas: Empresa[];
+}
+
 export interface EmpresaInvitacion {
   empresa_id: string;
   usuario_id: string;

@@ -1,15 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
-import { Empresa } from '@interfaces/usuario/empresa';
-import {
-  empresaActionInit,
-  empresaSeleccionAction,
-} from '@redux/actions/empresa.actions';
+import { Empresa, EmpresaLista } from '@interfaces/usuario/empresa';
+import { empresaActionInit } from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-empresa',
@@ -37,7 +34,7 @@ export class EmpresaComponent implements OnInit {
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrEmpresas = respuesta;
+          this.arrEmpresas = respuesta.empresas;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
