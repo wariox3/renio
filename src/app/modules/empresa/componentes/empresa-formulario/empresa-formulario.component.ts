@@ -19,7 +19,10 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 export class EmpresaFormularioComponent implements OnInit {
   formularioEmpresa: FormGroup;
   codigoUsuario = '';
-  @Input() informacionEmpresa: any
+  @Input() informacionEmpresa: any = {
+    nombre: "",
+    subdominio: ""
+  }
   @Input() visualizarBtnAtras: boolean = true;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
 
