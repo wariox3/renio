@@ -61,7 +61,7 @@ export class EmpresaEditarComponent {
       .pipe(
         tap((respuesta: any) => {
           this.informacionEmpresa = respuesta;
-          this.modalService.open(this.customTemplate, { backdrop: 'static' });
+          this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
         })
       )
       .subscribe();
