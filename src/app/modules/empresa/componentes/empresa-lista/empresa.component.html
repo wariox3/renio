@@ -6,15 +6,15 @@
       <!--begin::Header-->
       <div class="card-header">
         <div class="card-title m-0">
-          <h3 class="fw-bolder m-0">Empresas</h3>
+          <h3 translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO" class="fw-bolder m-0"></h3>
         </div>
         <a
+          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
           routerlink="/crafted/account/settings"
           class="btn btn-primary align-self-center"
           ng-reflect-router-link="/crafted/account/settings"
           [routerLink]="['../nuevo']"
         >
-          Nuevo
         </a>
       </div>
       <div class="card-body">
@@ -70,11 +70,11 @@
                   </td>
                   <td class="w-50px text-end">
                     <button
+                      translate="FORMULARIOS.BOTONES.EMPRESA.CONECTAR"
                       href="#"
                       class="btn btn-bg-primary btn-color-white"
                       (click)="seleccionarEmpresa(empresa.empresa_id)"
                     >
-                      Conectar
                     </button>
                   </td>
                   <td class="w-50px">
@@ -97,7 +97,7 @@
                         aria-labelledby="dropdownBasic1"
                       >
                         <div class="menu-item px-3">
-                          <a
+                          <a translate="FORMULARIOS.BOTONES.EMPRESA.INVITAR"
                             [routerLink]="[
                               '/empresa/' +
                                 empresa.empresa_id +
@@ -106,7 +106,7 @@
                             class="menu-link px-3 cursor-pointer"
                             ngbDropdownItem
                           >
-                            Invitaciones
+                            
                           </a>
                         </div>
                         <div class="separator my-2"></div>
@@ -114,10 +114,10 @@
                         <div class="separator my-2"></div>
                         <div class="menu-item px-3">
                           <a
-                            class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
+                            class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger" translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
                             (click)="eliminarEmpresa(empresa.subdominio, empresa.empresa_id)"
                           >
-                            Eliminar
+                           
                           </a>
                         </div>
                         <div class="separator my-2"></div>

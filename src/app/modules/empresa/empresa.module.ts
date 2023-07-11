@@ -14,6 +14,8 @@ import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaEditarComponent } from './componentes/empresa-editar/empresa-editar.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from './componentes/empresa-formulario/empresa-formulario.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '../../modules/i18n';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { EmpresaFormularioComponent } from './componentes/empresa-formulario/emp
     SharedModule,
     NgbDropdownModule,
     NgbModalModule,
+    TranslateModule,
+    TranslationModule
   ],
   providers:[
     NgbActiveModal

@@ -66,27 +66,25 @@ export class OverviewComponent implements OnInit {
       nombre: [
         this.usuarioInformacion.nombre,
         Validators.compose([
-          Validators.minLength(3),
-          Validators.maxLength(320),
+          Validators.maxLength(255),
         ]),
       ],
       apellido: [
         this.usuarioInformacion.apellido,
         Validators.compose([
-          Validators.minLength(3),
-          Validators.maxLength(100),
+          Validators.maxLength(255),
         ]),
       ],
       indicativoPais: [this.usuarioInformacion.indicativoPais],
       telefono: [
         this.usuarioInformacion.telefono,
-        Validators.compose([Validators.minLength(3), Validators.maxLength(40)]),
+        Validators.compose([Validators.minLength(3), Validators.maxLength(50)]),
       ],
       nombreCorto: [
         this.usuarioInformacion.nombreCorto,
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
+          Validators.maxLength(255)
         ])
       ]
     });
@@ -149,12 +147,15 @@ export class OverviewComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
+      console.log(this.formularioResumen.value.telefono);
+      
+      let validacionTelefono = this.formularioResumen.value.telefono === null ? `${this.formularioResumen.value.indicativoPais}`: `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`;
       this.resumenService
         .actualizarInformacion({
           id: this.usuarioInformacion.id,
-          nombre: this.formularioResumen.value.nombre,
-          apellido: this.formularioResumen.value.apellido,
-          telefono: `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`,
+          nombre: this.formularioResumen.value.nombre === "" ? null: this.formularioResumen.value.nombre,
+          apellido: this.formularioResumen.value.apellido === "" ? null: this.formularioResumen.value.apellido,
+          telefono: validacionTelefono,
           nombreCorto: this.formularioResumen.value.nombreCorto,
         })
         .subscribe({

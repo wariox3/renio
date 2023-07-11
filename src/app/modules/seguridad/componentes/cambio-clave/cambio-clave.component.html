@@ -7,19 +7,19 @@
 >
   <div class="card shadow-sm">
     <div class="modal-header">
-      <h3 class="card-title">Cambio de contraseña</h3>
+      <h3 translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO" class="card-title"></h3>
       <button type="button" class="btn btn-bg-light btn-color-danger" aria-label="Close" (click)="modalRef.dismiss('Cross click')"><i class="bi bi-x fs-2x"></i></button>
     </div>
     <div class="card-body">
       <div class="fv-row mb-8">
-        <label class="form-label fw-bolder text-dark fs-6"
-          >Contraseña nueva</label
+        <label translate="FORMULARIOS.TITULOS.SEGURIDAD.CAMBIARCLAVE" class="form-label fw-bolder text-dark fs-6"
+          ></label
         >
         <div class="input-wrapper">
           <input
             class="form-control bg-transparent"
             [type]="cambiarTipoCampoNuevaClave"
-            placeholder="Contraseña nueva"
+            [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.CAMBIARCLAVE' | translate"
             name="password"
             formControlName="nuevaClave"
             autocomplete="off"
@@ -68,14 +68,14 @@
         ></ng-container>
       </div>
       <div class="fv-row mb-8">
-        <label class="form-label fw-bolder text-dark fs-6"
-          >Confirmar contraseña</label
+        <label translate="FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE" class="form-label fw-bolder text-dark fs-6"
+          ></label
         >
         <div class="input-wrapper">
           <input
             class="form-control bg-transparent"
             [type]="cambiarTipoCampoConfirmarNuevaClave"
-            placeholder="Confirmar contraseña"
+            [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' | translate"
             name="cPassword"
             autocomplete="off"
             formControlName="confirmarNuevaClave"
@@ -153,7 +153,7 @@
       </ng-template>
     </div>
     <div class="card-footer d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">Guardar</button>
+      <button translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR" type="submit" class="btn btn-primary"></button>
     </div>
   </div>
   <!--end::Form group-->
@@ -163,9 +163,9 @@
 
 <div class="card shadow-sm">
   <div class="card-header">
-    <h3 class="card-title">Contraseña</h3>
+    <h3 translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO2" class="card-title"></h3>
     <div class="d-flex justify-content-end align-items-center">
-      <button class="btn btn-dark" (click)="open()">Cambiar contraseña</button>
+      <button translate="FORMULARIOS.BOTONES.SEGURIDAD.CAMBIAR" class="btn btn-dark" (click)="open()"></button>
     </div>
   </div>
 </div>

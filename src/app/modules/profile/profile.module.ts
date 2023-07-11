@@ -17,6 +17,8 @@ import {
 import { SharedModule } from '../../_metronic/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '../../modules/i18n';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     SeguridadModule,
+    TranslateModule,
+    TranslationModule
   ],
   providers:[
     NgbActiveModal

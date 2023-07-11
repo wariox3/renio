@@ -5,15 +5,16 @@
 >
   <div class="card shadow-sm">
     <div class="card-header">
-      <h3 class="card-title">Información personal</h3>
+      <h3 translate="FORMULARIOS.TITULOS.PERFIL.TITULO" class="card-title"></h3>
       <div class="d-flex justify-content-end align-items-center">
         <button
+          translate="FORMULARIOS.BOTONES.COMUNES.EDITAR"
           type="button"
           class="btn btn-dark"
           (click)="visualizarFormulario()"
           *ngIf="!habilitarEdicionFormulario"
         >
-          Editar
+          
         </button>
       </div>
     </div>
@@ -55,7 +56,7 @@
         <div class="col-md-10 col-sm-12">
           <div class="row mt-4">
             <div class="col-md-6 col-sm-12">
-              <label class="form-label fw-bolder text-dark fs-6">Correo</label>
+              <label translate="FORMULARIOS.CAMPOS.COMUNES.CORREO" class="form-label fw-bolder text-dark fs-6"></label>
               <p>
                 <small class="usuario-nombre">{{
                   usuarioCorreo | async
@@ -67,8 +68,8 @@
             <div class="col-md-6 col-sm-12">
               <ng-container *ngIf="habilitarEdicionFormulario; else nombre">
                 <div class="w-100">
-                  <label class="form-label fw-bolder text-dark fs-6"
-                    >Nombre</label
+                  <label translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE" class="form-label fw-bolder text-dark fs-6"
+                    ></label
                   >
 
                   <input
@@ -87,24 +88,16 @@
                   <ng-container
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
-                      validation: 'minlength',
-                      message: 'El campo debe contener mínimo 3 caracteres',
-                      control: formularioResumen.controls['nombre']
-                    }"
-                  ></ng-container>
-                  <ng-container
-                    [ngTemplateOutlet]="formError"
-                    [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 320 caracteres',
+                      message: 'El campo debe contener máximo 255 caracteres',
                       control: formularioResumen.controls['nombre']
                     }"
                   ></ng-container>
                 </div>
               </ng-container>
               <ng-template #nombre>
-                <label class="form-label fs-6 fw-bolder text-dark"
-                  >Nombre</label
+                <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+                  ></label
                 >
                 <p>
                   {{ usuarioInformacion.nombre }}
@@ -114,8 +107,8 @@
             <div class="col-md-6 col-sm-12">
               <ng-container *ngIf="habilitarEdicionFormulario; else apellido">
                 <div class="w-100">
-                  <label class="form-label fs-6 fw-bolder text-dark"
-                    >Apellido</label
+                  <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.APELLIDO"
+                    ></label
                   >
                   <input
                     type="text"
@@ -133,24 +126,16 @@
                   <ng-container
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
-                      validation: 'minlength',
-                      message: 'El campo debe contener mínimo 3 caracteres',
-                      control: formularioResumen.controls['apellido']
-                    }"
-                  ></ng-container>
-                  <ng-container
-                    [ngTemplateOutlet]="formError"
-                    [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 100 caracteres',
+                      message: 'El campo debe contener máximo 255 caracteres',
                       control: formularioResumen.controls['apellido']
                     }"
                   ></ng-container>
                 </div>
               </ng-container>
               <ng-template #apellido>
-                <label class="form-label fs-6 fw-bolder text-dark"
-                  >Apellido</label
+                <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.APELLIDO"
+                  ></label
                 >
                 <p>
                   {{ usuarioInformacion.apellido }}
@@ -164,8 +149,8 @@
                 *ngIf="habilitarEdicionFormulario; else nombreCorto"
               >
                 <div class="w-100">
-                  <label class="form-label fs-6 fw-bolder text-dark required"
-                    >Nombre para mostrar</label
+                  <label translate="FORMULARIOS.CAMPOS.PERFIL.NOMBREMOSTRAR" class="form-label fs-6 fw-bolder text-dark required"
+                    ></label
                   >
                   <input
                     type="text"
@@ -192,15 +177,15 @@
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 100 caracteres',
+                      message: 'El campo debe contener máximo 255 caracteres',
                       control: formularioResumen.controls['nombreCorto']
                     }"
                   ></ng-container>
                 </div>
               </ng-container>
               <ng-template #nombreCorto>
-                <label class="form-label fs-6 fw-bolder text-dark"
-                  >Nombre para mostrar</label
+                <label translate="FORMULARIOS.CAMPOS.PERFIL.NOMBREMOSTRAR" class="form-label fs-6 fw-bolder text-dark "
+                  ></label
                 >
                 <p>
                   {{ usuarioInformacion.nombreCorto }}
@@ -211,8 +196,8 @@
               <ng-container *ngIf="habilitarEdicionFormulario; else telefono">
                 <div class="d-flex w-100">
                   <div class="w-50">
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Pais</label
+                    <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.PAIS"
+                      ></label
                     >
                     <select
                       class="form-select"
@@ -231,8 +216,8 @@
                     </select>
                   </div>
                   <div class="w-50">
-                    <label class="form-label fs-6 fw-bolder text-dark"
-                      >Teléfono</label
+                    <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
+                      ></label
                     >
                     <input
                       type="number"
@@ -259,7 +244,7 @@
                       [ngTemplateOutlet]="formError"
                       [ngTemplateOutletContext]="{
                         validation: 'maxlength',
-                        message: 'El campo debe contener máximo 40 caracteres',
+                        message: 'El campo debe contener máximo 50 caracteres',
                         control: formularioResumen.controls['telefono']
                       }"
                     ></ng-container>
@@ -267,12 +252,12 @@
                 </div>
               </ng-container>
               <ng-template #telefono>
-                <label class="form-label fs-6 fw-bolder text-dark"
-                  >Teléfono</label
+                <label class="form-label fs-6 fw-bolder text-dark" translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
+                  ></label
                 >
                 <p>
                   {{ usuarioInformacion.indicativoPais }}
-                  {{ usuarioInformacion.telefono }}
+                  {{ usuarioInformacion.telefono != 'null' ?  usuarioInformacion.telefono : ""}}
                 </p>
               </ng-template>
             </div>
@@ -282,21 +267,21 @@
       <div class="card-footer px-0 mt-2">
         <div class="d-flex justify-content-end mt-2">
           <button
+          translate="FORMULARIOS.BOTONES.COMUNES.CANCELAR"
             type="button"
             class="btn btn-secondary mx-2"
             (click)="visualizarFormulario()"
             *ngIf="habilitarEdicionFormulario"
           >
-            Cancelar
           </button>
           <button
+            translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
             type="button"
             class="btn btn-primary"
             (click)="formSubmit()"
             *ngIf="habilitarEdicionFormulario"
             #btnGuardar
           >
-            Guardar
           </button>
         </div>
       </div>
@@ -329,7 +314,7 @@
 <br />
 <div class="card shadow-sm">
   <div class="card-header">
-    <h3 class="card-title">Empresas</h3>
+    <h3 translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO" class="card-title"></h3>
   </div>
   <div class="table-responsive-sm p-5">
     <table class="table table-row-dashed table-row-gray-300">
