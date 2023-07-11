@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .pipe(
-          map((respuesta) => {
+          tap((respuesta) => {
             //actualizar el store de redux
             this.store.dispatch(
               usuarioActionInit({
@@ -137,12 +137,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
           }),
           switchMap(() => {
-            if (tokenUrl) {
-              return this.authService.confirmarInivitacion(tokenUrl);
-            }
-            return of({ mensaje: 'No se proporcionó un token de invitación' });
+             if (tokenUrl) {
+               return this.authService.confirmarInivitacion(tokenUrl);
+             }
+            return of(null);
           }),
-          map((respuestaConfirmarInivitacion: any)=>{
+          tap((respuestaConfirmarInivitacion: any)=>{
             if (tokenUrl) {
               if(respuestaConfirmarInivitacion.confirmar){
                 this.alertaService.mensajaExitoso("Gracias", "Invitacion aceptada")
