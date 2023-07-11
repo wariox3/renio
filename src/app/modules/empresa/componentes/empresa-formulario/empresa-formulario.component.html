@@ -62,7 +62,6 @@
           formFields['subdominio'].touched && formFields['subdominio'].valid
       }"
       (keyup)="cambiarTextoAMinusculas()"
-      (blur)="confirmarExistencia()"
     />
     <ng-container
       [ngTemplateOutlet]="formError"
