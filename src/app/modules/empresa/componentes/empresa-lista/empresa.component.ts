@@ -65,25 +65,33 @@ export class EmpresaComponent implements OnInit {
       });
   }
 
-  eliminarEmpresa(empresa_id: Number) {
+  eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
     this.alertaService
-      .mensajeValidacion(
-        'Eliminar usuario',
-        'Este proceso no tiene reversa',
-        'warning'
+      .mensajeEliminarEmpresa(
+        empresa_subdominio,
+        'Eliminar empresa',
+        'Este proceso no tiene reversa'
       )
-      .then(({ isConfirmed }) => {
-        if (isConfirmed) {
-          this.empresaService.eliminarEmpresa(empresa_id)
-          .pipe(
-            tap(()=>{
-              this.alertaService.mensajaExitoso('Empresa eminada', 'Por favor espere, procesando eliminación');
-              setTimeout(()=> {
-                location.reload()
-              }, 5001)
-            })
-          )
-          .subscribe();
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          if (respuesta.value === empresa_subdominio) {
+            this.empresaService
+              .eliminarEmpresa(empresa_id)
+              .pipe(
+                tap(() => {
+                  this.alertaService.mensajaExitoso(
+                    'Empresa eliminada',
+                    'Por favor espere, procesando eliminación'
+                  );
+                  setTimeout(() => {
+                    location.reload();
+                  }, 5001);
+                })
+              )
+              .subscribe();
+          } else {
+              this.alertaService.mensajeError("Error", "El nombre ingresado con es valido")
+          }
         }
       });
   }

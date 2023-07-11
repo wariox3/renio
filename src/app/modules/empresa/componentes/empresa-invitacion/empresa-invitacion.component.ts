@@ -92,7 +92,7 @@ export class EmpresaInvitacionComponent implements OnInit {
   eliminarInvitado(usuario_id: Number) {
     this.alertaService
       .mensajeValidacion(
-        'Eliminar empresa',
+        'Eliminar usuario de esta empresa',
         'Este proceso no tiene reversa',
         'warning'
       )

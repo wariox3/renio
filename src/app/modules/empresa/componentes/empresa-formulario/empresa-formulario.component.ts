@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertaService } from '@comun/services/alerta.service';
-import { Empresa } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
@@ -24,6 +23,7 @@ export class EmpresaFormularioComponent implements OnInit {
     subdominio: ""
   }
   @Input() visualizarBtnAtras: boolean = true;
+  @Input() visualizarCampoSubdominio: boolean = true;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
 
   procesando = false;

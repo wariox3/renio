@@ -20,6 +20,7 @@
     <div class="card-body">
       <app-empresa-formulario
         [informacionEmpresa]="informacionEmpresa"
+        [visualizarCampoSubdominio]="false"
         [visualizarBtnAtras]="visualizarBtnAtras"
         (dataFormulario)="enviarFormulario($event)"
       ></app-empresa-formulario>

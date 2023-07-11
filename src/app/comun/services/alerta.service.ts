@@ -44,6 +44,7 @@ export class AlertaService {
       },
     });
   }
+
   mensajeValidacion(
     title: string,
     html: string,
@@ -62,5 +63,50 @@ export class AlertaService {
       confirmButtonAriaLabel: 'aceptar',
       confirmButtonColor: '#009EF7',
     });
+  }
+
+  async mensajeEliminarEmpresa(
+    empresaNombre: string | null,
+    title: string,
+    html: string,
+  ) {
+    const mensaje = await Swal.fire({
+      title,
+      icon: 'warning',
+      html,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      cancelButtonText: 'Cancelar',
+      cancelButtonAriaLabel: 'Thumbs down',
+      confirmButtonText: 'Eliminar',
+      confirmButtonAriaLabel: 'aceptar',
+      confirmButtonColor: '#f1416c',
+      input: 'text',
+      inputLabel: `Para confirmar, escriba "${empresaNombre}" en el cuadro de abajo`,
+      inputAutoFocus: true,
+      didOpen: ()=> {
+        //deshabilitar el botton de confirmar
+        Swal.getConfirmButton()?.setAttribute('disabled', 'true')
+        const input = Swal.getInput()
+        if(input){
+          input.oninput = () => {
+            if(Swal.getInput()?.value === empresaNombre){
+              Swal.getConfirmButton()?.removeAttribute('disabled')
+            } else {
+              Swal.getConfirmButton()?.setAttribute('disabled', 'true')
+
+            }
+          }
+        }
+
+      }
+    });
+
+
+
+
+
+    return mensaje
   }
 }
