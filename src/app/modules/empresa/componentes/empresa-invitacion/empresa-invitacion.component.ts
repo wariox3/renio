@@ -6,6 +6,7 @@ import { EmpresaUsuariosInvicionAceptada } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-invitacion',
@@ -88,7 +89,7 @@ export class EmpresaInvitacionComponent implements OnInit {
     }
   }
 
-  eliminarInvitado(empresa_id: Number, usuario_id: Number) {
+  eliminarInvitado(usuario_id: Number) {
     this.alertaService
       .mensajeValidacion(
         'Eliminar empresa',
@@ -97,7 +98,14 @@ export class EmpresaInvitacionComponent implements OnInit {
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
-          this.empresaService.eliminarEmpresaUsuario(empresa_id, usuario_id).subscribe();
+          this.empresaService.eliminarEmpresaUsuario(usuario_id)
+          .pipe(
+            tap(()=>{
+              this.alertaService.mensajaExitoso('Usuario eliminado', 'Por favor espere, procesando eliminación');
+              this.consultarLista()
+            })
+          )
+          .subscribe();
         }
       });
   }

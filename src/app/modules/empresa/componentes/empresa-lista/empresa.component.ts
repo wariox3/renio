@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
@@ -74,7 +74,16 @@ export class EmpresaComponent implements OnInit {
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
-          this.empresaService.eliminarEmpresa(empresa_id).subscribe();
+          this.empresaService.eliminarEmpresa(empresa_id)
+          .pipe(
+            tap(()=>{
+              this.alertaService.mensajaExitoso('Empresa eminada', 'Por favor espere, procesando eliminación');
+              setTimeout(()=> {
+                location.reload()
+              }, 5001)
+            })
+          )
+          .subscribe();
         }
       });
   }

@@ -88,7 +88,7 @@ Atras
               type="button"
               class="btn btn-link text-hover-danger"
               title="Eliminar"
-              (click)="eliminarInvitado(invitacion.empresa_id, invitacion.usuario_id)"
+              (click)="eliminarInvitado(invitacion.id)"
               *ngIf="invitacion.rol !== 'propietario' "
             >
               <i class="bi bi-trash fs-2x"></i>
