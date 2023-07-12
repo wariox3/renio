@@ -66,7 +66,6 @@ export class EmpresaComponent implements OnInit {
         };
         this.store.dispatch(empresaActionInit({ empresa }));
       });
-    consultaEmpresa.unsubscribe();
   }
 
   eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
@@ -102,5 +101,4 @@ export class EmpresaComponent implements OnInit {
         }
       });
   }
-
 }
