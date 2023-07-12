@@ -40,6 +40,7 @@ export const locale = {
           EDITAR: 'Editar empresa',
           INVITAR: 'Invitaciones',
           NUEVAINVITACION: 'Nueva invitación',
+          NUEVO: 'Nueva empresa'
         },
         PERFIL: {
           TITULO: 'Información personal',
@@ -70,8 +71,12 @@ export const locale = {
           REQUERIDO: 'El campo es requerido',
           CAMPOMINIMO: 'El campo debe tener un mínimo de caracteres de',
           CAMPOMAXIMO: 'La cantidad máxima de caracteres permitidos para este campo es de',
-          TIPOCORREO: 'El campo no es un correo electrónico válido'
+          TIPOCORREO: 'El campo no es un correo electrónico válido',
+          NOVALIDO: 'El campo contiene caracteres no válidos',
         },
+        EMPRESA:{
+          NOMBREUSADO: 'Nombre no disponible'
+        }
       },
     },
   },

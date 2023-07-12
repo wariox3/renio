@@ -39,7 +39,8 @@ export const locale = {
           TITULO: 'Companies',
           EDITAR: 'Edit company',
           INVITAR: 'Invitations',
-          NUEVAINVITACION: 'New invitation'
+          NUEVAINVITACION: 'New invitation',
+          NUEVO: 'New company'
         },
         PERFIL:{
           TITULO: 'Personal information'
@@ -70,7 +71,11 @@ export const locale = {
           REQUERIDO: 'Field is required',
           CAMPOMINIMO: 'The field must have a minimum number of characters of',
           CAMPOMAXIMO: 'The maximum number of characters allowed for this field is',
-          TIPOCORREO: 'Field is not a valid email address'
+          TIPOCORREO: 'Field is not a valid email address',
+          NOVALIDO: 'Field contains invalid characters'
+        },
+        EMPRESA:{
+          NOMBREUSADO: 'Name not available'
         }
       }
     },

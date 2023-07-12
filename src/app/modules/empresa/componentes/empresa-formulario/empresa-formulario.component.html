@@ -1,6 +1,6 @@
 <form [formGroup]="formularioEmpresa" (ngSubmit)="formSubmit()">
   <div class="fv-row mb-10">
-    <label class="form-label required">Nombre</label>
+    <label translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE" class="form-label required"></label>
     <input
       formControlName="nombre"
       class="form-control bg-transparent"
@@ -19,7 +19,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'required',
-        message: 'El campo es requerido',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
         control: formularioEmpresa.controls['nombre']
       }"
     ></ng-container>
@@ -27,7 +27,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'pattern',
-        message: 'El campo contiene caracteres no validos',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
         control: formularioEmpresa.controls['nombre']
       }"
     ></ng-container>
@@ -35,7 +35,8 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'minlength',
-        message: 'El campo debe contener mínimo 3 caracteres',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+        cantidadCaracteres: '3',
         control: formularioEmpresa.controls['nombre']
       }"
     ></ng-container>
@@ -43,7 +44,8 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'maxlength',
-        message: 'El campo debe contener máximo 100 caracteres',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+        cantidadCaracteres: '100',
         control: formularioEmpresa.controls['nombre']
       }"
     ></ng-container>
@@ -67,7 +69,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'required',
-        message: 'El campo es requerido',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
         control: formFields['subdominio']
       }"
     ></ng-container>
@@ -75,7 +77,7 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'pattern',
-        message: 'El campo contiene caracteres no validos',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
         control: formFields['subdominio']
       }"
     ></ng-container>
@@ -83,7 +85,8 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'minlength',
-        message: 'El campo debe contener mínimo 3 caracteres',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+        cantidadCaracteres: '3',
         control: formFields['subdominio']
       }"
     ></ng-container>
@@ -91,7 +94,8 @@
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'maxlength',
-        message: 'El campo debe contener máximo 100 caracteres',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+        cantidadCaracteres: '100',
         control: formFields['subdominio']
       }"
     ></ng-container>
@@ -103,7 +107,7 @@
     >
       <div class="fv-plugins-message-container">
         <div class="fv-help-block">
-          <span role="alert">Nombre en uso</span>
+          <span translate="FORMULARIOS.COMUNES.EMPRESA.NOMBREUSADO" role="alert"></span>
         </div>
       </div>
     </div>
@@ -116,14 +120,13 @@
     }"
   >
     <a
+      translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
       class="btn btn-secondary align-self-center"
       [routerLink]="['../lista']"
       *ngIf="visualizarBtnAtras"
     >
-      Atrás
     </a>
-    <button type="submit" class="btn btn-primary" type="submit" #btnGuardar>
-      Guardar
+    <button translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR" type="submit" class="btn btn-primary" type="submit" #btnGuardar>
     </button>
   </div>
 </form>
@@ -132,6 +135,7 @@
   let-control="control"
   let-message="message"
   let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
 >
   <ng-container
     *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
@@ -139,7 +143,7 @@
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert">
-          {{ message }}
+          {{ message }} {{ cantidadCaracteres }}
         </span>
       </div>
     </div>
