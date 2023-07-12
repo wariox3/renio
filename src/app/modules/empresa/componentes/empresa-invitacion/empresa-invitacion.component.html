@@ -1,20 +1,34 @@
 <a
-class="btn btn-secondary align-self-center mb-4"
-ng-reflect-router-link="/crafted/account/settings"
-[routerLink]="['/empresa/lista']"
+  translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
+  class="btn btn-secondary align-self-center mb-4"
+  ng-reflect-router-link="/crafted/account/settings"
+  [routerLink]="['/empresa/lista']"
 >
-Atras
 </a>
-<form class="form w-100  mb-4" [formGroup]="formularioEmpresaInvitacion" (ngSubmit)="formSubmit()">
+<form
+  class="form w-100 mb-4"
+  [formGroup]="formularioEmpresaInvitacion"
+  (ngSubmit)="formSubmit()"
+>
   <div class="card shadow-sm">
     <div class="card-header">
-      <h3 class="card-title">Nueva invitación</h3>
+      <h3
+        translate="FORMULARIOS.TITULOS.EMPRESAS.NUEVAINVITACION"
+        class="card-title"
+      ></h3>
     </div>
     <div class="card-body">
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <label class="form-label fw-bolder text-dark fs-6 required">Correo</label>
-          <input type="text" formControlName="nombre" placeholder="Correo" class="form-control bg-transparent"
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+            class="form-label fw-bolder text-dark fs-6 required"
+          ></label>
+          <input
+            type="text"
+            formControlName="nombre"
+            [placeholder]="'FORMULARIOS.CAMPOS.COMUNES.CORREO' | translate"
+            class="form-control bg-transparent"
             [ngClass]="{
               'is-invalid':
                 formularioEmpresaInvitacion.controls['nombre'].touched &&
@@ -22,47 +36,69 @@ Atras
               'is-valid':
                 formularioEmpresaInvitacion.controls['nombre'].touched &&
                 formularioEmpresaInvitacion.controls['nombre'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'El campo es requerido',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'minlength',
               message: 'El campo debe contener mínimo 3 caracteres',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message: 'El campo debe contener máximo 320 caracteres',
               control: formularioEmpresaInvitacion.controls['nombre']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'email',
-            message: 'El campo no es un correo electrónico válido',
-            control: formularioEmpresaInvitacion.controls['nombre']
-          }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'El campo contiene caracteres no validos',
-          control: formularioEmpresaInvitacion.controls['nombre']
-        }"></ng-container>
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'email',
+              message: 'El campo no es un correo electrónico válido',
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
         </div>
       </div>
     </div>
     <div class="card-footer">
       <div class="d-flex justify-content-end mt-2">
-        <button type="submit" class="btn btn-primary" #btnGuardar>
-          Invitar
-        </button>
+        <button
+          translate="FORMULARIOS.BOTONES.EMPRESA.INVITAR"
+          type="submit"
+          class="btn btn-primary"
+          #btnGuardar
+        ></button>
       </div>
     </div>
   </div>
 </form>
 <div class="card shadow-sm">
   <div class="card-header">
-    <h3 class="card-title">Usuarios</h3>
+    <h3
+      translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
+      class="card-title"
+    ></h3>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -70,8 +106,8 @@ Atras
       <table class="table table-row-dashed table-row-gray-300">
         <thead>
           <tr>
-            <th>USUARIO</th>
-            <th>ROL</th>
+            <th translate="FORMULARIOS.CAMPOS.COMUNES.USUARIO"></th>
+            <th translate="FORMULARIOS.CAMPOS.COMUNES.ROL"></th>
           </tr>
         </thead>
         <tbody>
@@ -83,25 +119,32 @@ Atras
               {{ invitacion.rol }}
             </td>
             <td class="w-50px">
-
               <button
-              type="button"
-              class="btn btn-link text-hover-danger"
-              title="Eliminar"
-              (click)="eliminarInvitado(invitacion.id)"
-              *ngIf="invitacion.rol !== 'propietario' "
-            >
-              <i class="bi bi-trash fs-2x"></i>
-            </button>
+                type="button"
+                class="btn btn-link text-hover-danger"
+                title="Eliminar"
+                (click)="eliminarInvitado(invitacion.id)"
+                *ngIf="invitacion.rol !== 'propietario'"
+              >
+                <i class="bi bi-trash fs-2x"></i>
+              </button>
             </td>
           </tr>
+        </tbody>
       </table>
     </div>
   </div>
 </div>
 
-<ng-template #formError let-control="control" let-message="message" let-validation="validation">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert">

@@ -18,7 +18,8 @@ export const locale = {
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
-          INVITAR: 'Invitaciones',
+          INVITACION: 'Invitaciones',
+          INVITAR: 'Invitar'
         },
         GENERAL: {},
         INVENTARIO: {},
@@ -28,6 +29,7 @@ export const locale = {
       },
       TITULOS: {
         COMUNES: {
+          USUARIOS: 'Usuarios',
           MENU: {
             PERFIL: 'Mi perfil',
             EMPRESAS: 'Mis empresas',
@@ -36,6 +38,8 @@ export const locale = {
         EMPRESAS: {
           TITULO: 'Empresas',
           EDITAR: 'Editar empresa',
+          INVITAR: 'Invitaciones',
+          NUEVAINVITACION: 'Nueva invitación'
         },
         PERFIL: {
           TITULO: 'Información personal',
@@ -54,6 +58,8 @@ export const locale = {
           CORREO: 'Correo',
           TELEFONO: 'Teléfono',
           PAIS: 'País',
+          USUARIO: 'Usuario',
+          ROL: 'Rol'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
