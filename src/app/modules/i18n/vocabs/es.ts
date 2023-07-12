@@ -93,5 +93,10 @@ export const locale = {
         }
       }
     },
+    TEMA:{
+      CLARO:'Claro',
+      OSCURO:'Oscuro',
+      SISTEMA:'Sistema'
+    }
   },
 };
