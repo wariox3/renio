@@ -9,7 +9,7 @@
     <!--begin::Heading-->
     <div class="text-center mb-11">
       <!--begin::Title-->
-      <h1 class="text-dark fw-bolder mb-3">Regístrese</h1>
+      <h1 translate="FORMULARIOS.TITULOS.SEGURIDAD.REGISTRO" class="text-dark fw-bolder mb-3"></h1>
       <!--end::Title-->
 
       <!--begin::Subtitle-->
@@ -71,7 +71,10 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label translate="FORMULARIOS.CAMPOS.COMUNES.CORREO" class="form-label fw-bolder text-dark fs-6"></label>
+      <label
+        translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+        class="form-label fw-bolder text-dark fs-6"
+      ></label>
       <input
         class="form-control bg-transparent"
         type="email"
@@ -80,8 +83,12 @@
         formControlName="usuario"
         autocomplete="off"
         [ngClass]="{
-          'is-invalid': formularioRegistro.controls['usuario'].touched && formularioRegistro.controls['usuario'].invalid,
-          'is-valid': formularioRegistro.controls['usuario'].touched && formularioRegistro.controls['usuario'].valid
+          'is-invalid':
+            formularioRegistro.controls['usuario'].touched &&
+            formularioRegistro.controls['usuario'].invalid,
+          'is-valid':
+            formularioRegistro.controls['usuario'].touched &&
+            formularioRegistro.controls['usuario'].valid
         }"
       />
       <ng-container
@@ -123,7 +130,10 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO2" class="form-label fw-bolder text-dark fs-6"></label>
+      <label
+        translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO2"
+        class="form-label fw-bolder text-dark fs-6"
+      ></label>
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
@@ -133,8 +143,12 @@
           formControlName="clave"
           autocomplete="off"
           [ngClass]="{
-            'is-invalid': formularioRegistro.controls['clave'].touched && formularioRegistro.controls['clave'].invalid,
-            'is-valid': formularioRegistro.controls['clave'].touched && formularioRegistro.controls['clave'].valid
+            'is-invalid':
+              formularioRegistro.controls['clave'].touched &&
+              formularioRegistro.controls['clave'].invalid,
+            'is-valid':
+              formularioRegistro.controls['clave'].touched &&
+              formularioRegistro.controls['clave'].valid
           }"
         />
         <i
@@ -177,18 +191,27 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label translate="FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE" class="form-label fw-bolder text-dark fs-6"></label>
+      <label
+        translate="FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE"
+        class="form-label fw-bolder text-dark fs-6"
+      ></label>
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoConfirmarClave"
-          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' | translate"
+          [placeholder]="
+            'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' | translate
+          "
           name="cPassword"
           autocomplete="off"
           formControlName="confirmarClave"
           [ngClass]="{
-            'is-invalid': formularioRegistro.controls['confirmarClave'].touched && formularioRegistro.controls['confirmarClave'].invalid,
-            'is-valid': formularioRegistro.controls['confirmarClave'].touched && formularioRegistro.controls['confirmarClave'].valid
+            'is-invalid':
+              formularioRegistro.controls['confirmarClave'].touched &&
+              formularioRegistro.controls['confirmarClave'].invalid,
+            'is-valid':
+              formularioRegistro.controls['confirmarClave'].touched &&
+              formularioRegistro.controls['confirmarClave'].valid
           }"
         />
         <i
@@ -236,8 +259,10 @@
       >
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
-            <span role="alert">
-              Las contraseñas no coinciden
+            <span
+              translate="FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDENNUEVO"
+              role="alert"
+            >
             </span>
           </div>
         </div>
@@ -256,23 +281,17 @@
           class="form-check-input"
         />
         <span
+          translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TERMINOS"
           for="kt_login_toc_agree"
           class="form-check-label fw-semibold text-gray-700 fs-base ms-1"
-        >
-          Acepto los&nbsp;<a
-            href="https://keenthemes.com/metronic/?page=faq"
-            target="_blank"
-            class="ms-1 link-primary"
-            >Terminos</a
-          >.
-        </span>
+        ></span>
       </label>
     </div>
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
         validation: 'required',
-        message: 'El campo es requerido',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
         control: formularioRegistro.controls['terminosCondiciones']
       }"
     ></ng-container>
@@ -282,21 +301,19 @@
     <!--begin::Form group-->
     <div class="d-grid mt-8 mb-10">
       <button
+        translate="FORMULARIOS.BOTONES.AUTENTIFICACION.CREARCUENTA"
         type="submit"
         id="kt_sign_up_submit"
         class="btn btn-primary"
         #btnCrear
       >
-        CREAR CUENTA
       </button>
     </div>
     <!--end::Form group-->
 
     <!--begin::Sign up-->
-    <div class="text-gray-500 text-center fw-semibold fs-6">
-      ¿Ya tiene una cuenta?
-      <a routerLink="/auth/login" class="link-primary fw-semibold">
-        Iniciar sesión
+    <div translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA" class="text-gray-500 text-center fw-semibold fs-6">
+      <a routerLink="/auth/login" translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO" class="link-primary fw-semibold">
       </a>
     </div>
     <!--end::Sign up-->
@@ -314,9 +331,7 @@
     >
       <div class="fv-plugins-message-container">
         <div class="fv-help-block">
-          <span role="alert">
-            {{ message }} {{ cantidadCaracteres }}
-          </span>
+          <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
         </div>
       </div>
     </ng-container>

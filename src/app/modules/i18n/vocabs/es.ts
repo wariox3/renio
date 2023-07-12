@@ -15,6 +15,8 @@ export const locale = {
           CANCELAR: 'Cancelar',
           ELIMINAR: 'Eliminar',
           ATRAS: 'Atrás',
+          INGRESAR: 'Ingresar',
+          RESTABLECER: 'Restablecer'
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -26,6 +28,9 @@ export const locale = {
         SEGURIDAD: {
           CAMBIAR: 'Cambiar contraseña',
         },
+        AUTENTIFICACION:{
+          CREARCUENTA:'Crear cuenta'
+        }
       },
       TITULOS: {
         COMUNES: {
@@ -53,7 +58,17 @@ export const locale = {
           TITULO2: 'Contraseña',
           CAMBIARCLAVE: 'Contraseña nueva',
           CONFIRMARCLAVE: 'Confirmar contraseña',
+          REGISTRO: 'Regístrese',
+          OLVIDARCONTRASENA: '¿Olvidaste tu contraseña?',
+          REGISTRATE: 'Regístrate',
+          NOINGRESO: '¿No puedes ingresar a tu cuenta?'
         },
+        AUTENTIFICACION :{
+          TITULO: 'Iniciar sesión',
+          CUENTA: '¿Ya tiene una cuenta? ',
+          TERMINOS: 'Acepto los términos y condiciones.',
+          NOCUENTA: '¿Aún no tienes una cuenta? '
+        }
       },
       CAMPOS: {
         COMUNES: {
@@ -81,7 +96,8 @@ export const locale = {
           NOMBREUSADO: 'Nombre no disponible'
         },
         SEGURIDAD: {
-          NOCOINCIDEN: 'La contraseña nueva y la confirmación no coinciden'
+          NOCOINCIDEN: 'La contraseña nueva y la confirmación no coinciden',
+          NOCOINCIDENNUEVO: 'La contraseña y la confirmación no coinciden'
         }
       },
       MENSAJES:{
