@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { Router } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
+import { Subscription, switchMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
@@ -29,7 +29,7 @@ export class EmpresaComponent implements OnInit {
   }
 
   consultarLista() {
-    this.store
+    let suscripcion = this.store
       .select(obtenerId)
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
@@ -47,7 +47,7 @@ export class EmpresaComponent implements OnInit {
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
-    this.empresaService
+    const consultaEmpresa = this.empresaService
       .detalle(`${empresaSeleccionada}`)
       .subscribe((respuesta) => {
         const empresa: Empresa = {
@@ -60,9 +60,13 @@ export class EmpresaComponent implements OnInit {
           usuario_id: 1,
           seleccion: true,
           rol: respuesta.rol,
+          plan_id: null,
+          plan_nombre: null,
+          usuarios: 1,
         };
         this.store.dispatch(empresaActionInit({ empresa }));
       });
+    consultaEmpresa.unsubscribe();
   }
 
   eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
@@ -75,7 +79,7 @@ export class EmpresaComponent implements OnInit {
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
           if (respuesta.value === empresa_subdominio) {
-            this.empresaService
+            let suscripcion = this.empresaService
               .eliminarEmpresa(empresa_id)
               .pipe(
                 tap(() => {
@@ -90,9 +94,13 @@ export class EmpresaComponent implements OnInit {
               )
               .subscribe();
           } else {
-              this.alertaService.mensajeError("Error", "El nombre ingresado con es valido")
+            this.alertaService.mensajeError(
+              'Error',
+              'El nombre ingresado con es valido'
+            );
           }
         }
       });
   }
+
 }

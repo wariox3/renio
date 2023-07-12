@@ -70,7 +70,7 @@ export class EmpresaService {
 
   enviarInvitacion(data: EmpresaInvitacion) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/`,
+      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/invitar/`,
       {
         accion: 'invitar',
         empresa_id: data.empresa_id,

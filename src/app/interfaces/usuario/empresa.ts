@@ -7,6 +7,9 @@ export interface Empresa {
   usuario_id: number;
   seleccion?: boolean
   rol: string
+  usuarios: Number,
+  plan_id: Number | null,
+  plan_nombre : Number | null,
 }
 
 

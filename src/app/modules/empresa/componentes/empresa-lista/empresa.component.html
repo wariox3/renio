@@ -6,7 +6,10 @@
       <!--begin::Header-->
       <div class="card-header">
         <div class="card-title m-0">
-          <h3 translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO" class="fw-bolder m-0"></h3>
+          <h3
+            translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO"
+            class="fw-bolder m-0"
+          ></h3>
         </div>
         <a
           translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
@@ -23,25 +26,20 @@
           <!--begin::Table-->
           <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
-            <!-- <thead>
+            <thead>
               <tr class="fw-bolder text-muted">
-                <th class="min-w-100px">ID</th>
-                <th class="min-w-150px">Empresa</th>
-                <th class="min-w-50px"></th>
-                <th class="min-w-100px"></th>
+                <th></th>
+                <th class="min-w-120px"></th>
+                <th class="min-w-150px">Plan</th>
+                <th class="min-w-100px">Usuarios</th>
               </tr>
-            </thead> -->
+            </thead>
             <tbody>
               <ng-container *ngIf="arrEmpresas.length > 0; else sinEmpresas">
                 <tr
                   *ngFor="let empresa of arrEmpresas"
                   style="height: calc(82px - 0.6rem) !important"
                 >
-                  <!-- <td>
-                    <span class="text-muted fw-bold text-muted d-block fs-7">{{
-                      empresa.id
-                    }}</span>
-                  </td> -->
                   <td style="width: 120px">
                     <ng-container *ngIf="empresa.imagen">
                       <img
@@ -68,14 +66,19 @@
                       >{{ empresa.subdominio }}.muup.online</span
                     >
                   </td>
+                  <td class="w-150px">
+                    <span class="badge badge-light-info fs-8 fw-bold">{{
+                      empresa.plan_nombre
+                    }}</span>
+                  </td>
+                  <td>{{ empresa.usuarios }} / maximo</td>
                   <td class="w-50px text-end">
                     <button
                       translate="FORMULARIOS.BOTONES.EMPRESA.CONECTAR"
                       href="#"
                       class="btn btn-bg-primary btn-color-white"
                       (click)="seleccionarEmpresa(empresa.empresa_id)"
-                    >
-                    </button>
+                    ></button>
                   </td>
                   <td class="w-50px">
                     <div
@@ -97,7 +100,8 @@
                         aria-labelledby="dropdownBasic1"
                       >
                         <div class="menu-item px-3">
-                          <a translate="FORMULARIOS.BOTONES.EMPRESA.INVITACION"
+                          <a
+                            translate="FORMULARIOS.BOTONES.EMPRESA.INVITACION"
                             [routerLink]="[
                               '/empresa/' +
                                 empresa.empresa_id +
@@ -106,18 +110,24 @@
                             class="menu-link px-3 cursor-pointer"
                             ngbDropdownItem
                           >
-                            
                           </a>
                         </div>
                         <div class="separator my-2"></div>
-                          <app-empresa-editar [empresa_id]="empresa.empresa_id"></app-empresa-editar>
+                        <app-empresa-editar
+                          [empresa_id]="empresa.empresa_id"
+                        ></app-empresa-editar>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-3">
                           <a
-                            class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger" translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                            (click)="eliminarEmpresa(empresa.subdominio, empresa.empresa_id)"
+                            class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
+                            translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                            (click)="
+                              eliminarEmpresa(
+                                empresa.subdominio,
+                                empresa.empresa_id
+                              )
+                            "
                           >
-                           
                           </a>
                         </div>
                         <div class="separator my-2"></div>
