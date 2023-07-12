@@ -40,7 +40,8 @@ export const locale = {
           EDITAR: 'Edit company',
           INVITAR: 'Invitations',
           NUEVAINVITACION: 'New invitation',
-          NUEVO: 'New company'
+          NUEVO: 'New company',
+          SUBDOMINIO: 'Subdomain'
         },
         PERFIL:{
           TITULO: 'Personal information'
@@ -76,6 +77,14 @@ export const locale = {
         },
         EMPRESA:{
           NOMBREUSADO: 'Name not available'
+        }
+      },
+      MENSAJES:{
+        COMUNES:{
+
+        },
+        EMPRESAS:{
+          CREAREMPRESA: 'We are creating your company, wait a moment...'
         }
       }
     },
