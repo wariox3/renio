@@ -100,6 +100,12 @@ export const locale = {
       CLARO:'Light',
       OSCURO:'Dark',
       SISTEMA:'System'
+    },
+    AYUDA:{
+      TITULO: 'Help',
+      ENLACEDOCUMENTACION: 'Official documentation',
+      DOCUMENTACION: 'Documentation',
+      DOCUMENTACIONTEXTO: "From guides and video tutorials, to live demos and examples to get you started."
     }
   }
 };

@@ -6,6 +6,8 @@ import {PurchaseToolbarComponent} from "./purchase-toolbar/purchase-toolbar.comp
 import {ExploreMainDrawerComponent} from './explore-main-drawer/explore-main-drawer.component';
 import {HelpDrawerComponent} from "./help-drawer/help-drawer.component";
 import {SharedModule} from "../../../shared/shared.module";
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {SharedModule} from "../../../shared/shared.module";
     CommonModule,
     InlineSVGModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    TranslateModule,
+    TranslationModule
   ],
   exports: [
     ExploreMainDrawerComponent,

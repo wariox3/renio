@@ -100,6 +100,12 @@ export const locale = {
       CLARO:'Claro',
       OSCURO:'Oscuro',
       SISTEMA:'Sistema'
+    },
+    AYUDA:{
+      TITULO: 'AYUDA',
+      ENLACEDOCUMENTACION: "Documentación oficial",
+      DOCUMENTACION: "Documentación",
+      DOCUMENTACIONTEXTO: "Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar."
     }
   },
 };
