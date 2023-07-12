@@ -7,6 +7,7 @@ import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa, EmpresaLista } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-empresa',
@@ -21,7 +22,8 @@ export class EmpresaComponent implements OnInit {
     private store: Store,
     private empresaService: EmpresaService,
     private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
@@ -69,11 +71,25 @@ export class EmpresaComponent implements OnInit {
   }
 
   eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
+
+    const mensajes = this.translateService.instant([
+      'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESATITULO',
+      'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO',
+      'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESAAYUDA',
+      'FORMULARIOS.BOTONES.COMUNES.ELIMINAR',
+      'FORMULARIOS.BOTONES.COMUNES.CANCELAR',
+    ]);
+
+
+
     this.alertaService
       .mensajeEliminarEmpresa(
         empresa_subdominio,
-        'Eliminar empresa',
-        'Este proceso no tiene reversa'
+        mensajes['FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESATITULO'],
+        mensajes['FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO'],
+        mensajes['FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESAAYUDA'],
+        mensajes['FORMULARIOS.BOTONES.COMUNES.ELIMINAR'],
+        mensajes['FORMULARIOS.BOTONES.COMUNES.CANCELAR'],
       )
       .then((respuesta) => {
         if (respuesta.isConfirmed) {

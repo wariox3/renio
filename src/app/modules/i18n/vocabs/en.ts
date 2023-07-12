@@ -86,7 +86,10 @@ export const locale = {
 
         },
         EMPRESAS:{
-          CREAREMPRESA: 'We are creating your company, wait a moment...'
+          CREAREMPRESA: 'We are creating your company, wait a moment...',
+          ELIMINAREMPRESATITULO: 'Eliminate company',
+          ELIMINAREMPRESASUBTITULO: 'This process is not reversed',
+          ELIMINAREMPRESAAYUDA: `To confirm, type in the box below:`,
         }
       }
     },

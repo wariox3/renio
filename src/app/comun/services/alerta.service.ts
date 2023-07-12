@@ -69,21 +69,22 @@ export class AlertaService {
     empresaNombre: string | null,
     title: string,
     html: string,
+    inputLabel: string,
+    confirmButtonText: string,
+    cancelButtonText: string
   ) {
     const mensaje = await Swal.fire({
       title,
       icon: 'warning',
       html,
+      cancelButtonText,
+      confirmButtonText,
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
-      cancelButtonText: 'Cancelar',
-      cancelButtonAriaLabel: 'Thumbs down',
-      confirmButtonText: 'Eliminar',
-      confirmButtonAriaLabel: 'aceptar',
       confirmButtonColor: '#f1416c',
       input: 'text',
-      inputLabel: `Para confirmar, escriba "${empresaNombre}" en el cuadro de abajo`,
+      inputLabel: `${inputLabel}${empresaNombre}`,
       inputAutoFocus: true,
       didOpen: ()=> {
         //deshabilitar el botton de confirmar
