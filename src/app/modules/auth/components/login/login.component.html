@@ -9,7 +9,7 @@
 >
   <!--begin::Heading-->
   <div class="text-center mb-11">
-    <h1 class="text-dark fw-bolder mb-3">Iniciar sesión</h1>
+    <h1 translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO" class="text-dark fw-bolder mb-3"></h1>
     <!--begin::Subtitle-->
     <div class="text-gray-500 fw-semibold fs-6"></div>
     <!--end::Subtitle--->
@@ -113,7 +113,7 @@
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
-        validation: 'minLength',
+        validation: 'minlength',
         message: 'El campo debe contener mínimo 3 caracteres',
         control: loginForm.controls['email']
       }"
@@ -121,7 +121,7 @@
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
-        validation: 'maxLength',
+        validation: 'maxlength',
         message: 'El campo debe contener máximo 50 caracteres',
         control: loginForm.controls['email']
       }"
@@ -173,7 +173,7 @@
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
-        validation: 'maxLength',
+        validation: 'maxlength',
         message: 'El campo debe contener máximo 50 caracteres',
         control: loginForm.controls['password']
       }"

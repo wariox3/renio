@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { LogoutComponent } from './components/logout/logout.component';
 import { AuthComponent } from './auth.component';
 import { TranslationModule } from '../i18n/translation.module';
+import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
@@ -32,6 +33,7 @@ import { InvitacionComponent } from './components/invitacion/invitacion.componen
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgbDropdownModule
   ],
 })
 export class AuthModule {}

@@ -71,11 +71,11 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label class="form-label fw-bolder text-dark fs-6">Correo</label>
+      <label translate="FORMULARIOS.CAMPOS.COMUNES.CORREO" class="form-label fw-bolder text-dark fs-6"></label>
       <input
         class="form-control bg-transparent"
         type="email"
-        placeholder="Correo"
+        [placeholder]="'FORMULARIOS.CAMPOS.COMUNES.CORREO' | translate"
         name="email"
         formControlName="usuario"
         autocomplete="off"
@@ -88,7 +88,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'El campo es requerido',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioRegistro.controls['usuario']
         }"
       ></ng-container>
@@ -96,7 +96,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'email',
-          message: 'El campo no es un correo electrónico válido',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
           control: formularioRegistro.controls['usuario']
         }"
       ></ng-container>
@@ -104,15 +104,17 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'El campo debe contener mínimo 3 caracteres',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+          cantidadCaracteres: '8',
           control: formularioRegistro.controls['usuario']
         }"
       ></ng-container>
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'maxLength',
-          message: 'El campo debe contener máximo 50 caracteres',
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '50',
           control: formularioRegistro.controls['usuario']
         }"
       ></ng-container>
@@ -121,12 +123,12 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label class="form-label fw-bolder text-dark fs-6">Contraseña</label>
+      <label translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO2" class="form-label fw-bolder text-dark fs-6"></label>
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoClave"
-          placeholder="Contraseña"
+          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.TITULO2' | translate"
           name="password"
           formControlName="clave"
           autocomplete="off"
@@ -148,7 +150,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'El campo es requerido',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioRegistro.controls['clave']
         }"
       ></ng-container>
@@ -156,15 +158,17 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'El campo debe contener mínimo 8 caracteres',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+          cantidadCaracteres: '8',
           control: formularioRegistro.controls['clave']
         }"
       ></ng-container>
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'maxLength',
-          message: 'El campo debe contener máximo 50 caracteres',
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '50',
           control: formularioRegistro.controls['clave']
         }"
       ></ng-container>
@@ -173,12 +177,12 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label class="form-label fw-bolder text-dark fs-6">Confirmar contraseña</label>
+      <label translate="FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE" class="form-label fw-bolder text-dark fs-6"></label>
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoConfirmarClave"
-          placeholder="Confirmar contraseña"
+          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' | translate"
           name="cPassword"
           autocomplete="off"
           formControlName="confirmarClave"
@@ -200,7 +204,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'El campo es requerido',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioRegistro.controls['confirmarClave']
         }"
       ></ng-container>
@@ -208,15 +212,17 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'El campo debe contener mínimo 8 caracteres',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+          cantidadCaracteres: '8',
           control: formularioRegistro.controls['confirmarClave']
         }"
       ></ng-container>
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'maxLength',
-          message: 'El campo debe contener máximo 50 caracteres',
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '50',
           control: formularioRegistro.controls['confirmarClave']
         }"
       ></ng-container>
@@ -301,6 +307,7 @@
     let-control="control"
     let-message="message"
     let-validation="validation"
+    let-cantidadCaracteres="cantidadCaracteres"
   >
     <ng-container
       *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
@@ -308,7 +315,7 @@
       <div class="fv-plugins-message-container">
         <div class="fv-help-block">
           <span role="alert">
-            {{ message }}
+            {{ message }} {{ cantidadCaracteres }}
           </span>
         </div>
       </div>

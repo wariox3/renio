@@ -61,7 +61,7 @@
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
-        validation: 'maxLength',
+        validation: 'maxlength',
         message: 'El campo debe contener máximo 50 caracteres',
         control: formularioReiniciarClave.controls['clave']
       }"
@@ -114,7 +114,7 @@
     <ng-container
       [ngTemplateOutlet]="formError"
       [ngTemplateOutletContext]="{
-        validation: 'maxLength',
+        validation: 'maxlength',
         message: 'El campo debe contener máximo 50 caracteres',
         control: formularioReiniciarClave.controls['confirmarClave']
       }"

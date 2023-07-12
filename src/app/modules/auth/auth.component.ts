@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslationService } from '../i18n';
 
 // const BODY_CLASSES = ['bgi-size-cover', 'bgi-position-center', 'bgi-no-repeat'];
 
@@ -10,14 +11,53 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   today: Date = new Date();
+  language: LanguageFlag;
+  langs = languages;
 
-  constructor() {}
+  constructor(private translationService: TranslationService) {}
 
   ngOnInit(): void {
-    // BODY_CLASSES.forEach((c) => document.body.classList.add(c));
+    this.setLanguage(this.translationService.getSelectedLanguage());
+  }
+
+  selectLanguage(lang: string) {
+    this.translationService.setLanguage(lang);
+    this.setLanguage(lang);
+    // document.location.reload();
+  }
+
+  setLanguage(lang: string) {
+    this.langs.forEach((language: LanguageFlag) => {
+      if (language.lang === lang) {
+        language.active = true;
+        this.language = language;
+      } else {
+        language.active = false;
+      }
+    });
   }
 
   ngOnDestroy() {
     // BODY_CLASSES.forEach((c) => document.body.classList.remove(c));
   }
 }
+
+interface LanguageFlag {
+  lang: string;
+  name: string;
+  flag: string;
+  active?: boolean;
+}
+
+const languages = [
+  {
+    lang: 'es',
+    name: 'Español',
+    flag: './assets/media/flags/spain.svg',
+  },
+  {
+    lang: 'en',
+    name: 'Ingles',
+    flag: './assets/media/flags/united-states.svg',
+  },
+];

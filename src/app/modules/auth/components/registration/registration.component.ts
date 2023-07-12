@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
             Validators.required,
             Validators.email,
             Validators.minLength(3),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
             Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
           ]),
         ],
@@ -70,7 +70,7 @@ export class RegistrationComponent implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.minLength(8),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
           ]),
         ],
         confirmarClave: [
@@ -78,7 +78,7 @@ export class RegistrationComponent implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.minLength(8),
-            Validators.maxLength(100),
+            Validators.maxLength(50),
           ]),
         ],
         terminosCondiciones: [false, Validators.compose([Validators.requiredTrue])],
