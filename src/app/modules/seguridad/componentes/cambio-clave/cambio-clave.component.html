@@ -46,7 +46,7 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'El campo es requerido',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
             control: formularioCambioClave.controls['nuevaClave']
           }"
         ></ng-container>
@@ -54,7 +54,8 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'minlength',
-            message: 'El campo debe contener mínimo 3 caracteres',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+            cantidadCaracteres: '3',
             control: formularioCambioClave.controls['nuevaClave']
           }"
         ></ng-container>
@@ -62,7 +63,8 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'maxLength',
-            message: 'El campo debe contener máximo 50 caracteres',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '50',
             control: formularioCambioClave.controls['nuevaClave']
           }"
         ></ng-container>
@@ -102,7 +104,7 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'El campo es requerido',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
             control: formularioCambioClave.controls['confirmarNuevaClave']
           }"
         ></ng-container>
@@ -110,7 +112,8 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'minlength',
-            message: 'El campo debe contener mínimo 3 caracteres',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+            cantidadCaracteres: '3',
             control: formularioCambioClave.controls['confirmarNuevaClave']
           }"
         ></ng-container>
@@ -118,7 +121,8 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'maxLength',
-            message: 'El campo debe contener máximo 50 caracteres',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '50',
             control: formularioCambioClave.controls['confirmarNuevaClave']
           }"
         ></ng-container>
@@ -126,7 +130,7 @@
           [ngTemplateOutlet]="formError"
           [ngTemplateOutletContext]="{
             validation: 'clavesDiferentes',
-            message: 'La contraseña nueva y la confirmación no coinciden',
+            message: 'FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDEN' | translate,
             control: formularioCambioClave.controls['confirmarNuevaClave']
           }"
         ></ng-container>
@@ -136,6 +140,7 @@
         let-control="control"
         let-message="message"
         let-validation="validation"
+        let-cantidadCaracteres="cantidadCaracteres"
       >
         <ng-container
           *ngIf="
@@ -145,7 +150,7 @@
           <div class="fv-plugins-message-container">
             <div class="fv-help-block">
               <span role="alert">
-                {{ message }}
+                {{ message }} {{ cantidadCaracteres }}
               </span>
             </div>
           </div>

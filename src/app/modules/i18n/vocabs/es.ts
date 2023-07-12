@@ -79,6 +79,9 @@ export const locale = {
         },
         EMPRESA:{
           NOMBREUSADO: 'Nombre no disponible'
+        },
+        SEGURIDAD: {
+          NOCOINCIDEN: 'La contraseña nueva y la confirmación no coinciden'
         }
       },
       MENSAJES:{

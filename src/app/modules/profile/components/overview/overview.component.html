@@ -89,7 +89,8 @@
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 255 caracteres',
+                      message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                      cantidadCaracteres: '255',
                       control: formularioResumen.controls['nombre']
                     }"
                   ></ng-container>
@@ -127,7 +128,8 @@
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 255 caracteres',
+                      message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                      cantidadCaracteres: '255',
                       control: formularioResumen.controls['apellido']
                     }"
                   ></ng-container>
@@ -169,7 +171,7 @@
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
                       validation: 'required',
-                      message: 'El campo es requerido',
+                      message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
                       control: formularioResumen.controls['nombreCorto']
                     }"
                   ></ng-container>
@@ -177,7 +179,8 @@
                     [ngTemplateOutlet]="formError"
                     [ngTemplateOutletContext]="{
                       validation: 'maxlength',
-                      message: 'El campo debe contener máximo 255 caracteres',
+                      message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                      cantidadCaracteres: '255',
                       control: formularioResumen.controls['nombreCorto']
                     }"
                   ></ng-container>
@@ -220,8 +223,8 @@
                       ></label
                     >
                     <input
-                      type="number"
-                      class="form-control form-control"
+                      type="text"
+                      class="form-control"
                       formControlName="telefono"
                       [ngClass]="{
                         'is-invalid':
@@ -236,7 +239,8 @@
                       [ngTemplateOutlet]="formError"
                       [ngTemplateOutletContext]="{
                         validation: 'minlength',
-                        message: 'El campo debe contener mínimo 3 caracteres',
+                        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+                        cantidadCaracteres: '3',
                         control: formularioResumen.controls['telefono']
                       }"
                     ></ng-container>
@@ -244,10 +248,20 @@
                       [ngTemplateOutlet]="formError"
                       [ngTemplateOutletContext]="{
                         validation: 'maxlength',
-                        message: 'El campo debe contener máximo 50 caracteres',
+                        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                        cantidadCaracteres: '50',
                         control: formularioResumen.controls['telefono']
                       }"
                     ></ng-container>
+                    <ng-container
+                    [ngTemplateOutlet]="formError"
+                    [ngTemplateOutletContext]="{
+                      validation: 'maxlength',
+                      message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                      cantidadCaracteres: '50',
+                      control: formularioResumen.controls['telefono']
+                    }"
+                  ></ng-container>
                   </div>
                 </div>
               </ng-container>
@@ -291,6 +305,7 @@
         let-control="control"
         let-message="message"
         let-validation="validation"
+        let-cantidadCaracteres="cantidadCaracteres"
       >
         <ng-container
           *ngIf="
@@ -300,7 +315,7 @@
           <div class="fv-plugins-message-container">
             <div class="fv-help-block">
               <span role="alert">
-                {{ message }}
+                {{ message }} {{ cantidadCaracteres }}
               </span>
             </div>
           </div>

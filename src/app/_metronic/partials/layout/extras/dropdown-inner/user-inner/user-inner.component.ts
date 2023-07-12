@@ -77,15 +77,15 @@ interface LanguageFlag {
 
 const languages = [
   {
-    lang: 'en',
-    name: 'English',
-    flag: './assets/media/flags/united-states.svg',
-  },
-  {
     lang: 'es',
-    name: 'Spanish',
+    name: 'Español',
     flag: './assets/media/flags/spain.svg',
   },
+  {
+    lang: 'en',
+    name: 'Ingles',
+    flag: './assets/media/flags/united-states.svg',
+  }
   // {
   //   lang: 'ja',
   //   name: 'Japanese',

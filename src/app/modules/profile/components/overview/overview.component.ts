@@ -78,7 +78,7 @@ export class OverviewComponent implements OnInit {
       indicativoPais: [this.usuarioInformacion.indicativoPais],
       telefono: [
         this.usuarioInformacion.telefono,
-        Validators.compose([Validators.minLength(3), Validators.maxLength(50)]),
+        Validators.compose([Validators.minLength(3), Validators.maxLength(50), Validators.pattern(/^[0-9]+$/)]),
       ],
       nombreCorto: [
         this.usuarioInformacion.nombreCorto,
