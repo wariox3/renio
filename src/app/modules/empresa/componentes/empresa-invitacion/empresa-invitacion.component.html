@@ -42,7 +42,7 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
-              message: 'El campo es requerido',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
@@ -50,7 +50,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'minlength',
-              message: 'El campo debe contener mínimo 3 caracteres',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: 3,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
@@ -58,7 +59,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'El campo debe contener máximo 320 caracteres',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: 255,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
@@ -66,7 +68,7 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'email',
-              message: 'El campo no es un correo electrónico válido',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
@@ -141,6 +143,7 @@
   let-control="control"
   let-message="message"
   let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
 >
   <ng-container
     *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
@@ -148,7 +151,7 @@
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert">
-          {{ message }}
+          {{ message }} {{cantidadCaracteres}}
         </span>
       </div>
     </div>

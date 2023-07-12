@@ -65,6 +65,14 @@ export const locale = {
           NOMBREMOSTRAR: 'Display name',
         },
       },
+      VALIDACIONES: {
+        COMUNES:{
+          REQUERIDO: 'Field is required',
+          CAMPOMINIMO: 'The field must have a minimum number of characters of',
+          CAMPOMAXIMO: 'The maximum number of characters allowed for this field is',
+          TIPOCORREO: 'Field is not a valid email address'
+        }
+      }
     },
   }
 };

@@ -19,7 +19,7 @@ export const locale = {
         EMPRESA: {
           CONECTAR: 'Conectar',
           INVITACION: 'Invitaciones',
-          INVITAR: 'Invitar'
+          INVITAR: 'Invitar',
         },
         GENERAL: {},
         INVENTARIO: {},
@@ -39,7 +39,7 @@ export const locale = {
           TITULO: 'Empresas',
           EDITAR: 'Editar empresa',
           INVITAR: 'Invitaciones',
-          NUEVAINVITACION: 'Nueva invitación'
+          NUEVAINVITACION: 'Nueva invitación',
         },
         PERFIL: {
           TITULO: 'Información personal',
@@ -59,10 +59,18 @@ export const locale = {
           TELEFONO: 'Teléfono',
           PAIS: 'País',
           USUARIO: 'Usuario',
-          ROL: 'Rol'
+          ROL: 'Rol',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
+        },
+      },
+      VALIDACIONES: {
+        COMUNES: {
+          REQUERIDO: 'El campo es requerido',
+          CAMPOMINIMO: 'El campo debe tener un mínimo de caracteres de',
+          CAMPOMAXIMO: 'La cantidad máxima de caracteres permitidos para este campo es de',
+          TIPOCORREO: 'El campo no es un correo electrónico válido'
         },
       },
     },
