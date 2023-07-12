@@ -7,8 +7,8 @@ import Swal from 'sweetalert2';
 export class AlertaService {
   constructor() {}
 
-  async mensajeError(title: string, text: string) {
-    return await Swal.fire({
+  mensajeError(title: string, text: string) {
+    Swal.fire({
       title,
       html: text,
       icon: 'error',

@@ -12,7 +12,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { Router } from '@angular/router';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { Store } from '@ngrx/store';
-import { switchMap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({
@@ -77,14 +77,28 @@ export class EmpresaNuevoComponent implements OnInit {
   enviarFormulario(dataFormularioLogin: any) {
     this.visualizarBtnAtras = false;
     this.procesando = true;
+
     this.empresaService
-      .nuevo(dataFormularioLogin, this.codigoUsuario)
-      .subscribe({
-        next: () => {
+      .consultarNombre(dataFormularioLogin.subdominio)
+      .pipe(
+        switchMap(({validar}) => {
+          if (!validar) {
+            this.procesando = false;
+            this.changeDetectorRef.detectChanges();
+           //this.formFields.subdominio.setErrors({ EmpresaYaExiste: true });
+            this.alertaService.mensajeError('Error', 'Nombre en uso');
+          } else {
+             return this.empresaService.nuevo(dataFormularioLogin, this.codigoUsuario);
+          }
+          return of(null);
+        })
+      )
+      .subscribe((respuesta: any)=>{
+        if(respuesta.empresa){
           this.alertaService.mensajaExitoso('Nueva empresa creada', '');
           this.router.navigate(['/empresa/lista']);
           this.procesando = false;
-        },
+        }
       });
   }
 
