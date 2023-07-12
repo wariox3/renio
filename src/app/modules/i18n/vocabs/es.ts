@@ -30,6 +30,8 @@ export const locale = {
       TITULOS: {
         COMUNES: {
           USUARIOS: 'Usuarios',
+          IDIOMA: 'Idioma',
+          CERRARSESION: 'Cerrar sesión',
           MENU: {
             PERFIL: 'Mi perfil',
             EMPRESAS: 'Mis empresas',
