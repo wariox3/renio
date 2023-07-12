@@ -4,16 +4,14 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-verificacion-cuenta',
   templateUrl: './verificacion-cuenta.component.html',
   styleUrls: ['./verificacion-cuenta.component.scss'],
 })
 export class VerificacionCuentaComponent implements OnInit {
-
-  verificacionToken: ('exitosa'|'error'|'cargando') = 'cargando';
-  verficacionErrorMensaje = ""
+  verificacionToken: 'exitosa' | 'error' | 'cargando' = 'cargando';
+  verficacionErrorMensaje = '';
   codigoUsuario: number | null = null;
 
   constructor(
@@ -21,11 +19,11 @@ export class VerificacionCuentaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.consultarValidacion()
+    this.consultarValidacion();
   }
 
   consultarValidacion() {
@@ -38,18 +36,9 @@ export class VerificacionCuentaComponent implements OnInit {
         );
         this.verificacionToken = 'exitosa';
         this.changeDetectorRef.detectChanges();
-
       },
-      error: ({ error }) => {
+      error: () => {
         this.verificacionToken = 'error';
-        this.verficacionErrorMensaje = error.mensaje;
-        if (error.codigo != 4) {
-          this.codigoUsuario = error.codigoUsuario;
-        }
-        this.alertaService.mensajeError(
-          'Error en la verificación',
-          `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-        );
         this.changeDetectorRef.detectChanges();
       },
     });
