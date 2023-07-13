@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Contacto } from '../modelos/contacto';
-import { Subdomino } from '@comun/services/subdomino';
+import { Subdomino } from '@comun/clases/subdomino';
 
 @Injectable({
   providedIn: 'root'

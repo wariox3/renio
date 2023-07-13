@@ -18,13 +18,14 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa } from '@interfaces/usuario/empresa';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent extends General implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
     email: '',
@@ -43,12 +44,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-    private store: Store,
-    private alertaService: AlertaService,
     private renderer2: Renderer2,
-    private activatedRoute: ActivatedRoute
   ) {
+    super();
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
@@ -137,15 +135,18 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
           }),
           switchMap(() => {
-             if (tokenUrl) {
-               return this.authService.confirmarInivitacion(tokenUrl);
-             }
+            if (tokenUrl) {
+              return this.authService.confirmarInivitacion(tokenUrl);
+            }
             return of(null);
           }),
-          tap((respuestaConfirmarInivitacion: any)=>{
+          tap((respuestaConfirmarInivitacion: any) => {
             if (tokenUrl) {
-              if(respuestaConfirmarInivitacion.confirmar){
-                this.alertaService.mensajaExitoso("Gracias", "Invitacion aceptada")
+              if (respuestaConfirmarInivitacion.confirmar) {
+                this.alertaService.mensajaExitoso(
+                  'Gracias',
+                  'Invitacion aceptada'
+                );
               }
             }
           })
