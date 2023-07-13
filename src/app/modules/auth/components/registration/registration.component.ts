@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AlertaService } from '@comun/services/alerta.service';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-registration',
@@ -30,6 +32,7 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
     private renderer2: Renderer2,
     private alertaService: AlertaService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +99,15 @@ export class RegistrationComponent implements OnInit {
 
   submit() {
     if (this.formularioRegistro.valid) {
+
+      const mensajes = this.translateService.instant([
+        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESATITULO',
+        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO',
+        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESAAYUDA',
+        'FORMULARIOS.BOTONES.COMUNES.ELIMINAR',
+        'FORMULARIOS.BOTONES.COMUNES.CANCELAR',
+      ]);
+
       this.renderer2.setAttribute(
         this.btnCrear.nativeElement,
         'disabled',

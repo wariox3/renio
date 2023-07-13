@@ -18,6 +18,7 @@ export class EmpresaInvitacionComponent implements OnInit {
 
   ]
   formularioEmpresaInvitacion: FormGroup;
+  empresa_nombre = ""
   usuarioCodigo = '';
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +31,8 @@ export class EmpresaInvitacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.empresa_nombre = this.activatedRoute.snapshot.paramMap.get('nombreempresa')!;
+
     this.store.select(obtenerId).subscribe((codigoUsuario) => {
       this.usuarioCodigo = codigoUsuario;
       this.changeDetectorRef.detectChanges();

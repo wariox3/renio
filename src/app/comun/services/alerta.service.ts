@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlertaService {
-  constructor() {}
+  constructor(private translateService: TranslateService) {}
 
   mensajeError(title: string, text: string) {
     Swal.fire({
@@ -27,8 +28,13 @@ export class AlertaService {
   }
 
   async mensajaExitoso(title: string, text: string) {
+
+    const mensajes = this.translateService.instant(
+      'FORMULARIOS.MENSAJES.COMUNES.EXITOSO',
+    );
+    
     return await Swal.fire({
-      title,
+      title:mensajes,
       html: text,
       icon: 'success',
       position: 'bottom-right',

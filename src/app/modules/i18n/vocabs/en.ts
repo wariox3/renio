@@ -36,7 +36,10 @@ export const locale = {
         COMUNES: {
           USUARIOS: 'Users',
           IDIOMA: 'Language',
-          CERRARSESION: 'Log off',
+          CERRARSESION: 'Log out',
+          TERMINOS:'Terms',
+          PLAN:'Plans',
+          CONTACTO: 'Contact us',
           MENU: {
             PERFIL: 'My profile',
             EMPRESAS: 'My companies',
@@ -46,7 +49,7 @@ export const locale = {
           TITULO: 'Companies',
           EDITAR: 'Edit company',
           INVITAR: 'Invitations',
-          NUEVAINVITACION: 'New invitation',
+          NUEVAINVITACION: 'New invitation to',
           NUEVO: 'New company',
           SUBDOMINIO: 'Subdomain'
         },
@@ -117,6 +120,7 @@ export const locale = {
           ELIMINAREMPRESATITULO: 'Eliminate company',
           ELIMINAREMPRESASUBTITULO: 'This process is not reversed',
           ELIMINAREMPRESAAYUDA: `To confirm, type in the box below:`,
+          SINEMPRESAS: "No cuenta con empresas creadas"
         }
       }
     },

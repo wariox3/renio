@@ -100,8 +100,7 @@ export class CambioClaveComponent implements OnInit {
       this.authService
         .reiniciarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
-          this.alertaService.mensajaExitoso(
-            'Actualización exitosa',
+          this.alertaService.mensajaExitoso('',
             `Recuerde iniciar sesion con su nueva contraseña`
           );
           this.modalService.dismissAll();

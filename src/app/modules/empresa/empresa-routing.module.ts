@@ -18,7 +18,7 @@ const routes: Routes = [
     component: EmpresaNuevoComponent,
   },
   {
-    path: ':codigoempresa/invitacion/nuevo',
+    path: ':nombreempresa/:codigoempresa/invitacion/nuevo',
     component: EmpresaInvitacionComponent,
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },

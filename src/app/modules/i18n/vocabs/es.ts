@@ -16,7 +16,7 @@ export const locale = {
           ELIMINAR: 'Eliminar',
           ATRAS: 'Atrás',
           INGRESAR: 'Ingresar',
-          RESTABLECER: 'Restablecer'
+          RESTABLECER: 'Restablecer',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -28,15 +28,18 @@ export const locale = {
         SEGURIDAD: {
           CAMBIAR: 'Cambiar contraseña',
         },
-        AUTENTIFICACION:{
-          CREARCUENTA:'Crear cuenta'
-        }
+        AUTENTIFICACION: {
+          CREARCUENTA: 'Crear cuenta',
+        },
       },
       TITULOS: {
         COMUNES: {
           USUARIOS: 'Usuarios',
           IDIOMA: 'Idioma',
           CERRARSESION: 'Cerrar sesión',
+          TERMINOS: 'Terminos',
+          PLAN: 'Planes',
+          CONTACTO: 'Contacto',
           MENU: {
             PERFIL: 'Mi perfil',
             EMPRESAS: 'Mis empresas',
@@ -46,9 +49,9 @@ export const locale = {
           TITULO: 'Empresas',
           EDITAR: 'Editar empresa',
           INVITAR: 'Invitaciones',
-          NUEVAINVITACION: 'Nueva invitación',
+          NUEVAINVITACION: 'Nueva invitación para',
           NUEVO: 'Nueva empresa',
-          SUBDOMINIO: 'Subdominio'
+          SUBDOMINIO: 'Subdominio',
         },
         PERFIL: {
           TITULO: 'Información personal',
@@ -62,21 +65,22 @@ export const locale = {
           OLVIDARCONTRASENA: '¿Olvidaste tu contraseña?',
           REGISTRATE: 'Regístrate',
           NOINGRESO: '¿No puedes ingresar a tu cuenta?',
-          MENSAJE: 'Hemos enviado un enlace a tu correo electrónico para restablecer tu contraseña',
-          RESTABLECER: 'Restablecer contraseña'
+          MENSAJE:
+            'Hemos enviado un enlace a tu correo electrónico para restablecer tu contraseña',
+          RESTABLECER: 'Restablecer contraseña',
         },
-        AUTENTIFICACION :{
+        AUTENTIFICACION: {
           TITULO: 'Iniciar sesión',
           CUENTA: '¿Ya tiene una cuenta? ',
           TERMINOS: 'Acepto los términos y condiciones.',
           NOCUENTA: '¿Aún no tienes una cuenta? ',
-          VERIFICACIONEXITOSA: "Cuenta verificada con éxito",
-          VERIFICACIONEXITOSASUBTITULO: "Ya puedes empezar a usar redofice",
-          VERIFICACIONERROR: "Se ha presentado un error",
-          VERIFICACIONERRORSUBTITULO: "Ya puedes empezar a usar redofice",
-          PROCESANDOTOKEN:"Procesando token",
-          REGRESARLOGIN: "Regresar a la página de iniciar sesión"
-        }
+          VERIFICACIONEXITOSA: 'Cuenta verificada con éxito',
+          VERIFICACIONEXITOSASUBTITULO: 'Ya puedes empezar a usar redofice',
+          VERIFICACIONERROR: 'Se ha presentado un error',
+          VERIFICACIONERRORSUBTITULO: 'Ya puedes empezar a usar redofice',
+          PROCESANDOTOKEN: 'Procesando token',
+          REGRESARLOGIN: 'Regresar a la página de iniciar sesión',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -96,40 +100,46 @@ export const locale = {
         COMUNES: {
           REQUERIDO: 'El campo es requerido',
           CAMPOMINIMO: 'El campo debe tener un mínimo de caracteres de',
-          CAMPOMAXIMO: 'La cantidad máxima de caracteres permitidos para este campo es de',
+          CAMPOMAXIMO:
+            'La cantidad máxima de caracteres permitidos para este campo es de',
           TIPOCORREO: 'El campo no es un correo electrónico válido',
           NOVALIDO: 'El campo contiene caracteres no válidos',
         },
-        EMPRESA:{
-          NOMBREUSADO: 'Nombre no disponible'
+        EMPRESA: {
+          NOMBREUSADO: 'Nombre no disponible',
         },
         SEGURIDAD: {
           NOCOINCIDEN: 'La contraseña nueva y la confirmación no coinciden',
-          NOCOINCIDENNUEVO: 'La contraseña y la confirmación no coinciden'
-        }
-      },
-      MENSAJES:{
-        COMUNES:{
-
+          NOCOINCIDENNUEVO: 'La contraseña y la confirmación no coinciden',
         },
-        EMPRESAS:{
+      },
+      MENSAJES: {
+        COMUNES: {
+          EXITOSO:'Proceso exitoso'
+        },
+        EMPRESAS: {
           CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',
           ELIMINAREMPRESATITULO: 'Eliminar empresa',
           ELIMINAREMPRESASUBTITULO: 'Este proceso no tiene reversa',
           ELIMINAREMPRESAAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
+          SINEMPRESAS: "No cuenta con empresas creadas"
+        },
+        AUTENTIFICACION: {
+          VERIFICACION: 'Se ha enviado un correo electrónico para verificar tu cuenta'
         }
-      }
+      },
     },
-    TEMA:{
-      CLARO:'Claro',
-      OSCURO:'Oscuro',
-      SISTEMA:'Sistema'
+    TEMA: {
+      CLARO: 'Claro',
+      OSCURO: 'Oscuro',
+      SISTEMA: 'Sistema',
     },
-    AYUDA:{
+    AYUDA: {
       TITULO: 'AYUDA',
-      ENLACEDOCUMENTACION: "Documentación oficial",
-      DOCUMENTACION: "Documentación",
-      DOCUMENTACIONTEXTO: "Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar."
-    }
+      ENLACEDOCUMENTACION: 'Documentación oficial',
+      DOCUMENTACION: 'Documentación',
+      DOCUMENTACIONTEXTO:
+        'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.',
+    },
   },
 };

@@ -1,98 +1,105 @@
 <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-
   <!--begin::Body-->
-  <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
-    <!--begin::Form-->
+  <div
+    class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1"
+  >
     <div class="d-flex flex-center flex-column flex-lg-row-fluid">
-      <!--begin::Wrapper-->
       <div class="p-10">
         <router-outlet></router-outlet>
       </div>
-      <!--end::Wrapper-->
     </div>
-    <!--end::Form-->
-
-    <!--begin::Footer-->
-    <div class="d-flex flex-center flex-wrap px-5">
-      <!--begin::Links-->
+    <div class="d-flex flex-stack flex-wrap px-10 mx-auto">
       <div class="d-flex fw-semibold text-primary fs-base">
-      <div ngbDropdown class="me-10">
-        <!--begin::Toggle-->
-        <button ngbDropdownToggle  class="btn btn-flex btn-lik btn-color-gray-700 btn-active-color-primary rotate fs-base" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" data-kt-menu-offset="0px, 0px">
-          {{ language.name }} <img
-          class="w-15px h-15px rounded-1 ms-2"
-          [src]="language.flag"
-          alt="metronic"
-        />
-          <!-- <img data-kt-element="current-lang-flag" class="w-20px h-20px rounded me-3" src="assets/media/flags/spain.svg" alt="" />
-          <span data-kt-element="current-lang-name" class="me-1">Spanish</span>
-          <i class="ki-duotone ki-down fs-5 text-muted rotate-180 m-0"></i> -->
-        </button>
-        <!--end::Toggle-->
-        <!--begin::Menu-->
-        <div ngbDropdownMenu class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-4 fs-7" data-kt-menu="true" id="kt_auth_lang_menu">
-          <div
-          *ngFor="let l of langs"
-          class="menu-item px-3 cursor-pointer"
-          (click)="selectLanguage(l.lang)"
-          ngbDropdownItem
-        >
-          <a
-            class="menu-link d-flex px-5"
-            [ngClass]="l.lang === language.lang ? 'active' : ''"
+        <div ngbDropdown class="me-10">
+          <button
+            ngbDropdownToggle
+            class="btn btn-flex btn-lik btn-color-gray-700 btn-active-color-primary rotate fs-base"
+            data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-start"
+            data-kt-menu-offset="0px, 0px"
           >
-            <span class="symbol symbol-20px me-4">
-              <img class="rounded-1" [src]="l.flag" alt="metronic" />
-            </span>
-            {{ l.name }}
-          </a>
-        </div>
-          <!-- <div class="menu-item px-3">
-            <a href="#" class="menu-link d-flex px-5" data-kt-lang="Spanish">
-              <span class="symbol symbol-20px me-4">
-                <img data-kt-element="lang-flag" class="rounded-1" src="assets/media/flags/spain.svg" alt="" />
-              </span>
-              <span data-kt-element="lang-name">Spanish</span>
-            </a>
+            {{ language.name }}
+            <img
+              class="w-15px h-15px rounded-1 ms-2"
+              [src]="language.flag"
+              alt="metronic"
+            />
+          </button>
+          <div
+            ngbDropdownMenu
+            class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-4 fs-7"
+            data-kt-menu="true"
+            id="kt_auth_lang_menu"
+          >
+            <div
+              *ngFor="let l of langs"
+              class="menu-item px-3 cursor-pointer"
+              (click)="selectLanguage(l.lang)"
+              ngbDropdownItem
+            >
+              <a
+                class="menu-link d-flex px-5"
+                [ngClass]="l.lang === language.lang ? 'active' : ''"
+              >
+                <span class="symbol symbol-20px me-4">
+                  <img class="rounded-1" [src]="l.flag" alt="metronic" />
+                </span>
+                {{ l.name }}
+              </a>
+            </div>
           </div>
-          <div class="menu-item px-3">
-            <a href="#" class="menu-link d-flex px-5" data-kt-lang="English">
-              <span class="symbol symbol-20px me-4">
-                <img data-kt-element="lang-flag" class="rounded-1" src="assets/media/flags/united-states.svg" alt="" />
-              </span>
-              <span data-kt-element="lang-name">English</span>
-            </a>
-          </div> -->
         </div>
-        <!--end::Menu-->
       </div>
+      <div class="d-flex justify-content-center fw-semibold text-primary fs-base my-3">
+        <a
+          translate="FORMULARIOS.TITULOS.COMUNES.TERMINOS"
+          href="#"
+          class="px-5"
+          target="_blank"
+        ></a>
 
-        <a href="#" class="px-5" target="_blank"></a>
+        <a
+          translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
+          href="#"
+          class="px-5"
+          target="_blank"
+        ></a>
 
-        <a href="#" class="px-5" target="_blank"></a>
-
-        <a href="#" class="px-5" target="_blank"></a>
+        <a
+          translate="FORMULARIOS.TITULOS.COMUNES.CONTACTO"
+          href="#"
+          class="px-5"
+          target="_blank"
+        ></a>
       </div>
-      <!--end::Links-->
     </div>
     <!--end::Footer-->
   </div>
   <!--end::Body-->
 
   <!--begin::Aside-->
-  <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-    [ngStyle]="{'background-image': 'url(./assets/media/misc/auth-bg.png)'}">
+  <div
+    class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
+    [ngStyle]="{ 'background-image': 'url(./assets/media/misc/auth-bg.png)' }"
+  >
     <!--begin::Content-->
     <div class="d-flex flex-column flex-center py-15 px-5 px-md-15 w-100">
       <!--begin::Logo-->
       <a routerLink="/" class="mb-12">
-        <img alt="Logo" src="./assets/media/logos/custom-1.png" class="h-75px" />
+        <img
+          alt="Logo"
+          src="./assets/media/logos/custom-1.png"
+          class="h-75px"
+        />
       </a>
       <!--end::Logo-->
 
       <!--begin::Image-->
-      <img class="mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="./assets/media/misc/auth-screens.png"
-        alt="" />
+      <img
+        class="mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20"
+        src="./assets/media/misc/auth-screens.png"
+        alt=""
+      />
       <!--end::Image-->
 
       <!--begin::Title-->
@@ -103,12 +110,19 @@
 
       <!--begin::Text-->
       <div class="text-white fs-base text-center">
-        In this kind of post, <a href="#" class="opacity-75-hover text-warning fw-bold me-1">the blogger</a>
+        In this kind of post,
+        <a href="#" class="opacity-75-hover text-warning fw-bold me-1"
+          >the blogger</a
+        >
 
-        introduces a person they’ve interviewed <br /> and provides some background information about
+        introduces a person they’ve interviewed <br />
+        and provides some background information about
 
-        <a href="#" class="opacity-75-hover text-warning fw-bold me-1">the interviewee</a>
-        and their <br /> work following this is a transcript of the interview.
+        <a href="#" class="opacity-75-hover text-warning fw-bold me-1"
+          >the interviewee</a
+        >
+        and their <br />
+        work following this is a transcript of the interview.
       </div>
       <!--end::Text-->
     </div>

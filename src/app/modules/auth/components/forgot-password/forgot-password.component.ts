@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertaService } from '@comun/services/alerta.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
     private renderer2: Renderer2,
     private alertaService: AlertaService,
     private changeDetectorRef: ChangeDetectorRef,
+    private translateService: TranslateService
 
   ) {
   }
@@ -73,10 +75,7 @@ export class ForgotPasswordComponent implements OnInit {
             'Restablecer'
           );
           this.ocultarFormularioRestablecerClave = true
-          this.alertaService.mensajaExitoso(
-            'Recuperación exitosa',
-            `Se ha enviado un correo de verificación.`
-          );
+          this.alertaService.mensajaExitoso('', this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION'));
           this.changeDetectorRef.detectChanges();
         },
         error: () => {
