@@ -26,7 +26,7 @@
           <!--begin::Table-->
           <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
-            <thead>
+            <thead *ngIf="arrEmpresas.length > 0">
               <tr class="fw-bolder text-muted">
                 <th></th>
                 <th class="min-w-120px"></th>
@@ -138,7 +138,7 @@
               </ng-container>
               <ng-template #sinEmpresas>
                 <tr>
-                  <td colspan="4">No cuenta con empresas creadas</td>
+                  <td colspan="4" translate="FORMULARIOS.MENSAJES.EMPRESAS.SINEMPRESAS"></td>
                 </tr>
               </ng-template>
             </tbody>
