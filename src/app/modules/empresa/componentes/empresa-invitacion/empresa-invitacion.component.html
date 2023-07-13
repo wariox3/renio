@@ -1,10 +1,3 @@
-<a
-  translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
-  class="btn btn-secondary align-self-center mb-4"
-  ng-reflect-router-link="/crafted/account/settings"
-  [routerLink]="['/empresa/lista']"
->
-</a>
 <form
   class="form w-100 mb-4"
   [formGroup]="formularioEmpresaInvitacion"
@@ -50,7 +43,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'minlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: 3,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
@@ -59,7 +53,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: 255,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
@@ -68,7 +63,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'email',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
@@ -84,7 +80,14 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="d-flex justify-content-end mt-2">
+      <div class="d-flex justify-content-between">
+        <a
+          translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
+          class="btn btn-secondary"
+          ng-reflect-router-link="/crafted/account/settings"
+          [routerLink]="['/empresa/lista']"
+        >
+        </a>
         <button
           translate="FORMULARIOS.BOTONES.EMPRESA.INVITAR"
           type="submit"
@@ -150,9 +153,7 @@
   >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
-        <span role="alert">
-          {{ message }} {{cantidadCaracteres}}
-        </span>
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
       </div>
     </div>
   </ng-container>
