@@ -68,7 +68,13 @@ export const locale = {
           TITULO: 'Login',
           CUENTA:'¿Already have an account? ',
           TERMINOS: 'I accept the terms and conditions',
-          NOCUENTA: '¿Dont have an account yet? '
+          NOCUENTA: '¿Dont have an account yet? ',
+          VIRIFICACIONEXITOSA: "Account successfully verified",
+          VIRIFICACIONEXITOSASUBTITULO: "You can now start using redofice",
+          VERIFICACIONERROR: "An error has occurred",
+          VIRIFICACIONERRORSUBTITULO: "You can now start using redofice",
+          PROCESANDOTOKEN:"Processing token",
+          REGRESARLOGIN: "Back to home page login"
         }
       },
       CAMPOS: {

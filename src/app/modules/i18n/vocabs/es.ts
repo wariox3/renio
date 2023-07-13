@@ -68,7 +68,13 @@ export const locale = {
           TITULO: 'Iniciar sesión',
           CUENTA: '¿Ya tiene una cuenta? ',
           TERMINOS: 'Acepto los términos y condiciones.',
-          NOCUENTA: '¿Aún no tienes una cuenta? '
+          NOCUENTA: '¿Aún no tienes una cuenta? ',
+          VIRIFICACIONEXITOSA: "Cuenta verificada con éxito",
+          VIRIFICACIONEXITOSASUBTITULO: "Ya puedes empezar a usar redofice",
+          VERIFICACIONERROR: "Se ha presentado un error",
+          VIRIFICACIONERRORSUBTITULO: "Ya puedes empezar a usar redofice",
+          PROCESANDOTOKEN:"Procesando token",
+          REGRESARLOGIN: "Regresar a la página de iniciar sesión"
         }
       },
       CAMPOS: {
