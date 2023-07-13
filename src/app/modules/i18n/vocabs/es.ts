@@ -70,10 +70,10 @@ export const locale = {
           CUENTA: '¿Ya tiene una cuenta? ',
           TERMINOS: 'Acepto los términos y condiciones.',
           NOCUENTA: '¿Aún no tienes una cuenta? ',
-          VIRIFICACIONEXITOSA: "Cuenta verificada con éxito",
-          VIRIFICACIONEXITOSASUBTITULO: "Ya puedes empezar a usar redofice",
+          VERIFICACIONEXITOSA: "Cuenta verificada con éxito",
+          VERIFICACIONEXITOSASUBTITULO: "Ya puedes empezar a usar redofice",
           VERIFICACIONERROR: "Se ha presentado un error",
-          VIRIFICACIONERRORSUBTITULO: "Ya puedes empezar a usar redofice",
+          VERIFICACIONERRORSUBTITULO: "Ya puedes empezar a usar redofice",
           PROCESANDOTOKEN:"Procesando token",
           REGRESARLOGIN: "Regresar a la página de iniciar sesión"
         }

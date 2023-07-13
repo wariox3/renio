@@ -6,10 +6,13 @@
           ><span class="path1"></span><span class="path2"></span
         ></i>
         <div class="d-flex flex-column">
-          <h4 class="mb-1 text-success">
-            Cuenta verificada con éxito
-          </h4>
-          <span>Ya puedes empezar a usar redofice</span>
+          <h4
+            class="mb-1 text-success"
+            translate="FORMULARIOS.TITULOS.AUTENTIFICACION.VERIFICACIONEXITOSA"
+          ></h4>
+          <span
+            translate="FORMULARIOS.TITULOS.AUTENTIFICACION.VERIFICACIONEXITOSASUBTITULO"
+          ></span>
         </div>
       </div>
       <button
@@ -18,9 +21,8 @@
         class="btn btn-lg btn-primary w-100 mb-5"
         type="submit"
         (click)="login()"
-      >
-        Regresar a la página de inicio
-      </button>
+        translate="FORMULARIOS.TITULOS.AUTENTIFICACION.REGRESARLOGIN"
+      ></button>
     </div>
     <div *ngSwitchCase="'error'">
       <div class="alert alert-danger d-flex align-items-center p-5 mb-10">
@@ -28,19 +30,24 @@
           ><span class="path1"></span><span class="path2"></span
         ></i>
         <div class="d-flex flex-column">
-          <h4 class="mb-1 text-danger">
-            Se ha presentado un error
-          </h4>
-          <span>{{verficacionErrorMensaje}}</span>
+          <h4
+            class="mb-1 text-danger"
+            translate="FORMULARIOS.TITULOS.AUTENTIFICACION.VERIFICACIONERROR"
+          ></h4>
+          <span
+            translate="FORMULARIOS.TITULOS.AUTENTIFICACION.VERIFICACIONERRORSUBTITULO"
+          ></span>
         </div>
       </div>
       <a
         class="btn btn-danger btn-flex flex-center btn-light btn-lg w-100 mb-5"
         (click)="login()"
-      >
-      Regresar a la página de inicio
-    </a>
+        translate="FORMULARIOS.TITULOS.AUTENTIFICACION.REGRESARLOGIN"
+      ></a>
     </div>
-    <div *ngSwitchCase="'cargando'">Procesando token...</div>
+    <div
+      *ngSwitchCase="'cargando'"
+      translate="FORMULARIOS.TITULOS.AUTENTIFICACION.PROCESANDOTOKEN"
+    ></div>
   </div>
 </div>
