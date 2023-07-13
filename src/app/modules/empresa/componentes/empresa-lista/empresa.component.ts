@@ -117,4 +117,8 @@ export class EmpresaComponent implements OnInit {
         }
       });
   }
+
+  navegarAinvitaciones (empresa: Empresa){
+    this.router.navigateByUrl(`/empresa/${empresa.empresa_id}/invitacion/nuevo`, { state: {"empresa": empresa} });
+  }
 }
