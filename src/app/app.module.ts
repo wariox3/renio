@@ -20,6 +20,7 @@ import { TokenInterceptor } from '@interceptores/token.interceptor';
 import { EmpresaCookieInterceptor } from '@interceptores/empresa-cookie.interceptor';
 import { ErrorhttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { EffectsModule } from '@ngrx/effects';
+import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 
 
 // function appInitializer(authService: AuthService) {
@@ -36,7 +37,7 @@ registerLocaleData(localeEsCo, 'es-CO');
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LandingpageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
