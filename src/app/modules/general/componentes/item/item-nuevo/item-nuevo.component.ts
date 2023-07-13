@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { General } from '@comun/clases/general';
 import { AlertaService } from '@comun/services/alerta.service';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
@@ -13,7 +14,7 @@ import { switchMap } from 'rxjs';
   templateUrl: './item-nuevo.component.html',
   styleUrls: ['./item-nuevo.component.scss']
 })
-export class ItemNuevoComponent implements OnInit {
+export class ItemNuevoComponent extends General implements OnInit {
 
   formularioItemNuevo: FormGroup;
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -23,9 +24,9 @@ export class ItemNuevoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private renderer2: Renderer2,
-    private store: Store,
-    private alertaService: AlertaService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.initForm();
@@ -87,7 +88,10 @@ export class ItemNuevoComponent implements OnInit {
               'innerHTML',
               'Guardar'
             );
-            this.alertaService.mensajaExitoso('Nueva empresa creada', '');
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant("")
+              //'Nueva empresa creada'
+            );
           },
           error: ({ error }) => {
             this.renderer2.removeAttribute(

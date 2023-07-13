@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { General } from '@comun/clases/general';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
@@ -19,7 +20,7 @@ import { of, tap } from 'rxjs';
   templateUrl: './empresa-editar.component.html',
   styleUrls: ['./empresa-editar.component.scss'],
 })
-export class EmpresaEditarComponent {
+export class EmpresaEditarComponent extends General {
   visualizarBtnAtras = false;
   codigoUsuario = '';
   informacionEmpresa = {
@@ -32,12 +33,11 @@ export class EmpresaEditarComponent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private alertaService: AlertaService,
     private modalService: NgbModal,
     private empresaService: EmpresaService,
-    private store: Store,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    super()
+  }
 
   enviarFormulario(dataFormularioLogin: any) {
     this.empresaService
@@ -48,7 +48,10 @@ export class EmpresaEditarComponent {
         })
       )
       .subscribe(() => {
-        this.alertaService.mensajaExitoso('Empresa actualizada', 'Por favor espere, procesando actualización');
+        this.alertaService.mensajaExitoso(
+          this.translateService.instant("")
+          //'Por favor espere, procesando actualización'
+        );
         setTimeout(()=> {
           location.reload()
         }, 5001)

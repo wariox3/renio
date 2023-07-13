@@ -6,6 +6,7 @@ import { AuthService } from '@modulos/auth';
 import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-seguridad-cambio-clave',
@@ -13,7 +14,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./cambio-clave.component.scss'],
 })
 
-export class CambioClaveComponent implements OnInit {
+export class CambioClaveComponent extends General implements OnInit {
   codigoUsuario = '';
   formularioCambioClave: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
@@ -24,13 +25,12 @@ export class CambioClaveComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private alertaService: AlertaService,
-    private store: Store,
-    private changeDetectorRef: ChangeDetectorRef,
     private authService: AuthService,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -100,8 +100,9 @@ export class CambioClaveComponent implements OnInit {
       this.authService
         .reiniciarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
-          this.alertaService.mensajaExitoso('',
-            `Recuerde iniciar sesion con su nueva contraseña`
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant("")
+            //`Recuerde iniciar sesion con su nueva contraseña`
           );
           this.modalService.dismissAll();
         });

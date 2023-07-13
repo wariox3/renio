@@ -18,11 +18,12 @@ import { usuarioActionActualizarNombreCorto } from '@redux/actions/usuario.actio
 import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 import { EmpresaService } from '../../../empresa/servicios/empresa.service';
 import { Empresa } from '@interfaces/usuario/empresa';
+import { General } from '@comun/clases/general';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent extends General implements OnInit {
   arrEmpresas: Empresa[] = [];
   usuarioInformacion = {
     id: '',
@@ -42,14 +43,13 @@ export class OverviewComponent implements OnInit {
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
   constructor(
-    private store: Store,
     private resumenService: ResumenService,
     private formBuilder: FormBuilder,
     private renderer2: Renderer2,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
     private empresaService: EmpresaService,
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -148,7 +148,7 @@ export class OverviewComponent implements OnInit {
         'Procesando'
       );
       console.log(this.formularioResumen.value.telefono);
-      
+
       let validacionTelefono = this.formularioResumen.value.telefono === null ? `${this.formularioResumen.value.indicativoPais}`: `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`;
       this.resumenService
         .actualizarInformacion({
@@ -165,7 +165,10 @@ export class OverviewComponent implements OnInit {
                 nombre_corto: this.formularioResumen.value.nombreCorto,
               })
             );
-            this.alertaService.mensajaExitoso('Actualización exitosa', '');
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant("")
+              //'Actualización exitosa',
+            );
             this.consultarInformacion();
             this.habilitarEdicionFormulario = !this.habilitarEdicionFormulario;
           },

@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AlertaService } from '@comun/services/alerta.service';
 import { TranslateService } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent extends General  implements OnInit {
   formularioRegistro: FormGroup;
   cambiarTipoCampoClave: ("text"|"password") = "password"
   cambiarTipoCampoConfirmarClave: ("text"|"password") = "password"
@@ -29,11 +30,10 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
     private renderer2: Renderer2,
-    private alertaService: AlertaService,
-    private translateService: TranslateService
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -121,8 +121,8 @@ export class RegistrationComponent implements OnInit {
       this.authService.registration(this.formularioRegistro.value).subscribe({
         next: () => {
           this.alertaService.mensajaExitoso(
-            'Cuenta creada con éxito',
-            'Se ha enviado un correo electrónico para verificar tu cuenta'
+            this.translateService.instant("")
+            //'Se ha enviado un correo electrónico para verificar tu cuenta'
           );
           this.router.navigate(['/auth/login']);
         },

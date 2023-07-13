@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AlertaService } from '@comun/services/alerta.service';
 import { TranslateService } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent extends General implements OnInit {
 
   ocultarFormularioRestablecerClave = false
   formularioRestablecerClave: FormGroup;
@@ -22,11 +23,8 @@ export class ForgotPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private renderer2: Renderer2,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private translateService: TranslateService
-
   ) {
+    super()
   }
 
   ngOnInit(): void {
@@ -75,7 +73,7 @@ export class ForgotPasswordComponent implements OnInit {
             'Restablecer'
           );
           this.ocultarFormularioRestablecerClave = true
-          this.alertaService.mensajaExitoso('', this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION'));
+          this.alertaService.mensajaExitoso(this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION'));
           this.changeDetectorRef.detectChanges();
         },
         error: () => {

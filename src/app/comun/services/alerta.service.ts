@@ -27,14 +27,11 @@ export class AlertaService {
     });
   }
 
-  async mensajaExitoso(title: string, text: string) {
-
-    const mensajes = this.translateService.instant(
-      'FORMULARIOS.MENSAJES.COMUNES.EXITOSO',
-    );
-    
+  async mensajaExitoso(text: string) {
     return await Swal.fire({
-      title:mensajes,
+      title: this.translateService.instant(
+        'FORMULARIOS.MENSAJES.COMUNES.EXITOSO'
+      ),
       html: text,
       icon: 'success',
       position: 'bottom-right',
@@ -92,28 +89,22 @@ export class AlertaService {
       input: 'text',
       inputLabel: `${inputLabel}${empresaNombre}`,
       inputAutoFocus: true,
-      didOpen: ()=> {
+      didOpen: () => {
         //deshabilitar el botton de confirmar
-        Swal.getConfirmButton()?.setAttribute('disabled', 'true')
-        const input = Swal.getInput()
-        if(input){
+        Swal.getConfirmButton()?.setAttribute('disabled', 'true');
+        const input = Swal.getInput();
+        if (input) {
           input.oninput = () => {
-            if(Swal.getInput()?.value === empresaNombre){
-              Swal.getConfirmButton()?.removeAttribute('disabled')
+            if (Swal.getInput()?.value === empresaNombre) {
+              Swal.getConfirmButton()?.removeAttribute('disabled');
             } else {
-              Swal.getConfirmButton()?.setAttribute('disabled', 'true')
-
+              Swal.getConfirmButton()?.setAttribute('disabled', 'true');
             }
-          }
+          };
         }
-
-      }
+      },
     });
 
-
-
-
-
-    return mensaje
+    return mensaje;
   }
 }

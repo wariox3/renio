@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { General } from '@comun/clases/general';
 import { AlertaService } from '@comun/services/alerta.service';
 import { EmpresaUsuariosInvicionAceptada } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
@@ -13,7 +14,7 @@ import { tap } from 'rxjs';
   templateUrl: './empresa-invitacion.component.html',
   styleUrls: ['./empresa-invitacion.component.scss'],
 })
-export class EmpresaInvitacionComponent implements OnInit {
+export class EmpresaInvitacionComponent extends General implements OnInit {
   arrInvitaciones: EmpresaUsuariosInvicionAceptada[] = [
 
   ]
@@ -23,11 +24,9 @@ export class EmpresaInvitacionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute,
-    private store: Store
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -81,7 +80,7 @@ export class EmpresaInvitacionComponent implements OnInit {
         })
         .subscribe(() => {
           this.alertaService.mensajaExitoso(
-            'Invitación exitosa',
+
             `Se ha enviado un correo de invitación.`
           );
           this.consultarLista()
@@ -104,7 +103,9 @@ export class EmpresaInvitacionComponent implements OnInit {
           this.empresaService.eliminarEmpresaUsuario(usuario_id)
           .pipe(
             tap(()=>{
-              this.alertaService.mensajaExitoso('Usuario eliminado', 'Por favor espere, procesando eliminación');
+              this.alertaService.mensajaExitoso(this.translateService.instant("")
+              //'Por favor espere, procesando eliminación'
+              );
               this.consultarLista()
             })
           )

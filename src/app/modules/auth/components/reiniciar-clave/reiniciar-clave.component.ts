@@ -14,12 +14,13 @@ import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { switchMap } from 'rxjs';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
+import { General } from '@comun/clases/general';
 
 @Component({
   templateUrl: './reiniciar-clave.component.html',
   styleUrls: ['./reiniciar-clave.component.scss'],
 })
-export class ReiniciarClaveComponent implements OnInit {
+export class ReiniciarClaveComponent extends General implements OnInit {
   codigo_usuario: string = '';
   inhabilitarBtnRestablecer: boolean = true;
   formularioReiniciarClave: FormGroup;
@@ -30,14 +31,11 @@ export class ReiniciarClaveComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private router: Router,
     private renderer2: Renderer2,
-    private alertaService: AlertaService,
-    private store: Store,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -134,8 +132,8 @@ export class ReiniciarClaveComponent implements OnInit {
               'Guardar'
             );
             this.alertaService.mensajaExitoso(
-              'Cambio exitoso',
-              `por favor ingrese con su nueva clave`
+              this.translateService.instant("")
+              //`por favor ingrese con su nueva clave`
             );
             this.router.navigate(['/auth/login']);
           },

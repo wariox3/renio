@@ -3,24 +3,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-verificacion-cuenta',
   templateUrl: './verificacion-cuenta.component.html',
   styleUrls: ['./verificacion-cuenta.component.scss'],
 })
-export class VerificacionCuentaComponent implements OnInit {
+export class VerificacionCuentaComponent extends General implements OnInit {
   verificacionToken: 'exitosa' | 'error' | 'cargando' = 'cargando';
   verficacionErrorMensaje = '';
   codigoUsuario: number | null = null;
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  constructor(private authService: AuthService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.consultarValidacion();
@@ -31,8 +28,8 @@ export class VerificacionCuentaComponent implements OnInit {
     this.authService.validacion(token).subscribe({
       next: (): void => {
         this.alertaService.mensajaExitoso(
-          'Verificación correcta',
-          'Por favor iniciar sesión'
+          this.translateService.instant('')
+          //'Por favor iniciar sesión'
         );
         this.verificacionToken = 'exitosa';
         this.changeDetectorRef.detectChanges();
@@ -53,8 +50,8 @@ export class VerificacionCuentaComponent implements OnInit {
       this.authService.reenviarValidacion(this.codigoUsuario).subscribe({
         next: (respuesta): void => {
           this.alertaService.mensajaExitoso(
-            'Nueva verificación creada',
-            `La nueva verificación se ha enviado nuevamente al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
+            this.translateService.instant("")
+            //`La nueva verificación se ha enviado nuevamente al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
           );
         },
         error: ({ error }): void => {

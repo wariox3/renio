@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { ChangeDetectorRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ export class General {
   protected store = inject(Store);
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {}
 }

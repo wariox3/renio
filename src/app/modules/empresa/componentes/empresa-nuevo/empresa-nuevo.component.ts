@@ -14,13 +14,14 @@ import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { Store } from '@ngrx/store';
 import { of, switchMap, tap } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-empresa-nuevo',
   templateUrl: './empresa-nuevo.component.html',
   styleUrls: ['./empresa-nuevo.component.scss'],
 })
-export class EmpresaNuevoComponent implements OnInit {
+export class EmpresaNuevoComponent extends General implements OnInit {
   formularioEmpresaNuevo: FormGroup;
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
@@ -32,12 +33,10 @@ export class EmpresaNuevoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private renderer2: Renderer2,
-    private router: Router,
-    private store: Store,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private renderer2: Renderer2
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -95,7 +94,10 @@ export class EmpresaNuevoComponent implements OnInit {
       )
       .subscribe((respuesta: any)=>{
         if(respuesta.empresa){
-          this.alertaService.mensajaExitoso('Nueva empresa creada', '');
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant("")
+            //'Nueva empresa creada'
+          );
           this.router.navigate(['/empresa/lista']);
           this.procesando = false;
         }

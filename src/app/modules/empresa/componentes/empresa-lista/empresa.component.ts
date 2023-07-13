@@ -8,23 +8,19 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { Empresa, EmpresaLista } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
   styleUrls: ['./empresa.component.scss'],
 })
-export class EmpresaComponent implements OnInit {
+export class EmpresaComponent extends General implements OnInit {
   arrEmpresas: Empresa[] = [];
 
-  constructor(
-    private router: Router,
-    private store: Store,
-    private empresaService: EmpresaService,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private translateService: TranslateService
-  ) {}
+  constructor(private empresaService: EmpresaService) {
+    super();
+  }
 
   ngOnInit() {
     this.consultarLista();
@@ -71,7 +67,6 @@ export class EmpresaComponent implements OnInit {
   }
 
   eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
-
     const mensajes = this.translateService.instant([
       'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESATITULO',
       'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO',
@@ -80,8 +75,6 @@ export class EmpresaComponent implements OnInit {
       'FORMULARIOS.BOTONES.COMUNES.CANCELAR',
     ]);
 
-
-
     this.alertaService
       .mensajeEliminarEmpresa(
         empresa_subdominio,
@@ -89,7 +82,7 @@ export class EmpresaComponent implements OnInit {
         mensajes['FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO'],
         mensajes['FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESAAYUDA'],
         mensajes['FORMULARIOS.BOTONES.COMUNES.ELIMINAR'],
-        mensajes['FORMULARIOS.BOTONES.COMUNES.CANCELAR'],
+        mensajes['FORMULARIOS.BOTONES.COMUNES.CANCELAR']
       )
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
@@ -99,8 +92,8 @@ export class EmpresaComponent implements OnInit {
               .pipe(
                 tap(() => {
                   this.alertaService.mensajaExitoso(
-                    'Empresa eliminada',
-                    'Por favor espere, procesando eliminación'
+                   this.translateService.instant("")
+                    //'Por favor espere, procesando eliminación'
                   );
                   setTimeout(() => {
                     location.reload();
@@ -118,7 +111,10 @@ export class EmpresaComponent implements OnInit {
       });
   }
 
-  navegarAinvitaciones (empresa: Empresa){
-    this.router.navigateByUrl(`/empresa/${empresa.empresa_id}/invitacion/nuevo`, { state: {"empresa": empresa} });
+  navegarAinvitaciones(empresa: Empresa) {
+    this.router.navigateByUrl(
+      `/empresa/${empresa.empresa_id}/invitacion/nuevo`,
+      { state: { empresa: empresa } }
+    );
   }
 }
