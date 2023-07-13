@@ -87,20 +87,19 @@ export class ReiniciarClaveComponent implements OnInit {
   }
 
   validarToken() {
-    const token = this.activatedRoute.snapshot.paramMap.get('token')!;
-    this.authService.validacion(token).subscribe({
-      next: (respuesta: any) => {
-        this.inhabilitarBtnRestablecer = false;
-        (this.codigo_usuario = respuesta.verificacion.usuario_id),
-          this.changeDetectorRef.detectChanges();
-      },
-      error: ({ error }) => {
-        this.alertaService.mensajeError(
-          'Error verificación',
-          `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-        );
-      },
-    });
+    // this.authService.validacion(token).subscribe({
+    //   next: (respuesta: any) => {
+         this.inhabilitarBtnRestablecer = false;
+    //     (this.codigo_usuario = respuesta.verificacion.usuario_id),
+    //       this.changeDetectorRef.detectChanges();
+    //   },
+    //   error: ({ error }) => {
+    //     this.alertaService.mensajeError(
+    //       'Error verificación',
+    //       `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+    //     );
+    //   },
+    // });
   }
 
   get formFields() {
@@ -119,8 +118,10 @@ export class ReiniciarClaveComponent implements OnInit {
         'innerHTML',
         'Procesando'
       );
+      const token = this.activatedRoute.snapshot.paramMap.get('token')!;
+
       this.authService
-        .reiniciarClave(this.codigo_usuario, this.formFields.clave.value)
+        .reiniciarClave(this.formFields.clave.value, token)
         .subscribe({
           next: (respuesta) => {
             this.renderer2.removeAttribute(

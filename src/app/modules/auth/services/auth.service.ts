@@ -103,7 +103,7 @@ export class AuthService implements OnDestroy {
 
   recuperarClave(email: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/`,
+      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-solicitar/`,
       { username: email, accion: 'clave' },
       { context: chackRequiereToken() }
     );
@@ -111,7 +111,7 @@ export class AuthService implements OnDestroy {
 
   validacion(token: string) {
     return this.http.post<TokenVerificacion>(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/token/`,
+      `${environment.URL_API_MUUP}/seguridad/usuario/verificar/`,
       { token },
       { context: chackRequiereToken() }
     );
@@ -143,10 +143,10 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  reiniciarClave(usuario_id: string, password: string) {
+  reiniciarClave(password: string, token: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
-      `${environment.URL_API_MUUP}/seguridad/cambiar-clave/`,
-      { usuario_id, password: password },
+      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-verificar/`,
+      {  password, token },
       { context: chackRequiereToken() }
     );
   }
