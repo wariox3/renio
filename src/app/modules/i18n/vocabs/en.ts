@@ -62,7 +62,8 @@ export const locale = {
           OLVIDARCONTRASENA: '¿Forgot your password?',
           REGISTRATE: 'Register',
           NOINGRESO: 'Cant log in to your account?',
-          MENSAJE: 'We have sent a link to your email address to reset your password.'
+          MENSAJE: 'We have sent a link to your email address to reset your password.',
+          RESTABLECER: 'Reset password'
         },
         AUTENTIFICACION: {
           TITULO: 'Login',

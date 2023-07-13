@@ -62,7 +62,8 @@ export const locale = {
           OLVIDARCONTRASENA: '¿Olvidaste tu contraseña?',
           REGISTRATE: 'Regístrate',
           NOINGRESO: '¿No puedes ingresar a tu cuenta?',
-          MENSAJE: 'Hemos enviado un enlace a tu correo electrónico para restablecer tu contraseña'
+          MENSAJE: 'Hemos enviado un enlace a tu correo electrónico para restablecer tu contraseña',
+          RESTABLECER: 'Restablecer contraseña'
         },
         AUTENTIFICACION :{
           TITULO: 'Iniciar sesión',
