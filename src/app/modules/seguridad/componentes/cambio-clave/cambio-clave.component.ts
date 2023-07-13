@@ -101,8 +101,7 @@ export class CambioClaveComponent extends General implements OnInit {
         .reiniciarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
           this.alertaService.mensajaExitoso(
-            this.translateService.instant("")
-            //`Recuerde iniciar sesion con su nueva contraseña`
+            this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.INGRESARCLAVE")
           );
           this.modalService.dismissAll();
         });

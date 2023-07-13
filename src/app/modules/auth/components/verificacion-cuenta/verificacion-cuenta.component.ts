@@ -50,7 +50,7 @@ export class VerificacionCuentaComponent extends General implements OnInit {
       this.authService.reenviarValidacion(this.codigoUsuario).subscribe({
         next: (respuesta): void => {
           this.alertaService.mensajaExitoso(
-            this.translateService.instant("")
+            this.translateService.instant("FORMULARIOS.MENSAJES.AUTENTIFICACION.REENVIARVALIDACION")
             //`La nueva verificación se ha enviado nuevamente al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
           );
         },

@@ -92,8 +92,7 @@ export class EmpresaComponent extends General implements OnInit {
               .pipe(
                 tap(() => {
                   this.alertaService.mensajaExitoso(
-                   this.translateService.instant("")
-                    //'Por favor espere, procesando eliminación'
+                   this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION")
                   );
                   setTimeout(() => {
                     location.reload();

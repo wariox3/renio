@@ -13,7 +13,6 @@ import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
-import { InvitacionComponent } from './components/invitacion/invitacion.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import { InvitacionComponent } from './components/invitacion/invitacion.componen
     LogoutComponent,
     AuthComponent,
     ReiniciarClaveComponent,
-    VerificacionCuentaComponent,
-    InvitacionComponent
+    VerificacionCuentaComponent
   ],
   imports: [
     CommonModule,

@@ -115,18 +115,26 @@ export const locale = {
       },
       MENSAJES: {
         COMUNES: {
-          EXITOSO:'Proceso exitoso'
+          EXITOSO: 'Proceso exitoso',
+          PROCESANDOACTUALIZACION: 'Por favor espere, procesando actualización',
+          PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
+          ACTUALIZACION: 'Actualización de los datos exitosa'
         },
         EMPRESAS: {
           CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',
           ELIMINAREMPRESATITULO: 'Eliminar empresa',
           ELIMINAREMPRESASUBTITULO: 'Este proceso no tiene reversa',
           ELIMINAREMPRESAAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
-          SINEMPRESAS: "No cuenta con empresas creadas"
+          SINEMPRESAS: 'No cuenta con empresas creadas',
+          INVITACIONACEPTADA:'Invitacion aceptada',
+          NUEVAEMPRESA: "La nueva empresa fue creada"
         },
         AUTENTIFICACION: {
-          VERIFICACION: 'Se ha enviado un correo electrónico para verificar tu cuenta'
-        }
+          VERIFICACION:
+            'Se ha enviado un correo electrónico para verificar tu cuenta',
+          REENVIARVALIDACION: 'La nueva verificación se ha enviado nuevamente al correo electrónico registrado',
+          INGRESARCLAVE: 'Por favor ingrese con su nueva clave'
+        },
       },
     },
     TEMA: {

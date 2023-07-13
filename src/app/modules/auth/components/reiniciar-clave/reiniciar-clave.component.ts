@@ -132,8 +132,7 @@ export class ReiniciarClaveComponent extends General implements OnInit {
               'Guardar'
             );
             this.alertaService.mensajaExitoso(
-              this.translateService.instant("")
-              //`por favor ingrese con su nueva clave`
+              this.translateService.instant("FORMULARIOS.MENSAJES.AUTENTIFICACION.INGRESARCLAVE")
             );
             this.router.navigate(['/auth/login']);
           },

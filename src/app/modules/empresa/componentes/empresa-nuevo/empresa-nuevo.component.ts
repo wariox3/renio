@@ -84,7 +84,6 @@ export class EmpresaNuevoComponent extends General implements OnInit {
           if (!validar) {
             this.procesando = false;
             this.changeDetectorRef.detectChanges();
-           //this.formFields.subdominio.setErrors({ EmpresaYaExiste: true });
             this.alertaService.mensajeError('Error', 'Nombre en uso');
           } else {
              return this.empresaService.nuevo(dataFormularioLogin, this.codigoUsuario);
@@ -95,8 +94,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
       .subscribe((respuesta: any)=>{
         if(respuesta.empresa){
           this.alertaService.mensajaExitoso(
-            this.translateService.instant("")
-            //'Nueva empresa creada'
+            this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA")
           );
           this.router.navigate(['/empresa/lista']);
           this.procesando = false;

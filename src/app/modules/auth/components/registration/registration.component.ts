@@ -121,8 +121,7 @@ export class RegistrationComponent extends General  implements OnInit {
       this.authService.registration(this.formularioRegistro.value).subscribe({
         next: () => {
           this.alertaService.mensajaExitoso(
-            this.translateService.instant("")
-            //'Se ha enviado un correo electrónico para verificar tu cuenta'
+            this.translateService.instant("FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION")
           );
           this.router.navigate(['/auth/login']);
         },

@@ -166,7 +166,7 @@ export class OverviewComponent extends General implements OnInit {
               })
             );
             this.alertaService.mensajaExitoso(
-              this.translateService.instant("")
+              this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION")
               //'Actualización exitosa',
             );
             this.consultarInformacion();

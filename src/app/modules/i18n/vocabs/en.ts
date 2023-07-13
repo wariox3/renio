@@ -16,29 +16,29 @@ export const locale = {
           ELIMINAR: 'Delete',
           ATRAS: 'Back',
           INGRESAR: 'Enter',
-          RESTABLECER: 'Reset'
+          RESTABLECER: 'Reset',
         },
         EMPRESA: {
           CONECTAR: 'Connect',
           INVITACION: 'Invitations',
-          INVITAR: 'Invite'
+          INVITAR: 'Invite',
         },
         GENERAL: {},
         INVENTARIO: {},
         SEGURIDAD: {
           CAMBIAR: 'Change password',
         },
-        AUTENTIFICACION:{
-          CREARCUENTA:'Create an account'
-        }
+        AUTENTIFICACION: {
+          CREARCUENTA: 'Create an account',
+        },
       },
       TITULOS: {
         COMUNES: {
           USUARIOS: 'Users',
           IDIOMA: 'Language',
           CERRARSESION: 'Log out',
-          TERMINOS:'Terms',
-          PLAN:'Plans',
+          TERMINOS: 'Terms',
+          PLAN: 'Plans',
           CONTACTO: 'Contact us',
           MENU: {
             PERFIL: 'My profile',
@@ -51,10 +51,10 @@ export const locale = {
           INVITAR: 'Invitations',
           NUEVAINVITACION: 'New invitation to',
           NUEVO: 'New company',
-          SUBDOMINIO: 'Subdomain'
+          SUBDOMINIO: 'Subdomain',
         },
-        PERFIL:{
-          TITULO: 'Personal information'
+        PERFIL: {
+          TITULO: 'Personal information',
         },
         SEGURIDAD: {
           TITULO: 'Change password',
@@ -65,21 +65,22 @@ export const locale = {
           OLVIDARCONTRASENA: '¿Forgot your password?',
           REGISTRATE: 'Register',
           NOINGRESO: 'Cant log in to your account?',
-          MENSAJE: 'We have sent a link to your email address to reset your password.',
-          RESTABLECER: 'Reset password'
+          MENSAJE:
+            'We have sent a link to your email address to reset your password.',
+          RESTABLECER: 'Reset password',
         },
         AUTENTIFICACION: {
           TITULO: 'Login',
-          CUENTA:'¿Already have an account? ',
+          CUENTA: '¿Already have an account? ',
           TERMINOS: 'I accept the terms and conditions',
           NOCUENTA: '¿Dont have an account yet? ',
-          VERIFICACIONEXITOSA: "Account successfully verified",
-          VERIFICACIONEXITOSASUBTITULO: "You can now start using redofice",
-          VERIFICACIONERROR: "An error has occurred",
-          VERIFICACIONERRORSUBTITULO: "Errors with the token?",
-          PROCESANDOTOKEN:"Processing token",
-          REGRESARLOGIN: "Back to home page login"
-        }
+          VERIFICACIONEXITOSA: 'Account successfully verified',
+          VERIFICACIONEXITOSASUBTITULO: 'You can now start using redofice',
+          VERIFICACIONERROR: 'An error has occurred',
+          VERIFICACIONERRORSUBTITULO: 'Errors with the token?',
+          PROCESANDOTOKEN: 'Processing token',
+          REGRESARLOGIN: 'Back to home page login',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -89,51 +90,64 @@ export const locale = {
           TELEFONO: 'Phone',
           PAIS: 'Country',
           USUARIO: 'User',
-          ROL: 'Role'
+          ROL: 'Role',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
         },
       },
       VALIDACIONES: {
-        COMUNES:{
+        COMUNES: {
           REQUERIDO: 'Field is required',
           CAMPOMINIMO: 'The field must have a minimum number of characters of',
-          CAMPOMAXIMO: 'The maximum number of characters allowed for this field is',
+          CAMPOMAXIMO:
+            'The maximum number of characters allowed for this field is',
           TIPOCORREO: 'Field is not a valid email address',
-          NOVALIDO: 'Field contains invalid characters'
+          NOVALIDO: 'Field contains invalid characters',
         },
-        EMPRESA:{
-          NOMBREUSADO: 'Name not available'
+        EMPRESA: {
+          NOMBREUSADO: 'Name not available',
         },
         SEGURIDAD: {
           NOCOINCIDEN: 'New password and confirmation password do not match',
-          NOCOINCIDENNUEVO: 'New password and confirmation password do not match'
-        }
-      },
-      MENSAJES:{
-        COMUNES:{
-
+          NOCOINCIDENNUEVO:'New password and confirmation password do not match',
         },
-        EMPRESAS:{
+      },
+      MENSAJES: {
+        COMUNES: {
+          EXITOSO: 'Successful process',
+          PROCESANDOACTUALIZACION: 'Please wait, processing update',
+          PROCESANDOELIMINACION: 'Please wait, processing elimination',
+          ACTUALIZACION: 'Successful data update'
+        },
+        EMPRESAS: {
           CREAREMPRESA: 'We are creating your company, wait a moment...',
           ELIMINAREMPRESATITULO: 'Eliminate company',
           ELIMINAREMPRESASUBTITULO: 'This process is not reversed',
           ELIMINAREMPRESAAYUDA: `To confirm, type in the box below:`,
-          SINEMPRESAS: "No cuenta con empresas creadas"
-        }
-      }
+          SINEMPRESAS: 'No companies have been created',
+          INVITACIONACEPTADA: 'Invitation accepted',
+          NUEVAEMPRESA: "The new company was created"
+        },
+        AUTENTIFICACION: {
+          VERIFICACION:
+            'An email has been sent to verify your account.',
+          REENVIARVALIDACION: 'The new verification has been sent again to the registered e-mail address.',
+          INGRESARCLAVE: 'Please login with your new password'
+        },
+      },
     },
-    TEMA:{
-      CLARO:'Light',
-      OSCURO:'Dark',
-      SISTEMA:'System'
+    TEMA: {
+      CLARO: 'Light',
+      OSCURO: 'Dark',
+      SISTEMA: 'System',
     },
-    AYUDA:{
+    AYUDA: {
       TITULO: 'Help',
       ENLACEDOCUMENTACION: 'Official documentation',
       DOCUMENTACION: 'Documentation',
-      DOCUMENTACIONTEXTO: "From guides and video tutorials, to live demos and examples to get you started."
-    }
-  }
+      DOCUMENTACIONTEXTO:
+        'From guides and video tutorials, to live demos and examples to get you started.',
+    },
+  },
 };

@@ -49,8 +49,7 @@ export class EmpresaEditarComponent extends General {
       )
       .subscribe(() => {
         this.alertaService.mensajaExitoso(
-          this.translateService.instant("")
-          //'Por favor espere, procesando actualización'
+          this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION")
         );
         setTimeout(()=> {
           location.reload()

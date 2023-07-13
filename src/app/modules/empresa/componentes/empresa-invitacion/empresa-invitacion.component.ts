@@ -103,8 +103,7 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
           this.empresaService.eliminarEmpresaUsuario(usuario_id)
           .pipe(
             tap(()=>{
-              this.alertaService.mensajaExitoso(this.translateService.instant("")
-              //'Por favor espere, procesando eliminación'
+              this.alertaService.mensajaExitoso(this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION")
               );
               this.consultarLista()
             })
