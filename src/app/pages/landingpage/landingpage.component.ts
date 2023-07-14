@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-landingpage',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./landingpage.component.scss']
 })
 export class LandingpageComponent {
+
+  estadoMenu = false
+
+  abrirMenu(){
+    if(window.innerWidth <= 991){
+      this.estadoMenu = true
+    }
+  }
+
+  cerrarMenu(){
+    this.estadoMenu = false
+  }
 
 }
