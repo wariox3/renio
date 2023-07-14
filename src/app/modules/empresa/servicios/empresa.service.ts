@@ -6,6 +6,7 @@ import {
   EmpresaInvitacion,
   EmpresaLista
 } from '@interfaces/usuario/empresa';
+import { Plan } from '../modelos/plan';
 
 @Injectable({
   providedIn: 'root',
@@ -99,5 +100,11 @@ export class EmpresaService {
     return this.http.delete(
       `${environment.URL_API_MUUP}/seguridad/usuarioempresa/${usuario_id}/`
     )
+  }
+
+  listaPlanes() {
+    return this.http.get<Plan[]>(
+      `${environment.URL_API_MUUP}/inquilino/plan/`
+    );
   }
 }

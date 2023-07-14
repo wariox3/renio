@@ -1,27 +1,24 @@
-import {
-  ChangeDetectorRef,
-  EventEmitter,
-  Component,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertaService } from '@comun/services/alerta.service';
+import { General } from '@comun/clases/general';
+import { Plan } from '@modulos/empresa/modelos/plan';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-formulario',
   templateUrl: './empresa-formulario.component.html',
   styleUrls: ['./empresa-formulario.component.scss'],
 })
-export class EmpresaFormularioComponent implements OnInit {
+export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   codigoUsuario = '';
+  planSeleccionado: Number = 0;
+  arrPlanes:Plan[] = [];
   @Input() informacionEmpresa: any = {
-    nombre: "",
-    subdominio: ""
-  }
+    nombre: '',
+    subdominio: '',
+  };
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
@@ -30,13 +27,14 @@ export class EmpresaFormularioComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
-    private alertaService: AlertaService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private empresaService: EmpresaService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.initForm();
+    this.consultarPlanes();
   }
 
   initForm() {
@@ -58,6 +56,7 @@ export class EmpresaFormularioComponent implements OnInit {
           Validators.pattern(/^[a-z-0-9]*$/), // Se ha removido la restricción de mayúsculas
         ]),
       ],
+      plan: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -91,5 +90,22 @@ export class EmpresaFormularioComponent implements OnInit {
           }
         });
     }
+  }
+
+  consultarPlanes() {
+    this.empresaService
+      .listaPlanes()
+      .pipe(
+        tap((respuesta: any) => {
+          this.arrPlanes = respuesta;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  seleccionarPlan(plan_id: Number){
+    this.planSeleccionado = plan_id
+    this.changeDetectorRef.detectChanges();
   }
 }
