@@ -133,7 +133,8 @@ export const locale = {
           VERIFICACION:
             'Se ha enviado un correo electrónico para verificar tu cuenta',
           REENVIARVALIDACION: 'La nueva verificación se ha enviado nuevamente al correo electrónico registrado',
-          INGRESARCLAVE: 'Por favor ingrese con su nueva clave'
+          INGRESARCLAVE: 'Por favor ingrese con su nueva clave',
+          INICIARSESION: 'Por favor iniciar sesión'
         },
       },
     },

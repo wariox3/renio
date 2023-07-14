@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -7,9 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertaService } from '@comun/services/alerta.service';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
-import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { switchMap } from 'rxjs';

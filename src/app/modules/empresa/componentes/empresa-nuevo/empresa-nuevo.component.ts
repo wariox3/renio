@@ -4,16 +4,12 @@ import {
   OnInit,
   ViewChild,
   Renderer2,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { Router } from '@angular/router';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
-import { Store } from '@ngrx/store';
-import { of, switchMap, tap } from 'rxjs';
-import { AlertaService } from '@comun/services/alerta.service';
+import { of, switchMap } from 'rxjs';
 import { General } from '@comun/clases/general';
 
 @Component({
@@ -68,7 +64,6 @@ export class EmpresaNuevoComponent extends General implements OnInit {
     });
   }
 
-  // convenience getter for easy access to form fields
   get formFields() {
     return this.formularioEmpresaNuevo.controls;
   }

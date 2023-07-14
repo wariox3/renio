@@ -6,11 +6,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
-import { AlertaService } from '@comun/services/alerta.service';
-import { TranslateService } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 
 

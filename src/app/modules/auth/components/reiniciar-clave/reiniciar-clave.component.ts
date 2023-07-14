@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -7,12 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertaService } from '@comun/services/alerta.service';
 import { AuthService } from '@modulos/auth/services/auth.service';
-import { Store } from '@ngrx/store';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
-import { switchMap } from 'rxjs';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { General } from '@comun/clases/general';
 
@@ -32,9 +26,9 @@ export class ReiniciarClaveComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private renderer2: Renderer2,
+    private renderer2: Renderer2
   ) {
-    super()
+    super();
   }
 
   ngOnInit(): void {
@@ -85,19 +79,7 @@ export class ReiniciarClaveComponent extends General implements OnInit {
   }
 
   validarToken() {
-    // this.authService.validacion(token).subscribe({
-    //   next: (respuesta: any) => {
-         this.inhabilitarBtnRestablecer = false;
-    //     (this.codigo_usuario = respuesta.verificacion.usuario_id),
-    //       this.changeDetectorRef.detectChanges();
-    //   },
-    //   error: ({ error }) => {
-    //     this.alertaService.mensajeError(
-    //       'Error verificación',
-    //       `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-    //     );
-    //   },
-    // });
+    this.inhabilitarBtnRestablecer = false;
   }
 
   get formFields() {
@@ -132,7 +114,9 @@ export class ReiniciarClaveComponent extends General implements OnInit {
               'Guardar'
             );
             this.alertaService.mensajaExitoso(
-              this.translateService.instant("FORMULARIOS.MENSAJES.AUTENTIFICACION.INGRESARCLAVE")
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.AUTENTIFICACION.INGRESARCLAVE'
+              )
             );
             this.router.navigate(['/auth/login']);
           },

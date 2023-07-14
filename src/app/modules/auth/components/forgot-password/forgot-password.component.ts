@@ -1,8 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { AlertaService } from '@comun/services/alerta.service';
-import { TranslateService } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 
 

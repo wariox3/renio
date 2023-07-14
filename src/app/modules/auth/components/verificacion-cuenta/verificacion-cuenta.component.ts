@@ -1,8 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertaService } from '@comun/services/alerta.service';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@modulos/auth/services/auth.service';
-import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 
 @Component({
@@ -28,8 +25,7 @@ export class VerificacionCuentaComponent extends General implements OnInit {
     this.authService.validacion(token).subscribe({
       next: (): void => {
         this.alertaService.mensajaExitoso(
-          this.translateService.instant('')
-          //'Por favor iniciar sesión'
+          this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.INICIARSESION')
         );
         this.verificacionToken = 'exitosa';
         this.changeDetectorRef.detectChanges();

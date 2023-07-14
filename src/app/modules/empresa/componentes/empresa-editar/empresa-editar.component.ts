@@ -1,18 +1,12 @@
 import {
-  ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { AlertaService } from '@comun/services/alerta.service';
-import { Empresa } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { of, tap } from 'rxjs';
 
 @Component({

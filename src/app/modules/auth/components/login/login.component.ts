@@ -2,22 +2,14 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef,
   Renderer2,
   ViewChild,
   ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable, switchMap, tap, of, map } from 'rxjs';
+import { Subscription, Observable, switchMap, tap, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Token } from '@interfaces/usuario/token';
-import { Store } from '@ngrx/store';
-import { Usuario } from '@interfaces/usuario/usuario';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
-import { empresaActionInit } from '@redux/actions/empresa.actions';
-import { AlertaService } from '@comun/services/alerta.service';
-import { Empresa } from '@interfaces/usuario/empresa';
 import { General } from '@comun/clases/general';
 
 @Component({

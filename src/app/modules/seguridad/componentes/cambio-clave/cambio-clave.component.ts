@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit, Input, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertaService } from '@comun/services/alerta.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AuthService } from '@modulos/auth';
-import { Store } from '@ngrx/store';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';

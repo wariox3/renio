@@ -133,7 +133,8 @@ export const locale = {
           VERIFICACION:
             'An email has been sent to verify your account.',
           REENVIARVALIDACION: 'The new verification has been sent again to the registered e-mail address.',
-          INGRESARCLAVE: 'Please login with your new password'
+          INGRESARCLAVE: 'Please login with your new password',
+          INICIARSESION: 'Please log in'
         },
       },
     },

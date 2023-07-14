@@ -1,13 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
-import { Router } from '@angular/router';
-import { Subscription, switchMap, tap } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { switchMap, tap } from 'rxjs';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
-import { AlertaService } from '@comun/services/alerta.service';
-import { Empresa, EmpresaLista } from '@interfaces/usuario/empresa';
+import { Empresa } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
-import { TranslateService } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 
 @Component({
