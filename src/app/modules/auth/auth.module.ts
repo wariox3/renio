@@ -13,25 +13,27 @@ import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
+import { BtnwhatsappComponent } from "../../comun/componentes/btnwhatsapp/btnwhatsapp.component";
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegistrationComponent,
-    ForgotPasswordComponent,
-    LogoutComponent,
-    AuthComponent,
-    ReiniciarClaveComponent,
-    VerificacionCuentaComponent
-  ],
-  imports: [
-    CommonModule,
-    TranslationModule,
-    AuthRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbDropdownModule
-  ],
+    declarations: [
+        LoginComponent,
+        RegistrationComponent,
+        ForgotPasswordComponent,
+        LogoutComponent,
+        AuthComponent,
+        ReiniciarClaveComponent,
+        VerificacionCuentaComponent
+    ],
+    imports: [
+        CommonModule,
+        TranslationModule,
+        AuthRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbDropdownModule,
+        BtnwhatsappComponent
+    ]
 })
 export class AuthModule {}
