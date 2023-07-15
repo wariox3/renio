@@ -3,7 +3,6 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  Renderer2,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../servicios/empresa.service';
@@ -11,6 +10,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { of, switchMap } from 'rxjs';
 import { General } from '@comun/clases/general';
+import { Empresa, EmpresaFormulario } from '@interfaces/usuario/empresa';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -29,7 +29,6 @@ export class EmpresaNuevoComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private renderer2: Renderer2
   ) {
     super()
   }
@@ -68,7 +67,8 @@ export class EmpresaNuevoComponent extends General implements OnInit {
     return this.formularioEmpresaNuevo.controls;
   }
 
-  enviarFormulario(dataFormularioLogin: any) {
+  enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
+    
     this.visualizarBtnAtras = false;
     this.procesando = true;
 
@@ -86,13 +86,19 @@ export class EmpresaNuevoComponent extends General implements OnInit {
           return of(null);
         })
       )
-      .subscribe((respuesta: any)=>{
-        if(respuesta.empresa){
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA")
-          );
-          this.router.navigate(['/empresa/lista']);
+      .subscribe({
+        next:(respuesta: any)=>{
+            if(respuesta.empresa){
+              this.alertaService.mensajaExitoso(
+                this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA")
+              );
+              this.router.navigate(['/empresa/lista']);
+              this.procesando = false;
+            }
+        },
+        error:() =>{
           this.procesando = false;
+          this.changeDetectorRef.detectChanges();
         }
       });
   }

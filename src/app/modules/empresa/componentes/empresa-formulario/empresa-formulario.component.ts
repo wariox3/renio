@@ -1,6 +1,7 @@
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { Plan } from '@modulos/empresa/modelos/plan';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { tap } from 'rxjs';
@@ -15,9 +16,10 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   codigoUsuario = '';
   planSeleccionado: Number = 0;
   arrPlanes:Plan[] = [];
-  @Input() informacionEmpresa: any = {
+  @Input() informacionEmpresa: EmpresaFormulario = {
     nombre: '',
     subdominio: '',
+    plan_id: 0
   };
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;
@@ -56,7 +58,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9]*$/), // Se ha removido la restricción de mayúsculas
         ]),
       ],
-      plan: ['', Validators.compose([Validators.required])],
+      plan_id: [this.informacionEmpresa.plan_id, Validators.compose([Validators.required])],
     });
   }
 

@@ -26,3 +26,9 @@ export interface EmpresaInvitacion {
 export interface EmpresaUsuariosInvicionAceptada extends Omit<Empresa, 'subdominio' | 'imagen' | 'seleccion'>{
   username: string
 }
+
+export interface EmpresaFormulario {
+  nombre: string;
+  subdominio: string;
+  plan_id: Number ,
+}

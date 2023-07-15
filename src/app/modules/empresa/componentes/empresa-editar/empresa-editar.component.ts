@@ -5,6 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, tap } from 'rxjs';
@@ -17,9 +18,10 @@ import { of, tap } from 'rxjs';
 export class EmpresaEditarComponent extends General {
   visualizarBtnAtras = false;
   codigoUsuario = '';
-  informacionEmpresa = {
-    nombre: null,
+  informacionEmpresa: EmpresaFormulario = {
+    nombre: '',
     subdominio: '',
+    plan_id: 0
   };
   @Input() empresa_id!: Number;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -33,7 +35,7 @@ export class EmpresaEditarComponent extends General {
     super()
   }
 
-  enviarFormulario(dataFormularioLogin: any) {
+  enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
     this.empresaService
       .editar(dataFormularioLogin, this.codigoUsuario, this.empresa_id)
       .pipe(

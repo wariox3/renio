@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
   Empresa,
+  EmpresaFormulario,
   EmpresaInvitacion,
   EmpresaLista
 } from '@interfaces/usuario/empresa';
@@ -23,13 +24,14 @@ export class EmpresaService {
     );
   }
 
-  nuevo(data: any, codigoUsuario: string) {
+  nuevo(data: EmpresaFormulario, codigoUsuario: string) {
     return this.http.post(
       `${environment.URL_API_MUUP}/inquilino/empresa/`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
         usuario: codigoUsuario,
+        plan: data.plan_id,
         imagen:
           'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
       }
@@ -56,12 +58,13 @@ export class EmpresaService {
     return this.http.get(`${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`);
   }
 
-  editar(data: any, codigoUsuario: string, empresa_id: Number) {
+  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: Number) {
     return this.http.put(
       `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
+        plan: data.plan_id,
         usuario: codigoUsuario,
         imagen:
           'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
