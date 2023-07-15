@@ -8,6 +8,7 @@
   <div
     class="d-flex flex-column flex-root"
     id="kt_app_root"
+    (window:scroll)="doSomethingOnWindowsScroll($event)"
   >
     <!--begin::Header Section-->
     <div class="mb-0" id="home">
@@ -21,9 +22,10 @@
         <!--begin::Header-->
         <div
           class="landing-header"
+          [ngClass]="{'menufijo': menufijo === true}"
           [attr.data-kt-sticky]="true"
-          data-kt-sticky-name="landing-header"
-          data-kt-sticky-offset="{default: '200px', lg: '300px'}"
+          [attr.data-kt-sticky-name]="'landing-header'"
+          [attr.data-kt-sticky-offset]="{default: '200px', lg: '300px'}"
         >
           <!--begin::Container-->
           <div class="container">

@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-landingpage',
@@ -10,6 +8,7 @@ import { of } from 'rxjs';
 export class LandingpageComponent {
 
   estadoMenu = false
+  menufijo = false
 
   abrirMenu(){
     if(window.innerWidth <= 991){
@@ -19,6 +18,19 @@ export class LandingpageComponent {
 
   cerrarMenu(){
     this.estadoMenu = false
+  }
+
+
+  @HostListener("window:scroll", ['$event'])
+  doSomethingOnWindowsScroll($event:Event){
+    let scrollOffset = document.documentElement.scrollTop || document.body.scrollTop;
+
+    if(scrollOffset >= 200){
+      this.menufijo = true
+    } else {
+      this.menufijo = false
+    }
+
   }
 
 }
