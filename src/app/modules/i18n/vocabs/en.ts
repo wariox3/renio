@@ -42,6 +42,7 @@ export const locale = {
           CONTACTO: 'Contact us',
           MENU: {
             PERFIL: 'My profile',
+            EMPRESA: 'My company',
             EMPRESAS: 'My companies',
           },
         },
