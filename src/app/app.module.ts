@@ -22,6 +22,7 @@ import { ErrorhttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { EffectsModule } from '@ngrx/effects';
 import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 import { BtnwhatsappComponent } from './comun/componentes/btnwhatsapp/btnwhatsapp.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 
 // function appInitializer(authService: AuthService) {
@@ -57,6 +58,8 @@ registerLocaleData(localeEsCo, 'es-CO');
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
+    ScrollToModule.forRoot(),
+
     BtnwhatsappComponent
   ],
   providers: [

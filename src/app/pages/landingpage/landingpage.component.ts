@@ -1,4 +1,5 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 
 @Component({
