@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
@@ -14,7 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './informacion-usuario.component.html',
   styleUrls: ['./informacion-usuario.component.scss'],
 })
-export class InformacionUsuarioComponent extends General implements OnInit{
+export class InformacionUsuarioComponent extends General implements OnInit {
   usuarioInformacion = {
     id: '',
     nombreCorto: '',
@@ -22,6 +28,7 @@ export class InformacionUsuarioComponent extends General implements OnInit{
     apellido: '',
     telefono: '',
     indicativoPais: '',
+    idioma: '',
   };
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   arrPaises = arrPaises;
@@ -32,6 +39,9 @@ export class InformacionUsuarioComponent extends General implements OnInit{
   codigoUsuario = '';
   btnGuardar!: ElementRef<HTMLButtonElement>;
   modalRef: any;
+  language: LanguageFlag;
+  langs = languages;
+
 
   constructor(
     private resumenService: ResumenService,
@@ -42,12 +52,12 @@ export class InformacionUsuarioComponent extends General implements OnInit{
   }
 
   ngOnInit(): void {
-    this.initForm();    
+    this.initForm();
     this.store.select(obtenerId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
-  }  
+  }
 
   initForm() {
     this.formularioResumen = this.formBuilder.group({
@@ -71,6 +81,10 @@ export class InformacionUsuarioComponent extends General implements OnInit{
       nombreCorto: [
         this.usuarioInformacion.nombreCorto,
         Validators.compose([Validators.required, Validators.maxLength(255)]),
+      ],
+      idioma: [
+        this.usuarioInformacion.idioma,
+        Validators.compose([Validators.minLength(2)]),
       ],
     });
   }
@@ -111,6 +125,7 @@ export class InformacionUsuarioComponent extends General implements OnInit{
               : this.formularioResumen.value.apellido,
           telefono: validacionTelefono,
           nombreCorto: this.formularioResumen.value.nombreCorto,
+          idioma: this.formularioResumen.value.idioma,
         })
         .subscribe({
           next: (respuesta) => {
@@ -120,6 +135,7 @@ export class InformacionUsuarioComponent extends General implements OnInit{
                 nombre: this.formularioResumen.value.nombre,
                 apellido: this.formularioResumen.value.apellido,
                 telefono: validacionTelefono,
+                idioma: this.formularioResumen.value.idioma,
               })
             );
             this.alertaService.mensajaExitoso(
@@ -151,6 +167,7 @@ export class InformacionUsuarioComponent extends General implements OnInit{
           telefono: telefono,
           nombreCorto: respuesta.nombre_corto,
           indicativoPais: indicativo,
+          idioma: respuesta.idioma,
         };
         this.changeDetectorRef.detectChanges();
         this.initForm();
@@ -167,3 +184,23 @@ export class InformacionUsuarioComponent extends General implements OnInit{
     });
   }
 }
+
+interface LanguageFlag {
+  lang: string;
+  name: string;
+  flag: string;
+  active?: boolean;
+}
+
+const languages = [
+  {
+    lang: 'es',
+    name: 'Español',
+    flag: '🇪🇸',
+  },
+  {
+    lang: 'en',
+    name: 'Ingles',
+    flag: '🇺🇸',
+  },
+];

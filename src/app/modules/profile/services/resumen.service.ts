@@ -7,7 +7,8 @@ interface enviarDatosUsuario  {
   nombreCorto: String,
   nombre: String,
   apellido: String,
-  telefono: String
+  telefono: String,
+  idioma: String
 }
 
 @Injectable({
@@ -26,7 +27,7 @@ export class ResumenService {
   actualizarInformacion(data:enviarDatosUsuario){
     return this.http.put(
       `${environment.URL_API_MUUP}/seguridad/usuario/${data.id}/`,
-      {"nombre": data.nombre, "apellido": data.apellido, "nombre_corto" : data.nombreCorto, "telefono": data.telefono}
+      {"nombre": data.nombre, "apellido": data.apellido, "nombre_corto" : data.nombreCorto, "telefono": data.telefono, "idioma" : data.idioma}
     );
   }
 }
