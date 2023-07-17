@@ -31,7 +31,7 @@ export class EmpresaService {
         nombre: data.nombre,
         subdominio: data.subdominio,
         usuario: codigoUsuario,
-        plan: data.plan_id,
+        plan_id: data.plan_id,
         imagen:
           'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
       }
