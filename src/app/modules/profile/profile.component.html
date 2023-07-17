@@ -1,4 +1,4 @@
-<!-- <div class="card mb-5 mb-xl-10">
+<div class="card mb-5 mb-xl-10">
   <div class="card-body pt-9 pb-0">
     <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
       <div class="me-7 mb-4">
@@ -10,9 +10,9 @@
             class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"
           ></div>
         </div>
-      </div> -->
+      </div>
 
-      <!-- <div class="flex-grow-1">
+      <div class="flex-grow-1">
         <div
           class="d-flex justify-content-between align-items-start flex-wrap mb-2"
         >
@@ -21,14 +21,14 @@
               <a
                 class="text-gray-800 text-hover-primary fs-2 fw-bolder me-1 cursor-pointer"
               >
-                {{empresaNombre | async}}
-              </a> -->
-              <!-- <a class="cursor-pointer">
+                {{ nombreMostrar | async }}
+              </a>
+              <a class="cursor-pointer">
                 <app-keenicon
                   name="verify"
                   class="fs-1 text-primary"
                 ></app-keenicon>
-              </a> -->
+              </a>
               <!-- <a
                 class="btn btn-sm btn-light-success fw-bolder ms-2 fs-8 py-1 px-3 cursor-pointer"
                 data-bs-toggle="modal"
@@ -36,70 +36,36 @@
               >
                 Upgrade to Pro
               </a> -->
-            <!-- </div>
+            </div>
+            <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
+              <a
+                class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
+              >
+                <app-keenicon name="user" class="fs-4 me-1"></app-keenicon>
+                {{ usuarioNombreCompleto | async }}
+              </a>
+            </div>
 
             <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
               >
-                <app-keenicon
-                  name="geolocation-home"
-                  class="fs-4 me-1"
-                ></app-keenicon>
-                Developer
-              </a>
-              <a
-                class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
-              >
-                <app-keenicon
-                  name="geolocation"
-                  class="fs-4 me-1"
-                ></app-keenicon>
-                SF, Bay Area
+                <app-keenicon name="phone" class="fs-4 me-1"></app-keenicon>
+                {{ telefono | async }}
               </a>
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary mb-2 cursor-pointer"
               >
-                <app-keenicon name="telephone-geolocation" class="fs-4 me-1"></app-keenicon>
-                max@kt.com
+                <app-keenicon name="sms" class="fs-4 me-1"></app-keenicon>
+                {{ usuarioCorreo | async }}
               </a>
             </div>
-          </div> -->
+          </div>
 
-          <!-- <div class="d-flex my-4">
-            <a
-              class="btn btn-sm btn-light me-2 cursor-pointer"
-              id="kt_user_follow_button"
-            >
-              <app-keenicon name="phone" class="fs-3 d-none"></app-keenicon>
-              <span class="indicator-label">Follow</span>
-              <span class="indicator-progress">
-                Please wait...
-                <span
-                  class="spinner-border spinner-border-sm align-middle ms-2"
-                ></span>
-              </span>
-            </a>
-            <a
-              class="btn btn-sm btn-primary me-3 cursor-pointer"
-              data-bs-toggle="modal"
-              data-bs-target="#kt_modal_offer_a_deal"
-            >
-              Hire Me
-            </a>
-            <div class="me-0">
-              <button
-                class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
-                data-kt-menu-trigger="click"
-                data-kt-menu-placement="bottom-end"
-                data-kt-menu-flip="top-end"
-              >
-                <i class="bi bi-three-dots fs-3"></i>
-              </button>
-              <app-dropdown-menu1></app-dropdown-menu1>
-            </div>
-          </div> -->
-        <!-- </div> -->
+          <div class="d-flex my-4">
+            <app-informacion-usuario> </app-informacion-usuario>
+          </div>
+        </div>
 
         <!-- <div class="d-flex flex-wrap flex-stack">
           <div class="d-flex flex-column flex-grow-1 pe-8">
@@ -149,13 +115,7 @@
           </div>
 
           <div
-            class="
-              d-flex
-              align-items-center
-              w-200px w-sm-300px
-              flex-column
-              mt-3
-            "
+            class="d-flex align-items-center w-200px w-sm-300px flex-column mt-3"
           >
             <div class="d-flex justify-content-between w-100 mt-auto mb-2">
               <span class="fw-bold fs-6 text-gray-400"
@@ -172,38 +132,32 @@
             </div>
           </div>
         </div> -->
-      <!-- </div>
-    </div> -->
+      </div>
+    </div>
 
-    <!-- <div class="d-flex overflow-auto h-55px">
+    <div class="d-flex overflow-auto h-55px">
       <ul
-        class="
-          nav nav-stretch nav-line-tabs nav-line-tabs-2x
-          border-transparent
-          fs-5
-          fw-bolder
-          flex-nowrap
-        "
+        class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap"
       >
         <li class="nav-item">
           <a
             class="nav-link text-active-primary me-6"
-            routerLink="/crafted/pages/profile/overview"
+            routerLink="/profile/resumen"
             routerLinkActive="active"
           >
-            Overview
+            Empresas
           </a>
         </li>
         <li class="nav-item">
           <a
             class="nav-link text-active-primary me-6"
-            routerLink="/crafted/pages/profile/projects"
+            routerLink="/profile/seguridad"
             routerLinkActive="active"
           >
-            Projects
+            Seguridad
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a
             class="nav-link text-active-primary me-6"
             routerLink="/crafted/pages/profile/campaigns"
@@ -229,10 +183,10 @@
           >
             Connections
           </a>
-        </li>
+        </li> -->
       </ul>
-    </div> -->
-  <!-- </div>
-</div> -->
+    </div>
+  </div>
+</div>
 
 <router-outlet></router-outlet>

@@ -19,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
+import { ModalsModule } from '../../_metronic/partials';
+import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { TranslationModule } from '../../modules/i18n';
     ProjectsComponent,
     CampaignsComponent,
     DocumentsComponent,
-    ConnectionsComponent
+    ConnectionsComponent,
+    InformacionUsuarioComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +44,8 @@ import { TranslationModule } from '../../modules/i18n';
     ReactiveFormsModule,
     SeguridadModule,
     TranslateModule,
-    TranslationModule
+    TranslationModule,
+    ModalsModule
   ],
   providers:[
     NgbActiveModal

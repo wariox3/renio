@@ -6,6 +6,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
+import { CambioClaveComponent } from '@modulos/seguridad/componentes/cambio-clave/cambio-clave.component';
 
 const routes: Routes = [
   {
@@ -17,11 +18,11 @@ const routes: Routes = [
         component: OverviewComponent,
       },
       {
-        path: 'projects',
-        component: ProjectsComponent,
+        path: 'seguridad',
+        component: CambioClaveComponent,
       },
       {
-        path: 'campaigns',
+        path: 'empresas',
         component: CampaignsComponent,
       },
       {

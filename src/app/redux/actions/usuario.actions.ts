@@ -15,3 +15,9 @@ export const usuarioActionActualizarNombreCorto = createAction(
   '[Usuario] actualizar nombre corto',
   props<{"nombre_corto": string}>()
 );
+
+export const usuarioActionActualizarInformacionUsuario = createAction(
+  '[Usuario] actualizar informacion usuario',
+  props<{"nombre_corto": string, "nombre": string, "apellido": string, "telefono": string}>()
+);
+
