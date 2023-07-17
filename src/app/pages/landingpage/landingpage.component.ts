@@ -1,18 +1,31 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-landingpage',
   templateUrl: './landingpage.component.html',
   styleUrls: ['./landingpage.component.scss']
 })
-export class LandingpageComponent {
+export class LandingpageComponent implements OnInit {
 
   estadoMenu = false
   menufijo = false
 
-  constructor(private scroller: ViewportScroller) {}
+  constructor(private scroller: ViewportScroller, private activatedRoute: ActivatedRoute) {}
 
+  ngOnInit() {
+    const fragment = this.activatedRoute.fragment.subscribe(fragment => {
+      if(fragment){
+        document.getElementById(fragment)?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest"
+        });
+      }
+
+    });
+  }
 
   abrirMenu(){
     if(window.innerWidth <= 991){

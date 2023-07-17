@@ -9,6 +9,10 @@ export const routes: Routes = [
     component: LandingpageComponent
   },
   {
+    path: 'inicio/terminos',
+    component: LandingpageComponent
+  },
+  {
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
