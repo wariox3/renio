@@ -14,6 +14,8 @@ import { usuarioActionActualizarInformacionUsuario } from '@redux/actions/usuari
 import { General } from '@comun/clases/general';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-informacion-usuario',
@@ -138,6 +140,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                 idioma: this.formularioResumen.value.idioma,
               })
             );
+            this.translateService.use(this.formularioResumen.value.idioma)
+            this.changeDetectorRef.detectChanges();
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
