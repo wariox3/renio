@@ -6,10 +6,14 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';
 import { ILayout, LayoutType } from './core/configs/config';
+import { TranslateService } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
+import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-layout',
@@ -70,11 +74,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
+
+
   constructor(
     private initService: LayoutInitService,
     private layout: LayoutService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private translateService: TranslateService,
+    private store: Store
   ) {
     // define layout type and load layout
     this.router.events.subscribe((event) => {
@@ -94,6 +102,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.select(obtenerUsuarioidioma)
+    .pipe(
+      tap((idioma)=>{
+        console.log(idioma);
+          this.translateService.use(idioma)
+      })
+    )
+    .subscribe()
+
     const subscr = this.layout.layoutConfigSubject
       .asObservable()
       .subscribe((config) => {

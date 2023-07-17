@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { obtenerCargo } from '@redux/selectors/usuario-cargo.selectors';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { obtenerUsuarioNombreCorto } from '@redux/selectors/usuario-nombre-corto.selectors';
 import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
+import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -38,6 +39,13 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.setLanguage(this.translationService.getSelectedLanguage());
+    this.store.select(obtenerUsuarioidioma)
+    .pipe(
+      tap((idioma)=> {
+        this.selectLanguage(idioma)
+      })
+    )
+    .subscribe()
   }
 
   logout() {
