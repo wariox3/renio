@@ -10,7 +10,7 @@ import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors'
 import { ResumenService } from '@modulos/profile/services/resumen.service';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { arrPaises } from '../overview/listaPaises';
-import { usuarioActionActualizarInformacionUsuario } from '@redux/actions/usuario.actions';
+import { usuarioActionActualizarIdioma, usuarioActionActualizarInformacionUsuario } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -138,8 +138,9 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                 apellido: this.formularioResumen.value.apellido,
                 telefono: validacionTelefono,
                 idioma: this.formularioResumen.value.idioma,
-              })
+              }),
             );
+            this.store.dispatch(usuarioActionActualizarIdioma({idioma: this.formularioResumen.value.idioma}))
             this.translateService.use(this.formularioResumen.value.idioma)
             this.changeDetectorRef.detectChanges();
             this.alertaService.mensajaExitoso(

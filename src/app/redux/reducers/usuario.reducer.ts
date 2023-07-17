@@ -3,7 +3,8 @@ import {
   usuarioActionInit,
   usuarioActionBorrarInformacion,
   usuarioActionActualizarNombreCorto,
-  usuarioActionActualizarInformacionUsuario
+  usuarioActionActualizarInformacionUsuario,
+  usuarioActionActualizarIdioma
 } from '../actions/usuario.actions';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
@@ -47,7 +48,13 @@ export const usuarioReducer = createReducer(
       nombre,
       apellido,
       telefono
-    }   
+    }
+  }),
+  on(usuarioActionActualizarIdioma, (state, {idioma})=>{
+    return {
+      ...state,
+      idioma,
+    };
   }),
   on(usuarioActionBorrarInformacion, (state) => {
     return {
