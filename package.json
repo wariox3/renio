@@ -30,7 +30,6 @@
     "@ngrx/store-devtools": "^15.4.0",
     "@ngx-translate/core": "14.0.0",
     "@ngx-translate/http-loader": "7.0.0",
-    "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "@popperjs/core": "2.11.6",
     "angular-in-memory-web-api": "^0.15.0",
     "animate.css": "4.1.1",

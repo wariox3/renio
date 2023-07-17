@@ -107,7 +107,8 @@
                       <!--begin::Menu link-->
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
-                        [ngxScrollTo]="'#how-it-works'"
+                        routerLink="/inicio" fragment="how-it-works"
+                        (click)="navegacionID('how-it-works')"
                         >How it Works</a
                       >
                       <!--end::Menu link-->
@@ -118,7 +119,7 @@
                       <!--begin::Menu link-->
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
-                        [ngxScrollTo]="'#achievements'"
+                        (click)="navegacionID('achievements')"
                         >Achievements</a
                       >
                       <!--end::Menu link-->
@@ -129,7 +130,7 @@
                       <!--begin::Menu link-->
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
-                        [ngxScrollTo]="'#team'"
+                        (click)="navegacionID('team')"
                         data-kt-scroll-toggle="true"
                         data-kt-drawer-dismiss="true"
                         >Team</a
@@ -142,7 +143,7 @@
                       <!--begin::Menu link-->
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
-                        [ngxScrollTo]="'#portfolio'"
+                        (click)="navegacionID('portfolio')"
                         >Portfolio</a
                       >
                       <!--end::Menu link-->
@@ -153,7 +154,7 @@
                       <!--begin::Menu link-->
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
-                        [ngxScrollTo]="'#pricing'"
+                        (click)="navegacionID('pricing')"
                        >Pricing</a
                       >
                       <!--end::Menu link-->

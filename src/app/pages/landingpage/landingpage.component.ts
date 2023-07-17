@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { ViewportScroller } from "@angular/common";
 
 @Component({
   selector: 'app-landingpage',
@@ -10,6 +11,9 @@ export class LandingpageComponent {
   estadoMenu = false
   menufijo = false
 
+  constructor(private scroller: ViewportScroller) {}
+
+
   abrirMenu(){
     if(window.innerWidth <= 991){
       this.estadoMenu = true
@@ -18,6 +22,14 @@ export class LandingpageComponent {
 
   cerrarMenu(){
     this.estadoMenu = false
+  }
+
+  navegacionID(id: string) {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    });
   }
 
 
