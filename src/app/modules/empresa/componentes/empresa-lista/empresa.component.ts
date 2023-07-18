@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { switchMap, tap } from 'rxjs';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Empresa } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { General } from '@comun/clases/general';
@@ -24,7 +24,7 @@ export class EmpresaComponent extends General implements OnInit {
 
   consultarLista() {
     let suscripcion = this.store
-      .select(obtenerId)
+      .select(obtenerUsuarioId)
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {

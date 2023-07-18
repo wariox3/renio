@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
 import { environment } from "@env/environment";
 import { Store } from "@ngrx/store";
-import { obtenerEmpresaNombre } from "@redux/selectors/empresa-nombre.selectors";
+import { obtenerEmpresaNombre } from "@redux/selectors/empresa.selectors";
 import { General } from "./general";
 
 export class Subdomino {

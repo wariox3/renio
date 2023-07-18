@@ -3,17 +3,20 @@ import { Observable, Subscription, tap } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
-import { obtenerEmpresaNombre } from '@redux/selectors/empresa-nombre.selectors';
-import { obtenerCargo } from '@redux/selectors/usuario-cargo.selectors';
-import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
-import { obtenerUsuarioNombreCorto } from '@redux/selectors/usuario-nombre-corto.selectors';
-import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
-import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
+
+import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import {
+  obtenerUsuarioCargo,
+  obtenerUsuarioImagen,
+  obtenerUsuarioNombreCorto,
+  obtenerUsuarioNombre,
+  obtenerUsuarioidioma,
+} from '@redux/selectors/usuario.selectors';
 
 @Component({
   selector: 'app-user-inner',
   templateUrl: './user-inner.component.html',
-  styleUrls: ['user-inner.scss']
+  styleUrls: ['user-inner.scss'],
 })
 export class UserInnerComponent implements OnInit, OnDestroy {
   @HostBinding('class')
@@ -24,10 +27,10 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   user$: Observable<UserType>;
   langs = languages;
   usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
-  usuarioCargo$ = this.store.select(obtenerCargo);
-  usuarioImagen$ = this.store.select(obtenerImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioCorreo)
-  obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre)
+  usuarioCargo$ = this.store.select(obtenerUsuarioCargo);
+  usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
+  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
+  obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   private unsubscribe: Subscription[] = [];
 
   constructor(
@@ -39,13 +42,14 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.setLanguage(this.translationService.getSelectedLanguage());
-    this.store.select(obtenerUsuarioidioma)
-    .pipe(
-      tap((idioma)=> {
-        this.selectLanguage(idioma)
-      })
-    )
-    .subscribe()
+    this.store
+      .select(obtenerUsuarioidioma)
+      .pipe(
+        tap((idioma) => {
+          this.selectLanguage(idioma);
+        })
+      )
+      .subscribe();
   }
 
   logout() {
@@ -73,7 +77,6 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
-
 }
 
 interface LanguageFlag {
@@ -93,7 +96,7 @@ const languages = [
     lang: 'en',
     name: 'Ingles',
     flag: './assets/media/flags/united-states.svg',
-  }
+  },
   // {
   //   lang: 'ja',
   //   name: 'Japanese',
@@ -109,7 +112,7 @@ const languages = [
   //   name: 'French',
   //   flag: './assets/media/flags/france.svg',
   // },
-    // {
+  // {
   //   lang: 'zh',
   //   name: 'Mandarin',
   //   flag: './assets/media/flags/china.svg',

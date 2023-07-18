@@ -12,7 +12,7 @@ import { LayoutInitService } from './core/layout-init.service';
 import { ILayout, LayoutType } from './core/configs/config';
 import { TranslateService } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
-import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
+import { obtenerUsuarioidioma } from '@redux/selectors/usuario.selectors';
 import { Store } from '@ngrx/store';
 
 @Component({

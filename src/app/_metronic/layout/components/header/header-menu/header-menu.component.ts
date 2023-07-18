@@ -5,7 +5,7 @@ import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
-import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa-seleccion.selectors';
+import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-header-menu',

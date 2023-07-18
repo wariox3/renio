@@ -1,13 +1,10 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
-import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
+  obtenerUsuarioId,
+  obtenerUsuarioImagen,
+  obtenerUsuarioNombre,
+} from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
-import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 import { EmpresaService } from '../../../empresa/servicios/empresa.service';
 import { Empresa } from '@interfaces/usuario/empresa';
 import { General } from '@comun/clases/general';
@@ -17,14 +14,12 @@ import { General } from '@comun/clases/general';
 })
 export class OverviewComponent extends General implements OnInit {
   arrEmpresas: Empresa[] = [];
-  usuarioImagen$ = this.store.select(obtenerImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioCorreo);
+  usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
+  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
-  constructor(
-    private empresaService: EmpresaService
-  ) {
+  constructor(private empresaService: EmpresaService) {
     super();
   }
 
@@ -34,7 +29,7 @@ export class OverviewComponent extends General implements OnInit {
 
   consultarLista() {
     this.store
-      .select(obtenerId)
+      .select(obtenerUsuarioId)
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {

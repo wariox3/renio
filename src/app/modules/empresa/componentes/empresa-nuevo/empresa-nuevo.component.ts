@@ -7,7 +7,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { of, switchMap } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { Empresa, EmpresaFormulario } from '@interfaces/usuario/empresa';
@@ -35,7 +35,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
@@ -68,7 +68,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
   }
 
   enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
-    
+
     this.visualizarBtnAtras = false;
     this.procesando = true;
 

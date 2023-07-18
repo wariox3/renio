@@ -8,3 +8,12 @@ export const obtenerEmpresaSeleccion = createSelector(
   (empresaSeleccion) => empresaSeleccion.seleccion
 );
 
+export const obtenerEmpresaNombre = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.nombre}`
+);
+
+export const obtenerLogoEmpresa = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.imagen}`
+);

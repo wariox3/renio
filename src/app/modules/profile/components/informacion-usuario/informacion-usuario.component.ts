@@ -6,17 +6,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { arrPaises } from '../overview/listaPaises';
 import {
   usuarioActionActualizarIdioma,
   usuarioActionActualizarInformacionUsuario,
 } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
-import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  obtenerUsuarioImagen,
+  obtenerUsuarioNombre,
+  obtenerUsuarioId
+} from '@redux/selectors/usuario.selectors';
 
 @Component({
   selector: 'app-informacion-usuario',
@@ -37,8 +39,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   arrPaises = arrPaises;
   formularioResumen: FormGroup;
   srcResult: string = '';
-  usuarioImagen$ = this.store.select(obtenerImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioCorreo);
+  usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
+  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   codigoUsuario = '';
   btnGuardar!: ElementRef<HTMLButtonElement>;
   modalRef: any;
@@ -55,7 +57,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });

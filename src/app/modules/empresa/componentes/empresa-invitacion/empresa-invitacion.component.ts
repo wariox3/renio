@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { EmpresaUsuariosInvicionAceptada } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { tap } from 'rxjs';
 
 @Component({
@@ -29,7 +29,7 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
     this.initForm();
     this.empresa_nombre = this.activatedRoute.snapshot.paramMap.get('nombreempresa')!;
 
-    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.usuarioCodigo = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });

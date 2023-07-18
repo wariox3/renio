@@ -6,7 +6,7 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
 import { Store } from '@ngrx/store';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 
 @Component({
@@ -65,7 +65,7 @@ export class ItemNuevoComponent extends General implements OnInit {
         'Procesando'
       );
       this.store
-        .select(obtenerId)
+        .select(obtenerUsuarioId)
         .pipe(
           switchMap(([usuarioId]) =>
             this.httpService.post<Item>(

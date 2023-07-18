@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { obtenerMenuInformacion } from '@redux/selectors/menu-informacion.selectors';
-import { obtenerMenuSeleccion } from '@redux/selectors/menu-seleccion.selectors';
+import {
+  obtenerMenuInformacion,
+  obtenerMenuSeleccion,
+} from '@redux/selectors/menu.selectors';
 import { tap, withLatestFrom } from 'rxjs';
 
 @Component({
@@ -13,7 +15,7 @@ import { tap, withLatestFrom } from 'rxjs';
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;
   MenuSeleccion$ = this.store.select(obtenerMenuSeleccion);
-  arrMenu:any = []
+  arrMenu: any = [];
 
   constructor(private router: Router, private store: Store) {}
 

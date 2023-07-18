@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AuthService } from '@modulos/auth';
-import { obtenerId } from '@redux/selectors/usuario-id.selectors';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 
@@ -32,7 +32,7 @@ export class CambioClaveComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.store.select(obtenerId).subscribe((codigoUsuario) => {
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
