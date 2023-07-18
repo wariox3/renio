@@ -59,7 +59,7 @@ export class EmpresaEditarComponent extends General {
       .pipe(
         tap((respuesta: any) => {
           this.informacionEmpresa = respuesta;
-          this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
+          this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static', size: 'lg' });
         })
       )
       .subscribe();
