@@ -12,6 +12,7 @@ import {
   obtenerUsuarioNombre,
   obtenerUsuarioidioma,
 } from '@redux/selectors/usuario.selectors';
+import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({
   selector: 'app-user-inner',
@@ -32,11 +33,13 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   private unsubscribe: Subscription[] = [];
+  esSubdominio = this.subdominioService.esSubdominioActual();
 
   constructor(
     private auth: AuthService,
     private translationService: TranslationService,
-    private store: Store
+    private store: Store,
+    private subdominioService: SubdominioService
   ) {}
 
   ngOnInit(): void {
