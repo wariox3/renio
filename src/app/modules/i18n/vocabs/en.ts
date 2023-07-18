@@ -42,7 +42,7 @@ export const locale = {
           CONTACTO: 'Contact us',
           MENU: {
             PERFIL: 'My profile',
-            FACTURACION: 'Billing',            
+            FACTURACION: 'Billing',
             EMPRESA: 'My company',
             EMPRESAS: 'My companies',
           },
@@ -54,6 +54,8 @@ export const locale = {
           NUEVAINVITACION: 'New invitation to',
           NUEVO: 'New company',
           SUBDOMINIO: 'Subdomain',
+          IMAGEN: "Imagen",
+          IMAGENESACEPTADAS: "Allowed file types: jpg"
         },
         PERFIL: {
           TITULO: 'Personal information',

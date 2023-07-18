@@ -21,6 +21,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     subdominio: '',
     plan_id: 0,
   };
+  srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
@@ -62,6 +63,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         this.informacionEmpresa.plan_id != 0 ? this.informacionEmpresa.plan_id : this.planSeleccionado,
         Validators.compose([Validators.required]),
       ],
+      imagen: null
     });
   }
 
@@ -70,12 +72,14 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    if (this.formularioEmpresa.valid) {
-      this.procesando = true;
-      return this.dataFormulario.emit(this.formularioEmpresa.value);
-    } else {
-      this.formularioEmpresa.markAllAsTouched();
-    }
+    console.log(this.formularioEmpresa.value);
+
+    // if (this.formularioEmpresa.valid) {
+    //   this.procesando = true;
+    //   return this.dataFormulario.emit(this.formularioEmpresa.value);
+    // } else {
+    //   this.formularioEmpresa.markAllAsTouched();
+    // }
   }
 
   cambiarTextoAMinusculas() {
@@ -112,5 +116,33 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   seleccionarPlan(plan_id: Number) {
     this.planSeleccionado = plan_id;
     this.changeDetectorRef.detectChanges();
+  }
+
+  archivoSeleccionado(event: any) {
+    const inputNode: any = event.target;
+
+    if (typeof FileReader !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+
+        this.srcResult = e.target.result;
+        this.formularioEmpresa.patchValue({
+          imagen: e.target.result
+        })
+        this.changeDetectorRef.detectChanges();
+
+      };
+      reader.readAsDataURL(inputNode.files[0]);
+    }
+  }
+
+  removerArchivoSeleccionado(){
+    this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
+    this.formularioEmpresa.patchValue({
+      imagen: null
+    })
+    this.changeDetectorRef.detectChanges();
+
   }
 }

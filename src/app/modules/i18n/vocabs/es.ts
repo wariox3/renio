@@ -54,6 +54,8 @@ export const locale = {
           NUEVAINVITACION: 'Nueva invitación para',
           NUEVO: 'Nueva empresa',
           SUBDOMINIO: 'Subdominio',
+          IMAGEN: "Imagen",
+          IMAGENESACEPTADAS: "Tipos de archivo permitidos: jpg"
         },
         PERFIL: {
           TITULO: 'Información personal',

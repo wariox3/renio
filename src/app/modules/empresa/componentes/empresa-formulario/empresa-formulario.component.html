@@ -1,4 +1,8 @@
-<form [formGroup]="formularioEmpresa" (ngSubmit)="formSubmit()">
+<form
+  [formGroup]="formularioEmpresa"
+  (ngSubmit)="formSubmit()"
+  id="my-dropzone"
+>
   <div class="fv-row mb-10">
     <label
       translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
@@ -168,6 +172,83 @@
     </div>
   </div>
 
+  <div class="fv-row mb-10">
+    <!--begin::Label-->
+    <label class="form-label" translate="FORMULARIOS.TITULOS.EMPRESAS.IMAGEN">
+    </label>
+
+    <!--end::Label-->
+
+    <!--begin::Col-->
+    <div class="col-lg-8">
+      <!--begin::Image input-->
+      <div class="image-input image-input-outline" data-kt-image-input="true">
+        <!--begin::Preview existing avatar-->
+        <div
+          class="image-input-wrapper w-125px h-125px cursor-pointer"
+          style="user-select: none"
+          [ngStyle]="{ 'background-image': 'url(' + srcResult + ')' }"
+          (click)="fileInput.click()"
+        ></div>
+        <!--end::Preview existing avatar-->
+
+        <!--begin::Label-->
+        <label
+          class="btn btn-icon btn-circle btn-active-color-primary w-40px h-40px bg-body shadow"
+          data-kt-image-input-action="change"
+          data-bs-toggle="tooltip"
+          aria-label="Change avatar"
+          data-bs-original-title="Change avatar"
+          data-kt-initialized="1"
+        >
+
+          <i class="ki-duotone ki-search-list fs-2x">
+            <i class="path1"></i>
+            <i class="path2"></i>
+            <i class="path3"></i>
+          </i>
+
+          <!--begin::Inputs-->
+          <input
+            type="file"
+            name="avatar"
+            accept="image/png, image/jpeg"
+            (change)="archivoSeleccionado($event)"
+            #fileInput
+          />
+          <input type="hidden" name="avatar_remove" />
+          <!--end::Inputs-->
+        </label>
+        <!--end::Label-->
+
+        <!--begin::Remove-->
+        <span
+          class="btn btn-icon btn-circle btn-active-color-primary w-30px h-30px bg-body shadow"
+          data-kt-image-input-action="remove"
+          data-bs-toggle="tooltip"
+          aria-label="Remove avatar"
+          data-bs-original-title="Remove avatar"
+          data-kt-initialized="1"
+          (click)="removerArchivoSeleccionado()"
+          *ngIf="formularioEmpresa.controls.imagen.value !== null"
+        >
+          <i class="ki-duotone ki-cross fs-2 text-danger fs-2x"
+            ><span class="path1"></span><span class="path2"></span
+          ></i>
+        </span>
+        <!--end::Remove-->
+      </div>
+      <!--end::Image input-->
+
+      <!--begin::Hint-->
+      <div
+        class="form-text"
+        translate="FORMULARIOS.TITULOS.EMPRESAS.IMAGENESACEPTADAS"
+      ></div>
+      <!--end::Hint-->
+    </div>
+    <!--end::Col-->
+  </div>
   <div
     class="fv-row d-flex"
     [ngClass]="{
