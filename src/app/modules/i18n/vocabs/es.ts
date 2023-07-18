@@ -40,6 +40,8 @@ export const locale = {
           TERMINOS: 'Terminos',
           PLAN: 'Planes',
           CONTACTO: 'Contacto',
+          IMAGEN: 'Cargar imagen',
+          PREVISUALIZAR: 'Previsualizar',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',

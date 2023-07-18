@@ -1,10 +1,12 @@
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { General } from '@comun/clases/general';
 import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { Plan } from '@modulos/empresa/modelos/plan';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { tap } from 'rxjs';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -20,7 +22,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     nombre: '',
     subdominio: '',
     plan_id: 0,
-    imagen: null
+    imagen: null,
   };
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @Input() visualizarBtnAtras: boolean = true;
@@ -29,9 +31,13 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   procesando = false;
 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private sanitizer: DomSanitizer
   ) {
     super();
   }
@@ -61,10 +67,12 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ]),
       ],
       plan_id: [
-        this.informacionEmpresa.plan_id != 0 ? this.informacionEmpresa.plan_id : this.planSeleccionado,
+        this.informacionEmpresa.plan_id != 0
+          ? this.informacionEmpresa.plan_id
+          : this.planSeleccionado,
         Validators.compose([Validators.required]),
       ],
-      imagen: null
+      imagen: null,
     });
   }
 
@@ -124,24 +132,22 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-
         this.srcResult = e.target.result;
         this.formularioEmpresa.patchValue({
-          imagen: e.target.result
-        })
+          imagen: e.target.result,
+        });
         this.changeDetectorRef.detectChanges();
-
       };
       reader.readAsDataURL(inputNode.files[0]);
     }
   }
 
-  removerArchivoSeleccionado(){
+  removerArchivoSeleccionado() {
     this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
     this.formularioEmpresa.patchValue({
-      imagen: null
-    })
+      imagen: null,
+    });
     this.changeDetectorRef.detectChanges();
-
   }
+
 }

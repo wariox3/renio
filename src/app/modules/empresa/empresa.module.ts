@@ -16,6 +16,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from './componentes/empresa-formulario/empresa-formulario.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { TranslationModule } from '../../modules/i18n';
     NgbDropdownModule,
     NgbModalModule,
     TranslateModule,
-    TranslationModule
+    TranslationModule,
+    ImageCropperModule,
+    CargarImagenComponent
   ],
   providers:[
     NgbActiveModal
