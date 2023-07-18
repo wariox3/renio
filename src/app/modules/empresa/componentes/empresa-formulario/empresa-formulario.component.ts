@@ -14,12 +14,12 @@ import { tap } from 'rxjs';
 export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   codigoUsuario = '';
-  planSeleccionado: Number = 0;
-  arrPlanes:Plan[] = [];
+  planSeleccionado: Number = 2;
+  arrPlanes: Plan[] = [];
   @Input() informacionEmpresa: EmpresaFormulario = {
     nombre: '',
     subdominio: '',
-    plan_id: 0
+    plan_id: 0,
   };
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;
@@ -58,7 +58,10 @@ export class EmpresaFormularioComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9]*$/), // Se ha removido la restricción de mayúsculas
         ]),
       ],
-      plan_id: [this.informacionEmpresa.plan_id, Validators.compose([Validators.required])],
+      plan_id: [
+        this.informacionEmpresa.plan_id != 0 ? this.informacionEmpresa.plan_id : this.planSeleccionado,
+        Validators.compose([Validators.required]),
+      ],
     });
   }
 
@@ -106,8 +109,8 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       .subscribe();
   }
 
-  seleccionarPlan(plan_id: Number){
-    this.planSeleccionado = plan_id
+  seleccionarPlan(plan_id: Number) {
+    this.planSeleccionado = plan_id;
     this.changeDetectorRef.detectChanges();
   }
 }
