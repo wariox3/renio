@@ -17,7 +17,7 @@ export class EmpresaService {
 
   lista(usuario_id: string) {
     return this.http.post<EmpresaLista>(
-      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/consulta-usuario/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/consulta-usuario/`,
       {
         usuario_id
       }
@@ -72,7 +72,7 @@ export class EmpresaService {
 
   enviarInvitacion(data: EmpresaInvitacion) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/invitar/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/invitar/`,
       {
         accion: 'invitar',
         empresa_id: data.empresa_id,
@@ -84,7 +84,7 @@ export class EmpresaService {
 
   listaInvitaciones(empresa_id: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/consulta-empresa/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/consulta-empresa/`,
       {
         empresa_id,
       }
@@ -99,7 +99,7 @@ export class EmpresaService {
 
   eliminarEmpresaUsuario(usuario_id: Number){
     return this.http.delete(
-      `${environment.URL_API_MUUP}/seguridad/usuarioempresa/${usuario_id}/`
+      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/${usuario_id}/`
     )
   }
 
