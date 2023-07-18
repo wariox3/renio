@@ -20,6 +20,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     nombre: '',
     subdominio: '',
     plan_id: 0,
+    imagen: null
   };
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @Input() visualizarBtnAtras: boolean = true;
@@ -72,14 +73,12 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.formularioEmpresa.value);
-
-    // if (this.formularioEmpresa.valid) {
-    //   this.procesando = true;
-    //   return this.dataFormulario.emit(this.formularioEmpresa.value);
-    // } else {
-    //   this.formularioEmpresa.markAllAsTouched();
-    // }
+    if (this.formularioEmpresa.valid) {
+      this.procesando = true;
+      return this.dataFormulario.emit(this.formularioEmpresa.value);
+    } else {
+      this.formularioEmpresa.markAllAsTouched();
+    }
   }
 
   cambiarTextoAMinusculas() {

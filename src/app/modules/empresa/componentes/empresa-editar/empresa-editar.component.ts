@@ -21,7 +21,8 @@ export class EmpresaEditarComponent extends General {
   informacionEmpresa: EmpresaFormulario = {
     nombre: '',
     subdominio: '',
-    plan_id: 0
+    plan_id: 0,
+    imagen: null
   };
   @Input() empresa_id!: Number;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;

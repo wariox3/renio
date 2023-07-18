@@ -32,8 +32,7 @@ export class EmpresaService {
         subdominio: data.subdominio,
         usuario: codigoUsuario,
         plan_id: data.plan_id,
-        imagen:
-          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+        imagen: data.imagen,
       }
     );
   }
@@ -66,8 +65,7 @@ export class EmpresaService {
         subdominio: data.subdominio,
         plan: data.plan_id,
         usuario: codigoUsuario,
-        imagen:
-          'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+        imagen: data.imagen
       }
     );
   }

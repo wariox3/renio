@@ -31,4 +31,5 @@ export interface EmpresaFormulario {
   nombre: string;
   subdominio: string;
   plan_id: Number ,
+  imagen: string | null
 }
