@@ -17,8 +17,6 @@ import {
 import { General } from '@comun/clases/general';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { obtenerUsuarioidioma } from '@redux/selectors/usuario-idioma.selectors';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-informacion-usuario',
