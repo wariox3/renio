@@ -105,7 +105,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.store.select(obtenerUsuarioidioma)
     .pipe(
       tap((idioma)=>{
-        console.log(idioma);
           this.translateService.use(idioma)
       })
     )

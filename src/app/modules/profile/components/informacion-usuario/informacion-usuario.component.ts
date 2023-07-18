@@ -10,7 +10,10 @@ import { obtenerUsuarioCorreo } from '@redux/selectors/usuario-correo.selectors'
 import { ResumenService } from '@modulos/profile/services/resumen.service';
 import { obtenerId } from '@redux/selectors/usuario-id.selectors';
 import { arrPaises } from '../overview/listaPaises';
-import { usuarioActionActualizarIdioma, usuarioActionActualizarInformacionUsuario } from '@redux/actions/usuario.actions';
+import {
+  usuarioActionActualizarIdioma,
+  usuarioActionActualizarInformacionUsuario,
+} from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { obtenerImagen } from '@redux/selectors/usuario-imagen.selectors';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,7 +46,6 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   modalRef: any;
   language: LanguageFlag;
   langs = languages;
-
 
   constructor(
     private resumenService: ResumenService,
@@ -88,6 +90,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
         this.usuarioInformacion.idioma,
         Validators.compose([Validators.minLength(2)]),
       ],
+      imagen: null,
     });
   }
   get formFields() {
@@ -102,6 +105,10 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
       reader.onload = (e: any) => {
         this.srcResult = e.target.result;
+        this.formularioResumen.patchValue({
+          imagen: e.target.result,
+        });
+        this.changeDetectorRef.detectChanges();
       };
 
       reader.readAsDataURL(inputNode.files[0]);
@@ -128,6 +135,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
           telefono: validacionTelefono,
           nombreCorto: this.formularioResumen.value.nombreCorto,
           idioma: this.formularioResumen.value.idioma,
+          imagen: this.formularioResumen.value.imagen
         })
         .subscribe({
           next: (respuesta) => {
@@ -138,10 +146,14 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                 apellido: this.formularioResumen.value.apellido,
                 telefono: validacionTelefono,
                 idioma: this.formularioResumen.value.idioma,
-              }),
+              })
             );
-            this.store.dispatch(usuarioActionActualizarIdioma({idioma: this.formularioResumen.value.idioma}))
-            this.translateService.use(this.formularioResumen.value.idioma)
+            this.store.dispatch(
+              usuarioActionActualizarIdioma({
+                idioma: this.formularioResumen.value.idioma,
+              })
+            );
+            this.translateService.use(this.formularioResumen.value.idioma);
             this.changeDetectorRef.detectChanges();
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
@@ -187,6 +199,14 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       backdrop: 'static',
       size: 'lg',
     });
+  }
+
+  removerArchivoSeleccionado() {
+    this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
+    this.formularioResumen.patchValue({
+      imagen: null,
+    });
+    this.changeDetectorRef.detectChanges();
   }
 }
 

@@ -8,7 +8,8 @@ interface enviarDatosUsuario  {
   nombre: String,
   apellido: String,
   telefono: String,
-  idioma: String
+  idioma: String,
+  imagen: String | null
 }
 
 @Injectable({

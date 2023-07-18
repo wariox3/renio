@@ -28,33 +28,82 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12 col-sm-12">
-            <div class="d-flex align-items-center justify-content-center">
-              <img
-                id="usuarioAvatar"
-                [src]="srcResult || [usuarioImagen$ | async]"
-                alt=""
-                height="120"
-                width="120"
-                style="object-fit: cover"
-              />
-            </div>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                (click)="fileInput.click()"
-                style="font-size: 14px; padding: 0.375rem 0.75rem"
-              >
-                Subir foto
-              </button>
-              <input
-                hidden
-                (change)="archivoSeleccionado($event)"
-                #fileInput
-                type="file"
-                id="file"
-                accept="image/png, image/jpeg"
-              />
+            <div class="fv-row mb-4">
+              <!--begin::Label-->
+              <label class="form-label" translate="FORMULARIOS.TITULOS.EMPRESAS.IMAGEN">
+              </label>
+
+              <!--end::Label-->
+
+              <!--begin::Col-->
+              <div class="col-lg-8">
+                <!--begin::Image input-->
+                <div class="image-input image-input-outline" data-kt-image-input="true">
+                  <!--begin::Preview existing avatar-->
+                  <div
+                    class="image-input-wrapper w-125px h-125px cursor-pointer"
+                    style="user-select: none"
+                    [ngStyle]="{ 'background-image': 'url(' + srcResult + ')' }"
+                    (click)="fileInput.click()"
+                  ></div>
+                  <!--end::Preview existing avatar-->
+
+                  <!--begin::Label-->
+                  <label
+                    class="btn btn-icon btn-circle btn-active-color-primary w-40px h-40px bg-body shadow"
+                    data-kt-image-input-action="change"
+                    data-bs-toggle="tooltip"
+                    aria-label="Change avatar"
+                    data-bs-original-title="Change avatar"
+                    data-kt-initialized="1"
+                  >
+
+                    <i class="ki-duotone ki-search-list fs-2x">
+                      <i class="path1"></i>
+                      <i class="path2"></i>
+                      <i class="path3"></i>
+                    </i>
+
+                    <!--begin::Inputs-->
+                    <input
+                      type="file"
+                      name="avatar"
+                      accept="image/png, image/jpeg"
+                      (change)="archivoSeleccionado($event)"
+                      #fileInput
+                    />
+                    <input type="hidden" name="avatar_remove" />
+                    <!--end::Inputs-->
+                  </label>
+                  <!--end::Label-->
+
+                  <!--begin::Remove-->
+                  <span
+                    class="btn btn-icon btn-circle btn-active-color-primary w-30px h-30px bg-body shadow"
+                    data-kt-image-input-action="remove"
+                    data-bs-toggle="tooltip"
+                    aria-label="Remove avatar"
+                    data-bs-original-title="Remove avatar"
+                    data-kt-initialized="1"
+                    (click)="removerArchivoSeleccionado()"
+                    *ngIf="formularioResumen.controls.imagen.value !== null"
+                  >
+                    <i class="ki-duotone ki-cross fs-2 text-danger fs-2x"
+                      ><span class="path1"></span><span class="path2"></span
+                    ></i>
+                  </span>
+                  <!--end::Remove-->
+                </div>
+                <!--end::Image input-->
+
+                <!--begin::Hint-->
+                <div
+                  class="form-text"
+                  translate="FORMULARIOS.TITULOS.EMPRESAS.IMAGENESACEPTADAS"
+                ></div>
+                <!--end::Hint-->
+              </div>
+              <!--end::Col-->
             </div>
             <br>
             <div class="row mt-4">
