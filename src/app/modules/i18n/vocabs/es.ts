@@ -122,7 +122,7 @@ export const locale = {
       MENSAJES: {
         COMUNES: {
           EXITOSO: 'Proceso exitoso',
-          PROCESANDOACTUALIZACION: 'Por favor espere, procesando actualización',
+          PROCESANDOACTUALIZACION: 'actualización completa',
           PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
           ACTUALIZACION: 'Actualización de los datos exitosa'
         },

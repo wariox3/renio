@@ -28,6 +28,10 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.consultarDetalle()
+  }
+
+  consultarDetalle(){
     this.empresaService
       .consultarInformacion(this.empresa_id)
       .subscribe((respuesta: any) => {

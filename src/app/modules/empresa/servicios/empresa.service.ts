@@ -57,7 +57,7 @@ export class EmpresaService {
     return this.http.get(`${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`);
   }
 
-  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: Number) {
+  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: | string) {
     return this.http.put(
       `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
       {

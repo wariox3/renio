@@ -5,7 +5,11 @@
         <div
           class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
         >
-          <app-cargar-imagen [recibirImagen]="informacionEmpresa.imagen" (dataFormulario)="recuperarBase64($event)" (eliminarLogo)="eliminarLogo($event)"></app-cargar-imagen>
+          <app-cargar-imagen
+            [recibirImagen]="informacionEmpresa.imagen"
+            (dataFormulario)="recuperarBase64($event)"
+            (eliminarLogo)="eliminarLogo($event)"
+          ></app-cargar-imagen>
         </div>
       </div>
 
@@ -18,7 +22,7 @@
               <a
                 class="text-gray-800 text-hover-primary fs-2 fw-bolder me-1 cursor-pointer"
               >
-               {{ informacionEmpresa.nombre }}
+                {{ informacionEmpresa.nombre }}
               </a>
               <a class="cursor-pointer">
                 <app-keenicon
@@ -39,7 +43,7 @@
                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
               >
                 <app-keenicon name="user" class="fs-4 me-1"></app-keenicon>
-                 usuarioNombreCompleto | async
+                usuarioNombreCompleto | async
               </a>
             </div>
 
@@ -48,19 +52,22 @@
                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
               >
                 <app-keenicon name="phone" class="fs-4 me-1"></app-keenicon>
-                 telefono | async
+                telefono | async
               </a>
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary mb-2 cursor-pointer"
               >
                 <app-keenicon name="sms" class="fs-4 me-1"></app-keenicon>
-                 usuarioCorreo | async
+                usuarioCorreo | async
               </a>
             </div>
           </div>
 
           <div class="d-flex my-4">
-
+            <app-empresa-editar
+              [empresa_id]="empresa_id"
+              (emitirActualizacion)="consultarDetalle()"
+            ></app-empresa-editar>
           </div>
         </div>
 

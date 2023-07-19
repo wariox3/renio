@@ -1,14 +1,9 @@
-import {
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -22,18 +17,19 @@ export class EmpresaEditarComponent extends General {
     nombre: '',
     subdominio: '',
     plan_id: 0,
-    imagen: null
+    imagen: null,
   };
-  @Input() empresa_id!: Number;
+  @Input() empresa_id!: string;
+  @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   modalRef: any;
 
   constructor(
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    private empresaService: EmpresaService,
+    private empresaService: EmpresaService
   ) {
-    super()
+    super();
   }
 
   enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
@@ -46,11 +42,11 @@ export class EmpresaEditarComponent extends General {
       )
       .subscribe(() => {
         this.alertaService.mensajaExitoso(
-          this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION")
+          this.translateService.instant(
+            'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+          )
         );
-        setTimeout(()=> {
-          location.reload()
-        }, 5001)
+        return this.emitirActualizacion.emit(true)
       });
   }
 
@@ -60,7 +56,10 @@ export class EmpresaEditarComponent extends General {
       .pipe(
         tap((respuesta: any) => {
           this.informacionEmpresa = respuesta;
-          this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static', size: 'lg' });
+          this.modalRef = this.modalService.open(this.customTemplate, {
+            backdrop: 'static',
+            size: 'lg',
+          });
         })
       )
       .subscribe();
