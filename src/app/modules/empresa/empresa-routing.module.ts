@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { EmpresaComponent } from './componentes/empresa-lista/empresa.component';
 import { EmpresaNuevoComponent } from './componentes/empresa-nuevo/empresa-nuevo.component';
 import { EmpresaInvitacionComponent } from './componentes/empresa-invitacion/empresa-invitacion.component';
+import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +18,10 @@ const routes: Routes = [
   {
     path: 'nuevo',
     component: EmpresaNuevoComponent,
+  },
+  {
+    path: 'detalle/:codigoempresa',
+    component: EmpresaDetalleComponent,
   },
   {
     path: ':nombreempresa/:codigoempresa/invitacion/nuevo',

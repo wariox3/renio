@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExtrasModule } from '../../_metronic/partials/layout/extras/extras.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { SharedModule } from '../../_metronic/shared/shared.module';
-import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaEditarComponent } from './componentes/empresa-editar/empresa-editar.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from './componentes/empresa-formulario/empresa-formulario.component';
@@ -18,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
+import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
     EmpresaInvitacionComponent,
     EmpresaEditarComponent,
     EmpresaFormularioComponent,
+    EmpresaDetalleComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
     TranslateModule,
     TranslationModule,
     ImageCropperModule,
-    CargarImagenComponent
+    CargarImagenComponent,
+    NgbAccordionModule
   ],
   providers:[
     NgbActiveModal

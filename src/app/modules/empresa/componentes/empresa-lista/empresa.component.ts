@@ -112,4 +112,8 @@ export class EmpresaComponent extends General implements OnInit {
       { state: { empresa: empresa } }
     );
   }
+
+  detalleEmpresa(empresa_id: Number){
+    this.router.navigate([`/empresa/detalle/${empresa_id}`]);
+  }
 }

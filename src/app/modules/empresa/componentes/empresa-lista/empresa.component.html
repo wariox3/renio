@@ -31,7 +31,10 @@
                 <th></th>
                 <th class="min-w-120px"></th>
                 <th class="min-w-150px">Plan</th>
-                <th translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS" class="min-w-100px"></th>
+                <th
+                  translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
+                  class="min-w-100px"
+                ></th>
               </tr>
             </thead>
             <tbody>
@@ -100,7 +103,8 @@
                             translate="FORMULARIOS.BOTONES.EMPRESA.INVITACION"
                             [routerLink]="[
                               '/empresa/' +
-                                empresa.nombre+'/'+
+                                empresa.nombre +
+                                '/' +
                                 empresa.empresa_id +
                                 '/invitacion/nuevo'
                             ]"
@@ -110,9 +114,14 @@
                           </a>
                         </div>
                         <div class="separator my-2"></div>
-                        <app-empresa-editar
-                          [empresa_id]="empresa.empresa_id"
-                        ></app-empresa-editar>
+                        <div class="menu-item px-3">
+                          <a
+                            class="menu-link px-3 cursor-pointer"
+                            (click)="detalleEmpresa(empresa.empresa_id)"
+                            translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
+                          >
+                          </a>
+                        </div>
                         <div class="separator my-2"></div>
                         <div class="menu-item px-3">
                           <a
@@ -134,7 +143,10 @@
               </ng-container>
               <ng-template #sinEmpresas>
                 <tr>
-                  <td colspan="4" translate="FORMULARIOS.MENSAJES.EMPRESAS.SINEMPRESAS"></td>
+                  <td
+                    colspan="4"
+                    translate="FORMULARIOS.MENSAJES.EMPRESAS.SINEMPRESAS"
+                  ></td>
                 </tr>
               </ng-template>
             </tbody>
