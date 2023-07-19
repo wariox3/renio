@@ -10,14 +10,22 @@
     <!--begin::Image input-->
     <div class="image-input image-input-outline" data-kt-image-input="true">
       <!--begin::Preview existing avatar-->
-      <div
+      <!-- <div
         class="image-input-wrapper w-125px h-125px cursor-pointer"
         style="user-select: none"
-        [ngStyle]="{ 'background-image': 'url(' + srcResult + ')' }"
-        (click)="fileInput.click()"
-      ></div>
-      <!--end::Preview existing avatar-->
+        [ngStyle]="{'background-image': base64 ? 'url(' + base64 + ')' :  recibirImagen}" class="default-image"
 
+        (click)="fileInput.click()"
+      ></div> -->
+      <img
+        [src]="base64 !== '' ? base64 : recibirImagen"
+        alt=""
+        class="image-input-wrapper w-125px h-125px cursor-pointer"
+        style="user-select: none"
+        (click)="fileInput.click()"
+      />
+      <!--end::Preview existing avatar-->
+      <!-- {{recibirImagen}} -->
       <!--begin::Label-->
       <label
         class="btn btn-icon btn-circle btn-active-color-primary w-40px h-40px bg-body shadow"
@@ -55,6 +63,7 @@
         data-bs-original-title="Remove avatar"
         data-kt-initialized="1"
         (click)="removerArchivoSeleccionado()"
+        *ngIf="base64 || recibirImagen !== 'https://itrio.fra1.digitaloceanspaces.com/test/empresa/logo_defecto.jpg'"
       >
         <i class="ki-duotone ki-cross fs-2 text-danger fs-2x"
           ><span class="path1"></span><span class="path2"></span

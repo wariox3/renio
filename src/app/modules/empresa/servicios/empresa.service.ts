@@ -53,7 +53,7 @@ export class EmpresaService {
     );
   }
 
-  consultarInformacion(empresa_id: Number) {
+  consultarInformacion(empresa_id: Number | string) {
     return this.http.get(`${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`);
   }
 
@@ -106,6 +106,23 @@ export class EmpresaService {
   listaPlanes() {
     return this.http.get<Plan[]>(
       `${environment.URL_API_MUUP}/inquilino/plan/`
+    );
+  }
+
+  cargarLogo(empresa_id: Number | string, imagenB64: string){
+    return this.http.post(
+      `${environment.URL_API_MUUP}/inquilino/empresa/cargar-logo/`, {
+        empresa_id,
+        imagenB64
+      }
+    );
+  }
+
+  eliminarLogoEmpresa(empresa_id: Number | string){
+    return this.http.post(
+      `${environment.URL_API_MUUP}/inquilino/empresa/limpiar-logo/`, {
+        empresa_id
+      }
     );
   }
 }

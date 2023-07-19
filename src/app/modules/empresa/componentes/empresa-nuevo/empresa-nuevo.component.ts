@@ -1,14 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { of, switchMap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { Empresa, EmpresaFormulario } from '@interfaces/usuario/empresa';
 
@@ -28,9 +23,9 @@ export class EmpresaNuevoComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
-    super()
+    super();
   }
 
   ngOnInit(): void {

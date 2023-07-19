@@ -1,15 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { Empresa } from '@interfaces/usuario/empresa';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
   selector: 'app-empresa-detalle',
   templateUrl: './empresa-detalle.component.html',
-  styleUrls: ['./empresa-detalle.component.scss']
+  styleUrls: ['./empresa-detalle.component.scss'],
 })
-export class EmpresaDetalleComponent extends General {
+export class EmpresaDetalleComponent extends General implements OnInit {
+  empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+  informacionEmpresa : Empresa = {
+    empresa_id: 0,
+    id: 0,
+    imagen: "",
+    nombre:  "",
+    subdominio: "",
+    usuario_id: 0,
+    rol: "",
+    usuarios: 0,
+    plan_id: 0,
+    plan_nombre : 0,
+  };
 
-  constructor(){
-    super()
+  constructor(private empresaService: EmpresaService) {
+    super();
   }
 
+  ngOnInit() {
+    this.empresaService
+      .consultarInformacion(this.empresa_id)
+      .subscribe((respuesta: any) => {
+        this.informacionEmpresa = respuesta;
+        this.changeDetectorRef.detectChanges()
+      });
+  }
+
+  recuperarBase64(event: any) {
+    this.empresaService.cargarLogo(this.empresa_id, event).subscribe();
+  }
+
+  eliminarLogo(event: boolean) {
+    this.empresaService.eliminarLogoEmpresa(this.empresa_id).subscribe();
+  }
 }

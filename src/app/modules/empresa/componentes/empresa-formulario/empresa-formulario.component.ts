@@ -1,12 +1,10 @@
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { General } from '@comun/clases/general';
 import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { Plan } from '@modulos/empresa/modelos/plan';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { tap } from 'rxjs';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -36,8 +34,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
-    private sanitizer: DomSanitizer
+    private empresaService: EmpresaService
   ) {
     super();
   }
@@ -124,30 +121,4 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     this.planSeleccionado = plan_id;
     this.changeDetectorRef.detectChanges();
   }
-
-  archivoSeleccionado(event: any) {
-    const inputNode: any = event.target;
-
-    if (typeof FileReader !== 'undefined') {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.srcResult = e.target.result;
-        this.formularioEmpresa.patchValue({
-          imagen: e.target.result,
-        });
-        this.changeDetectorRef.detectChanges();
-      };
-      reader.readAsDataURL(inputNode.files[0]);
-    }
-  }
-
-  removerArchivoSeleccionado() {
-    this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
-    this.formularioEmpresa.patchValue({
-      imagen: null,
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
 }

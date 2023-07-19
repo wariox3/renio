@@ -5,10 +5,7 @@
         <div
           class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
         >
-          <img src="./assets/media/avatars/300-1.jpg" alt="Metronic" />
-          <div
-            class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"
-          ></div>
+          <app-cargar-imagen [recibirImagen]="informacionEmpresa.imagen" (dataFormulario)="recuperarBase64($event)" (eliminarLogo)="eliminarLogo($event)"></app-cargar-imagen>
         </div>
       </div>
 
@@ -21,7 +18,7 @@
               <a
                 class="text-gray-800 text-hover-primary fs-2 fw-bolder me-1 cursor-pointer"
               >
-               nombreMostrar | async
+               {{ informacionEmpresa.nombre }}
               </a>
               <a class="cursor-pointer">
                 <app-keenicon

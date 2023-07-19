@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageCropperModule, LoadedImage } from 'ngx-image-cropper';
@@ -34,27 +34,32 @@ export class CargarImagenComponent {
   croppedImage: any = '';
   base64: string | ArrayBuffer = '';
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
+  @Output() eliminarLogo: EventEmitter<any> = new EventEmitter();
+  @Input() recibirImagen : string | null = ''
 
-  archivoSeleccionado(event: any) {
-
-    this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
-    this.imageChangedEvent = event;
-    const inputNode: any = event.target;
-
-    if (typeof FileReader !== 'undefined') {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.srcResult = e.target.result;
-        // this.changeDetectorRef.detectChanges();
-      };
-      reader.readAsDataURL(inputNode.files[0]);
+  archivoSeleccionado(event: any) {    
+    if(event.target.files.length > 0){
+      this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
+      this.imageChangedEvent = event;
+  
+  
+      if (typeof FileReader !== 'undefined') {
+        const reader = new FileReader();
+  
+        reader.onload = (e: any) => {
+          this.srcResult = e.target.result;
+        };
+        reader.readAsDataURL(this.imageChangedEvent.target.files[0]);
+      }
+      event.target.files = null;
     }
   }
 
   removerArchivoSeleccionado() {
+    this.base64 = ''
     this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
-    // this.changeDetectorRef.detectChanges();
+    return this.eliminarLogo.emit(true);
+
   }
 
   fileChangeEvent(event: any): void {
@@ -63,10 +68,12 @@ export class CargarImagenComponent {
   imageCropped(event: ImageCroppedEvent) {
     var reader = new FileReader();
     if(event.blob){
-      reader.readAsDataURL(event.blob);
+      const convertedBlob = event.blob.slice(0, event.blob.size, 'image/jpeg');
+      reader.readAsDataURL(convertedBlob);
       reader.onloadend = () => {
         if(reader.result){
-          this.base64 = reader.result 
+          this.base64 = reader.result
+          
         }
       } 
     }
@@ -86,6 +93,7 @@ export class CargarImagenComponent {
   }
 
   emitirBase64(){
+    this.modalService.dismissAll();
     return this.dataFormulario.emit(this.base64);
   }
 
