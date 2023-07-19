@@ -90,9 +90,7 @@ export class EmpresaComponent extends General implements OnInit {
                   this.alertaService.mensajaExitoso(
                    this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION")
                   );
-                  setTimeout(() => {
-                    location.reload();
-                  }, 5001);
+                  this.consultarLista()
                 })
               )
               .subscribe();
