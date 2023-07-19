@@ -4,6 +4,7 @@ import { EmpresaComponent } from './componentes/empresa-lista/empresa.component'
 import { EmpresaNuevoComponent } from './componentes/empresa-nuevo/empresa-nuevo.component';
 import { EmpresaInvitacionComponent } from './componentes/empresa-invitacion/empresa-invitacion.component';
 import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
+import { EmpresaFacturacionComponent } from './componentes/empresa-facturacion/empresa-facturacion.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,13 @@ const routes: Routes = [
   {
     path: 'detalle/:codigoempresa',
     component: EmpresaDetalleComponent,
+    children:[
+      {
+        path: 'facturacion',
+        component: EmpresaFacturacionComponent,
+      }
+    ]
+
   },
   {
     path: ':nombreempresa/:codigoempresa/invitacion/nuevo',

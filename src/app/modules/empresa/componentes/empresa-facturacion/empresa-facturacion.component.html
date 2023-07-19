@@ -1,0 +1,157 @@
+<div class="card card-flush pt-3 mb-5 mb-xl-10">
+  <!--begin::Card header-->
+  <div class="card-header">
+    <!--begin::Card title-->
+    <div class="flex-column card-title">
+      <h2 class="mb-1">Billing</h2>
+      <div class="fs-6 fw-semibold text-muted">
+        Keep your account extra secure with a second authentication step.
+      </div>
+    </div>
+
+    <!--begin::Card title-->
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar">
+      <a class="btn btn-link mx-2">How billing works</a>
+      <a class="btn btn-light-primary">Make a payment</a>
+    </div>
+    <!--end::Card toolbar-->
+  </div>
+  <!--end::Card header-->
+  <!--begin::Card body-->
+  <div class="card-body pt-3">
+    <!--begin::Section-->
+    <div class="mb-10 p-5 border">
+      <!--begin::Title-->
+      <h5 class="mb-4">Estimated due</h5>
+      <span class="text-gray-400 min-w-175px w-175px"
+        >This is estimate od the amount you owe based on yo current
+        month-to-date user after credits & prepatments</span
+      >
+      <p class="fs-2 mb-10">$532.12</p>
+      <!--begin::Section-->
+      <div class="mb-0">
+        <!--begin::Title-->
+        <h5 class="mb-4">Subscribed Products:</h5>
+        <!--end::Title-->
+        <div class="row">
+          <div class="col">
+            <p>
+              Payment due
+              <i class="ki-outline ki-information-2"></i>
+            </p>
+          </div>
+          <div class="col">
+            <p>
+              Prepayments
+              <i class="ki-outline ki-information-2"></i>
+            </p>
+          </div>
+          <div class="col">
+            <p>
+              Total usege
+              <i class="ki-outline ki-information-2"></i>
+            </p>
+          </div>
+          <div class="col">
+            <p>
+              Estamen due
+              <i class="ki-outline ki-information-2"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--end::Section-->
+      <!--end::Title-->
+    </div>
+
+    <div class="mb-10 border">
+      <div class="p-5 d-flex justify-content-between">
+        <div class="flex-column">
+          <h2 class="mb-1">Two Step Authentication</h2>
+          <div class="fs-6 fw-semibold text-muted">
+            Keep your account extra secure with a second authentication step.
+          </div>
+        </div>
+        <div>
+          <a
+            href="#"
+            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
+            >PDF</a
+          >
+
+          <a
+            href="#"
+            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
+            >Excel</a
+          >
+        </div>
+      </div>
+      <ngb-accordion #a="ngbAccordion">
+        <ngb-panel id="custom-panel-1">
+          <ng-template ngbPanelHeader let-opened="opened">
+            <div
+              class="accordion-button custom-header"
+              [class.collapsed]="!opened"
+            >
+              <button
+                ngbPanelToggle
+                class="p-0 btn btn-link container-fluid text-start ps-0"
+              >
+                Backusp
+              </button>
+              <p class="text-muted m-0 small">$16.03</p>
+              <p class="text-muted m-0 small"></p>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+            terry richardson ad squid. 3 wolf moon officia aute, non cupidatat
+            skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+            Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+            single-origin coffee nulla assumenda shoreditch et. Nihil anim
+            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth
+            nesciunt you probably haven't heard of them accusamus labore
+            sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel id="custom-panel-2">
+          <ng-template ngbPanelHeader let-opened="opened">
+            <div
+              class="accordion-button custom-header"
+              [class.collapsed]="!opened"
+            >
+              <button
+                ngbPanelToggle
+                class="p-0 btn btn-link container-fluid text-start ps-0"
+              >
+                Backusp
+              </button>
+              <p class="text-muted m-0 small">$418.93</p>
+              <p class="text-muted m-0 small"></p>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+            terry richardson ad squid. 3 wolf moon officia aute, non cupidatat
+            skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+            Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
+            single-origin coffee nulla assumenda shoreditch et. Nihil anim
+            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
+            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth
+            nesciunt you probably haven't heard of them accusamus labore
+            sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+      <div class="p-5 text-end">Subtotal: 532.12</div>
+
+      <div class="p-5 text-end">Total: 532.12</div>
+    </div>
+    <!--end::Section-->
+  </div>
+  <!--end::Card body-->
+</div>

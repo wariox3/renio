@@ -19,6 +19,7 @@ import { TranslationModule } from '../../modules/i18n';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
+import { EmpresaFacturacionComponent } from './componentes/empresa-facturacion/empresa-facturacion.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-d
     EmpresaEditarComponent,
     EmpresaFormularioComponent,
     EmpresaDetalleComponent,
+    EmpresaFacturacionComponent,
   ],
   imports: [
     CommonModule,
