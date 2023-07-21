@@ -3,18 +3,23 @@
   <div class="card-header">
     <!--begin::Card title-->
     <div class="flex-column card-title">
-      <h2 class="mb-1">Billing</h2>
-      <div class="fs-6 fw-semibold text-muted">
-        Keep your account extra secure with a second authentication step.
-      </div>
+      <h2 translate="FORMULARIOS.TITULOS.COMUNES.FACTURACION" class="mb-1"></h2>
+      <!-- <div translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA1" class="fs-6 fw-semibold text-muted">
+      </div> -->
     </div>
 
     <!--begin::Card title-->
     <!--begin::Card toolbar-->
-    <div class="card-toolbar">
-      <a class="btn btn-link mx-2">How billing works</a>
-      <a class="btn btn-light-primary">Make a payment</a>
-    </div>
+    <!-- <div class="card-toolbar">
+      <a
+        class="btn btn-link mx-2"
+        translate="FORMULARIOS.TITULOS.FACTURACION.COMOFUNCIONA"
+      ></a>
+      <a
+        class="btn btn-light-primary"
+        translate="FORMULARIOS.TITULOS.FACTURACION.REALIZARPAGO"
+      ></a>
+    </div> -->
     <!--end::Card toolbar-->
   </div>
   <!--end::Card header-->
@@ -23,49 +28,50 @@
     <!--begin::Section-->
     <div class="mb-10 p-5 border">
       <!--begin::Title-->
-      <h5 class="mb-4">Estimated due</h5>
-      <span class="text-gray-400 min-w-175px w-175px"
-        >This is estimate od the amount you owe based on yo current
-        month-to-date user after credits & prepatments</span
-      >
-      <p class="fs-2 mb-10">$532.12</p>
+      <h5
+        class="mb-4"
+        translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO"
+      ></h5>
+      <span
+        class="text-gray-400 min-w-175px w-175px"
+        translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
+      ></span>
+      <p class="fs-2 mb-10">${{ consumo.vr_total }}</p>
       <!--begin::Section-->
       <div class="mb-0">
         <!--begin::Title-->
-        <h5 class="mb-4">Subscribed Products:</h5>
+        <h5 class="mb-4" translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOSSUSCRITOS"></h5>
         <!--end::Title-->
         <div class="row">
-          <div class="col">
+          <!-- <div class="col">
             <p>
               Payment due
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div>
-          <div class="col">
-            <p>
-              Prepayments
+          </div> -->
+          <!-- <div class="col">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.TIPOPAGO">
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div>
+          </div> -->
           <div class="col">
-            <p>
-              Total usege
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
+            <span>{{ consumo.vr_total }}</span>
           </div>
-          <div class="col">
-            <p>
-              Estamen due
+          <!-- <div class="col">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.SALDO">
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
       <!--end::Section-->
       <!--end::Title-->
     </div>
 
-    <div class="mb-10 border">
+    <!-- <div class="mb-10 border">
       <div class="p-5 d-flex justify-content-between">
         <div class="flex-column">
           <h2 class="mb-1">Two Step Authentication</h2>
@@ -150,7 +156,7 @@
       <div class="p-5 text-end">Subtotal: 532.12</div>
 
       <div class="p-5 text-end">Total: 532.12</div>
-    </div>
+    </div> -->
     <!--end::Section-->
   </div>
   <!--end::Card body-->

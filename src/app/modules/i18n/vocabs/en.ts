@@ -42,6 +42,7 @@ export const locale = {
           CONTACTO: 'Contact us',
           IMAGEN: 'Upload image',
           PREVISUALIZAR: 'Preview',
+          FACTURACION: 'Billing',
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',

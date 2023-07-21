@@ -42,6 +42,7 @@ export const locale = {
           CONTACTO: 'Contacto',
           IMAGEN: 'Cargar imagen',
           PREVISUALIZAR: 'Previsualizar',
+          FACTURACION: 'Facturación',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',

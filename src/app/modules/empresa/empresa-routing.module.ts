@@ -25,7 +25,7 @@ const routes: Routes = [
     component: EmpresaDetalleComponent,
     children:[
       {
-        path: 'facturacion',
+        path: 'facturacion/:codigoempresa',
         component: EmpresaFacturacionComponent,
       }
     ]

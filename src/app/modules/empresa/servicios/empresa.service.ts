@@ -9,11 +9,21 @@ import {
 } from '@interfaces/usuario/empresa';
 import { Plan } from '../modelos/plan';
 
+export interface Consumo {
+  vr_plan: number;
+  vr_total: number;
+}
+
+export interface consumos {
+  consumos: Consumo
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class EmpresaService {
   constructor(private http: HttpClient) {}
+  
 
   lista(usuario_id: string) {
     return this.http.post<EmpresaLista>(
@@ -125,4 +135,15 @@ export class EmpresaService {
       }
     );
   }
+
+  consultarConsumoFecha(empresa_id: Number | string){
+    return this.http.post<consumos>(
+      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-empresa-fecha/`, {
+        empresa_id,
+        fechaDesde : "2023-07-01",
+        fechaHasta: "2023-07-31"
+      }
+    );
+  }
+  
 }
