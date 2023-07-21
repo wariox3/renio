@@ -65,6 +65,7 @@ export const locale = {
         SEGURIDAD: {
           TITULO: 'Cambiar contraseña',
           TITULO2: 'Contraseña',
+          TITULO3: 'Seguridad',
           CAMBIARCLAVE: 'Contraseña nueva',
           CONFIRMARCLAVE: 'Confirmar contraseña',
           REGISTRO: 'Regístrese',

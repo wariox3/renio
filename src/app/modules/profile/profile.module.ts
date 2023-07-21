@@ -16,11 +16,12 @@ import {
 } from '../../_metronic/partials';
 import { SharedModule } from '../../_metronic/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { InformacionUsuarioComponent } from './components/informacion-usuario/in
     CampaignsComponent,
     DocumentsComponent,
     ConnectionsComponent,
-    InformacionUsuarioComponent
+    InformacionUsuarioComponent,
+    FacturacionComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { InformacionUsuarioComponent } from './components/informacion-usuario/in
     SeguridadModule,
     TranslateModule,
     TranslationModule,
-    ModalsModule
+    ModalsModule,
+    NgbAccordionModule
   ],
   providers:[
     NgbActiveModal

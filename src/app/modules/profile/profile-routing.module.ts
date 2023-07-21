@@ -26,6 +26,10 @@ const routes: Routes = [
         component: CampaignsComponent,
       },
       {
+        path: 'facturacion',
+        component: CampaignsComponent,
+      },
+      {
         path: 'documents',
         component: DocumentsComponent,
       },
