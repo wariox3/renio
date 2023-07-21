@@ -48,6 +48,6 @@ export const obtenerUsuarioCargo = createSelector(
 
 export const obtenerUsuarioSuspencion = createSelector(
   Usuario,
-  (Usuario) => Usuario.vr_saldo > 0 && new Date(Usuario.fecha_limite_pago) >=  new Date()
+  (Usuario) => Usuario.vr_saldo > 0 && new Date(Usuario.fecha_limite_pago) <=  new Date()
 );
 
