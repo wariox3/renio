@@ -97,23 +97,6 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     return this.formularioResumen.controls;
   }
 
-  archivoSeleccionado(event: any) {
-    const inputNode: any = event.target;
-
-    if (typeof FileReader !== 'undefined') {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.srcResult = e.target.result;
-        this.formularioResumen.patchValue({
-          imagen: e.target.result,
-        });
-        this.changeDetectorRef.detectChanges();
-      };
-
-      reader.readAsDataURL(inputNode.files[0]);
-    }
-  }
 
   formSubmit() {
     if (this.formularioResumen.valid) {
@@ -201,13 +184,14 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     });
   }
 
-  removerArchivoSeleccionado() {
-    this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
-    this.formularioResumen.patchValue({
-      imagen: null,
-    });
-    this.changeDetectorRef.detectChanges();
+  recuperarBase64(event: any) {
+    this.resumenService.cargarImagen(this.codigoUsuario, event).subscribe();
   }
+
+  eliminarLogo(event: boolean) {
+    this.resumenService.eliminarImagen(this.codigoUsuario).subscribe();
+  }
+
 }
 
 interface LanguageFlag {

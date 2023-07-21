@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageCropperModule, LoadedImage } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-cargar-imagen',
@@ -18,13 +19,13 @@ import { TranslationModule } from '@modulos/i18n';
     TranslationModule,
   ]
 })
-export class CargarImagenComponent {
+export class CargarImagenComponent extends General {
 
   constructor(
     private modalService: NgbModal,
     private sanitizer: DomSanitizer
   ){
-
+    super()
   }
 
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
@@ -52,6 +53,7 @@ export class CargarImagenComponent {
         reader.readAsDataURL(this.imageChangedEvent.target.files[0]);
       }
       event.target.files = null;
+      this.changeDetectorRef.detectChanges()
     }
   }
 
@@ -93,7 +95,7 @@ export class CargarImagenComponent {
   }
 
   emitirBase64(){
-    this.modalService.dismissAll();
+    this.modalRef.close()
     return this.dataFormulario.emit(this.base64);
   }
 
