@@ -7,6 +7,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { CambioClaveComponent } from '@modulos/seguridad/componentes/cambio-clave/cambio-clave.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'facturacion',
-        component: CampaignsComponent,
+        component: FacturacionComponent,
       },
       {
         path: 'documents',

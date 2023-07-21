@@ -88,6 +88,19 @@ export const locale = {
           PROCESANDOTOKEN: 'Procesando token',
           REGRESARLOGIN: 'Regresar a la página de iniciar sesión',
         },
+        FACTURACION:{
+          COMOFUNCIONA: 'Cómo funciona la facturación',
+          TEXTOAYUDA1: 'Mantenga su cuenta más segura con un segundo paso de autenticación.',
+          REALIZARPAGO: 'Realizar un pago',
+          TEXTOAYUDA2: 'Esta es una estimación de la cantidad que debe basada en su usuario actual del mes hasta la fecha después de créditos y pagos por adelantado.',
+          ESTIMADO: 'Vencimiento estimado',
+          PRODUCTOSSUSCRITOS: 'Productos suscritos',
+          FECHAPAGO: 'Fecha de pago',
+          TIPOPAGO: 'Tipo de pago',
+          TOTALUSO: 'Uso total',
+          SALDO : 'Saldo'
+
+        }
       },
       CAMPOS: {
         COMUNES: {
