@@ -41,6 +41,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import {SharedModule} from "../shared/shared.module";
+import { AlertaSuspensionComponent } from '@comun/componentes/alerta-suspension/alerta-suspension.component';
 
 const routes: Routes = [
   {
@@ -90,7 +91,8 @@ const routes: Routes = [
     NgbTooltipModule,
     TranslateModule,
     ThemeModeModule,
-    SharedModule
+    SharedModule,
+    AlertaSuspensionComponent
   ],
   exports: [RouterModule],
 })

@@ -21,7 +21,10 @@ let parsedState:Usuario =  {
   apellido: '',
   telefono: '',
   correo: '',
-  idioma: ''
+  idioma: '',
+  dominio: '',
+  fecha_limite_pago: new Date(),
+  vr_saldo: 0
 };
 
 

@@ -19,7 +19,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 import { BtnwhatsappComponent } from './comun/componentes/btnwhatsapp/btnwhatsapp.component';
 
-
 // function appInitializer(authService: AuthService) {
 //   return () => {
 //     return new Promise((resolve) => {

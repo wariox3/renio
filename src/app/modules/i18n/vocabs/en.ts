@@ -138,7 +138,9 @@ export const locale = {
           EXITOSO: 'Successful process',
           PROCESANDOACTUALIZACION: 'Update sucessful',
           PROCESANDOELIMINACION: 'Please wait, processing elimination',
-          ACTUALIZACION: 'Successful data update'
+          ACTUALIZACION: 'Successful data update',
+          ALERTASUSPENCIONTITULO: 'Account at risk',
+          ALERTASUSPENCIONMENSAJE: 'Your account is at risk of suspension for payment'
         },
         EMPRESAS: {
           CREAREMPRESA: 'We are creating your company, wait a moment...',
