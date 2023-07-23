@@ -22,7 +22,10 @@
         <!--begin::Header-->
         <div
           class="landing-header"
-          [ngClass]="{ menufijo: menufijo === true }"
+          [ngClass]="{ 
+            'menufijo': menufijo === true,
+            'fade-down': animateFadeDown
+           }"
           [attr.data-kt-sticky]="true"
           [attr.data-kt-sticky-name]="'landing-header'"
           [attr.data-kt-sticky-offset]="{ default: '200px', lg: '300px' }"

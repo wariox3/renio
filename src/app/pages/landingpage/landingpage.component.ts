@@ -11,6 +11,8 @@ export class LandingpageComponent implements OnInit {
 
   estadoMenu = false
   menufijo = false
+  animateFadeDown = false;
+
 
   constructor(private scroller: ViewportScroller, private activatedRoute: ActivatedRoute) {}
 
@@ -49,13 +51,8 @@ export class LandingpageComponent implements OnInit {
   @HostListener("window:scroll", ['$event'])
   doSomethingOnWindowsScroll($event:Event){
     let scrollOffset = document.documentElement.scrollTop || document.body.scrollTop;
-
-    if(scrollOffset >= 200){
-      this.menufijo = true
-    } else {
-      this.menufijo = false
-    }
-
+    this.animateFadeDown = scrollOffset >= 200;
+    this.menufijo =  scrollOffset >= 200;
   }
 
 }

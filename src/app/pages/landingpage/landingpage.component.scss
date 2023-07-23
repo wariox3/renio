@@ -10,3 +10,18 @@
     height: 100px;
     animation-duration: 3s;
 }
+
+@keyframes fadeDownAnimation {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-down {
+    animation: fadeDownAnimation 0.5s ease;
+  }
