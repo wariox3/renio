@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { FechasService } from '@comun/services/fechas.service';
 import {
   Consumo,
   EmpresaService
@@ -19,7 +20,8 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
     consumosPlan: [],
   };
 
-  constructor(private empresaService: EmpresaService) {
+  constructor(private empresaService: EmpresaService,
+    public fechasServices: FechasService) {
     super();
   }
 

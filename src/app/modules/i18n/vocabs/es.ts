@@ -97,7 +97,7 @@ export const locale = {
           REALIZARPAGO: 'Realizar un pago',
           TEXTOAYUDA2:
             'Esta es una estimación de la cantidad que debe basada en su usuario actual del mes hasta la fecha después de créditos y pagos por adelantado.',
-          ESTIMADO: 'Vencimiento estimado',
+          ESTIMADO: 'Valor estimado',
           PRODUCTOSSUSCRITOS: 'Productos suscritos',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'Tipo de pago',
