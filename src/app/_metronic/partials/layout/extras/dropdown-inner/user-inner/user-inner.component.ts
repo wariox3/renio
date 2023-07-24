@@ -4,7 +4,7 @@ import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
 
-import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import { obtenerEmpresaId, obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 import {
   obtenerUsuarioCargo,
   obtenerUsuarioImagen,
@@ -32,6 +32,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
+  obtenerEmpresaId$ = this.store.select(obtenerEmpresaId);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
 

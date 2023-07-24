@@ -7,13 +7,17 @@
 
       <div class="d-flex flex-column">
         <div class="fw-bolder d-flex align-items-center fs-5">
-          <small class="usuario-nombre">{{ usuarioNombreCorto$ | async }}</small>
+          <small class="usuario-nombre">{{
+            usuarioNombreCorto$ | async
+          }}</small>
         </div>
         <div class="fw-bolder d-flex align-items-center fs-5">
-          <small class="fw-bold text-muted fs-7 usuario-correo">{{ usuarioCorreo | async }}</small>
+          <small class="fw-bold text-muted fs-7 usuario-correo">{{
+            usuarioCorreo | async
+          }}</small>
         </div>
         <small class="fw-bold text-muted fs-7">
-          {{obtenerEmpresaNombre$ | async}}
+          {{ obtenerEmpresaNombre$ | async }}
         </small>
       </div>
     </div>
@@ -22,24 +26,48 @@
   <div class="separator my-2"></div>
 
   <div class="menu-item px-5">
-    <a routerLink="profile" class="menu-link px-5" translate="FORMULARIOS.TITULOS.COMUNES.MENU.PERFIL"></a>
+    <a
+      routerLink="profile"
+      class="menu-link px-5"
+      translate="FORMULARIOS.TITULOS.COMUNES.MENU.PERFIL"
+    ></a>
+    <a
+      routerLink="/profile/facturacion"
+      class="menu-link px-5 cursor-pointer"
+    >
+      <span
+        class="menu-text"
+        translate="FORMULARIOS.TITULOS.COMUNES.MENU.FACTURACION"
+      ></span>
+    </a>
+    <a
+      href="http://muup.online/empresa/lista"
+      class="menu-link px-5 cursor-pointer"
+    >
+      <span
+        class="menu-text"
+        translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESAS"
+      ></span>
+    </a>
   </div>
 
-  <div class="separator my-2"></div>
 
-  <div class="menu-item px-5">
-    <a *ngIf="esSubdominio" href="http://muup.online/empresa/lista" class="menu-link px-5 cursor-pointer">
-      <span class="menu-text" translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"></span>
-    </a>
-    <a href="http://muup.online/empresa/lista" class="menu-link px-5 cursor-pointer">
-      <span class="menu-text" translate="FORMULARIOS.TITULOS.COMUNES.MENU.FACTURACION"></span>
-    </a>
-    <a href="http://muup.online/empresa/lista" class="menu-link px-5 cursor-pointer">
-      <span class="menu-text" translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESAS"></span>
-    </a>
+  <ng-container *ngIf="esSubdominio">
+    <div class="separator my-2"></div>
+    <div class="menu-item px-5">
+      <a
+        [routerLink]="['/empresa/detalle/', (obtenerEmpresaNombre$ | async), '/facturacion/', (obtenerEmpresaNombre$ | async)]"
+        class="menu-link px-5 cursor-pointer"
+      >
+        <span
+          class="menu-text"
+          translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
+        ></span>
+      </a>
+    </div>
+  </ng-container>
 
 
-  </div>
 
   <!-- <div
     class="menu-item px-5"
@@ -110,19 +138,12 @@
     data-kt-menu-flip="bottom"
   >
     <a class="menu-link px-5 cursor-pointer">
-      <span translate="FORMULARIOS.TITULOS.COMUNES.IDIOMA" class="menu-title position-relative">
+      <span
+        translate="FORMULARIOS.TITULOS.COMUNES.IDIOMA"
+        class="menu-title position-relative"
+      >
         <span
-          class="
-            fs-8
-            rounded
-            bg-light
-            px-3
-            py-2
-            position-absolute
-            translate-middle-y
-            top-50
-            end-0
-          "
+          class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0"
         >
           {{ language.name }}{{ " " }}
           <img
@@ -153,8 +174,6 @@
     </div>
   </div>
 
-  <div class="separator my-2"></div>
-
   <!-- <div class="menu-item px-5 my-1">
     <a routerLink="/crafted/account/settings" class="menu-link px-5">
       Configuración de la cuenta
@@ -162,7 +181,11 @@
   </div> -->
 
   <div class="menu-item px-5">
-    <a (click)="logout()" translate="FORMULARIOS.TITULOS.COMUNES.CERRARSESION" class="menu-link px-5 cursor-pointer">
+    <a
+      (click)="logout()"
+      translate="FORMULARIOS.TITULOS.COMUNES.CERRARSESION"
+      class="menu-link px-5 cursor-pointer"
+    >
     </a>
   </div>
 </ng-container>

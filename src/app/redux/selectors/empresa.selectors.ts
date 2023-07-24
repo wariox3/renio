@@ -17,3 +17,8 @@ export const obtenerLogoEmpresa = createSelector(
   Empresa,
   (Empresa) => `${Empresa.imagen}`
 );
+
+export const obtenerEmpresaId = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.id}`
+);
