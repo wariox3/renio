@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { usuarioActionInit } from '@redux/actions/usuario.actions';
-import { map, tap } from 'rxjs/operators';
-import { setCookie } from 'typescript-cookie';
+import { usuarioActionActualizarInformacionUsuario, usuarioActionInit } from '@redux/actions/usuario.actions';
+import { tap } from 'rxjs/operators';
+import { getCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class UsuarioEffects {
@@ -24,6 +24,29 @@ export class UsuarioEffects {
       ),
     { dispatch: false }
   );
+
+  updateCookie$ = createEffect(
+
+    () => 
+      this.actions$.pipe(
+        ofType(usuarioActionActualizarInformacionUsuario),
+        tap((action) => {
+          let coockieUsuario = getCookie('usuario')
+          if(coockieUsuario){
+            let jsonUsuario = JSON.parse(coockieUsuario)
+            jsonUsuario.nombre = action.nombre
+            jsonUsuario.apellido = action.apellido
+            jsonUsuario.telefono = action.telefono
+            if(environment.production){
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
+            }else {
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', })
+            } 
+          }
+        })
+      ),
+      { dispatch: false } 
+  ) 
 
   constructor(private actions$: Actions) {}
 }
