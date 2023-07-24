@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FechasService } from '@comun/services/fechas.service';
 import { environment } from '@env/environment';
 
-interface enviarDatosUsuario  {
+interface enviarDatosUsuario {
   id: String;
-  nombreCorto: String,
-  nombre: String,
-  apellido: String,
-  telefono: String,
-  idioma: String,
-  imagen: String | null
+  nombreCorto: String;
+  nombre: String;
+  apellido: String;
+  telefono: String;
+  idioma: String;
+  imagen: String | null;
 }
 
 export interface Factura {
@@ -22,7 +23,7 @@ export interface Factura {
 }
 
 export interface Facturas {
-  movimientos: Factura[]
+  movimientos: Factura[];
 }
 
 export interface Consumo {
@@ -31,16 +32,14 @@ export interface Consumo {
 }
 
 export interface Consumos {
-  consumos: Consumo
+  consumos: Consumo;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ResumenService {
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private fechaServices: FechasService) {}
 
   perfil(codigoUsuario: string) {
     return this.http.get(
@@ -48,47 +47,54 @@ export class ResumenService {
     );
   }
 
-  actualizarInformacion(data:enviarDatosUsuario){
+  actualizarInformacion(data: enviarDatosUsuario) {
     return this.http.put(
       `${environment.URL_API_MUUP}/seguridad/usuario/${data.id}/`,
-      {"nombre": data.nombre, "apellido": data.apellido, "nombre_corto" : data.nombreCorto, "telefono": data.telefono, "idioma" : data.idioma}
-    );
-  }
-
-  facturacion(usuario_id: string){
-    return this.http.post<Facturas>(
-      `${environment.URL_API_MUUP}/inquilino/movimiento/consulta-usuario/`,
       {
-        usuario_id
+        nombre: data.nombre,
+        apellido: data.apellido,
+        nombre_corto: data.nombreCorto,
+        telefono: data.telefono,
+        idioma: data.idioma,
       }
     );
   }
 
-  facturacionFechas(usuario_id: string){
+  facturacion(usuario_id: string) {
+    return this.http.post<Facturas>(
+      `${environment.URL_API_MUUP}/inquilino/movimiento/consulta-usuario/`,
+      {
+        usuario_id,
+      }
+    );
+  }
+
+  facturacionFechas(usuario_id: string) {
     return this.http.post<Consumos>(
       `${environment.URL_API_MUUP}/inquilino/consumo/consulta-usuario-fecha/`,
       {
         usuario_id,
-        fechaDesde : "2023-07-01",
-        fechaHasta: "2023-07-31"
+        fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
+        fechaHasta: this.fechaServices.obtenerUltimoDiaDelMes(new Date()),
       }
     );
   }
 
-
-  cargarImagen(usuario_id: Number | string, imagenB64: string){
+  cargarImagen(usuario_id: Number | string, imagenB64: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/usuario/cargar-imagen/`, {
+      `${environment.URL_API_MUUP}/seguridad/usuario/cargar-imagen/`,
+      {
         usuario_id,
-        imagenB64
+        imagenB64,
       }
     );
   }
 
-  eliminarImagen(usuario_id: Number | string){
+  eliminarImagen(usuario_id: Number | string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/usuario/limpiar-imagen/`, {
-        usuario_id
+      `${environment.URL_API_MUUP}/seguridad/usuario/limpiar-imagen/`,
+      {
+        usuario_id,
       }
     );
   }
