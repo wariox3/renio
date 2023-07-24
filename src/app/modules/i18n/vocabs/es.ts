@@ -104,7 +104,11 @@ export const locale = {
           TOTALUSO: 'Uso total',
           SALDO: 'Saldo',
           PAGOSANTICIPADOS: 'Pagos anticipados',
-          PLAN: 'Plan'
+          PLAN: 'Plan',
+          HISTORIALFACTURACION: 'Historial de facturación',
+          FECHA: 'Fecha',
+          DESCRIPCION: 'Descripción',
+          IMPORTANTE: 'Importe'
         },
       },
       CAMPOS: {

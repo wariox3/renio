@@ -105,6 +105,10 @@ export const locale = {
           SALDO: 'Balance',
           PAGOSANTICIPADOS: 'Prepayments',
           PLAN: 'Plan',
+          HISTORIALFACTURACION: 'Billing history',
+          FECHA: 'Date',
+          DESCRIPCION: 'Description',
+          IMPORTANTE: 'Amount'
         },
       },
       CAMPOS: {

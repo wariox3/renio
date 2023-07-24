@@ -89,29 +89,33 @@
       <!--begin::Title-->
       <h5
         class="mb-4"
-        translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO"
+        translate="FORMULARIOS.TITULOS.FACTURACION.HISTORIALFACTURACION"
       ></h5>
-      <p
-        class="text-gray-400"
-        translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
-      ></p>
       <div class="row p-5">
-        <table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th translate="FORMULARIOS.TITULOS.FACTURACION.FECHA"></th>
+              <th translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"></th>
+              <th translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"></th>
+              <th></th>
+            </tr>
+          </thead>
           <tbody>
             <tr *ngFor="let item of facturas">
               <td>{{ item.fecha | date : "fullDate" }}</td>
               <td>{{ item.tipo }}</td>
-              <td>{{ item.vr_total }}</td>
+              <td>{{ item.vr_total | currency : "$" }}</td>
               <td>
                 <a
                   href="#"
-                  class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
+                  class="text-muted text-hover-primary mx-1"
                   >PDF</a
                 >
-
+                
                 <a
                   href="#"
-                  class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
+                  class="text-muted text-hover-primary mx-1"
                   >Excel</a
                 >
               </td>
