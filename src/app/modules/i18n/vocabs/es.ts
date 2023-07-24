@@ -44,6 +44,7 @@ export const locale = {
           IMAGEN: 'Cargar imagen',
           PREVISUALIZAR: 'Previsualizar',
           FACTURACION: 'Facturación',
+          ITEMS: 'Items',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',

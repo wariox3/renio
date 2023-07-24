@@ -44,6 +44,7 @@ export const locale = {
           IMAGEN: 'Upload image',
           PREVISUALIZAR: 'Preview',
           FACTURACION: 'Billing',
+          ITEMS: 'Items',
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',
