@@ -71,15 +71,15 @@
       <!--end::Title-->
     </div>
 
-    <!-- <div class="mb-10 border">
+    <div class="mb-10 border">
       <div class="p-5 d-flex justify-content-between">
         <div class="flex-column">
-          <h2 class="mb-1">Two Step Authentication</h2>
-          <div class="fs-6 fw-semibold text-muted">
+          <h2 class="mb-1">Planes</h2>
+          <!-- <div class="fs-6 fw-semibold text-muted">
             Keep your account extra secure with a second authentication step.
-          </div>
+          </div> -->
         </div>
-        <div>
+        <!-- <div>
           <a
             href="#"
             class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
@@ -91,72 +91,29 @@
             class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
             >Excel</a
           >
-        </div>
-      </div>
+        </div> -->
+      </div> 
       <ngb-accordion #a="ngbAccordion">
-        <ngb-panel id="custom-panel-1">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <div
-              class="accordion-button custom-header"
-              [class.collapsed]="!opened"
-            >
-              <button
-                ngbPanelToggle
-                class="p-0 btn btn-link container-fluid text-start ps-0"
-              >
-                Backusp
-              </button>
-              <p class="text-muted m-0 small">$16.03</p>
-              <p class="text-muted m-0 small"></p>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-            terry richardson ad squid. 3 wolf moon officia aute, non cupidatat
-            skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-            Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-            single-origin coffee nulla assumenda shoreditch et. Nihil anim
-            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-            occaecat craft beer farm-to-table, raw denim aesthetic synth
-            nesciunt you probably haven't heard of them accusamus labore
-            sustainable VHS.
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel id="custom-panel-2">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <div
-              class="accordion-button custom-header"
-              [class.collapsed]="!opened"
-            >
-              <button
-                ngbPanelToggle
-                class="p-0 btn btn-link container-fluid text-start ps-0"
-              >
-                Backusp
-              </button>
-              <p class="text-muted m-0 small">$418.93</p>
-              <p class="text-muted m-0 small"></p>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-            terry richardson ad squid. 3 wolf moon officia aute, non cupidatat
-            skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-            Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-            single-origin coffee nulla assumenda shoreditch et. Nihil anim
-            keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-            sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-            occaecat craft beer farm-to-table, raw denim aesthetic synth
-            nesciunt you probably haven't heard of them accusamus labore
-            sustainable VHS.
-          </ng-template>
-        </ngb-panel>
+        <ng-container *ngFor="let consumoPlan of consumo.consumosPlan">
+          <ngb-panel [id]="'custom-panel-' + consumoPlan.plan_id">
+            <ng-template ngbPanelHeader let-opened="opened">
+              <div class="accordion-button" [class.collapsed]="!opened">
+                <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0">
+                  Plan ID {{ consumoPlan.plan_id }}
+                </button>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="custom-content">
+                <p class="mb-2">Valor Total:</p>
+                <p class="m-0 text-end">${{ consumoPlan.vr_total.toFixed(2) }}</p>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ng-container>
       </ngb-accordion>
-      <div class="p-5 text-end">Subtotal: 532.12</div>
-
-      <div class="p-5 text-end">Total: 532.12</div>
-    </div> -->
+      <div class="p-5 text-end">Total: $ {{ consumo.vr_total.toFixed(2) }}</div>
+    </div>
     <!--end::Section-->
   </div>
   <!--end::Card body-->

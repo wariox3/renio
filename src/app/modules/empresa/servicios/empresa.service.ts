@@ -5,48 +5,48 @@ import {
   Empresa,
   EmpresaFormulario,
   EmpresaInvitacion,
-  EmpresaLista
+  EmpresaLista,
 } from '@interfaces/usuario/empresa';
 import { Plan } from '../modelos/plan';
+import { FechasService } from '@comun/services/fechas.service';
 
 export interface Consumo {
   vr_plan: number;
   vr_total: number;
+  consumosPlan: ConsumoPlan[];
 }
 
-export interface consumos {
-  consumos: Consumo
+export interface ConsumoPlan {
+  plan_id: number;
+  vr_plan: number;
+  vr_total: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmpresaService {
-  constructor(private http: HttpClient) {}
-  
+  constructor(private http: HttpClient,
+   private fechaServices: FechasService) {}
 
   lista(usuario_id: string) {
     return this.http.post<EmpresaLista>(
       `${environment.URL_API_MUUP}/inquilino/usuarioempresa/consulta-usuario/`,
       {
-        usuario_id
+        usuario_id,
       }
     );
   }
 
   nuevo(data: EmpresaFormulario, codigoUsuario: string) {
-    return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/empresa/`,
-      {
-        nombre: data.nombre,
-        subdominio: data.subdominio,
-        usuario: codigoUsuario,
-        plan_id: data.plan_id,
-        imagen: data.imagen,
-      }
-    );
+    return this.http.post(`${environment.URL_API_MUUP}/inquilino/empresa/`, {
+      nombre: data.nombre,
+      subdominio: data.subdominio,
+      usuario: codigoUsuario,
+      plan_id: data.plan_id,
+      imagen: data.imagen,
+    });
   }
-
 
   detalle(codigoEmpresa: string) {
     return this.http.get<Empresa>(
@@ -64,10 +64,12 @@ export class EmpresaService {
   }
 
   consultarInformacion(empresa_id: Number | string) {
-    return this.http.get(`${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`);
+    return this.http.get(
+      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`
+    );
   }
 
-  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: | string) {
+  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: string) {
     return this.http.put(
       `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
       {
@@ -75,7 +77,7 @@ export class EmpresaService {
         subdominio: data.subdominio,
         plan: data.plan_id,
         usuario: codigoUsuario,
-        imagen: data.imagen
+        imagen: data.imagen,
       }
     );
   }
@@ -101,49 +103,49 @@ export class EmpresaService {
     );
   }
 
-  eliminarEmpresa(empresa_id: Number){
+  eliminarEmpresa(empresa_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
-    )
+      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`
+    );
   }
 
-  eliminarEmpresaUsuario(usuario_id: Number){
+  eliminarEmpresaUsuario(usuario_id: Number) {
     return this.http.delete(
       `${environment.URL_API_MUUP}/inquilino/usuarioempresa/${usuario_id}/`
-    )
+    );
   }
 
   listaPlanes() {
-    return this.http.get<Plan[]>(
-      `${environment.URL_API_MUUP}/inquilino/plan/`
-    );
+    return this.http.get<Plan[]>(`${environment.URL_API_MUUP}/inquilino/plan/`);
   }
 
-  cargarLogo(empresa_id: Number | string, imagenB64: string){
+  cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/empresa/cargar-logo/`, {
+      `${environment.URL_API_MUUP}/inquilino/empresa/cargar-logo/`,
+      {
         empresa_id,
-        imagenB64
+        imagenB64,
       }
     );
   }
 
-  eliminarLogoEmpresa(empresa_id: Number | string){
+  eliminarLogoEmpresa(empresa_id: Number | string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/empresa/limpiar-logo/`, {
-        empresa_id
+      `${environment.URL_API_MUUP}/inquilino/empresa/limpiar-logo/`,
+      {
+        empresa_id,
       }
     );
   }
 
-  consultarConsumoFecha(empresa_id: Number | string){
-    return this.http.post<consumos>(
-      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-empresa-fecha/`, {
+  consultarConsumoFecha(empresa_id: Number | string) {
+    return this.http.post<Consumo>(
+      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-empresa-fecha/`,
+      {
         empresa_id,
-        fechaDesde : "2023-07-01",
-        fechaHasta: "2023-07-31"
+        fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
+        fechaHasta: this.fechaServices.obtenerUltimoDiaDelMes(new Date()),
       }
     );
   }
-  
 }

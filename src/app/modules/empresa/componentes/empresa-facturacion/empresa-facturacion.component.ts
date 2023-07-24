@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import {
   Consumo,
-  EmpresaService,
-  consumos,
+  EmpresaService
 } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
@@ -17,6 +16,7 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
   consumo: Consumo = {
     vr_plan: 0,
     vr_total: 0,
+    consumosPlan: [],
   };
 
   constructor(private empresaService: EmpresaService) {
@@ -31,8 +31,21 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
   consultarConsumoFecha() {
     this.empresaService
       .consultarConsumoFecha(this.empresa_id)
-      .subscribe((respuesta: consumos) => {
-        this.consumo = respuesta.consumos;
+      .subscribe((respuesta: any) => {
+        // Llenar el objeto consumo con los valores de la respuesta
+        this.consumo.vr_plan = respuesta.consumos.vr_plan;
+        this.consumo.vr_total = respuesta.consumos.vr_total;
+  
+        // Si la respuesta tiene un arreglo de consumosPlan
+        if (respuesta.consumosPlan && respuesta.consumosPlan.length > 0) {
+          // Llenar el objeto consumosPlan con todos los elementos del arreglo
+          this.consumo.consumosPlan = respuesta.consumosPlan.map((consumoPlan: any) => ({
+            plan_id: consumoPlan.plan_id,
+            vr_plan: consumoPlan.vr_plan,
+            vr_total: consumoPlan.vr_total,
+          }));
+        }
+  
         this.changeDetectorRef.detectChanges();
       });
   }

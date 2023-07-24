@@ -59,7 +59,6 @@ export class CargarImagenComponent extends General {
 
   removerArchivoSeleccionado() {
     this.base64 = ''
-    this.srcResult = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
     return this.eliminarLogo.emit(true);
 
   }
