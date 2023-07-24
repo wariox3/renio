@@ -12,7 +12,9 @@ import {
   styleUrls: ['./empresa-facturacion.component.scss'],
 })
 export class EmpresaFacturacionComponent extends General implements OnInit {
-  empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+  // empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+
+  empresa_id: string | null;
 
   consumo: Consumo = {
     vr_plan: 0,
@@ -26,12 +28,16 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedRoute.parent?.paramMap.subscribe((params) => {
+      this.empresa_id = params.get('codigoempresa');
+    });
     this.consultarConsumoFecha();
     this.changeDetectorRef.detectChanges();
   }
 
   consultarConsumoFecha() {
-    this.empresaService
+    if(this.empresa_id){
+      this.empresaService
       .consultarConsumoFecha(this.empresa_id)
       .subscribe((respuesta: any) => {
         // Llenar el objeto consumo con los valores de la respuesta
@@ -51,5 +57,6 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
   
         this.changeDetectorRef.detectChanges();
       });
+    }
   }
 }

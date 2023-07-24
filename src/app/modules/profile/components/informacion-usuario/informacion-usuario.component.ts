@@ -100,22 +100,25 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   formSubmit() {
     if (this.formularioResumen.valid) {
-      let validacionTelefono =
-        this.formularioResumen.value.telefono === null
-          ? `${this.formularioResumen.value.indicativoPais}`
-          : `${this.formularioResumen.value.indicativoPais} ${this.formularioResumen.value.telefono}`;
+      let indicativoPais = this.formularioResumen.value.indicativoPais;
+      let telefono = this.formularioResumen.value.telefono;
+    
+      if (indicativoPais && telefono) {
+        telefono = `${indicativoPais} ${telefono}`;
+      } else if (telefono) {
+        telefono = telefono;
+      } else if (indicativoPais) {
+        telefono = indicativoPais;
+      } else {
+        telefono = null;
+      }
+    
       this.resumenService
         .actualizarInformacion({
           id: this.usuarioInformacion.id,
-          nombre:
-            this.formularioResumen.value.nombre === ''
-              ? null
-              : this.formularioResumen.value.nombre,
-          apellido:
-            this.formularioResumen.value.apellido === ''
-              ? null
-              : this.formularioResumen.value.apellido,
-          telefono: validacionTelefono,
+          nombre: this.formularioResumen.value.nombre || null,
+          apellido: this.formularioResumen.value.apellido || null,
+          telefono: telefono,
           nombreCorto: this.formularioResumen.value.nombreCorto,
           idioma: this.formularioResumen.value.idioma,
           imagen: this.formularioResumen.value.imagen
@@ -127,7 +130,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                 nombre_corto: this.formularioResumen.value.nombreCorto,
                 nombre: this.formularioResumen.value.nombre,
                 apellido: this.formularioResumen.value.apellido,
-                telefono: validacionTelefono,
+                telefono: telefono,
                 idioma: this.formularioResumen.value.idioma,
               })
             );
@@ -156,9 +159,15 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       next: (respuesta: any) => {
         let indicativo = '';
         let telefono = '';
+        
         if (respuesta.telefono) {
-          indicativo = respuesta.telefono.split(' ')[0];
-          telefono = respuesta.telefono.split(' ')[1];
+          if (respuesta.telefono.charAt(0) === '+') {
+            let partesTelefono = respuesta.telefono.split(' ');
+            indicativo = partesTelefono[0];
+            telefono = partesTelefono[1];
+          } else {
+            telefono = respuesta.telefono;
+          }
         }
         this.usuarioInformacion = {
           id: respuesta.id,

@@ -21,6 +21,7 @@ let estadoAnalizado: Empresa = {
   plan_id: null,
   plan_nombre: null,
   usuarios: 1,
+  usuarios_base: 0
 };
 
 export const initialState: Empresa = empresaData

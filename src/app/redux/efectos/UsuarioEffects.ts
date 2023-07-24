@@ -37,6 +37,7 @@ export class UsuarioEffects {
             jsonUsuario.nombre = action.nombre
             jsonUsuario.apellido = action.apellido
             jsonUsuario.telefono = action.telefono
+            jsonUsuario.nombre_corto = action.nombre_corto
             if(environment.production){
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
             }else {

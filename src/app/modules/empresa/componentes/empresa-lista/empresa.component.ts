@@ -57,6 +57,7 @@ export class EmpresaComponent extends General implements OnInit {
           plan_id: null,
           plan_nombre: null,
           usuarios: 1,
+          usuarios_base: 0
         };
         this.store.dispatch(empresaActionInit({ empresa }));
       });

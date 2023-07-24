@@ -25,7 +25,12 @@ const routes: Routes = [
     component: EmpresaDetalleComponent,
     children:[
       {
-        path: 'facturacion/:codigoempresa',
+        path: '', // Ruta vacía, se inicia por defecto cuando se carga la ruta padre
+        redirectTo: 'facturacion',
+        pathMatch: 'full',
+      },
+      {
+        path: 'facturacion',
         component: EmpresaFacturacionComponent,
       }
     ]

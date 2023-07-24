@@ -21,6 +21,7 @@ export class EmpresaDetalleComponent extends General implements OnInit {
     usuarios: 0,
     plan_id: 0,
     plan_nombre : 0,
+    usuarios_base: 0
   };
 
   constructor(private empresaService: EmpresaService) {

@@ -39,7 +39,7 @@
                 *ngIf="empresa.rol === 'propietario'"
               ></div>
             </td>
-            <td>{{ empresa.usuarios }} / maximo</td>
+            <td>{{ empresa.usuarios }} / {{empresa.usuarios_base}}</td>
           </tr>
         </ng-container>
         <ng-template #sinEmpresas>
