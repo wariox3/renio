@@ -41,8 +41,8 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
       .consultarConsumoFecha(this.empresa_id)
       .subscribe((respuesta: any) => {
         // Llenar el objeto consumo con los valores de la respuesta
-        this.consumo.vr_plan = respuesta.consumos.vr_plan;
-        this.consumo.vr_total = respuesta.consumos.vr_total;
+        this.consumo.vr_plan = respuesta.consumos.vr_plan | 0;
+        this.consumo.vr_total = respuesta.consumos.vr_total | 0;
   
         // Si la respuesta tiene un arreglo de consumosPlan
         if (respuesta.consumosPlan && respuesta.consumosPlan.length > 0) {
