@@ -92,14 +92,12 @@ export const locale = {
           REGRESARLOGIN: 'Back to home page login',
         },
         FACTURACION: {
-          COMOFUNCIONA: 'How billing works',
           TEXTOAYUDA1:
             'Keep your account extra secure with a second authentication step.',
           REALIZARPAGO: 'Make a payment',
           TEXTOAYUDA2:
             'This is estimate od the amount you owe based on yo current month-to-date user after credits any prepatments',
           ESTIMADO: 'Estimated due',
-          PRODUCTOSSUSCRITOS: 'Subscribed Products',
           FECHAPAGO: 'Payment date',
           TIPOPAGO: 'Payment type',
           TOTALUSO: 'Total usege',

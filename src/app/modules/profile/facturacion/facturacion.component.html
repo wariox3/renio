@@ -16,10 +16,6 @@
     <!--begin::Card toolbar-->
     <div class="card-toolbar">
       <a
-        class="btn btn-link mx-2"
-        translate="FORMULARIOS.TITULOS.FACTURACION.COMOFUNCIONA"
-      ></a>
-      <a
         class="btn btn-light-primary"
         translate="FORMULARIOS.TITULOS.FACTURACION.REALIZARPAGO"
       ></a>
@@ -44,13 +40,6 @@
       <!--begin::Section-->
       <div class="mb-0">
         <!--begin::Title-->
-        <div class="d-flex">
-          <h5
-            class="mb-4"
-            translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOSSUSCRITOS"
-          ></h5>
-          <span class="mx-2"></span>
-        </div>
         <div class="row">
           <div class="col">
             <b>{{ this.fechaServices.obtenerPrimerDiaDelMesSiguiente() | date : "fullDate" }}</b>
@@ -70,7 +59,7 @@
           </div>
           <div class="col">
             <b>{{ consumos.vr_plan | currency : "$" }}</b>
-            <p translate="FORMULARIOS.TITULOS.FACTURACION.PLAN">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
@@ -112,7 +101,7 @@
                   class="text-muted text-hover-primary mx-1"
                   >PDF</a
                 >
-                
+
                 <a
                   href="#"
                   class="text-muted text-hover-primary mx-1"
