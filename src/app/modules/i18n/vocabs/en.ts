@@ -17,6 +17,7 @@ export const locale = {
           ATRAS: 'Back',
           INGRESAR: 'Enter',
           RESTABLECER: 'Reset',
+          DESCARGAR: 'Download'
         },
         EMPRESA: {
           CONECTAR: 'Connect',
