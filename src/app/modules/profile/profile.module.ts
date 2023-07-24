@@ -8,7 +8,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { SeguridadModule } from '../seguridad/seguridad.module'
+import { SeguridadModule } from '../seguridad/seguridad.module';
 import {
   CardsModule,
   DropdownMenusModule,
@@ -22,38 +22,36 @@ import { TranslationModule } from '../../modules/i18n';
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
-import { CargarImagenComponent } from "../../comun/componentes/cargar-imagen/cargar-imagen.component";
+import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 
 @NgModule({
-    declarations: [
-        ProfileComponent,
-        OverviewComponent,
-        ProjectsComponent,
-        CampaignsComponent,
-        DocumentsComponent,
-        ConnectionsComponent,
-        InformacionUsuarioComponent,
-        FacturacionComponent
-    ],
-    providers: [
-        NgbActiveModal
-    ],
-    imports: [
-        CommonModule,
-        ProfileRoutingModule,
-        InlineSVGModule,
-        DropdownMenusModule,
-        WidgetsModule,
-        CardsModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SeguridadModule,
-        TranslateModule,
-        TranslationModule,
-        ModalsModule,
-        NgbAccordionModule,
-        CargarImagenComponent
-    ]
+  declarations: [
+    ProfileComponent,
+    OverviewComponent,
+    ProjectsComponent,
+    CampaignsComponent,
+    DocumentsComponent,
+    ConnectionsComponent,
+    InformacionUsuarioComponent,
+    FacturacionComponent,
+  ],
+  providers: [NgbActiveModal],
+  imports: [
+    CommonModule,
+    ProfileRoutingModule,
+    InlineSVGModule,
+    DropdownMenusModule,
+    WidgetsModule,
+    CardsModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SeguridadModule,
+    TranslateModule,
+    TranslationModule,
+    ModalsModule,
+    NgbAccordionModule,
+    CargarImagenComponent,
+  ],
 })
 export class ProfileModule {}

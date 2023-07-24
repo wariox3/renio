@@ -21,10 +21,19 @@ export interface Factura {
   vr_total: number;
 }
 
-
-export interface facturas {
+export interface Facturas {
   movimientos: Factura[]
 }
+
+export interface Consumo {
+  vr_plan: number;
+  vr_total: number;
+}
+
+export interface Consumos {
+  consumos: Consumo
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -47,13 +56,25 @@ export class ResumenService {
   }
 
   facturacion(usuario_id: string){
-    return this.http.post<facturas>(
+    return this.http.post<Facturas>(
       `${environment.URL_API_MUUP}/inquilino/movimiento/consulta-usuario/`,
       {
         usuario_id
       }
     );
   }
+
+  facturacionFechas(usuario_id: string){
+    return this.http.post<Consumos>(
+      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-usuario-fecha/`,
+      {
+        usuario_id,
+        fechaDesde : "2023-07-01",
+        fechaHasta: "2023-07-31"
+      }
+    );
+  }
+
 
   cargarImagen(usuario_id: Number | string, imagenB64: string){
     return this.http.post(
