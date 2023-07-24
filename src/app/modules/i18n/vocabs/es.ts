@@ -17,7 +17,7 @@ export const locale = {
           ATRAS: 'Atrás',
           INGRESAR: 'Ingresar',
           RESTABLECER: 'Restablecer',
-          DESCARGAR: 'Descargar'
+          DESCARGAR: 'Descargar',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -58,8 +58,8 @@ export const locale = {
           NUEVAINVITACION: 'Nueva invitación para',
           NUEVO: 'Nueva empresa',
           SUBDOMINIO: 'Subdominio',
-          IMAGEN: "Imagen",
-          IMAGENESACEPTADAS: "Tipos de archivo permitidos: jpg"
+          IMAGEN: 'Imagen',
+          IMAGENESACEPTADAS: 'Tipos de archivo permitidos: jpg',
         },
         PERFIL: {
           TITULO: 'Información personal',
@@ -90,19 +90,22 @@ export const locale = {
           PROCESANDOTOKEN: 'Procesando token',
           REGRESARLOGIN: 'Regresar a la página de iniciar sesión',
         },
-        FACTURACION:{
+        FACTURACION: {
           COMOFUNCIONA: 'Cómo funciona la facturación',
-          TEXTOAYUDA1: 'Mantenga su cuenta más segura con un segundo paso de autenticación.',
+          TEXTOAYUDA1:
+            'Mantenga su cuenta más segura con un segundo paso de autenticación.',
           REALIZARPAGO: 'Realizar un pago',
-          TEXTOAYUDA2: 'Esta es una estimación de la cantidad que debe basada en su usuario actual del mes hasta la fecha después de créditos y pagos por adelantado.',
+          TEXTOAYUDA2:
+            'Esta es una estimación de la cantidad que debe basada en su usuario actual del mes hasta la fecha después de créditos y pagos por adelantado.',
           ESTIMADO: 'Vencimiento estimado',
           PRODUCTOSSUSCRITOS: 'Productos suscritos',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'Tipo de pago',
           TOTALUSO: 'Uso total',
-          SALDO : 'Saldo'
-
-        }
+          SALDO: 'Saldo',
+          PAGOSANTICIPADOS: 'Pagos anticipados',
+          PLAN: 'Plan'
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -142,7 +145,8 @@ export const locale = {
           PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
           ACTUALIZACION: 'Actualización de los datos exitosa',
           ALERTASUSPENCIONTITULO: 'Cuenta en peligro',
-          ALERTASUSPENCIONMENSAJE: 'Su cuenta esta en riesgo de suspension por pago'
+          ALERTASUSPENCIONMENSAJE:
+            'Su cuenta esta en riesgo de suspension por pago',
         },
         EMPRESAS: {
           CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',
@@ -150,15 +154,16 @@ export const locale = {
           ELIMINAREMPRESASUBTITULO: 'Este proceso no tiene reversa',
           ELIMINAREMPRESAAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
           SINEMPRESAS: 'No cuenta con empresas creadas',
-          INVITACIONACEPTADA:'Invitacion aceptada',
-          NUEVAEMPRESA: "La nueva empresa fue creada"
+          INVITACIONACEPTADA: 'Invitacion aceptada',
+          NUEVAEMPRESA: 'La nueva empresa fue creada',
         },
         AUTENTIFICACION: {
           VERIFICACION:
             'Se ha enviado un correo electrónico para verificar tu cuenta',
-          REENVIARVALIDACION: 'La nueva verificación se ha enviado nuevamente al correo electrónico registrado',
+          REENVIARVALIDACION:
+            'La nueva verificación se ha enviado nuevamente al correo electrónico registrado',
           INGRESARCLAVE: 'Por favor ingrese con su nueva clave',
-          INICIARSESION: 'Por favor iniciar sesión'
+          INICIARSESION: 'Por favor iniciar sesión',
         },
       },
     },

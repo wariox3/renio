@@ -36,35 +36,35 @@
         class="text-gray-400 min-w-175px w-175px"
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></span>
-      <p class="fs-2 mb-10">${{ consumo.vr_total }}</p>
+      <p class="fs-2 mb-10">{{ consumo.vr_total | currency: 'COP' }}</p>
       <!--begin::Section-->
       <div class="mb-0">
         <!--begin::Title-->
         <h5 class="mb-4" translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOSSUSCRITOS"></h5>
         <!--end::Title-->
         <div class="row">
-          <!-- <div class="col">
-            <p>
-              Payment due
+          <div class="col">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO">
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div> -->
-          <!-- <div class="col">
-            <p translate="FORMULARIOS.TITULOS.FACTURACION.TIPOPAGO">
+          </div> 
+          <div class="col">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.PAGOSANTICIPADOS">
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div> -->
+          </div>
           <div class="col">
             <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
-            <span>{{ consumo.vr_total }}</span>
+            <span>{{ consumo.vr_total | currency: 'COP' }}</span>
           </div>
-          <!-- <div class="col">
-            <p translate="FORMULARIOS.TITULOS.FACTURACION.SALDO">
+          <div class="col">
+            <p translate="FORMULARIOS.TITULOS.FACTURACION.PLAN">
               <i class="ki-outline ki-information-2"></i>
             </p>
-          </div> -->
+            <span>{{ consumo.vr_plan | currency: 'COP' }}</span>
+          </div>
         </div>
       </div>
       <!--end::Section-->
@@ -99,20 +99,20 @@
             <ng-template ngbPanelHeader let-opened="opened">
               <div class="accordion-button" [class.collapsed]="!opened">
                 <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0">
-                  Plan ID {{ consumoPlan.plan_id }}
+                   {{ consumoPlan.plan_nombre }}
                 </button>
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="custom-content">
-                <p class="mb-2">Valor Total:</p>
-                <p class="m-0 text-end">${{ consumoPlan.vr_total.toFixed(2) }}</p>
+                <p class="mb-2">{{ consumoPlan.plan_nombre }}</p>
+                <p class="m-0 text-end">{{ consumoPlan.vr_total | currency: 'COP' }}</p>
               </div>
             </ng-template>
           </ngb-panel>
         </ng-container>
       </ngb-accordion>
-      <div class="p-5 text-end">Total: $ {{ consumo.vr_total.toFixed(2) }}</div>
+      <div class="p-5 text-end">Total: {{ consumo.vr_total | currency: 'COP' }}</div>
     </div>
     <!--end::Section-->
   </div>

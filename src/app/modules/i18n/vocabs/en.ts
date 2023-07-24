@@ -17,7 +17,7 @@ export const locale = {
           ATRAS: 'Back',
           INGRESAR: 'Enter',
           RESTABLECER: 'Reset',
-          DESCARGAR: 'Download'
+          DESCARGAR: 'Download',
         },
         EMPRESA: {
           CONECTAR: 'Connect',
@@ -58,8 +58,8 @@ export const locale = {
           NUEVAINVITACION: 'New invitation to',
           NUEVO: 'New company',
           SUBDOMINIO: 'Subdomain',
-          IMAGEN: "Imagen",
-          IMAGENESACEPTADAS: "Allowed file types: jpg"
+          IMAGEN: 'Imagen',
+          IMAGENESACEPTADAS: 'Allowed file types: jpg',
         },
         PERFIL: {
           TITULO: 'Personal information',
@@ -90,18 +90,22 @@ export const locale = {
           PROCESANDOTOKEN: 'Processing token',
           REGRESARLOGIN: 'Back to home page login',
         },
-        FACTURACION:{
+        FACTURACION: {
           COMOFUNCIONA: 'How billing works',
-          TEXTOAYUDA1: 'Keep your account extra secure with a second authentication step.',
+          TEXTOAYUDA1:
+            'Keep your account extra secure with a second authentication step.',
           REALIZARPAGO: 'Make a payment',
-          TEXTOAYUDA2: 'This is estimate od the amount you owe based on yo current month-to-date user after credits any prepatments',
+          TEXTOAYUDA2:
+            'This is estimate od the amount you owe based on yo current month-to-date user after credits any prepatments',
           ESTIMADO: 'Estimated due',
           PRODUCTOSSUSCRITOS: 'Subscribed Products',
           FECHAPAGO: 'Payment date',
           TIPOPAGO: 'Payment type',
           TOTALUSO: 'Total usege',
-          SALDO : 'BALANCE'
-        }
+          SALDO: 'Balance',
+          PAGOSANTICIPADOS: 'Prepayments',
+          PLAN: 'Plan',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -131,7 +135,8 @@ export const locale = {
         },
         SEGURIDAD: {
           NOCOINCIDEN: 'New password and confirmation password do not match',
-          NOCOINCIDENNUEVO:'New password and confirmation password do not match',
+          NOCOINCIDENNUEVO:
+            'New password and confirmation password do not match',
         },
       },
       MENSAJES: {
@@ -141,7 +146,8 @@ export const locale = {
           PROCESANDOELIMINACION: 'Please wait, processing elimination',
           ACTUALIZACION: 'Successful data update',
           ALERTASUSPENCIONTITULO: 'Account at risk',
-          ALERTASUSPENCIONMENSAJE: 'Your account is at risk of suspension for payment'
+          ALERTASUSPENCIONMENSAJE:
+            'Your account is at risk of suspension for payment',
         },
         EMPRESAS: {
           CREAREMPRESA: 'We are creating your company, wait a moment...',
@@ -150,14 +156,14 @@ export const locale = {
           ELIMINAREMPRESAAYUDA: `To confirm, type in the box below:`,
           SINEMPRESAS: 'No companies have been created',
           INVITACIONACEPTADA: 'Invitation accepted',
-          NUEVAEMPRESA: "The new company was created"
+          NUEVAEMPRESA: 'The new company was created',
         },
         AUTENTIFICACION: {
-          VERIFICACION:
-            'An email has been sent to verify your account.',
-          REENVIARVALIDACION: 'The new verification has been sent again to the registered e-mail address.',
+          VERIFICACION: 'An email has been sent to verify your account.',
+          REENVIARVALIDACION:
+            'The new verification has been sent again to the registered e-mail address.',
           INGRESARCLAVE: 'Please login with your new password',
-          INICIARSESION: 'Please log in'
+          INICIARSESION: 'Please log in',
         },
       },
     },

@@ -43,6 +43,7 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
             plan_id: consumoPlan.plan_id,
             vr_plan: consumoPlan.vr_plan,
             vr_total: consumoPlan.vr_total,
+            plan_nombre: consumoPlan.plan_nombre
           }));
         }
   
