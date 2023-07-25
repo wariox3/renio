@@ -51,13 +51,14 @@ export class CargarImagenComponent extends General implements OnChanges {
   @Input() recibirImagen: string | null = '';
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.recibirImagen);
-    if (this.recibirImagen) {
-      if(!this.recibirImagen.includes('defecto')){
+    if (changes.recibirImagen.currentValue) {
+      if(changes.recibirImagen.currentValue.includes('defecto')){
+        this.visualizarRemoverImagen = false;
+      } else {
         this.visualizarRemoverImagen = true;
-        this.changeDetectorRef.detectChanges()
       }
     }
+    this.changeDetectorRef.detectChanges()
   }
 
   archivoSeleccionado(event: any) {
@@ -83,7 +84,7 @@ export class CargarImagenComponent extends General implements OnChanges {
   }
 
   removerArchivoSeleccionado() {
-    console.log(this.recibirImagen);
+    console.log(this.recibirImagen?.includes('defecto'));
 
     if(this.recibirImagen?.includes('defecto')){
       this.visualizarRemoverImagen = false;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { usuarioActionActualizarIdioma, usuarioActionActualizarInformacionUsuario, usuarioActionInit } from '@redux/actions/usuario.actions';
+import { usuarioActionActualizarIdioma, usuarioActionActualizarImagen, usuarioActionActualizarInformacionUsuario, usuarioActionInit } from '@redux/actions/usuario.actions';
 import { tap } from 'rxjs/operators';
 import { getCookie, setCookie } from 'typescript-cookie';
 
@@ -27,7 +27,7 @@ export class UsuarioEffects {
 
   updateCookie$ = createEffect(
 
-    () => 
+    () =>
       this.actions$.pipe(
         ofType(usuarioActionActualizarInformacionUsuario),
         tap((action) => {
@@ -43,16 +43,16 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
             }else {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', })
-            } 
+            }
           }
         })
       ),
-      { dispatch: false } 
-  ) 
+      { dispatch: false }
+  )
 
   updateCookieIdioma$ = createEffect(
 
-    () => 
+    () =>
       this.actions$.pipe(
         ofType(usuarioActionActualizarIdioma),
         tap((action) => {
@@ -64,12 +64,33 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
             }else {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', })
-            } 
+            }
           }
         })
       ),
-      { dispatch: false } 
-  ) 
+      { dispatch: false }
+  )
+
+  updateCookieImagen$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(usuarioActionActualizarImagen),
+        tap((action) => {
+          let coockieUsuario = getCookie('usuario')
+          if(coockieUsuario){
+            let jsonUsuario = JSON.parse(coockieUsuario)
+            jsonUsuario.imagen = action.imagen
+            if(environment.production){
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
+            }else {
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', })
+            }
+          }
+        })
+      ),
+      { dispatch: false }
+  )
+
 
   constructor(private actions$: Actions) {}
 }

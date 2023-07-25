@@ -83,6 +83,7 @@ export class ResumenService {
   cargarImagen(usuario_id: Number | string, imagenB64: string) {
     return this.http.post<{
       cargar: boolean;
+      imagen: string
     }>(`${environment.URL_API_MUUP}/seguridad/usuario/cargar-imagen/`, {
       usuario_id,
       imagenB64,
@@ -91,7 +92,8 @@ export class ResumenService {
 
   eliminarImagen(usuario_id: Number | string) {
     return this.http.post<{
-      cargar: boolean;
+      limpiar: boolean,
+      imagen: string
     }>(`${environment.URL_API_MUUP}/seguridad/usuario/limpiar-imagen/`, {
       usuario_id,
     });

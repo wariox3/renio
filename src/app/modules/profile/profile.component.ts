@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 import {
   obtenerUsuarioId,
@@ -41,7 +41,7 @@ export class ProfileComponent extends General {
         tap((respuestaCargarImagen) => {
           if (respuestaCargarImagen.cargar) {
             this.store.dispatch(
-              usuarioActionActualizarImagen({imagen: event})
+              usuarioActionActualizarImagen({imagen: respuestaCargarImagen.imagen})
             )
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
@@ -62,7 +62,10 @@ export class ProfileComponent extends General {
           this.resumenService.eliminarImagen(codigoUsuario)
         ),
         tap((respuestaEliminarImagen) => {
-          if (respuestaEliminarImagen.cargar) {
+          if (respuestaEliminarImagen.limpiar) {
+            this.store.dispatch(
+              usuarioActionActualizarImagen({imagen: respuestaEliminarImagen.imagen})
+            )
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
