@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -39,6 +40,7 @@ export class CargarImagenComponent extends General implements OnChanges {
 
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
+  @ViewChild('fileInput') fileInput !: ElementRef<HTMLInputElement>
   modalRef: any;
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -87,8 +89,8 @@ export class CargarImagenComponent extends General implements OnChanges {
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
-  imageCropped(event: ImageCroppedEvent) {
 
+  imageCropped(event: ImageCroppedEvent) {
     var reader = new FileReader();
     if (event.blob) {
 
@@ -108,28 +110,27 @@ export class CargarImagenComponent extends General implements OnChanges {
     }
   }
   imageLoaded(image: LoadedImage) {
-    // show cropper
   }
   cropperReady() {
     // cropper ready
   }
   loadImageFailed() {
-    // show message
   }
 
   emitirBase64() {
+    this.visualizarRemoverImagen = false;
+    this.fileInput.nativeElement.value = '';
     this.modalRef.close();
-    this.visualizarRemoverImagen = false
+    this.changeDetectorRef.detectChanges()
     return this.dataFormulario.emit(this.base64);
   }
 
   cerrarModal(){
+    this.fileInput.nativeElement.value = '';
     this.base64 = ''
     this.visualizarRemoverImagen = false
     this.modalRef.dismiss('Cross click')
+
   }
 
-  // visualizarRemoverImagen(){
-
-  // }
 }
