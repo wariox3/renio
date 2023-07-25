@@ -51,8 +51,9 @@ export class CargarImagenComponent extends General implements OnChanges {
   @Input() recibirImagen: string | null = '';
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.recibirImagen);
     if (this.recibirImagen) {
-      if (this.base64 != '') {
+      if(!this.recibirImagen.includes('defecto')){
         this.visualizarRemoverImagen = true;
         this.changeDetectorRef.detectChanges()
       }
@@ -82,6 +83,12 @@ export class CargarImagenComponent extends General implements OnChanges {
   }
 
   removerArchivoSeleccionado() {
+    console.log(this.recibirImagen);
+
+    if(this.recibirImagen?.includes('defecto')){
+      this.visualizarRemoverImagen = false;
+      this.changeDetectorRef.detectChanges()
+    }
     this.base64 = '';
     return this.eliminarLogo.emit(true);
   }
@@ -118,7 +125,6 @@ export class CargarImagenComponent extends General implements OnChanges {
   }
 
   emitirBase64() {
-    this.visualizarRemoverImagen = false;
     this.fileInput.nativeElement.value = '';
     this.modalRef.close();
     this.changeDetectorRef.detectChanges()
@@ -130,7 +136,7 @@ export class CargarImagenComponent extends General implements OnChanges {
     this.base64 = ''
     this.visualizarRemoverImagen = false
     this.modalRef.dismiss('Cross click')
-
   }
+
 
 }
