@@ -15,7 +15,7 @@ let parsedState:Usuario =  {
   id: '',
   username: '',
   cargo: '',
-  imgen: '',
+  imagen: '',
   nombre_corto: '',
   nombre: '',
   apellido: '',

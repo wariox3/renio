@@ -112,8 +112,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   id: respuesta.user.id,
                   username: respuesta.user.username,
                   cargo: 'admin',
-                  imgen:
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Missing_avatar.svg/425px-Missing_avatar.svg.png',
+                  imagen: respuesta.user.imagen,
                   nombre_corto: respuesta.user.nombre_corto,
                   nombre: respuesta.user.nombre,
                   apellido: respuesta.user.apellido,

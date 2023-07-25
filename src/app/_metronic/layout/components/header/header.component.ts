@@ -33,7 +33,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   appHeaderDefaulMenuDisplay: boolean;
   appPageTitleDisplay: boolean;
 
-  navegar = this.subdominioService.esSubdominioActual() ? "/dashboard" : "/empresa/lista";
+  navegar = this.subdominioService.esSubdominioActual()
+    ? '/dashboard'
+    : '/empresa/lista';
+
 
 
   constructor(private layout: LayoutService, private router: Router,     private subdominioService: SubdominioService) {

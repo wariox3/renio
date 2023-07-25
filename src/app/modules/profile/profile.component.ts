@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 import {
+  obtenerUsuarioImagen,
   obtenerUsuarioNombre,
   obtenerUsuarioNombreCompleto,
   obtenerUsuarioNombreCorto,
@@ -14,6 +15,9 @@ import { General } from '@comun/clases/general';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent extends General {
+
+  usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
+
   constructor() {
     super();
   }

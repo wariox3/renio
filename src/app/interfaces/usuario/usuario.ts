@@ -2,7 +2,7 @@ export interface Usuario {
   id: string
   username: string,
   cargo: string,
-  imgen: string,
+  imagen: string,
   nombre_corto: string,
   nombre: string | null,
   apellido: string | null,
