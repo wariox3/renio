@@ -131,7 +131,10 @@ export class EmpresaService {
   }
 
   eliminarLogoEmpresa(empresa_id: Number | string) {
-    return this.http.post(
+    return this.http.post<{
+      limpiar: boolean,
+      imagen: string
+    }>(
       `${environment.URL_API_MUUP}/inquilino/empresa/limpiar-logo/`,
       {
         empresa_id,

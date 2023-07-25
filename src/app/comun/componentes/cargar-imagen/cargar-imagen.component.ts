@@ -84,8 +84,6 @@ export class CargarImagenComponent extends General implements OnChanges {
   }
 
   removerArchivoSeleccionado() {
-    console.log(this.recibirImagen?.includes('defecto'));
-
     if(this.recibirImagen?.includes('defecto')){
       this.visualizarRemoverImagen = false;
       this.changeDetectorRef.detectChanges()
