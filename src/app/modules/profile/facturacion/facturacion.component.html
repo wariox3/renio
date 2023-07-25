@@ -52,13 +52,13 @@
             </p>
           </div>
           <div class="col">
-            <b>{{ consumos.vr_total | currency : "$" }}</b>
+            <b>{{ consumos.vr_total || '0.00' | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
           <div class="col">
-            <b>{{ consumos.vr_plan | currency : "$" }}</b>
+            <b>{{ consumos.vr_plan || '0.00' | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
               <i class="ki-outline ki-information-2"></i>
             </p>
