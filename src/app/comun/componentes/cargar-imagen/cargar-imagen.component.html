@@ -103,16 +103,13 @@
       <image-cropper
         [imageChangedEvent]="imageChangedEvent"
         [maintainAspectRatio]="true"
-        [aspectRatio]="4 / 3"
-        format="png"
+        [aspectRatio]="4 / 4"
+        format="jpeg"
         (imageCropped)="imageCropped($event)"
         (imageLoaded)="imageLoaded($event)"
         (cropperReady)="cropperReady()"
         (loadImageFailed)="loadImageFailed()"
       ></image-cropper>
-      <br />
-      <h3 translate="FORMULARIOS.TITULOS.COMUNES.PREVISUALIZAR"></h3>
-      <img [src]="croppedImage" class="img-fluid" alt="Responsive Image" />
     </div>
     <div class="card-footer d-flex justify-content-end">
       <button

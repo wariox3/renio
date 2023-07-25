@@ -121,7 +121,7 @@ export class EmpresaService {
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.http.post(
+    return this.http.post<{cargar: boolean}>(
       `${environment.URL_API_MUUP}/inquilino/empresa/cargar-logo/`,
       {
         empresa_id,

@@ -42,7 +42,14 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   recuperarBase64(event: any) {
-    this.empresaService.cargarLogo(this.empresa_id, event).subscribe();
+    this.empresaService.cargarLogo(this.empresa_id, event).subscribe(
+      {next: (respuesta) => {
+        if(respuesta.cargar){
+          this.alertaService.mensajaExitoso(this.translateService.instant('FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN'));
+          this.changeDetectorRef.detectChanges();
+        }      
+      }}
+    );
   }
 
   eliminarLogo(event: boolean) {

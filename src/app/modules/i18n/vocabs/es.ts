@@ -152,6 +152,7 @@ export const locale = {
           ALERTASUSPENCIONTITULO: 'Cuenta en peligro',
           ALERTASUSPENCIONMENSAJE:
             'Su cuenta esta en riesgo de suspension por pago',
+          CARGARIMAGEN: 'Imagen cargada con éxito'
         },
         EMPRESAS: {
           CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',

@@ -153,6 +153,7 @@ export const locale = {
           ALERTASUSPENCIONTITULO: 'Account at risk',
           ALERTASUSPENCIONMENSAJE:
             'Your account is at risk of suspension for payment',
+          CARGARIMAGEN: 'Image uploaded successfully'
         },
         EMPRESAS: {
           CREAREMPRESA: 'We are creating your company, wait a moment...',
