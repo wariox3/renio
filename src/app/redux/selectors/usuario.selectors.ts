@@ -7,7 +7,10 @@ const Usuario = createFeatureSelector<Usuario>('usuario');
 
 export const obtenerUsuarioTelefono = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.telefono}`
+  (Usuario) => {
+    const telefono = Usuario.telefono || '';
+    return `${telefono}`
+  } 
 );
 
 export const obtenerUsuarioNombre = createSelector(
@@ -22,7 +25,11 @@ export const obtenerUsuarioNombreCorto = createSelector(
 
 export const obtenerUsuarioNombreCompleto = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.nombre} ${Usuario.apellido}`
+  (Usuario) => {
+    const nombre = Usuario.nombre || '';
+    const apellido = Usuario.apellido || '';
+    return `${nombre} ${apellido}`;
+  }
 );
 
 export const obtenerUsuarioImagen = createSelector(
