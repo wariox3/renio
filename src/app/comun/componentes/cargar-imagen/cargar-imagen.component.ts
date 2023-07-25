@@ -62,6 +62,7 @@ export class CargarImagenComponent extends General implements OnChanges {
     if (event.target.files.length > 0) {
       this.modalRef = this.modalService.open(this.customTemplate, {
         backdrop: 'static',
+        keyboard: false
       });
       this.imageChangedEvent = event;
 

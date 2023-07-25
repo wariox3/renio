@@ -4,7 +4,8 @@ import {
   usuarioActionBorrarInformacion,
   usuarioActionActualizarNombreCorto,
   usuarioActionActualizarInformacionUsuario,
-  usuarioActionActualizarIdioma
+  usuarioActionActualizarIdioma,
+  usuarioActionActualizarImagen
 } from '../actions/usuario.actions';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
@@ -67,5 +68,11 @@ export const usuarioReducer = createReducer(
         username: '',
       },
     };
-  })
+  }),
+  on(usuarioActionActualizarImagen, (state, {imagen})=>{
+    return {
+      ...state,
+      imagen,
+    };
+  }),
 );

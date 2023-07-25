@@ -12,6 +12,7 @@ import {
 import { General } from '@comun/clases/general';
 import { ResumenService } from './services/resumen.service';
 import { switchMap, tap } from 'rxjs';
+import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +40,9 @@ export class ProfileComponent extends General {
         ),
         tap((respuestaCargarImagen) => {
           if (respuestaCargarImagen.cargar) {
+            this.store.dispatch(
+              usuarioActionActualizarImagen({imagen: event})
+            )
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'

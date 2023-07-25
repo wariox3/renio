@@ -10,7 +10,6 @@ export const usuarioActionBorrarInformacion = createAction(
   '[Usuario] borrar informacion'
 );
 
-
 export const usuarioActionActualizarNombreCorto = createAction(
   '[Usuario] actualizar nombre corto',
   props<{"nombre_corto": string}>()
@@ -25,4 +24,9 @@ export const usuarioActionActualizarInformacionUsuario = createAction(
 export const usuarioActionActualizarIdioma = createAction(
   '[Usuario] actualizar idioma',
   props<{"idioma": string}>()
+);
+
+export const usuarioActionActualizarImagen = createAction(
+  '[Usuario] actualizar imagen',
+  props<{"imagen": string}>()
 );
