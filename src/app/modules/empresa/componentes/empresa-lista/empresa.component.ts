@@ -48,9 +48,9 @@ export class EmpresaComponent extends General implements OnInit {
           nombre: respuesta.nombre,
           imagen:
             'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
-          empresa_id: 1,
+          empresa_id: respuesta.id,
           subdominio: respuesta.subdominio,
-          id: 1,
+          id: respuesta.id,
           usuario_id: 1,
           seleccion: true,
           rol: respuesta.rol,
