@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 import {
+  obtenerUsuarioId,
   obtenerUsuarioImagen,
   obtenerUsuarioNombre,
   obtenerUsuarioNombreCompleto,
@@ -9,16 +10,17 @@ import {
 } from '@redux/selectors/usuario.selectors';
 
 import { General } from '@comun/clases/general';
+import { ResumenService } from './services/resumen.service';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent extends General {
-
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
 
-  constructor() {
+  constructor(private resumenService: ResumenService) {
     super();
   }
 
@@ -27,4 +29,44 @@ export class ProfileComponent extends General {
   nombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   telefono = this.store.select(obtenerUsuarioTelefono);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);
+
+  recuperarBase64(event: any) {
+    this.store
+      .select(obtenerUsuarioId)
+      .pipe(
+        switchMap((codigoUsuario) =>
+          this.resumenService.cargarImagen(codigoUsuario, event)
+        ),
+        tap((respuestaCargarImagen) => {
+          if (respuestaCargarImagen.cargar) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
+              )
+            );
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  eliminarLogo(event: boolean) {
+    this.store
+      .select(obtenerUsuarioId)
+      .pipe(
+        switchMap((codigoUsuario) =>
+          this.resumenService.eliminarImagen(codigoUsuario)
+        ),
+        tap((respuestaEliminarImagen) => {
+          if (respuestaEliminarImagen.cargar) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
+              )
+            );
+          }
+        })
+      )
+      .subscribe();
+  }
 }

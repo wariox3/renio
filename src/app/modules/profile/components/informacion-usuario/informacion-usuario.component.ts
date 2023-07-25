@@ -102,7 +102,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     if (this.formularioResumen.valid) {
       let indicativoPais = this.formularioResumen.value.indicativoPais;
       let telefono = this.formularioResumen.value.telefono;
-    
+
       if (indicativoPais && telefono) {
         telefono = `${indicativoPais} ${telefono}`;
       } else if (telefono) {
@@ -112,7 +112,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       } else {
         telefono = null;
       }
-    
+
       this.resumenService
         .actualizarInformacion({
           id: this.usuarioInformacion.id,
@@ -159,7 +159,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       next: (respuesta: any) => {
         let indicativo = '';
         let telefono = '';
-        
+
         if (respuesta.telefono) {
           if (respuesta.telefono.charAt(0) === '+') {
             let partesTelefono = respuesta.telefono.split(' ');
@@ -191,14 +191,6 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       backdrop: 'static',
       size: 'lg',
     });
-  }
-
-  recuperarBase64(event: any) {
-    this.resumenService.cargarImagen(this.codigoUsuario, event).subscribe();
-  }
-
-  eliminarLogo(event: boolean) {
-    this.resumenService.eliminarImagen(this.codigoUsuario).subscribe();
   }
 
 }

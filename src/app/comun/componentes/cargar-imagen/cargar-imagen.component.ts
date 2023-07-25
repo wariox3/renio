@@ -1,7 +1,20 @@
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImageCroppedEvent, ImageCropperModule, LoadedImage } from 'ngx-image-cropper';
+import {
+  ImageCroppedEvent,
+  ImageCropperModule,
+  LoadedImage,
+} from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -17,15 +30,11 @@ import { General } from '@comun/clases/general';
     ImageCropperModule,
     TranslateModule,
     TranslationModule,
-  ]
+  ],
 })
-export class CargarImagenComponent extends General {
-
-  constructor(
-    private modalService: NgbModal,
-    private sanitizer: DomSanitizer
-  ){
-    super()
+export class CargarImagenComponent extends General implements OnChanges {
+  constructor(private modalService: NgbModal, private sanitizer: DomSanitizer) {
+    super();
   }
 
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
@@ -34,53 +43,67 @@ export class CargarImagenComponent extends General {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   base64: string | ArrayBuffer = '';
+  visualizarRemoverImagen = false;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
   @Output() eliminarLogo: EventEmitter<any> = new EventEmitter();
-  @Input() recibirImagen : string | null = ''
+  @Input() recibirImagen: string | null = '';
 
-  archivoSeleccionado(event: any) {    
-    if(event.target.files.length > 0){
-      this.modalRef = this.modalService.open(this.customTemplate, { backdrop: 'static' });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.recibirImagen) {
+      if (this.base64 != '') {
+        this.visualizarRemoverImagen = true;
+        this.changeDetectorRef.detectChanges()
+      }
+    }
+  }
+
+  archivoSeleccionado(event: any) {
+    this.visualizarRemoverImagen = true;
+    if (event.target.files.length > 0) {
+      this.modalRef = this.modalService.open(this.customTemplate, {
+        backdrop: 'static',
+      });
       this.imageChangedEvent = event;
-  
-  
+
       if (typeof FileReader !== 'undefined') {
         const reader = new FileReader();
-  
+
         reader.onload = (e: any) => {
           this.srcResult = e.target.result;
         };
         reader.readAsDataURL(this.imageChangedEvent.target.files[0]);
       }
       event.target.files = null;
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges();
     }
   }
 
   removerArchivoSeleccionado() {
-    this.base64 = ''
+    this.base64 = '';
     return this.eliminarLogo.emit(true);
-
   }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
   }
   imageCropped(event: ImageCroppedEvent) {
+
     var reader = new FileReader();
-    if(event.blob){
+    if (event.blob) {
+
       const convertedBlob = event.blob.slice(0, event.blob.size, 'image/jpeg');
       reader.readAsDataURL(convertedBlob);
       reader.onloadend = () => {
-        if(reader.result){
-          this.base64 = reader.result
-          
+        if (reader.result) {
+          this.base64 = reader.result;
         }
-      } 
+      };
     }
 
-    if(event.objectUrl){
-      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl);
+    if (event.objectUrl) {
+      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
+        event.objectUrl
+      );
     }
   }
   imageLoaded(image: LoadedImage) {
@@ -93,9 +116,19 @@ export class CargarImagenComponent extends General {
     // show message
   }
 
-  emitirBase64(){
-    this.modalRef.close()
+  emitirBase64() {
+    this.modalRef.close();
+    this.visualizarRemoverImagen = false
     return this.dataFormulario.emit(this.base64);
   }
 
+  cerrarModal(){
+    this.base64 = ''
+    this.visualizarRemoverImagen = false
+    this.modalRef.dismiss('Cross click')
+  }
+
+  // visualizarRemoverImagen(){
+
+  // }
 }

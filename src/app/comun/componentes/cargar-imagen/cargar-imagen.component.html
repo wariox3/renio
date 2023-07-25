@@ -63,7 +63,7 @@
         data-bs-original-title="Remove avatar"
         data-kt-initialized="1"
         (click)="removerArchivoSeleccionado()"
-        *ngIf="base64 || recibirImagen !== 'https://itrio.fra1.digitaloceanspaces.com/test/empresa/logo_defecto.jpg'"
+        *ngIf="visualizarRemoverImagen"
       >
         <i class="ki-duotone ki-cross fs-2 text-danger fs-2x"
           ><span class="path1"></span><span class="path2"></span
@@ -94,7 +94,7 @@
         type="button"
         class="btn btn-bg-light btn-color-danger"
         aria-label="Close"
-        (click)="modalRef.dismiss('Cross click')"
+        (click)="cerrarModal()"
       >
         <i class="bi bi-x fs-2x"></i>
       </button>
