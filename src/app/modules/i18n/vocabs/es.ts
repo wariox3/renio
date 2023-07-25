@@ -107,7 +107,9 @@ export const locale = {
           HISTORIALFACTURACION: 'Historial de facturación',
           FECHA: 'Fecha',
           DESCRIPCION: 'Descripción',
-          IMPORTANTE: 'Importe'
+          IMPORTANTE: 'Importe',
+          RESUMEN: 'Resumen del mes hasta la fecha',
+          TEXTOAYUDA3: 'Estos cargos se incluyen en el saldo de su cuenta'
         },
       },
       CAMPOS: {

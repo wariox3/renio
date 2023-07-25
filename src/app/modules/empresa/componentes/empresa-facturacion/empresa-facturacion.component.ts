@@ -5,6 +5,7 @@ import {
   Consumo,
   EmpresaService
 } from '@modulos/empresa/servicios/empresa.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-facturacion',
@@ -12,7 +13,9 @@ import {
   styleUrls: ['./empresa-facturacion.component.scss'],
 })
 export class EmpresaFacturacionComponent extends General implements OnInit {
-  // empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+  
+
+  resumenMes: string;
 
   empresa_id: string | null;
 
@@ -32,7 +35,10 @@ export class EmpresaFacturacionComponent extends General implements OnInit {
       this.empresa_id = params.get('codigoempresa');
     });
     this.consultarConsumoFecha();
-    this.changeDetectorRef.detectChanges();
+    this.fechasServices.obtenerResumenMesHastaFecha().subscribe((mensaje) => {
+      this.resumenMes = mensaje;
+    });
+    this.changeDetectorRef.detectChanges();    
   }
 
   consultarConsumoFecha() {

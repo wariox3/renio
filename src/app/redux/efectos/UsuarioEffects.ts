@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { usuarioActionActualizarInformacionUsuario, usuarioActionInit } from '@redux/actions/usuario.actions';
+import { usuarioActionActualizarIdioma, usuarioActionActualizarInformacionUsuario, usuarioActionInit } from '@redux/actions/usuario.actions';
 import { tap } from 'rxjs/operators';
 import { getCookie, setCookie } from 'typescript-cookie';
 
@@ -38,6 +38,28 @@ export class UsuarioEffects {
             jsonUsuario.apellido = action.apellido
             jsonUsuario.telefono = action.telefono
             jsonUsuario.nombre_corto = action.nombre_corto
+            jsonUsuario.idioma = action.idioma
+            if(environment.production){
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
+            }else {
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', })
+            } 
+          }
+        })
+      ),
+      { dispatch: false } 
+  ) 
+
+  updateCookieIdioma$ = createEffect(
+
+    () => 
+      this.actions$.pipe(
+        ofType(usuarioActionActualizarIdioma),
+        tap((action) => {
+          let coockieUsuario = getCookie('usuario')
+          if(coockieUsuario){
+            let jsonUsuario = JSON.parse(coockieUsuario)
+            jsonUsuario.idioma = action.idioma
             if(environment.production){
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/', domain: '.muup.online' })
             }else {

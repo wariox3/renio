@@ -107,7 +107,9 @@ export const locale = {
           HISTORIALFACTURACION: 'Billing history',
           FECHA: 'Date',
           DESCRIPCION: 'Description',
-          IMPORTANTE: 'Amount'
+          IMPORTANTE: 'Amount',
+          RESUMEN: 'Summary of the month to date',
+          TEXTOAYUDA3: 'These charges are factored into your account balance'
         },
       },
       CAMPOS: {

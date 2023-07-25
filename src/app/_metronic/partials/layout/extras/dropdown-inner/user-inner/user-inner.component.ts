@@ -14,6 +14,7 @@ import {
 } from '@redux/selectors/usuario.selectors';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { Router } from '@angular/router';
+import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
 
 @Component({
   selector: 'app-user-inner',
@@ -65,6 +66,11 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   selectLanguage(lang: string) {
     this.translationService.setLanguage(lang);
     this.setLanguage(lang);
+    this.store.dispatch(
+      usuarioActionActualizarIdioma({
+        idioma: lang,
+      })
+    );
     // document.location.reload();
   }
 
