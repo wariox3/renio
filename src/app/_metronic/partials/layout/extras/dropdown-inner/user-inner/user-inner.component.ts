@@ -13,6 +13,7 @@ import {
   obtenerUsuarioidioma,
 } from '@redux/selectors/usuario.selectors';
 import { SubdominioService } from '@comun/services/subdominio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-inner',
@@ -32,7 +33,6 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
-  obtenerEmpresaId$ = this.store.select(obtenerEmpresaId);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
 
@@ -40,7 +40,8 @@ export class UserInnerComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private translationService: TranslationService,
     private store: Store,
-    private subdominioService: SubdominioService
+    private subdominioService: SubdominioService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +76,12 @@ export class UserInnerComponent implements OnInit, OnDestroy {
       } else {
         language.active = false;
       }
+    });
+  }
+
+  navegarAmiEmpresa(){
+    this.store.select(obtenerEmpresaId).subscribe((empresa_id)=>{
+      this.router.navigate([`/empresa/detalle/${empresa_id}/facturacion`])
     });
   }
 

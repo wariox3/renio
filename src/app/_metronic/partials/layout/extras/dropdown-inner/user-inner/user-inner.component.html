@@ -56,7 +56,7 @@
     <div class="separator my-2"></div>
     <div class="menu-item px-5">
       <a
-        [routerLink]="['/empresa/detalle/', (obtenerEmpresaId$ | async), '/facturacion/']"
+        (click)="navegarAmiEmpresa()"
         class="menu-link px-5 cursor-pointer"
       >
         <span

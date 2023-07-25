@@ -25,8 +25,6 @@ export class AlertaSuspensionComponent extends General implements OnInit {
 
   ngOnInit(){
     this.store.select(obtenerUsuarioSuspencion).subscribe((respuesta)=>{
-      console.log(respuesta);
-      
       this.visualerSuspencion = respuesta
     })
     this.changeDetectorRef.detectChanges()
