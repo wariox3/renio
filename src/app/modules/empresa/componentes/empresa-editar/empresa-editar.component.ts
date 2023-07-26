@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaFormulario } from '@interfaces/usuario/empresa';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { tap } from 'rxjs';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -12,7 +20,6 @@ import { tap } from 'rxjs';
 })
 export class EmpresaEditarComponent extends General {
   visualizarBtnAtras = false;
-  codigoUsuario = '';
   informacionEmpresa: EmpresaFormulario = {
     nombre: '',
     subdominio: '',
@@ -33,21 +40,29 @@ export class EmpresaEditarComponent extends General {
   }
 
   enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
-    this.empresaService
-      .editar(dataFormularioLogin, this.codigoUsuario, this.empresa_id)
+    this.store
+      .select(obtenerUsuarioId)
       .pipe(
-        tap(() => {
-          this.modalService.dismissAll();
-        })
+        switchMap((codigoUsuario) => {
+          return this.empresaService.editar(
+            dataFormularioLogin,
+            codigoUsuario,
+            this.empresa_id
+          );
+        }),
+        tap((respuestaActualizacion: any)=>{
+          if(respuestaActualizacion.actualizacion){
+            this.modalService.dismissAll();
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+              )
+            );
+            return this.emitirActualizacion.emit(true)
+          }
+        }),
       )
-      .subscribe(() => {
-        this.alertaService.mensajaExitoso(
-          this.translateService.instant(
-            'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-          )
-        );
-        return this.emitirActualizacion.emit(true)
-      });
+      .subscribe();
   }
 
   openModal() {

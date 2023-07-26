@@ -76,9 +76,8 @@ export class EmpresaService {
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
-        plan: data.plan_id,
+        plan_id: data.plan_id,
         usuario: codigoUsuario,
-        imagen: data.imagen,
       }
     );
   }

@@ -35,11 +35,15 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
     this.consultarPlanes();
+    this.planSeleccionado =this.informacionEmpresa.plan_id !== 0
+    ? this.informacionEmpresa.plan_id
+    : this.planSeleccionado
+    this.initForm();
   }
 
   initForm() {
+
     this.formularioEmpresa = this.formBuilder.group({
       nombre: [
         this.informacionEmpresa.nombre,
@@ -59,12 +63,9 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ]),
       ],
       plan_id: [
-        this.informacionEmpresa.plan_id != 0
-          ? this.informacionEmpresa.plan_id
-          : this.planSeleccionado,
+        this.planSeleccionado,
         Validators.compose([Validators.required]),
-      ],
-      imagen: null,
+      ]
     });
   }
 
