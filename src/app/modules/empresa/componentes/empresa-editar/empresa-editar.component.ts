@@ -54,11 +54,12 @@ export class EmpresaEditarComponent extends General {
     this.empresaService
       .consultarInformacion(this.empresa_id)
       .pipe(
-        tap((respuesta: any) => {
+        tap((respuesta) => {
           this.informacionEmpresa = respuesta;
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
             size: 'lg',
+            keyboard: false
           });
         })
       )

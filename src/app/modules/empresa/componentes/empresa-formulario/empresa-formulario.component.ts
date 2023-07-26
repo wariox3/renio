@@ -16,12 +16,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   codigoUsuario = '';
   planSeleccionado: Number = 2;
   arrPlanes: Plan[] = [];
-  @Input() informacionEmpresa: EmpresaFormulario = {
-    nombre: '',
-    subdominio: '',
-    plan_id: 0,
-    imagen: null,
-  };
+  @Input() informacionEmpresa!: EmpresaFormulario ;
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;

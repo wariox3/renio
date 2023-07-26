@@ -65,7 +65,7 @@ export class EmpresaService {
   }
 
   consultarInformacion(empresa_id: Number | string) {
-    return this.http.get(
+    return this.http.get<EmpresaFormulario>(
       `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`
     );
   }
