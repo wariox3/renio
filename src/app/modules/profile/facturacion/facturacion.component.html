@@ -1,7 +1,5 @@
 <div class="card card-flush pt-3 mb-5 mb-xl-10">
-  <!--begin::Card header-->
   <div class="card-header">
-    <!--begin::Card title-->
     <div class="flex-column card-title">
       <h2
         class="mb-1"
@@ -12,22 +10,15 @@
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA1"
       ></div>
     </div>
-    <!--begin::Card title-->
-    <!--begin::Card toolbar-->
     <div class="card-toolbar">
       <a
         class="btn btn-light-primary"
         translate="FORMULARIOS.TITULOS.FACTURACION.REALIZARPAGO"
       ></a>
     </div>
-    <!--end::Card toolbar-->
   </div>
-  <!--end::Card header-->
-  <!--begin::Card body-->
   <div class="card-body pt-3">
-    <!--begin::Section-->
     <div class="mb-10 p-5 border">
-      <!--begin::Title-->
       <h5
         class="mb-4"
         translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO"
@@ -36,10 +27,8 @@
         class="text-gray-400"
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></p>
-      <p class="fs-2 mb-10">{{ consumos.vr_total | currency : "$" }}</p>
-      <!--begin::Section-->
+      <p class="fs-2 mb-10">{{ consumos.vr_total || '0.00' | currency : "$" }}</p>
       <div class="mb-0">
-        <!--begin::Title-->
         <div class="row">
           <div class="col">
             <b>{{ this.fechaServices.obtenerPrimerDiaDelMesSiguiente() | date : "fullDate" }}</b>
@@ -63,19 +52,10 @@
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
-          <!-- <div class="col">
-            <p translate="FORMULARIOS.TITULOS.FACTURACION.SALDO">
-              <i class="ki-outline ki-information-2"></i>
-            </p>
-            <span> {{ factura.vr_saldo }}</span>
-          </div> -->
         </div>
       </div>
-      <!--end::Section-->
-      <!--end::Title-->
     </div>
     <div class="mb-10 p-5 border">
-      <!--begin::Title-->
       <h5
         class="mb-4"
         translate="FORMULARIOS.TITULOS.FACTURACION.HISTORIALFACTURACION"
@@ -113,57 +93,5 @@
         </table>
       </div>
     </div>
-
-    <!-- <div class="mb-10 border">
-      <div class="p-5 d-flex justify-content-between">
-        <div class="flex-column">
-          <h2 class="mb-1">Two Step Authentication</h2>
-          <div class="fs-6 fw-semibold text-muted">
-            Keep your account extra secure with a second authentication step.
-          </div>
-        </div>
-        <div>
-          <a
-            href="#"
-            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
-            >PDF</a
-          >
-
-          <a
-            href="#"
-            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
-            >Excel</a
-          >
-        </div>
-      </div>
-      <ngb-accordion #a="ngbAccordion" *ngFor="let item of facturas">
-        <ngb-panel [id]="'custom-panel-' + item.id">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <div
-              class="accordion-button custom-header"
-              [class.collapsed]="!opened"
-            >
-              <button
-                ngbPanelToggle
-                class="p-0 btn btn-link container-fluid text-start ps-0"
-              >
-                {{ item.tipo }}
-              </button>
-              <p class="text-muted m-0 small">
-                {{ item.vr_total | currency : "$" }}
-              </p>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <p>Fecha: {{ item.fecha }}</p>
-            <p>Afectado: {{ item.vr_afectado }}</p>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
-      <div class="p-5 text-end">Subtotal: 532.12</div>
-
-      <div class="p-5 text-end">Total: 532.12</div>
-    </div> -->
-    <!--end::Section-->
   </div>
 </div>
