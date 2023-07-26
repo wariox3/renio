@@ -11,6 +11,7 @@
       </div>
       <div class="card-body">
         <app-empresa-formulario
+          [informacionEmpresa]="informacionEmpresa"
           (dataFormulario)="enviarFormulario($event)"
         ></app-empresa-formulario>
       </div>
