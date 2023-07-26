@@ -46,6 +46,6 @@ export class SplashScreenService {
       this.stopped = true;
     });
 
-    setTimeout(() => player.play(), 100);
+    setTimeout(() => player.play(), 5000);
   }
 }
