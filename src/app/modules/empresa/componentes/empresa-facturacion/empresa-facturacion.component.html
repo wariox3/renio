@@ -1,33 +1,11 @@
 <div class="card card-flush pt-3 mb-5 mb-xl-10 shadow-sm">
-  <!--begin::Card header-->
   <div class="card-header">
-    <!--begin::Card title-->
     <div class="flex-column card-title">
       <h2 translate="FORMULARIOS.TITULOS.COMUNES.FACTURACION" class="mb-1"></h2>
-      <!-- <div translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA1" class="fs-6 fw-semibold text-muted">
-      </div> -->
     </div>
-
-    <!--begin::Card title-->
-    <!--begin::Card toolbar-->
-    <!-- <div class="card-toolbar">
-      <a
-        class="btn btn-link mx-2"
-        translate="FORMULARIOS.TITULOS.FACTURACION.COMOFUNCIONA"
-      ></a>
-      <a
-        class="btn btn-light-primary"
-        translate="FORMULARIOS.TITULOS.FACTURACION.REALIZARPAGO"
-      ></a>
-    </div> -->
-    <!--end::Card toolbar-->
   </div>
-  <!--end::Card header-->
-  <!--begin::Card body-->
   <div class="card-body pt-3">
-    <!--begin::Section-->
     <div class="mb-10 p-5 border">
-      <!--begin::Title-->
       <h5
         class="mb-4"
         translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO"
@@ -37,7 +15,6 @@
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></p>
       <p class="fs-1 mb-10">{{ consumo.vr_total | currency : "COP" }}</p>
-      <!--begin::Section-->
       <div class="mb-0">
 
         <div class="row">
@@ -70,8 +47,6 @@
           </div>
         </div>
       </div>
-      <!--end::Section-->
-      <!--end::Title-->
     </div>
 
     <div class="mb-10 border">
@@ -84,22 +59,8 @@
             <span translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA3"></span>
           </div>
         </div>
-        <!-- <div>
-          <a
-            href="#"
-            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
-            >PDF</a
-          >
-
-          <a
-            href="#"
-            class="btn btn-link btn-color-muted btn-active-color-primary me-5 mb-2"
-            >Excel</a
-          >
-        </div> -->
       </div>
       <ngb-accordion #a="ngbAccordion">
-        <!-- Encabezado fijo para "Planes" -->
         <ngb-panel id="custom-panel-planes">
           <ng-template ngbPanelHeader let-opened="opened">
             <div class="accordion-button" [class.collapsed]="!opened">
@@ -131,7 +92,5 @@
         Total: {{ consumo.vr_total | currency : "COP" }}
       </div>
     </div>
-    <!--end::Section-->
   </div>
-  <!--end::Card body-->
 </div>
