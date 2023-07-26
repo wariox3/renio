@@ -14,7 +14,15 @@ export class SplashScreenService {
    *
    * @param animationBuilder: AnimationBuilder
    */
-  constructor(private animationBuilder: AnimationBuilder) {}
+  constructor(private animationBuilder: AnimationBuilder) {
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // El DOM está listo para ser manipulado aquí
+      console.log('El DOM está listo en el servicio.');
+      // Realiza las operaciones necesarias en este punto.
+    });
+
+  }
 
   /**
    * Init
