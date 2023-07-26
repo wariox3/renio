@@ -21,6 +21,7 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
 import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
 import { EmpresaFacturacionComponent } from './componentes/empresa-facturacion/empresa-facturacion.component';
 import { NgOptimizedImage } from '@angular/common';
+import { ContadorComponent } from '@comun/componentes/contador/contador.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { NgOptimizedImage } from '@angular/common';
     ImageCropperModule,
     CargarImagenComponent,
     NgbAccordionModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ContadorComponent
   ],
   providers:[
     NgbActiveModal

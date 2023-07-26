@@ -14,7 +14,9 @@
         class="text-gray-400"
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></p>
-      <p class="fs-1 mb-10">{{ consumo.vr_total | currency : "COP" }}</p>
+      <p class="fs-1 mb-10">
+        <app-contador [limite]="consumo.vr_total"></app-contador>
+      </p>
       <div class="mb-0">
 
         <div class="row">
