@@ -54,87 +54,109 @@
                     </ng-container>
                   </td>
                   <td>
-                    <p class="text-dark fw-bolder fs-6">
-                      {{ empresa.nombre }}
-                      <small class="badge badge-light-primary fs-8 fw-bold">{{
-                        empresa.rol
-                      }}</small>
-                    </p>
-
-                    <span class="text-muted fw-bold text-muted d-block fs-7"
-                      >{{ empresa.subdominio }}.muup.online</span
+                    <div
+                      class="h-100 d-flex flex-column justify-content-center"
                     >
+                      <p class="text-dark fw-bolder fs-6">
+                        {{ empresa.nombre }}
+                        <small class="badge badge-light-primary fs-8 fw-bold">{{
+                          empresa.rol
+                        }}</small>
+                      </p>
+
+                      <span class="text-muted fw-bold text-muted d-block fs-7"
+                        >{{ empresa.subdominio }}.muup.online</span
+                      >
+                    </div>
                   </td>
                   <td class="w-150px">
-                    <span class="badge badge-light-info fs-8 fw-bold">{{
-                      empresa.plan_nombre
-                    }}</span>
+                    <div
+                      class="h-100 d-flex flex-column justify-content-center"
+                    >
+                      <span class="badge badge-light-info fs-8 fw-bold">{{
+                        empresa.plan_nombre
+                      }}</span>
+                    </div>
                   </td>
-                  <td>{{ empresa.usuarios }} / {{empresa.usuarios_base}}</td>
-                  <td class="w-50px text-end">
-                    <button
-                      translate="FORMULARIOS.BOTONES.EMPRESA.CONECTAR"
-                      href="#"
-                      class="btn btn-bg-primary btn-color-white"
-                      (click)="seleccionarEmpresa(empresa.empresa_id)"
-                    ></button>
+                  <td>
+                    <div
+                      class="h-100 d-flex flex-column justify-content-center"
+                    >
+                      {{ empresa.usuarios }} / {{ empresa.usuarios_base }}
+                    </div>
                   </td>
                   <td class="w-50px">
                     <div
-                      ngbDropdown
-                      class="d-inline-block"
-                      *ngIf="empresa.rol === 'propietario'"
+                      class="h-100 d-flex flex-column justify-content-center"
                     >
                       <button
-                        type="button"
-                        class="btn btn-link text-hover-primary"
-                        id="dropdownBasic1"
-                        ngbDropdownToggle
-                      >
-                        <i class="bi bi-three-dots-vertical fs-2x"></i>
-                      </button>
+                        translate="FORMULARIOS.BOTONES.EMPRESA.CONECTAR"
+                        href="#"
+                        class="btn btn-bg-primary btn-color-white"
+                        (click)="seleccionarEmpresa(empresa.empresa_id)"
+                      ></button>
+                    </div>
+                  </td>
+                  <td class="w-50px">
+                    <div
+                      class="h-100 d-flex flex-column justify-content-center"
+                    >
                       <div
-                        class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
-                        ngbDropdownMenu
-                        aria-labelledby="dropdownBasic1"
+                        ngbDropdown
+                        class="d-inline-block"
+                        *ngIf="empresa.rol === 'propietario'"
                       >
-                        <div class="menu-item px-3">
-                          <a
-                            translate="FORMULARIOS.BOTONES.EMPRESA.INVITACION"
-                            [routerLink]="[
-                              '/empresa/' +
-                                empresa.nombre +
-                                '/' +
-                                empresa.empresa_id +
-                                '/invitacion/nuevo'
-                            ]"
-                            class="menu-link px-3 cursor-pointer"
-                            ngbDropdownItem
-                          >
-                          </a>
-                        </div>
-                        <div class="separator my-2"></div>
-                        <div class="menu-item px-3">
-                          <a
-                            class="menu-link px-3 cursor-pointer"
-                            (click)="detalleEmpresa(empresa.empresa_id)"
-                            translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
-                          >
-                          </a>
-                        </div>
-                        <div class="separator my-2"></div>
-                        <div class="menu-item px-3">
-                          <a
-                            class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
-                            translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                            (click)="
-                              eliminarEmpresa(
-                                empresa.subdominio,
-                                empresa.empresa_id
-                              )
-                            "
-                          >
-                          </a>
+                        <button
+                          type="button"
+                          class="btn btn-link text-hover-primary"
+                          id="dropdownBasic1"
+                          ngbDropdownToggle
+                        >
+                          <i class="bi bi-three-dots-vertical fs-2x"></i>
+                        </button>
+                        <div
+                          class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownBasic1"
+                        >
+                          <div class="menu-item px-3">
+                            <a
+                              translate="FORMULARIOS.BOTONES.EMPRESA.INVITACION"
+                              [routerLink]="[
+                                '/empresa/' +
+                                  empresa.nombre +
+                                  '/' +
+                                  empresa.empresa_id +
+                                  '/invitacion/nuevo'
+                              ]"
+                              class="menu-link px-3 cursor-pointer"
+                              ngbDropdownItem
+                            >
+                            </a>
+                          </div>
+                          <div class="separator my-2"></div>
+                          <div class="menu-item px-3">
+                            <a
+                              class="menu-link px-3 cursor-pointer"
+                              (click)="detalleEmpresa(empresa.empresa_id)"
+                              translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
+                            >
+                            </a>
+                          </div>
+                          <div class="separator my-2"></div>
+                          <div class="menu-item px-3">
+                            <a
+                              class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
+                              translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                              (click)="
+                                eliminarEmpresa(
+                                  empresa.subdominio,
+                                  empresa.empresa_id
+                                )
+                              "
+                            >
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
