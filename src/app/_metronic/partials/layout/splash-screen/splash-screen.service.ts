@@ -14,19 +14,7 @@ export class SplashScreenService {
    *
    * @param animationBuilder: AnimationBuilder
    */
-  constructor(private animationBuilder: AnimationBuilder) {
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // El DOM está listo aquí, pero los estilos externos aún pueden estar cargándose.
-      this.initAnimation();
-    });
-
-    window.addEventListener('load', () => {
-      // Todos los recursos externos, incluidos los estilos, se han cargado.
-      // Asegúrate de que los estilos necesarios estén listos antes de iniciar la animación.
-      this.initAnimation();
-    });
-  }
+  constructor(private animationBuilder: AnimationBuilder) {}
 
   /**
    * Init
@@ -34,16 +22,13 @@ export class SplashScreenService {
    * @param element: ElementRef
    */
   init(element: ElementRef) {
-    this.initAnimation()
-    console.log("W yandel");
-    
     this.el = element;
   }
 
   /**
    * Hide
    */
-  initAnimation() {
+  hide() {
     if (this.stopped || !this.el) {
       return;
     }
