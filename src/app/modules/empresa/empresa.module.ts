@@ -20,6 +20,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { EmpresaDetalleComponent } from './componentes/empresa-detalle/empresa-detalle.component';
 import { EmpresaFacturacionComponent } from './componentes/empresa-facturacion/empresa-facturacion.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { EmpresaFacturacionComponent } from './componentes/empresa-facturacion/e
     TranslationModule,
     ImageCropperModule,
     CargarImagenComponent,
-    NgbAccordionModule
+    NgbAccordionModule,
+    NgOptimizedImage
   ],
   providers:[
     NgbActiveModal
