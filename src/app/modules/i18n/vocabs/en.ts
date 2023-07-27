@@ -139,6 +139,7 @@ export const locale = {
           PAIS: 'Country',
           USUARIO: 'User',
           ROL: 'Role',
+          IDENTIFICACION: 'Identification'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',

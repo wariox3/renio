@@ -1,1 +1,28 @@
-<p>contacto-formulario works!</p>
+<form
+  [formGroup]="formularioContacto"
+  (ngSubmit)="formSubmit()"
+  id="my-dropzone"
+>
+
+<div class="col-md-2">
+    <label
+    translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
+    class="form-label required"
+  ></label>
+  <input
+  formControlName="identificacion"
+  class="form-control bg-transparent"
+  type="text"
+  autocomplete="off"
+  [ngClass]="{
+    'is-invalid':
+    formularioContacto.controls['identificacion'].touched &&
+    formularioContacto.controls['identificacion'].invalid,
+    'is-valid':
+    formularioContacto.controls['identificacion'].touched &&
+    formularioContacto.controls['identificacion'].valid
+  }"
+/>
+</div>
+
+</form>
