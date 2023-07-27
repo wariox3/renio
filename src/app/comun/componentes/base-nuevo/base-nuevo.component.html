@@ -2,14 +2,12 @@
   <div class="ayuda">
     <a
       [routerLink]="['../lista']"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-color-primary fw-bold mb-2"
-      data-kt-menu-trigger="click"
-      data-kt-menu-placement="bottom-end"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold mb-2"
     >
       <i class="ki-duotone ki-arrow-left fs-6 text-muted me-1"
         ><span class="path1"></span><span class="path2"></span
       ></i>
-      Atrás
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
     </a>
   </div>
 
@@ -19,14 +17,14 @@
       <div class="card-header">
         <!--begin::Heading-->
         <div class="card-title">
-          <h3>Nuevo</h3>
+          <h3 translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"></h3>
         </div>
         <!--end::Heading-->
       </div>
       <!--end::Card header-->
 
       <!--begin::Card body-->
-      <div class="card-body ">
+      <div class="card-body">
         <ng-content select="[formulario]"></ng-content>
       </div>
       <!--end::Card body-->

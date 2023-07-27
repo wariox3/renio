@@ -1,9 +1,14 @@
 <div class="container-grid">
   <div class="ayuda">
-    <button>
-      <div class="tab-icon material-symbols-outlined">arrow_back</div>
-      Atras
-    </button>
+    <a
+      [routerLink]="['../lista']"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold mb-2"
+    >
+      <i class="ki-duotone ki-arrow-left fs-6 text-muted me-1"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
+    </a>
   </div>
   <div class="botonera">
     <ng-content select="base-acciones"></ng-content>
