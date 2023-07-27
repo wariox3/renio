@@ -52,6 +52,7 @@ export const locale = {
       },
       TITULOS: {
         COMUNES: {
+          FILTRO: 'FILTERS',
           USUARIOS: 'Users',
           IDIOMA: 'Language',
           CERRARSESION: 'Log out',

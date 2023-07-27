@@ -15,6 +15,9 @@ import { BaseListaComponent } from '@comun/componentes/base-lista/base-lista.com
 import { BaseNuevoComponent } from '@comun/componentes/base-nuevo/base-nuevo.component';
 import { BaseDetalleComponent } from '@comun/componentes/base-detalle/base-detalle.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ItemFormularioComponent } from './componentes/item/item-formulario/item-formulario.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
 
 
 @NgModule({
@@ -26,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ItemListaComponent,
     ItemNuevoComponent,
     ItemDetalleComponent,
-    ItemEditarComponent
+    ItemEditarComponent,
+    ItemFormularioComponent
   ],
   imports: [
     BaseListaComponent,
@@ -37,6 +41,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TablaComponent,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
   ]
 })
 export class GeneralModule { }
