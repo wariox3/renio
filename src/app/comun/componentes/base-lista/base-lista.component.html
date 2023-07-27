@@ -4,6 +4,8 @@
   </div>
   <div class="acciones">
     <ng-content select="[base-acciones]"></ng-content>
+    <a [routerLink]="['../nuevo']" class="btn btn-sm btn-primary" translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"></a>
+
   </div>
   <div class="tabla">
     <ng-content select="[base-tabla]"></ng-content>
