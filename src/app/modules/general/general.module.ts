@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ItemFormularioComponent } from './componentes/item/item-formulario/item-formulario.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { ContactoFormularioComponent } from './componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TranslationModule } from '@modulos/i18n';
     ItemNuevoComponent,
     ItemDetalleComponent,
     ItemEditarComponent,
-    ItemFormularioComponent
+    ItemFormularioComponent,
+    ContactoFormularioComponent
   ],
   imports: [
     BaseListaComponent,
