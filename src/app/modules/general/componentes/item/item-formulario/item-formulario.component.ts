@@ -9,7 +9,7 @@ import { General } from '@comun/clases/general';
 })
 export class ItemFormularioComponent extends General implements OnInit {
 
-  formularioItemNuevo: FormGroup;
+  formularioItem: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,7 +22,7 @@ export class ItemFormularioComponent extends General implements OnInit {
   }
 
   initForm() {
-    this.formularioItemNuevo = this.formBuilder.group(
+    this.formularioItem = this.formBuilder.group(
       {
         nombre: [
           '',
@@ -38,7 +38,7 @@ export class ItemFormularioComponent extends General implements OnInit {
   }
 
   get formFields() {
-    return this.formularioItemNuevo.controls;
+    return this.formularioItem.controls;
   }
 
   formSubmit() {
@@ -104,6 +104,6 @@ export class ItemFormularioComponent extends General implements OnInit {
   }
 
   limpiarFormulario() {
-    this.formularioItemNuevo.reset();
+    this.formularioItem.reset();
   }
 }

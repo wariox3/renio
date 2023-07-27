@@ -1,4 +1,4 @@
-<form [formGroup]="formularioItemNuevo" (ngSubmit)="formSubmit()">
+<form [formGroup]="formularioItem" (ngSubmit)="formSubmit()">
   <div class="fv-row mb-10">
     <label class="required form-label">NOMBRE</label>
     <input
@@ -7,8 +7,8 @@
       type="text"
       autocomplete="off"
       [ngClass]="{
-        'is-invalid': formularioItemNuevo.controls['nombre'].touched && formularioItemNuevo.controls['nombre'].invalid,
-        'is-valid':  formularioItemNuevo.controls['nombre'].touched &&  formularioItemNuevo.controls['nombre'].valid
+        'is-invalid': formularioItem.controls['nombre'].touched && formularioItem.controls['nombre'].invalid,
+        'is-valid':  formularioItem.controls['nombre'].touched &&  formularioItem.controls['nombre'].valid
       }"
     />
     <ng-container
@@ -16,7 +16,7 @@
       [ngTemplateOutletContext]="{
         validation: 'required',
         message: 'El campo es requerido',
-        control: formularioItemNuevo.controls['nombre']
+        control: formularioItem.controls['nombre']
       }"
     ></ng-container>
     <ng-container
@@ -24,7 +24,7 @@
       [ngTemplateOutletContext]="{
         validation: 'pattern',
         message: 'El campo contiene caracteres no validos',
-        control: formularioItemNuevo.controls['nombre']
+        control: formularioItem.controls['nombre']
       }"
     ></ng-container>
     <ng-container
@@ -32,7 +32,7 @@
       [ngTemplateOutletContext]="{
         validation: 'minlength',
         message: 'El campo debe contener mínimo 3 caracteres',
-        control: formularioItemNuevo.controls['nombre']
+        control: formularioItem.controls['nombre']
       }"
     ></ng-container>
     <ng-container
@@ -40,13 +40,13 @@
       [ngTemplateOutletContext]="{
         validation: 'maxlength',
         message: 'El campo debe contener máximo 50 caracteres',
-        control: formularioItemNuevo.controls['nombre']
+        control: formularioItem.controls['nombre']
       }"
     ></ng-container>
     <div
       *ngIf="
-        formularioItemNuevo.controls.nombre?.touched &&
-        formularioItemNuevo.controls.nombre?.hasError('EmpresaYaExiste')
+        formularioItem.controls.nombre?.touched &&
+        formularioItem.controls.nombre?.hasError('EmpresaYaExiste')
       "
     >
       <div class="fv-plugins-message-container">
