@@ -4,7 +4,7 @@
       class="menu-link py-3"
       routerLinkActive="active menu-here"
       routerLink="/dashboard"
-      (click)="seleccionarMenu('general')"
+      (click)="seleccionarMenu('GENERAL')"
       ><span class="menu-title" translate="MENU.DASHBOARD"></span
     ></a>
   </div>
@@ -15,7 +15,7 @@
       routerLinkActive="active menu-here"
       routerLink="/{{ item }}"
       (click)="seleccionarMenu(item)"
-      ><span class="menu-title">{{ item | titlecase }}</span></a
+      ><span class="menu-title" [translate]="'MENU.TITULOS.'+item"></span></a
     >
   </div>
 </ng-container>

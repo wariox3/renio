@@ -27,7 +27,7 @@ export class SidebarMenuComponent implements OnInit {
         tap(([nombreSeleccion, menuInformacion]) => {
           this.MenuSeleccion = nombreSeleccion;
           let componenteMenu = menuInformacion.filter(
-            (item) => item.name == nombreSeleccion
+            (item) => item.name == nombreSeleccion.toLowerCase()
           );
           if (componenteMenu[0]?.children) {
             this.arrMenu = componenteMenu[0].children;

@@ -5,7 +5,24 @@ export const locale = {
     TRANSLATOR: {
       SELECT: 'Elige tu idioma',
     },
-    MENU: {},
+    MENU: {
+      DASHBOARD: 'Menú',
+      TITULOS:{
+        GENERAL: 'GENERAL',
+        CARTERA: 'Cartera',
+        COMPRA: 'Compra',
+        CONTABILIDAD: 'Contabilidad',
+        HUMANO: 'Humano',
+        VENTA: 'Venta',
+      },
+      COMUNES:{
+        MOVIMIENTO: 'Movimiento',
+        ADMINISTRACION: 'Administración',
+        UTILIDAD: 'Utilidad',
+        PROCESO: 'Proceso',
+        INFORME: 'Informe'
+      }
+    },
     FORMULARIOS: {
       BOTONES: {
         COMUNES: {

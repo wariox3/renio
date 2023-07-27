@@ -6,23 +6,25 @@ import { LayoutService } from '../../../core/layout.service';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa.selectors';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-header-menu',
   templateUrl: './header-menu.component.html',
   styleUrls: ['./header-menu.component.scss'],
 })
-export class HeaderMenuComponent implements OnInit {
-  arrMenu = ['cartera', 'compra', 'contabilidad', 'humano', 'venta'];
+export class HeaderMenuComponent extends General implements OnInit {
+
+  arrMenu = ['CARTERA', 'COMPRA', 'CONTABILIDAD', 'HUMANO', 'VENTA'];
 
   visualizarMenuApps = false
 
   constructor(
-    private router: Router,
     private layout: LayoutService,
     private layoutInit: LayoutInitService,
-    private store: Store
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     let dominioActual = window.location.host

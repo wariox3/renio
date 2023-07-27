@@ -16,7 +16,7 @@ export interface Menu {
 let nombreSeleccion = localStorage.getItem('ruta');
 
 export const initialState: Menu = {
-  seleccion: nombreSeleccion == null ? 'general' : nombreSeleccion,
+  seleccion: nombreSeleccion == null ? 'GENERAL' : nombreSeleccion,
   informacion: [
     {
       name: 'cartera',
@@ -27,7 +27,7 @@ export const initialState: Menu = {
           children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'cartera/administracion/item/lista' },
@@ -60,7 +60,7 @@ export const initialState: Menu = {
           children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'compra/administracion/item/lista' },
@@ -93,7 +93,7 @@ export const initialState: Menu = {
           children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'contabilidad/administracion/item/lista' },
@@ -126,7 +126,7 @@ export const initialState: Menu = {
           children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'humano/administracion/item/lista' },
@@ -162,7 +162,7 @@ export const initialState: Menu = {
           ],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'venta/administracion/item/lista' },
@@ -195,7 +195,7 @@ export const initialState: Menu = {
           children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'contabilidad/administracion/item/lista' },
@@ -228,7 +228,7 @@ export const initialState: Menu = {
           children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
         },
         {
-          name: 'administración',
+          name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'general/administracion/item/lista' },
