@@ -76,7 +76,7 @@ export class EmpresaService {
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
-        plan_id: data.plan_id,
+        plan: data.plan_id,
         usuario: codigoUsuario,
       }
     );
