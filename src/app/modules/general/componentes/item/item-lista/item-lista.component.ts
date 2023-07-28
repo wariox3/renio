@@ -28,12 +28,11 @@ export class ItemListaComponent extends General implements OnInit {
     });
   }
 
-  detalle($event: Item) {
-    console.log($event);
-    this.router.navigate(['', '', ])
+  detalle(item: Item) {
+    this.router.navigate(['/general/administracion/item/detalle', 3]);
   }
 
-  editar($event: Item) {
-    console.log($event);
+  editar(item: Item) {
+    this.router.navigate(['/general/administracion/item/editar', 3]);
   }
 }

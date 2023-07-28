@@ -8,10 +8,6 @@ S<app-comun-base-lista>
         ></h3>
       </div>
       <div class="card-body">
-        <app-comun-tabla
-          [datos]="arrItems"
-          [encabezado]="arrEncabezado"
-        ></app-comun-tabla>
       </div>
     </div>
   </section>
@@ -21,8 +17,8 @@ S<app-comun-base-lista>
         <app-comun-tabla
           [datos]="arrItems"
           [encabezado]="arrEncabezado"
-          (itemId)="editar($event)"
-          (itemId)="detalle($event)"
+          (itemEditar)="editar($event)"
+          (itemDetalle)="detalle($event)"
         ></app-comun-tabla>
       </div>
     </div>

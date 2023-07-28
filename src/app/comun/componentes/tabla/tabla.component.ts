@@ -15,7 +15,8 @@ export class TablaComponent {
 
   @Input() encabezado: string[] = []
   @Input() datos : any[] = []
-  @Output() itemId: EventEmitter<any> = new EventEmitter();
+  @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
+  @Output() itemEditar: EventEmitter<any> = new EventEmitter();
 
 
   objectKeys(obj: any) {
@@ -27,16 +28,15 @@ export class TablaComponent {
   }
 
   objectEntries(obj: any) {
-    console.log(obj);
     return Object.entries(obj);
   }
 
   detalle(item: any){
-    this.itemId.emit(item)
+    return this.itemDetalle.emit(item)
   }
 
   editar(item: any){
-    this.itemId.emit(item)
+    return this.itemEditar.emit(item)
   }
 
 }
