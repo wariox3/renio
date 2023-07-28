@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
 
@@ -8,15 +9,13 @@ import { Item } from '@modulos/general/modelos/item';
   templateUrl: './item-lista.component.html',
   styleUrls: ['./item-lista.component.scss'],
 })
-export class ItemListaComponent implements OnInit {
+export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = ['nombre'];
 
-  constructor(
-    private httpService: HttpService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
-  ) {}
+  constructor(private httpService: HttpService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.consultarLista();
@@ -29,7 +28,12 @@ export class ItemListaComponent implements OnInit {
     });
   }
 
-  detalle() {
-    this.router.navigate(['/detalle']);
+  detalle($event: Item) {
+    console.log($event);
+    this.router.navigate(['', '', ])
+  }
+
+  editar($event: Item) {
+    console.log($event);
   }
 }

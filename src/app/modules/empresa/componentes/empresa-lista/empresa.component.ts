@@ -6,6 +6,7 @@ import { Empresa } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { General } from '@comun/clases/general';
 import { NgOptimizedImage } from '@angular/common'
+import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({
   selector: 'app-empresa',
@@ -15,7 +16,7 @@ import { NgOptimizedImage } from '@angular/common'
 export class EmpresaComponent extends General implements OnInit {
   arrEmpresas: Empresa[] = [];
 
-  constructor(private empresaService: EmpresaService) {
+  constructor(private empresaService: EmpresaService, private subdominioService: SubdominioService) {
     super();
   }
 
@@ -61,6 +62,11 @@ export class EmpresaComponent extends General implements OnInit {
           usuarios_base: 0
         };
         this.store.dispatch(empresaActionInit({ empresa }));
+        if(this.subdominioService.esSubdominioActual()){
+          window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
+        }else{
+          this.router.navigate(['/dashboard'])
+        }
       });
   }
 

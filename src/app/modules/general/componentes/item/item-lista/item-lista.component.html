@@ -1,18 +1,29 @@
-<app-comun-base-lista>
+S<app-comun-base-lista>
   <section base-filtros>
     <div class="card card-px-1 shadow-sm">
       <div class="card-header">
-        <h3 class="card-title" translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"></h3>
+        <h3
+          class="card-title"
+          translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"
+        ></h3>
       </div>
       <div class="card-body">
-        <app-comun-tabla [datos]="arrItems" [encabezado]="arrEncabezado"></app-comun-tabla>
+        <app-comun-tabla
+          [datos]="arrItems"
+          [encabezado]="arrEncabezado"
+        ></app-comun-tabla>
       </div>
     </div>
   </section>
   <section base-tabla>
     <div class="card card-px-0 shadow-sm">
       <div class="card-body">
-        <app-comun-tabla [datos]="arrItems" [encabezado]="arrEncabezado"></app-comun-tabla>
+        <app-comun-tabla
+          [datos]="arrItems"
+          [encabezado]="arrEncabezado"
+          (itemId)="editar($event)"
+          (itemId)="detalle($event)"
+        ></app-comun-tabla>
       </div>
     </div>
   </section>

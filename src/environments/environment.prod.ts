@@ -6,6 +6,7 @@ export const environment = {
   production: true,
   URL_API_MUUP: 'http://muupservicios.online',
   URL_API_SUBDOMINIO: 'http://subdominio.muupservicios.online',
+  EMPRESA_LOCALHOST: '',
   appVersion: 'v8.1.8',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,

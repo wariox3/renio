@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
@@ -13,16 +13,16 @@ import { CommonModule } from '@angular/common';
 })
 export class TablaComponent {
 
-  @Input() encabezado: string[] = [
-
-  ]
+  @Input() encabezado: string[] = []
   @Input() datos : any[] = []
+  @Output() itemId: EventEmitter<any> = new EventEmitter();
+
 
   objectKeys(obj: any) {
    let  encabezado: any = [];
     for (const iterator in obj) {
       encabezado = Object.keys(obj[iterator]);
-    }    
+    }
     return encabezado;
   }
 
@@ -31,9 +31,12 @@ export class TablaComponent {
     return Object.entries(obj);
   }
 
-  obtenerDetalle(item: any){
-     
+  detalle(item: any){
+    this.itemId.emit(item)
+  }
 
+  editar(item: any){
+    this.itemId.emit(item)
   }
 
 }

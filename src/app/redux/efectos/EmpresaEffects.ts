@@ -36,8 +36,6 @@ export class EmpresaEffects {
               }
             );
           }
-
-          window.location.href = `http://${action.empresa.subdominio}.muup.online/dashboard`;
         })
       ),
     { dispatch: false }
