@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-item-formulario',
@@ -10,6 +12,7 @@ import { General } from '@comun/clases/general';
 export class ItemFormularioComponent extends General implements OnInit {
 
   formularioItem: FormGroup;
+  //@Input() informacionContacto!: ContactoFormulario;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,9 +33,10 @@ export class ItemFormularioComponent extends General implements OnInit {
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),  // Se ha removido la restricción de mayúsculas
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
+        impuestos: this.formBuilder.array([this.crearControlImpuesto()]) // Agregamos un control inicial
       },
     );
   }
@@ -41,8 +45,26 @@ export class ItemFormularioComponent extends General implements OnInit {
     return this.formularioItem.controls;
   }
 
+  get impuestos() {
+    return this.formularioItem.get('impuestos') as FormArray;
+  }
+
+  private crearControlImpuesto(): FormControl {
+    return this.formBuilder.control('');
+  }
+
+  agregarImpuesto() {
+    this.impuestos.push(this.formBuilder.control(''));
+  }
+
+  eliminarImpuesto(index: number) {
+    if(this.impuestos.length > 1){
+      this.impuestos.removeAt(index);
+    }
+  }
+
   formSubmit() {
-    // if (this.formularioItemNuevo.valid) {
+    if (this.formularioItem.valid) {
     //   this.renderer2.setAttribute(
     //     this.btnGuardar.nativeElement,
     //     'disabled',
@@ -53,18 +75,18 @@ export class ItemFormularioComponent extends General implements OnInit {
     //     'innerHTML',
     //     'Procesando'
     //   );
-    //   this.store
-    //     .select(obtenerUsuarioId)
-    //     .pipe(
-    //       switchMap(([usuarioId]) =>
-    //         this.httpService.post<Item>(
-    //           'general/item/',
-    //           {
-    //             nombre: this.formFields.nombre.value
-    //           },
-    //         )
-    //       )
-    //     )
+      // this.store
+      //   .select(obtenerUsuarioId)
+      //   .pipe(
+      //     switchMap(([usuarioId]) =>
+      //       this.httpService.post<Item>(
+      //         'general/item/',
+      //         {
+      //           nombre: this.formFields.nombre.value
+      //         },
+      //       )
+      //     )
+      //   )
     //     .subscribe({
     //       next: (respuesta) => {
     //         this.renderer2.setAttribute(
@@ -98,9 +120,9 @@ export class ItemFormularioComponent extends General implements OnInit {
     //         );
     //       },
     //     });
-    // } else {
-    //   this.formularioItemNuevo.markAllAsTouched();
-    // }
+     } else {
+       this.formularioItem.markAllAsTouched();
+     }
   }
 
   limpiarFormulario() {

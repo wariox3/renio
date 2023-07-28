@@ -41,7 +41,11 @@ export const locale = {
           INVITACION: 'Invitaciones',
           INVITAR: 'Invitar',
         },
-        GENERAL: {},
+        GENERAL: {
+          ITEM:{
+            AGREGARIMPUESTOS: 'Agregar impuesto',
+          }
+        },
         INVENTARIO: {},
         SEGURIDAD: {
           CAMBIAR: 'Cambiar contraseña',
@@ -129,6 +133,12 @@ export const locale = {
           RESUMEN: 'Resumen del mes hasta la fecha',
           TEXTOAYUDA3: 'Estos cargos se incluyen en el saldo de su cuenta'
         },
+        GENERAL:{
+          ITEM:{
+            IMPUESTOS: 'Impuestos',
+            IMPUESTO: 'Impuesto',
+          }
+        }
       },
       CAMPOS: {
         COMUNES: {
@@ -143,6 +153,12 @@ export const locale = {
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
+        },
+        GENERAL: {
+          ITEM:{
+            IMPUESTOS: 'Impuesto',
+            IMPUESTO: 'Impuesto',
+          }
         },
       },
       VALIDACIONES: {

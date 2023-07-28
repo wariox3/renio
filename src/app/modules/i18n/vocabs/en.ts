@@ -41,7 +41,11 @@ export const locale = {
           INVITACION: 'Invitations',
           INVITAR: 'Invite',
         },
-        GENERAL: {},
+        GENERAL: {
+          ITEM:{
+            AGREGARIMPUESTOS: 'Add taxes',
+          }
+        },
         INVENTARIO: {},
         SEGURIDAD: {
           CAMBIAR: 'Change password',
@@ -143,6 +147,12 @@ export const locale = {
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
+        },
+        GENERAL: {
+          ITEM:{
+            IMPUESTOS: 'Taxes',
+            IMPUESTO: 'Tax',
+          }
         },
       },
       VALIDACIONES: {
