@@ -1,1 +1,102 @@
-<p>base-filtro works!</p>
+<div class="container-grid">
+  <div class="filtros">
+    <div class="d-flex align-items-stretch bg-white p-5 mb-5">
+      <i class="fa-solid fa-magnifying-glass fs-1x align-self-center"></i>
+      <span
+        class="badge badge-light bg-hover-light-danger"
+        *ngFor="let filtro of listaFiltros"
+      >
+        <i class="bi bi-funnel fs-1x me-1"></i>
+        {{ filtro.propiedad }}
+        {{ filtro.criterio }}
+        {{ filtro.busqueda }}
+        <i
+          (click)="eliminarFiltroLista(filtro.id)"
+          class="bi bi-x fs-2x cursor-pointer cursor-pointer user-select-none text-hover-danger"
+        ></i>
+      </span>
+
+      <input
+        class="form-control form-control-sm"
+        type="text"
+        placeholder="Buscar..."
+      />
+      <i
+        (click)="open()"
+        class="bi bi-caret-down-fill fs-2x align-self-center cursor-pointer user-select-none"
+      ></i>
+    </div>
+    <ng-content select="[base-filtros]"></ng-content>
+  </div>
+</div>
+
+<ng-template #dialogTemplate>
+  <div class="card shadow-sm">
+    <div class="modal-header">
+      <h3 class="card-title">Añadir filtro personalizado</h3>
+      <button
+        type="button"
+        class="btn btn-bg-light btn-color-danger"
+        aria-label="Close"
+        (click)="cerrarModal()"
+      >
+        <i class="bi bi-x fs-3x"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formularioItem">
+        <div formArrayName="filtros">
+          <div
+            class="row mb-3"
+            *ngFor="let impuestoControl of filtros.controls; let i = index"
+          >
+            <div class="d-flex align-items-stretch" [formGroupName]="i">
+              <!-- Aquí colocamos el primer selector de países -->
+              <select
+                (change)="onPaisSeleccionado($event)"
+                class="form-control form-control-sm"
+                formControlName="propiedad"
+              >
+                <option value="">Selecciona un país</option>
+                <option *ngFor="let pais of paises" [value]="pais">
+                  {{ pais }}
+                </option>
+              </select>
+
+              <!-- Aquí colocamos el segundo selector de ciudades -->
+              <select formControlName="criterio">
+                <option value="">Selecciona una ciudad</option>
+                <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+                  {{ ciudad }}
+                </option>
+              </select>
+
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                placeholder="Buscar..."
+                formControlName="busqueda"
+              />
+              <i
+                class="bi bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none"
+                (click)="agregarFiltro()"
+              ></i>
+              <i
+                (click)="eliminarFiltro(i)"
+                class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+        type="submit"
+        class="btn btn-primary"
+        (click)="agregar()"
+      ></button>
+    </div>
+  </div>
+</ng-template>

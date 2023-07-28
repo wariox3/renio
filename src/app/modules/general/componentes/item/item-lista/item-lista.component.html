@@ -5,17 +5,7 @@
         <h3 class="card-title" translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"></h3>
       </div>
       <div class="card-body">
-        <!-- Aquí colocamos el primer selector de países -->
-        <select (change)="onPaisSeleccionado($event)">
-          <option value="">Selecciona un país</option>
-          <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
-        </select>
-
-        <!-- Aquí colocamos el segundo selector de ciudades -->
-        <select>
-          <option value="">Selecciona una ciudad</option>
-          <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
-        </select>
+        <app-base-filtro></app-base-filtro>
       </div>
     </div>
   </section>

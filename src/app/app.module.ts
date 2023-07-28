@@ -18,7 +18,6 @@ import { ErrorhttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { EffectsModule } from '@ngrx/effects';
 import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 import { BtnwhatsappComponent } from './comun/componentes/btnwhatsapp/btnwhatsapp.component';
-import { BaseFiltroComponent } from './comun/componentes/base-filtro/base-filtro.component';
 
 // function appInitializer(authService: AuthService) {
 //   return () => {
@@ -34,7 +33,7 @@ registerLocaleData(localeEsCo, 'es-CO');
 
 
 @NgModule({
-  declarations: [AppComponent, LandingpageComponent, BaseFiltroComponent],
+  declarations: [AppComponent, LandingpageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

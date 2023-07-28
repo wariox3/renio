@@ -19,6 +19,7 @@ import { ItemFormularioComponent } from './componentes/item/item-formulario/item
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ContactoFormularioComponent } from './componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ContactoFormularioComponent } from './componentes/contacto/contacto-for
     BaseListaComponent,
     BaseNuevoComponent,
     BaseDetalleComponent,
+    BaseFiltroComponent,
     CommonModule,
     GeneralRoutingModule,
     TablaComponent,
@@ -45,6 +47,7 @@ import { ContactoFormularioComponent } from './componentes/contacto/contacto-for
     ReactiveFormsModule,
     TranslateModule,
     TranslationModule,
+
   ]
 })
 export class GeneralModule { }
