@@ -2,24 +2,20 @@
   <section base-filtros>
     <div class="card card-px-1 shadow-sm">
       <div class="card-header">
-        <h3
-          class="card-title"
-          translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"
-        ></h3>
+        <h3 class="card-title" translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"></h3>
       </div>
       <div class="card-body">
-      </div>
-    </div>
-  </section>
-  <section base-tabla>
-    <div class="card card-px-0 shadow-sm">
-      <div class="card-body">
-        <app-comun-tabla
-          [datos]="arrItems"
-          [encabezado]="arrEncabezado"
-          (itemEditar)="editar($event)"
-          (itemDetalle)="detalle($event)"
-        ></app-comun-tabla>
+        <!-- Aquí colocamos el primer selector de países -->
+        <select (change)="onPaisSeleccionado($event)">
+          <option value="">Selecciona un país</option>
+          <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
+        </select>
+
+        <!-- Aquí colocamos el segundo selector de ciudades -->
+        <select>
+          <option value="">Selecciona una ciudad</option>
+          <option *ngFor="let ciudad of ciudades" [value]="ciudad">{{ ciudad }}</option>
+        </select>
       </div>
     </div>
   </section>

@@ -13,6 +13,13 @@ export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = ['nombre'];
 
+  paises: string[] = ['País 1', 'País 2', 'País 3'];
+  ciudadesPorPais: { [key: string]: string[] } = {
+    'País 1': ['Ciudad 1-1', 'Ciudad 1-2', 'Ciudad 1-3'],
+    'País 2': ['Ciudad 2-1', 'Ciudad 2-2', 'Ciudad 2-3'],
+    'País 3': ['Ciudad 3-1', 'Ciudad 3-2', 'Ciudad 3-3']
+  };
+
   constructor(private httpService: HttpService) {
     super();
   }
@@ -34,5 +41,13 @@ export class ItemListaComponent extends General implements OnInit {
 
   editar(item: Item) {
     this.router.navigate(['/general/administracion/item/editar', 3]);
+  }
+
+  ciudades: string[] = [];
+
+  onPaisSeleccionado(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const pais = target.value;
+    this.ciudades = this.ciudadesPorPais[pais];
   }
 }
