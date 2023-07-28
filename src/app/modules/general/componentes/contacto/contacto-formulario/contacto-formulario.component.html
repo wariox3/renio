@@ -1,36 +1,90 @@
-<form
-  [formGroup]="formularioContacto"
-  (ngSubmit)="formSubmit()"
-  id="my-dropzone"
->
-  <div class="col-md-2">
-    <label
-      translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
-      class="form-label required"
-    ></label>
-    <input
-      formControlName="identificacion"
-      class="form-control bg-transparent"
-      type="text"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid':
-          formularioContacto.controls['identificacion'].touched &&
-          formularioContacto.controls['identificacion'].invalid,
-        'is-valid':
-          formularioContacto.controls['identificacion'].touched &&
-          formularioContacto.controls['identificacion'].valid
-      }"
-    />
-    <ng-container
-    [ngTemplateOutlet]="formError"
-    [ngTemplateOutletContext]="{
-      validation: 'required',
-      message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-      control: formularioContacto.controls['identificacion']
-    }"
-  ></ng-container>
+<form [formGroup]="formularioContacto" (ngSubmit)="formSubmit()" id="my-dropzone">
+  <!-- Resto de los campos del formulario -->
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
+          class="form-label required"
+        ></label>
+        <input
+          formControlName="identificacion"
+          class="form-control bg-transparent"
+          type="text"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              formularioContacto.controls['identificacion'].touched &&
+              formularioContacto.controls['identificacion'].invalid,
+            'is-valid':
+              formularioContacto.controls['identificacion'].touched &&
+              formularioContacto.controls['identificacion'].valid
+          }"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+            cantidadCaracteres: '3',
+            control: formularioContacto.controls['identificacion']
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '100',
+            control: formularioContacto.controls['identificacion']
+          }"
+        ></ng-container>
+      </div>
+    </div>
   </div>
+
+  <!-- Select para el tipo de documento -->
+  <!-- <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.TIPO_DOCUMENTO"
+          class="form-label required"
+        ></label>
+        <select
+          formControlName="tipo_documento"
+          class="form-control bg-transparent"
+          [ngClass]="{
+            'is-invalid':
+              formularioContacto.controls['tipo_documento'].touched &&
+              formularioContacto.controls['tipo_documento'].invalid,
+            'is-valid':
+              formularioContacto.controls['tipo_documento'].touched &&
+              formularioContacto.controls['tipo_documento'].valid
+          }"
+        >
+          <option value="" disabled selected>
+            Seleccione un tipo de documento
+          </option>
+          <option *ngFor="let opcion of arrIdentificacion" [value]="opcion.id">
+            {{ opcion.nombre }}
+          </option>
+        </select>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContacto.controls['tipo_documento']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Resto de los campos del formulario -->
+
   <div class="fv-row d-flex justify-content-end">
     <button type="submit" class="btn btn-primary btn-sm" #btnGuardar>
       Guardar
