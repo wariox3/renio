@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { General } from '@comun/clases/general';
 import { ContactoFormulario } from '@interfaces/general/contacto';
 
 @Component({
@@ -7,11 +8,13 @@ import { ContactoFormulario } from '@interfaces/general/contacto';
   templateUrl: './contacto-formulario.component.html',
   styleUrls: ['./contacto-formulario.component.scss'],
 })
-export class ContactoFormularioComponent implements OnInit {
+export class ContactoFormularioComponent extends General implements OnInit {
   formularioContacto: FormGroup;
   @Input() informacionContacto!: ContactoFormulario;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+    super();
+  }
 
   ngOnInit() {
     this.initForm();
@@ -74,9 +77,13 @@ export class ContactoFormularioComponent implements OnInit {
   }
 
   formSubmit() {
-    if (this.formularioContacto.valid) {
-    } else {
-      this.formularioContacto.markAllAsTouched();
-    }
+    // if (this.formularioContacto.valid) {
+    // } else {
+    //   this.formularioContacto.markAllAsTouched();
+    // }
+  }
+
+  limpiarFormulario() {
+    this.formularioContacto.reset();
   }
 }

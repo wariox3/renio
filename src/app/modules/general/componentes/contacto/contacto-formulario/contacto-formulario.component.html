@@ -3,26 +3,55 @@
   (ngSubmit)="formSubmit()"
   id="my-dropzone"
 >
-
-<div class="col-md-2">
+  <div class="col-md-2">
     <label
-    translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
-    class="form-label required"
-  ></label>
-  <input
-  formControlName="identificacion"
-  class="form-control bg-transparent"
-  type="text"
-  autocomplete="off"
-  [ngClass]="{
-    'is-invalid':
-    formularioContacto.controls['identificacion'].touched &&
-    formularioContacto.controls['identificacion'].invalid,
-    'is-valid':
-    formularioContacto.controls['identificacion'].touched &&
-    formularioContacto.controls['identificacion'].valid
-  }"
-/>
-</div>
-
+      translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
+      class="form-label required"
+    ></label>
+    <input
+      formControlName="identificacion"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+          formularioContacto.controls['identificacion'].touched &&
+          formularioContacto.controls['identificacion'].invalid,
+        'is-valid':
+          formularioContacto.controls['identificacion'].touched &&
+          formularioContacto.controls['identificacion'].valid
+      }"
+    />
+    <ng-container
+    [ngTemplateOutlet]="formError"
+    [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+      control: formularioContacto.controls['identificacion']
+    }"
+  ></ng-container>
+  </div>
+  <div class="fv-row d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary btn-sm" #btnGuardar>
+      Guardar
+    </button>
+  </div>
 </form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
