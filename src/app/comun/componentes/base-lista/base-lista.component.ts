@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -12,4 +13,24 @@ import { TranslationModule } from '@modulos/i18n';
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss']
 })
-export class BaseListaComponent {}
+export class BaseListaComponent {
+  @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
+  modalRef: any;
+
+  constructor(private modalService: NgbModal){
+
+  }
+
+  open(){
+    this.modalRef = this.modalService.open(this.customTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    });
+  }
+
+  cerrarModal(){
+    this.modalRef.dismiss('Cross click')
+  }
+
+}
