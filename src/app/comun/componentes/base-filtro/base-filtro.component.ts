@@ -76,7 +76,8 @@ export class BaseFiltroComponent {
     return this.formBuilder.group({
       propiedad: [''],
       criterio: [''],
-      busqueda: ['']
+      busqueda: [''],
+      entre:['']
     });
   }
 
@@ -85,7 +86,8 @@ export class BaseFiltroComponent {
       this.formBuilder.group({
         propiedad: [''],
         criterio: [''],
-        busqueda: ['']
+        busqueda: [''],
+        entre:['']
       })
     );
   }
@@ -116,7 +118,9 @@ export class BaseFiltroComponent {
         ...filtro
       })
     })
-    this.cerrarModal()
+    console.log(this.listaFiltros);
+    
+    //this.cerrarModal()
   }
 
 

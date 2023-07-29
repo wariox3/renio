@@ -66,9 +66,9 @@
               <ng-container *ngIf="this.formularioItem.value['filtros'][i].criterio === 'entre'">
                 <input
                 class="form-control form-control-sm"
-                type="text"
+                [type]="this.formularioItem.value['filtros'][i].propiedad === 'Numero' ?  'number' : 'datetime' "
                 placeholder="entre"
-                formControlName="busqueda"
+                formControlName="entre"
               />
               </ng-container>
               <i
