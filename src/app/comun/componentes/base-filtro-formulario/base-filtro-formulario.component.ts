@@ -1,0 +1,34 @@
+import { Component, EventEmitter, Output ,Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-base-filtro-formulario',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './base-filtro-formulario.component.html'
+})
+export class BaseFiltroFormularioComponent {
+  @Input() propiedades: { valor: string;  tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';}[];
+  @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
+  @Output() dataCriterio: EventEmitter<any> = new EventEmitter();
+
+  ciudadesPorPais: { [key: string]: string[] } = {
+    'Numero': ['igual', 'mayor', 'mayor igual', 'menor', 'menor igual', 'entre'],
+    'Texto': ['igual', 'diferente', 'contiene', 'no contiene', 'está establecida(o)', 'no está establecida(o)'],
+    'Booleano': ['es', 'no', ],
+    'Fecha': ['entre', 'desde', 'hasta'],
+  };
+  ciudades: string[] = [];
+
+  onPaisSeleccionado(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const pais = target.value;
+    this.ciudades = this.ciudadesPorPais[pais];
+    this.dataPropiedad.emit(target.value)
+  }
+
+  onCriterioSeleccionado(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.dataCriterio.emit(target.value)
+  }
+}

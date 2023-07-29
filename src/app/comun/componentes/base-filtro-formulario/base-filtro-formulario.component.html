@@ -1,0 +1,19 @@
+<div class="d-flex">
+  <select
+    class="form-control form-control-sm"
+    (change)="onPaisSeleccionado($event)"
+  >
+    <option value="">Selecciona un país</option>
+    <option *ngFor="let pais of propiedades" [value]="pais.tipo">{{ pais.valor }}</option>
+  </select>
+  <!-- Aquí colocamos el segundo selector de ciudades -->
+  <select
+    class="form-control form-control-sm"
+    (change)="onCriterioSeleccionado($event)"
+  >
+    <option value="">Selecciona una ciudad</option>
+    <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+      {{ ciudad }}
+    </option>
+  </select>
+</div>

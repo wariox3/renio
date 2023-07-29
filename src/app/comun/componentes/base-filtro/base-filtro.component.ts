@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 
 
 @Component({
@@ -25,21 +26,32 @@ import {
     TranslationModule,
     FormsModule,
     ReactiveFormsModule,
+    BaseFiltroFormularioComponent
   ],
 })
 export class BaseFiltroComponent {
   formularioItem: FormGroup;
   listaFiltros: any[] = []
+  @Input() propiedades: any[];
 
-  paises: string[] = ['País 1', 'País 2', 'País 3'];
-  ciudadesPorPais: { [key: string]: string[] } = {
-    'País 1': ['Ciudad 1-1', 'Ciudad 1-2', 'Ciudad 1-3'],
-    'País 2': ['Ciudad 2-1', 'Ciudad 2-2', 'Ciudad 2-3'],
-    'País 3': ['Ciudad 3-1', 'Ciudad 3-2', 'Ciudad 3-3']
-  };
-  ciudades: string[] = [];
-
-
+  test:any[] = [
+    {
+      tipo: 'Texto',
+      valor: 'nombre',
+    },
+    {
+      tipo: 'Numero',
+      valor: 'edad',
+    },
+    {
+      tipo: 'Booleano',
+      valor: 'esActivo',
+    },
+    {
+      tipo: 'Fecha',
+      valor: 'fecha',
+    }
+  ];
 
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   modalRef: any;
@@ -104,19 +116,23 @@ export class BaseFiltroComponent {
         ...filtro
       })
     })
-
-    console.log(this.listaFiltros);
-
     this.cerrarModal()
+  }
+
+
+  actualizarPropiedad(propiedad: string, index: number){
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    filtroPorActualizar.patchValue({propiedad});
+  }
+
+  
+  actualizarCriterio(criterio: string, index: number){
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    filtroPorActualizar.patchValue({criterio});
   }
 
   cerrarModal() {
     this.modalRef.dismiss('Cross click');
   }
 
-  onPaisSeleccionado(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const pais = target.value;
-    this.ciudades = this.ciudadesPorPais[pais];
-  }
 }
