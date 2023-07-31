@@ -1,31 +1,34 @@
-<div class="d-flex">
-  <select
-    class="form-control form-control-sm"
-    style="min-width: auto;"
-    (change)="onPaisSeleccionado($event)"
-  >
-    <option value="">Propiedad</option>
-    <option
-      *ngFor="let propiedad of propiedades"
-      [value]="propiedad.tipo"
-      [selected]="propiedad.tipo === datosSeleccionados?.propiedad"
+<div class="row">
+  <div class="col">
+    <select
+      class="form-control form-control-sm"
+      (change)="onPaisSeleccionado($event)"
     >
-      {{ propiedad.valor }}
-    </option>
-  </select>
-  <!-- Aquí colocamos el segundo selector de ciudades -->
-  <select
-    class="form-control form-control-sm"
-    style="min-width: auto;"
-    (change)="onCriterioSeleccionado($event)"
-  >
-    <option value="">Criterio</option>
-    <option
-      *ngFor="let ciudad of ciudades"
-      [value]="ciudad"
-      [selected]="ciudad === datosSeleccionados?.criterio"
+      <option value="">Propiedad</option>
+      <option
+        *ngFor="let propiedad of propiedades"
+        [value]="propiedad.tipo"
+        [selected]="propiedad.tipo === datosSeleccionados?.propiedad"
+      >
+        {{ propiedad.valor }}
+      </option>
+    </select>
+  </div>
+  
+  <div class="col">
+    <select
+      class="form-control form-control-sm"
+      (change)="onCriterioSeleccionado($event)"
     >
-      {{ ciudad }}
-    </option>
-  </select>
+      <option value="">Criterio</option>
+      <option
+        *ngFor="let ciudad of ciudades"
+        [value]="ciudad"
+        [selected]="ciudad === datosSeleccionados?.criterio"
+      >
+        {{ ciudad }}
+      </option>
+    </select>
+  </div>
 </div>
+
