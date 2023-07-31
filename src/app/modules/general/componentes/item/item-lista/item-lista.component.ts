@@ -13,21 +13,56 @@ export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = ['nombre'];
 
-
+  filtros: any[] = [
+    {
+      tipo: 'Texto',
+      valor: 'nombre',
+    },
+    {
+      tipo: 'Numero',
+      valor: 'edad',
+    },
+    {
+      tipo: 'Booleano',
+      valor: 'esActivo',
+    },
+    {
+      tipo: 'Fecha',
+      valor: 'fecha',
+    },
+  ];
 
   constructor(private httpService: HttpService) {
     super();
   }
 
   ngOnInit(): void {
-    this.consultarLista();
+    this.consultarLista(null);
   }
 
-  consultarLista(): void {
-    this.httpService.get<Item>('general/item/').subscribe((respuesta) => {
+  consultarLista(queryParams: string | null): void {
+    let url = 'general/item/';
+    if (queryParams) {
+      url = 'general/item/' + queryParams;
+    }
+    this.httpService.get<Item>(url).subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  obtenerFiltros(arrfiltros: any) {
+    const queryParams = arrfiltros
+      .map((item: any) => {
+        return Object.keys(item)
+          .map(
+            (key) =>
+              `${encodeURIComponent(key)}=${encodeURIComponent(item[key])}`
+          )
+          .join('&');
+      })
+      .join('&');
+    this.consultarLista(queryParams);
   }
 
   detalle(item: Item) {
@@ -37,5 +72,4 @@ export class ItemListaComponent extends General implements OnInit {
   editar(item: Item) {
     this.router.navigate(['/general/administracion/item/editar', 3]);
   }
-
 }

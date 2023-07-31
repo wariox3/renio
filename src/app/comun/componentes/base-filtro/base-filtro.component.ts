@@ -1,9 +1,16 @@
-import { Component, TemplateRef, ViewChild, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  TemplateRef,
+  ViewChild,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormArray,
   FormBuilder,
@@ -12,12 +19,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
-
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-base-filtro',
   templateUrl: './base-filtro.component.html',
-  styleUrls: ['./base-filtro.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -26,47 +32,39 @@ import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-fi
     TranslationModule,
     FormsModule,
     ReactiveFormsModule,
-    BaseFiltroFormularioComponent
+    BaseFiltroFormularioComponent,
   ],
 })
 export class BaseFiltroComponent implements OnInit {
   formularioItem: FormGroup;
-  listaFiltros: any[] = []
+  listaFiltros: any[] = [];
+  filtrosAplicados: any[] = [{
+    propiedad: '',
+    criterio: ''
+  }];
   @Input() propiedades: any[];
+  @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
 
-  test:any[] = [
-    {
-      tipo: 'Texto',
-      valor: 'nombre',
-    },
-    {
-      tipo: 'Numero',
-      valor: 'edad',
-    },
-    {
-      tipo: 'Booleano',
-      valor: 'esActivo',
-    },
-    {
-      tipo: 'Fecha',
-      valor: 'fecha',
-    }
-  ];
-
-  modalRef: any;
-
-  constructor(
-    private formBuilder: FormBuilder,
-  ) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.initForm()
+    this.initForm();
+    if (localStorage.getItem(document.location.pathname)) {
+      this.filtrosAplicados = JSON.parse(
+        localStorage.getItem(document.location.pathname)!
+      );
+      this.filtrosAplicados.map((propiedad) => {
+        this.filtros.push(this.crearControlFiltros(propiedad));
+      });
+    } else {
+
+      this.filtros.push(this.crearControlFiltros(null));
+    }
   }
 
   initForm() {
     this.formularioItem = this.formBuilder.group({
-      filtros: this.formBuilder.array([this.crearControlImpuesto()]), // Agregamos un control inicial
+      filtros: this.formBuilder.array([]),
     });
   }
 
@@ -74,12 +72,19 @@ export class BaseFiltroComponent implements OnInit {
     return this.formularioItem.get('filtros') as FormArray;
   }
 
-  private crearControlImpuesto(): FormGroup {
+  private crearControlFiltros(propiedades: any | null) {
+    let busqueda = '';
+    let entre = '';
+    if (propiedades) {
+      busqueda = propiedades.busqueda;
+      entre = propiedades.entre;
+    }
+
     return this.formBuilder.group({
       propiedad: [''],
       criterio: [''],
-      busqueda: [''],
-      entre:['']
+      busqueda: [busqueda],
+      entre: [entre],
     });
   }
 
@@ -89,48 +94,47 @@ export class BaseFiltroComponent implements OnInit {
         propiedad: [''],
         criterio: [''],
         busqueda: [''],
-        entre:['']
+        entre: [''],
       })
     );
   }
 
   eliminarFiltro(index: number) {
-    if(this.filtros.length > 1){
+    if (this.filtros.length > 1) {
       this.filtros.removeAt(index);
     }
   }
 
   eliminarFiltroLista(index: string) {
-    this.listaFiltros = this.listaFiltros.filter((filtro: any)=> filtro.id !== index)
+    this.listaFiltros = this.listaFiltros.filter(
+      (filtro: any) => filtro.id !== index
+    );
   }
 
-  agregar(){
-    this.listaFiltros = this.formularioItem.value['filtros'].map((filtro: any)=>{
+  agregar() {
+    this.listaFiltros = this.formularioItem.value['filtros'].map(
+      (filtro: any) => {
         return {
           id: crypto.randomUUID(),
-          ...filtro
-        }
-    })
-
-    console.log(this.listaFiltros);
-
+          ...filtro,
+        };
+      }
+    );
+    localStorage.setItem(
+      document.location.pathname,
+      JSON.stringify(this.listaFiltros)
+    );
+    this.emitirFiltros.emit(this.formularioItem.value['filtros']);
   }
 
-
-  actualizarPropiedad(propiedad: string, index: number){
+  actualizarPropiedad(propiedad: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({propiedad});
-    this.actualizarCriterio("", index)
+    filtroPorActualizar.patchValue({ propiedad });
+    this.actualizarCriterio('', index);
   }
 
-
-  actualizarCriterio(criterio: string, index: number){
+  actualizarCriterio(criterio: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({criterio});
+    filtroPorActualizar.patchValue({ criterio });
   }
-
-  cerrarModal() {
-    this.modalRef.dismiss('Cross click');
-  }
-
 }

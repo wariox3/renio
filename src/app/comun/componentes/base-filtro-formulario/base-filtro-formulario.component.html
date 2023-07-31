@@ -4,7 +4,13 @@
     (change)="onPaisSeleccionado($event)"
   >
     <option value="">Propiedad</option>
-    <option *ngFor="let pais of propiedades" [value]="pais.tipo">{{ pais.valor }}</option>
+    <option
+      *ngFor="let propiedad of propiedades"
+      [value]="propiedad.tipo"
+      [selected]="propiedad.tipo === datosSeleccionados.propiedad"
+    >
+      {{ propiedad.valor }}
+    </option>
   </select>
   <!-- Aquí colocamos el segundo selector de ciudades -->
   <select
@@ -12,7 +18,11 @@
     (change)="onCriterioSeleccionado($event)"
   >
     <option value="">Criterio</option>
-    <option *ngFor="let ciudad of ciudades" [value]="ciudad">
+    <option
+      *ngFor="let ciudad of ciudades"
+      [value]="ciudad"
+      [selected]="ciudad === datosSeleccionados.criterio"
+    >
       {{ ciudad }}
     </option>
   </select>

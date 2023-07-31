@@ -15,9 +15,9 @@
         <td *ngFor="let value of item | keyvalue">
           {{ value.value }}
         </td>
-        <td><button (click)="editar(item)">Editar</button></td>
-        <td><button (click)="detalle(item)">Detalle</button></td>
-        <td><input type="checkbox" /></td>
+        <td class="w-45px"><button (click)="editar(item)" class="btn btn-primary btn-sm">Editar</button></td>
+        <td class="w-45px"><button (click)="detalle(item)" class="btn btn-primary btn-sm">Detalle</button></td>
+        <td class="w-20px"><input type="checkbox" /></td>
       </tr>
     </tbody>
   </table>

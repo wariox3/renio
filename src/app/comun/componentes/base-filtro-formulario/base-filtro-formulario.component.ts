@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output ,Input } from '@angular/core';
+import { Component, EventEmitter, Output ,Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,8 +7,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './base-filtro-formulario.component.html'
 })
-export class BaseFiltroFormularioComponent {
+export class BaseFiltroFormularioComponent implements OnInit {
   @Input() propiedades: { valor: string;  tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';}[];
+  @Input() datosSeleccionados: any;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataCriterio: EventEmitter<any> = new EventEmitter();
 
@@ -19,6 +20,10 @@ export class BaseFiltroFormularioComponent {
     'Fecha': ['entre', 'desde', 'hasta'],
   };
   ciudades: string[] = [];
+
+  ngOnInit(): void {
+    this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
+  }
 
   onPaisSeleccionado(event: Event): void {
     const target = event.target as HTMLSelectElement;
