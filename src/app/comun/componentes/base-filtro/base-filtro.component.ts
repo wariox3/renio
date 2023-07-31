@@ -38,10 +38,12 @@ import { General } from '@comun/clases/general';
 export class BaseFiltroComponent implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: any[] = [];
-  filtrosAplicados: any[] = [{
-    propiedad: '',
-    criterio: ''
-  }];
+  filtrosAplicados: any[] = [
+    {
+      propiedad: '',
+      criterio: '',
+    },
+  ];
   @Input() propiedades: any[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
 
@@ -57,7 +59,6 @@ export class BaseFiltroComponent implements OnInit {
         this.filtros.push(this.crearControlFiltros(propiedad));
       });
     } else {
-
       this.filtros.push(this.crearControlFiltros(null));
     }
   }
@@ -75,14 +76,18 @@ export class BaseFiltroComponent implements OnInit {
   private crearControlFiltros(propiedades: any | null) {
     let busqueda = '';
     let entre = '';
+    let propiedad = '';
+    let criterio = '';
     if (propiedades) {
       busqueda = propiedades.busqueda;
       entre = propiedades.entre;
+      propiedad = propiedades.propiedad;
+      criterio = propiedades.criterio;
     }
 
     return this.formBuilder.group({
-      propiedad: [''],
-      criterio: [''],
+      propiedad: [propiedad],
+      criterio: [criterio],
       busqueda: [busqueda],
       entre: [entre],
     });
@@ -130,7 +135,6 @@ export class BaseFiltroComponent implements OnInit {
   actualizarPropiedad(propiedad: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ propiedad });
-    this.actualizarCriterio('', index);
   }
 
   actualizarCriterio(criterio: string, index: number) {

@@ -1,6 +1,7 @@
 <div class="d-flex">
   <select
     class="form-control form-control-sm"
+    style="min-width: auto;"
     (change)="onPaisSeleccionado($event)"
   >
     <option value="">Propiedad</option>
@@ -15,6 +16,7 @@
   <!-- Aquí colocamos el segundo selector de ciudades -->
   <select
     class="form-control form-control-sm"
+    style="min-width: auto;"
     (change)="onCriterioSeleccionado($event)"
   >
     <option value="">Criterio</option>
