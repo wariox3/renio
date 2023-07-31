@@ -7,7 +7,7 @@
     <option
       *ngFor="let propiedad of propiedades"
       [value]="propiedad.tipo"
-      [selected]="propiedad.tipo === datosSeleccionados.propiedad"
+      [selected]="propiedad.tipo === datosSeleccionados?.propiedad"
     >
       {{ propiedad.valor }}
     </option>
@@ -21,7 +21,7 @@
     <option
       *ngFor="let ciudad of ciudades"
       [value]="ciudad"
-      [selected]="ciudad === datosSeleccionados.criterio"
+      [selected]="ciudad === datosSeleccionados?.criterio"
     >
       {{ ciudad }}
     </option>

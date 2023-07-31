@@ -1,39 +1,51 @@
-import { Component, EventEmitter, Output ,Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './base-filtro-formulario.component.html'
+  templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent implements OnInit {
-  @Input() propiedades: { valor: string;  tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';}[];
-  @Input() datosSeleccionados: any;
+  @Input() propiedades: {
+    valor: string;
+    tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';
+  }[];
+  @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataCriterio: EventEmitter<any> = new EventEmitter();
 
   ciudadesPorPais: { [key: string]: string[] } = {
-    'Numero': ['igual', 'mayor', 'mayor igual', 'menor', 'menor igual', 'entre'],
-    'Texto': ['igual', 'diferente', 'contiene', 'no contiene', 'está establecida(o)', 'no está establecida(o)'],
-    'Booleano': ['es', 'no', ],
-    'Fecha': ['entre', 'desde', 'hasta'],
+    Numero: ['igual', 'mayor', 'mayor igual', 'menor', 'menor igual', 'entre'],
+    Texto: [
+      'igual',
+      'diferente',
+      'contiene',
+      'no contiene',
+      'está establecida(o)',
+      'no está establecida(o)',
+    ],
+    Booleano: ['es', 'no'],
+    Fecha: ['entre', 'desde', 'hasta'],
   };
   ciudades: string[] = [];
 
   ngOnInit(): void {
-    this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
+    if(this.datosSeleccionados){
+      this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
+    }
   }
 
   onPaisSeleccionado(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const pais = target.value;
     this.ciudades = this.ciudadesPorPais[pais];
-    this.dataPropiedad.emit(target.value)
+    this.dataPropiedad.emit(target.value);
   }
 
   onCriterioSeleccionado(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    this.dataCriterio.emit(target.value)
+    this.dataCriterio.emit(target.value);
   }
 }
