@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild, Input } from '@angular/core';
+import { Component, TemplateRef, ViewChild, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,7 +29,7 @@ import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-fi
     BaseFiltroFormularioComponent
   ],
 })
-export class BaseFiltroComponent {
+export class BaseFiltroComponent implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: any[] = []
   @Input() propiedades: any[];
@@ -53,13 +53,15 @@ export class BaseFiltroComponent {
     }
   ];
 
-  @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   modalRef: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private modalService: NgbModal
   ) {
+  }
+
+  ngOnInit(): void {
+    this.initForm()
   }
 
   initForm() {
@@ -102,34 +104,26 @@ export class BaseFiltroComponent {
     this.listaFiltros = this.listaFiltros.filter((filtro: any)=> filtro.id !== index)
   }
 
-  open() {
-    this.initForm()
-    this.modalRef = this.modalService.open(this.customTemplate, {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg',
-    });
-  }
-
   agregar(){
-    this.formularioItem.value['filtros'].map((filtro: any)=>{
-      this.listaFiltros.push({
-        id: crypto.randomUUID(),
-        ...filtro
-      })
+    this.listaFiltros = this.formularioItem.value['filtros'].map((filtro: any)=>{
+        return {
+          id: crypto.randomUUID(),
+          ...filtro
+        }
     })
+
     console.log(this.listaFiltros);
-    
-    //this.cerrarModal()
+
   }
 
 
   actualizarPropiedad(propiedad: string, index: number){
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({propiedad});
+    this.actualizarCriterio("", index)
   }
 
-  
+
   actualizarCriterio(criterio: string, index: number){
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({criterio});

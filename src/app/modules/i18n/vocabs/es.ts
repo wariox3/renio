@@ -35,6 +35,7 @@ export const locale = {
           INGRESAR: 'Ingresar',
           RESTABLECER: 'Restablecer',
           DESCARGAR: 'Descargar',
+          FILTRO: 'Descargar',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -57,6 +58,7 @@ export const locale = {
       TITULOS: {
         COMUNES: {
           FILTRO: 'Filtros',
+          FILTRAR: 'Filtrar',
           USUARIOS: 'Usuarios',
           IDIOMA: 'Idioma',
           CERRARSESION: 'Cerrar sesión',

@@ -1,99 +1,70 @@
-<div class="container-grid">
-  <div class="filtros">
-    <div class="d-flex align-items-stretch bg-white p-5 mb-5">
-      <i class="fa-solid fa-magnifying-glass fs-1x align-self-center"></i>
-      <span
-        class="badge badge-light bg-hover-light-danger"
-        *ngFor="let filtro of listaFiltros"
-      >
-        <i class="bi bi-funnel fs-1x me-1"></i>
-        {{ filtro.propiedad }}
-        {{ filtro.criterio }}
-        {{ filtro.busqueda }}
-        <i
-          (click)="eliminarFiltroLista(filtro.id)"
-          class="bi bi-x fs-2x cursor-pointer cursor-pointer user-select-none text-hover-danger"
-        ></i>
-      </span>
-
-      <input
-        class="form-control form-control-sm"
-        type="text"
-        placeholder="Buscar..."
-      />
-      <i
-        (click)="open()"
-        class="bi bi-caret-down-fill fs-2x align-self-center cursor-pointer user-select-none"
-      ></i>
-    </div>
-    <ng-content select="[base-filtros]"></ng-content>
-  </div>
-</div>
-
-<ng-template #dialogTemplate>
-  <div class="card shadow-sm">
-    <div class="modal-header">
-      <h3 class="card-title">Añadir filtro personalizado</h3>
-      <button
-        type="button"
-        class="btn btn-bg-light btn-color-danger"
-        aria-label="Close"
-        (click)="cerrarModal()"
-      >
-        <i class="bi bi-x fs-3x"></i>
-      </button>
-    </div>
-    <div class="card-body">
-      <form [formGroup]="formularioItem">
-        <div formArrayName="filtros">
-          <div
-            class="row mb-3"
-            *ngFor="let impuestoControl of filtros.controls; let i = index"
-          >
-
-            <div class="d-flex align-items-stretch" [formGroupName]="i">
-              <app-base-filtro-formulario
-              [propiedades]="test"
-              (dataPropiedad)="actualizarPropiedad($event, i)"
-              (dataCriterio)="actualizarCriterio($event, i)"
-              ></app-base-filtro-formulario>
-              <ng-container *ngIf="this.formularioItem.value['filtros'][i].propiedad !== 'Booleano'">
-              <input
-                class="form-control form-control-sm"
-                type="text"
-                placeholder="Buscar..."
-                formControlName="busqueda"
-              />
-            </ng-container>
-
-              <ng-container *ngIf="this.formularioItem.value['filtros'][i].criterio === 'entre'">
-                <input
-                class="form-control form-control-sm"
-                [type]="this.formularioItem.value['filtros'][i].propiedad === 'Numero' ?  'number' : 'datetime' "
-                placeholder="entre"
-                formControlName="entre"
-              />
-              </ng-container>
-              <i
-                class="bi bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none"
-                (click)="agregarFiltro()"
-              ></i>
-              <i
-                (click)="eliminarFiltro(i)"
-                class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none"
-              ></i>
-            </div>
-          </div>
+<form [formGroup]="formularioItem">
+  <div formArrayName="filtros">
+    <div
+      class="row mb-3"
+      *ngFor="let impuestoControl of filtros.controls; let i = index"
+    >
+      <div class="d-flex justify-content-between align-items-stretch" [formGroupName]="i">
+        <app-base-filtro-formulario
+          [propiedades]="test"
+          (dataPropiedad)="actualizarPropiedad($event, i)"
+          (dataCriterio)="actualizarCriterio($event, i)"
+        ></app-base-filtro-formulario>
+        <ng-container
+          *ngIf="
+            this.formularioItem.value['filtros'][i].propiedad !== 'Booleano'
+          "
+        >
+          <input
+            class="form-control form-control-sm"
+            [type]="
+              this.formularioItem.value['filtros'][i].propiedad === 'Numero'
+                ? 'number'
+                : this.formularioItem.value['filtros'][i].propiedad === 'Fecha'
+                ? 'date'
+                : 'text'
+            "
+            placeholder="Buscar..."
+            formControlName="busqueda"
+          />
+        </ng-container>
+        <ng-container
+          *ngIf="
+            (this.formularioItem.value['filtros'][i].propiedad === 'Fecha' ||
+              this.formularioItem.value['filtros'][i].propiedad === 'Numero') &&
+            this.formularioItem.value['filtros'][i].criterio === 'entre'
+          "
+        >
+          <input
+            class="form-control form-control-sm"
+            [type]="
+              this.formularioItem.value['filtros'][i].propiedad === 'Numero'
+                ? 'number'
+                : 'date'
+            "
+            placeholder="entre"
+            formControlName="entre"
+          />
+        </ng-container>
+        <div class="d-flex">
+          <i
+            class="bi bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
+            (click)="agregarFiltro()"
+          ></i>
+          <i
+            (click)="eliminarFiltro(i)"
+            class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+          ></i>
         </div>
-      </form>
-    </div>
-    <div class="card-footer d-flex justify-content-end">
-      <button
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-        type="submit"
-        class="btn btn-primary"
-        (click)="agregar()"
-      ></button>
+      </div>
     </div>
   </div>
-</ng-template>
+  <div class="d-flex justify-content-end">
+    <button
+      translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
+      type="submit"
+      class="btn btn-primary btn-sm"
+      (click)="agregar()"
+    ></button>
+  </div>
+</form>
