@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Listafiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-base-filtro-formulario',
@@ -8,10 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent implements OnInit {
-  @Input() propiedades: {
-    valor: string;
-    tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';
-  }[];
+  @Input() propiedades: Listafiltros[];
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataCriterio: EventEmitter<any> = new EventEmitter();

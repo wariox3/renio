@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
+import { Listafiltros } from '@interfaces/comunes/filtros';
 import { Item } from '@modulos/general/modelos/item';
 
 @Component({
@@ -13,7 +14,7 @@ export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = ['nombre'];
 
-  filtros: any[] = [
+  filtros: Listafiltros[] = [
     {
       tipo: 'Texto',
       valor: 'nombre',

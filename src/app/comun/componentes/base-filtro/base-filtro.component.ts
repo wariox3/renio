@@ -19,6 +19,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
+import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-base-filtro',
@@ -36,23 +37,23 @@ import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-fi
 })
 export class BaseFiltroComponent implements OnInit {
   formularioItem: FormGroup;
-  listaFiltros: any[] = [];
-  filtrosAplicados: any[] = [
+  listaFiltros: Listafiltros[] = [];
+  filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
       criterio: '',
       busqueda: '',
-      entre: ''
+      entre: '',
     },
   ];
-  @Input() propiedades: any[];
+  @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.cargarCamposAlFormulario()
+    this.cargarCamposAlFormulario();
   }
 
   initForm() {
@@ -85,7 +86,7 @@ export class BaseFiltroComponent implements OnInit {
     });
   }
 
-  agregarFiltro() {
+  agregarNuevoFiltro() {
     this.filtros.push(
       this.formBuilder.group({
         propiedad: [''],
@@ -96,7 +97,7 @@ export class BaseFiltroComponent implements OnInit {
     );
   }
 
-  cargarCamposAlFormulario(){
+  cargarCamposAlFormulario() {
     if (localStorage.getItem(document.location.pathname)) {
       this.filtrosAplicados = JSON.parse(
         localStorage.getItem(document.location.pathname)!
@@ -122,21 +123,23 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   agregar() {
-    this.listaFiltros = this.formularioItem.value['filtros'].map(
-      (filtro: any) => {
-        return {
-          id: crypto.randomUUID(),
-          ...filtro,
-        };
-      }
-    );
-    console.log();
+    console.log(this.filtros.value);
 
-    localStorage.setItem(
-      document.location.pathname,
-      JSON.stringify(this.listaFiltros)
-    );
-    this.emitirFiltros.emit(this.formularioItem.value['filtros']);
+    // this.listaFiltros = this.formularioItem.value['filtros'].map(
+    //   (filtro: any) => {
+    //     return {
+    //       id: crypto.randomUUID(),
+    //       ...filtro,
+    //     };
+    //   }
+    // );
+    // console.log();
+
+    // localStorage.setItem(
+    //   document.location.pathname,
+    //   JSON.stringify(this.listaFiltros)
+    // );
+    // this.emitirFiltros.emit(this.formularioItem.value['filtros']);
   }
 
   actualizarPropiedad(propiedad: string, index: number) {
