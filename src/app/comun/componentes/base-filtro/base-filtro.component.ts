@@ -19,7 +19,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
-import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-base-filtro',
@@ -42,6 +41,8 @@ export class BaseFiltroComponent implements OnInit {
     {
       propiedad: '',
       criterio: '',
+      busqueda: '',
+      entre: ''
     },
   ];
   @Input() propiedades: any[];
@@ -51,16 +52,7 @@ export class BaseFiltroComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    if (localStorage.getItem(document.location.pathname)) {
-      this.filtrosAplicados = JSON.parse(
-        localStorage.getItem(document.location.pathname)!
-      );
-      this.filtrosAplicados.map((propiedad) => {
-        this.filtros.push(this.crearControlFiltros(propiedad));
-      });
-    } else {
-      this.filtros.push(this.crearControlFiltros(null));
-    }
+    this.cargarCamposAlFormulario()
   }
 
   initForm() {
@@ -104,6 +96,19 @@ export class BaseFiltroComponent implements OnInit {
     );
   }
 
+  cargarCamposAlFormulario(){
+    if (localStorage.getItem(document.location.pathname)) {
+      this.filtrosAplicados = JSON.parse(
+        localStorage.getItem(document.location.pathname)!
+      );
+      this.filtrosAplicados.map((propiedad) => {
+        this.filtros.push(this.crearControlFiltros(propiedad));
+      });
+    } else {
+      this.filtros.push(this.crearControlFiltros(null));
+    }
+  }
+
   eliminarFiltro(index: number) {
     if (this.filtros.length > 1) {
       this.filtros.removeAt(index);
@@ -125,6 +130,8 @@ export class BaseFiltroComponent implements OnInit {
         };
       }
     );
+    console.log();
+
     localStorage.setItem(
       document.location.pathname,
       JSON.stringify(this.listaFiltros)
