@@ -56,8 +56,8 @@ export const locale = {
       },
       TITULOS: {
         COMUNES: {
-          FILTRO: 'FILTERS',
-          FILTRAR: 'FILTER',
+          FILTRO: 'Filters',
+          FILTRAR: 'Filter',
           USUARIOS: 'Users',
           IDIOMA: 'Language',
           CERRARSESION: 'Log out',

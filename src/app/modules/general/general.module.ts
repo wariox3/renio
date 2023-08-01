@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ContactoFormularioComponent } from './componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     ReactiveFormsModule,
     TranslateModule,
     TranslationModule,
-
+    CardComponent
   ]
 })
 export class GeneralModule { }

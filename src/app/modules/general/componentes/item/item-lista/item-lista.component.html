@@ -1,28 +1,22 @@
 <app-comun-base-lista>
   <section base-filtros>
-    <div class="card card-px-1 shadow-sm">
-      <div class="card-header">
-        <h3
-          class="card-title"
-          translate="FORMULARIOS.TITULOS.COMUNES.FILTRO"
-        ></h3>
-      </div>
-      <div class="card-body">
+    <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+      <section card-body>
         <app-base-filtro
           [propiedades]="filtros"
           (emitirFiltros)="obtenerFiltros($event)"
         ></app-base-filtro>
-      </div>
-    </div>
+      </section>
+    </app-card>
   </section>
   <section base-tabla>
-    <div class="card card-px-0 shadow-sm">
-      <div class="card-body">
+    <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.ITEMS'">
+      <section card-body>
         <app-comun-tabla
           [datos]="arrItems"
           [encabezado]="arrEncabezado"
         ></app-comun-tabla>
-      </div>
-    </div>
+      </section>
+    </app-card>
   </section>
 </app-comun-base-lista>
