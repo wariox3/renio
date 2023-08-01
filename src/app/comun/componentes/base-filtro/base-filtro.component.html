@@ -4,7 +4,6 @@
       class="row mb-3"
       *ngFor="let impuestoControl of filtros.controls; let i = index"
     >
-
       <div class="col" [formGroupName]="i">
         <app-base-filtro-formulario
           [propiedades]="propiedades"
@@ -43,16 +42,16 @@
               this.formularioItem.value['filtros'][i].criterio === 'entre'
             "
           >
-              <input
-                class="form-control form-control-sm"
-                [type]="
-                  this.formularioItem.value['filtros'][i].propiedad === 'Numero'
-                    ? 'number'
-                    : 'date'
-                "
-                placeholder="entre"
-                formControlName="entre"
-              />
+            <input
+              class="form-control form-control-sm"
+              [type]="
+                this.formularioItem.value['filtros'][i].propiedad === 'Numero'
+                  ? 'number'
+                  : 'date'
+              "
+              placeholder="entre"
+              formControlName="entre"
+            />
           </ng-container>
         </div>
       </div>
@@ -72,6 +71,13 @@
     </div>
   </div>
   <div class="d-flex justify-content-end">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      (click)="limpiarFormulario()"
+    >
+      Limpiar
+    </button>
     <button
       translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
       type="submit"

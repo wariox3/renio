@@ -148,4 +148,11 @@ export class BaseFiltroComponent implements OnInit {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ criterio });
   }
+
+  limpiarFormulario(){
+    this.formularioItem.reset()
+    localStorage.removeItem(document.location.pathname)
+    this.filtros.clear()
+    this.agregarNuevoFiltro()
+  }
 }

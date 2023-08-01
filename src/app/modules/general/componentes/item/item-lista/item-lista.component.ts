@@ -4,6 +4,7 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { Item } from '@modulos/general/modelos/item';
+import { ItemService } from '@modulos/general/servicios/item.service';
 
 @Component({
   selector: 'app-item-lista',
@@ -14,26 +15,9 @@ export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = ['nombre'];
 
-  filtros: Listafiltros[] = [
-    {
-      tipo: 'Texto',
-      valor: 'nombre',
-    },
-    {
-      tipo: 'Numero',
-      valor: 'edad',
-    },
-    {
-      tipo: 'Booleano',
-      valor: 'esActivo',
-    },
-    {
-      tipo: 'Fecha',
-      valor: 'fecha',
-    },
-  ];
+  filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista()
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private itemService: ItemService) {
     super();
   }
 
