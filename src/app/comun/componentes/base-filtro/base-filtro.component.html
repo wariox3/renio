@@ -4,7 +4,8 @@
       class="row mb-3"
       *ngFor="let impuestoControl of filtros.controls; let i = index"
     >
-      <div class="col">
+
+      <div class="col" [formGroupName]="i">
         <app-base-filtro-formulario
           [propiedades]="propiedades"
           [datosSeleccionados]="filtrosAplicados[i]"
@@ -13,7 +14,7 @@
         ></app-base-filtro-formulario>
       </div>
 
-      <div class="col">
+      <div class="col" [formGroupName]="i">
         <div class="d-flex justify-content-between">
           <ng-container
             *ngIf="
@@ -56,7 +57,7 @@
         </div>
       </div>
 
-      <div class="col ml-auto">
+      <div class="col ml-auto" [formGroupName]="i">
         <div class="d-flex justify-content-end">
           <i
             class="bi bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
