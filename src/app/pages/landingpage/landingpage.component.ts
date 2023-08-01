@@ -1,11 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ViewportScroller } from "@angular/common";
-import { ActivatedRoute } from '@angular/router';
+import { CommonModule, ViewportScroller } from "@angular/common";
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp.component';
 
 @Component({
   selector: 'app-landingpage',
   templateUrl: './landingpage.component.html',
-  styleUrls: ['./landingpage.component.scss']
+  styleUrls: ['./landingpage.component.scss'],
+  standalone: true,
+  imports:[
+    BtnwhatsappComponent,
+    CommonModule,
+    RouterModule
+  ]
 })
 export class LandingpageComponent implements OnInit {
 

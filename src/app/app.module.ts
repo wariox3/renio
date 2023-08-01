@@ -33,7 +33,7 @@ registerLocaleData(localeEsCo, 'es-CO');
 
 
 @NgModule({
-  declarations: [AppComponent, LandingpageComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -43,6 +43,7 @@ registerLocaleData(localeEsCo, 'es-CO');
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
+    LandingpageComponent,
     StoreModule.forRoot(StoreApp),
     EffectsModule.forRoot(EffectsApp),
     StoreDevtoolsModule.instrument({
