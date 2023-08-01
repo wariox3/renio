@@ -122,24 +122,21 @@ export class BaseFiltroComponent implements OnInit {
     );
   }
 
-  agregar() {
+  aplicarFiltro() {
     console.log(this.filtros.value);
-
-    // this.listaFiltros = this.formularioItem.value['filtros'].map(
-    //   (filtro: any) => {
-    //     return {
-    //       id: crypto.randomUUID(),
-    //       ...filtro,
-    //     };
-    //   }
-    // );
-    // console.log();
-
-    // localStorage.setItem(
-    //   document.location.pathname,
-    //   JSON.stringify(this.listaFiltros)
-    // );
-    // this.emitirFiltros.emit(this.formularioItem.value['filtros']);
+    this.listaFiltros = this.formularioItem.value['filtros'].map(
+      (filtro: any) => {
+        return {
+          id: crypto.randomUUID(),
+          ...filtro,
+        };
+      }
+    );
+    localStorage.setItem(
+      document.location.pathname,
+      JSON.stringify(this.listaFiltros)
+    );
+    this.emitirFiltros.emit(this.formularioItem.value['filtros']);
   }
 
   actualizarPropiedad(propiedad: string, index: number) {
