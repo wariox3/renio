@@ -13,7 +13,7 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 })
 export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
-  arrEncabezado: string[] = ['nombre'];
+  arrEncabezado: string[] = this.itemService.arrEncabezado();
 
   filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista()
 
@@ -24,6 +24,7 @@ export class ItemListaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.consultarLista(null);
   }
+  
 
   consultarLista(queryParams: string | null): void {
     let url = 'general/item/';

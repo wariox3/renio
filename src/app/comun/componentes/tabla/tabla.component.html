@@ -1,14 +1,13 @@
 <div class="table-responsive table-loading">
 
-	<div class="table-loading-message">
+	<!-- <div class="table-loading-message">
 		Loading...
-	</div>
-
-  <table class="table table-hover table-row-bordered table-rounded border">
+	</div> -->
+    <table class="table table-hover table-row-bordered table-rounded border gy-2 gs-2">
     <thead>
-			<tr class="fw-bold fs-6 text-gray-800">
+		<tr class="fw-bold fs-6 text-gray-800">
         <th *ngFor="let item of encabezado">
-          {{ item | uppercase }}
+          {{ item }}
         </th>
         <th></th>
         <th></th>
@@ -20,142 +19,15 @@
         <td *ngFor="let value of item | keyvalue">
           {{ value.value }}
         </td>
-        <td class="w-45px"><button (click)="editar(item)" class="btn btn-primary btn-sm">Editar</button></td>
-        <td class="w-45px"><button (click)="detalle(item)" class="btn btn-primary btn-sm">Detalle</button></td>
+        <td class="w-45px"><button (click)="editar(item)" class="btn btn-primary btn-sm p-1">Editar</button></td>
+        <td class="w-45px"><button (click)="detalle(item)" class="btn btn-primary btn-sm p-1">Detalle</button></td>
         <td class="w-20px"><input type="checkbox" /></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<div class="table-responsive table-loading">
-	<div class="table-loading-message">
-		Loading...
-	</div>
 
-    <table class="table table-hover table-row-bordered table-rounded border gy-2 gs-2">
-
-		<thead>
-			<tr class="fw-bold fs-6 text-gray-800">
-				<th>Name</th>
-				<th>Position</th>
-				<th>Office</th>
-				<th>Age</th>
-				<th>Start date</th>
-				<th>Salary</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-      <tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>			<tr>
-				<td>Tiger Nixon</td>
-				<td>System Architect</td>
-				<td>Edinburgh</td>
-				<td>61</td>
-				<td>2011/04/25</td>
-				<td>$320,800</td>
-			</tr>
-			<tr>
-				<td>Garrett Winters</td>
-				<td>Accountant</td>
-				<td>Tokyo</td>
-				<td>63</td>
-				<td>2011/07/25</td>
-				<td>$170,750</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
 <div class="d-flex align-items-center justify-content-center">
   <ul class="pagination pagination-circle pagination-outline">
     <li class="page-item previous disabled m-1"><a href="#" class="page-link"><i class="previous"></i></a></li>
