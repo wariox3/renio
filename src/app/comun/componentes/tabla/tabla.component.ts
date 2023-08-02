@@ -23,7 +23,8 @@ export class TablaComponent implements OnInit, OnChanges {
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
-  arrCantidadRegistro = [25,50,100]
+  arrCantidadRegistro = [50,100, 200]
+  cantidadSeleccionada = 50
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;
@@ -66,6 +67,7 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   cambiarCantidadRegistros(cantidad: any){
+    this.cantidadSeleccionada = cantidad.target.value
     this.cantidadRegistros.emit(cantidad.target.value)
   }
 }
