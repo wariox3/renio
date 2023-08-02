@@ -1,16 +1,19 @@
 <div class="table-responsive table-loading">
-
-	<!-- <div class="table-loading-message">
-		Loading...
-	</div> -->
-    <select  class="form-control form-control-sm" (change)="cambiarCantidadRegistros($event)" name="cantidad" id="">
-      <option value="{{item}}" *ngFor="let item of arrCantidadRegistro">
-        {{item}}
-      </option>
-    </select>
-    <table class="table table-hover table-row-bordered table-rounded border gy-2 gs-2">
+  <select
+    class="form-control form-control-sm"
+    (change)="cambiarCantidadRegistros($event)"
+    name="cantidad"
+    id=""
+  >
+    <option value="{{ item }}" *ngFor="let item of arrCantidadRegistro">
+      {{ item }}
+    </option>
+  </select>
+  <table
+    class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+  >
     <thead>
-		<tr class="fw-bold fs-6 text-gray-800">
+      <tr class="fw-bold fs-6 text-gray-800">
         <th *ngFor="let item of encabezado">
           {{ item }}
         </th>
@@ -20,14 +23,31 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of datos">
-        <td *ngFor="let value of item | keyvalue">
-          {{ value.value }}
-        </td>
-        <td class="w-45px"><button (click)="editar(item)" class="btn btn-primary btn-sm p-1">Editar</button></td>
-        <td class="w-45px"><button (click)="detalle(item)" class="btn btn-primary btn-sm p-1">Detalle</button></td>
-        <td class="w-20px"><input type="checkbox" /></td>
-      </tr>
+      <ng-container *ngIf="datos.length === 0; else lista">
+        <tr>
+          <td class="text-center" [colSpan]="encabezado.length">
+            <div>Loading...</div>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-template #lista>
+        <tr *ngFor="let item of datos">
+          <td *ngFor="let value of item | keyvalue">
+            {{ value.value }}
+          </td>
+          <td class="w-45px">
+            <button (click)="editar(item)" class="btn btn-primary btn-sm p-1">
+              Editar
+            </button>
+          </td>
+          <td class="w-45px">
+            <button (click)="detalle(item)" class="btn btn-primary btn-sm p-1">
+              Detalle
+            </button>
+          </td>
+          <td class="w-20px"><input type="checkbox" /></td>
+        </tr>
+      </ng-template>
     </tbody>
   </table>
 </div>
@@ -45,7 +65,3 @@
     <li class="page-item next m-1"><a href="#"  class="page-link"><i class="next"></i></a></li>
   </ul>
 </div> -->
-
-
-
-
