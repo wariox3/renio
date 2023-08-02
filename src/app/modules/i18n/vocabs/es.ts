@@ -36,6 +36,8 @@ export const locale = {
           RESTABLECER: 'Restablecer',
           DESCARGAR: 'Descargar',
           FILTRO: 'Descargar',
+          EXPORTAR: 'Exportar',
+          IMPORTAR: 'Importar',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',

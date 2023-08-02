@@ -35,6 +35,9 @@ export const locale = {
           INGRESAR: 'Enter',
           RESTABLECER: 'Reset',
           DESCARGAR: 'Download',
+          EXPORTAR: 'Export',
+          IMPORTAR: 'Import',
+
         },
         EMPRESA: {
           CONECTAR: 'Connect',
