@@ -31,6 +31,10 @@ export class ItemService  {
         tipo: 'Numero',
         valor: 'precio',
       },
+      {
+        tipo: "Numero",
+        valor: 'Id'
+      }
     ];
   }
 
