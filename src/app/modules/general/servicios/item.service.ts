@@ -36,11 +36,12 @@ export class ItemService  {
 
   arrEncabezado(): string[]{
     return [
-      'Nombre',
       'Codigo',
-      'Referencia',
       'Costo',
-      'Precio'
+      'Id',
+      'Nombre',
+      'Precio',
+      'Referencia',
     ];
   }
 }
