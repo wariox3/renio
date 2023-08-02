@@ -5,7 +5,7 @@ export interface Listafiltros {
 
 export interface FiltrosAplicados {
   propiedad: string,
-  criterio: string,
-  busqueda: string,
-  entre: string
+  operador: string,
+  valor1: string,
+  valor2: string
 }

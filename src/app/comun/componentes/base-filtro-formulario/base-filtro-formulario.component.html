@@ -14,17 +14,17 @@
       </option>
     </select>
   </div>
-  
+
   <div class="col">
     <select
       class="form-control form-control-sm"
       (change)="onCriterioSeleccionado($event)"
     >
-      <option value="">Criterio</option>
+      <option value="">Operador</option>
       <option
         *ngFor="let ciudad of ciudades"
         [value]="ciudad"
-        [selected]="ciudad === datosSeleccionados?.criterio"
+        [selected]="ciudad === datosSeleccionados?.operador"
       >
         {{ ciudad }}
       </option>

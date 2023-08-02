@@ -9,10 +9,9 @@
           [propiedades]="propiedades"
           [datosSeleccionados]="filtrosAplicados[i]"
           (dataPropiedad)="actualizarPropiedad($event, i)"
-          (dataCriterio)="actualizarCriterio($event, i)"
+          (dataOperador)="actualizarOperador($event, i)"
         ></app-base-filtro-formulario>
       </div>
-
       <div class="col-5" [formGroupName]="i">
         <div class="d-flex justify-content-between">
           <ng-container
@@ -31,7 +30,7 @@
                   : 'text'
               "
               placeholder="Buscar..."
-              formControlName="busqueda"
+              formControlName="valor1"
             />
           </ng-container>
           <ng-container
@@ -39,7 +38,7 @@
               (this.formularioItem.value['filtros'][i].propiedad === 'Fecha' ||
                 this.formularioItem.value['filtros'][i].propiedad ===
                   'Numero') &&
-              this.formularioItem.value['filtros'][i].criterio === 'entre'
+              this.formularioItem.value['filtros'][i].operador === 'entre'
             "
           >
             <input
@@ -50,7 +49,7 @@
                   : 'date'
               "
               placeholder="entre"
-              formControlName="entre"
+              formControlName="valor2"
             />
           </ng-container>
         </div>

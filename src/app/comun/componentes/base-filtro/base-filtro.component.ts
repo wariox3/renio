@@ -41,9 +41,9 @@ export class BaseFiltroComponent implements OnInit {
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
-      criterio: '',
-      busqueda: '',
-      entre: '',
+      operador: '',
+      valor1: '',
+      valor2: '',
     },
   ];
   @Input() propiedades: Listafiltros[];
@@ -67,22 +67,22 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   private crearControlFiltros(propiedades: any | null) {
-    let busqueda = '';
-    let entre = '';
+    let valor1 = '';
+    let valor2 = '';
     let propiedad = '';
-    let criterio = '';
+    let operador = '';
     if (propiedades) {
-      busqueda = propiedades.busqueda;
-      entre = propiedades.entre;
+      valor1 = propiedades.valor1;
+      valor2 = propiedades.valor2;
       propiedad = propiedades.propiedad;
-      criterio = propiedades.criterio;
+      operador = propiedades.operador;
     }
 
     return this.formBuilder.group({
       propiedad: [propiedad],
-      criterio: [criterio],
-      busqueda: [busqueda],
-      entre: [entre],
+      operador: [operador],
+      valor1: [valor1],
+      valor2: [valor2],
     });
   }
 
@@ -90,9 +90,9 @@ export class BaseFiltroComponent implements OnInit {
     this.filtros.push(
       this.formBuilder.group({
         propiedad: [''],
-        criterio: [''],
-        busqueda: [''],
-        entre: [''],
+        operador: [''],
+        valor1: [''],
+        valor2: [''],
       })
     );
   }
@@ -144,9 +144,9 @@ export class BaseFiltroComponent implements OnInit {
     filtroPorActualizar.patchValue({ propiedad });
   }
 
-  actualizarCriterio(criterio: string, index: number) {
+  actualizarOperador(operador: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ criterio });
+    filtroPorActualizar.patchValue({ operador });
   }
 
   limpiarFormulario(){

@@ -12,7 +12,7 @@ export class BaseFiltroFormularioComponent implements OnInit {
   @Input() propiedades: Listafiltros[];
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
-  @Output() dataCriterio: EventEmitter<any> = new EventEmitter();
+  @Output() dataOperador: EventEmitter<any> = new EventEmitter();
 
   ciudadesPorPais: { [key: string]: string[] } = {
     Numero: ['igual', 'mayor', 'mayor igual', 'menor', 'menor igual', 'entre'],
@@ -30,6 +30,8 @@ export class BaseFiltroFormularioComponent implements OnInit {
   ciudades: string[] = [];
 
   ngOnInit(): void {
+    console.log(this.datosSeleccionados);
+
     if(this.datosSeleccionados){
       this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
     }
@@ -44,6 +46,6 @@ export class BaseFiltroFormularioComponent implements OnInit {
 
   onCriterioSeleccionado(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    this.dataCriterio.emit(target.value);
+    this.dataOperador.emit(target.value);
   }
 }
