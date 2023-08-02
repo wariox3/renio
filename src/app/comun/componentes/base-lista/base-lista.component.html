@@ -24,7 +24,7 @@
 <ng-template #dialogTemplate>
   <div class="card shadow-sm">
     <div class="modal-header">
-      <h3 class="card-title">Cargar archivo</h3>
+      <h3 class="card-title" translate="FORMULARIOS.TITULOS.COMUNES.CARGARARCHIVOS"></h3>
       <button
         type="button"
         class="btn btn-bg-light btn-color-danger"
@@ -36,15 +36,16 @@
     </div>
     <div class="card-body">
       <form action="">
-
-        <label for="formFileSm" class="form-label">Small file input example</label>
+        <label for="formFileSm" class="form-label"
+          ></label
+        >
         <input
           type="file"
           name=""
           id="formFileSm"
+          class="form-control form-control-sm"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         />
-
 
         <img src="" alt="" />
       </form>
@@ -60,15 +61,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-              </tr>
+              <tr></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
     <div class="card-footer d-flex justify-content-end">
-      <button type="submit" class="btn btn-sm btn-primary me-2" (click)="descargarExcelErrorImportar()">Ejemplo</button>
+      <button
+        type="submit"
+        class="btn btn-sm btn-primary me-2"
+        (click)="descargarExcelErrorImportar()"
+      >
+        Ejemplo
+      </button>
       <button
         translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
         type="submit"

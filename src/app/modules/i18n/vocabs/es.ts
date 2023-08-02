@@ -71,6 +71,7 @@ export const locale = {
           PREVISUALIZAR: 'Previsualizar',
           FACTURACION: 'Facturación',
           ITEMS: 'Items',
+          CARGARARCHIVOS: 'Cargar archivo',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',
