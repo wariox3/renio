@@ -15,22 +15,29 @@ export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
   arrEncabezado: string[] = this.itemService.arrEncabezado();
 
-  filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista()
+  filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista();
 
-  constructor(private httpService: HttpService, private itemService: ItemService) {
+  arrFiltros: any = {
+    cantidad: 50,
+  };
+
+  constructor(
+    private httpService: HttpService,
+    private itemService: ItemService
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    this.consultarLista(null);
+    this.consultarLista();
   }
-  
 
-  consultarLista(queryParams: string | null): void {
+  consultarLista(): void {
     let url = 'general/item/';
-    if (queryParams) {
-      url = 'general/item/' + queryParams;
-    }
+    var miString = JSON.stringify(this.arrFiltros);
+
+    // url += miString;
+
     this.httpService.get<Item>(url).subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();
@@ -48,7 +55,7 @@ export class ItemListaComponent extends General implements OnInit {
           .join('&');
       })
       .join('&');
-    this.consultarLista(queryParams);
+    this.consultarLista();
   }
 
   detalle(item: Item) {
@@ -57,5 +64,12 @@ export class ItemListaComponent extends General implements OnInit {
 
   editar(item: Item) {
     this.router.navigate(['/general/administracion/item/editar', 3]);
+  }
+
+  cantidadRegistros(cantidad: number) {
+    console.log(this.arrFiltros);
+    this.arrFiltros.cantidad = cantidad;
+    console.log(this.arrFiltros);
+    this.consultarLista();
   }
 }

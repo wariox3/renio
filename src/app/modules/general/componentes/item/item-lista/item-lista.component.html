@@ -20,6 +20,7 @@
         <app-comun-tabla
           [datos]="arrItems"
           [encabezado]="arrEncabezado"
+          (cantidadRegistros)="cantidadRegistros($event)"
         ></app-comun-tabla>
       </section>
     </app-card>

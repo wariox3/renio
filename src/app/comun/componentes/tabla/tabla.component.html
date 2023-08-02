@@ -3,6 +3,11 @@
 	<!-- <div class="table-loading-message">
 		Loading...
 	</div> -->
+    <select  class="form-control form-control-sm" (change)="cambiarCantidadRegistros($event)" name="cantidad" id="">
+      <option value="{{item}}" *ngFor="let item of arrCantidadRegistro">
+        {{item}}
+      </option>
+    </select>
     <table class="table table-hover table-row-bordered table-rounded border gy-2 gs-2">
     <thead>
 		<tr class="fw-bold fs-6 text-gray-800">
@@ -27,7 +32,7 @@
   </table>
 </div>
 
-
+<!-- 
 <div class="d-flex align-items-center justify-content-center">
   <ul class="pagination pagination-circle pagination-outline">
     <li class="page-item previous disabled m-1"><a href="#" class="page-link"><i class="previous"></i></a></li>
@@ -39,7 +44,7 @@
     <li class="page-item m-1"><a href="#" class="page-link">6</a></li>
     <li class="page-item next m-1"><a href="#"  class="page-link"><i class="next"></i></a></li>
   </ul>
-</div>
+</div> -->
 
 
 
