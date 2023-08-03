@@ -123,7 +123,6 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   aplicarFiltro() {
-    console.log(this.filtros.value);
     this.listaFiltros = this.formularioItem.value['filtros'].map(
       (filtro: any) => {
         return {

@@ -52,19 +52,14 @@
   </table>
 </div>
 <div class="row">
-  <p class="cursor-pointer">Mostrando 1 al {{cantidadSeleccionada}} de {{ datos.length }}</p>
-</div>
 
-<!--
-<div class="d-flex align-items-center justify-content-center">
-  <ul class="pagination pagination-circle pagination-outline">
-    <li class="page-item previous disabled m-1"><a href="#" class="page-link"><i class="previous"></i></a></li>
-    <li class="page-item m-1"><a href="#" class="page-link">1</a></li>
-    <li class="page-item active m-1"><a href="#" class="page-link">2</a></li>
-    <li class="page-item m-1"><a href="#" class="page-link">3</a></li>
-    <li class="page-item m-1"><a href="#" class="page-link">4</a></li>
-    <li class="page-item m-1"><a href="#" class="page-link">5</a></li>
-    <li class="page-item m-1"><a href="#" class="page-link">6</a></li>
-    <li class="page-item next m-1"><a href="#"  class="page-link"><i class="next"></i></a></li>
-  </ul>
-</div> -->
+
+  <p class="cursor-pointer">
+    <i class="bi bi-arrow-left fs-2x"></i>
+    Mostrando <input type="text" value="1" /> al
+    <input type="text" value="{{ cantidadSeleccionada }}" /> de
+    {{ datos.length }}
+    <i class="bi bi-arrow-right fs-2x"></i>
+  </p>
+
+</div>

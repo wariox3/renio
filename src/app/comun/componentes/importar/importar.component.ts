@@ -85,8 +85,6 @@ export class ImportarComponent {
   }
 
   removerArchivoSeleccionado() {
-    console.log(this.fileInput);
-
     //this.fileInput?.nativeElement.value = "";
   }
 

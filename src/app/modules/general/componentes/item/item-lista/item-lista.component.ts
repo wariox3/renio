@@ -18,7 +18,11 @@ export class ItemListaComponent extends General implements OnInit {
   filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista();
 
   arrFiltros: any = {
-    cantidad: 50,
+    filtros: [],
+    limite: 50,
+    desplazar: 0,
+    orden: "",
+    cantidadLimite: 10000
   };
 
   constructor(
@@ -33,28 +37,14 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
-    let url = 'general/item/';
-    var miString = JSON.stringify(this.arrFiltros);
-
-    // url += miString;
-
-    this.httpService.get<Item>(url).subscribe((respuesta) => {
+    this.httpService.get<Item>('general/item/').subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();
     });
   }
 
   obtenerFiltros(arrfiltros: any) {
-    const queryParams = arrfiltros
-      .map((item: any) => {
-        return Object.keys(item)
-          .map(
-            (key) =>
-              `${encodeURIComponent(key)}=${encodeURIComponent(item[key])}`
-          )
-          .join('&');
-      })
-      .join('&');
+    this.arrFiltros.filtros = arrfiltros
     this.consultarLista();
   }
 
@@ -67,9 +57,7 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   cantidadRegistros(cantidad: number) {
-    console.log(this.arrFiltros);
     this.arrFiltros.cantidad = cantidad;
-    console.log(this.arrFiltros);
     this.consultarLista();
   }
 }

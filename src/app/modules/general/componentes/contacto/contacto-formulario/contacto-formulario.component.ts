@@ -94,10 +94,10 @@ export class ContactoFormularioComponent extends General implements OnInit {
   // }
 
   obtenerTipoDocumento() {
-    this.httpService.get<any>('general/identificacion/').subscribe((respuesta) => {
-      this.arrIdentificacion = respuesta;
-      this.changeDetectorRef.detectChanges();
-    });
+    // this.httpService.get<any>('general/identificacion/').subscribe((respuesta) => {
+    //   this.arrIdentificacion = respuesta;
+    //   this.changeDetectorRef.detectChanges();
+    // });
 
     // Simulando la respuesta de la API que proporcionaste
     // const apiResponse = [

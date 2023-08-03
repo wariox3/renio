@@ -30,8 +30,6 @@ export class BaseFiltroFormularioComponent implements OnInit {
   ciudades: string[] = [];
 
   ngOnInit(): void {
-    console.log(this.datosSeleccionados);
-
     if(this.datosSeleccionados){
       this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
     }
