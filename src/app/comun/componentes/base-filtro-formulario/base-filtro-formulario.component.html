@@ -2,7 +2,7 @@
   <div class="col">
     <select
       class="form-control form-control-sm"
-      (change)="onPaisSeleccionado($event)"
+      (change)="propiedadSeleccionada($event)"
     >
       <option value="">Propiedad</option>
       <option
@@ -22,11 +22,11 @@
     >
       <option value="">Operador</option>
       <option
-        *ngFor="let ciudad of ciudades"
-        [value]="ciudad"
-        [selected]="ciudad === datosSeleccionados?.operador"
+        *ngFor="let criterioBusqueda of criteriosBusqueda"
+        [value]="criterioBusqueda.valor"
+        [selected]="criterioBusqueda === datosSeleccionados?.operador"
       >
-        {{ ciudad }}
+        {{ criterioBusqueda.texto }}
       </option>
     </select>
   </div>

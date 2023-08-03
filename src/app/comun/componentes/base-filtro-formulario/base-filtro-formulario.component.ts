@@ -27,18 +27,67 @@ export class BaseFiltroFormularioComponent implements OnInit {
     Booleano: ['es', 'no'],
     Fecha: ['entre', 'desde', 'hasta'],
   };
-  ciudades: string[] = [];
+
+  datosCriteriosBusqueda: {
+    [key: string]: {
+      valor: string;
+      texto: string;
+    }[];
+  } = {
+    Numero: [
+      {
+        valor: '__is',
+        texto: 'es',
+      },
+      {
+        valor: '__no_is',
+        texto: 'no',
+      },
+    ],
+    Texto: [
+      {
+        valor: '__is',
+        texto: 'es',
+      },
+      {
+        valor: '__no_is',
+        texto: 'no',
+      },
+    ],
+    Fecha: [
+      {
+        valor: '__is',
+        texto: 'es',
+      },
+      {
+        valor: '__no_is',
+        texto: 'no',
+      },
+    ],
+    Booleano: [
+      {
+        valor: '__is',
+        texto: 'es',
+      },
+      {
+        valor: '__no_is',
+        texto: 'no',
+      },
+    ],
+  };
+
+  criteriosBusqueda: { valor: string; texto: string }[] = [];
 
   ngOnInit(): void {
-    if(this.datosSeleccionados){
-      this.ciudades = this.ciudadesPorPais[this.datosSeleccionados.propiedad];
-    }
+    // if(this.datosSeleccionados){
+    //   this.creteriosBusqueda = this.datosCriteriosBusqueda[this.datosSeleccionados.propiedad];
+    // }
   }
 
-  onPaisSeleccionado(event: Event): void {
+  propiedadSeleccionada(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    const pais = target.value;
-    this.ciudades = this.ciudadesPorPais[pais];
+    const propiedadValor = target.value;
+    this.criteriosBusqueda = this.datosCriteriosBusqueda[propiedadValor];
     this.dataPropiedad.emit(target.value);
   }
 
