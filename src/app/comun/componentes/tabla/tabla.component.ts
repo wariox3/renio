@@ -82,8 +82,6 @@ export class TablaComponent implements OnInit, OnChanges {
 
   aumentarDesplazamiento() {
     this.lado = this.lado + this.registrosVisiables;
-
-    //this.lado = parseInt(this.lado) + parseInt(this.cantidadSeleccionada);
   }
 
   disminuirDesplazamiento() {
