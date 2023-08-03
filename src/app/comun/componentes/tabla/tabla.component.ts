@@ -28,7 +28,7 @@ export class TablaComponent implements OnInit, OnChanges {
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   registrosVisiables = 50;
-  lado: number = 1;
+  lado: number = 0;
   al: number = this.registrosVisiables;
 
   ngOnInit() {
@@ -85,11 +85,14 @@ export class TablaComponent implements OnInit, OnChanges {
 
   aumentarDesplazamiento() {
     this.lado = this.lado + this.registrosVisiables;
+    this.desplazar.emit(this.lado);
   }
 
   disminuirDesplazamiento() {
     let nuevoValor = this.lado - this.registrosVisiables;
-    this.lado = nuevoValor <= 1 ? 1 : nuevoValor;
+    this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
+    this.desplazar.emit(this.lado);
+
   }
 
   validarCantidadMostrando() {

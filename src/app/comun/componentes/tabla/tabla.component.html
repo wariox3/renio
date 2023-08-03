@@ -8,7 +8,7 @@
       name="cantidad"
       id=""
     >
-      <option [ngValue]="item " *ngFor="let item of arrCantidadRegistro">
+      <option [ngValue]="item" *ngFor="let item of arrCantidadRegistro">
         {{ item }}
       </option>
     </select>
@@ -70,7 +70,6 @@
       type="number"
       [(ngModel)]="lado"
       (blur)="validarCantidadMostrando()"
-
       class="form-control form-control-sm"
     />
     <span>al</span>
