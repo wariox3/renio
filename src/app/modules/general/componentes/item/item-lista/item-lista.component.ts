@@ -37,7 +37,7 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
-    this.httpService.get<Item>('general/item/').subscribe((respuesta) => {
+    this.httpService.post<Item[]>('general/item/', this.arrFiltros).subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();
     });
