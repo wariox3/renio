@@ -78,7 +78,7 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   cambiarCantidadRegistros(cantidad: any) {
-    this.al = this.registrosVisiables
+    this.al = this.registrosVisiables;
     this.cantidadRegistros.emit(parseInt(cantidad.target.value));
   }
 
@@ -88,12 +88,20 @@ export class TablaComponent implements OnInit, OnChanges {
 
   disminuirDesplazamiento() {
     let nuevoValor = this.lado - this.registrosVisiables;
-    this.lado = nuevoValor <= 1 ?  1 : nuevoValor;
+    this.lado = nuevoValor <= 1 ? 1 : nuevoValor;
   }
 
-  validarCanidadMaxima(){
-    if(this.al > this.cantidad_registros){
-      this.al = this.cantidad_registros
+  validarCanidadMostrando() {
+    if (this.lado <= 0) {
+      this.lado = 1;
+    }
+  }
+
+  validarCanidadAl() {
+    if (this.al > this.cantidad_registros) {
+      this.al = this.cantidad_registros;
+    } else if (this.al <= 0) {
+      this.al = this.registrosVisiables;
     }
   }
 }

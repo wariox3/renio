@@ -69,6 +69,8 @@
     <input
       type="number"
       [(ngModel)]="lado"
+      (blur)="validarCanidadMostrando()"
+
       class="form-control form-control-sm"
     />
     <span>al</span>
@@ -77,7 +79,7 @@
       min="1"
       [max]="cantidad_registros"
       [(ngModel)]="al"
-      (blur)="validarCanidadMaxima()"
+      (blur)="validarCanidadAl()"
       class="form-control form-control-sm"
     />
     de
