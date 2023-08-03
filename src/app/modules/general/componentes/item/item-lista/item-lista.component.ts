@@ -17,14 +17,7 @@ export class ItemListaComponent extends General implements OnInit {
   filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista();
 
   arrFiltros: any = {
-    filtros: [
-      {
-        "propiedad": "Texto",
-        "operador": "diferente",
-        "valor1": "15",
-        "valor2": ""
-    }
-    ],
+    filtros: [],
     limite: 50,
     desplazar: 0,
     orden: "",
@@ -65,8 +58,13 @@ export class ItemListaComponent extends General implements OnInit {
     this.router.navigate(['/general/administracion/item/editar', 3]);
   }
 
-  cantidadRegistros(cantidad: number) {
-    this.arrFiltros.cantidad = cantidad;
+  cantidadRegistros(limite: number) {
+    this.arrFiltros.limite = limite;
+    this.consultarLista();
+  }
+
+  cambiarDesplazamiento(desplazamiento : number) {
+    this.arrFiltros.desplazar = desplazamiento;
     this.consultarLista();
   }
 }

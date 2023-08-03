@@ -4,7 +4,7 @@
     <select
       class="form-select form-select-sm"
       [(ngModel)]="registrosVisiables"
-      (change)="cambiarCantidadRegistros($event)"
+      (change)="cambiarCantidadRegistros()"
       name="cantidad"
       id=""
     >
@@ -69,7 +69,7 @@
     <input
       type="number"
       [(ngModel)]="lado"
-      (blur)="validarCanidadMostrando()"
+      (blur)="validarCantidadMostrando()"
 
       class="form-control form-control-sm"
     />
@@ -79,7 +79,7 @@
       min="1"
       [max]="cantidad_registros"
       [(ngModel)]="al"
-      (blur)="validarCanidadAl()"
+      (blur)="validarCantidadAl()"
       class="form-control form-control-sm"
     />
     de
