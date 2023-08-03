@@ -20,12 +20,13 @@ import { FormsModule } from '@angular/forms';
 export class TablaComponent implements OnInit, OnChanges {
   @Input() encabezado: string[] = [];
   @Input() datos!: any[];
+  @Input() cantidad_registros!: number;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
-  cantidadSeleccionada = 50;
+  registrosVisiables = 50;
   lado: number = 1;
 
   ngOnInit() {
@@ -76,15 +77,17 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   cambiarCantidadRegistros(cantidad: any) {
-    this.cantidadSeleccionada = parseInt(cantidad.target.value);
     this.cantidadRegistros.emit(parseInt(cantidad.target.value));
   }
 
   aumentarDesplazamiento() {
-    this.lado += this.cantidadSeleccionada;
+    this.lado = this.lado + this.registrosVisiables;
+
+    //this.lado = parseInt(this.lado) + parseInt(this.cantidadSeleccionada);
   }
 
   disminuirDesplazamiento() {
-    this.lado <= 1 ? (this.lado = 1) : (this.lado -= this.cantidadSeleccionada);
+    let nuevoValor = this.lado - this.registrosVisiables;
+    this.lado = nuevoValor <= 1 ?  1 : nuevoValor;
   }
 }
