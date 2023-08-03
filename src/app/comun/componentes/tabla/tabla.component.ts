@@ -26,7 +26,7 @@ export class TablaComponent implements OnInit, OnChanges {
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   cantidadSeleccionada = 50;
-  lado = 1;
+  lado: number = 1;
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;

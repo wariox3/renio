@@ -13,8 +13,8 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 })
 export class ItemListaComponent extends General implements OnInit {
   arrItems: Item[] = [];
+  cantidad_registros: number = 0;
   arrEncabezado: string[] = this.itemService.arrEncabezado();
-
   filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista();
 
   arrFiltros: any = {
@@ -29,7 +29,7 @@ export class ItemListaComponent extends General implements OnInit {
     limite: 50,
     desplazar: 0,
     orden: "",
-    cantidadLimite: 10000
+    limite_conteo: 10000
   };
 
   constructor(
@@ -46,8 +46,9 @@ export class ItemListaComponent extends General implements OnInit {
   consultarLista(): void {
     console.log(this.arrFiltros);
 
-    this.httpService.post<Item[]>('general/item/', this.arrFiltros).subscribe((respuesta) => {
-      this.arrItems = respuesta;
+    this.httpService.post<{cantidad_registros: number, registros: Item[]}>('general/item/lista/', this.arrFiltros).subscribe((respuesta) => {
+      this.cantidad_registros = respuesta.cantidad_registros
+      this.arrItems = respuesta.registros;
       this.changeDetectorRef.detectChanges();
     });
   }
