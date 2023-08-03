@@ -8,13 +8,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
 })
 export class TablaComponent implements OnInit, OnChanges {
   @Input() encabezado: string[] = [];
@@ -23,16 +24,24 @@ export class TablaComponent implements OnInit, OnChanges {
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
-  arrCantidadRegistro = [50,100, 200]
-  cantidadSeleccionada = 50
+  arrCantidadRegistro = [50, 100, 200];
+  cantidadSeleccionada = 50;
+  lado = 1;
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;
   }
 
   ngOnChanges(cambios: SimpleChanges): void {
-    if (cambios.datos && cambios.datos.currentValue && cambios.datos.currentValue[0]) {
-      if (Object.keys(cambios.datos.currentValue[0]).length !== this.tamanoEncabezado) {
+    if (
+      cambios.datos &&
+      cambios.datos.currentValue &&
+      cambios.datos.currentValue[0]
+    ) {
+      if (
+        Object.keys(cambios.datos.currentValue[0]).length !==
+        this.tamanoEncabezado
+      ) {
         cambios.datos.currentValue.map((data: any) => {
           if (Object.keys(data).length !== this.tamanoEncabezado) {
             const diferencia = this.tamanoEncabezado - Object.keys(data).length;
@@ -66,8 +75,16 @@ export class TablaComponent implements OnInit, OnChanges {
     return this.itemEditar.emit(item);
   }
 
-  cambiarCantidadRegistros(cantidad: any){
-    this.cantidadSeleccionada = cantidad.target.value
-    this.cantidadRegistros.emit(cantidad.target.value)
+  cambiarCantidadRegistros(cantidad: any) {
+    this.cantidadSeleccionada = parseInt(cantidad.target.value);
+    this.cantidadRegistros.emit(parseInt(cantidad.target.value));
+  }
+
+  aumentarDesplazamiento() {
+    this.lado += this.cantidadSeleccionada;
+  }
+
+  disminuirDesplazamiento() {
+    this.lado <= 1 ? (this.lado = 1) : (this.lado -= this.cantidadSeleccionada);
   }
 }

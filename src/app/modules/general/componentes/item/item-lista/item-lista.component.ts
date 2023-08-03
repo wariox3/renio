@@ -18,7 +18,14 @@ export class ItemListaComponent extends General implements OnInit {
   filtros: Listafiltros[] = this.itemService.estructuraFiltrosLista();
 
   arrFiltros: any = {
-    filtros: [],
+    filtros: [
+      {
+        "propiedad": "Texto",
+        "operador": "diferente",
+        "valor1": "15",
+        "valor2": ""
+    }
+    ],
     limite: 50,
     desplazar: 0,
     orden: "",
@@ -37,6 +44,8 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
+    console.log(this.arrFiltros);
+
     this.httpService.post<Item[]>('general/item/', this.arrFiltros).subscribe((respuesta) => {
       this.arrItems = respuesta;
       this.changeDetectorRef.detectChanges();

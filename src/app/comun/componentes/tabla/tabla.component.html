@@ -53,10 +53,10 @@
 </div>
 <div class="row">
   <div class="d-flex align-items-center gap-1">
-    <i class="bi bi-arrow-left fs-2x"></i>
-    <span>Mostrando</span> <input type="text" value="1" /> al
+    <i (click)="disminuirDesplazamiento()" class="bi bi-arrow-left fs-2x cursor-pointer"></i>
+    <span>Mostrando</span> <input type="text"  [(ngModel)]="lado" /> al
     <input type="text" value="{{ cantidadSeleccionada }}" /> de
     {{ datos.length }}
-    <i class="bi bi-arrow-right fs-2x"></i>
+    <i (click)="aumentarDesplazamiento()" class="bi bi-arrow-right fs-2x cursor-pointer"></i>
   </div>
 </div>
