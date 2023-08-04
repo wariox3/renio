@@ -61,7 +61,12 @@
       <ng-container *ngIf="datos.length === 0; else lista">
         <tr>
           <td class="text-center" [colSpan]="encabezado.length">
-            <div>Loading...</div>
+            <ng-container *ngIf="cargandoDatos; else sinDatos">
+              <span>Loading...</span>
+            </ng-container>
+            <ng-template #sinDatos>
+              <span>Sin datos</span>
+            </ng-template>
           </td>
         </tr>
       </ng-container>
@@ -86,7 +91,7 @@
     </tbody>
   </table>
 </div>
-<div class="row" *ngIf="datos.length !== 0">
+<div class="row">
   <div class="col-4 d-flex align-items-center gap-3">
     <i
       (click)="disminuirDesplazamiento()"

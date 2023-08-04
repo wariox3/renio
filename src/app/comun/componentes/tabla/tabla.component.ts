@@ -33,12 +33,14 @@ export class TablaComponent implements OnInit, OnChanges {
   lado: number = 0;
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
+  cargandoDatos = false
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;
   }
 
   ngOnChanges(cambios: SimpleChanges): void {
+
     if (
       cambios.datos &&
       cambios.datos.currentValue &&
@@ -56,6 +58,11 @@ export class TablaComponent implements OnInit, OnChanges {
             }
           }
         });
+      }
+    } else if(cambios.datos.firstChange === false){
+      this.cargandoDatos = true
+      if(cambios.datos.currentValue.length === 0){
+        this.cargandoDatos = false
       }
     }
   }
