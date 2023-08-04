@@ -92,9 +92,11 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   disminuirDesplazamiento() {
-    let nuevoValor = this.lado - this.registrosVisiables;
-    this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
-    this.desplazar.emit(this.lado);
+    if(this.lado > 0){
+      let nuevoValor = this.lado - this.registrosVisiables;
+      this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
+      this.desplazar.emit(this.lado);
+    }
   }
 
   validarCantidadMostrando() {
@@ -123,5 +125,4 @@ export class TablaComponent implements OnInit, OnChanges {
 
     this.emitirOrdenamiento.emit(this.ordenadoTabla);
   }
-
 }
