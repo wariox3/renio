@@ -36,8 +36,6 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
-    console.log(this.arrFiltros);
-
     this.httpService.post<{cantidad_registros: number, registros: Item[]}>('general/item/lista/', this.arrFiltros).subscribe((respuesta) => {
       this.cantidad_registros = respuesta.cantidad_registros
       this.arrItems = respuesta.registros;
@@ -65,6 +63,11 @@ export class ItemListaComponent extends General implements OnInit {
 
   cambiarDesplazamiento(desplazamiento : number) {
     this.arrFiltros.desplazar = desplazamiento;
+    this.consultarLista();
+  }
+
+  cambiarOrdemiento(ordenamiento: string){
+    this.arrFiltros.orden = ordenamiento,
     this.consultarLista();
   }
 }

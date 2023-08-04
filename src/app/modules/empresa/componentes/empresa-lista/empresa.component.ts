@@ -5,7 +5,6 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Empresa } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { General } from '@comun/clases/general';
-import { NgOptimizedImage } from '@angular/common'
 import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({

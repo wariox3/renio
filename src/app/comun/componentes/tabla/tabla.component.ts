@@ -9,13 +9,14 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbDropdownModule],
 })
 export class TablaComponent implements OnInit, OnChanges {
   @Input() encabezado: string[] = [];
@@ -25,11 +26,13 @@ export class TablaComponent implements OnInit, OnChanges {
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() desplazar: EventEmitter<any> = new EventEmitter();
+  @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   registrosVisiables = 50;
   lado: number = 0;
   al: number = this.registrosVisiables;
+  ordenadoTabla: string = '';
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;
@@ -92,7 +95,6 @@ export class TablaComponent implements OnInit, OnChanges {
     let nuevoValor = this.lado - this.registrosVisiables;
     this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
     this.desplazar.emit(this.lado);
-
   }
 
   validarCantidadMostrando() {
@@ -100,7 +102,6 @@ export class TablaComponent implements OnInit, OnChanges {
       this.lado = 1;
     }
     this.desplazar.emit(this.lado);
-
   }
 
   validarCantidadAl() {
@@ -111,6 +112,16 @@ export class TablaComponent implements OnInit, OnChanges {
     }
 
     this.cantidadRegistros.emit(this.al);
-
   }
+
+  orderPor(nombre: string, i: number) {
+    if (this.ordenadoTabla.charAt(0) == '-') {
+      this.ordenadoTabla = nombre.toLowerCase();
+    } else {
+      this.ordenadoTabla = `-${nombre.toLowerCase()}`;
+    }
+
+    this.emitirOrdenamiento.emit(this.ordenadoTabla);
+  }
+
 }

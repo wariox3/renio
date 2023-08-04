@@ -8,7 +8,6 @@ import { EmpresaRoutingModule } from './empresa-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ExtrasModule } from '../../_metronic/partials/layout/extras/extras.module';
-import { MatMenuModule } from '@angular/material/menu';
 import { SharedModule } from '../../_metronic/shared/shared.module';
 import { NgbAccordionModule, NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaEditarComponent } from './componentes/empresa-editar/empresa-editar.component';
@@ -40,7 +39,6 @@ import { ContadorComponent } from '@comun/componentes/contador/contador.componen
     ReactiveFormsModule,
     HttpClientModule,
     ExtrasModule,
-    MatMenuModule,
     SharedModule,
     NgbDropdownModule,
     NgbModalModule,
