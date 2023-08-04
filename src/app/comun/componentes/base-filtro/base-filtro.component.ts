@@ -126,8 +126,11 @@ export class BaseFiltroComponent implements OnInit {
     this.listaFiltros = this.formularioItem.value['filtros'].map(
       (filtro: any) => {
         return {
-          id: crypto.randomUUID(),
           ...filtro,
+          ...{
+            id: crypto.randomUUID(),
+            propiedad: filtro.propiedad + filtro.operador
+          },
         };
       }
     );
@@ -135,7 +138,7 @@ export class BaseFiltroComponent implements OnInit {
       document.location.pathname,
       JSON.stringify(this.listaFiltros)
     );
-    this.emitirFiltros.emit(this.formularioItem.value['filtros']);
+    this.emitirFiltros.emit(this.listaFiltros);
   }
 
   actualizarPropiedad(propiedad: string, index: number) {
@@ -144,7 +147,7 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   actualizarOperador(operador: string, index: number) {
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;   
     filtroPorActualizar.patchValue({ operador });
   }
 

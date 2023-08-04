@@ -14,20 +14,6 @@ export class BaseFiltroFormularioComponent implements OnInit {
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
 
-  ciudadesPorPais: { [key: string]: string[] } = {
-    Numero: ['igual', 'mayor', 'mayor igual', 'menor', 'menor igual', 'entre'],
-    Texto: [
-      'igual',
-      'diferente',
-      'contiene',
-      'no contiene',
-      'está establecida(o)',
-      'no está establecida(o)',
-    ],
-    Booleano: ['es', 'no'],
-    Fecha: ['entre', 'desde', 'hasta'],
-  };
-
   datosCriteriosBusqueda: {
     [key: string]: {
       valor: string;
@@ -36,32 +22,56 @@ export class BaseFiltroFormularioComponent implements OnInit {
   } = {
     Numero: [
       {
-        valor: '__is',
-        texto: 'es',
+        valor: '',
+        texto: 'Igual',
       },
       {
-        valor: '__no_is',
-        texto: 'no',
+        valor: '__gt',
+        texto: 'Mayor que',
       },
+      {
+        valor: '__gte',
+        texto: 'Mayor o igual que',
+      },
+      {
+        valor: '__lt',
+        texto: 'Menor que',
+      },
+      {
+        valor: '__lte',
+        texto: 'Menor o igual que',
+      }
     ],
     Texto: [
+      {
+        valor: '',
+        texto: 'Igual',
+      },
       {
         valor: '__contains',
         texto: 'Contiene',
       },
-      {
-        valor: '_',
-        texto: 'Igual',
-      },
     ],
     Fecha: [
       {
-        valor: '__is',
-        texto: 'es',
+        valor: '',
+        texto: 'Igual',
       },
       {
-        valor: '__no_is',
-        texto: 'no',
+        valor: '__gt',
+        texto: 'Mayor que',
+      },
+      {
+        valor: '__gte',
+        texto: 'Mayor o igual que',
+      },
+      {
+        valor: '__lt',
+        texto: 'Menor que',
+      },
+      {
+        valor: '__lte',
+        texto: 'Menor o igual que',
       },
     ],
     Booleano: [
@@ -84,11 +94,12 @@ export class BaseFiltroFormularioComponent implements OnInit {
     // }
   }
 
-  propiedadSeleccionada(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const propiedadValor = target.value;
-    this.criteriosBusqueda = this.datosCriteriosBusqueda[propiedadValor];
-    this.dataPropiedad.emit(target.value);
+  propiedadSeleccionada(event: any): void {
+
+    const selectedValue = event.target.value; // Valor seleccionado en el select
+    const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
+    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];    
+    this.dataPropiedad.emit( selectedOption.getAttribute('data-value'));
   }
 
   onCriterioSeleccionado(event: Event): void {

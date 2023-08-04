@@ -9,6 +9,7 @@
         *ngFor="let propiedad of propiedades"
         [value]="propiedad.tipo"
         [selected]="propiedad.tipo === datosSeleccionados?.propiedad"
+        [attr.data-value]="propiedad.valor.toLocaleLowerCase()"
       >
         {{ propiedad.valor }}
       </option>
