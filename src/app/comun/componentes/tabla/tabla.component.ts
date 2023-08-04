@@ -107,7 +107,7 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   validarCantidadMostrando() {
-    if (this.lado <= 0) {
+    if (this.lado < 0) {
       this.lado = 1;
     }
     this.desplazar.emit(this.lado);
