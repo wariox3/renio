@@ -70,4 +70,12 @@ export class ItemListaComponent extends General implements OnInit {
     this.arrFiltros.orden = ordenamiento,
     this.consultarLista();
   }
+
+  cambiarPaginacion(data:{desplazamiento:number, limite:number}){
+    this.arrFiltros.limite = data.desplazamiento;
+    this.arrFiltros.desplazamiento = data.limite;
+    this.consultarLista();
+    console.log(this.arrFiltros);
+       
+  }
 }

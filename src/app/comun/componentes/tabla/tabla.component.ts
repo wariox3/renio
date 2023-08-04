@@ -27,20 +27,20 @@ export class TablaComponent implements OnInit, OnChanges {
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() desplazar: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
+  @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   registrosVisiables = 50;
   lado: number = 0;
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
-  cargandoDatos = false
+  cargandoDatos = false;
 
   ngOnInit() {
     this.tamanoEncabezado = this.encabezado.length;
   }
 
   ngOnChanges(cambios: SimpleChanges): void {
-
     if (
       cambios.datos &&
       cambios.datos.currentValue &&
@@ -59,10 +59,10 @@ export class TablaComponent implements OnInit, OnChanges {
           }
         });
       }
-    } else if(cambios.datos.firstChange === false){
-      this.cargandoDatos = true
-      if(cambios.datos.currentValue.length === 0){
-        this.cargandoDatos = false
+    } else if (cambios.datos.firstChange === false) {
+      this.cargandoDatos = true;
+      if (cambios.datos.currentValue.length === 0) {
+        this.cargandoDatos = false;
       }
     }
   }
@@ -99,7 +99,7 @@ export class TablaComponent implements OnInit, OnChanges {
   }
 
   disminuirDesplazamiento() {
-    if(this.lado > 0){
+    if (this.lado > 0) {
       let nuevoValor = this.lado - this.registrosVisiables;
       this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
       this.desplazar.emit(this.lado);
@@ -131,5 +131,26 @@ export class TablaComponent implements OnInit, OnChanges {
     }
 
     this.emitirOrdenamiento.emit(this.ordenadoTabla);
+  }
+
+  calcularValorMostrar(evento: any) {
+    if (evento.target.value) {
+      let valorInicial = evento.target.value;      
+      if (valorInicial.includes('-')) {
+        let [limite, desplazamiento] = valorInicial.split('-');
+        desplazamiento = desplazamiento - limite + 1;
+        if (limite > 0) {
+          limite -= 1;
+          this.emitirPaginacion.emit({desplazamiento, limite})
+        }
+        if (desplazamiento < 0) {          
+          evento.target.value = `${this.lado}-${this.al}`;
+        }
+      } else {
+        this.emitirPaginacion.emit({desplazamiento:0, limite:parseInt(valorInicial)})
+      }
+    } else {
+      evento.target.value = `${this.lado}-${this.al}`;
+    }
   }
 }
