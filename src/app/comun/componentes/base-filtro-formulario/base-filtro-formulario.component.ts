@@ -46,12 +46,12 @@ export class BaseFiltroFormularioComponent implements OnInit {
     ],
     Texto: [
       {
-        valor: '__is',
-        texto: 'es',
+        valor: '__contains',
+        texto: 'Contiene',
       },
       {
-        valor: '__no_is',
-        texto: 'no',
+        valor: '_',
+        texto: 'Igual',
       },
     ],
     Fecha: [
