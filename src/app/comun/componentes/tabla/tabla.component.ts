@@ -156,6 +156,8 @@ export class TablaComponent implements OnInit, OnChanges {
       }
     } else {
       evento.target.value = `${this.lado}-${this.al}`;
+      this.emitirPaginacion.emit({desplazamiento:this.al, limite:this.lado})
+
     }
   }
 }
