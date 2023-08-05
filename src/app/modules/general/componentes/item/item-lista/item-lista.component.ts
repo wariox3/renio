@@ -20,7 +20,7 @@ export class ItemListaComponent extends General implements OnInit {
     filtros: [],
     limite: 50,
     desplazar: 0,
-    orden: "",
+    ordenamientos: [],
     limite_conteo: 10000
   };
 
@@ -67,7 +67,7 @@ export class ItemListaComponent extends General implements OnInit {
   }
 
   cambiarOrdemiento(ordenamiento: string){
-    this.arrFiltros.orden = ordenamiento,
+    this.arrFiltros.ordenamientos[0] = ordenamiento,
     this.consultarLista();
   }
 
