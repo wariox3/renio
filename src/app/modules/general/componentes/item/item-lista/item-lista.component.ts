@@ -73,7 +73,7 @@ export class ItemListaComponent extends General implements OnInit {
 
   cambiarPaginacion(data:{desplazamiento:number, limite:number}){
     this.arrFiltros.limite = data.desplazamiento;
-    this.arrFiltros.desplazamiento = data.limite;
+    this.arrFiltros.desplazar = data.limite;
     this.consultarLista();
     console.log(this.arrFiltros);
        
