@@ -1,11 +1,11 @@
-<div class="row">
+<div class="row mb-4">
   <div class="col-4 d-flex align-items-center gap-3">
     <i
       (click)="disminuirDesplazamiento()"
       class="bi bi-arrow-left fs-2x cursor-pointer"
     ></i>
     <input type="text"
-    class="form-control"
+    class="form-control form-control-sm"
     [value]="lado + '-' + al"
     (blur)="calcularValorMostrar($event)">
     de

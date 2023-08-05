@@ -95,12 +95,15 @@ export class TablaComponent implements OnInit, OnChanges {
 
   aumentarDesplazamiento() {
     this.lado = this.lado + this.registrosVisiables;
+    this.al = this.al + this.registrosVisiables;
     this.desplazar.emit(this.lado);
   }
 
   disminuirDesplazamiento() {
     if (this.lado > 0) {
       let nuevoValor = this.lado - this.registrosVisiables;
+      this.al = this.al - this.registrosVisiables;
+
       this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
       this.desplazar.emit(this.lado);
     }
