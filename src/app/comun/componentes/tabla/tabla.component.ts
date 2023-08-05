@@ -144,7 +144,9 @@ export class TablaComponent implements OnInit, OnChanges {
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
           limite -= 1;
-          this.emitirPaginacion.emit({desplazamiento, limite})
+          if(desplazamiento > 0 && limite > 0){
+            this.emitirPaginacion.emit({desplazamiento, limite})
+          }
         }
         if (desplazamiento < 0) {          
           evento.target.value = `${this.lado}-${this.al}`;
