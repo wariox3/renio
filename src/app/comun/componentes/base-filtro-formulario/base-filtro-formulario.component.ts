@@ -20,7 +20,7 @@ export class BaseFiltroFormularioComponent implements OnInit {
       texto: string;
     }[];
   } = {
-    Numero: [
+    IntegerField: [
       {
         valor: '',
         texto: 'Igual',
@@ -42,7 +42,29 @@ export class BaseFiltroFormularioComponent implements OnInit {
         texto: 'Menor o igual que',
       }
     ],
-    Texto: [
+    FloatField:  [
+      {
+        valor: '',
+        texto: 'Igual',
+      },
+      {
+        valor: '__gt',
+        texto: 'Mayor que',
+      },
+      {
+        valor: '__gte',
+        texto: 'Mayor o igual que',
+      },
+      {
+        valor: '__lt',
+        texto: 'Menor que',
+      },
+      {
+        valor: '__lte',
+        texto: 'Menor o igual que',
+      }
+    ],
+    CharField: [
       {
         valor: '',
         texto: 'Igual',
@@ -52,7 +74,7 @@ export class BaseFiltroFormularioComponent implements OnInit {
         texto: 'Contiene',
       },
     ],
-    Fecha: [
+    DateField: [
       {
         valor: '',
         texto: 'Igual',

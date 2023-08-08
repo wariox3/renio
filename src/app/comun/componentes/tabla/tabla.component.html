@@ -23,29 +23,29 @@
     <thead>
       <tr class="fw-bold fs-6 text-gray-800">
         <th
-          (click)="orderPor(item, i)"
+          (click)="orderPor(item.nombre, i)"
           *ngFor="let item of encabezado; let i = index"
           class="cursor-pointer user-select-none"
         >
           <div class="d-flex justify-content-between">
             <span>
-              {{ item }}
+              {{ item.nombre }}
             </span>
             <div class="d-flex">
               <ng-container
                 *ngIf="
-                  this.ordenadoTabla === item.toLowerCase() ||
-                    this.ordenadoTabla === '-' + item.toLowerCase();
+                  this.ordenadoTabla === item.nombre.toLowerCase() ||
+                    this.ordenadoTabla === '-' + item.nombre.toLowerCase();
                   else iconopordefecto
                 "
               >
                 <i
                   class="ki-outline ki-arrow-up fs-2x"
-                  *ngIf="this.ordenadoTabla === item.toLowerCase()"
+                  *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
                 ></i>
                 <i
                   class="ki-outline ki-arrow-down fs-2x"
-                  *ngIf="this.ordenadoTabla === '-' + item.toLowerCase()"
+                  *ngIf="this.ordenadoTabla === '-' + item.nombre.toLowerCase()"
                 ></i>
               </ng-container>
               <ng-template #iconopordefecto>

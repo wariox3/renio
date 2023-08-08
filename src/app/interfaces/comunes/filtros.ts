@@ -1,5 +1,5 @@
 export interface Listafiltros {
-  valor: string;
+  nombre: string;
   tipo: ('Texto' | 'Numero' | 'Booleano' | 'Fecha');
 }
 

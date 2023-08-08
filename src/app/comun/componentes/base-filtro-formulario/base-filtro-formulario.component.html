@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col">
+
     <select
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
@@ -9,9 +10,9 @@
         *ngFor="let propiedad of propiedades"
         [value]="propiedad.tipo"
         [selected]="propiedad.tipo === datosSeleccionados?.propiedad"
-        [attr.data-value]="propiedad.valor.toLocaleLowerCase()"
+        [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
       >
-        {{ propiedad.valor }}
+        {{ propiedad.nombre  }}
       </option>
     </select>
   </div>

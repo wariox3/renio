@@ -35,7 +35,6 @@ export class BaseListaComponent extends General implements OnInit {
     modelo: '',
   };
   arrPropiedades: Listafiltros[];
-  arrEncabezado: string[];
   arrItems: any[];
   cantidad_registros!:number
 
@@ -44,54 +43,20 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.arrParametrosConsulta.modelo = this.activatedRoute.snapshot.fragment;
+    this.arrParametrosConsulta.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
     this.consultarLista();
   }
 
   consultarLista(): void {
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/item/lista/',
+      .post<{ cantidad_registros: number; registros: any[], propiedades: any[] }>(
+        'general/funcionalidad/lista/',
         this.arrParametrosConsulta
       )
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.cantidad_registros
         this.arrItems = respuesta.registros;
-        this.arrPropiedades = [
-          {
-            tipo: 'Texto',
-            valor: 'nombre',
-          },
-          {
-            tipo: 'Texto',
-            valor: 'codigo',
-          },
-          {
-            tipo: 'Texto',
-            valor: 'referencia',
-          },
-          {
-            tipo: 'Numero',
-            valor: 'costo',
-          },
-          {
-            tipo: 'Numero',
-            valor: 'precio',
-          },
-          {
-            tipo: 'Numero',
-            valor: 'Id',
-          },
-        ];
-        this.arrEncabezado = [
-          'Codigo',
-          'Costo',
-          'Id',
-          'Nombre',
-          'Precio',
-          'Referencia',
-        ]
-
+        this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
       });
   }

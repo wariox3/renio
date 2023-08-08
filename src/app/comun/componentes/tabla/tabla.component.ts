@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Listafiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -19,7 +20,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [CommonModule, FormsModule, NgbDropdownModule],
 })
 export class TablaComponent implements OnInit, OnChanges {
-  @Input() encabezado: string[] = [];
+  @Input() encabezado:  Listafiltros[] = [];
   @Input() datos!: any[];
   @Input() cantidad_registros!: number;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
