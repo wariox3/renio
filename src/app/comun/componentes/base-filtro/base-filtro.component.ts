@@ -44,6 +44,7 @@ export class BaseFiltroComponent implements OnInit {
       operador: '',
       valor1: '',
       valor2: '',
+      visualizarBtnAgregarFiltro: true
     },
   ];
   @Input() propiedades: Listafiltros[];
@@ -93,6 +94,7 @@ export class BaseFiltroComponent implements OnInit {
         operador: [''],
         valor1: [''],
         valor2: [''],
+        
       })
     );
   }
