@@ -57,11 +57,11 @@ const Routing: Routes = [
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
     data: { layout: 'light-sidebar' },
   },
-  {
-    path: ':ruta',
-    loadChildren: () =>
-      import('../modules/general/general.module').then((m) => m.GeneralModule),
-  },
+  // {
+  //   path: ':ruta',
+  //   loadChildren: () =>
+  //     import('../modules/general/general.module').then((m) => m.GeneralModule),
+  // },
   {
     path: 'empresa',
     loadChildren: () =>
@@ -73,6 +73,10 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/seguridad/seguridad.module').then((m) => m.SeguridadModule),
     data: { layout: 'dark-header' },
+  },
+  {
+    path:'lista',
+    loadComponent: () => import('../comun/componentes/base-lista/base-lista.component').then(mod => mod.BaseListaComponent),
   },
   {
     path: '',
