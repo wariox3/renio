@@ -157,10 +157,6 @@ export class BaseFiltroComponent implements OnInit {
     this.emitirFiltros.emit(this.listaFiltros);
   }
   
-  
-  
-  
-
   actualizarPropiedad(propiedad: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ propiedad });
