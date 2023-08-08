@@ -46,7 +46,9 @@ export class TablaComponent implements OnInit, OnChanges {
       cambios.datos &&
       cambios.datos.currentValue &&
       cambios.datos.currentValue[0]
-    ) {
+    ) {      
+      console.log(cambios.datos);
+
       if (
         Object.keys(cambios.datos.currentValue[0]).length !==
         this.tamanoEncabezado
@@ -66,6 +68,9 @@ export class TablaComponent implements OnInit, OnChanges {
         this.cargandoDatos = false;
       }
     }
+
+    console.log(cambios.datos);
+
   }
 
   objectKeys(obj: any) {
