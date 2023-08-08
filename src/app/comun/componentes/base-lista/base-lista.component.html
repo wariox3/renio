@@ -1,15 +1,14 @@
-
 <div class="container-grid">
-    {{arrPropiedades|json}}
+  {{ arrPropiedades | json }}
   <div class="filtros">
     <ng-content select="[base-filtros]"></ng-content>
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
-        <section card-body>
-            <app-base-filtro
-            [propiedades]="arrPropiedades"
-           
-            ></app-base-filtro>
-        </section>
+      <section card-body>
+        <app-base-filtro
+          [propiedades]="arrPropiedades"
+          (emitirFiltros)="obtenerFiltros($event)"
+        ></app-base-filtro>
+      </section>
     </app-card>
   </div>
   <div class="acciones">

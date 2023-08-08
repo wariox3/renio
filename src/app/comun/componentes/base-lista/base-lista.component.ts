@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -23,7 +23,7 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
-export class BaseListaComponent extends General {
+export class BaseListaComponent extends General implements OnInit {
   arrParametrosConsulta: any = {
     filtros: [],
     limite: 50,
@@ -81,4 +81,10 @@ export class BaseListaComponent extends General {
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  obtenerFiltros(arrfiltros: any) {
+    this.arrParametrosConsulta.filtros = arrfiltros
+    this.consultarLista();
+  }
+
 }
