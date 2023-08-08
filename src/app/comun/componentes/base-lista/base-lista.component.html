@@ -1,5 +1,4 @@
 <div class="container-grid">
-  {{ arrEncabezado | json }}
   <div class="filtros">
     <ng-content select="[base-filtros]"></ng-content>
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
@@ -20,14 +19,18 @@
     ></a>
   </div>
   <div class="tabla">
-    <app-comun-tabla
-      [datos]="arrItems"
-      [encabezado]="arrEncabezado"
-      [cantidad_registros]="cantidad_registros"
-      (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-      (emitirOrdenamiento)="cambiarOrdemiento($event)"
-      (emitirPaginacion)="cambiarPaginacion($event)"
-    >
-    </app-comun-tabla>
+    <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.ITEMS'">
+      <section card-body>
+        <app-comun-tabla
+          [datos]="arrItems"
+          [encabezado]="arrEncabezado"
+          [cantidad_registros]="cantidad_registros"
+          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+          (emitirOrdenamiento)="cambiarOrdemiento($event)"
+          (emitirPaginacion)="cambiarPaginacion($event)"
+        >
+        </app-comun-tabla>
+      </section>
+    </app-card>
   </div>
 </div>
