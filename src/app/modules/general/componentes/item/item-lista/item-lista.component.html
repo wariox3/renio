@@ -22,7 +22,7 @@
           [encabezado]="arrEncabezado"
           [cantidad_registros]="cantidad_registros"
           (cantidadRegistros)="cantidadRegistros($event)"
-          (desplazar)="cambiarDesplazamiento($event)"
+          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
           (emitirOrdenamiento)="cambiarOrdemiento($event)"
           (emitirPaginacion)="cambiarPaginacion($event)"
         ></app-comun-tabla>

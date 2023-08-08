@@ -25,7 +25,7 @@ export class TablaComponent implements OnInit, OnChanges {
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
-  @Output() desplazar: EventEmitter<any> = new EventEmitter();
+  @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
   tamanoEncabezado = 0;
@@ -96,7 +96,7 @@ export class TablaComponent implements OnInit, OnChanges {
   aumentarDesplazamiento() {
     this.lado = this.lado + this.registrosVisiables;
     this.al = this.al + this.registrosVisiables;
-    this.desplazar.emit(this.lado);
+    this.emitirDesplazamiento.emit(this.lado);
   }
 
   disminuirDesplazamiento() {
@@ -105,7 +105,7 @@ export class TablaComponent implements OnInit, OnChanges {
       this.al = this.al - this.registrosVisiables;
 
       this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.desplazar.emit(this.lado);
+      this.emitirDesplazamiento.emit(this.lado);
     }
   }
 
@@ -113,7 +113,7 @@ export class TablaComponent implements OnInit, OnChanges {
     if (this.lado < 0) {
       this.lado = 1;
     }
-    this.desplazar.emit(this.lado);
+    this.emitirDesplazamiento.emit(this.lado);
   }
 
   validarCantidadAl() {

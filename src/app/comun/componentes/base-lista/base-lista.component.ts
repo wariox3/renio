@@ -8,6 +8,7 @@ import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
+import { TablaComponent } from '../tabla/tabla.component';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -19,6 +20,7 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
     TranslationModule,
     CardComponent,
     BaseFiltroComponent,
+    TablaComponent
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -33,6 +35,9 @@ export class BaseListaComponent extends General implements OnInit {
     modelo: '',
   };
   arrPropiedades: Listafiltros[];
+  arrEncabezado: string[];
+  arrItems: any[];
+  cantidad_registros!:number
 
   constructor(private httpService: HttpService) {
     super();
@@ -50,8 +55,8 @@ export class BaseListaComponent extends General implements OnInit {
         this.arrParametrosConsulta
       )
       .subscribe((respuesta) => {
-        // this.cantidad_registros = respuesta.cantidad_registros
-        // this.arrItems = respuesta.registros;
+        this.cantidad_registros = respuesta.cantidad_registros
+        this.arrItems = respuesta.registros;
         this.arrPropiedades = [
           {
             tipo: 'Texto',
@@ -78,12 +83,37 @@ export class BaseListaComponent extends General implements OnInit {
             valor: 'Id',
           },
         ];
+        this.arrEncabezado = [
+          'Codigo',
+          'Costo',
+          'Id',
+          'Nombre',
+          'Precio',
+          'Referencia',
+        ]
+
         this.changeDetectorRef.detectChanges();
       });
   }
 
   obtenerFiltros(arrfiltros: any) {
     this.arrParametrosConsulta.filtros = arrfiltros
+    this.consultarLista();
+  }
+
+  cambiarOrdemiento(ordenamiento: string){
+    this.arrParametrosConsulta.ordenamientos[0] = ordenamiento,
+    this.consultarLista();
+  }
+
+  cambiarPaginacion(data:{desplazamiento:number, limite:number}){
+    this.arrParametrosConsulta.limite = data.desplazamiento;
+    this.arrParametrosConsulta.desplazar = data.limite;
+    this.consultarLista();   
+  }
+
+  cambiarDesplazamiento(desplazamiento : number) {
+    this.arrParametrosConsulta.desplazar = desplazamiento;
     this.consultarLista();
   }
 
