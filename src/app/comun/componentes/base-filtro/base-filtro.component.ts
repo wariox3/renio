@@ -125,23 +125,41 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   aplicarFiltro() {
-    this.listaFiltros = this.formularioItem.value['filtros'].map(
-      (filtro: any) => {
-        return {
-          ...filtro,
-          ...{
-            id: crypto.randomUUID(),
-            propiedad: filtro.propiedad + filtro.operador
-          },
-        };
+    const filtros = this.formularioItem.value['filtros'];
+    const listaFiltros: any[] = [];
+    let hayFiltrosSinValores = false;
+  
+    filtros.forEach((filtro:any) => {
+      if (filtro.propiedad === '' && filtro.operador === '') {
+        hayFiltrosSinValores = true;
+        return;
       }
-    );
+  
+      const nuevoFiltro = {
+        ...filtro,
+        id: crypto.randomUUID(),
+        propiedad: filtro.propiedad + filtro.operador,
+      };
+      listaFiltros.push(nuevoFiltro);
+    });
+  
+    if (hayFiltrosSinValores) {
+      return;
+    }
+  
+    this.listaFiltros = listaFiltros;
+  
     localStorage.setItem(
       document.location.pathname,
       JSON.stringify(this.listaFiltros)
     );
+  
     this.emitirFiltros.emit(this.listaFiltros);
   }
+  
+  
+  
+  
 
   actualizarPropiedad(propiedad: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
