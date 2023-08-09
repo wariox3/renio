@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 
@@ -8,7 +8,7 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
   imports: [CommonModule],
   templateUrl: './base-filtro-formulario.component.html',
 })
-export class BaseFiltroFormularioComponent implements OnInit {
+export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
   @Input() propiedades: Listafiltros[];
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
@@ -111,16 +111,26 @@ export class BaseFiltroFormularioComponent implements OnInit {
   criteriosBusqueda: { valor: string; texto: string }[] = [];
 
   ngOnInit(): void {
+
     // if(this.datosSeleccionados){
-    //   this.creteriosBusqueda = this.datosCriteriosBusqueda[this.datosSeleccionados.propiedad];
+    //
     // }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.propiedades && changes.propiedades.currentValue) {
+      let dato = changes.propiedades.currentValue.find((item:any) => item.nombre === this.datosSeleccionados.propiedad)
+      if(dato){
+        this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.tipo];
+      }
+    }
   }
 
   propiedadSeleccionada(event: any): void {
 
     const selectedValue = event.target.value; // Valor seleccionado en el select
     const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
-    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];    
+    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
     this.dataPropiedad.emit( selectedOption.getAttribute('data-value'));
   }
 
