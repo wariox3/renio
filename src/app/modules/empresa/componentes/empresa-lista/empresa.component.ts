@@ -6,6 +6,7 @@ import { Empresa } from '@interfaces/usuario/empresa';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-empresa',
@@ -61,7 +62,7 @@ export class EmpresaComponent extends General implements OnInit {
           usuarios_base: 0
         };
         this.store.dispatch(empresaActionInit({ empresa }));
-        if(this.subdominioService.esSubdominioActual()){
+        if(environment.production){
           window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
         }else{
           this.router.navigate(['/dashboard'])
