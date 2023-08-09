@@ -129,11 +129,10 @@ export class BaseFiltroComponent implements OnInit {
     let hayFiltrosSinValores = false;
 
     filtros.forEach((filtro: any) => {
-      console.log(filtro.propiedad + filtro.operador);
 
       if (
-        filtro.propiedad === '' ||
-        filtro.operador === '' ||
+        filtro.propiedad === '' &&
+        filtro.operador === '' &&
         filtro.valor1 === ''
       ) {
         hayFiltrosSinValores = true;
@@ -150,9 +149,6 @@ export class BaseFiltroComponent implements OnInit {
               : '',
         },
       };
-
-      console.log(nuevoFiltro);
-
 
       listaFiltros.push(nuevoFiltro);
     });

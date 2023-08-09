@@ -47,9 +47,7 @@ export class TablaComponent implements OnInit {
   //     cambios.datos &&
   //     cambios.datos.currentValue &&
   //     cambios.datos.currentValue[0]
-  //   ) {      
-  //     console.log(cambios.datos);
-
+  //   ) {
   //     if (
   //       Object.keys(cambios.datos.currentValue[0]).length !==
   //       this.tamanoEncabezado
@@ -69,9 +67,6 @@ export class TablaComponent implements OnInit {
   //       this.cargandoDatos = false;
   //     }
   //   }
-
-  //   console.log(cambios.datos);
-
   // }
 
   objectKeys(obj: any) {
@@ -145,7 +140,7 @@ export class TablaComponent implements OnInit {
 
   calcularValorMostrar(evento: any) {
     if (evento.target.value) {
-      let valorInicial = evento.target.value;      
+      let valorInicial = evento.target.value;
       if (valorInicial.includes('-')) {
         let [limite, desplazamiento] = valorInicial.split('-');
         desplazamiento = desplazamiento - limite + 1;
@@ -155,10 +150,10 @@ export class TablaComponent implements OnInit {
             this.emitirPaginacion.emit({desplazamiento, limite})
           }
         }
-        if (desplazamiento < 0) {          
+        if (desplazamiento < 0) {
           evento.target.value = `${this.lado}-${this.al}`;
         }
-      } else {        
+      } else {
         this.emitirPaginacion.emit({desplazamiento:parseInt(valorInicial), limite:1})
       }
     } else {

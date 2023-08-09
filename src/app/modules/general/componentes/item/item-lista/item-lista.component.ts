@@ -75,7 +75,5 @@ export class ItemListaComponent extends General implements OnInit {
     this.arrFiltros.limite = data.desplazamiento;
     this.arrFiltros.desplazar = data.limite;
     this.consultarLista();
-    console.log(this.arrFiltros);
-       
   }
 }

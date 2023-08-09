@@ -62,6 +62,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   obtenerFiltros(arrfiltros: any) {
+
     this.arrParametrosConsulta.filtros = arrfiltros
     this.consultarLista();
   }
@@ -74,7 +75,7 @@ export class BaseListaComponent extends General implements OnInit {
   cambiarPaginacion(data:{desplazamiento:number, limite:number}){
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
-    this.consultarLista();   
+    this.consultarLista();
   }
 
   cambiarDesplazamiento(desplazamiento : number) {
