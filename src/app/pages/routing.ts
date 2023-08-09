@@ -79,6 +79,10 @@ const Routing: Routes = [
     loadComponent: () => import('../comun/componentes/base-lista/base-lista.component').then(mod => mod.BaseListaComponent),
   },
   {
+    path:'detalle',
+    loadComponent: () => import('../comun/componentes/base-detalle/base-detalle.component').then(mod => mod.BaseDetalleComponent),
+  },
+  {
     path: '',
     redirectTo: getRedirectTo(),
     pathMatch: 'full',
