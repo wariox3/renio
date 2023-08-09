@@ -94,7 +94,7 @@ export class BaseFiltroComponent implements OnInit {
         operador: [''],
         valor1: [''],
         valor2: [''],
-        
+
       })
     );
   }
@@ -128,42 +128,42 @@ export class BaseFiltroComponent implements OnInit {
     const filtros = this.formularioItem.value['filtros'];
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
-  
+
     filtros.forEach((filtro:any) => {
-      if (filtro.propiedad === '' && filtro.operador === '') {
+      if (filtro.propiedad === '' && filtro.operador === '' && filtro.valor1 === '') {
         hayFiltrosSinValores = true;
         return;
       }
-  
+
       const nuevoFiltro = {
         ...filtro,
         id: crypto.randomUUID(),
-        propiedad: filtro.propiedad + filtro.operador,
+       ...{ propiedad: filtro.propiedad + filtro.operador},
       };
       listaFiltros.push(nuevoFiltro);
     });
-  
+
     if (hayFiltrosSinValores) {
       return;
     }
-  
+
     this.listaFiltros = listaFiltros;
-  
+
     localStorage.setItem(
       document.location.pathname,
       JSON.stringify(this.listaFiltros)
     );
-  
+
     this.emitirFiltros.emit(this.listaFiltros);
   }
-  
+
   actualizarPropiedad(propiedad: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ propiedad });
   }
 
   actualizarOperador(operador: string, index: number) {
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;   
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ operador });
   }
 
