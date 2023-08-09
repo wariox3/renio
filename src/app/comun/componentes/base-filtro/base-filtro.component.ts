@@ -44,7 +44,7 @@ export class BaseFiltroComponent implements OnInit {
       operador: '',
       valor1: '',
       valor2: '',
-      visualizarBtnAgregarFiltro: true
+      visualizarBtnAgregarFiltro: true,
     },
   ];
   @Input() propiedades: Listafiltros[];
@@ -94,7 +94,6 @@ export class BaseFiltroComponent implements OnInit {
         operador: [''],
         valor1: [''],
         valor2: [''],
-
       })
     );
   }
@@ -129,8 +128,14 @@ export class BaseFiltroComponent implements OnInit {
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
 
-    filtros.forEach((filtro:any) => {
-      if (filtro.propiedad === '' && filtro.operador === '' && filtro.valor1 === '') {
+    filtros.forEach((filtro: any) => {
+      console.log(filtro.propiedad + filtro.operador);
+
+      if (
+        filtro.propiedad === '' ||
+        filtro.operador === '' ||
+        filtro.valor1 === ''
+      ) {
         hayFiltrosSinValores = true;
         return;
       }
@@ -138,8 +143,17 @@ export class BaseFiltroComponent implements OnInit {
       const nuevoFiltro = {
         ...filtro,
         id: crypto.randomUUID(),
-       ...{ propiedad: filtro.propiedad + filtro.operador},
+        ...{
+          propiedad:
+            filtro.propiedad + filtro.operador !== null
+              ? filtro.propiedad + filtro.operador
+              : '',
+        },
       };
+
+      console.log(nuevoFiltro);
+
+
       listaFiltros.push(nuevoFiltro);
     });
 
@@ -167,10 +181,10 @@ export class BaseFiltroComponent implements OnInit {
     filtroPorActualizar.patchValue({ operador });
   }
 
-  limpiarFormulario(){
-    this.formularioItem.reset()
-    localStorage.removeItem(document.location.pathname)
-    this.filtros.clear()
-    this.agregarNuevoFiltro()
+  limpiarFormulario() {
+    this.formularioItem.reset();
+    localStorage.removeItem(document.location.pathname);
+    this.filtros.clear();
+    this.agregarNuevoFiltro();
   }
 }

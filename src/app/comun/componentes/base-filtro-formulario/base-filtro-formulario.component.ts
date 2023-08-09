@@ -127,11 +127,10 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
   }
 
   propiedadSeleccionada(event: any): void {
-
     const selectedValue = event.target.value; // Valor seleccionado en el select
     const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
     this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
-    this.dataPropiedad.emit( selectedOption.getAttribute('data-value'));
+    this.dataPropiedad.emit( selectedOption.getAttribute('data-value') ?? '' ) ;
   }
 
   onCriterioSeleccionado(event: Event): void {
