@@ -58,19 +58,6 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngIf="datos.length === 0; else lista">
-        <tr>
-          <td class="text-center" [colSpan]="encabezado.length">
-            <ng-container *ngIf="cargandoDatos; else sinDatos">
-              <span>Loading...</span>
-            </ng-container>
-            <ng-template #sinDatos>
-              <span>Sin datos</span>
-            </ng-template>
-          </td>
-        </tr>
-      </ng-container>
-      <ng-template #lista>
         <tr *ngFor="let item of datos">
           <td *ngFor="let key of item | keys">
             {{ item[key] }}
@@ -87,7 +74,6 @@
           </td>
           <td class="w-20px"><input type="checkbox" /></td>
         </tr>
-      </ng-template>
     </tbody>
   </table>
 </div>

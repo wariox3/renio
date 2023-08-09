@@ -20,9 +20,9 @@ import { KeysPipe } from './keys.pipe';
   standalone: true,
   imports: [CommonModule, FormsModule, NgbDropdownModule, KeysPipe]
 })
-export class TablaComponent implements OnInit, OnChanges {
+export class TablaComponent implements OnInit {
   @Input() encabezado:  Listafiltros[] = [];
-  @Input() datos!: any[];
+  @Input() datos: any[]= [];
   @Input() cantidad_registros!: number;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
@@ -39,40 +39,40 @@ export class TablaComponent implements OnInit, OnChanges {
   cargandoDatos = false;
 
   ngOnInit() {
-    this.tamanoEncabezado = this.encabezado.length;
+    // this.tamanoEncabezado = this.encabezado.length;
   }
 
-  ngOnChanges(cambios: SimpleChanges): void {
-    if (
-      cambios.datos &&
-      cambios.datos.currentValue &&
-      cambios.datos.currentValue[0]
-    ) {      
-      console.log(cambios.datos);
+  // ngOnChanges(cambios: SimpleChanges): void {
+  //   if (
+  //     cambios.datos &&
+  //     cambios.datos.currentValue &&
+  //     cambios.datos.currentValue[0]
+  //   ) {      
+  //     console.log(cambios.datos);
 
-      if (
-        Object.keys(cambios.datos.currentValue[0]).length !==
-        this.tamanoEncabezado
-      ) {
-        cambios.datos.currentValue.map((data: any) => {
-          if (Object.keys(data).length !== this.tamanoEncabezado) {
-            const diferencia = this.tamanoEncabezado - Object.keys(data).length;
-            for (let i = 0; i < diferencia; i++) {
-              data[`nuevaPosicion${i}`] = '';
-            }
-          }
-        });
-      }
-    } else if (cambios.datos.firstChange === false) {
-      this.cargandoDatos = true;
-      if (cambios.datos.currentValue.length === 0) {
-        this.cargandoDatos = false;
-      }
-    }
+  //     if (
+  //       Object.keys(cambios.datos.currentValue[0]).length !==
+  //       this.tamanoEncabezado
+  //     ) {
+  //       cambios.datos.currentValue.map((data: any) => {
+  //         if (Object.keys(data).length !== this.tamanoEncabezado) {
+  //           const diferencia = this.tamanoEncabezado - Object.keys(data).length;
+  //           for (let i = 0; i < diferencia; i++) {
+  //             data[`nuevaPosicion${i}`] = '';
+  //           }
+  //         }
+  //       });
+  //     }
+  //   } else if (cambios.datos.firstChange === false) {
+  //     this.cargandoDatos = true;
+  //     if (cambios.datos.currentValue.length === 0) {
+  //       this.cargandoDatos = false;
+  //     }
+  //   }
 
-    console.log(cambios.datos);
+  //   console.log(cambios.datos);
 
-  }
+  // }
 
   objectKeys(obj: any) {
     let encabezado: any = [];
