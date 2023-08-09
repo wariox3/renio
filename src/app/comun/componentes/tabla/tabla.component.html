@@ -72,8 +72,8 @@
       </ng-container>
       <ng-template #lista>
         <tr *ngFor="let item of datos">
-          <td *ngFor="let value of item | keyvalue">
-            {{ value.value }}
+          <td *ngFor="let key of item | keys">
+            {{ item[key] }}
           </td>
           <td class="w-45px">
             <button (click)="editar(item)" class="btn btn-primary btn-sm p-1">

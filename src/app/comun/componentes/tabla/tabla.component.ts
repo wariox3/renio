@@ -11,13 +11,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Listafiltros } from '@interfaces/comunes/filtros';
+import { KeysPipe } from './keys.pipe';
 
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NgbDropdownModule],
+  imports: [CommonModule, FormsModule, NgbDropdownModule, KeysPipe]
 })
 export class TablaComponent implements OnInit, OnChanges {
   @Input() encabezado:  Listafiltros[] = [];
