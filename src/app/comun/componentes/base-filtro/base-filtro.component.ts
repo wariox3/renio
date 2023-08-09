@@ -118,6 +118,8 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   eliminarFiltroLista(index: string) {
+    console.log(index);
+
     this.listaFiltros = this.listaFiltros.filter(
       (filtro: any) => filtro.id !== index
     );
@@ -141,7 +143,7 @@ export class BaseFiltroComponent implements OnInit {
 
       const nuevoFiltro = {
         ...filtro,
-        id: crypto.randomUUID(),
+        id: this.generarIdUnico(),
         ...{
           propiedad:
             filtro.propiedad + filtro.operador !== null
@@ -182,5 +184,12 @@ export class BaseFiltroComponent implements OnInit {
     localStorage.removeItem(document.location.pathname);
     this.filtros.clear();
     this.agregarNuevoFiltro();
+  }
+
+  generarIdUnico() {
+    const timestamp = Date.now(); // Obtiene la marca de tiempo actual en milisegundos
+    const numeroAleatorio = Math.floor(Math.random() * 10000); // Genera un número aleatorio entre 0 y 9999
+    const idUnico = `${timestamp}-${numeroAleatorio}`; // Combina la marca de tiempo y el número aleatorio
+    return idUnico;
   }
 }

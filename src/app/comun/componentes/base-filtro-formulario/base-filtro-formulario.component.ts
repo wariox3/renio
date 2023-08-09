@@ -119,7 +119,7 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.propiedades && changes.propiedades.currentValue) {
-      let dato = changes.propiedades.currentValue.find((item:any) => item.nombre === this.datosSeleccionados.propiedad)
+      let dato = changes.propiedades.currentValue.find((item:any) => item.nombre === this.datosSeleccionados?.propiedad)
       if(dato){
         this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.tipo];
       }
