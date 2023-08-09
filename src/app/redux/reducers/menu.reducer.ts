@@ -3,6 +3,7 @@ import { selecionModuloAction } from '../actions/menu.actions';
 
 interface informacionItem {
   name: string;
+  modelo?: string,
   url?: string;
   icono?: string;
   children?: informacionItem[];
@@ -24,13 +25,13 @@ export const initialState: Menu = {
         {
           name: 'movimiento',
           icono: 'wysiwyg',
-          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
+          children: [{ name: 'item', }, { name: 'Brussels sprouts' }],
         },
         {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'cartera/administracion/item/lista' },
+            { name: 'item', url: 'lista',  modelo: 'Item' },
             { name: 'contacto', url: 'cartera/administracion/contacto/lista' }
           ],
         },
@@ -129,7 +130,7 @@ export const initialState: Menu = {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'humano/administracion/item/lista' },
+            { name: 'item', url: 'lista',  modelo: 'Item' },
             { name: 'contacto', url: 'humano/administracion/contacto/lista' }
           ],
         },
@@ -231,8 +232,8 @@ export const initialState: Menu = {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'general/administracion/item/lista' },
-            { name: 'contacto', url: 'general/administracion/contacto/lista' }
+            { name: 'item',  url: 'lista',  modelo: 'Item' },
+            { name: 'contacto', url: 'lista',  modelo: 'Item' }
           ],
         }
       ],

@@ -56,17 +56,11 @@
         *ngFor="let item of menu.children"
       >
         <div class="menu-item">
-          <a class="menu-link without-sub" routerLink="{{ item.url }}">
+          <a class="menu-link without-sub" routerLink="{{ item.url }}" [queryParams]="{ modelo: item.modelo } ">
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
             <span class="menu-title">{{ item.name }} </span>
-          </a>
-          <a class="menu-link without-sub" [routerLink]="'lista'" [queryParams]="{ modelo: 'Item'} ">
-            <span class="menu-bullet">
-              <span class="bullet bullet-dot"></span>
-            </span>
-            <span class="menu-title">Lista </span>
           </a>
         </div>
       </div>
