@@ -76,11 +76,15 @@ const Routing: Routes = [
   },
   {
     path:'lista',
-    loadComponent: () => import('../comun/componentes/base-lista/base-lista.component').then(mod => mod.BaseListaComponent),
+    loadComponent: () => import('../comun/componentes/base-lista/base-lista.component').then(c => c.BaseListaComponent),
+  },
+  {
+    path:'nuevo',
+    loadComponent: () => import('../comun/componentes/base-nuevo/base-nuevo.component').then(c => c.BaseNuevoComponent),
   },
   {
     path:'detalle',
-    loadComponent: () => import('../comun/componentes/base-detalle/base-detalle.component').then(mod => mod.BaseDetalleComponent),
+    loadComponent: () => import('../comun/componentes/base-detalle/base-detalle.component').then(c => c.BaseDetalleComponent),
   },
   {
     path: '',

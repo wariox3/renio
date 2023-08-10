@@ -14,6 +14,7 @@
     <ng-content select="[base-acciones]"></ng-content>
     <a
       [routerLink]="['../nuevo']"
+      [queryParams]="{modelo: this.arrParametrosConsulta.modelo, formulario: 'ItemNuevo'}"
       class="btn btn-sm btn-primary"
       translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
     ></a>
