@@ -236,34 +236,38 @@
         translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
         class="form-label required"
       ></label>
-      <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        (click)="agregarImpuesto()"
-        translate="FORMULARIOS.BOTONES.GENERAL.ITEM.AGREGARIMPUESTOS"
-      ></button>
     </div>
+  </div>
 
-    <div formArrayName="impuestos">
-      <div *ngFor="let impuestoControl of impuestos.controls; let i = index">
-        <label for="impuesto{{ i }}" class="form-label my-2">
-          {{ "FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTO" | translate }} n°{{
-            i + 1
-          }}:
-        </label>
-        <div class="input-wrapper">
+  <div class="fv-row mb-10">
+    <div class="col-12">
+      <div ngbDropdown class="d-flex">
+        <span class="badge badge-primary badge me-2">New</span>
+        <span class="badge badge-primary badge me-2">New</span>
+        <span class="badge badge-primary badge me-2">New</span>
+        <span class="badge badge-primary badge me-2">New</span>
+        <div>
           <input
-            [id]="'impuesto' + i"
-            [formControlName]="i"
-            class="form-control bg-transparent"
-            type="number"
-            autocomplete="off"
+            #inputImpuestos
+            type="text"
+            formControlName="impuestos"
+            ngbDropdownToggle
+            class="cursor-pointer form-select w-100"
           />
-          <i
-            (click)="eliminarImpuesto(i)"
-            class="fa-regular fa-trash-can text-hover-danger"
-            title="remover impuesto"
-          ></i>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <button type="button" ngbDropdownItem>Action - 1</button>
+            <button type="button" ngbDropdownItem>Another Action</button>
+            <button type="button" ngbDropdownItem>
+              Something else is here
+            </button>
+            <button type="button" ngbDropdownItem>
+              Something else is here
+            </button>
+          </div>
         </div>
       </div>
     </div>

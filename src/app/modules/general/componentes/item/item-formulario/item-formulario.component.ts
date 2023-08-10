@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
@@ -8,6 +8,7 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 import { HttpService } from '@comun/services/http.service'
 import { Item } from '@modulos/general/modelos/item';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-item-formulario',
@@ -18,12 +19,14 @@ import { Item } from '@modulos/general/modelos/item';
     ReactiveFormsModule,
     TranslateModule,
     TranslationModule,
+    NgbDropdownModule
   ],
   templateUrl: './item-formulario.component.html',
 })
 export class ItemFormularioComponent extends General implements OnInit {
 
   formularioItem: FormGroup;
+  @ViewChild('inputImpuestos', {static:false}) inputImpuestos: HTMLInputElement;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,31 +75,15 @@ export class ItemFormularioComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        impuestos: this.formBuilder.array([this.crearControlImpuesto()]) // Agregamos un control inicial
+        impuestos: [
+          ''
+        ] // Agregamos un control inicial
       },
     );
   }
 
   get formFields() {
     return this.formularioItem.controls;
-  }
-
-  get impuestos() {
-    return this.formularioItem.get('impuestos') as FormArray;
-  }
-
-  private crearControlImpuesto(): FormControl {
-    return this.formBuilder.control('');
-  }
-
-  agregarImpuesto() {
-    this.impuestos.push(this.formBuilder.control(''));
-  }
-
-  eliminarImpuesto(index: number) {
-    if(this.impuestos.length > 1){
-      this.impuestos.removeAt(index);
-    }
   }
 
   formSubmit() {
@@ -153,5 +140,11 @@ export class ItemFormularioComponent extends General implements OnInit {
 
   limpiarFormulario() {
     this.formularioItem.reset();
+  }
+
+  focusInput() {
+    console.log("red");
+
+    this.inputImpuestos.click;
   }
 }
