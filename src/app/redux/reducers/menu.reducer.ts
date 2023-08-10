@@ -3,7 +3,10 @@ import { selecionModuloAction } from '../actions/menu.actions';
 
 interface informacionItem {
   name: string;
-  modelo?: string,
+  modelo?: string;
+  data?: {
+    [key: string]: {}
+  }
   url?: string;
   icono?: string;
   children?: informacionItem[];
@@ -25,14 +28,14 @@ export const initialState: Menu = {
         {
           name: 'movimiento',
           icono: 'wysiwyg',
-          children: [{ name: 'item', }, { name: 'Brussels sprouts' }],
+          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
         },
         {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'lista',  modelo: 'Item' },
-            { name: 'contacto', url: 'cartera/administracion/contacto/lista' }
+            { name: 'item', url: 'lista', modelo: 'Item' },
+            { name: 'contacto', url: 'cartera/administracion/contacto/lista' },
           ],
         },
         {
@@ -65,7 +68,7 @@ export const initialState: Menu = {
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'compra/administracion/item/lista' },
-            { name: 'contacto', url: 'compra/administracion/contacto/lista' }
+            { name: 'contacto', url: 'compra/administracion/contacto/lista' },
           ],
         },
         {
@@ -98,7 +101,10 @@ export const initialState: Menu = {
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'contabilidad/administracion/item/lista' },
-            { name: 'contacto', url: 'contabilidad/administracion/contacto/lista' }
+            {
+              name: 'contacto',
+              url: 'contabilidad/administracion/contacto/lista',
+            },
           ],
         },
         {
@@ -130,8 +136,8 @@ export const initialState: Menu = {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'lista',  modelo: 'Item' },
-            { name: 'contacto', url: 'humano/administracion/contacto/lista' }
+            { name: 'item', url: 'lista', modelo: 'Item' },
+            { name: 'contacto', url: 'humano/administracion/contacto/lista' },
           ],
         },
         {
@@ -157,17 +163,14 @@ export const initialState: Menu = {
         {
           name: 'movimiento',
           icono: 'wysiwyg',
-          children: [
-            { name: 'item', },
-            { name: 'Brussels sprouts' },
-          ],
+          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
         },
         {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'venta/administracion/item/lista' },
-            { name: 'contacto', url: 'venta/administracion/contacto/lista' }
+            { name: 'contacto', url: 'venta/administracion/contacto/lista' },
           ],
         },
         {
@@ -200,7 +203,10 @@ export const initialState: Menu = {
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'contabilidad/administracion/item/lista' },
-            { name: 'contacto', url: 'contabilidad/administracion/contacto/lista' }
+            {
+              name: 'contacto',
+              url: 'contabilidad/administracion/contacto/lista',
+            },
           ],
         },
         {
@@ -232,10 +238,11 @@ export const initialState: Menu = {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item',  url: 'lista',  modelo: 'Item' },
-            { name: 'contacto', url: 'lista',  modelo: 'Item' }
+            { name: 'item', url: 'lista', modelo: 'Item',  data:{'formulario': 'ItemNuevo'}  },
+            { name: 'contacto', url: 'lista', modelo: 'Item',  data:{'formulario': 'ItemNuevo'}  },
+            { name: 'factura', url: 'lista', modelo: 'Factura', data:{'formulario': 'FacturaNuevo'} },
           ],
-        }
+        },
       ],
     },
   ],

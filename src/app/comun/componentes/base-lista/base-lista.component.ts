@@ -20,7 +20,7 @@ import { TablaComponent } from '../tabla/tabla.component';
     TranslationModule,
     CardComponent,
     BaseFiltroComponent,
-    TablaComponent
+    TablaComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -36,25 +36,29 @@ export class BaseListaComponent extends General implements OnInit {
   };
   arrPropiedades: Listafiltros[];
   arrItems: any[];
-  cantidad_registros!:number
+  cantidad_registros!: number;
 
   constructor(private httpService: HttpService) {
     super();
   }
 
   ngOnInit(): void {
-    this.arrParametrosConsulta.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-    this.consultarLista();
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.arrParametrosConsulta.modelo = parametro.modelo;
+      this.consultarLista();
+    });
+
   }
 
   consultarLista(): void {
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[], propiedades: any[] }>(
-        'general/funcionalidad/lista/',
-        this.arrParametrosConsulta
-      )
+      .post<{
+        cantidad_registros: number;
+        registros: any[];
+        propiedades: any[];
+      }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta) => {
-        this.cantidad_registros = respuesta.cantidad_registros
+        this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
         this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
@@ -62,25 +66,32 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   obtenerFiltros(arrfiltros: any) {
-
-    this.arrParametrosConsulta.filtros = arrfiltros
+    this.arrParametrosConsulta.filtros = arrfiltros;
     this.consultarLista();
   }
 
-  cambiarOrdemiento(ordenamiento: string){
-    this.arrParametrosConsulta.ordenamientos[0] = ordenamiento,
-    this.consultarLista();
+  cambiarOrdemiento(ordenamiento: string) {
+    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
+      this.consultarLista();
   }
 
-  cambiarPaginacion(data:{desplazamiento:number, limite:number}){
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
     this.consultarLista();
   }
 
-  cambiarDesplazamiento(desplazamiento : number) {
+  cambiarDesplazamiento(desplazamiento: number) {
     this.arrParametrosConsulta.desplazar = desplazamiento;
     this.consultarLista();
   }
 
+  nuevo() {
+    this.router.navigate(['/nuevo'], {
+      queryParams: {
+        modelo: this.arrParametrosConsulta.modelo,
+        formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
+      },
+    });
+  }
 }
