@@ -1,0 +1,129 @@
+<form [formGroup]="formularioItem" (ngSubmit)="formSubmit()">
+  <div class="fv-row mb-10">
+    <label
+      translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+      class="form-label required"
+    ></label>
+    <input
+      formControlName="nombre"
+      class="form-control bg-transparent"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+          formularioItem.controls['nombre'].touched &&
+          formularioItem.controls['nombre'].invalid,
+        'is-valid':
+          formularioItem.controls['nombre'].touched &&
+          formularioItem.controls['nombre'].valid
+      }"
+    />
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+        control: formularioItem.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+        control: formularioItem.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+        cantidadCaracteres: '3',
+        control: formularioItem.controls['nombre']
+      }"
+    ></ng-container>
+    <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'maxlength',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+        cantidadCaracteres: '100',
+        control: formularioItem.controls['nombre']
+      }"
+    ></ng-container>
+    <div
+      *ngIf="
+        formularioItem.controls.nombre?.touched &&
+        formularioItem.controls.nombre?.hasError('EmpresaYaExiste')
+      "
+    >
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span role="alert">Este nombre ya esta en uso </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fv-row mb-10">
+    <div class="d-flex justify-content-between">
+      <label
+        translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
+        class="form-label required"
+      ></label>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        (click)="agregarImpuesto()"
+        translate="FORMULARIOS.BOTONES.GENERAL.ITEM.AGREGARIMPUESTOS"
+      ></button>
+    </div>
+
+    <div formArrayName="impuestos">
+      <div *ngFor="let impuestoControl of impuestos.controls; let i = index">
+        <label for="impuesto{{ i }}" class="form-label my-2">
+          {{ "FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTO" | translate }} n°{{
+            i + 1
+          }}:
+        </label>
+        <div class="input-wrapper">
+          <input
+            [id]="'impuesto' + i"
+            [formControlName]="i"
+            class="form-control bg-transparent"
+            type="number"
+            autocomplete="off"
+          />
+          <i (click)="eliminarImpuesto(i)" class="fa-regular fa-trash-can text-hover-danger" title="remover impuesto"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fv-row d-flex justify-content-end">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+</form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
