@@ -148,7 +148,8 @@ export const locale = {
           PAIS: 'Country',
           USUARIO: 'User',
           ROL: 'Role',
-          IDENTIFICACION: 'Identification'
+          IDENTIFICACION: 'Identification',
+          CODIGO: 'Code',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -157,6 +158,9 @@ export const locale = {
           ITEM:{
             IMPUESTOS: 'Taxes',
             IMPUESTO: 'Tax',
+            REFERENCIA: 'Reference',
+            PRECIO: 'Price'
+
           }
         },
       },

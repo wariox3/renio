@@ -4,6 +4,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFo
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { switchMap } from 'rxjs';
+import { HttpService } from '@comun/services/http.service'
+import { Item } from '@modulos/general/modelos/item';
 
 @Component({
   selector: 'app-item-formulario',
@@ -23,6 +27,7 @@ export class ItemFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private httpService: HttpService
   ) {
     super();
   }
@@ -33,7 +38,32 @@ export class ItemFormularioComponent extends General implements OnInit {
   initForm() {
     this.formularioItem = this.formBuilder.group(
       {
+        codigo: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
         nombre: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        referencia: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        precio: [
           '',
           Validators.compose([
             Validators.required,
@@ -70,29 +100,19 @@ export class ItemFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
+    console.log();
+
     if (this.formularioItem.valid) {
-    //   this.renderer2.setAttribute(
-    //     this.btnGuardar.nativeElement,
-    //     'disabled',
-    //     'true'
-    //   );
-    //   this.renderer2.setProperty(
-    //     this.btnGuardar.nativeElement,
-    //     'innerHTML',
-    //     'Procesando'
-    //   );
-      // this.store
-      //   .select(obtenerUsuarioId)
-      //   .pipe(
-      //     switchMap(([usuarioId]) =>
-      //       this.httpService.post<Item>(
-      //         'general/item/',
-      //         {
-      //           nombre: this.formFields.nombre.value
-      //         },
-      //       )
-      //     )
-      //   )
+      this.store
+        .select(obtenerUsuarioId)
+        .pipe(
+          switchMap(([usuarioId]) =>
+            this.httpService.post<Item>(
+              'general/item/', this.formularioItem.value,
+            )
+          )
+        )
+        .subscribe()
     //     .subscribe({
     //       next: (respuesta) => {
     //         this.renderer2.setAttribute(
