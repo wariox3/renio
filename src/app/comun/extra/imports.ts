@@ -7,8 +7,3 @@ export const componeteNuevos: ComponentImport = {
   'Factura-formularioFacturaNuevo': import('../../modules/factura/componentes/factura-nuevo/factura-nuevo.component')
 };
 
-
-export const componeteDetalle: ComponentImport = {
-  'Item-formularioItemNuevo': import('../../modules/general/componentes/item/item-nuevo/item-nuevo.component'),
-  'Factura-formularioFacturaNuevo': import('../../modules/factura/componentes/factura-nuevo/factura-nuevo.component')
-};
