@@ -20,13 +20,12 @@ type ComponentImport = {
 export class BaseNuevoComponent  extends General implements OnInit {
 
   modelo: string;
-  greetcomp: any;
   formulario: string
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
-  dynamicComponentContainer: ViewContainerRef;
+  componenteDinamico: ViewContainerRef;
 
-  constructor(private viewContainerRef: ViewContainerRef) {
+  constructor() {
     super();
   }
 
@@ -38,8 +37,10 @@ export class BaseNuevoComponent  extends General implements OnInit {
 
   async loadComponente() {
     let posicion: keyof typeof this.componeteNuevos = `${this.modelo}-formulario${this.formulario}`;
-    const componete  = await (await this.componeteNuevos[posicion]).default
-    this.dynamicComponentContainer.createComponent(componete);
+    let componete  = await (await this.componeteNuevos[posicion]).default
+    let componeteCreado = this.componenteDinamico.createComponent(componete);
+    let loadedComponentInstance:any = componeteCreado.instance;
+    loadedComponentInstance.ngOnInit()
   }
 
   componeteNuevos: ComponentImport = {
