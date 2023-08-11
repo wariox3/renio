@@ -1,0 +1,151 @@
+<form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  <div class="row mb-10">
+    <div class="col-12">
+      <label class="form-label required">Cliente</label>
+      <div class="position-relative">
+        <input
+          type="text"
+          class="form-control form-control"
+          minlength="3"
+          maxlength="4"
+          placeholder="Cliente"
+          name="card_cvv"
+        />
+        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <i class="bi bi-search fs-1x"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mb-10">
+    <div class="col">
+      <label class="form-label required">Fecha de factura</label>
+      <input
+        formControlName="fechaFactura"
+        class="form-control bg-transparent"
+        type="datetime-local"
+        autocomplete="off"
+      />
+    </div>
+    <div class="col">
+      <label class="form-label required">Fecha vencimiento</label>
+      <input
+        formControlName="fechaVencimiento"
+        class="form-control bg-transparent"
+        type="datetime-local"
+        autocomplete="off"
+      />
+    </div>
+
+  </div>
+
+  <div class="row mb-10">
+    <div class="col">
+      <label class="form-label required">Plazo</label>
+      <input
+        formControlName="plazo"
+        class="form-control bg-transparent"
+        type="number"
+        autocomplete="off"
+      />
+    </div>
+    <div class="col">
+      <label class="form-label required">Tipo de Documento</label>
+      <input
+        formControlName="tipoDocumento"
+        class="form-control bg-transparent"
+        type="text"
+        autocomplete="off"
+      />
+    </div>
+
+  </div>
+
+  <div class="row mb-10">
+    <div class="col">
+      <label class="form-label required">URL para Anexos? </label>
+      <input
+        formControlName="url"
+        class="form-control bg-transparent"
+        type="url"
+        autocomplete="off"
+      />
+    </div>
+    <div class="col">
+      <label class="form-label required">Tipo de operación</label>
+      <input
+        formControlName="tipoOperacion"
+        class="form-control bg-transparent"
+        type="text"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-10">
+    <div class="col-6">
+      <label class="form-label required">Método de pago</label>
+      <input
+        formControlName="metodoPago"
+        class="form-control bg-transparent"
+        type="text"
+        autocomplete="off"
+      />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+>
+  <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+    <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
+    <ng-template ngbNavContent>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Etiqueta</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Descuento</th>
+            <th>Impuesto</th>
+            <th>Imp Incluidos</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>
+              <i
+              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+            ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+    <a class="nav-link" ngbNavLink data-bs-toggle="tab">Otra inforamación</a>
+    <ng-template ngbNavContent> </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+  </div>
+
+</form>

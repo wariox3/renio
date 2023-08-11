@@ -33,16 +33,17 @@ export class BaseNuevoComponent  extends General implements OnInit {
   ngOnInit(): void {
     this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
     this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
-    this.loadCOmponente();
+    this.loadComponente();
   }
 
-  async loadCOmponente() {
+  async loadComponente() {
     let posicion: keyof typeof this.componeteNuevos = `${this.modelo}-formulario${this.formulario}`;
     const componete  = await (await this.componeteNuevos[posicion]).default
-    this.greetcomp = this.dynamicComponentContainer.createComponent(componete);
+    this.dynamicComponentContainer.createComponent(componete);
   }
 
   componeteNuevos: ComponentImport = {
-    'Item-formularioItemNuevo': import('../../../modules/general/componentes/item/item-nuevo/item-nuevo.component')
+    'Item-formularioItemNuevo': import('../../../modules/general/componentes/item/item-nuevo/item-nuevo.component'),
+    'Factura-formularioFacturaNuevo': import('../../../modules/factura/componentes/factura-nuevo/factura-nuevo.component')
   };
 }
