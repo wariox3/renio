@@ -4,11 +4,8 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
+import { componeteNuevos } from '@comun/extra/imports';
 
-
-type ComponentImport = {
-  [key: string]: Promise<{ default: any }>;
-};
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -36,15 +33,12 @@ export class BaseNuevoComponent  extends General implements OnInit {
   }
 
   async loadComponente() {
-    let posicion: keyof typeof this.componeteNuevos = `${this.modelo}-formulario${this.formulario}`;
-    let componete  = await (await this.componeteNuevos[posicion]).default
+    let posicion: keyof typeof componeteNuevos = `${this.modelo}-formulario${this.formulario}`;
+    let componete  = await (await componeteNuevos[posicion]).default
     let componeteCreado = this.componenteDinamico.createComponent(componete);
     let loadedComponentInstance:any = componeteCreado.instance;
     loadedComponentInstance.ngOnInit()
   }
 
-  componeteNuevos: ComponentImport = {
-    'Item-formularioItemNuevo': import('../../../modules/general/componentes/item/item-nuevo/item-nuevo.component'),
-    'Factura-formularioFacturaNuevo': import('../../../modules/factura/componentes/factura-nuevo/factura-nuevo.component')
-  };
+
 }

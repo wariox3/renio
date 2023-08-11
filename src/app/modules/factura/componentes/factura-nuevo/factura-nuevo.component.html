@@ -16,7 +16,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="row mb-10">
@@ -38,7 +37,6 @@
         autocomplete="off"
       />
     </div>
-
   </div>
 
   <div class="row mb-10">
@@ -60,7 +58,6 @@
         autocomplete="off"
       />
     </div>
-
   </div>
 
   <div class="row mb-10">
@@ -99,53 +96,68 @@
   <div class="row">
     <div class="col-12">
       <ul
-  ngbNav
-  #nav="ngbNav"
-  [(activeId)]="active"
-  class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
->
-  <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-    <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
-    <ng-template ngbNavContent>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Etiqueta</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Descuento</th>
-            <th>Impuesto</th>
-            <th>Imp Incluidos</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>
-              <i
-              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-            ></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ng-template>
-  </li>
-  <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-    <a class="nav-link" ngbNavLink data-bs-toggle="tab">Otra inforamación</a>
-    <ng-template ngbNavContent> </ng-template>
-  </li>
-</ul>
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="active"
+        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+      >
+        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+          <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
+          <ng-template ngbNavContent>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Etiqueta</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Descuento</th>
+                  <th>Impuesto</th>
+                  <th>Imp Incluidos</th>
+                  <th>
+                    <button (click)="agregarProductos()" class="btn btn-sm btn-primary" type="button">Agregar item</button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let producto of arrProductos">
+                  <td>
+                    <input type="text" class="form-select form-select">
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <i
+                      class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+          <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+            >Otra inforamación</a
+          >
+          <ng-template ngbNavContent> </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
 
+  <div class="fv-row d-flex justify-content-end">
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
 </form>

@@ -28,6 +28,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   formularioFactura: FormGroup;
   active:Number;
+  arrProductos:any = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -129,5 +130,12 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   formSubmit(){
 
+  }
+
+  agregarProductos(){
+    this.arrProductos.push([1,2])
+    console.log(this.arrProductos);
+
+    this.changeDetectorRef.detectChanges()
   }
 }
