@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,  OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 import { HttpService } from '@comun/services/http.service'
 import { Item } from '@modulos/general/modelos/item';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 
 @Component({
   selector: 'app-item-formulario',
@@ -19,13 +19,14 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     TranslateModule,
     TranslationModule,
-    NgbDropdownModule
+    ImpuestosComponent
   ],
   templateUrl: './item-formulario.component.html',
 })
 export class ItemFormularioComponent extends General implements OnInit {
 
   formularioItem: FormGroup;
+
   @ViewChild('inputImpuestos', {static:false}) inputImpuestos: HTMLInputElement;
 
   constructor(
@@ -142,9 +143,4 @@ export class ItemFormularioComponent extends General implements OnInit {
     this.formularioItem.reset();
   }
 
-  focusInput() {
-    console.log("red");
-
-    this.inputImpuestos.click;
-  }
 }
