@@ -1,26 +1,39 @@
 <div class="fv-row mb-10">
   <div class="col-12">
-    <div ngbDropdown #Dropdown="ngbDropdown" class="d-inline-flex flex-wrap gap-1">
-      <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
-        <span class="btn btn-primary btn-sm position-relative me-1">
-          {{ impuesto.nombre }}
-          <span
-            (click)="removerItem(impuesto.id)"
-            class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger"
-          >
-            <i class="bi bi-x"></i>
-          </span>
-        </span>
-      </ng-container>
+    <div
+      ngbDropdown
+      #Dropdown="ngbDropdown"
+      class="d-inline-flex flex-wrap gap-1"
+    >
+      <div
+        *ngFor="let impuesto of arrImpuestoSeleccionados"
+        style="max-width: 100%"
+      >
+        <span class="badge badge-primary badge-sm"
+          >{{ impuesto.nombre }}
+          <i class="bi bi-x" (click)="removerItem(impuesto.id)"></i
+        ></span>
+      </div>
       <div>
-        <input
-          #inputImpuestos
-          type="text"
-          formControlName="impuestos"
-          ngbDropdownToggle
-          class="cursor-pointer form-select w-100"
-          (focus)="consultarImpuesto()"
-        />
+        <div class="w-lg-50 position-relative">
+          <!--begin::Input-->
+          <input
+            type="text"
+            formControlName="impuestos"
+            ngbDropdownToggle
+            class="cursor-pointer w-100"
+            (focus)="consultarImpuesto()"
+            name="card_cvv"
+          />
+          <!--end::Input-->
+
+          <!--begin::CVV icon-->
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <i class="ki-duotone ki-down"></i>
+          </div>
+          <!--end::CVV icon-->
+        </div>
+
         <div
           ngbDropdownMenu
           aria-labelledby="dropdownBasic1"
