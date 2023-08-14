@@ -52,8 +52,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
   ngOnInit() {
     this.initForm();
-    this.active = 1;
     this.changeDetectorRef.detectChanges();
+    this.active = 1;
   }
 
   initForm() {
