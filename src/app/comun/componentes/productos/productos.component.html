@@ -1,0 +1,46 @@
+<div class="fv-row mb-10">
+  <div class="col-12">
+    <div ngbDropdown class="d-flex flex-wrap row-gap-4">
+      <ng-container *ngFor="let impuesto of arrItemsSeleccionados">
+        <span class="btn btn-link btn-sm position-relative me-1">
+          {{ impuesto.nombre }}
+          <span
+            (click)="removerItem(impuesto.nombre)"
+            class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger"
+          >
+            <i class="bi bi-x"></i>
+          </span>
+        </span>
+      </ng-container>
+      <div>
+        <input
+          #inputItemss
+          type="text"
+          formControlName="impuestos"
+          ngbDropdownToggle
+          class="cursor-pointer form-select w-100"
+          (focus)="consultarItems()"
+          *ngIf="arrItemsSeleccionados.length === 0"
+        />
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic1"
+          class="dropdown-menu"
+        >
+          <ng-container *ngFor="let impuesto of arrItemsLista">
+            <button
+              (click)="agregarItem(impuesto)"
+              type="button"
+              ngbDropdownItem
+            >
+              {{ impuesto.nombre }}
+            </button>
+          </ng-container>
+          <div class="dropdown-divider"></div>
+
+          <button type="button" ngbDropdownItem>Nuevo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

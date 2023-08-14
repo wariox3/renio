@@ -8,6 +8,7 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -21,7 +22,8 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
     NgbDropdownModule,
     NgbNavModule,
     TablaComponent,
-    ImpuestosComponent
+    ImpuestosComponent,
+    ProductosComponent
   ],
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
