@@ -129,11 +129,9 @@
                     </td>
                     <td>
                       <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-
                     </td>
                     <td>
                       <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-
                     </td>
                     <td>
                       <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
@@ -149,6 +147,17 @@
                     </td>
                   </tr>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="9"></td>
+                    <td *ngIf="totalCantidad > 0">Total Cantidad: {{ totalCantidad }}</td>
+                    <td *ngIf="totalPrecio > 0">Total Precio: {{ totalPrecio }}</td>
+                    <td *ngIf="totalDescuento > 0">Total Descuento: {{ totalDescuento }}</td>
+                    <td *ngIf="totalImpuestos > 0">Total Impuestos: {{ totalImpuestos }}</td>
+                    <td>Total General: {{ totalGeneral }}</td>
+                    <td></td>
+                  </tr>
+                </tfoot>                
               </table>
             </div>
 

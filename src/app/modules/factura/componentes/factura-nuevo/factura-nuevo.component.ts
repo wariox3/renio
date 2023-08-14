@@ -38,6 +38,11 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 export default class FacturaNuevoComponent extends General implements OnInit {
   formularioFactura: FormGroup;
   active: Number;
+  totalCantidad: number = 0;
+  totalPrecio: number = 0;
+  totalDescuento: number = 0;
+  totalImpuestos: number = 0;
+  totalGeneral: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -128,6 +133,12 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   formSubmit() {}
 
+  detalle = {
+    cantidad: 0,
+    precio: 0,
+    descuento: 0,
+  };
+
   agregarProductos() {
     this.detalles.push(
       this.formBuilder.group({
@@ -153,6 +164,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         ],
       })
     );
+    this.calcularTotales();
     this.changeDetectorRef.detectChanges();
     console.log(this.formularioFactura.value);
 
@@ -163,4 +175,36 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       this.agregarProductos();
     }
   }
+
+  calcularTotales() {
+    this.totalCantidad = 0;
+    this.totalPrecio = 0;
+    this.totalDescuento = 0;
+    this.totalImpuestos = 0;
+    this.totalGeneral = 0;
+  
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    detallesArray.controls.forEach((detalleControl) => {
+      const cantidad = detalleControl.get('cantidad')?.value || 0;
+      const precio = detalleControl.get('precio')?.value || 0;
+      const descuento = detalleControl.get('descuento')?.value || 0;
+  
+      this.totalCantidad += cantidad;
+      this.totalPrecio += cantidad * precio;
+      this.totalDescuento += descuento;
+  
+      const impuestos = detalleControl.get('impuestos')?.value || [];
+  
+      if (Array.isArray(impuestos)) {
+        for (const impuesto of impuestos) {
+          this.totalImpuestos += impuesto.total || 0;
+        }
+      } else {
+        this.totalImpuestos += impuestos.total || 0;
+      }
+    });
+  
+    this.totalGeneral = this.totalPrecio - this.totalDescuento + this.totalImpuestos;
+  }
+  
 }
