@@ -4,6 +4,8 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Impuesto } from '@interfaces/general/impuesto';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -17,18 +19,32 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ImpuestosComponent extends General  {
 
-  arrImpuesto:any[] = []
+  arrImpuestoSeleccionados:Impuesto[] = []
+  arrImpuestoLista:Impuesto[]
 
-  addimpuesto() {
-    this.arrImpuesto.push({
-      "clave":1,
-      "valor":2
-    })
+  constructor(private httpService: HttpService) {
+    super();
+  }
+
+
+  addimpuesto(impuesto: Impuesto) {
+    console.log(impuesto);
+
+    this.arrImpuestoSeleccionados.push(impuesto)
     this.changeDetectorRef.detectChanges()
   }
 
-  removerItem(id: number){    
-    this.arrImpuesto = this.arrImpuesto.filter((index:any)=>index.clave !== id)
+  removerItem(id: number){
+    this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter((index:Impuesto)=>index.id !== id)
     this.changeDetectorRef.detectChanges()
+  }
+
+  consultarImpuesto(){
+    this.httpService
+    .get<Impuesto>('general/impuesto/')
+    .subscribe((respuesta) => {
+      this.arrImpuestoLista = respuesta;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 }

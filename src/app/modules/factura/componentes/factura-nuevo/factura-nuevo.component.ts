@@ -7,6 +7,7 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -19,7 +20,8 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
     TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent
+    TablaComponent,
+    ImpuestosComponent
   ],
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],

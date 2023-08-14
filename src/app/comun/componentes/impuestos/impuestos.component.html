@@ -1,43 +1,45 @@
 <div class="fv-row mb-10">
-    <div class="col-12">
-      <div ngbDropdown class="d-flex flex-wrap">
-        <ng-container *ngFor="let impuesto of arrImpuesto; let i = index">
-          <span class="btn btn-primary position-relative me-5">
-            {{impuesto.valor}} <span (click)="removerItem(i)" class="position-absolute top-0 start-100 translate-middle  badge badge-circle badge-danger">
-              <i class="bi bi-x"></i>
-
-            </span>
-          </span>
-          
-        </ng-container>
-        <div>
-          <input
-            #inputImpuestos
-            type="text"
-            formControlName="impuestos"
-            ngbDropdownToggle
-            class="cursor-pointer form-select w-100"
-          />
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
+  <div class="col-12">
+    <div ngbDropdown #Dropdown="ngbDropdown" class="d-flex flex-wrap row-gap-4">
+      <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
+        <span class="btn btn-primary position-relative me-5">
+          {{ impuesto.nombre }}
+          <span
+            (click)="removerItem(impuesto.id)"
+            class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger"
           >
-            <button (click)="addimpuesto()" type="button" ngbDropdownItem>Action - 1</button>
-            <button (click)="addimpuesto()" type="button" ngbDropdownItem>Another Action</button>
-            <button (click)="addimpuesto()" type="button" ngbDropdownItem>
-              Something else is here
+            <i class="bi bi-x"></i>
+          </span>
+        </span>
+      </ng-container>
+      <div>
+        <input
+          #inputImpuestos
+          type="text"
+          formControlName="impuestos"
+          ngbDropdownToggle
+          class="cursor-pointer form-select w-100"
+          (focus)="consultarImpuesto()"
+        />
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic1"
+          class="dropdown-menu"
+        >
+          <ng-container *ngFor="let impuesto of arrImpuestoLista">
+            <button
+              (click)="addimpuesto(impuesto)"
+              type="button"
+              ngbDropdownItem
+            >
+              {{ impuesto.nombre }}
             </button>
-            <button type="button" ngbDropdownItem>
-              Something else is here
-            </button>
-            <div class="dropdown-divider"></div>
+          </ng-container>
+          <div class="dropdown-divider"></div>
 
-            <button type="button" ngbDropdownItem>
-              Nuevo
-            </button>
-          </div>
+          <button type="button" ngbDropdownItem>Nuevo</button>
         </div>
       </div>
     </div>
   </div>
+</div>
