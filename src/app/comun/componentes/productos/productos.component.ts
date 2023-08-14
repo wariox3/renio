@@ -1,9 +1,15 @@
-import { Component, ElementRef, ViewChild,  } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbDropdownModule, } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
 
@@ -11,29 +17,33 @@ import { Item } from '@modulos/general/modelos/item';
   selector: 'app-comun-productos',
   standalone: true,
   imports: [
-    CommonModule,
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
+    NgIf,
+    NgFor,
   ],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.scss'],
 })
 export class ProductosComponent extends General {
-  arrItemsSeleccionados: Item[] = [];
+  itemSeleccionado: Item | null = null;
   arrItemsLista: Item[];
+  @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
 
   constructor(private httpService: HttpService) {
     super();
   }
 
   agregarItem(item: Item) {
-    this.arrItemsSeleccionados.push(item);
+    this.itemSeleccionado = item;
     this.changeDetectorRef.detectChanges();
+    this.emitirArrItems.emit(this.itemSeleccionado);
   }
 
-  removerItem(id: string) {
-    this.arrItemsSeleccionados = this.arrItemsSeleccionados.filter((index:Item)=>index.nombre !== id)
+  removerItem() {
+    this.itemSeleccionado = null;
+    this.emitirArrItems.emit(this.itemSeleccionado);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -45,7 +55,7 @@ export class ProductosComponent extends General {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'Item',
-    };;
+    };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
