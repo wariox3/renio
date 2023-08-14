@@ -94,4 +94,13 @@ export class BaseListaComponent extends General implements OnInit {
       },
     });
   }
+
+  detalle(id: number) {
+    this.router.navigate(['/detalle'], {
+      queryParams: {
+        modelo: this.arrParametrosConsulta.modelo,
+        detalle: id,
+      },
+    });
+  }
 }
