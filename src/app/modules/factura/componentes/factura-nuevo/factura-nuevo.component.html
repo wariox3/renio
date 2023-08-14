@@ -184,10 +184,10 @@
                   <tr>
                     <td colspan="6"></td>
                     <td >
-                      <p *ngIf="totalCantidad > 0">Total Cantidad: {{ totalCantidad }}</p>
-                      <p *ngIf="totalPrecio > 0">Total Precio: {{ totalPrecio }}</p>
-                      <p *ngIf="totalDescuento > 0">Total Descuento: {{ totalDescuento }}</p>
-                      <p *ngIf="totalImpuestos > 0">Total Impuestos: {{ totalImpuestos }}</p>
+                      <p *ngIf="totalCantidad > 0">Total Cantidad: {{ totalCantidad | currency : "$" }}</p>
+                      <p *ngIf="totalPrecio > 0">Total Precio: {{ totalPrecio | currency : "$" }}</p>
+                      <p *ngIf="totalDescuento > 0">Total Descuento: {{ totalDescuento | currency : "$" }}</p>
+                      <p *ngIf="totalImpuestos > 0">Total Impuestos: {{ totalImpuestos | currency : "$" }}</p>
                     </td>
                   </tr>
                   <tr>
