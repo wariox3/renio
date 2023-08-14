@@ -137,28 +137,27 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   agregarProductos() {
     this.detalles.push(
       this.formBuilder.group({
-        item: ['53'],
-        cantidad: ['1'],
-        precio: ['1800'],
-        porcentaje_descuento: ['0'],
-        descuento: ['0'],
-        subtotal: ['1800'],
-        total_bruto: ['1800'],
-        total: ['1800'],
-        impuestos: [
-          {
-            impuesto: ['1'],
-            base: ['1800'],
-            porcentaje: ['19'],
-            total: ['342'],
-          },
-        ],
+        item: [53],
+        cantidad: [1],
+        precio: [1800],
+        porcentaje_descuento: [0],
+        descuento: [0],
+        subtotal: [1800],
+        total_bruto: [1800],
+        total: [1800],
+        impuestos: this.formBuilder.array([
+          this.formBuilder.group({
+            impuesto: [1, Validators.required],
+            base: [1800, Validators.required],
+            porcentaje: [19, Validators.required],
+            total: [342, Validators.required],
+          }),
+        ]),
       })
     );
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
     console.log(this.formularioFactura.value);
-
   }
 
   onImpuestoBlur(index: number) {
@@ -195,7 +194,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       }
     });
 
-    this.totalGeneral = this.totalPrecio - this.totalDescuento + this.totalImpuestos;
+    this.totalGeneral =
+      this.totalPrecio - this.totalDescuento + this.totalImpuestos;
   }
 
   actualizarDetalles(item: Item, index: number) {
@@ -208,5 +208,4 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
-
 }

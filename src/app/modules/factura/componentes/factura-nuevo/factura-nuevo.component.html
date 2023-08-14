@@ -105,7 +105,7 @@
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-bordeless">
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -126,7 +126,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let producto of detalles.controls; let i = index">
+                  <ng-container
+                    *ngFor="let detalle of detalles.controls; let i = index"
+                  >
                     <tr [formGroupName]="i">
                       <td>
                         <app-comun-productos
@@ -136,6 +138,7 @@
                       <td>
                         <textarea
                           class="o_input"
+                          [value]="detalle.value.precio"
                           rows="2"
                           style="
                             border-width: 0px;
@@ -149,32 +152,7 @@
                       <td>
                         <textarea
                           class="o_input"
-                          rows="2"
-                          style="
-                            border-width: 0px;
-                            padding: 0px;
-                            resize: none;
-                            width: 50px;
-                          "
-                          spellcheck="true"
-                        ></textarea>
-                      </td>
-                      <td>
-                        <textarea
-                          class="o_input"
-                          rows="2"
-                          style="
-                            border-width: 0px;
-                            padding: 0px;
-                            resize: none;
-                            width: 50px;
-                          "
-                          spellcheck="true"
-                        ></textarea>
-                      </td>
-                      <td>
-                        <textarea
-                          class="o_input"
+                          [value]="detalle.value.descuento"
                           rows="2"
                           style="
                             border-width: 0px;
@@ -199,9 +177,9 @@
                       </td>
                       <td>
                         <i
-                        class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                        (click)="eliminarProducto(i)"
-                      ></i>
+                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                          (click)="eliminarProducto(i)"
+                        ></i>
                       </td>
                     </tr>
                   </ng-container>
