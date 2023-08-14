@@ -144,17 +144,9 @@
                     </td>
                     <td style="width: 150px;">
                       <app-comun-impuestos></app-comun-impuestos>
-                      <textarea
-                        #impuestoInput
-                        class="o_input"
-                        rows="2"
-                        style="border-width: 0px; padding: 0px; resize: none;"
-                        spellcheck="true"
-                        (blur)="onImpuestoBlur(i)"
-                      ></textarea>
                     </td>
                     <td style="width: 150px;">
-                      <app-comun-impuestos></app-comun-impuestos>
+                      <textarea (blur)="onImpuestoBlur(i)" readonly rows="1" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
                     </td>
                     <td>
                       <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"></i>
