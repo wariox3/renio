@@ -105,7 +105,7 @@
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
             <div class="table-responsive">
-              <table class="table table-bordeless">
+              <table class="table">
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -138,14 +138,16 @@
                       <td>
                         <textarea
                           class="o_input"
+                          [value]="detalle.value.cantidad"
+                          rows="2"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
                           [value]="detalle.value.precio"
                           rows="2"
-                          style="
-                            border-width: 0px;
-                            padding: 0px;
-                            resize: none;
-                            width: 50px;
-                          "
                           spellcheck="true"
                         ></textarea>
                       </td>
@@ -154,12 +156,6 @@
                           class="o_input"
                           [value]="detalle.value.descuento"
                           rows="2"
-                          style="
-                            border-width: 0px;
-                            padding: 0px;
-                            resize: none;
-                            width: 50px;
-                          "
                           spellcheck="true"
                         ></textarea>
                       </td>
@@ -168,10 +164,10 @@
                       </td>
                       <td>
                         <textarea
+                          [value]="(detalle.value.cantidad*detalle.value.precio)"
                           (blur)="onImpuestoBlur(i)"
                           readonly
                           rows="1"
-                          style="border-width: 0px; padding: 0px; resize: none"
                           spellcheck="true"
                         ></textarea>
                       </td>
@@ -186,21 +182,17 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="9"></td>
-                    <td *ngIf="totalCantidad > 0">
-                      Total Cantidad: {{ totalCantidad }}
+                    <td colspan="6"></td>
+                    <td >
+                      <p *ngIf="totalCantidad > 0">Total Cantidad: {{ totalCantidad }}</p>
+                      <p *ngIf="totalPrecio > 0">Total Precio: {{ totalPrecio }}</p>
+                      <p *ngIf="totalDescuento > 0">Total Descuento: {{ totalDescuento }}</p>
+                      <p *ngIf="totalImpuestos > 0">Total Impuestos: {{ totalImpuestos }}</p>
                     </td>
-                    <td *ngIf="totalPrecio > 0">
-                      Total Precio: {{ totalPrecio }}
-                    </td>
-                    <td *ngIf="totalDescuento > 0">
-                      Total Descuento: {{ totalDescuento }}
-                    </td>
-                    <td *ngIf="totalImpuestos > 0">
-                      Total Impuestos: {{ totalImpuestos }}
-                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6"></td>
                     <td>Total General: {{ totalGeneral }}</td>
-                    <td></td>
                   </tr>
                 </tfoot>
               </table>
