@@ -104,41 +104,59 @@
         <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Etiqueta</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                  <th>Descuento</th>
-                  <th>Impuesto</th>
-                  <th>Imp Incluidos</th>
-                  <th>
-                    <button (click)="agregarProductos()" class="btn btn-sm btn-primary" type="button">Agregar item</button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let producto of arrProductos">
-                  <td style="width: 150px;">
-                    <app-comun-impuestos></app-comun-impuestos>
-                  </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <i
-                      class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Etiqueta</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Descuento</th>
+                    <th>Impuesto</th>
+                    <th>Imp Incluidos</th>
+                    <th>
+                      <button (click)="agregarProductos()" class="btn btn-sm btn-primary" type="button">Agregar item</button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let producto of arrProductos">
+                    <td style="width: 150px;">
+                    </td>
+                    <td>
+                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
+                    </td>
+                    <td>
+                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
+                    </td>
+                    <td>
+                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
+
+                    </td>
+                    <td>
+                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
+
+                    </td>
+                    <td>
+                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
+                    </td>
+                    <td style="width: 150px;">
+                      <app-comun-impuestos></app-comun-impuestos>
+                    </td>
+                    <td style="width: 150px;">
+                      <app-comun-impuestos></app-comun-impuestos>
+                    </td>
+                    <td>
+                      <i
+                        class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                      ></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
           </ng-template>
         </li>
         <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">

@@ -2,7 +2,7 @@
   <div class="col-12">
     <div ngbDropdown #Dropdown="ngbDropdown" class="d-flex flex-wrap row-gap-4">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
-        <span class="btn btn-primary position-relative me-5">
+        <span class="btn btn-primary btn-sm position-relative me-1">
           {{ impuesto.nombre }}
           <span
             (click)="removerItem(impuesto.id)"
