@@ -17,6 +17,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
@@ -33,6 +34,7 @@ import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
     FormsModule,
     ReactiveFormsModule,
     BaseFiltroFormularioComponent,
+
   ],
 })
 export class BaseFiltroComponent implements OnInit {
@@ -59,9 +61,25 @@ export class BaseFiltroComponent implements OnInit {
 
   initForm() {
     this.formularioItem = this.formBuilder.group({
-      filtros: this.formBuilder.array([]),
+      filtros: this.formBuilder.array([
+      ]),
     });
   }
+
+  esCampoInvalido(index: number, campo: string) {
+    const filtro = this.filtros.at(index);
+    
+    if (filtro) {
+      const campoControl = filtro.get(campo);
+      
+      if (campoControl) {
+        return campoControl.invalid && (campoControl.touched || campoControl.dirty);
+      }
+    }
+  
+    return false;
+  }
+  
 
   get filtros() {
     return this.formularioItem.get('filtros') as FormArray;
@@ -82,7 +100,7 @@ export class BaseFiltroComponent implements OnInit {
     return this.formBuilder.group({
       propiedad: [propiedad],
       operador: [operador],
-      valor1: [valor1],
+      valor1: [valor1, [Validators.required]],
       valor2: [valor2],
     });
   }
@@ -92,7 +110,7 @@ export class BaseFiltroComponent implements OnInit {
       this.formBuilder.group({
         propiedad: [''],
         operador: [''],
-        valor1: [''],
+        valor1: ['', [Validators.required]],
         valor2: [''],
       })
     );
@@ -125,7 +143,7 @@ export class BaseFiltroComponent implements OnInit {
     );
   }
 
-  aplicarFiltro() {
+  aplicarFiltro() {    
     const filtros = this.formularioItem.value['filtros'];
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;

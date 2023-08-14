@@ -32,6 +32,9 @@
               placeholder="Buscar..."
               formControlName="valor1"
             />
+            <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
+              El campo es obligatorio
+            </div>
           </ng-container>
           <ng-container
             *ngIf="
