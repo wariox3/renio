@@ -143,20 +143,20 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   agregarProductos() {
     this.detalles.push(
       this.formBuilder.group({
-        item: 53,
-        cantidad: 1,
-        precio: 1800,
-        porcentaje_descuento: 0,
-        descuento: 0,
-        subtotal: 1800,
-        total_bruto: 1800,
-        total: 1800,
+        item: ['53'],
+        cantidad: ['1'],
+        precio: ['1800'],
+        porcentaje_descuento: ['0'],
+        descuento: ['0'],
+        subtotal: ['1800'],
+        total_bruto: ['1800'],
+        total: ['1800'],
         impuestos: [
           {
-            impuesto: 1,
-            base: 1800,
-            porcentaje: 19,
-            total: 342,
+            impuesto: ['1'],
+            base: ['1800'],
+            porcentaje: ['19'],
+            total: ['342'],
           },
         ],
       })
