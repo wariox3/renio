@@ -115,52 +115,117 @@
                     <th>Impuesto</th>
                     <th>Imp Incluidos</th>
                     <th>
-                      <button (click)="agregarProductos()" class="btn btn-sm btn-primary" type="button">Agregar item</button>
+                      <button
+                        (click)="agregarProductos()"
+                        class="btn btn-sm btn-primary"
+                        type="button"
+                      >
+                        Agregar item
+                      </button>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of detalles.controls; let i = index">
-                    <td>
-                      <app-comun-productos></app-comun-productos>
-                    </td>
-                    <td>
-                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-                    </td>
-                    <td>
-                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-                    </td>
-                    <td>
-                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-                    </td>
-                    <td>
-                      <textarea class="o_input" rows="2" style="border-width: 0px; padding: 0px; resize: none; width: 50px;" spellcheck="true"></textarea>
-                    </td>
-                    <td >
-                      <app-comun-impuestos></app-comun-impuestos>
-                    </td>
-                    <td>
-                      <textarea (blur)="onImpuestoBlur(i)" readonly rows="1" style="border-width: 0px; padding: 0px; resize: none;" spellcheck="true"></textarea>
-                    </td>
-                    <td>
-                      <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"></i>
-                    </td>
-                  </tr>
+                  <ng-container *ngFor="let producto of detalles.controls; let i = index">
+                    <tr [formGroupName]="i">
+                      <td>
+                        <app-comun-productos
+                          (emitirArrItems)="actualizarDetalles($event, i)"
+                        ></app-comun-productos>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          rows="2"
+                          style="
+                            border-width: 0px;
+                            padding: 0px;
+                            resize: none;
+                            width: 50px;
+                          "
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          rows="2"
+                          style="
+                            border-width: 0px;
+                            padding: 0px;
+                            resize: none;
+                            width: 50px;
+                          "
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          rows="2"
+                          style="
+                            border-width: 0px;
+                            padding: 0px;
+                            resize: none;
+                            width: 50px;
+                          "
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          rows="2"
+                          style="
+                            border-width: 0px;
+                            padding: 0px;
+                            resize: none;
+                            width: 50px;
+                          "
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <app-comun-impuestos></app-comun-impuestos>
+                      </td>
+                      <td>
+                        <textarea
+                          (blur)="onImpuestoBlur(i)"
+                          readonly
+                          rows="1"
+                          style="border-width: 0px; padding: 0px; resize: none"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <i
+                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                        ></i>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colspan="9"></td>
-                    <td *ngIf="totalCantidad > 0">Total Cantidad: {{ totalCantidad }}</td>
-                    <td *ngIf="totalPrecio > 0">Total Precio: {{ totalPrecio }}</td>
-                    <td *ngIf="totalDescuento > 0">Total Descuento: {{ totalDescuento }}</td>
-                    <td *ngIf="totalImpuestos > 0">Total Impuestos: {{ totalImpuestos }}</td>
+                    <td *ngIf="totalCantidad > 0">
+                      Total Cantidad: {{ totalCantidad }}
+                    </td>
+                    <td *ngIf="totalPrecio > 0">
+                      Total Precio: {{ totalPrecio }}
+                    </td>
+                    <td *ngIf="totalDescuento > 0">
+                      Total Descuento: {{ totalDescuento }}
+                    </td>
+                    <td *ngIf="totalImpuestos > 0">
+                      Total Impuestos: {{ totalImpuestos }}
+                    </td>
                     <td>Total General: {{ totalGeneral }}</td>
                     <td></td>
                   </tr>
-                </tfoot>                
+                </tfoot>
               </table>
             </div>
-
           </ng-template>
         </li>
         <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">

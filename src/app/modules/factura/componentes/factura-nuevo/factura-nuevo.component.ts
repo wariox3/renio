@@ -16,6 +16,7 @@ import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { Item } from '@modulos/general/modelos/item';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -142,10 +143,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   agregarProductos() {
     this.detalles.push(
       this.formBuilder.group({
-        propiedad: [''],
-        operador: [''],
-        valor1: [''],
-        valor2: [''],
         item: 53,
         cantidad: 1,
         precio: 1800,
@@ -182,19 +179,19 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
     this.totalGeneral = 0;
-  
+
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
       const precio = detalleControl.get('precio')?.value || 0;
       const descuento = detalleControl.get('descuento')?.value || 0;
-  
+
       this.totalCantidad += cantidad;
       this.totalPrecio += cantidad * precio;
       this.totalDescuento += descuento;
-  
+
       const impuestos = detalleControl.get('impuestos')?.value || [];
-  
+
       if (Array.isArray(impuestos)) {
         for (const impuesto of impuestos) {
           this.totalImpuestos += impuesto.total || 0;
@@ -203,8 +200,14 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         this.totalImpuestos += impuestos.total || 0;
       }
     });
-  
+
     this.totalGeneral = this.totalPrecio - this.totalDescuento + this.totalImpuestos;
   }
-  
+
+  actualizarDetalles(item: Item, index: number) {
+    this.detalles.controls[index].patchValue({
+      precio: item.precio,
+    });
+  }
+
 }
