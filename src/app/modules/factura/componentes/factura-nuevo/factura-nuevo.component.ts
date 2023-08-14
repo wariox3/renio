@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +32,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   formularioFactura: FormGroup;
   active:Number;
-  arrProductos:any = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -124,27 +123,54 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-
-        impuestos: [
-          ''
-        ] // Agregamos un control inicial
+        detalles: this.formBuilder.array([]),
       },
     );
   }
+
+  get detalles() {
+    return this.formularioFactura.get('detalles') as FormArray;
+  }
+
 
   formSubmit(){
 
   }
 
   agregarProductos(){
-    this.arrProductos.push([1,2])
-    console.log(this.arrProductos);
+
+    this.detalles.push(
+      this.formBuilder.group({
+        propiedad: [''],
+        operador: [''],
+        valor1: [''],
+        valor2: [''],
+        item:53,
+        cantidad:1,
+        precio:1800,
+        porcentaje_descuento:0,
+        descuento:0,
+        subtotal:1800,
+        total_bruto:1800,
+        total:1800,
+        impuestos: [
+            {
+                "impuesto":1,
+                "base":1800,
+                "porcentaje":19,
+                "total":342
+            }
+        ]
+      })
+    )
+
+    console.log(this.formularioFactura.value);
 
     this.changeDetectorRef.detectChanges()
   }
 
   onImpuestoBlur(index: number) {
-    if (index === this.arrProductos.length - 1) {
+    if (index === this.detalles.length - 1) {
       this.agregarProductos();
     }
   }
