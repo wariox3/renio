@@ -121,7 +121,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of arrProductos">
+                  <tr *ngFor="let producto of arrProductos; let i = index">
                     <td style="width: 150px;">
                     </td>
                     <td>
@@ -143,14 +143,20 @@
                     </td>
                     <td style="width: 150px;">
                       <app-comun-impuestos></app-comun-impuestos>
+                      <textarea
+                        #impuestoInput
+                        class="o_input"
+                        rows="2"
+                        style="border-width: 0px; padding: 0px; resize: none;"
+                        spellcheck="true"
+                        (blur)="onImpuestoBlur(i)"
+                      ></textarea>
                     </td>
                     <td style="width: 150px;">
                       <app-comun-impuestos></app-comun-impuestos>
                     </td>
                     <td>
-                      <i
-                        class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                      ></i>
+                      <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"></i>
                     </td>
                   </tr>
                 </tbody>

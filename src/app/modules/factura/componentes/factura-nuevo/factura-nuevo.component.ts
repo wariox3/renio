@@ -140,4 +140,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.changeDetectorRef.detectChanges()
   }
+
+  onImpuestoBlur(index: number) {
+    if (index === this.arrProductos.length - 1) {
+      this.agregarProductos();
+    }
+  }
 }
