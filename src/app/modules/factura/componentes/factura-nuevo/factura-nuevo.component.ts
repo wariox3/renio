@@ -134,12 +134,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   formSubmit() {}
 
-  detalle = {
-    cantidad: 0,
-    precio: 0,
-    descuento: 0,
-  };
-
   agregarProductos() {
     this.detalles.push(
       this.formBuilder.group({
@@ -208,6 +202,11 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.detalles.controls[index].patchValue({
       precio: item.precio,
     });
+  }
+
+  eliminarProducto(index: number) {
+    this.detalles.removeAt(index);
+    this.calcularTotales();
   }
 
 }
