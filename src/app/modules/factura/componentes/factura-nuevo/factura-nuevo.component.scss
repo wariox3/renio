@@ -19,20 +19,25 @@ textarea {
 table {
   user-select: none;
   border-collapse: collapse;
-  border: 1px solid #e0e0e0; /* Gris muy claro */
+  border: 1px dashed #A1A5B7; /* Gris muy claro */
   width: 100%;
 
+  tr {
+    height: 64.063px;
+  }
   td {
+    width: 200px;
     padding: 10px !important;
     vertical-align: middle; /* Centra el contenido verticalmente */
     text-align: center;
   }
 
   th {
+    width: 200px;
     padding: 10px !important;
     text-align: left;
   }
-  
+
   .textarea-container {
     display: flex;
     align-items: center; /* Esto centra verticalmente el contenido */
