@@ -105,10 +105,10 @@
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
             <div class="table-responsive">
-              <table class="table table-row-dashed table-row-gray-500">
+              <table id="tableDetalles" class="table table-row-dashed table-row-gray-500">
                 <thead>
                   <tr>
-                    <th style="width: 216px;">Producto</th>
+                    <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
                     <th>Descuento</th>
@@ -125,13 +125,13 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody  formArrayName="detalles">
+                <tbody formArrayName="detalles">
                   <ng-container
                     *ngFor="let detalle of detalles.controls; let i = index"
                     [formGroupName]="i"
                   >
                     <tr>
-                      <td style="width: 216px;">
+                      <td>
                         <app-comun-productos
                           (emitirArrItems)="actualizarDetalles($event, i)"
                         ></app-comun-productos>
@@ -166,7 +166,7 @@
                       </td>
                       <td>
                         <app-comun-impuestos
-                          (emitirImpuestos)="actualizarImpuesto($event , i)"
+                          (emitirImpuestos)="actualizarImpuesto($event, i)"
                         ></app-comun-impuestos>
                       </td>
                       <td>
@@ -189,29 +189,30 @@
                     </tr>
                   </ng-container>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="6"></td>
-                    <td>
-                      <p *ngIf="totalCantidad > 0">
-                        Total Cantidad: {{ totalCantidad | currency : "$" }}
-                      </p>
-                      <p *ngIf="totalPrecio > 0">
-                        Total Precio: {{ totalPrecio | currency : "$" }}
-                      </p>
-                      <p *ngIf="totalDescuento > 0">
-                        Total Descuento: {{ totalDescuento | currency : "$" }}
-                      </p>
-                      <p *ngIf="totalImpuestos > 0">
-                        Total Impuestos: {{ totalImpuestos | currency : "$" }}
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="6"></td>
-                    <td>Total General: {{ totalGeneral }}</td>
-                  </tr>
-                </tfoot>
+              </table>
+            </div>
+            <div class="d-flex flex-column justify-content-end align-items-end">
+              <table>
+                <tr *ngIf="totalCantidad > 0">
+                  <td class="text-end">Total Cantidad:</td>
+                  <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
+                </tr>
+                <tr *ngIf="totalPrecio > 0">
+                  <td class="text-end">Total Precio:</td>
+                  <td class="text-end">{{ totalPrecio | currency : "$" }}</td>
+                </tr>
+                <tr *ngIf="totalDescuento > 0">
+                  <td class="text-end">Total Descuento:</td>
+                  <td class="text-end">{{ totalDescuento | currency : "$" }}</td>
+                </tr>
+                <tr *ngIf="totalImpuestos > 0">
+                  <td class="text-end">Total Impuestos:</td>
+                  <td class="text-end">{{ totalImpuestos | currency : "$" }}</td>
+                </tr>
+                <tr class="border-top">
+                  <td class="text-end">Total General:</td>
+                  <td class="text-end " style="padding-left: 24px;">{{ totalGeneral | currency : "$"  }}</td>
+                </tr>
               </table>
             </div>
           </ng-template>

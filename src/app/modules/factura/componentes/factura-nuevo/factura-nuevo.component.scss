@@ -16,7 +16,7 @@ textarea {
   }
 }
 
-table {
+table#tableDetalles {
   user-select: none;
   border-collapse: collapse;
   border: 1px dashed #A1A5B7; /* Gris muy claro */
@@ -36,6 +36,8 @@ table {
     width: 200px;
     padding: 10px !important;
     text-align: left;
+    font-size: 1.05rem;
+    font-weight: 500;
   }
 
   .textarea-container {
