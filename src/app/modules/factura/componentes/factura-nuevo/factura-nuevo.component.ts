@@ -124,7 +124,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      detalles: this.formBuilder.array([]),
+      detalles: this.formBuilder.array([])
     });
   }
 
@@ -135,7 +135,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   formSubmit() {}
 
   agregarProductos() {
-    this.detalles.push(
+    const detalleFormGroup =
       this.formBuilder.group({
         item: [53],
         cantidad: [1],
@@ -153,11 +153,11 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             total: [342, Validators.required],
           }),
         ]),
-      })
-    );
+      });
+
+    this.detalles.push(detalleFormGroup)
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
-    console.log(this.formularioFactura.value);
   }
 
   onImpuestoBlur(index: number) {
@@ -207,5 +207,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   eliminarProducto(index: number) {
     this.detalles.removeAt(index);
     this.calcularTotales();
+  }
+
+  actualizarDetalle(index: number, campo:string, evento:any) {
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+    this.changeDetectorRef.detectChanges()
+    this.calcularTotales();
+
   }
 }
