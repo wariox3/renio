@@ -11,7 +11,11 @@
       >
         <span class="badge badge-primary badge-sm"
           >{{ impuesto.nombre }}
-          <i class="bi bi-x" (click)="removerItem(impuesto.id)"></i
+          <i
+            class="bi bi-x fs-1x text-white cursor-pointer"
+            (click)="removerItem(impuesto.id)"
+            title="Retirar impuesto"
+          ></i
         ></span>
       </div>
       <div>
