@@ -1,20 +1,4 @@
-textarea {
-  border-width: 0px;
-  padding: 0px;
-  resize: none;
-  width: 100%;
-  text-align: center;
-  box-sizing: border-box;
 
-  &:hover {
-    background-color: #f9f9f9;
-  }
-
-  &:focus {
-    outline: none;
-    background-color: #f9f9f9;
-  }
-}
 
 table#tableDetalles {
   user-select: none;
@@ -43,6 +27,24 @@ table#tableDetalles {
   .textarea-container {
     display: flex;
     align-items: center; /* Esto centra verticalmente el contenido */
+  }
+
+  textarea {
+    border-width: 0px;
+    padding: 0px;
+    resize: none;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: #f9f9f9;
+    }
   }
 
 }

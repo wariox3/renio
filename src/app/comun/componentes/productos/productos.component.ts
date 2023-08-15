@@ -50,7 +50,7 @@ export class ProductosComponent extends General {
   consultarItems() {
     let arrFiltros = {
       filtros: [],
-      limite: 50,
+      limite: 10,
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
