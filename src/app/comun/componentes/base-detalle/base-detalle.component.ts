@@ -12,36 +12,36 @@ import { componeteDetalle } from '@comun/extra/imports';
   standalone: true,
   templateUrl: './base-detalle.component.html',
   styleUrls: ['./base-detalle.component.scss'],
-  imports: [CommonModule, RouterModule, TranslateModule, TranslationModule, CardComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+  ],
 })
 export class BaseDetalleComponent extends General implements OnInit {
-
-
   modelo: string;
-  formulario: string
+  detalle: string;
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
-
-
+  
   constructor() {
-    super()
+    super();
   }
-
 
   ngOnInit(): void {
     this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-    this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
+    this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
     this.loadComponente();
   }
 
   async loadComponente() {
-    let posicion: keyof typeof componeteDetalle = `${this.modelo}-formulario${this.formulario}`;
-    let componete  = await (await componeteDetalle[posicion]).default
+    let posicion: keyof typeof componeteDetalle = `${this.modelo}-${this.modelo}Detalle`;
+    let componete = await (await componeteDetalle[posicion]).default;
     let componeteCreado = this.componenteDinamico.createComponent(componete);
-    let loadedComponentInstance:any = componeteCreado.instance;
-    loadedComponentInstance.ngOnInit()
+    let loadedComponentInstance: any = componeteCreado.instance;
+    loadedComponentInstance.ngOnInit();
   }
-
-
 }

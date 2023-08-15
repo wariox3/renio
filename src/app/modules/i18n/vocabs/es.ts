@@ -38,6 +38,7 @@ export const locale = {
           FILTRO: 'Descargar',
           EXPORTAR: 'Exportar',
           IMPORTAR: 'Importar',
+          DETALLE: 'Detalle'
         },
         EMPRESA: {
           CONECTAR: 'Conectar',

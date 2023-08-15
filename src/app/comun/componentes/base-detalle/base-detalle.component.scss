@@ -1,26 +1,19 @@
-
 .container-grid {
   display: grid;
-  gap: 20px 10px;
+  grid-template-columns: 0.6fr 1.4fr;
+  grid-template-rows: 0.1fr 1.7fr;
+  grid-auto-rows: 1fr;
+  gap: 20px 0px;
   grid-auto-flow: row;
   grid-template-areas:
     "ayuda ."
-    "botonera estados"
-    "detalle detalle"
-    "tap tap";
+    "detalle detalle";
 }
 
-.ubicacion { grid-area: ubicacion }
-
-.estados{
-  grid-area: estados;
-  display: flex;
-  justify-items: end;
-  flex-direction: row-reverse;
+.ayuda {
+  grid-area: ayuda;
 }
 
-.botonera { grid-area: botonera }
-
-.detalle { grid-area: detalle }
-
-.tap { grid-area: tap}
+.detalle {
+  grid-area: detalle;
+}

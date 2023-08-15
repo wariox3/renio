@@ -13,7 +13,14 @@ export class HttpService extends Subdomino  {
     super();
   }
 
-   // Método GET
+
+   // Método GET detalle
+   public getDetalle<T>(endpoint: string): Observable<T> {
+    const url = `${this.urlSubDominio}/${endpoint}`;
+    return this.http.get<T>(url);
+  }
+
+   // Método GET para listas
    public get<T>(endpoint: string): Observable<T[]> {
     const url = `${this.urlSubDominio}/${endpoint}`;
     return this.http.get<T[]>(url);

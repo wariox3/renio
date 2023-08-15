@@ -9,5 +9,5 @@ export const componeteNuevos: ComponentImport = {
 
 
 export const componeteDetalle: ComponentImport = {
-  'Item-formularioItemDetalle': import('../../modules/general/componentes/item/item-detalle/item-detalle.component'),
+  'Item-ItemDetalle': import('../../modules/general/componentes/item/item-detalle/item-detalle.component'),
 };
