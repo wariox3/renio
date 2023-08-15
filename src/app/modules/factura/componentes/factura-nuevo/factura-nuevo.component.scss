@@ -4,4 +4,17 @@ textarea{
   resize: none;
   width: 100%;
   text-align: right;
+
+  &:hover{
+    background-color: #F9F9F9;
+  }
+
+  &:focus{
+    outline: none;
+    background-color: #F9F9F9;
+  }
+}
+
+table{
+  user-select: none;
 }
