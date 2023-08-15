@@ -1,9 +1,9 @@
-<div class="fv-row mb-10">
+<div class="fv-row">
   <div class="col-12">
     <div ngbDropdown class="d-flex row-gap-4">
       <span
         *ngIf="itemSeleccionado !== null"
-        class="btn btn-link btn-sm position-relative me-1"
+        class="btn btn-link btn-sm position-relative me-1 w-100"
       >
         {{ itemSeleccionado.nombre }}
         <i class="bi bi-x text-danger" (click)="removerItem()"></i>

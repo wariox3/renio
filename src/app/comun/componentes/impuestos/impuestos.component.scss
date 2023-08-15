@@ -4,3 +4,21 @@ input{
     outline: none;
   }
 }
+
+.container {
+  padding: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.d-flex.flex-wrap.align-items-start {
+  flex-wrap: wrap;
+}
+
+.dropdown-menu {
+  z-index: 1;
+}

@@ -1,20 +1,41 @@
-textarea{
+textarea {
   border-width: 0px;
   padding: 0px;
   resize: none;
   width: 100%;
-  text-align: right;
+  text-align: center;
+  box-sizing: border-box;
 
-  &:hover{
-    background-color: #F9F9F9;
+  &:hover {
+    background-color: #f9f9f9;
   }
 
-  &:focus{
+  &:focus {
     outline: none;
-    background-color: #F9F9F9;
+    background-color: #f9f9f9;
   }
 }
 
-table{
+table {
   user-select: none;
+  border-collapse: collapse;
+  border: 1px solid #e0e0e0; /* Gris muy claro */
+  width: 100%;
+
+  td {
+    padding: 10px !important;
+    vertical-align: middle; /* Centra el contenido verticalmente */
+    text-align: center;
+  }
+
+  th {
+    padding: 10px !important;
+    text-align: left;
+  }
+  
+  .textarea-container {
+    display: flex;
+    align-items: center; /* Esto centra verticalmente el contenido */
+  }
+
 }

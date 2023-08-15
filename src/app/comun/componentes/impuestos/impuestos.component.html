@@ -1,26 +1,20 @@
-<div class="fv-row mb-10">
-  <div class="col-12">
-    <div
-      ngbDropdown
-      #Dropdown="ngbDropdown"
-      class="d-inline-flex flex-wrap gap-1"
-    >
-      <div
-        *ngFor="let impuesto of arrImpuestoSeleccionados"
-        style="max-width: 100%"
-      >
-        <span class="badge badge-primary badge-sm"
-          >{{ impuesto.nombre }}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 d-flex flex-wrap align-items-start">
+      <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
+        <span class="badge badge-primary badge-sm mb-1 me-2">
+          {{ impuesto.nombre }}
           <i
             class="bi bi-x fs-1x text-white cursor-pointer"
             (click)="removerItem(impuesto.id)"
             title="Retirar impuesto"
-          ></i
-        ></span>
-      </div>
-      <div>
-        <div class="w-lg-50 position-relative">
-          <!--begin::Input-->
+          ></i>
+        </span>
+      </ng-container>
+    </div>
+    <div class="col-md-6 d-flex align-items-start flex-column justify-content-center">
+      <div ngbDropdown class="d-inline-flex gap-1 align-self-start">
+        <div class="position-relative">
           <input
             type="text"
             formControlName="impuestos"
@@ -29,20 +23,12 @@
             (focus)="consultarImpuesto()"
             name="card_cvv"
           />
-          <!--end::Input-->
-
-          <!--begin::CVV icon-->
           <div class="position-absolute translate-middle-y top-50 end-0 me-3">
             <i class="ki-duotone ki-down"></i>
           </div>
-          <!--end::CVV icon-->
         </div>
 
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
           <ng-container *ngFor="let impuesto of arrImpuestoLista">
             <button
               (click)="agregarImpuesto(impuesto)"
@@ -53,7 +39,6 @@
             </button>
           </ng-container>
           <div class="dropdown-divider"></div>
-
           <button type="button" ngbDropdownItem>Nuevo</button>
         </div>
       </div>

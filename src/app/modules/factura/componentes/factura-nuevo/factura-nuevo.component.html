@@ -105,7 +105,7 @@
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
             <div class="table-responsive">
-              <table class="table table-bordeless">
+              <table class="table table-row-dashed table-row-gray-500">
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -142,7 +142,7 @@
                           formControlName="cantidad"
                           [value]="detalle.value?.cantidad"
                           (change)="actualizarDetalle(i, 'cantidad', $event)"
-                          rows="2"
+                          rows="1"
                           spellcheck="true"
                         ></textarea>
                       </td>
@@ -151,7 +151,7 @@
                           class="o_input"
                           [value]="detalle.value.precio"
                           (change)="actualizarDetalle(i, 'precio', $event)"
-                          rows="2"
+                          rows="1"
                           spellcheck="true"
                         ></textarea>
                       </td>
@@ -160,7 +160,7 @@
                           class="o_input"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
-                          rows="2"
+                          rows="1"
                           spellcheck="true"
                         ></textarea>
                       </td>
