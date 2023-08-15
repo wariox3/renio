@@ -165,7 +165,9 @@
                         ></textarea>
                       </td>
                       <td>
-                        <app-comun-impuestos></app-comun-impuestos>
+                        <app-comun-impuestos
+                          (emitirImpuestos)="actualizarImpuesto($event , i)"
+                        ></app-comun-impuestos>
                       </td>
                       <td>
                         <textarea

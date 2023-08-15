@@ -132,7 +132,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
-  formSubmit() {}
+  formSubmit() {
+    console.log(this.formularioFactura.value);
+
+  }
 
   agregarProductos() {
     const detalleFormGroup =
@@ -214,6 +217,24 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     detalleFormGroup.get(campo)?.patchValue(evento.target.value);
     this.changeDetectorRef.detectChanges()
     this.calcularTotales();
+  }
+
+  actualizarImpuesto(arrImpuestos:any, index: number){
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray
+   arrDetalleImpuestos.clear()
+    arrImpuestos.forEach((impuesto:any)=>{
+      let impuestoFormGrup = this.formBuilder.group({
+          impuesto: [1],
+          base: [1800],
+          porcentaje: [19],
+          total: [342],
+      })
+      arrDetalleImpuestos.push(impuestoFormGrup)
+    })
+    this.calcularTotales();
+    this.changeDetectorRef.detectChanges();
+    console.log(this.formularioFactura.value);
 
   }
 }

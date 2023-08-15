@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
@@ -21,22 +21,23 @@ export class ImpuestosComponent extends General  {
 
   arrImpuestoSeleccionados:Impuesto[] = []
   arrImpuestoLista:Impuesto[]
+  @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter()
 
   constructor(private httpService: HttpService) {
     super();
   }
 
 
-  addimpuesto(impuesto: Impuesto) {
-    console.log(impuesto);
-
+  agregarImpuesto(impuesto: Impuesto) {
     this.arrImpuestoSeleccionados.push(impuesto)
     this.changeDetectorRef.detectChanges()
+    this.emitirImpuestos.emit(this.arrImpuestoSeleccionados)
   }
 
   removerItem(id: number){
     this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter((index:Impuesto)=>index.id !== id)
     this.changeDetectorRef.detectChanges()
+    this.emitirImpuestos.emit(this.arrImpuestoSeleccionados)
   }
 
   consultarImpuesto(){
