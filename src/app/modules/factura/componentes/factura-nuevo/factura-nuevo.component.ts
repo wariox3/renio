@@ -17,6 +17,7 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { Item } from '@modulos/general/modelos/item';
+import { Impuesto } from '@interfaces/general/impuesto';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -135,7 +136,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
-  formSubmit() {}
+  formSubmit() {
+    console.log(this.detalles);
+  }
 
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
@@ -226,53 +229,96 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  actualizarImpuesto(arrImpuestos: any, index: number) {
+  actualizarImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    arrDetalleImpuestos.clear();
-    arrImpuestos.forEach((impuesto: any) => {
-      this.visualizadorImpuestos.find((item) => {});
-      this.acumuladorImpuestos.push({
+
+    if (!this.acumuladorImpuestos[impuesto.nombre]) {
+      this.acumuladorImpuestos[impuesto.nombre] = {
         id: impuesto.id,
         nombre: impuesto.nombre,
-        valor: Math.round(10),
+        total: Math.round(10),
         index,
-      });
+      };
       let impuestoFormGrup = this.formBuilder.group({
         impuesto: [impuesto.id],
         base: [1800],
         porcentaje: [19],
-        total: [342],
+        total: [10],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
-    });
+    } else {
+      //this.acumuladorImpuestos[impuesto.nombre].total += impuesto.total;
+    }
 
+    this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
 
-    let temporalImpuestos = this.acumuladorImpuestos.filter(
-      (data, index, j) => {
+    // arrDetalleImpuestos.clear();
+    // arrImpuestos.forEach((impuesto: any) => {
+    //   this.acumuladorImpuestos.push({
+    //     id: impuesto.id,
+    //     nombre: impuesto.nombre,
+    //     valor: Math.round(10),
+    //     index,
+    //   });
 
-        return index ===
-        j.findIndex((t) => t.index === data.index && t.nombre === data.nombre)
-      }
+    // });
+
+    // let temporalImpuestos = this.acumuladorImpuestos.filter(
+    //   (data, index, j) => {
+
+    //     return index ===
+    //     j.findIndex((t) => t.index === data.index && t.nombre === data.nombre)
+    //   }
+    // );
+    // const sumaDeImpuestoNombre: any = {};
+
+    // temporalImpuestos.forEach((item) => {
+    //   if (!sumaDeImpuestoNombre[item.nombre]) {
+    //     sumaDeImpuestoNombre[item.nombre] = {
+    //       id: item.id,
+    //       nombre: item.nombre,
+    //       valor: item.valor,
+    //     };
+    //   } else {
+    //     sumaDeImpuestoNombre[item.nombre].valor += item.valor;
+    //   }
+    // });
+
+    // this.calcularTotales();
+    // this.changeDetectorRef.detectChanges();
+  }
+
+  removerImpuesto(impuesto: Impuesto, index: number) {
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    //arrDetalleImpuestos.removeAt(0)
+    console.log(arrDetalleImpuestos.value);
+    let nuevosImpuestos = arrDetalleImpuestos.value.filter(
+      (item: any) => item.impuesto !== impuesto.id
     );
-    const sumaDeImpuestoNombre: any = {};
 
+    // Limpiar el FormArray actual
+    arrDetalleImpuestos.clear();
 
-    temporalImpuestos.forEach((item) => {
-      if (!sumaDeImpuestoNombre[item.nombre]) {
-        sumaDeImpuestoNombre[item.nombre] = {
-          id: item.id,
-          nombre: item.nombre,
-          valor: item.valor,
-        };
-      } else {
-        sumaDeImpuestoNombre[item.nombre].valor += item.valor;
-      }
+    // Agregar los impuestos filtrados de nuevo al FormArray
+    nuevosImpuestos.forEach((item: any) => {
+      const nuevoDetalle = this.formBuilder.group({
+        // Aquí debes definir la estructura de tu FormGroup para un impuesto
+        impuesto: [item.impuesto],
+        base: [1800],
+        porcentaje: [19],
+        total: [10],
+      });
+      arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    this.visualizadorImpuestos = Object.values(sumaDeImpuestoNombre)
+    // arrDetalleImpuestos.clear();
+    // console.log(this.acumuladorImpuestos);
 
-    this.calcularTotales();
-    this.changeDetectorRef.detectChanges();
+    // this.visualizadorImpuestos = this.visualizadorImpuestos.filter((index:Impuesto)=>)
+    //this.changeDetectorRef.detectChanges();
+
+    //this.calcularTotales();
   }
 }

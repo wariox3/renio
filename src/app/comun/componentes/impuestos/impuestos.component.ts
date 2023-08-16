@@ -22,6 +22,7 @@ export class ImpuestosComponent extends General  {
   arrImpuestoSeleccionados:Impuesto[] = []
   arrImpuestoLista:Impuesto[]
   @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter()
+  @Output() emitirImpuesto: EventEmitter<any> = new EventEmitter()
 
   constructor(private httpService: HttpService) {
     super();
@@ -31,13 +32,13 @@ export class ImpuestosComponent extends General  {
   agregarImpuesto(impuesto: Impuesto) {
     this.arrImpuestoSeleccionados.push(impuesto)
     this.changeDetectorRef.detectChanges()
-    this.emitirImpuestos.emit(this.arrImpuestoSeleccionados)
+    this.emitirImpuestos.emit(impuesto)
   }
 
-  removerItem(id: number){
-    this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter((index:Impuesto)=>index.id !== id)
+  removerItem(impuesto: Impuesto){
+    this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter((index:Impuesto)=>index.id !== impuesto.id)
     this.changeDetectorRef.detectChanges()
-    this.emitirImpuestos.emit(this.arrImpuestoSeleccionados)
+    this.emitirImpuesto.emit(impuesto)
   }
 
   consultarImpuesto(){

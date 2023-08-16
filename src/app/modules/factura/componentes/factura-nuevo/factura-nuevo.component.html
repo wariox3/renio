@@ -185,6 +185,7 @@
                       <td>
                         <app-comun-impuestos
                           (emitirImpuestos)="actualizarImpuesto($event, i)"
+                          (emitirImpuesto)="removerImpuesto($event, i)"
                         ></app-comun-impuestos>
                       </td>
                       <td>
@@ -217,7 +218,7 @@
                 </tr>
                 <tr *ngFor="let impuesto of visualizadorImpuestos">
                   <td class="text-end">{{impuesto.nombre}}</td>
-                  <td class="text-end">{{ impuesto.valor| currency : "$" }}</td>
+                  <td class="text-end">{{ impuesto.total | currency : "$" }}</td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
                   <td class="text-end">Total Descuento:</td>
