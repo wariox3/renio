@@ -44,8 +44,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   totalImpuestos: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
+  acumuladorImpuestos: any[] = [];
 
-  visualizadorImpuestos: { id: number; nombre: string; valor: number }[]=[];
+  visualizadorImpuestos: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -226,18 +227,17 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   actualizarImpuesto(arrImpuestos: any, index: number) {
-    console.log(arrImpuestos);
-    
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     arrDetalleImpuestos.clear();
-    let temporalImpuestos:any[] = [];
     arrImpuestos.forEach((impuesto: any) => {
-      arrDetalleImpuestos.push({
-        id : impuesto.id,
-        nombre : impuesto.nombre,
-        valor: 0
-      }) 
+      this.visualizadorImpuestos.find((item) => {});
+      this.acumuladorImpuestos.push({
+        id: impuesto.id,
+        nombre: impuesto.nombre,
+        valor: Math.round(10),
+        index,
+      });
       let impuestoFormGrup = this.formBuilder.group({
         impuesto: [impuesto.id],
         base: [1800],
@@ -246,8 +246,32 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
     });
-    console.log(temporalImpuestos);
-    
+
+
+    let temporalImpuestos = this.acumuladorImpuestos.filter(
+      (data, index, j) => {
+
+        return index ===
+        j.findIndex((t) => t.index === data.index && t.nombre === data.nombre)
+      }
+    );
+    const sumaDeImpuestoNombre: any = {};
+
+
+    temporalImpuestos.forEach((item) => {
+      if (!sumaDeImpuestoNombre[item.nombre]) {
+        sumaDeImpuestoNombre[item.nombre] = {
+          id: item.id,
+          nombre: item.nombre,
+          valor: item.valor,
+        };
+      } else {
+        sumaDeImpuestoNombre[item.nombre].valor += item.valor;
+      }
+    });
+
+    this.visualizadorImpuestos = Object.values(sumaDeImpuestoNombre)
+
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
