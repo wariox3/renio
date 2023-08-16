@@ -140,7 +140,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   agregarProductos() {
     const detalleFormGroup =
       this.formBuilder.group({
-        item: [53],
+        item: [0],
         cantidad: [1],
         precio: [1800],
         porcentaje_descuento: [0],
@@ -164,8 +164,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   onImpuestoBlur(index: number) {
-    if (index === this.detalles.length - 1) {
-      this.agregarProductos();
+    if(this.detalles.controls[index].get('item')?.value){
+      if (index === this.detalles.length - 1) {
+        this.agregarProductos();
+      }
     }
   }
 
@@ -201,10 +203,20 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       this.totalPrecio - this.totalDescuento + this.totalImpuestos;
   }
 
-  actualizarDetalles(item: Item, index: number) {
-    this.detalles.controls[index].patchValue({
-      precio: item.precio,
-    });
+  actualizarDetalles(item: Item|null, index: number) {
+    if(item){
+      this.detalles.controls[index].patchValue({
+        precio: item.precio,
+        item: item.id
+      });
+    } else {
+      this.detalles.controls[index].patchValue({
+        precio: 0,
+        item: 0
+      });
+    }
+    this.calcularTotales();
+
   }
 
   eliminarProducto(index: number) {
