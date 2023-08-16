@@ -215,9 +215,9 @@
                   <td class="text-end">Total Cantidad:</td>
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
-                <tr *ngIf="totalPrecio > 0">
-                  <td class="text-end">Total Precio:</td>
-                  <td class="text-end">{{ totalPrecio | currency : "$" }}</td>
+                <tr *ngFor="let impuesto of visualizadorImpuestos">
+                  <td class="text-end">{{impuesto.nombre}}</td>
+                  <td class="text-end">{{ impuesto.valor| currency : "$" }}</td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
                   <td class="text-end">Total Descuento:</td>

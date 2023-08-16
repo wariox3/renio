@@ -88,7 +88,6 @@ export class ItemFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    console.log();
 
     if (this.formularioItem.valid) {
       this.store

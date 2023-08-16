@@ -136,8 +136,6 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   eliminarFiltroLista(index: string) {
-    console.log(index);
-
     this.listaFiltros = this.listaFiltros.filter(
       (filtro: any) => filtro.id !== index
     );

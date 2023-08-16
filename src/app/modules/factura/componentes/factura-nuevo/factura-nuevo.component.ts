@@ -40,10 +40,12 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
-  totalPrecio: number = 0;
   totalDescuento: number = 0;
   totalImpuestos: number = 0;
   totalGeneral: number = 0;
+  subtotalGeneral: number = 0;
+
+  visualizadorImpuestos: { id: number; nombre: string; valor: number }[]=[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -124,7 +126,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      detalles: this.formBuilder.array([])
+      detalles: this.formBuilder.array([]),
     });
   }
 
@@ -132,39 +134,28 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
-  formSubmit() {
-    console.log(this.formularioFactura.value);
-
-  }
+  formSubmit() {}
 
   agregarProductos() {
-    const detalleFormGroup =
-      this.formBuilder.group({
-        item: [0],
-        cantidad: [1],
-        precio: [1800],
-        porcentaje_descuento: [0],
-        descuento: [0],
-        subtotal: [1800],
-        total_bruto: [1800],
-        total: [1800],
-        impuestos: this.formBuilder.array([
-          this.formBuilder.group({
-            impuesto: [1, Validators.required],
-            base: [1800, Validators.required],
-            porcentaje: [19, Validators.required],
-            total: [342, Validators.required],
-          }),
-        ]),
-      });
+    const detalleFormGroup = this.formBuilder.group({
+      item: [0],
+      cantidad: [0],
+      precio: [0],
+      porcentaje_descuento: [0],
+      descuento: [0],
+      subtotal: [0],
+      total_bruto: [0],
+      total: [0],
+      impuestos: this.formBuilder.array([]),
+    });
 
-    this.detalles.push(detalleFormGroup)
+    this.detalles.push(detalleFormGroup);
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
 
   onImpuestoBlur(index: number) {
-    if(this.detalles.controls[index].get('item')?.value){
+    if (this.detalles.controls[index].get('item')?.value) {
       if (index === this.detalles.length - 1) {
         this.agregarProductos();
       }
@@ -173,23 +164,24 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   calcularTotales() {
     this.totalCantidad = 0;
-    this.totalPrecio = 0;
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
     this.totalGeneral = 0;
+    this.subtotalGeneral = 0;
 
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
       const precio = detalleControl.get('precio')?.value || 0;
-      const descuento = detalleControl.get('descuento')?.value || 0;
+      const porcentajeDescuento = detalleControl.get('descuento')?.value || 0;
+      const subtotal = cantidad * precio;
+      const descuento = (porcentajeDescuento * subtotal) / 100;
 
       this.totalCantidad += cantidad;
-      this.totalPrecio += cantidad * precio;
       this.totalDescuento += descuento;
+      this.subtotalGeneral += subtotal;
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
-
       if (Array.isArray(impuestos)) {
         for (const impuesto of impuestos) {
           this.totalImpuestos += impuesto.total || 0;
@@ -200,23 +192,25 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     });
 
     this.totalGeneral =
-      this.totalPrecio - this.totalDescuento + this.totalImpuestos;
+      this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
   }
 
-  actualizarDetalles(item: Item|null, index: number) {
-    if(item){
+  actualizarDetalles(item: Item | null, index: number) {
+    if (item) {
       this.detalles.controls[index].patchValue({
         precio: item.precio,
-        item: item.id
+        item: item.id,
+        cantidad: 1,
       });
     } else {
       this.detalles.controls[index].patchValue({
         precio: 0,
-        item: 0
+        item: 0,
+        cantidad: 0,
+        descuento: 0,
       });
     }
     this.calcularTotales();
-
   }
 
   eliminarProducto(index: number) {
@@ -224,29 +218,37 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  actualizarDetalle(index: number, campo:string, evento:any) {
+  actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     detalleFormGroup.get(campo)?.patchValue(evento.target.value);
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
     this.calcularTotales();
   }
 
-  actualizarImpuesto(arrImpuestos:any, index: number){
+  actualizarImpuesto(arrImpuestos: any, index: number) {
+    console.log(arrImpuestos);
+    
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray
-   arrDetalleImpuestos.clear()
-    arrImpuestos.forEach((impuesto:any)=>{
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    arrDetalleImpuestos.clear();
+    let temporalImpuestos:any[] = [];
+    arrImpuestos.forEach((impuesto: any) => {
+      arrDetalleImpuestos.push({
+        id : impuesto.id,
+        nombre : impuesto.nombre,
+        valor: 0
+      }) 
       let impuestoFormGrup = this.formBuilder.group({
-          impuesto: [1],
-          base: [1800],
-          porcentaje: [19],
-          total: [342],
-      })
-      arrDetalleImpuestos.push(impuestoFormGrup)
-    })
+        impuesto: [impuesto.id],
+        base: [1800],
+        porcentaje: [19],
+        total: [342],
+      });
+      arrDetalleImpuestos.push(impuestoFormGrup);
+    });
+    console.log(temporalImpuestos);
+    
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
-    console.log(this.formularioFactura.value);
-
   }
 }
