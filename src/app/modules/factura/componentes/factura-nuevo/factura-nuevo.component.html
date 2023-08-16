@@ -8,8 +8,26 @@
           class="form-control form-control"
           minlength="3"
           maxlength="4"
-          placeholder="Cliente"
           name="card_cvv"
+        />
+        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <i class="bi bi-search fs-1x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-10">
+    <div class="col-12">
+      <label class="form-label required">Movimiento tipo</label>
+      <div class="position-relative">
+        <input
+          type="text"
+          class="form-control form-control"
+          minlength="3"
+          maxlength="4"
+          name="card_cvv"
+          formControlName="movimiento_tipo"
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-1x"></i>
@@ -228,7 +246,7 @@
     </div>
   </div>
 
-  <div class="fv-row d-flex justify-content-end">
+  <div class="row d-flex justify-content-end mb-10">
     <button
       type="submit"
       class="btn btn-primary btn-sm"
