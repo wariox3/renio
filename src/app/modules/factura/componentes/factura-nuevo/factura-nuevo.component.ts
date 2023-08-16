@@ -206,7 +206,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         precio: item.precio,
         item: item.id,
         cantidad: 1,
-        subtotal: item.precio * 1
+        subtotal: item.precio * 1,
       });
     } else {
       this.detalles.controls[index].patchValue({
@@ -214,7 +214,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         item: 0,
         cantidad: 0,
         descuento: 0,
-        subtotal: 0
+        subtotal: 0,
       });
     }
     this.calcularTotales();
@@ -234,64 +234,37 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   actualizarImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const subtotal = detalleFormGroup.get('subtotal')as FormControl;
-
+    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
+    const item = detalleFormGroup.get('item') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
 
-    if (!this.acumuladorImpuestos[impuesto.nombre]) {
-      this.acumuladorImpuestos[impuesto.nombre] = {
-        id: impuesto.id,
-        nombre_extendido: impuesto.nombre_extendido,
-        total: [(subtotal.value * impuesto.porcentaje) / 100 ],
-        index,
-      };
-      let impuestoFormGrup = this.formBuilder.group({
-        impuesto: [impuesto.id],
-        base: [1800],
-        porcentaje: [impuesto.porcentaje],
-        total: [(subtotal.value * impuesto.porcentaje) / 100 ],
-      });
-      arrDetalleImpuestos.push(impuestoFormGrup);
-    } else {
-      this.acumuladorImpuestos[impuesto.nombre].total += impuesto.total;
+    if (item.value) {
+      let total = (subtotal.value * impuesto.porcentaje) / 100;
+      if (!this.acumuladorImpuestos[impuesto.nombre]) {
+        this.acumuladorImpuestos[impuesto.nombre] = {
+          id: impuesto.id,
+          nombre_extendido: impuesto.nombre_extendido,
+          total: total,
+          index,
+        };
+        let impuestoFormGrup = this.formBuilder.group({
+          impuesto: [impuesto.id],
+          base: [1800],
+          porcentaje: [impuesto.porcentaje],
+          total: [total],
+        });
+        arrDetalleImpuestos.push(impuestoFormGrup);
+      } else {
+        this.acumuladorImpuestos[impuesto.nombre].total += total;
+        console.log(impuesto);
+
+      }
+
+      this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
+
+      // this.calcularTotales();
+      // this.changeDetectorRef.detectChanges();
     }
-
-    this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
-
-    // arrDetalleImpuestos.clear();
-    // arrImpuestos.forEach((impuesto: any) => {
-    //   this.acumuladorImpuestos.push({
-    //     id: impuesto.id,
-    //     nombre: impuesto.nombre,
-    //     valor: Math.round(10),
-    //     index,
-    //   });
-
-    // });
-
-    // let temporalImpuestos = this.acumuladorImpuestos.filter(
-    //   (data, index, j) => {
-
-    //     return index ===
-    //     j.findIndex((t) => t.index === data.index && t.nombre === data.nombre)
-    //   }
-    // );
-    // const sumaDeImpuestoNombre: any = {};
-
-    // temporalImpuestos.forEach((item) => {
-    //   if (!sumaDeImpuestoNombre[item.nombre]) {
-    //     sumaDeImpuestoNombre[item.nombre] = {
-    //       id: item.id,
-    //       nombre: item.nombre,
-    //       valor: item.valor,
-    //     };
-    //   } else {
-    //     sumaDeImpuestoNombre[item.nombre].valor += item.valor;
-    //   }
-    // });
-
-    // this.calcularTotales();
-    // this.changeDetectorRef.detectChanges();
   }
 
   removerImpuesto(impuesto: Impuesto, index: number) {
