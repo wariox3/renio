@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
@@ -199,12 +200,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
   }
 
-  actualizarDetalles(item: Item | null, index: number) {
+  actualizarItemSeleccionado(item: Item | null, index: number) {
     if (item) {
       this.detalles.controls[index].patchValue({
         precio: item.precio,
         item: item.id,
         cantidad: 1,
+        subtotal: item.precio * 1
       });
     } else {
       this.detalles.controls[index].patchValue({
@@ -212,6 +214,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         item: 0,
         cantidad: 0,
         descuento: 0,
+        subtotal: 0
       });
     }
     this.calcularTotales();
@@ -231,24 +234,26 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   actualizarImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const subtotal = detalleFormGroup.get('subtotal')as FormControl;
+
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
 
     if (!this.acumuladorImpuestos[impuesto.nombre]) {
       this.acumuladorImpuestos[impuesto.nombre] = {
         id: impuesto.id,
-        nombre: impuesto.nombre,
-        total: Math.round(10),
+        nombre_extendido: impuesto.nombre_extendido,
+        total: [(subtotal.value * impuesto.porcentaje) / 100 ],
         index,
       };
       let impuestoFormGrup = this.formBuilder.group({
         impuesto: [impuesto.id],
         base: [1800],
-        porcentaje: [19],
-        total: [10],
+        porcentaje: [impuesto.porcentaje],
+        total: [(subtotal.value * impuesto.porcentaje) / 100 ],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
     } else {
-      //this.acumuladorImpuestos[impuesto.nombre].total += impuesto.total;
+      this.acumuladorImpuestos[impuesto.nombre].total += impuesto.total;
     }
 
     this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
@@ -293,14 +298,12 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     //arrDetalleImpuestos.removeAt(0)
-    console.log(arrDetalleImpuestos.value);
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto !== impuesto.id
     );
 
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
-
     // Agregar los impuestos filtrados de nuevo al FormArray
     nuevosImpuestos.forEach((item: any) => {
       const nuevoDetalle = this.formBuilder.group({

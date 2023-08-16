@@ -151,7 +151,7 @@
                     <tr>
                       <td>
                         <app-comun-productos
-                          (emitirArrItems)="actualizarDetalles($event, i)"
+                          (emitirArrItems)="actualizarItemSeleccionado($event, i)"
                         ></app-comun-productos>
                       </td>
                       <td>
@@ -217,7 +217,7 @@
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
                 <tr *ngFor="let impuesto of visualizadorImpuestos">
-                  <td class="text-end">{{impuesto.nombre}}</td>
+                  <td class="text-end">{{impuesto.nombre_extendido}}</td>
                   <td class="text-end">{{ impuesto.total | currency : "$" }}</td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
