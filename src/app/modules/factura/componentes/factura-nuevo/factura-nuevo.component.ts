@@ -34,6 +34,7 @@ import { Impuesto } from '@interfaces/general/impuesto';
     TablaComponent,
     ImpuestosComponent,
     ProductosComponent,
+    NgbDropdownModule,
   ],
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
@@ -288,6 +289,5 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
-
   }
 }

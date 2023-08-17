@@ -1,6 +1,6 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="row mb-10">
-    <div class="col-12">
+    <div class="col-12" ngbDropdown>
       <label class="form-label required">Cliente</label>
       <div class="position-relative">
         <input
@@ -8,17 +8,28 @@
           class="form-control form-control"
           minlength="3"
           maxlength="4"
-          name="card_cvv"
+          ngbDropdownToggle
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-2x"></i>
         </div>
       </div>
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container>
+          <button type="button" ngbDropdownItem>cliente.nombre</button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+        <button type="button" ngbDropdownItem>Nuevo</button>
+      </div>
     </div>
   </div>
 
   <div class="row mb-10">
-    <div class="col-12">
+    <div class="col-12" ngbDropdown>
       <label class="form-label required">Movimiento tipo</label>
       <div class="position-relative">
         <input
@@ -26,13 +37,24 @@
           class="form-control form-control"
           minlength="3"
           maxlength="4"
-          name="card_cvv"
+          ngbDropdownToggle
           formControlName="movimiento_tipo"
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-2x"></i>
         </div>
       </div>
+      <div
+      ngbDropdownMenu
+      aria-labelledby="dropdownBasic1"
+      class="dropdown-menu"
+    >
+      <ng-container>
+        <button type="button" ngbDropdownItem>movimientoTipo.nombre</button>
+      </ng-container>
+      <div class="dropdown-divider"></div>
+      <button type="button" ngbDropdownItem>Nuevo</button>
+    </div>
     </div>
   </div>
 
@@ -90,12 +112,17 @@
     </div>
     <div class="col">
       <label class="form-label required">Tipo de operación</label>
-      <input
-        formControlName="tipoOperacion"
+      <select class="form-select" formControlName="tipoOperacion">
+        <option value="1">SUMA</option>
+        <option value="2">RESTA</option>
+        <option value="0">CERO</option>
+      </select>
+      <!-- <input
+        formControlName=""
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
-      />
+      /> -->
     </div>
   </div>
 
@@ -123,7 +150,10 @@
           <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
           <ng-template ngbNavContent>
             <div class="table-responsive-sm">
-              <table id="tableDetalles" class="table table-row-dashed table-row-gray-500">
+              <table
+                id="tableDetalles"
+                class="table table-row-dashed table-row-gray-500"
+              >
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -151,7 +181,9 @@
                     <tr>
                       <td>
                         <app-comun-productos
-                          (emitirArrItems)="actualizarItemSeleccionado($event, i)"
+                          (emitirArrItems)="
+                            actualizarItemSeleccionado($event, i)
+                          "
                         ></app-comun-productos>
                       </td>
                       <td>
@@ -217,20 +249,28 @@
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
                 <tr *ngFor="let impuesto of visualizadorImpuestos">
-                  <td class="text-end">{{impuesto.nombre_extendido}}</td>
-                  <td class="text-end">{{ impuesto.total | currency : "$" }}</td>
+                  <td class="text-end">{{ impuesto.nombre_extendido }}</td>
+                  <td class="text-end">
+                    {{ impuesto.total | currency : "$" }}
+                  </td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
                   <td class="text-end">Total Descuento:</td>
-                  <td class="text-end">{{ totalDescuento | currency : "$" }}</td>
+                  <td class="text-end">
+                    {{ totalDescuento | currency : "$" }}
+                  </td>
                 </tr>
                 <tr *ngIf="totalImpuestos > 0">
                   <td class="text-end">Total Impuestos:</td>
-                  <td class="text-end">{{ totalImpuestos | currency : "$" }}</td>
+                  <td class="text-end">
+                    {{ totalImpuestos | currency : "$" }}
+                  </td>
                 </tr>
                 <tr class="border-top">
                   <td class="text-end">Total General:</td>
-                  <td class="text-end " style="padding-left: 24px;">{{ totalGeneral | currency : "$"  }}</td>
+                  <td class="text-end" style="padding-left: 24px">
+                    {{ totalGeneral | currency : "$" }}
+                  </td>
                 </tr>
               </table>
             </div>
