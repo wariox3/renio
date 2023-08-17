@@ -3,9 +3,9 @@ type ComponentImport = {
 };
 
 export const componeteNuevos: ComponentImport = {
-  'Item-formularioItemNuevo': import('../../modules/general/componentes/item/item-nuevo/item-nuevo.component'),
-  'Factura-formularioFacturaNuevo': import('../../modules/factura/componentes/factura-nuevo/factura-nuevo.component'),
-  'Contacto-formularioContactoNuevo' : import('../../modules/general/componentes/contacto/contacto-nuevo/contacto-nuevo.component')
+  'Item-ItemNuevo': import('../../modules/general/componentes/item/item-nuevo/item-nuevo.component'),
+  'Factura-FacturaNuevo': import('../../modules/factura/componentes/factura-nuevo/factura-nuevo.component'),
+  'Contacto-ContactoNuevo' : import('../../modules/general/componentes/contacto/contacto-nuevo/contacto-nuevo.component')
 };
 
 

@@ -33,7 +33,7 @@ export class BaseNuevoComponent  extends General implements OnInit {
   }
 
   async loadComponente() {
-    let posicion: keyof typeof componeteNuevos = `${this.modelo}-formulario${this.formulario}`;
+    let posicion: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
     let componete  = await (await componeteNuevos[posicion]).default
     let componeteCreado = this.componenteDinamico.createComponent(componete);
     let loadedComponentInstance:any = componeteCreado.instance;
