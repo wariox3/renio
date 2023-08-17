@@ -3,10 +3,10 @@
     <div ngbDropdown class="d-flex row-gap-4">
       <span
         *ngIf="itemSeleccionado !== null"
-        class="btn btn-link btn-sm position-relative me-1 w-100"
+        class="d-flex align-items-center cursor-pointer"
       >
         {{ itemSeleccionado.nombre }}
-        <i class="bi bi-x text-danger" (click)="removerItem()"></i>
+        <i class="bi bi-x text-danger fs-2x" (click)="removerItem()" title="retirar producto"></i>
       </span>
       <div>
         <input
