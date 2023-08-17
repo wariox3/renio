@@ -47,7 +47,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
-
   visualizadorImpuestos: any[] = [];
 
   constructor(

@@ -1,11 +1,12 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Output,
   ViewChild,
 } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -22,14 +23,17 @@ import { Item } from '@modulos/general/modelos/item';
     NgbDropdownModule,
     NgIf,
     NgFor,
+    CommonModule,
   ],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.scss'],
 })
-export class ProductosComponent extends General {
+export class ProductosComponent extends General implements AfterViewInit {
   itemSeleccionado: Item | null = null;
   arrItemsLista: Item[];
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
+  @ViewChild('inputItem', { read: ElementRef })
+  inputItem: ElementRef<HTMLInputElement>;
 
   constructor(private httpService: HttpService) {
     super();
@@ -66,5 +70,10 @@ export class ProductosComponent extends General {
         this.arrItemsLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  ngAfterViewInit() {
+    this.inputItem.nativeElement.click();
+    this.inputItem.nativeElement.focus();
   }
 }
