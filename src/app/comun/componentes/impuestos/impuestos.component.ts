@@ -32,9 +32,17 @@ export class ImpuestosComponent extends General {
   }
 
   agregarImpuesto(impuesto: Impuesto) {
-    this.arrImpuestoSeleccionados.push(impuesto);
-    this.changeDetectorRef.detectChanges();
-    this.emitirImpuestos.emit(impuesto);
+    // Verificar si el impuesto ya existe en el array
+    const impuestoExistente = this.arrImpuestoSeleccionados.find(
+      imp => imp.id === impuesto.id
+    );
+    if (!impuestoExistente) {
+      this.arrImpuestoSeleccionados.push(impuesto);
+      this.changeDetectorRef.detectChanges();
+      this.emitirImpuestos.emit(impuesto);
+    } else {
+      this.alertaService.mensajeError("Error", "El producto ya cuenta con este impuesto seleccionado")
+    }
   }
 
   removerItem(impuesto: Impuesto) {

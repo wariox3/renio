@@ -255,8 +255,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         arrDetalleImpuestos.push(impuestoFormGrup);
       } else {
         this.acumuladorImpuestos[impuesto.nombre].total += total;
-        console.log(impuesto);
-
       }
 
       this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
