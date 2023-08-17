@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { GeneralRoutingModule } from './general-routing.module';
 import { ContactoListaComponent } from './componentes/contacto/contacto-lista/contacto-lista.component';
-import { ContactoNuevoComponent } from './componentes/contacto/contacto-nuevo/contacto-nuevo.component';
 import { ContactoEditarComponent } from './componentes/contacto/contacto-editar/contacto-editar.component';
 import { ContactoDetalleComponent } from './componentes/contacto/contacto-detalle/contacto-detalle.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ItemListaComponent } from './componentes/item/item-lista/item-lista.component';
-import { ItemDetalleComponent } from './componentes/item/item-detalle/item-detalle.component';
 import { ItemEditarComponent } from './componentes/item/item-editar/item-editar.component';
 import { BaseListaComponent } from '@comun/componentes/base-lista/base-lista.component';
 import { BaseDetalleComponent } from '@comun/componentes/base-detalle/base-detalle.component';
@@ -23,11 +21,9 @@ import { ImportarComponent } from '@comun/componentes/importar/importar.componen
 @NgModule({
   declarations: [
     ContactoListaComponent,
-    ContactoNuevoComponent,
     ContactoEditarComponent,
     ContactoDetalleComponent,
     ItemListaComponent,
-    ItemDetalleComponent,
     ItemEditarComponent,
     ContactoFormularioComponent,
   ],

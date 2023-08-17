@@ -1,13 +1,24 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { ContactoFormulario } from '@interfaces/general/contacto';
 import { HttpService } from '@comun/services/http.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-contacto-formulario',
+  standalone: true,
   templateUrl: './contacto-formulario.component.html',
   styleUrls: ['./contacto-formulario.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+  ]
 })
 export class ContactoFormularioComponent extends General implements OnInit {
   formularioContacto: FormGroup;

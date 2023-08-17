@@ -239,7 +239,7 @@ export const initialState: Menu = {
           icono: 'auto_awesome_mosaic',
           children: [
             { name: 'item', url: 'lista', modelo: 'Item',  data:{'formulario': 'ItemNuevo'}  },
-            { name: 'contacto', url: 'lista', modelo: 'Item',  data:{'formulario': 'ItemNuevo'}  },
+            { name: 'contacto', url: 'lista', modelo: 'Contacto',  data:{'formulario': 'ContactoNuevo'}  },
             { name: 'factura', url: 'lista', modelo: 'Factura', data:{'formulario': 'FacturaNuevo'} },
           ],
         },
