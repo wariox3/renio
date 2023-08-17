@@ -15,7 +15,8 @@
           formControlName="impuestos"
           ngbDropdownToggle
           class="cursor-pointer form-select w-100"
-          (focus)="consultarItems()"
+          (focus)="consultarItems($event)"
+          (keyup)="aplicarFiltrosItems($event)"
           *ngIf="itemSeleccionado === null"
         />
         <div

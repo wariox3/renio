@@ -13,6 +13,7 @@ import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@modulos/general/modelos/item';
+import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-comun-productos',
@@ -39,6 +40,11 @@ export class ProductosComponent extends General implements AfterViewInit {
     super();
   }
 
+  ngAfterViewInit() {
+    this.inputItem.nativeElement.click();
+    this.inputItem.nativeElement.focus();
+  }
+
   agregarItem(item: Item) {
     this.itemSeleccionado = item;
     this.changeDetectorRef.detectChanges();
@@ -51,9 +57,18 @@ export class ProductosComponent extends General implements AfterViewInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarItems() {
+  consultarItems(event:any) {
+    
     let arrFiltros = {
-      filtros: [],
+      filtros: [
+        {
+          id:"1692284537644-1688",
+          operador: "__contains",
+          propiedad:"nombre__contains",
+          valor1: `${event?.target.value}`,
+          valor2: "",
+        }
+      ],
       limite: 10,
       desplazar: 0,
       ordenamientos: [],
@@ -72,8 +87,43 @@ export class ProductosComponent extends General implements AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-    this.inputItem.nativeElement.click();
-    this.inputItem.nativeElement.focus();
+  aplicarFiltrosItems(event:any){
+    let arrFiltros = {
+      filtros: [
+        {
+          id:"1692284537644-1688",
+          operador: "__contains",
+          propiedad:"nombre__contains",
+          valor1: `${event?.target.value}`,
+          valor2: "",
+        }
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Item',
+    };
+
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: Item[] }>(
+        'general/funcionalidad/lista/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
+        tap(respuesta => {
+          this.arrItemsLista = respuesta.registros;
+          this.inputItem.nativeElement.focus();
+          this.changeDetectorRef.detectChanges();
+        })
+
+      )
+      .subscribe();
+
+    console.log(arrFiltros);
+
   }
+
 }
