@@ -6,47 +6,51 @@ import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-comun-impuestos',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     TranslateModule,
     TranslationModule,
-    NgbDropdownModule],
+    NgbDropdownModule,
+    SoloNumerosDirective,
+  ],
   templateUrl: './impuestos.component.html',
-  styleUrls: ['./impuestos.component.scss']
+  styleUrls: ['./impuestos.component.scss'],
 })
-export class ImpuestosComponent extends General  {
-
-  arrImpuestoSeleccionados:Impuesto[] = []
-  arrImpuestoLista:Impuesto[]
-  @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter()
-  @Output() emitirImpuesto: EventEmitter<any> = new EventEmitter()
+export class ImpuestosComponent extends General {
+  arrImpuestoSeleccionados: Impuesto[] = [];
+  arrImpuestoLista: Impuesto[];
+  @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter();
+  @Output() emitirImpuesto: EventEmitter<any> = new EventEmitter();
 
   constructor(private httpService: HttpService) {
     super();
   }
 
-
   agregarImpuesto(impuesto: Impuesto) {
-    this.arrImpuestoSeleccionados.push(impuesto)
-    this.changeDetectorRef.detectChanges()
-    this.emitirImpuestos.emit(impuesto)
+    this.arrImpuestoSeleccionados.push(impuesto);
+    this.changeDetectorRef.detectChanges();
+    this.emitirImpuestos.emit(impuesto);
   }
 
-  removerItem(impuesto: Impuesto){
-    this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter((index:Impuesto)=>index.id !== impuesto.id)
-    this.changeDetectorRef.detectChanges()
-    this.emitirImpuesto.emit(impuesto)
+  removerItem(impuesto: Impuesto) {
+    this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
+      (index: Impuesto) => index.id !== impuesto.id
+    );
+    this.changeDetectorRef.detectChanges();
+    this.emitirImpuesto.emit(impuesto);
   }
 
-  consultarImpuesto(){
+  consultarImpuesto() {
     this.httpService
-    .get<Impuesto>('general/impuesto/')
-    .subscribe((respuesta) => {
-      this.arrImpuestoLista = respuesta;
-      this.changeDetectorRef.detectChanges();
-    });
+      .get<Impuesto>('general/impuesto/')
+      .subscribe((respuesta) => {
+        this.arrImpuestoLista = respuesta;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }
