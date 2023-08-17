@@ -261,8 +261,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
       this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
 
-      // this.calcularTotales();
-      // this.changeDetectorRef.detectChanges();
+      this.calcularTotales();
+      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -288,12 +288,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    // arrDetalleImpuestos.clear();
-    // console.log(this.acumuladorImpuestos);
+    this.calcularTotales();
+    this.changeDetectorRef.detectChanges();
 
-    // this.visualizadorImpuestos = this.visualizadorImpuestos.filter((index:Impuesto)=>)
-    //this.changeDetectorRef.detectChanges();
-
-    //this.calcularTotales();
   }
 }
