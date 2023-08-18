@@ -256,15 +256,15 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         };
         let impuestoFormGrup = this.formBuilder.group({
           impuesto: [impuesto.id],
-          base: [subtotal],
+          base: [subtotal.value],
           porcentaje: [impuesto.porcentaje],
           total: [totalImpuesto],
         });
         arrDetalleImpuestos.push(impuestoFormGrup);
       } else {
         this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
+        this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto)
       }
-      this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
 
       this.calcularTotales();
       this.changeDetectorRef.detectChanges();
@@ -301,7 +301,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       const nuevoDetalle = this.formBuilder.group({
         // Aquí debes definir la estructura de tu FormGroup para un impuesto
         impuesto: [item.impuesto],
-        base: [subtotal],
+        base: [subtotal.value],
         porcentaje: [19],
         total: [10],
       });
