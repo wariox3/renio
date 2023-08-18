@@ -1,6 +1,6 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="row mb-10">
-    <div class="col-12" ngbDropdown>
+    <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
       <label class="form-label required">Cliente</label>
       <div class="position-relative">
         <input
@@ -8,7 +8,10 @@
           class="form-control form-control"
           minlength="3"
           maxlength="4"
-          ngbDropdownToggle
+          ngbDropdownAnchor
+          (focus)="consultarCliente($event);ClienteDropdown.open();"
+          (keyup)="consultarCliente($event)"
+
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-2x"></i>
@@ -19,8 +22,8 @@
         aria-labelledby="dropdownBasic1"
         class="dropdown-menu"
       >
-        <ng-container>
-          <button type="button" ngbDropdownItem>cliente.nombre</button>
+      <ng-container *ngFor="let impuesto of arrMovimientosTipos">
+        <button type="button" ngbDropdownItem>cliente.nombre</button>
         </ng-container>
         <div class="dropdown-divider"></div>
         <button type="button" ngbDropdownItem>Nuevo</button>

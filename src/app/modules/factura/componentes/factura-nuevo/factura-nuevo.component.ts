@@ -50,6 +50,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   acumuladorImpuestos: any[] = [];
   visualizadorImpuestos: any[] = [];
   arrMovimientosTipos: any[] = [];
+  arrMovimientosClientes: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -331,5 +332,46 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
       )
       .subscribe();
+  }
+
+  consultarCliente(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'nombre__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Item',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        arrFiltros
+      ).pipe(
+        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
+        tap(respuesta => {
+          this.arrMovimientosClientes = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+
+      )
+      .subscribe();
+  }
+
+  agregarCliente(movimientoTipo: Item) {
+    // console.log(movimientoTipo);
+    // this.formularioFactura.patchValue({
+    //   movimiento_tipo: movimientoTipo.nombre,
+    // });
+    // this.changeDetectorRef.detectChanges()
   }
 }
