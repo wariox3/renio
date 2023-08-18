@@ -181,8 +181,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
       const precio = detalleControl.get('precio')?.value || 0;
       const porcentajeDescuento = detalleControl.get('descuento')?.value || 0;
-      const subtotal = cantidad * precio;
-      const descuento = (porcentajeDescuento * subtotal) / 100;
+      let subtotal = cantidad * precio;
+      let descuento = (porcentajeDescuento * subtotal) / 100;
 
       this.totalCantidad += cantidad;
       this.totalDescuento += descuento;
@@ -196,29 +196,31 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       } else {
         this.totalImpuestos += impuestos.total || 0;
       }
+      detalleControl.get('subtotal')?.patchValue(subtotal)
+      this.changeDetectorRef.detectChanges()
     });
 
-    this.totalGeneral =
-      this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
+    this.totalGeneral = this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
   }
 
-  actualizarItemSeleccionado(item: Item | null, index: number) {
-    if (item) {
-      this.detalles.controls[index].patchValue({
-        precio: item.precio,
-        item: item.id,
-        cantidad: 1,
-        subtotal: item.precio * 1,
-      });
-    } else {
-      this.detalles.controls[index].patchValue({
-        precio: 0,
-        item: 0,
-        cantidad: 0,
-        descuento: 0,
-        subtotal: 0,
-      });
-    }
+  agregarItemSeleccionado(item: Item, index: number) {
+    this.detalles.controls[index].patchValue({
+      precio: item.precio,
+      item: item.id,
+      cantidad: 1,
+      subtotal: item.precio * 1,
+    });
+    this.calcularTotales();
+  }
+
+  retirarItemSeleccionado(item: Item, index: number) {
+    this.detalles.controls[index].patchValue({
+      precio: 0,
+      item: 0,
+      cantidad: 0,
+      descuento: 0,
+      subtotal: 0,
+    });
     this.calcularTotales();
   }
 
@@ -232,32 +234,33 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     detalleFormGroup.get(campo)?.patchValue(evento.target.value);
     this.changeDetectorRef.detectChanges();
     this.calcularTotales();
+    this.actualizarImpuestos(index);
   }
 
-  actualizarImpuesto(impuesto: any, index: number) {
+  agregarImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const item = detalleFormGroup.get('item') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
 
     if (item.value) {
-      let total = (subtotal.value * impuesto.porcentaje) / 100;
+      let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
       if (!this.acumuladorImpuestos[impuesto.nombre]) {
         this.acumuladorImpuestos[impuesto.nombre] = {
           id: impuesto.id,
           nombre_extendido: impuesto.nombre_extendido,
-          total: total,
+          total: totalImpuesto,
           index,
         };
         let impuestoFormGrup = this.formBuilder.group({
           impuesto: [impuesto.id],
-          base: [1800],
+          base: [subtotal],
           porcentaje: [impuesto.porcentaje],
-          total: [total],
+          total: [totalImpuesto],
         });
         arrDetalleImpuestos.push(impuestoFormGrup);
       } else {
-        this.acumuladorImpuestos[impuesto.nombre].total += total;
+        this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
       }
 
       this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
@@ -267,9 +270,24 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     }
   }
 
+
+  actualizarImpuestos(index: number){
+
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    arrDetalleImpuestos.controls.forEach((impuestoControl) => {
+      let totalImpuesto = (subtotal.value * impuestoControl.value.porcentaje) / 100;
+      console.log(totalImpuesto);
+      
+    })
+    
+  }
+
   removerImpuesto(impuesto: Impuesto, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     //arrDetalleImpuestos.removeAt(0)
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto !== impuesto.id
@@ -282,7 +300,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       const nuevoDetalle = this.formBuilder.group({
         // Aquí debes definir la estructura de tu FormGroup para un impuesto
         impuesto: [item.impuesto],
-        base: [1800],
+        base: [subtotal],
         porcentaje: [19],
         total: [10],
       });
@@ -294,11 +312,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   agregarMovimientoTipo(movimientoTipo: Item) {
-    console.log(movimientoTipo);
     this.formularioFactura.patchValue({
       movimiento_tipo: movimientoTipo.nombre,
     });
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   consultarMovimeintosTipo(event: any) {
@@ -323,13 +340,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         arrFiltros
-      ).pipe(
-        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
-        tap(respuesta => {
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
           this.arrMovimientosTipos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
-
       )
       .subscribe();
   }
@@ -356,13 +373,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         arrFiltros
-      ).pipe(
-        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
-        tap(respuesta => {
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
-
       )
       .subscribe();
   }

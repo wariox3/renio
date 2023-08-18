@@ -183,8 +183,9 @@
                       <td>
                         <app-comun-productos
                           (emitirArrItems)="
-                            actualizarItemSeleccionado($event, i)
+                            agregarItemSeleccionado($event, i)
                           "
+                          (emitirRetirarArrItems)="retirarItemSeleccionado($event, i)"
                         ></app-comun-productos>
                       </td>
                       <td>
@@ -217,7 +218,7 @@
                       </td>
                       <td>
                         <app-comun-impuestos
-                          (emitirImpuestos)="actualizarImpuesto($event, i)"
+                          (emitirImpuestos)="agregarImpuesto($event, i)"
                           (emitirImpuesto)="removerImpuesto($event, i)"
                         ></app-comun-impuestos>
                       </td>
