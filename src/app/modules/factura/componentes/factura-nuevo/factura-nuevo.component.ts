@@ -48,7 +48,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
-  visualizadorImpuestos: any[] = [];
   arrMovimientosTipos: any[] = [];
   arrMovimientosClientes: any[] = [];
 
@@ -242,15 +241,18 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const item = detalleFormGroup.get('item') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-
+    impuesto = {
+      ...impuesto,
+      index
+    }
     if (item.value) {
       let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
       if (!this.acumuladorImpuestos[impuesto.nombre]) {
         this.acumuladorImpuestos[impuesto.nombre] = {
-          id: impuesto.id,
-          nombre_extendido: impuesto.nombre_extendido,
           total: totalImpuesto,
-          index,
+          data: [
+            impuesto
+          ]
         };
         let impuestoFormGrup = this.formBuilder.group({
           impuesto: [impuesto.id],
@@ -262,7 +264,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       } else {
         this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
       }
-
       this.visualizadorImpuestos = Object.values(this.acumuladorImpuestos);
 
       this.calcularTotales();
@@ -279,9 +280,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     arrDetalleImpuestos.controls.forEach((impuestoControl) => {
       let totalImpuesto = (subtotal.value * impuestoControl.value.porcentaje) / 100;
       console.log(totalImpuesto);
-      
+
     })
-    
+
   }
 
   removerImpuesto(impuesto: Impuesto, index: number) {

@@ -250,10 +250,10 @@
                   <td class="text-end">Total Cantidad:</td>
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
-                <tr *ngFor="let impuesto of visualizadorImpuestos">
-                  <td class="text-end">{{ impuesto.nombre_extendido }}</td>
+                <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
+                  <td class="text-end">{{ impuesto.key }}</td>
                   <td class="text-end">
-                    {{ impuesto.total | currency : "$" }}
+                    {{ impuesto.value.total | currency : "$" }}
                   </td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
