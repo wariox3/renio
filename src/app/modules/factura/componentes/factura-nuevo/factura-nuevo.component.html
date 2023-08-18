@@ -29,32 +29,36 @@
   </div>
 
   <div class="row mb-10">
-    <div class="col-12" ngbDropdown>
+    <div class="col-12" ngbDropdown #movimientoTipoDropdown="ngbDropdown">
       <label class="form-label required">Movimiento tipo</label>
       <div class="position-relative">
         <input
           type="text"
           class="form-control form-control"
-          minlength="3"
-          maxlength="4"
-          ngbDropdownToggle
+          ngbDropdownAnchor
           formControlName="movimiento_tipo"
+          (focus)="consultarMovimeintosTipo($event);movimientoTipoDropdown.open();"
+          (keyup)="consultarMovimeintosTipo($event)"
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-2x"></i>
         </div>
       </div>
       <div
-      ngbDropdownMenu
-      aria-labelledby="dropdownBasic1"
-      class="dropdown-menu"
-    >
-      <ng-container>
-        <button type="button" ngbDropdownItem>movimientoTipo.nombre</button>
-      </ng-container>
-      <div class="dropdown-divider"></div>
-      <button type="button" ngbDropdownItem>Nuevo</button>
-    </div>
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container *ngFor="let impuesto of arrMovimientosTipos">
+          <button
+            (click)="agregarMovimientoTipo(impuesto)"
+            type="button"
+            ngbDropdownItem
+          >
+            {{ impuesto.nombre }}
+          </button>
+        </ng-container>
+      </div>
     </div>
   </div>
 
@@ -114,15 +118,9 @@
       <label class="form-label required">Tipo de operación</label>
       <select class="form-select" formControlName="tipoOperacion">
         <option value="1">SUMA</option>
-        <option value="2">RESTA</option>
-        <option value="0">CERO</option>
+        <option value="0">NEUTRO</option>
+        <option value="-1">RESTA</option>
       </select>
-      <!-- <input
-        formControlName=""
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-      /> -->
     </div>
   </div>
 

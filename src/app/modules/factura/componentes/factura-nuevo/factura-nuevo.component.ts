@@ -19,6 +19,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { Item } from '@modulos/general/modelos/item';
 import { Impuesto } from '@interfaces/general/impuesto';
+import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -34,7 +35,6 @@ import { Impuesto } from '@interfaces/general/impuesto';
     TablaComponent,
     ImpuestosComponent,
     ProductosComponent,
-    NgbDropdownModule,
   ],
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
@@ -49,6 +49,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   subtotalGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
   visualizadorImpuestos: any[] = [];
+  arrMovimientosTipos: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -289,5 +290,46 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
+  }
+
+  agregarMovimientoTipo(movimientoTipo: Item) {
+    console.log(movimientoTipo);
+    this.formularioFactura.patchValue({
+      movimiento_tipo: movimientoTipo.nombre,
+    });
+    this.changeDetectorRef.detectChanges()
+  }
+
+  consultarMovimeintosTipo(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'nombre__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Item',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        arrFiltros
+      ).pipe(
+        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
+        tap(respuesta => {
+          this.arrMovimientosTipos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+
+      )
+      .subscribe();
   }
 }
