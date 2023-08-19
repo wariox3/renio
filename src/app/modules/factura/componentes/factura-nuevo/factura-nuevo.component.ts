@@ -285,11 +285,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   }
 
-  removerImpuesto(impuesto: Impuesto, index: number) {
+  removerImpuesto(impuesto: any   , index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
-    //arrDetalleImpuestos.removeAt(0)
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto !== impuesto.id
     );
@@ -307,6 +306,11 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
+
+    
+    this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[impuesto.nombre].data.filter((impuestoAcumulado:any)=>
+      impuestoAcumulado.index !== index
+    );
 
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
