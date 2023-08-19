@@ -313,6 +313,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     );
     let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
     this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto
+    
+    
+    if(this.acumuladorImpuestos[impuesto.nombre].total <= 0){
+      delete this.acumuladorImpuestos[impuesto.nombre]
+      this.changeDetectorRef.detectChanges();
+    }
+
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
