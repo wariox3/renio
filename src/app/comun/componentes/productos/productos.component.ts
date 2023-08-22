@@ -33,7 +33,6 @@ export class ProductosComponent extends General implements AfterViewInit {
   itemSeleccionado: Item | null = null;
   arrItemsLista: Item[];
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
-  @Output() emitirRetirarArrItems: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
 
@@ -52,14 +51,9 @@ export class ProductosComponent extends General implements AfterViewInit {
     this.emitirArrItems.emit(this.itemSeleccionado);
   }
 
-  removerItem() {
-    this.itemSeleccionado = null;
-    this.emitirRetirarArrItems.emit(this.itemSeleccionado);
-    this.changeDetectorRef.detectChanges();
-  }
 
   consultarItems(event:any) {
-    
+
     let arrFiltros = {
       filtros: [
         {

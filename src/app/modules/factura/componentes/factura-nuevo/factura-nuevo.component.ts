@@ -219,37 +219,37 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  retirarItemSeleccionado(item: Item, index: number) {
+  eliminarProducto(index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    const neto = detalleFormGroup.get('neto') as FormControl;
 
-    arrDetalleImpuestos.controls.map((detalleImpuesto) => {
-      let impuesto = detalleImpuesto.value;
-      this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[
-        impuesto.nombre
-      ].data.filter(
-        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
+    for (const impuestoIndex in this.acumuladorImpuestos) {
+      const impuesto = this.acumuladorImpuestos[impuestoIndex];
+
+      impuesto.data = impuesto.data.filter(
+        (item: any) => {
+          return item.index !== index;
+        }
       );
-      if (this.acumuladorImpuestos[impuesto.nombre].total <= 0) {
-        delete this.acumuladorImpuestos[impuesto.nombre];
-      }
-      if (this.acumuladorImpuestos[impuesto.nombre].data.length == 0) {
-        delete this.acumuladorImpuestos[impuesto.nombre];
-      }
-    });
 
-    this.detalles.controls[index].patchValue({
-      precio: 0,
-      item: 0,
-      cantidad: 0,
-      descuento: 0,
-      subtotal: 0,
-      neto: 0,
-    });
-    this.calcularTotales();
-  }
+      // Verificar si el tamaño de data es cero y eliminar la posición si es así
+      if (impuesto.data.length <= 0) {
+        delete this.acumuladorImpuestos[impuestoIndex];
+      } else {
+        let totalImpuesto = 0;
 
-  eliminarProducto(index: number) {
+        if (impuesto.data[0]) {
+          totalImpuesto = (neto.value * impuesto.data[0].porcentaje) / 100;
+          impuesto.total -= totalImpuesto;
+        }
+      }
+    }
+
+    console.log(this.acumuladorImpuestos);
+
+    this.changeDetectorRef.detectChanges();
+
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
