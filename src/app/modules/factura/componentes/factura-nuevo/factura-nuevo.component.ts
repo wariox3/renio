@@ -153,7 +153,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       subtotal: [0],
       total_bruto: [0],
       total: [0],
-      neto:[0],
+      neto: [0],
       impuestos: this.formBuilder.array([]),
     });
 
@@ -186,8 +186,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       let subtotal = cantidad * precio;
       let descuento = (porcentajeDescuento * subtotal) / 100;
       let neto = subtotal - descuento;
-      console.log(neto);
-      
 
       this.totalCantidad += cantidad;
       this.totalDescuento += descuento;
@@ -202,12 +200,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       } else {
         this.totalImpuestos += impuestos.total || 0;
       }
-      detalleControl.get('subtotal')?.patchValue(subtotal)
-      detalleControl.get('neto')?.patchValue(neto)
-      this.changeDetectorRef.detectChanges()
+      detalleControl.get('subtotal')?.patchValue(subtotal);
+      detalleControl.get('neto')?.patchValue(neto);
+      this.changeDetectorRef.detectChanges();
     });
 
-    this.totalGeneral = this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
+    this.totalGeneral =
+      this.subtotalGeneral - this.totalDescuento + this.totalImpuestos;
   }
 
   agregarItemSeleccionado(item: Item, index: number) {
@@ -221,13 +220,31 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   retirarItemSeleccionado(item: Item, index: number) {
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+
+    arrDetalleImpuestos.controls.map((detalleImpuesto) => {
+      let impuesto = detalleImpuesto.value;
+      this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[
+        impuesto.nombre
+      ].data.filter(
+        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
+      );
+      if (this.acumuladorImpuestos[impuesto.nombre].total <= 0) {
+        delete this.acumuladorImpuestos[impuesto.nombre];
+      }
+      if (this.acumuladorImpuestos[impuesto.nombre].data.length == 0) {
+        delete this.acumuladorImpuestos[impuesto.nombre];
+      }
+    });
+
     this.detalles.controls[index].patchValue({
       precio: 0,
       item: 0,
       cantidad: 0,
       descuento: 0,
       subtotal: 0,
-      neto:0
+      neto: 0,
     });
     this.calcularTotales();
   }
@@ -253,27 +270,26 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     impuesto = {
       ...impuesto,
-      index
-    }
+      index,
+    };
     if (item.value) {
       let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
       if (!this.acumuladorImpuestos[impuesto.nombre]) {
         this.acumuladorImpuestos[impuesto.nombre] = {
           total: totalImpuesto,
-          data: [
-            impuesto
-          ]
+          data: [impuesto],
         };
         let impuestoFormGrup = this.formBuilder.group({
           impuesto: [impuesto.id],
           base: [neto.value],
           porcentaje: [impuesto.porcentaje],
           total: [totalImpuesto],
+          nombre: [impuesto.nombre],
         });
         arrDetalleImpuestos.push(impuestoFormGrup);
       } else {
         this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
-        this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto)
+        this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto);
       }
 
       this.calcularTotales();
@@ -281,22 +297,17 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     }
   }
 
-
-  actualizarImpuestos(index: number){
-
+  actualizarImpuestos(index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const neto = detalleFormGroup.get('neto') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     arrDetalleImpuestos.controls.forEach((impuestoControl) => {
       let totalImpuesto = (neto.value * impuestoControl.value.porcentaje) / 100;
-      console.log(totalImpuesto);
-
-    })
-
+    });
   }
 
-  removerImpuesto(impuesto: any   , index: number) {
+  removerImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
@@ -319,16 +330,16 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    
-    this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[impuesto.nombre].data.filter((impuestoAcumulado:any)=>
-      impuestoAcumulado.index !== index
+    this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[
+      impuesto.nombre
+    ].data.filter(
+      (impuestoAcumulado: any) => impuestoAcumulado.index !== index
     );
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
-    this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto
-    
-    
-    if(this.acumuladorImpuestos[impuesto.nombre].total <= 0){
-      delete this.acumuladorImpuestos[impuesto.nombre]
+    this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto;
+
+    if (this.acumuladorImpuestos[impuesto.nombre].total <= 0) {
+      delete this.acumuladorImpuestos[impuesto.nombre];
       this.changeDetectorRef.detectChanges();
     }
 
