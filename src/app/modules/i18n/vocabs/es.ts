@@ -7,7 +7,7 @@ export const locale = {
     },
     MENU: {
       DASHBOARD: 'Menú',
-      TITULOS:{
+      TITULOS: {
         GENERAL: 'GENERAL',
         CARTERA: 'Cartera',
         COMPRA: 'Compra',
@@ -15,13 +15,13 @@ export const locale = {
         HUMANO: 'Humano',
         VENTA: 'Venta',
       },
-      COMUNES:{
+      COMUNES: {
         MOVIMIENTO: 'Movimiento',
         ADMINISTRACION: 'Administración',
         UTILIDAD: 'Utilidad',
         PROCESO: 'Proceso',
-        INFORME: 'Informe'
-      }
+        INFORME: 'Informe',
+      },
     },
     FORMULARIOS: {
       BOTONES: {
@@ -38,7 +38,7 @@ export const locale = {
           FILTRO: 'Descargar',
           EXPORTAR: 'Exportar',
           IMPORTAR: 'Importar',
-          DETALLE: 'Detalle'
+          DETALLE: 'Detalle',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -46,9 +46,9 @@ export const locale = {
           INVITAR: 'Invitar',
         },
         GENERAL: {
-          ITEM:{
+          ITEM: {
             AGREGARIMPUESTOS: 'Agregar impuesto',
-          }
+          },
         },
         INVENTARIO: {},
         SEGURIDAD: {
@@ -137,14 +137,27 @@ export const locale = {
           DESCRIPCION: 'Descripción',
           IMPORTANTE: 'Importe',
           RESUMEN: 'Resumen del mes hasta la fecha',
-          TEXTOAYUDA3: 'Estos cargos se incluyen en el saldo de su cuenta'
+          TEXTOAYUDA3: 'Estos cargos se incluyen en el saldo de su cuenta',
+          LISTA: 'Lista',
+          OTRAINFROMACION: 'Otra información',
+          PRODUCTO: 'Producto',
+          CANTIDAD: 'Cantidad',
+          PRECIO: 'Precio',
+          DESCUENTO: 'Descuento',
+          IMPUESTO: 'Impuesto',
+          IMPINCLUIDOS: 'Imp Incluidos',
+          AGREGARITEM: 'Agregar item',
+          TOTALCANTIDAD: 'Total cantidad:',
+          TOTALDESCUENTO: 'Total descuento:',
+          TOTALIMPUESTOS: 'Total impuestos:',
+          TOTALGENERAL: 'Total general:'
         },
-        GENERAL:{
-          ITEM:{
+        GENERAL: {
+          ITEM: {
             IMPUESTOS: 'Impuestos',
             IMPUESTO: 'Impuesto',
-          }
-        }
+          },
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -157,17 +170,28 @@ export const locale = {
           ROL: 'Rol',
           IDENTIFICACION: 'Identificacion',
           CODIGO: 'Código',
+          CLIENTE: 'cliente',
+          DOCUMENTOTIPO: 'Documento tipo',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
         },
         GENERAL: {
-          ITEM:{
+          ITEM: {
             IMPUESTOS: 'Impuesto',
             IMPUESTO: 'Impuesto',
             REFERENCIA: 'Referencia',
-            PRECIO: 'Precio'
-          }
+            PRECIO: 'Precio',
+          },
+        },
+        FACTURA: {
+          MOVIMIENTOTIPO: 'movimiento tipo',
+          FECHAFACTURA: 'fecha factura',
+          FECHAVENCIMIENTO: 'Fecha vencimiento',
+          PLAZO: 'Plazo',
+          URLANEXO: 'Url para anexo?',
+          TIPOOPERACION: 'Tipo operación',
+          METODOPAGO: 'Método de pago',
         },
       },
       VALIDACIONES: {
@@ -196,7 +220,7 @@ export const locale = {
           ALERTASUSPENCIONTITULO: 'Cuenta en peligro',
           ALERTASUSPENCIONMENSAJE:
             'Su cuenta esta en riesgo de suspension por pago',
-          CARGARIMAGEN: 'Imagen cargada con éxito'
+          CARGARIMAGEN: 'Imagen cargada con éxito',
         },
         EMPRESAS: {
           CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',

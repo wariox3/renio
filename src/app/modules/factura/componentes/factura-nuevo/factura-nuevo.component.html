@@ -1,7 +1,10 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="row mb-10">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-      <label class="form-label required">Cliente</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+      ></label>
       <div class="position-relative">
         <input
           type="text"
@@ -9,9 +12,8 @@
           minlength="3"
           maxlength="4"
           ngbDropdownAnchor
-          (focus)="consultarCliente($event);ClienteDropdown.open();"
+          (focus)="consultarCliente($event); ClienteDropdown.open()"
           (keyup)="consultarCliente($event)"
-
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
           <i class="bi bi-search fs-2x"></i>
@@ -22,8 +24,8 @@
         aria-labelledby="dropdownBasic1"
         class="dropdown-menu"
       >
-      <ng-container *ngFor="let impuesto of arrMovimientosTipos">
-        <button type="button" ngbDropdownItem>cliente.nombre</button>
+        <ng-container *ngFor="let impuesto of arrMovimientosTipos">
+          <button type="button" ngbDropdownItem>cliente.nombre</button>
         </ng-container>
         <div class="dropdown-divider"></div>
         <button type="button" ngbDropdownItem>Nuevo</button>
@@ -33,14 +35,19 @@
 
   <div class="row mb-10">
     <div class="col-12" ngbDropdown #movimientoTipoDropdown="ngbDropdown">
-      <label class="form-label required">Movimiento tipo</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.MOVIMIENTOTIPO"
+      ></label>
       <div class="position-relative">
         <input
           type="text"
           class="form-control form-control"
           ngbDropdownAnchor
           formControlName="movimiento_tipo"
-          (focus)="consultarMovimeintosTipo($event);movimientoTipoDropdown.open();"
+          (focus)="
+            consultarMovimeintosTipo($event); movimientoTipoDropdown.open()
+          "
           (keyup)="consultarMovimeintosTipo($event)"
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -67,7 +74,10 @@
 
   <div class="row mb-10">
     <div class="col">
-      <label class="form-label required">Fecha de factura</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
+      ></label>
       <input
         formControlName="fechaFactura"
         class="form-control bg-transparent"
@@ -76,7 +86,11 @@
       />
     </div>
     <div class="col">
-      <label class="form-label required">Fecha vencimiento</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
+      >
+      </label>
       <input
         formControlName="fechaVencimiento"
         class="form-control bg-transparent"
@@ -88,7 +102,10 @@
 
   <div class="row mb-10">
     <div class="col">
-      <label class="form-label required">Plazo</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
+      ></label>
       <input
         formControlName="plazo"
         class="form-control bg-transparent"
@@ -97,7 +114,10 @@
       />
     </div>
     <div class="col">
-      <label class="form-label required">Tipo de Documento</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
+      ></label>
       <input
         formControlName="tipoDocumento"
         class="form-control bg-transparent"
@@ -109,7 +129,10 @@
 
   <div class="row mb-10">
     <div class="col">
-      <label class="form-label required">URL para Anexos? </label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.URLANEXO"
+      ></label>
       <input
         formControlName="url"
         class="form-control bg-transparent"
@@ -118,7 +141,10 @@
       />
     </div>
     <div class="col">
-      <label class="form-label required">Tipo de operación</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
+      ></label>
       <select class="form-select" formControlName="tipoOperacion">
         <option value="1">SUMA</option>
         <option value="0">NEUTRO</option>
@@ -129,7 +155,10 @@
 
   <div class="row mb-10">
     <div class="col-6">
-      <label class="form-label required">Método de pago</label>
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
+      ></label>
       <input
         formControlName="metodoPago"
         class="form-control bg-transparent"
@@ -148,7 +177,12 @@
         class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
       >
         <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-          <a class="nav-link" ngbNavLink data-bs-toggle="tab">Lista </a>
+          <a
+            class="nav-link"
+            ngbNavLink
+            data-bs-toggle="tab"
+            translate="FORMULARIOS.TITULOS.FACTURACION.LISTA"
+          ></a>
           <ng-template ngbNavContent>
             <div class="table-responsive-sm">
               <table
@@ -157,20 +191,29 @@
               >
                 <thead>
                   <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Descuento</th>
-                    <th>Impuesto</th>
-                    <th>Imp Incluidos</th>
+                    <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
+                    ></th>
+                    <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+                    ></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
+                    <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
+                    ></th>
+                    <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
+                    ></th>
+                    <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPINCLUIDOS"
+                    ></th>
                     <th class="text-center">
                       <button
                         (click)="agregarProductos()"
                         class="btn btn-sm btn-primary"
                         type="button"
-                      >
-                        Agregar item
-                      </button>
+                        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                      ></button>
                     </th>
                   </tr>
                 </thead>
@@ -182,10 +225,10 @@
                     <tr>
                       <td>
                         <app-comun-productos
-                          (emitirArrItems)="
-                            agregarItemSeleccionado($event, i)
+                          (emitirArrItems)="agregarItemSeleccionado($event, i)"
+                          (emitirRetirarArrItems)="
+                            retirarItemSeleccionado($event, i)
                           "
-                          (emitirRetirarArrItems)="retirarItemSeleccionado($event, i)"
                         ></app-comun-productos>
                       </td>
                       <td>
@@ -247,7 +290,10 @@
             <div class="d-flex flex-column justify-content-end align-items-end">
               <table>
                 <tr *ngIf="totalCantidad > 0">
-                  <td class="text-end">Total Cantidad:</td>
+                  <td
+                    class="text-end"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
+                  ></td>
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
                 <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
@@ -257,19 +303,28 @@
                   </td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0">
-                  <td class="text-end">Total Descuento:</td>
+                  <td
+                    class="text-end"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
+                  ></td>
                   <td class="text-end">
                     {{ totalDescuento | currency : "$" }}
                   </td>
                 </tr>
                 <tr *ngIf="totalImpuestos > 0">
-                  <td class="text-end">Total Impuestos:</td>
+                  <td class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
+
+                  ></td>
                   <td class="text-end">
                     {{ totalImpuestos | currency : "$" }}
                   </td>
                 </tr>
                 <tr class="border-top">
-                  <td class="text-end">Total General:</td>
+                  <td class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
+
+                  ></td>
                   <td class="text-end" style="padding-left: 24px">
                     {{ totalGeneral | currency : "$" }}
                   </td>
@@ -279,9 +334,12 @@
           </ng-template>
         </li>
         <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-          <a class="nav-link" ngbNavLink data-bs-toggle="tab"
-            >Otra inforamación</a
-          >
+          <a
+            class="nav-link"
+            ngbNavLink
+            data-bs-toggle="tab"
+            translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+          ></a>
           <ng-template ngbNavContent> </ng-template>
         </li>
       </ul>

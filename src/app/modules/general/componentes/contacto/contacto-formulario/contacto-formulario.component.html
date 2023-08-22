@@ -3,10 +3,8 @@
   (ngSubmit)="formSubmit()"
   id="my-dropzone"
 >
-  <!-- Resto de los campos del formulario -->
 
   <div class="row">
-    <div class="col-md-12 col-sm-12">
       <div class="col-md-6 col-sm-12">
         <label
           translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
@@ -45,17 +43,10 @@
           }"
         ></ng-container>
       </div>
-    </div>
-  </div>
-
-  <!-- Select para el tipo de documento -->
-  <!-- <div class="row">
-    <div class="col-md-12 col-sm-12">
       <div class="col-md-6 col-sm-12">
         <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.TIPO_DOCUMENTO"
           class="form-label required"
-        ></label>
+        > Tipo de Documento </label>
         <select
           formControlName="tipo_documento"
           class="form-control bg-transparent"
@@ -71,23 +62,14 @@
           <option value="" disabled selected>
             Seleccione un tipo de documento
           </option>
-          <option *ngFor="let opcion of arrIdentificacion" [value]="opcion.id">
-            {{ opcion.nombre }}
+          <option *ngFor="let opcion of arrIdentificacion">
           </option>
         </select>
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContacto.controls['tipo_documento']
-          }"
-        ></ng-container>
       </div>
-    </div>
-  </div> -->
+  </div>
 
-  <!-- Resto de los campos del formulario -->
+
+
 
   <div class="fv-row d-flex justify-content-end">
     <button type="submit" class="btn btn-primary btn-sm" #btnGuardar>

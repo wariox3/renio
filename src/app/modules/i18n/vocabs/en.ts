@@ -137,7 +137,20 @@ export const locale = {
           DESCRIPCION: 'Description',
           IMPORTANTE: 'Amount',
           RESUMEN: 'Summary of the month to date',
-          TEXTOAYUDA3: 'These charges are factored into your account balance'
+          TEXTOAYUDA3: 'These charges are factored into your account balance',
+          LISTA: 'List',
+          OTRAINFROMACION: 'Other information',
+          PRODUCTO: 'Product',
+          CANTIDAD: 'Quantity',
+          PRECIO: 'Price',
+          DESCUENTO: 'Discount',
+          IMPUESTO: 'Tax',
+          IMPINCLUIDOS: 'Tax Included',
+          AGREGARITEM: 'Add item',
+          TOTALCANTIDAD: 'Total quantity:',
+          TOTALDESCUENTO: 'Total discount:',
+          TOTALIMPUESTOS: 'Total taxes:',
+          TOTALGENERAL: 'Grand Total:'
         },
       },
       CAMPOS: {
@@ -151,6 +164,8 @@ export const locale = {
           ROL: 'Role',
           IDENTIFICACION: 'Identification',
           CODIGO: 'Code',
+          CLIENTE: 'Customer',
+          DOCUMENTOTIPO: 'Document Type'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -164,6 +179,15 @@ export const locale = {
 
           }
         },
+        FACTURA: {
+          MOVIMIENTOTIPO: 'Type of transaction',
+          FECHAFACTURA: 'Invoice date',
+          FECHAVENCIMIENTO: 'Due date',
+          PLAZO: 'Deadline',
+          URLANEXO:  'Url for Attachments?',
+          TIPOOPERACION: 'Transaction Type',
+          METODOPAGO: 'Payment Method',
+        }
       },
       VALIDACIONES: {
         COMUNES: {
