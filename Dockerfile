@@ -17,7 +17,7 @@ RUN ng build --configuration=production --output-path=renio-metronic/dist/renio
 # Etapa 2: Servir la aplicación con Nginx
 FROM nginx
 
-EXPOSE 80
+# Eliminamos la directiva que expone el puerto 80, ya que no es necesaria aquí
 
 # Copia los archivos construidos al directorio de Nginx
 COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
@@ -25,7 +25,8 @@ COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
 # Copia el archivo de configuración personalizado a /etc/nginx/conf.d/
 COPY renio.conf /etc/nginx/conf.d/
 
-# Crea el directorio sites-enabled y habilita el sitio con enlace simbólico
-RUN mkdir -p /etc/nginx/sites-enabled/ && \
-    ln -s /etc/nginx/conf.d/renio.conf /etc/nginx/sites-enabled/ && \
-    nginx -t
+# Eliminamos la creación del directorio /etc/nginx/sites-enabled/
+# y la creación de enlace simbólico, ya que no es necesario en este caso
+
+# Ejecuta nginx en primer plano para que no termine la ejecución del contenedor
+CMD ["nginx", "-g", "daemon off;"]
