@@ -23,7 +23,7 @@ FROM nginx
 COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
 
 # Copia el archivo de configuración personalizado a /etc/nginx/conf.d/
-COPY renio.conf /etc/nginx/conf.d/
+COPY renio.conf /etc/nginx/conf.d/default.conf
 
 # Eliminamos la creación del directorio /etc/nginx/sites-enabled/
 # y la creación de enlace simbólico, ya que no es necesario en este caso
