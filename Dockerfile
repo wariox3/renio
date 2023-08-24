@@ -14,22 +14,18 @@ RUN npm install -g @angular/cli
 # Construye la aplicación Angular
 RUN ng build --configuration=production --output-path=renio-metronic/dist/renio
 
-# Etapa 2: Crear una imagen de Nginx con la configuración personalizada
-FROM nginx
+# Etapa 2: Configurar el servidor Nginx
+FROM nginx:latest
 
-# Eliminamos la directiva que expone el puerto 80, ya que no es necesaria aquí
-
-# Copia los archivos construidos al directorio de Nginx
+# Copia los archivos de la etapa anterior al directorio de trabajo del Nginx
 COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
 
-# Copia el archivo de configuración personalizado a /etc/nginx/sites-available/
-COPY renio.conf /etc/nginx/sites-available/renio.conf
+# Copia la configuración personalizada de Nginx
+COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
 
-# Crear el directorio /etc/nginx/sites-enabled/
-RUN mkdir -p /etc/nginx/sites-enabled/
+# Puerto en el que escucha Nginx
+EXPOSE 80
+EXPOSE 443
 
-# Crear un enlace simbólico para habilitar la configuración personalizada
-RUN ln -s /etc/nginx/sites-available/renio.conf /etc/nginx/sites-enabled/
-
-# Ejecuta nginx en primer plano para que no termine la ejecución del contenedor
+# Comando para iniciar Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]
