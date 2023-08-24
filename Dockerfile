@@ -23,8 +23,7 @@ FROM nginx
 COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
 
 # Copia el archivo de configuración personalizado a /etc/nginx/sites-available/
-#COPY renio.conf /etc/nginx/sites-available/renio.conf
-COPY ./renio.conf /etc/nginx/conf.d/default.conf
+COPY renio.conf /etc/nginx/sites-available/renio.conf
 
 # Crear el directorio /etc/nginx/sites-enabled/
 RUN mkdir -p /etc/nginx/sites-enabled/
