@@ -23,9 +23,5 @@ COPY --from=builder /app/renio-metronic/dist/renio /usr/share/nginx/html
 # Copia la configuración personalizada de Nginx
 COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
 
-# Puerto en el que escucha Nginx
-EXPOSE 80
-EXPOSE 443
-
 # Comando para iniciar Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]
