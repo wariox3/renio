@@ -33,7 +33,8 @@ export class BaseListaComponent extends General implements OnInit {
     ordenamientos: [],
     limite_conteo: 10000,
     modelo: '',
-    tipo: ''
+    tipo: '',
+    documento_tipo_id: 1,
   };
   arrPropiedades: Listafiltros[];
   arrItems: any[];
