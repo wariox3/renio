@@ -42,7 +42,7 @@ export class SidebarMenuComponent implements OnInit {
       case 'movimiento':
         return 'element-7';
       case 'administracion':
-        return 'pointers';
+        return 'folder';
     }
   }
 }

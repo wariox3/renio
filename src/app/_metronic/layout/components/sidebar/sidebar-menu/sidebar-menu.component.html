@@ -60,7 +60,10 @@
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
-            <span class="menu-title">{{ item.nombre }} </span>
+            <span
+              class="menu-title"
+              [translate]="'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase)"
+            ></span>
           </a>
         </div>
       </div>

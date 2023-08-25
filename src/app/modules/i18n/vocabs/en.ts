@@ -14,6 +14,7 @@ export const locale = {
         CONTABILIDAD: 'Accounting',
         HUMANO: 'Human',
         VENTA: 'Sale',
+
       },
       COMUNES:{
         MOVIMIENTO: 'Movement',
@@ -21,6 +22,11 @@ export const locale = {
         UTILIDAD: 'Utility',
         PROCESO: 'Process',
         INFORME: 'Report'
+      },
+      FUNCIONALIDAD:{
+        FACTURAVENTA: 'Invoice of sale',
+        ITEM: 'Item',
+        CONTACTO: 'Contact'
       }
     },
     FORMULARIOS: {

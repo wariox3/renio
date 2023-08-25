@@ -22,6 +22,11 @@ export const locale = {
         PROCESO: 'Proceso',
         INFORME: 'Informe',
       },
+      FUNCIONALIDAD:{
+        FACTURAVENTA: 'Factura de venta',
+        ITEM: 'Item',
+        CONTACTO: 'Contacto'
+      }
     },
     FORMULARIOS: {
       BOTONES: {

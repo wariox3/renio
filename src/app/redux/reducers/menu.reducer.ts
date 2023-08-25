@@ -213,7 +213,7 @@ export const initialState: Menu = {
 
           children: [
             {
-              nombre: 'Factura',
+              nombre: 'FACTURAVENTA',
               url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
