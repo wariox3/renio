@@ -235,7 +235,7 @@ export const initialState: Menu = {
           icono: 'wysiwyg',
           children: [
             {
-              name: 'Factura',
+              name: 'Factura de venta',
               url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
