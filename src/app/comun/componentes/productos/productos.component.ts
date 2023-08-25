@@ -73,7 +73,7 @@ export class ProductosComponent extends General implements AfterViewInit {
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
+        'general/funcionalidad/lista-autocompletar/',
         arrFiltros
       )
       .subscribe((respuesta) => {
@@ -103,7 +103,7 @@ export class ProductosComponent extends General implements AfterViewInit {
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
+        'general/funcionalidad/lista-autocompletar/',
         arrFiltros
       )
       .pipe(

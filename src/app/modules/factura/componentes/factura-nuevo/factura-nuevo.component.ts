@@ -374,7 +374,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+        'general/funcionalidad/lista-autocompletar/',
         arrFiltros
       )
       .pipe(
@@ -407,7 +407,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+        'general/funcionalidad/lista-autocompletar/',
         arrFiltros
       )
       .pipe(
