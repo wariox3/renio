@@ -6,7 +6,7 @@ export const locale = {
       SELECT: 'Select your language',
     },
     MENU: {
-      DASHBOARD: 'Menú',
+      DASHBOARD: 'Start',
       TITULOS:{
         GENERAL: 'GENERAL',
         CARTERA: 'Portfolio',

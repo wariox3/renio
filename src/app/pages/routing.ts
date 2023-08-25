@@ -57,11 +57,31 @@ const Routing: Routes = [
       import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
     data: { layout: 'light-sidebar' },
   },
-  // {
-  //   path: ':ruta',
-  //   loadChildren: () =>
-  //     import('../modules/general/general.module').then((m) => m.GeneralModule),
-  // },
+  {
+    path: 'cartera',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'compra',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'contabilidad',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'humano',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
+    path: 'venta',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
   {
     path: 'empresa',
     loadChildren: () =>

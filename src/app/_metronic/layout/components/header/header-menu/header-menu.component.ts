@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa.selectors';
 import { General } from '@comun/clases/general';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-header-menu',
@@ -28,10 +29,9 @@ export class HeaderMenuComponent extends General implements OnInit {
 
   ngOnInit(): void {
     let dominioActual = window.location.host
-    if (dominioActual.split('.').length > 2) {
+    if (dominioActual.split('.').length > 2 || environment.production == false) {
       this.visualizarMenuApps = true
     }
-
   }
 
   calculateMenuItemCssClass(url: string): string {

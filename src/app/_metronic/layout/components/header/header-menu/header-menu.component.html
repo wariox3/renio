@@ -13,7 +13,7 @@
     <a
       class="menu-link py-3"
       routerLinkActive="active menu-here"
-      routerLink="/{{ item }}"
+      routerLink="/{{ item | lowercase }}"
       (click)="seleccionarMenu(item)"
       ><span class="menu-title" [translate]="'MENU.TITULOS.'+item"></span></a
     >
