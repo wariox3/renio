@@ -5,8 +5,8 @@ interface informacionItem {
   name: string;
   modelo?: string;
   data?: {
-    [key: string]: {}
-  }
+    [key: string]: {};
+  };
   url?: string;
   icono?: string;
   children?: informacionItem[];
@@ -232,15 +232,31 @@ export const initialState: Menu = {
         {
           name: 'movimiento',
           icono: 'wysiwyg',
-          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+          children: [
+            {
+              name: 'Factura',
+              url: 'lista',
+              modelo: 'Factura',
+              data: { formulario: 'FacturaNuevo' },
+            },
+          ],
         },
         {
           name: 'administracion',
           icono: 'auto_awesome_mosaic',
           children: [
-            { name: 'item', url: 'lista', modelo: 'Item',  data:{'formulario': 'ItemNuevo'}  },
-            { name: 'contacto', url: 'lista', modelo: 'Contacto',  data:{'formulario': 'ContactoNuevo'}  },
-            { name: 'factura', url: 'lista', modelo: 'Factura', data:{'formulario': 'FacturaNuevo'} },
+            {
+              name: 'Item',
+              url: 'lista',
+              modelo: 'Item',
+              data: { formulario: 'ItemNuevo' },
+            },
+            {
+              name: 'Contacto',
+              url: 'lista',
+              modelo: 'Contacto',
+              data: { formulario: 'ContactoNuevo' },
+            },
           ],
         },
       ],
