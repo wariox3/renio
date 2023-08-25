@@ -33,6 +33,7 @@ export class BaseListaComponent extends General implements OnInit {
     ordenamientos: [],
     limite_conteo: 10000,
     modelo: '',
+    tipo: ''
   };
   arrPropiedades: Listafiltros[];
   arrItems: any[];
@@ -45,18 +46,28 @@ export class BaseListaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.arrParametrosConsulta.modelo = parametro.modelo;
+      this.arrParametrosConsulta.tipo = parametro.tipo;
       this.consultarLista();
     });
 
   }
 
   consultarLista(): void {
+    let baseUrl = 'general/funcionalidad/lista-'
+    switch (this.arrParametrosConsulta.tipo) {
+      case 'Administrador':
+        baseUrl += 'administrador/';
+        break;
+      case 'Documento':
+        baseUrl += 'documento/';
+        break;
+    }
     this.httpService
       .post<{
         cantidad_registros: number;
         registros: any[];
         propiedades: any[];
-      }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      }>(baseUrl , this.arrParametrosConsulta)
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;

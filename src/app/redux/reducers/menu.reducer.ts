@@ -4,6 +4,7 @@ import { selecionModuloAction } from '../actions/menu.actions';
 interface informacionItem {
   name: string;
   modelo?: string;
+  tipo?: string;
   data?: {
     [key: string]: {};
   };
@@ -237,6 +238,7 @@ export const initialState: Menu = {
               name: 'Factura',
               url: 'lista',
               modelo: 'Factura',
+              tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
             },
           ],
@@ -249,12 +251,14 @@ export const initialState: Menu = {
               name: 'Item',
               url: 'lista',
               modelo: 'Item',
+              tipo: 'Administrador',
               data: { formulario: 'ItemNuevo' },
             },
             {
               name: 'Contacto',
               url: 'lista',
               modelo: 'Contacto',
+              tipo: 'Administrador',
               data: { formulario: 'ContactoNuevo' },
             },
           ],
