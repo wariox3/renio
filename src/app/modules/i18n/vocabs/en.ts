@@ -165,7 +165,10 @@ export const locale = {
           IDENTIFICACION: 'Identification',
           CODIGO: 'Code',
           CLIENTE: 'Customer',
-          DOCUMENTOTIPO: 'Document Type'
+          DOCUMENTOTIPO: 'Document Type',
+          DIRECCION: 'Address',
+          CIUDAD: 'City',
+          CELULAR: 'Cell phone'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -176,7 +179,10 @@ export const locale = {
             IMPUESTO: 'Tax',
             REFERENCIA: 'Reference',
             PRECIO: 'Price'
-
+          },
+          CONTACTO:{
+            PERSONATIPO: 'Type person',
+            REGIMEN: 'Regime'
           }
         },
         FACTURA: {

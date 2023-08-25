@@ -172,6 +172,9 @@ export const locale = {
           CODIGO: 'Código',
           CLIENTE: 'cliente',
           DOCUMENTOTIPO: 'Documento tipo',
+          DIRECCION: 'Dirección',
+          CIUDAD: 'Ciudad',
+          CELULAR: 'Celular'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -183,6 +186,10 @@ export const locale = {
             REFERENCIA: 'Referencia',
             PRECIO: 'Precio',
           },
+          CONTACTO:{
+            PERSONATIPO: 'Persona tipo',
+            REGIMEN: 'Régimen'
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'movimiento tipo',
