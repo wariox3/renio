@@ -2,14 +2,13 @@ import { createReducer, on } from '@ngrx/store';
 import { selecionModuloAction } from '../actions/menu.actions';
 
 interface informacionItem {
-  name: string;
+  nombre: string;
   modelo?: string;
   tipo?: string;
   data?: {
     [key: string]: {};
   };
   url?: string;
-  icono?: string;
   children?: informacionItem[];
 }
 
@@ -24,218 +23,197 @@ export const initialState: Menu = {
   seleccion: nombreSeleccion == null ? 'GENERAL' : nombreSeleccion,
   informacion: [
     {
-      name: 'cartera',
+      nombre: 'cartera',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+          children: [{ nombre: 'item' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
           children: [
-            { name: 'item', url: 'lista', modelo: 'Item' },
-            { name: 'contacto', url: 'cartera/administracion/contacto/lista' },
+            { nombre: 'item', url: 'lista', modelo: 'Item' },
+            { nombre: 'contacto', url: 'cartera/administracion/contacto/lista' },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'compra',
+      nombre: 'compra',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
           children: [
-            { name: 'item', url: 'compra/administracion/item/lista' },
-            { name: 'contacto', url: 'compra/administracion/contacto/lista' },
+            { nombre: 'item', url: 'compra/administracion/item/lista' },
+            { nombre: 'contacto', url: 'compra/administracion/contacto/lista' },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'contabilidad',
+      nombre: 'contabilidad',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
           children: [
-            { name: 'item', url: 'contabilidad/administracion/item/lista' },
+            { nombre: 'item', url: 'contabilidad/administracion/item/lista' },
             {
-              name: 'contacto',
+              nombre: 'contacto',
               url: 'contabilidad/administracion/contacto/lista',
             },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'humano',
+      nombre: 'humano',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+
+          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
+
           children: [
-            { name: 'item', url: 'lista', modelo: 'Item' },
-            { name: 'contacto', url: 'humano/administracion/contacto/lista' },
+            { nombre: 'item', url: 'lista', modelo: 'Item' },
+            { nombre: 'contacto', url: 'humano/administracion/contacto/lista' },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'venta',
+      nombre: 'venta',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'item' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+
+          children: [{ nombre: 'item' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
+
           children: [
-            { name: 'item', url: 'venta/administracion/item/lista' },
-            { name: 'contacto', url: 'venta/administracion/contacto/lista' },
+            { nombre: 'item', url: 'venta/administracion/item/lista' },
+            { nombre: 'contacto', url: 'venta/administracion/contacto/lista' },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'contabilidad',
+      nombre: 'contabilidad',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
-          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+          nombre: 'movimiento',
+
+          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
+
           children: [
-            { name: 'item', url: 'contabilidad/administracion/item/lista' },
+            { nombre: 'item', url: 'contabilidad/administracion/item/lista' },
             {
-              name: 'contacto',
+              nombre: 'contacto',
               url: 'contabilidad/administracion/contacto/lista',
             },
           ],
         },
         {
-          name: 'utilidad',
-          icono: 'storage',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'utilidad',
+
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'proceso',
-          icono: 'webhook',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'proceso',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
-          name: 'informe',
-          icono: 'table_rows',
-          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+          nombre: 'informe',
+          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
     {
-      name: 'general',
+      nombre: 'general',
       children: [
         {
-          name: 'movimiento',
-          icono: 'wysiwyg',
+          nombre: 'movimiento',
+
           children: [
             {
-              name: 'Factura de venta',
+              nombre: 'Factura',
               url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
@@ -244,18 +222,18 @@ export const initialState: Menu = {
           ],
         },
         {
-          name: 'administracion',
-          icono: 'auto_awesome_mosaic',
+          nombre: 'administracion',
+
           children: [
             {
-              name: 'Item',
+              nombre: 'Item',
               url: 'lista',
               modelo: 'Item',
               tipo: 'Administrador',
               data: { formulario: 'ItemNuevo' },
             },
             {
-              name: 'Contacto',
+              nombre: 'Contacto',
               url: 'lista',
               modelo: 'Contacto',
               tipo: 'Administrador',

@@ -35,11 +35,15 @@
     >
       <span class="menu-link">
         <span class="menu-icon">
-          <app-keenicon name="element-7" class="fs-2"></app-keenicon>
+          <app-keenicon
+            name="{{ obtenerIcono(menu.nombre) }}"
+            class="fs-2"
+          ></app-keenicon>
         </span>
-        <span class="menu-title" data-link="/crafted/widgets"
-          [translate]="'MENU.COMUNES.'+(menu.name | uppercase)"
-          >
+        <span
+          class="menu-title"
+          [translate]="'MENU.COMUNES.' + (menu.nombre | uppercase)"
+        >
         </span>
         <span class="menu-arrow"></span>
       </span>
@@ -48,11 +52,15 @@
         *ngFor="let item of menu.children"
       >
         <div class="menu-item">
-          <a class="menu-link without-sub" routerLink="{{ item.url }}" [queryParams]="{ modelo: item.modelo, tipo: item.tipo }">
+          <a
+            class="menu-link without-sub"
+            routerLink="{{ item.url }}"
+            [queryParams]="{ modelo: item.modelo, tipo: item.tipo }"
+          >
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
-            <span class="menu-title">{{ item.name }} </span>
+            <span class="menu-title">{{ item.nombre }} </span>
           </a>
         </div>
       </div>
