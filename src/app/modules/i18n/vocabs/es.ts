@@ -170,7 +170,7 @@ export const locale = {
           ROL: 'Rol',
           IDENTIFICACION: 'Identificacion',
           CODIGO: 'Código',
-          CLIENTE: 'cliente',
+          CLIENTE: 'Cliente',
           DOCUMENTOTIPO: 'Documento tipo',
           DIRECCION: 'Dirección',
           CIUDAD: 'Ciudad',
@@ -192,8 +192,8 @@ export const locale = {
           }
         },
         FACTURA: {
-          MOVIMIENTOTIPO: 'movimiento tipo',
-          FECHAFACTURA: 'fecha factura',
+          MOVIMIENTOTIPO: 'Movimiento tipo',
+          FECHAFACTURA: 'Fecha factura',
           FECHAVENCIMIENTO: 'Fecha vencimiento',
           PLAZO: 'Plazo',
           URLANEXO: 'Url para anexo?',
