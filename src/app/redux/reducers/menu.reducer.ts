@@ -27,26 +27,18 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-          children: [{ nombre: 'item' }, { nombre: 'Brussels sprouts' }],
         },
         {
           nombre: 'administracion',
-          children: [
-            { nombre: 'item', url: 'lista', modelo: 'Item' },
-            { nombre: 'contacto', url: 'cartera/administracion/contacto/lista' },
-          ],
         },
         {
           nombre: 'utilidad',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -55,26 +47,18 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
           nombre: 'administracion',
-          children: [
-            { nombre: 'item', url: 'compra/administracion/item/lista' },
-            { nombre: 'contacto', url: 'compra/administracion/contacto/lista' },
-          ],
         },
         {
           nombre: 'utilidad',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -83,29 +67,18 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
           nombre: 'administracion',
-          children: [
-            { nombre: 'item', url: 'contabilidad/administracion/item/lista' },
-            {
-              nombre: 'contacto',
-              url: 'contabilidad/administracion/contacto/lista',
-            },
-          ],
         },
         {
           nombre: 'utilidad',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -114,29 +87,18 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-
-          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
           nombre: 'administracion',
-
-          children: [
-            { nombre: 'item', url: 'lista', modelo: 'Item' },
-            { nombre: 'contacto', url: 'humano/administracion/contacto/lista' },
-          ],
         },
         {
           nombre: 'utilidad',
-
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -145,29 +107,27 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-
-          children: [{ nombre: 'item' }, { nombre: 'Brussels sprouts' }],
-        },
-        {
-          nombre: 'administracion',
-
           children: [
-            { nombre: 'item', url: 'venta/administracion/item/lista' },
-            { nombre: 'contacto', url: 'venta/administracion/contacto/lista' },
+            {
+              nombre: 'FACTURAVENTA',
+              url: 'lista',
+              modelo: 'Factura',
+              tipo: 'Documento',
+              data: { formulario: 'FacturaNuevo' },
+            },
           ],
         },
         {
+          nombre: 'administracion',
+        },
+        {
           nombre: 'utilidad',
-
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -176,32 +136,18 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-
-          children: [{ nombre: 'Broccoli' }, { nombre: 'Brussels sprouts' }],
         },
         {
           nombre: 'administracion',
-
-          children: [
-            { nombre: 'item', url: 'contabilidad/administracion/item/lista' },
-            {
-              nombre: 'contacto',
-              url: 'contabilidad/administracion/contacto/lista',
-            },
-          ],
         },
         {
           nombre: 'utilidad',
-
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'proceso',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
         {
           nombre: 'informe',
-          children: [{ nombre: 'Pumpkins' }, { nombre: 'Carrots' }],
         },
       ],
     },
@@ -223,7 +169,6 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
-
           children: [
             {
               nombre: 'Item',
