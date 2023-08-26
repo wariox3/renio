@@ -37,12 +37,18 @@ export class SidebarMenuComponent implements OnInit {
       .subscribe();
   }
 
-  obtenerIcono(nombre: string) {
+  obtenerIcono(nombre: string) {    
     switch (nombre) {
       case 'movimiento':
         return 'element-7';
       case 'administracion':
         return 'folder';
+      case 'informe':
+        return 'document';
+      case 'proceso':
+        return 'notepad';
+      case 'utilidad':
+        return 'share';
     }
   }
 }
