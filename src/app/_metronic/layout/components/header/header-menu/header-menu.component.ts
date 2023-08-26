@@ -52,7 +52,8 @@ export class HeaderMenuComponent extends General implements OnInit {
     }
   }
 
-  seleccionarMenu(ruta: string){
+  seleccionarMenu(ruta: string){    
+    localStorage.setItem('ruta', ruta)
     this.store.dispatch(selecionModuloAction({seleccion: ruta}))
   }
 
