@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -40,7 +40,7 @@ import { FacturaService } from '../servicios/factura.service';
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
 })
-export default class FacturaNuevoComponent extends General implements OnInit {
+export default class FacturaNuevoComponent extends General implements OnInit, OnDestroy {
   formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
@@ -64,6 +64,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.initForm();
     this.changeDetectorRef.detectChanges();
     this.active = 1;
+  }
+
+  ngOnDestroy(): void {
+    this.formSubmit()
   }
 
   initForm() {
@@ -142,7 +146,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    this.facturaService.guardarFactura(this.formularioFactura.value)
+    if (this.formularioFactura.dirty) {
+      this.facturaService.guardarFactura(this.formularioFactura.value);
+    }
   }
 
   agregarProductos() {

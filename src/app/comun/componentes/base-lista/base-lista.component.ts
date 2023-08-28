@@ -50,6 +50,7 @@ export class BaseListaComponent extends General implements OnInit {
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.consultarLista();
     });
+    this.changeDetectorRef.detectChanges();
 
   }
 
