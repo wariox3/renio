@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from './keys.pipe';
@@ -37,6 +37,13 @@ export class TablaComponent implements OnInit {
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
   cargandoDatos = false;
+  arrRegistrosEliminar:number[] = [];
+
+  constructor(
+
+  ){
+
+  }
 
   ngOnInit() {
     // this.tamanoEncabezado = this.encabezado.length;
@@ -162,4 +169,25 @@ export class TablaComponent implements OnInit {
 
     }
   }
+
+  agregarRegistrosEliminar(id: number) {
+    const index = this.arrRegistrosEliminar.indexOf(id);
+    if (index !== -1) {
+      this.arrRegistrosEliminar.splice(index, 1);
+    } else {
+      this.arrRegistrosEliminar.push(id);
+    }
+  }
+  
+  
+
+  eliminarRegistros(){
+    console.log('eliminando registros', this.arrRegistrosEliminar )
+  }
+
+  // initForm() {
+  //   this.formularioEliminar = this.formBuilder.group({
+  //     registros: this.formBuilder.array([]),
+  //   });
+  // }
 }
