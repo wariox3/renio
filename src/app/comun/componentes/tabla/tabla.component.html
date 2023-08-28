@@ -1,14 +1,15 @@
-<div class="row mb-4">
-  <div class="col-4 d-flex align-items-center gap-3 bg-info">
-    
+<div class="row mb-4 justify-content-between">
+  <div class="col-4 d-flex align-items-center gap-3">
     <i
       (click)="disminuirDesplazamiento()"
       class="bi bi-arrow-left fs-2x cursor-pointer"
     ></i>
-    <input type="text"
-    class="form-control form-control-sm"
-    [value]="(lado+1) + '-' + al"
-    (blur)="calcularValorMostrar($event)">
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      [value]="lado + 1 + '-' + al"
+      (blur)="calcularValorMostrar($event)"
+    />
     de
     <span>{{ cantidad_registros }}</span>
     <i
@@ -16,7 +17,9 @@
       class="bi bi-arrow-right fs-2x cursor-pointer"
     ></i>
   </div>
-  <div class="col-4 d-flex justify-content-end"><button type="button" (click)="eliminarRegistros()">Eliminar</button></div>
+  <div class="col-4 d-flex justify-content-end">
+    <button type="button" (click)="eliminarRegistros()"  class="btn btn-sm btn-danger">Eliminar</button>
+  </div>
 </div>
 <div class="table-responsive table-loading">
   <table
@@ -56,27 +59,28 @@
             </div>
           </div>
         </th>
-        <th colspan="2"></th>
-        <th><input type="checkbox"></th>
+        <th></th>
+        <th><input type="checkbox" /></th>
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let item of datos">
-          <td *ngFor="let key of item | keys">
-            {{ item[key] }}
-          </td>
-          <td class="w-45px">
-            <button (click)="editar(item)" class="btn btn-primary btn-sm p-1">
-              Editar
-            </button>
-          </td>
-          <td class="w-45px">
-            <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1">
-              Detalle
-            </button>
-          </td>
-          <td class="w-20px"><input type="checkbox" [value]="item['id']" (change)="agregarRegistrosEliminar(item['id'])"/></td>
-        </tr>
+      <tr *ngFor="let item of datos">
+        <td *ngFor="let key of item | keys">
+          {{ item[key] }}
+        </td>
+        <td class="w-45px">
+          <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1">
+            información
+          </button>
+        </td>
+        <td class="w-20px">
+          <input
+            type="checkbox"
+            [value]="item['id']"
+            (change)="agregarRegistrosEliminar(item['id'])"
+          />
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

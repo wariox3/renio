@@ -105,6 +105,7 @@ export class BaseListaComponent extends General implements OnInit {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
+        accion: 'nuevo'
       },
     });
   }
@@ -115,6 +116,8 @@ export class BaseListaComponent extends General implements OnInit {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         detalle: id,
+        accion: 'detalle'
+
       },
     });
   }
