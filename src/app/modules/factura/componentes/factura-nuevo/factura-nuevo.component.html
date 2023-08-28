@@ -5,31 +5,36 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
       ></label>
-      <div class="position-relative">
-        <input
-          type="text"
-          class="form-control form-control"
-          minlength="3"
-          maxlength="4"
-          ngbDropdownAnchor
-          (focus)="consultarCliente($event); ClienteDropdown.open()"
-          (keyup)="consultarCliente($event)"
-        />
-        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-          <i class="bi bi-search fs-2x"></i>
+      <ng-container *ngIf="detalle; else campoCliente">
+        <p contenteditable>Cliente</p>
+      </ng-container>
+      <ng-template #campoCliente>
+        <div class="position-relative">
+          <input
+            type="text"
+            class="form-control form-control"
+            minlength="3"
+            maxlength="4"
+            ngbDropdownAnchor
+            (focus)="consultarCliente($event); ClienteDropdown.open()"
+            (keyup)="consultarCliente($event)"
+          />
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <i class="bi bi-search fs-2x"></i>
+          </div>
         </div>
-      </div>
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
-      >
-        <ng-container *ngFor="let impuesto of arrMovimientosTipos">
-          <button type="button" ngbDropdownItem>cliente.nombre</button>
-        </ng-container>
-        <div class="dropdown-divider"></div>
-        <button type="button" ngbDropdownItem>Nuevo</button>
-      </div>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic1"
+          class="dropdown-menu"
+        >
+          <ng-container *ngFor="let impuesto of arrMovimientosTipos">
+            <button type="button" ngbDropdownItem>cliente.nombre</button>
+          </ng-container>
+          <div class="dropdown-divider"></div>
+          <button type="button" ngbDropdownItem>Nuevo</button>
+        </div>
+      </ng-template>
     </div>
   </div>
 
@@ -39,36 +44,41 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.MOVIMIENTOTIPO"
       ></label>
-      <div class="position-relative">
-        <input
-          type="text"
-          class="form-control form-control"
-          ngbDropdownAnchor
-          formControlName="movimiento_tipo"
-          (focus)="
-            consultarMovimeintosTipo($event); movimientoTipoDropdown.open()
-          "
-          (keyup)="consultarMovimeintosTipo($event)"
-        />
-        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-          <i class="bi bi-search fs-2x"></i>
+      <ng-container *ngIf="detalle; else campoMovimientoTipo">
+        <p>movimeinto tipo</p>
+      </ng-container>
+      <ng-template #campoMovimientoTipo>
+        <div class="position-relative">
+          <input
+            type="text"
+            class="form-control form-control"
+            ngbDropdownAnchor
+            formControlName="movimiento_tipo"
+            (focus)="
+              consultarMovimeintosTipo($event); movimientoTipoDropdown.open()
+            "
+            (keyup)="consultarMovimeintosTipo($event)"
+          />
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <i class="bi bi-search fs-2x"></i>
+          </div>
         </div>
-      </div>
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
-      >
-        <ng-container *ngFor="let impuesto of arrMovimientosTipos">
-          <button
-            (click)="agregarMovimientoTipo(impuesto)"
-            type="button"
-            ngbDropdownItem
-          >
-            {{ impuesto.nombre }}
-          </button>
-        </ng-container>
-      </div>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic1"
+          class="dropdown-menu"
+        >
+          <ng-container *ngFor="let impuesto of arrMovimientosTipos">
+            <button
+              (click)="agregarMovimientoTipo(impuesto)"
+              type="button"
+              ngbDropdownItem
+            >
+              {{ impuesto.nombre }}
+            </button>
+          </ng-container>
+        </div>
+      </ng-template>
     </div>
   </div>
 
@@ -78,12 +88,17 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
       ></label>
-      <input
-        formControlName="fechaFactura"
-        class="form-control bg-transparent"
-        type="datetime-local"
-        autocomplete="off"
-      />
+      <ng-container *ngIf="detalle; else campoFechaFactura">
+        <p>fecha factura</p>
+      </ng-container>
+      <ng-template #campoFechaFactura>
+        <input
+          formControlName="fechaFactura"
+          class="form-control bg-transparent"
+          type="datetime-local"
+          autocomplete="off"
+        />
+      </ng-template>
     </div>
     <div class="col">
       <label
@@ -91,12 +106,17 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
       >
       </label>
-      <input
-        formControlName="fechaVencimiento"
-        class="form-control bg-transparent"
-        type="datetime-local"
-        autocomplete="off"
-      />
+      <ng-container *ngIf="detalle; else FECHAVENCIMIENTO">
+        <p>FECHAVENCIMIENTO</p>
+      </ng-container>
+      <ng-template #FECHAVENCIMIENTO>
+        <input
+          formControlName="fechaVencimiento"
+          class="form-control bg-transparent"
+          type="datetime-local"
+          autocomplete="off"
+        />
+      </ng-template>
     </div>
   </div>
 
@@ -106,24 +126,34 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
       ></label>
-      <input
-        formControlName="plazo"
-        class="form-control bg-transparent"
-        type="number"
-        autocomplete="off"
-      />
+      <ng-container *ngIf="detalle; else PLAZO">
+        <p>PLAZO</p>
+      </ng-container>
+      <ng-template #PLAZO>
+        <input
+          formControlName="plazo"
+          class="form-control bg-transparent"
+          type="number"
+          autocomplete="off"
+        />
+      </ng-template>
     </div>
     <div class="col">
       <label
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
       ></label>
-      <input
-        formControlName="documento_tipo"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-      />
+      <ng-container *ngIf="detalle; else DOCUMENTOTIPO">
+        <p>DOCUMENTOTIPO</p>
+      </ng-container>
+      <ng-template #DOCUMENTOTIPO>
+        <input
+          formControlName="documento_tipo"
+          class="form-control bg-transparent"
+          type="text"
+          autocomplete="off"
+        />
+      </ng-template>
     </div>
   </div>
 
@@ -133,23 +163,33 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.URLANEXO"
       ></label>
-      <input
-        formControlName="url"
-        class="form-control bg-transparent"
-        type="url"
-        autocomplete="off"
-      />
+      <ng-container *ngIf="detalle; else URLANEXO">
+        <p>URLANEXO</p>
+      </ng-container>
+      <ng-template #URLANEXO>
+        <input
+          formControlName="url"
+          class="form-control bg-transparent"
+          type="url"
+          autocomplete="off"
+        />
+      </ng-template>
     </div>
     <div class="col">
       <label
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
       ></label>
-      <select class="form-select" formControlName="tipoOperacion">
-        <option value="1">SUMA</option>
-        <option value="0">NEUTRO</option>
-        <option value="-1">RESTA</option>
-      </select>
+      <ng-container *ngIf="detalle; else TIPOOPERACION">
+        <p>TIPOOPERACION</p>
+      </ng-container>
+      <ng-template #TIPOOPERACION>
+        <select class="form-select" formControlName="tipoOperacion">
+          <option value="1">SUMA</option>
+          <option value="0">NEUTRO</option>
+          <option value="-1">RESTA</option>
+        </select>
+      </ng-template>
     </div>
   </div>
 
@@ -159,12 +199,17 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
       ></label>
-      <input
+      <ng-container *ngIf="detalle; else METODOPAGO">
+        <p>METODOPAGO</p>
+      </ng-container>
+      <ng-template #METODOPAGO>
+        <input
         formControlName="metodoPago"
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
       />
+      </ng-template>
     </div>
   </div>
 
@@ -213,6 +258,7 @@
                         class="btn btn-sm btn-primary"
                         type="button"
                         translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                        *ngIf="!detalle"
                       ></button>
                     </th>
                   </tr>
@@ -309,18 +355,18 @@
                   </td>
                 </tr>
                 <tr *ngIf="totalImpuestos > 0">
-                  <td class="text-end"
-                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-
+                  <td
+                    class="text-end"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                   ></td>
                   <td class="text-end">
                     {{ totalImpuestos | currency : "$" }}
                   </td>
                 </tr>
                 <tr class="border-top">
-                  <td class="text-end"
-                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-
+                  <td
+                    class="text-end"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                   ></td>
                   <td class="text-end" style="padding-left: 24px">
                     {{ totalGeneral | currency : "$" }}
@@ -349,6 +395,8 @@
       class="btn btn-primary btn-sm"
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      *ngIf="!detalle"
+
     ></button>
   </div>
 </form>

@@ -20,7 +20,7 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { Item } from '@modulos/general/modelos/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { FacturaService } from '../servicios/factura.service';
+import { FacturaService } from '@modulos/factura/servicios/factura.service';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -49,6 +49,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
+  detalle = 0
   acumuladorImpuestos: any[] = [];
   arrMovimientosTipos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -64,6 +65,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     this.initForm();
     this.changeDetectorRef.detectChanges();
     this.active = 1;
+    this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
   }
 
   ngOnDestroy(): void {

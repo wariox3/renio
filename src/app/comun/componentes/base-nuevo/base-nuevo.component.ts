@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { componeteNuevos } from '@comun/extra/imports';
-
+import { componeteNuevos, componeteDetalle } from '@comun/extra/imports';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -14,11 +13,11 @@ import { componeteNuevos } from '@comun/extra/imports';
   templateUrl: './base-nuevo.component.html',
   styleUrls: ['./base-nuevo.component.scss'],
 })
-export class BaseNuevoComponent  extends General implements OnInit {
-
+export class BaseNuevoComponent extends General implements OnInit {
   modelo: string;
-  formulario: string
-  tipo: string
+  formulario: string;
+  tipo: string;
+  accion: 'nuevo' | 'detalle';
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -31,16 +30,16 @@ export class BaseNuevoComponent  extends General implements OnInit {
     this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
     this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
     this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
+    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
     this.loadComponente();
   }
 
   async loadComponente() {
-    let posicion: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
-    let componete  = await (await componeteNuevos[posicion]).default
-    let componeteCreado = this.componenteDinamico.createComponent(componete);
-    let loadedComponentInstance:any = componeteCreado.instance;
-    loadedComponentInstance.ngOnInit()
+    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
+    let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
+    let componeteNuevoCargado =
+      this.componenteDinamico.createComponent(componeteNuevo);
+    let componeteNuevoIntancia: any = componeteNuevoCargado.instance;
+    componeteNuevoIntancia.ngOnInit();
   }
-
-
 }
