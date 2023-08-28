@@ -3,17 +3,23 @@ import { Subdomino } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class FacturaService extends Subdomino {
+export class FacturaService{
+  constructor(private httpService: HttpService) {}
 
-  constructor(private httpService: HttpService) {
-    super()
-   }
+  guardarFactura(data: any) {
+    this.httpService
+      .post<any>('general/documento/', data)
+      .subscribe((respuesta) => {
+        console.log('facturas', respuesta);
+      });
+  }
 
-   guardarFactura(data:any){
-    this.httpService.post<any>('general/documento/', data).subscribe((respuesta)=>{
+  actualizarDatosFactura(data: any){
+    this.httpService.put<any>('general/documento/25/', data)
+    .subscribe((respuesta) => {
       console.log('facturas', respuesta);
-    })
-   }
+    });
+  }
 }

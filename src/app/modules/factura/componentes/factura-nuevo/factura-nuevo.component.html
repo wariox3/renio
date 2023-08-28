@@ -6,7 +6,7 @@
         translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
       ></label>
       <ng-container *ngIf="detalle; else campoCliente">
-        <p contenteditable>Cliente</p>
+        <p contenteditable (blur)="actualizarDatos($event, 'descuento')">Cliente</p>
       </ng-container>
       <ng-template #campoCliente>
         <div class="position-relative">

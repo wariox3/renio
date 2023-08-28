@@ -21,13 +21,10 @@
           <h3>
             <ng-container *ngIf="accion === 'nuevo'; else detalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-
             </ng-container>
             <ng-template #detalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
-
             </ng-template>
-
           </h3>
         </div>
         <!--end::Heading-->

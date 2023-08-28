@@ -437,4 +437,13 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     // });
     // this.changeDetectorRef.detectChanges()
   }
+
+  actualizarDatos(event:any, campo:string){
+    let data:any  = {
+      "documento_tipo":1,
+    }
+
+    data[campo] = event.target.innerText
+    this.facturaService.actualizarDatosFactura(data)
+  }
 }
