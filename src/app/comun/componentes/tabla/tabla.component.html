@@ -18,7 +18,13 @@
     ></i>
   </div>
   <div class="col-4 d-flex justify-content-end">
-    <button type="button" (click)="eliminarRegistros()"  class="btn btn-sm btn-danger">Eliminar</button>
+    <button
+      type="button"
+      (click)="eliminarRegistros()"
+      class="btn btn-sm btn-danger"
+    >
+      Eliminar
+    </button>
   </div>
 </div>
 <div class="table-responsive table-loading">
@@ -60,7 +66,13 @@
           </div>
         </th>
         <th></th>
-        <th><input type="checkbox" /></th>
+        <th>
+          <div
+            class="form-check form-check-custom form-check-danger form-check-solid "
+          >
+            <input class="form-check-input cursor-pointer" type="checkbox"  [checked]="selectAll" (change)="toggleSelectAll()"/>
+          </div>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -74,11 +86,17 @@
           </button>
         </td>
         <td class="w-20px">
-          <input
-            type="checkbox"
-            [value]="item['id']"
-            (change)="agregarRegistrosEliminar(item['id'])"
-          />
+          <div
+            class="form-check form-check-custom form-check-danger form-check-solid "
+          >
+            <input
+              class="form-check-input cursor-pointer"
+              type="checkbox"
+              [value]="item['id']"
+              (change)="agregarRegistrosEliminar(item['id'])"
+              [checked]="item.selected"
+            />
+          </div>
         </td>
       </tr>
     </tbody>

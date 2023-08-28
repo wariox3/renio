@@ -21,6 +21,15 @@ import { KeysPipe } from './keys.pipe';
   imports: [CommonModule, FormsModule, NgbDropdownModule, KeysPipe]
 })
 export class TablaComponent implements OnInit {
+  tamanoEncabezado = 0;
+  arrCantidadRegistro = [50, 100, 200];
+  registrosVisiables = 50;
+  lado: number = 0;
+  al: number = this.registrosVisiables;
+  ordenadoTabla: string = '';
+  cargandoDatos = false;
+  arrRegistrosEliminar:number[] = [];
+  selectAll = false;
   @Input() encabezado:  Listafiltros[] = [];
   @Input() datos: any[]= [];
   @Input() cantidad_registros!: number;
@@ -30,14 +39,6 @@ export class TablaComponent implements OnInit {
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
-  tamanoEncabezado = 0;
-  arrCantidadRegistro = [50, 100, 200];
-  registrosVisiables = 50;
-  lado: number = 0;
-  al: number = this.registrosVisiables;
-  ordenadoTabla: string = '';
-  cargandoDatos = false;
-  arrRegistrosEliminar:number[] = [];
 
   constructor(
 
@@ -178,16 +179,26 @@ export class TablaComponent implements OnInit {
       this.arrRegistrosEliminar.push(id);
     }
   }
-  
-  
 
   eliminarRegistros(){
     console.log('eliminando registros', this.arrRegistrosEliminar )
+    console.log('eliminando selectAll', this.selectAll )
   }
 
-  // initForm() {
-  //   this.formularioEliminar = this.formBuilder.group({
-  //     registros: this.formBuilder.array([]),
-  //   });
-  // }
+  toggleSelectAll() {
+    this.selectAll = !this.selectAll;
+
+    this.datos.forEach(item => {
+      item.selected = this.selectAll;
+      const index = this.arrRegistrosEliminar.indexOf(item.id);
+      if (index !== -1) {
+        this.arrRegistrosEliminar.splice(index, 1);
+      } else {
+        this.arrRegistrosEliminar.push(item.id);
+
+      }
+    });
+
+  }
+
 }
