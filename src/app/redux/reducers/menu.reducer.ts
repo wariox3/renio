@@ -47,9 +47,34 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
+          children:[
+            {
+              nombre: 'FACTURACOMPRA',
+              url: 'lista',
+              modelo: 'Factura',
+              tipo: 'Documento',
+              data: { formulario: 'FacturaNuevo' },
+            },
+          ]
         },
         {
           nombre: 'administracion',
+          children: [
+            {
+              nombre: 'Item',
+              url: 'lista',
+              modelo: 'Item',
+              tipo: 'Administrador',
+              data: { formulario: 'ItemNuevo' },
+            },
+            {
+              nombre: 'Contacto',
+              url: 'lista',
+              modelo: 'Contacto',
+              tipo: 'Administrador',
+              data: { formulario: 'ContactoNuevo' },
+            },
+          ],
         },
         {
           nombre: 'utilidad',
@@ -119,6 +144,22 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
+          children: [
+            {
+              nombre: 'Item',
+              url: 'lista',
+              modelo: 'Item',
+              tipo: 'Administrador',
+              data: { formulario: 'ItemNuevo' },
+            },
+            {
+              nombre: 'Contacto',
+              url: 'lista',
+              modelo: 'Contacto',
+              tipo: 'Administrador',
+              data: { formulario: 'ContactoNuevo' },
+            },
+          ],
         },
         {
           nombre: 'utilidad',

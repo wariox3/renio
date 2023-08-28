@@ -24,6 +24,7 @@ export const locale = {
       },
       FUNCIONALIDAD:{
         FACTURAVENTA: 'Factura de venta',
+        FACTURACOMPRA: 'Factura de compra',
         ITEM: 'Item',
         CONTACTO: 'Contacto'
       }
