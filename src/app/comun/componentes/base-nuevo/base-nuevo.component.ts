@@ -18,6 +18,7 @@ export class BaseNuevoComponent  extends General implements OnInit {
 
   modelo: string;
   formulario: string
+  tipo: string
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -28,6 +29,7 @@ export class BaseNuevoComponent  extends General implements OnInit {
 
   ngOnInit(): void {
     this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
+    this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
     this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
     this.loadComponente();
   }
