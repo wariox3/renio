@@ -4,7 +4,7 @@
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
     >
-      <option value="">Propiedad</option>
+      <option value="">Seleccionar...</option>
       <option
         *ngFor="let propiedad of propiedades"
         [value]="propiedad.tipo"
@@ -21,7 +21,7 @@
       class="form-control form-control-sm"
       (change)="onCriterioSeleccionado($event)"
     >
-      <option value="">Operador</option>
+      <option value="">Seleccionar...</option>
       <option
         *ngFor="let criterioBusqueda of criteriosBusqueda"
         [value]="criterioBusqueda.valor"
