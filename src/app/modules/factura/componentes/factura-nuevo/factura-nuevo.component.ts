@@ -20,6 +20,7 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { Item } from '@modulos/general/modelos/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { FacturaService } from '../servicios/factura.service';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -54,7 +55,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private facturaService: FacturaService
   ) {
     super();
   }
@@ -95,7 +97,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      tipoDocumento: [
+      documento_tipo: [
         '',
         Validators.compose([
           Validators.required,
@@ -140,7 +142,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.detalles);
+    this.facturaService.guardarFactura(this.formularioFactura.value)
   }
 
   agregarProductos() {
