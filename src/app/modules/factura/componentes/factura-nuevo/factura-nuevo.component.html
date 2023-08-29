@@ -7,8 +7,6 @@
       ></label>
       <ng-container *ngIf="detalle; else campoCliente">
         <p contenteditable (blur)="actualizarDatos($event, 'descuento')">
-          {{ informacionDetalle.contacto.nombre_corto }} -
-          {{ informacionDetalle.contacto.numero_identificacion }}
         </p>
       </ng-container>
       <ng-template #campoCliente>
@@ -127,7 +125,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
       ></label>
       <ng-container *ngIf="detalle; else METODOPAGO">
-        <p>METODOPAGO</p>
+        <p>{{informacionDetalle.metodo_pago}}</p>
       </ng-container>
       <ng-template #METODOPAGO>
         <input

@@ -40,7 +40,10 @@ import { FacturaService } from '@modulos/factura/servicios/factura.service';
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
 })
-export default class FacturaNuevoComponent extends General implements OnInit, OnDestroy {
+export default class FacturaNuevoComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
@@ -49,8 +52,21 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
-  detalle = 0
-  informacionDetalle:any;
+  detalle = 0;
+  informacionDetalle: any = {
+    contacto_id: '',
+    descuento: '',
+    documento_tipo_id: '',
+    fecha: '',
+    fecha_vence: '',
+    id: null,
+    impuesto: 0,
+    numero: null,
+    subtotal: 0,
+    total: 0,
+    total_bruto: 0,
+    metodo_pago: null
+  };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
 
@@ -65,14 +81,14 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     this.initForm();
     this.changeDetectorRef.detectChanges();
     this.active = 1;
-    if(this.activatedRoute.snapshot.queryParams['detalle']){
+    if (this.activatedRoute.snapshot.queryParams['detalle']) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle()
+      this.consultardetalle();
     }
   }
 
   ngOnDestroy(): void {
-    this.formSubmit()
+    this.formSubmit();
   }
 
   initForm() {
@@ -222,11 +238,9 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     for (const impuestoIndex in this.acumuladorImpuestos) {
       const impuesto = this.acumuladorImpuestos[impuestoIndex];
 
-      impuesto.data = impuesto.data.filter(
-        (item: any) => {
-          return item.index !== index;
-        }
-      );
+      impuesto.data = impuesto.data.filter((item: any) => {
+        return item.index !== index;
+      });
 
       // Verificar si el tamaño de data es cero y eliminar la posición si es así
       if (impuesto.data.length <= 0) {
@@ -380,18 +394,20 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
       .subscribe();
   }
 
-  actualizarDatos(event:any, campo:string){
-    let data:any  = {
-      "documento_tipo":1,
-    }
+  actualizarDatos(event: any, campo: string) {
+    let data: any = {
+      documento_tipo: 1,
+    };
 
-    data[campo] = event.target.innerText
-    this.facturaService.actualizarDatosFactura(this.detalle, data)
+    data[campo] = event.target.innerText;
+    this.facturaService.actualizarDatosFactura(this.detalle, data);
   }
 
-  consultardetalle(){
-    this.facturaService.consultarDetalle(this.detalle).subscribe((respuesta:any) =>  {
-      this.informacionDetalle = respuesta
-    })
+  consultardetalle() {
+    this.facturaService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.informacionDetalle = respuesta;
+      });
   }
 }
