@@ -39,8 +39,8 @@ export class HttpService extends Subdomino  {
   }
 
   // Método DELETE
-  public delete(endpoint: string): Observable<any> {
+  public delete(endpoint: string, data:any): Observable<any> {
     const url = `${this.urlSubDominio}/${endpoint}`;
-    return this.http.delete(url);
+    return this.http.delete(url, data);
   }
 }

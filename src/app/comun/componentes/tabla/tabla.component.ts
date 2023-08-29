@@ -20,7 +20,7 @@ import { KeysPipe } from './keys.pipe';
   standalone: true,
   imports: [CommonModule, FormsModule, NgbDropdownModule, KeysPipe]
 })
-export class TablaComponent implements OnInit {
+export class TablaComponent {
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   registrosVisiables = 50;
@@ -39,43 +39,7 @@ export class TablaComponent implements OnInit {
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
-
-  constructor(
-
-  ){
-
-  }
-
-  ngOnInit() {
-    // this.tamanoEncabezado = this.encabezado.length;
-  }
-
-  // ngOnChanges(cambios: SimpleChanges): void {
-  //   if (
-  //     cambios.datos &&
-  //     cambios.datos.currentValue &&
-  //     cambios.datos.currentValue[0]
-  //   ) {
-  //     if (
-  //       Object.keys(cambios.datos.currentValue[0]).length !==
-  //       this.tamanoEncabezado
-  //     ) {
-  //       cambios.datos.currentValue.map((data: any) => {
-  //         if (Object.keys(data).length !== this.tamanoEncabezado) {
-  //           const diferencia = this.tamanoEncabezado - Object.keys(data).length;
-  //           for (let i = 0; i < diferencia; i++) {
-  //             data[`nuevaPosicion${i}`] = '';
-  //           }
-  //         }
-  //       });
-  //     }
-  //   } else if (cambios.datos.firstChange === false) {
-  //     this.cargandoDatos = true;
-  //     if (cambios.datos.currentValue.length === 0) {
-  //       this.cargandoDatos = false;
-  //     }
-  //   }
-  // }
+  @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
 
   objectKeys(obj: any) {
     let encabezado: any = [];
@@ -181,8 +145,7 @@ export class TablaComponent implements OnInit {
   }
 
   eliminarRegistros(){
-    console.log('eliminando registros', this.arrRegistrosEliminar )
-    console.log('eliminando selectAll', this.selectAll )
+    this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar)
   }
 
   toggleSelectAll() {

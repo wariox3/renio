@@ -51,11 +51,10 @@ export class BaseListaComponent extends General implements OnInit {
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
-
   }
 
   consultarLista(): void {
-    let baseUrl = 'general/funcionalidad/lista-'
+    let baseUrl = 'general/funcionalidad/lista-';
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
         baseUrl += 'administrador/';
@@ -69,7 +68,7 @@ export class BaseListaComponent extends General implements OnInit {
         cantidad_registros: number;
         registros: any[];
         propiedades: any[];
-      }>(baseUrl , this.arrParametrosConsulta)
+      }>(baseUrl, this.arrParametrosConsulta)
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
@@ -105,7 +104,7 @@ export class BaseListaComponent extends General implements OnInit {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
-        accion: 'nuevo'
+        accion: 'nuevo',
       },
     });
   }
@@ -119,5 +118,20 @@ export class BaseListaComponent extends General implements OnInit {
         detalle: id,
       },
     });
+  }
+
+  eliminarRegistros(data: Number[]) {
+    if (data.length > 0) {
+      this.httpService
+        .post('general/documento/eliminar/', { documentos: data })
+        .subscribe((respuesta:any) => {
+          this.alertaService.mensajaExitoso(respuesta.mensaje);
+        });
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'no se existen mensajes a eliminar'
+      );
+    }
   }
 }
