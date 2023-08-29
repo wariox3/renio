@@ -1,41 +1,20 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <div class="row mb-10">
+  <div class="row mb-5">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
-      ></label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"></label>
       <ng-container *ngIf="detalle; else campoCliente">
-        <p contenteditable (blur)="actualizarDatos($event, 'descuento')">
-        </p>
+        <p contenteditable (blur)="actualizarDatos($event, 'descuento')"></p>
       </ng-container>
       <ng-template #campoCliente>
         <div class="position-relative">
-          <input
-            type="text"
-            class="form-control form-control"
-            minlength="3"
-            maxlength="4"
-            ngbDropdownAnchor
-            formControlName="cliente"
-            (focus)="consultarCliente($event); ClienteDropdown.open()"
-            (keyup)="consultarCliente($event)"
-          />
+          <input type="text" class="form-control form-control" minlength="3" maxlength="4" ngbDropdownAnchor formControlName="cliente" (focus)="consultarCliente($event); ClienteDropdown.open()" (keyup)="consultarCliente($event)" />
           <div class="position-absolute translate-middle-y top-50 end-0 me-3">
             <i class="bi bi-search fs-2x"></i>
           </div>
         </div>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
           <ng-container *ngFor="let impuesto of arrMovimientosClientes">
-            <button
-              type="button"
-              ngbDropdownItem
-              (click)="modificarCampoFormulario('cliente', impuesto.nombre_corto)"
-            >
+            <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('cliente', impuesto.nombre_corto)">
               {{ impuesto.nombre_corto }}
             </button>
           </ng-container>
@@ -45,49 +24,29 @@
       </ng-template>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-5">
     <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
-      ></label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"></label>
       <ng-container *ngIf="detalle; else campoFechaFactura">
         <p>{{ informacionDetalle.fecha }}</p>
       </ng-container>
       <ng-template #campoFechaFactura>
-        <input
-          formControlName="fechaFactura"
-          class="form-control bg-transparent"
-          type="datetime"
-          autocomplete="off"
-        />
+        <input formControlName="fechaFactura" class="form-control bg-transparent" type="datetime" autocomplete="off" />
       </ng-template>
     </div>
     <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
-      >
-      </label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"></label>
       <ng-container *ngIf="detalle; else FECHAVENCIMIENTO">
         <p>{{ informacionDetalle.fecha_vence }}</p>
       </ng-container>
       <ng-template #FECHAVENCIMIENTO>
-        <input
-          formControlName="fechaVencimiento"
-          class="form-control bg-transparent"
-          type="datetime"
-          autocomplete="off"
-        />
+        <input formControlName="fechaVencimiento" class="form-control bg-transparent" type="datetime" autocomplete="off" />
       </ng-template>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-5">
     <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
-      ></label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"></label>
       <ng-container *ngIf="detalle; else TIPOOPERACION">
         <p>{{ informacionDetalle.TIPOOPERACION }}</p>
       </ng-container>
@@ -100,216 +59,105 @@
       </ng-template>
     </div>
   </div>
-
-  <div class="row mb-10">
+  <div class="row mb-5">
     <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
-      ></label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"></label>
       <ng-container *ngIf="detalle; else PLAZO">
         <p>{{informacionDetalle.plazo}}</p>
       </ng-container>
       <ng-template #PLAZO>
-        <input
-          formControlName="plazo"
-          class="form-control bg-transparent"
-          type="number"
-          autocomplete="off"
-        />
+        <input formControlName="plazo" class="form-control bg-transparent" type="number" autocomplete="off" />
       </ng-template>
     </div>
     <div class="col-6">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-      ></label>
+      <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"></label>
       <ng-container *ngIf="detalle; else METODOPAGO">
         <p>{{informacionDetalle.metodo_pago}}</p>
       </ng-container>
       <ng-template #METODOPAGO>
-        <input
-          formControlName="metodoPago"
-          class="form-control bg-transparent"
-          type="text"
-          autocomplete="off"
-        />
+        <input formControlName="metodoPago" class="form-control bg-transparent" type="text" autocomplete="off" />
       </ng-template>
     </div>
   </div>
-
-  <div class="row mb-10">
+  <div class="row mb-5">
     <div class="col-12">
-      <ul
-        ngbNav
-        #nav="ngbNav"
-        [(activeId)]="active"
-        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-      >
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6">
         <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.LISTA"
-          ></a>
+          <a class="nav-link" ngbNavLink data-bs-toggle="tab" translate="FORMULARIOS.TITULOS.FACTURACION.LISTA"></a>
           <ng-template ngbNavContent>
             <div class="table-responsive-sm">
-              <table
-                id="tableDetalles"
-                class="table table-row-dashed table-row-gray-500"
-              >
+              <table id="tableDetalles" class="table table-row-dashed table-row-gray-500">
                 <thead>
                   <tr>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                    ></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"></th>
                     <th translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPINCLUIDOS"
-                    ></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"></th>
+                    <th translate="FORMULARIOS.TITULOS.FACTURACION.IMPINCLUIDOS"></th>
                     <th class="text-center">
-                      <button
-                        (click)="agregarProductos()"
-                        class="btn btn-sm btn-primary"
-                        type="button"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                        *ngIf="!detalle"
-                      ></button>
+                      <button (click)="agregarProductos()" class="btn btn-sm btn-primary" type="button" translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM" *ngIf="!detalle"></button>
                     </th>
                   </tr>
                 </thead>
                 <tbody formArrayName="detalles">
-                  <ng-container
-                    *ngFor="let detalle of detalles.controls; let i = index"
-                    [formGroupName]="i"
-                  >
+                  <ng-container *ngFor="let detalle of detalles.controls; let i = index" [formGroupName]="i">
                     <tr>
                       <td>
-                        <app-comun-productos
-                          (emitirArrItems)="agregarItemSeleccionado($event, i)"
-                        ></app-comun-productos>
+                        <app-comun-productos (emitirArrItems)="agregarItemSeleccionado($event, i)"></app-comun-productos>
                       </td>
                       <td>
-                        <textarea
-                          class="o_input"
-                          formControlName="cantidad"
-                          [value]="detalle.value?.cantidad"
-                          (change)="actualizarDetalle(i, 'cantidad', $event)"
-                          rows="1"
-                          spellcheck="true"
-                        ></textarea>
+                        <textarea class="o_input" formControlName="cantidad" [value]="detalle.value?.cantidad" (change)="actualizarDetalle(i, 'cantidad', $event)" rows="1" spellcheck="true"></textarea>
                       </td>
                       <td>
-                        <textarea
-                          class="o_input"
-                          [value]="detalle.value.precio"
-                          (change)="actualizarDetalle(i, 'precio', $event)"
-                          rows="1"
-                          spellcheck="true"
-                        ></textarea>
+                        <textarea class="o_input" [value]="detalle.value.precio" (change)="actualizarDetalle(i, 'precio', $event)" rows="1" spellcheck="true"></textarea>
                       </td>
                       <td>
-                        <textarea
-                          class="o_input"
-                          [value]="detalle.value.descuento"
-                          (change)="actualizarDetalle(i, 'descuento', $event)"
-                          rows="1"
-                          spellcheck="true"
-                        ></textarea>
+                        <textarea class="o_input" [value]="detalle.value.descuento" (change)="actualizarDetalle(i, 'descuento', $event)" rows="1" spellcheck="true"></textarea>
                       </td>
                       <td>
-                        <app-comun-impuestos
-                          (emitirImpuestos)="agregarImpuesto($event, i)"
-                          (emitirImpuesto)="removerImpuesto($event, i)"
-                        ></app-comun-impuestos>
+                        <app-comun-impuestos (emitirImpuestos)="agregarImpuesto($event, i)" (emitirImpuesto)="removerImpuesto($event, i)"></app-comun-impuestos>
                       </td>
                       <td>
-                        <textarea
-                          [value]="
-                            detalle.value.cantidad * detalle.value.precio
-                          "
-                          (blur)="onImpuestoBlur(i)"
-                          readonly
-                          rows="1"
-                          spellcheck="true"
-                        ></textarea>
+                        <textarea [value]="detalle.value.cantidad * detalle.value.precio" (blur)="onImpuestoBlur(i)" readonly rows="1" spellcheck="true"></textarea>
                       </td>
                       <td class="text-center">
-                        <i
-                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                          (click)="eliminarProducto(i)"
-                        ></i>
+                        <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger" (click)="eliminarProducto(i)"></i>
                       </td>
                     </tr>
                   </ng-container>
                 </tbody>
               </table>
             </div>
-            <div class="d-flex flex-column justify-content-end align-items-end">
+            <div class="d-flex justify-content-end mb-5">
               <table>
                 <tr *ngIf="totalCantidad > 0">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                  ></td>
+                  <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"></td>
                   <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
                 </tr>
                 <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                   <td class="text-end">{{ impuesto.key }}</td>
-                  <td class="text-end">
-                    {{ impuesto.value.total | currency : "$" }}
-                  </td>
+                  <td class="text-end">{{ impuesto.value.total | currency : "$" }}</td>
                 </tr>
                 <tr *ngIf="totalDescuento > 0 || detalle">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                  ></td>
+                  <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"></td>
                   <td class="text-end">
-                    <ng-container *ngIf="detalle; else elseTemplate">
-                      {{ informacionDetalle.descuento }}
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                      {{ totalDescuento | currency : "$" }}
-                    </ng-template>
+                    <ng-container *ngIf="detalle; else elseTemplate">{{ informacionDetalle.descuento }}</ng-container>
+                    <ng-template #elseTemplate>{{ totalDescuento | currency : "$" }}</ng-template>
                   </td>
                 </tr>
                 <tr *ngIf="totalImpuestos > 0 || detalle">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                  ></td>
+                  <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"></td>
                   <td class="text-end">
-                    <ng-container *ngIf="detalle; else elseTemplate">
-                      {{ informacionDetalle.impuesto }}
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                      {{ totalImpuestos | currency : "$" }}
-                    </ng-template>
+                    <ng-container *ngIf="detalle; else elseTemplate">{{ informacionDetalle.impuesto }}</ng-container>
+                    <ng-template #elseTemplate>{{ totalImpuestos | currency : "$" }}</ng-template>
                   </td>
                 </tr>
                 <tr class="border-top">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                  ></td>
+                  <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"></td>
                   <td class="text-end" style="padding-left: 24px">
-                    <ng-container *ngIf="detalle; else elseTemplate">
-                      {{ informacionDetalle.total }}
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                      {{ totalGeneral | currency : "$" }}
-                    </ng-template>
+                    <ng-container *ngIf="detalle; else elseTemplate">{{ informacionDetalle.total }}</ng-container>
+                    <ng-template #elseTemplate>{{ totalGeneral | currency : "$" }}</ng-template>
                   </td>
                 </tr>
               </table>
@@ -317,12 +165,7 @@
           </ng-template>
         </li>
         <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-          ></a>
+          <a class="nav-link" ngbNavLink data-bs-toggle="tab" translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"></a>
           <ng-template ngbNavContent> </ng-template>
         </li>
       </ul>
@@ -330,12 +173,6 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mb-10">
-    <button
-      type="submit"
-      class="btn btn-primary btn-sm"
-      #btnGuardar
-      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      *ngIf="!detalle"
-    ></button>
+    <button type="submit" class="btn btn-primary btn-sm" #btnGuardar translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR" *ngIf="!detalle"></button>
   </div>
 </form>
