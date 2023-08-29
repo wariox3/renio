@@ -152,8 +152,10 @@ export default class FacturaNuevoComponent
   }
 
   formSubmit() {
-    if (this.formularioFactura.dirty) {
-      this.facturaService.guardarFactura(this.formularioFactura.value);
+    if(this.detalle === 0){
+      if(this.formularioFactura.touched && this.formularioFactura.dirty){
+        this.facturaService.guardarFactura(this.formularioFactura.value);
+      }
     }
   }
 
@@ -360,7 +362,9 @@ export default class FacturaNuevoComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    this.formularioFactura.get(campo)?.patchValue(dato);
+    this.formularioFactura.get(campo)?.markAsDirty();
+    this.formularioFactura.get(campo)?.markAsTouched();
+    this.formularioFactura.get(campo)?.setValue(dato);
     this.changeDetectorRef.detectChanges();
   }
 
