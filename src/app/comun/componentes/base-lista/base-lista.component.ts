@@ -126,6 +126,7 @@ export class BaseListaComponent extends General implements OnInit {
         .post('general/documento/eliminar/', { documentos: data })
         .subscribe((respuesta:any) => {
           this.alertaService.mensajaExitoso(respuesta.mensaje);
+          this.consultarLista()
         });
     } else {
       this.alertaService.mensajeError(
