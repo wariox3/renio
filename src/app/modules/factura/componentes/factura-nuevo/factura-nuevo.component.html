@@ -47,51 +47,6 @@
       </ng-template>
     </div>
   </div>
-
-  <div class="row mb-10">
-    <div class="col-12" ngbDropdown #movimientoTipoDropdown="ngbDropdown">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.MOVIMIENTOTIPO"
-      ></label>
-      <ng-container *ngIf="detalle; else MOVIMIENTOTIPO">
-        <p>movimeinto</p>
-      </ng-container>
-      <ng-template #MOVIMIENTOTIPO>
-        <div class="position-relative">
-          <input
-            type="text"
-            class="form-control form-control"
-            ngbDropdownAnchor
-            formControlName="movimiento_tipo"
-            (focus)="
-              consultarMovimeintosTipo($event); movimientoTipoDropdown.open()
-            "
-            (keyup)="consultarMovimeintosTipo($event)"
-          />
-          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-            <i class="bi bi-search fs-2x"></i>
-          </div>
-        </div>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
-          <ng-container *ngFor="let impuesto of arrMovimientosTipos">
-            <button
-              (click)="agregarMovimientoTipo(impuesto)"
-              type="button"
-              ngbDropdownItem
-            >
-              {{ impuesto.nombre }}
-            </button>
-          </ng-container>
-        </div>
-      </ng-template>
-    </div>
-  </div>
-
   <div class="row mb-10">
     <div class="col">
       <label
@@ -129,62 +84,7 @@
       </ng-template>
     </div>
   </div>
-
   <div class="row mb-10">
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
-      ></label>
-      <ng-container *ngIf="detalle; else PLAZO">
-        <p>{{informacionDetalle.plazo}</p>
-      </ng-container>
-      <ng-template #PLAZO>
-        <input
-          formControlName="plazo"
-          class="form-control bg-transparent"
-          type="number"
-          autocomplete="off"
-        />
-      </ng-template>
-    </div>
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
-      ></label>
-      <ng-container *ngIf="detalle; else DOCUMENTOTIPO">
-        <p>{{ informacionDetalle.documento_tipo_id }}</p>
-      </ng-container>
-      <ng-template #DOCUMENTOTIPO>
-        <input
-          formControlName="documento_tipo"
-          class="form-control bg-transparent"
-          type="text"
-          autocomplete="off"
-        />
-      </ng-template>
-    </div>
-  </div>
-
-  <div class="row mb-10">
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.URLANEXO"
-      ></label>
-      <ng-container *ngIf="detalle; else URLANEXO">
-        <p>URLANEXO</p>
-      </ng-container>
-      <ng-template #URLANEXO>
-        <input
-          formControlName="url"
-          class="form-control bg-transparent"
-          type="url"
-          autocomplete="off"
-        />
-      </ng-template>
-    </div>
     <div class="col">
       <label
         class="form-label required"
@@ -204,6 +104,23 @@
   </div>
 
   <div class="row mb-10">
+    <div class="col">
+      <label
+        class="form-label required"
+        translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
+      ></label>
+      <ng-container *ngIf="detalle; else PLAZO">
+        <p>{{informacionDetalle.plazo}}</p>
+      </ng-container>
+      <ng-template #PLAZO>
+        <input
+          formControlName="plazo"
+          class="form-control bg-transparent"
+          type="number"
+          autocomplete="off"
+        />
+      </ng-template>
+    </div>
     <div class="col-6">
       <label
         class="form-label required"

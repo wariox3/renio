@@ -52,7 +52,6 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
   detalle = 0
   informacionDetalle:any;
   acumuladorImpuestos: any[] = [];
-  arrMovimientosTipos: any[] = [];
   arrMovimientosClientes: any[] = [];
 
   constructor(
@@ -79,7 +78,6 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
   initForm() {
     this.formularioFactura = this.formBuilder.group({
       cliente: ['', Validators.compose([Validators.required])],
-      movimiento_tipo: ['', Validators.compose([Validators.required])],
       numero: ['', Validators.compose([Validators.required])],
       fechaVencimiento: [
         '',
@@ -100,24 +98,6 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
         ]),
       ],
       plazo: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      documento_tipo: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      url: [
         '',
         Validators.compose([
           Validators.required,
@@ -362,49 +342,9 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarMovimientoTipo(movimientoTipo: Item) {
-    this.formularioFactura.patchValue({
-      movimiento_tipo: movimientoTipo.nombre,
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura.get(campo)?.patchValue(dato);
     this.changeDetectorRef.detectChanges();
-  }
-
-  consultarMovimeintosTipo(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre__contains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'Item',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosTipos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
   }
 
   consultarCliente(event: any) {
