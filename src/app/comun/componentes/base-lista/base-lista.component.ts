@@ -116,6 +116,7 @@ export class BaseListaComponent extends General implements OnInit {
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
         detalle: id,
+        accion: 'detalle',
       },
     });
   }

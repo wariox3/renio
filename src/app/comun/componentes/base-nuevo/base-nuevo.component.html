@@ -1,17 +1,19 @@
 <div class="container-grid">
-  <div class="ayuda">
+  <div class="ayuda ">
     <a
       [routerLink]="['../lista']"
       [queryParams]="{modelo, tipo}"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold mb-2"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold me-2"
     >
-      <i class="ki-duotone ki-arrow-left fs-6 text-muted me-1"
+      <i class="ki-duotone ki-arrow-left fs-6 text-muted"
         ><span class="path1"></span><span class="path2"></span
       ></i>
       {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
     </a>
+    <div class="btn-group btn-sm" role="group" aria-label="Basic example" *ngIf="accion === 'detalle' ">
+      <button type="button" class="btn btn-sm btn-primary">Aprobar</button>
+    </div>
   </div>
-
   <div class="formulario">
     <div class="card mb-5 mb-lg-10">
       <!--begin::Card header-->
