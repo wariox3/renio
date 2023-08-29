@@ -6,7 +6,9 @@
         translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
       ></label>
       <ng-container *ngIf="detalle; else campoCliente">
-        <p contenteditable (blur)="actualizarDatos($event, 'descuento')">Cliente</p>
+        <p contenteditable (blur)="actualizarDatos($event, 'descuento')">
+          {{informacionDetalle.contacto.nombre_corto}} - {{informacionDetalle.contacto.numero_identificacion}}
+        </p>
       </ng-container>
       <ng-template #campoCliente>
         <div class="position-relative">
@@ -44,10 +46,10 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.MOVIMIENTOTIPO"
       ></label>
-      <ng-container *ngIf="detalle; else campoMovimientoTipo">
-        <p>movimeinto tipo</p>
+      <ng-container *ngIf="detalle; else MOVIMIENTOTIPO">
+        <p>movimeinto </p>
       </ng-container>
-      <ng-template #campoMovimientoTipo>
+      <ng-template #MOVIMIENTOTIPO>
         <div class="position-relative">
           <input
             type="text"
@@ -89,7 +91,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
       ></label>
       <ng-container *ngIf="detalle; else campoFechaFactura">
-        <p>fecha factura</p>
+        <p>{{informacionDetalle.fecha}}</p>
       </ng-container>
       <ng-template #campoFechaFactura>
         <input
@@ -107,7 +109,7 @@
       >
       </label>
       <ng-container *ngIf="detalle; else FECHAVENCIMIENTO">
-        <p>FECHAVENCIMIENTO</p>
+        <p>{{informacionDetalle.fecha_vence}}</p>
       </ng-container>
       <ng-template #FECHAVENCIMIENTO>
         <input
@@ -127,7 +129,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
       ></label>
       <ng-container *ngIf="detalle; else PLAZO">
-        <p>PLAZO</p>
+        <p>{{informacionDetalle.plazo}</p>
       </ng-container>
       <ng-template #PLAZO>
         <input
@@ -144,7 +146,7 @@
         translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
       ></label>
       <ng-container *ngIf="detalle; else DOCUMENTOTIPO">
-        <p>DOCUMENTOTIPO</p>
+        <p>{{ informacionDetalle.documento_tipo_id }}</p>
       </ng-container>
       <ng-template #DOCUMENTOTIPO>
         <input
@@ -181,7 +183,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
       ></label>
       <ng-container *ngIf="detalle; else TIPOOPERACION">
-        <p>TIPOOPERACION</p>
+        <p>{{informacionDetalle.TIPOOPERACION}}</p>
       </ng-container>
       <ng-template #TIPOOPERACION>
         <select class="form-select" formControlName="tipoOperacion">
@@ -204,11 +206,11 @@
       </ng-container>
       <ng-template #METODOPAGO>
         <input
-        formControlName="metodoPago"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-      />
+          formControlName="metodoPago"
+          class="form-control bg-transparent"
+          type="text"
+          autocomplete="off"
+        />
       </ng-template>
     </div>
   </div>
@@ -345,22 +347,32 @@
                     {{ impuesto.value.total | currency : "$" }}
                   </td>
                 </tr>
-                <tr *ngIf="totalDescuento > 0">
+                <tr *ngIf="totalDescuento > 0 || detalle">
                   <td
                     class="text-end"
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
                   ></td>
                   <td class="text-end">
-                    {{ totalDescuento | currency : "$" }}
+                    <ng-container *ngIf="detalle; else elseTemplate">
+                      {{ informacionDetalle.descuento }}
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      {{ totalDescuento | currency : "$" }}
+                    </ng-template>
                   </td>
                 </tr>
-                <tr *ngIf="totalImpuestos > 0">
+                <tr *ngIf="totalImpuestos > 0 || detalle">
                   <td
                     class="text-end"
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                   ></td>
                   <td class="text-end">
-                    {{ totalImpuestos | currency : "$" }}
+                    <ng-container *ngIf="detalle; else elseTemplate">
+                      {{ informacionDetalle.impuesto }}
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      {{ totalImpuestos | currency : "$" }}
+                    </ng-template>
                   </td>
                 </tr>
                 <tr class="border-top">
@@ -369,7 +381,13 @@
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                   ></td>
                   <td class="text-end" style="padding-left: 24px">
-                    {{ totalGeneral | currency : "$" }}
+                    <ng-container *ngIf="detalle; else elseTemplate">
+                      {{ informacionDetalle.total }}
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      {{ totalGeneral | currency : "$" }}
+                    </ng-template>
+
                   </td>
                 </tr>
               </table>
@@ -396,7 +414,6 @@
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
       *ngIf="!detalle"
-
     ></button>
   </div>
 </form>

@@ -50,6 +50,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
   detalle = 0
+  informacionDetalle:any;
   acumuladorImpuestos: any[] = [];
   arrMovimientosTipos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -65,7 +66,10 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     this.initForm();
     this.changeDetectorRef.detectChanges();
     this.active = 1;
-    this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+    if(this.activatedRoute.snapshot.queryParams['detalle']){
+      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+      this.consultardetalle()
+    }
   }
 
   ngOnDestroy(): void {
@@ -445,5 +449,11 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
 
     data[campo] = event.target.innerText
     this.facturaService.actualizarDatosFactura(this.detalle, data)
+  }
+
+  consultardetalle(){
+    this.facturaService.consultarDetalle(this.detalle).subscribe((respuesta:any) =>  {
+      this.informacionDetalle = respuesta
+    })
   }
 }

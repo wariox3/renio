@@ -22,4 +22,8 @@ export class FacturaService{
       console.log('facturas', respuesta);
     });
   }
+
+  consultarDetalle(id: number){
+    return this.httpService.get<any>(`general/documento/${id}/`)
+  }
 }
