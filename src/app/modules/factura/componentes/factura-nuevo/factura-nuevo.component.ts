@@ -92,11 +92,14 @@ export default class FacturaNuevoComponent
   }
 
   initForm() {
+    const fechaActual = new Date(); // Obtener la fecha actual
+    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+
     this.formularioFactura = this.formBuilder.group({
       cliente: ['', Validators.compose([Validators.required])],
       numero: ['', Validators.compose([Validators.required])],
       fechaVencimiento: [
-        '',
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -105,7 +108,7 @@ export default class FacturaNuevoComponent
         ]),
       ],
       fechaFactura: [
-        '',
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
