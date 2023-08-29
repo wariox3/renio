@@ -16,8 +16,8 @@ export class FacturaService{
       });
   }
 
-  actualizarDatosFactura(data: any){
-    this.httpService.put<any>('general/documento/25/', data)
+  actualizarDatosFactura(id: number, data: any){
+    this.httpService.put<any>(`general/documento/${id}/`, data)
     .subscribe((respuesta) => {
       console.log('facturas', respuesta);
     });

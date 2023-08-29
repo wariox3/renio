@@ -444,6 +444,6 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     }
 
     data[campo] = event.target.innerText
-    this.facturaService.actualizarDatosFactura(data)
+    this.facturaService.actualizarDatosFactura(this.detalle, data)
   }
 }
