@@ -7,7 +7,8 @@
       ></label>
       <ng-container *ngIf="detalle; else campoCliente">
         <p contenteditable (blur)="actualizarDatos($event, 'descuento')">
-          {{informacionDetalle.contacto.nombre_corto}} - {{informacionDetalle.contacto.numero_identificacion}}
+          {{ informacionDetalle.contacto.nombre_corto }} -
+          {{ informacionDetalle.contacto.numero_identificacion }}
         </p>
       </ng-container>
       <ng-template #campoCliente>
@@ -18,6 +19,7 @@
             minlength="3"
             maxlength="4"
             ngbDropdownAnchor
+            formControlName="cliente"
             (focus)="consultarCliente($event); ClienteDropdown.open()"
             (keyup)="consultarCliente($event)"
           />
@@ -30,8 +32,14 @@
           aria-labelledby="dropdownBasic1"
           class="dropdown-menu"
         >
-          <ng-container *ngFor="let impuesto of arrMovimientosTipos">
-            <button type="button" ngbDropdownItem>cliente.nombre</button>
+          <ng-container *ngFor="let impuesto of arrMovimientosClientes">
+            <button
+              type="button"
+              ngbDropdownItem
+              (click)="modificarCampoFormulario('cliente', impuesto.nombre_corto)"
+            >
+              {{ impuesto.nombre_corto }}
+            </button>
           </ng-container>
           <div class="dropdown-divider"></div>
           <button type="button" ngbDropdownItem>Nuevo</button>
@@ -47,7 +55,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.MOVIMIENTOTIPO"
       ></label>
       <ng-container *ngIf="detalle; else MOVIMIENTOTIPO">
-        <p>movimeinto </p>
+        <p>movimeinto</p>
       </ng-container>
       <ng-template #MOVIMIENTOTIPO>
         <div class="position-relative">
@@ -91,7 +99,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
       ></label>
       <ng-container *ngIf="detalle; else campoFechaFactura">
-        <p>{{informacionDetalle.fecha}}</p>
+        <p>{{ informacionDetalle.fecha }}</p>
       </ng-container>
       <ng-template #campoFechaFactura>
         <input
@@ -109,7 +117,7 @@
       >
       </label>
       <ng-container *ngIf="detalle; else FECHAVENCIMIENTO">
-        <p>{{informacionDetalle.fecha_vence}}</p>
+        <p>{{ informacionDetalle.fecha_vence }}</p>
       </ng-container>
       <ng-template #FECHAVENCIMIENTO>
         <input
@@ -183,7 +191,7 @@
         translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
       ></label>
       <ng-container *ngIf="detalle; else TIPOOPERACION">
-        <p>{{informacionDetalle.TIPOOPERACION}}</p>
+        <p>{{ informacionDetalle.TIPOOPERACION }}</p>
       </ng-container>
       <ng-template #TIPOOPERACION>
         <select class="form-select" formControlName="tipoOperacion">
@@ -387,7 +395,6 @@
                     <ng-template #elseTemplate>
                       {{ totalGeneral | currency : "$" }}
                     </ng-template>
-
                   </td>
                 </tr>
               </table>

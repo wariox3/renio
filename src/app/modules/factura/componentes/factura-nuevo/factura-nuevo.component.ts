@@ -78,6 +78,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
 
   initForm() {
     this.formularioFactura = this.formBuilder.group({
+      cliente: ['', Validators.compose([Validators.required])],
       movimiento_tipo: ['', Validators.compose([Validators.required])],
       numero: ['', Validators.compose([Validators.required])],
       fechaVencimiento: [
@@ -368,6 +369,11 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
     this.changeDetectorRef.detectChanges();
   }
 
+  modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioFactura.get(campo)?.patchValue(dato);
+    this.changeDetectorRef.detectChanges();
+  }
+
   consultarMovimeintosTipo(event: any) {
     let arrFiltros = {
       filtros: [
@@ -407,7 +413,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
         {
           id: '1692284537644-1688',
           operador: '__contains',
-          propiedad: 'nombre__contains',
+          propiedad: 'nombre_corto__contains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
@@ -416,7 +422,7 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Item',
+      modelo: 'Contacto',
     };
 
     this.httpService
@@ -432,14 +438,6 @@ export default class FacturaNuevoComponent extends General implements OnInit, On
         })
       )
       .subscribe();
-  }
-
-  agregarCliente(movimientoTipo: Item) {
-    // console.log(movimientoTipo);
-    // this.formularioFactura.patchValue({
-    //   movimiento_tipo: movimientoTipo.nombre,
-    // });
-    // this.changeDetectorRef.detectChanges()
   }
 
   actualizarDatos(event:any, campo:string){
