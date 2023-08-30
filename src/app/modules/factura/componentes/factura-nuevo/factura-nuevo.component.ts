@@ -86,7 +86,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     if (this.activatedRoute.snapshot.queryParams['detalle']) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
-      
     }
   }
 
@@ -155,16 +154,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    if (this.formularioFactura.touched && this.formularioFactura.dirty) {
       if (this.detalle === 0) {
         this.facturaService
           .guardarFactura(this.formularioFactura.value)
           .subscribe(({ documento }) => {
             console.log(documento.detalles);
-
-            this.detalles.clear()
-
-            documento.detalles.forEach((detalle:any)=>{
+            this.detalles.clear();
+            documento.detalles.forEach((detalle: any) => {
               console.log(detalle);
               const detalleFormGroup = this.formBuilder.group({
                 item: [null],
@@ -181,26 +177,46 @@ export default class FacturaNuevoComponent extends General implements OnInit {
               });
 
               this.detalles.push(detalleFormGroup);
-            })
-
-
+            });
             this.calcularTotales();
-
-
             this.detalle = documento.id;
+            this.formularioFactura.markAsPristine();
+            this.formularioFactura.markAsUntouched();
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.facturaService
+        if (this.formularioFactura.touched && this.formularioFactura.dirty){
+          this.facturaService
           .actualizarDatosFactura(this.detalle, {
             ...this.formularioFactura.value,
             ...{ detalles_eliminados: this.arrDetallesEliminado },
           })
           .subscribe((respuesta) => {
-            console.log('facturas', respuesta);
+            this.detalles.clear();
+            respuesta.documento.detalles.forEach((detalle: any) => {
+              const detalleFormGroup = this.formBuilder.group({
+                item: [detalle.item],
+                cantidad: [detalle.cantidad],
+                precio: [detalle.precio],
+                porcentaje_descuento: [detalle.porcentaje_descuento],
+                descuento: [detalle.descuento],
+                subtotal: [detalle.subtotal],
+                total_bruto: [detalle.total_bruto],
+                total: [detalle.total],
+                neto: [detalle.neto],
+                impuestos: this.formBuilder.array([]),
+                id: [detalle.id],
+              });
+
+              this.detalles.push(detalleFormGroup);
+            });
+            this.calcularTotales();
+            this.formularioFactura.markAsPristine();
+            this.formularioFactura.markAsUntouched();
+            this.changeDetectorRef.detectChanges();
           });
+        }
       }
-    }
   }
 
   agregarProductos() {
@@ -218,16 +234,18 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       id: [null],
     });
     //guardarel registro si detalle es diferente 0
-    if (this.detalle != 0) {
-      this.DocumentoDetalleService.nuevoDetalle(this.detalle).subscribe(
-        ({ documento }) => {
-          if (documento && documento.id !== null) {
-            detalleFormGroup.get('id')?.setValue(documento.id);
-            this.changeDetectorRef.detectChanges();
-          }
-        }
-      );
-    }
+    // if (this.detalle != 0) {
+    //   this.DocumentoDetalleService.nuevoDetalle(this.detalle).subscribe(
+    //     ({ documento }) => {
+    //       if (documento && documento.id !== null) {
+    //         detalleFormGroup.get('id')?.setValue(documento.id);
+    //         this.changeDetectorRef.detectChanges();
+    //       }
+    //     }
+    //   );
+    // }
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
 
     this.detalles.push(detalleFormGroup);
     this.calcularTotales();
@@ -475,7 +493,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.detalles.clear();
-        respuesta.documento.detalles.forEach((detalle:any)=>{
+        respuesta.documento.detalles.forEach((detalle: any) => {
           const detalleFormGroup = this.formBuilder.group({
             item: [detalle.item],
             cantidad: [detalle.cantidad],
@@ -490,8 +508,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             id: [detalle.id],
           });
           this.detalles.push(detalleFormGroup);
-        })
+        });
 
+        this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
   }
