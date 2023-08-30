@@ -160,6 +160,7 @@
               >
                 <thead>
                   <tr>
+                    <th></th>
                     <th
                       translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
                     ></th>
@@ -192,7 +193,7 @@
                   [formGroupName]="i"
                 >
                   <tr>
-                    <td>lorem: {{ detalle.value.id | json }}</td>
+                    <td>{{ detalle.value.id }}</td>
                     <td>
                       <app-comun-productos
                         (emitirArrItems)="agregarItemSeleccionado($event, i)"

@@ -86,6 +86,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     if (this.activatedRoute.snapshot.queryParams['detalle']) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
+      
     }
   }
 
@@ -473,6 +474,24 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
+        this.detalles.clear();
+        respuesta.documento.detalles.forEach((detalle:any)=>{
+          const detalleFormGroup = this.formBuilder.group({
+            item: [detalle.item],
+            cantidad: [detalle.cantidad],
+            precio: [detalle.precio],
+            porcentaje_descuento: [detalle.porcentaje_descuento],
+            descuento: [detalle.descuento],
+            subtotal: [detalle.subtotal],
+            total_bruto: [detalle.total_bruto],
+            total: [detalle.total],
+            neto: [detalle.neto],
+            impuestos: this.formBuilder.array([]),
+            id: [detalle.id],
+          });
+          this.detalles.push(detalleFormGroup);
+        })
+
         this.changeDetectorRef.detectChanges();
       });
   }
