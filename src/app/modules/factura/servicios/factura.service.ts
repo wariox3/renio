@@ -5,27 +5,20 @@ import { HttpService } from '@comun/services/http.service';
 @Injectable({
   providedIn: 'root',
 })
-export class FacturaService{
+export class FacturaService {
   constructor(private httpService: HttpService) {}
 
   guardarFactura(data: any) {
-    data['documento_tipo'] = 1
-    data['numero'] = null
-    this.httpService
-      .post<any>('general/documento/', data)
-      .subscribe((respuesta) => {
-        console.log('facturas', respuesta);
-      });
+    data['documento_tipo'] = 1;
+    data['numero'] = null;
+    return this.httpService.post<any>('general/documento/', data);
   }
 
-  actualizarDatosFactura(id: number, data: any){
-    this.httpService.put<any>(`general/documento/${id}/`, data)
-    .subscribe((respuesta) => {
-      console.log('facturas', respuesta);
-    });
+  actualizarDatosFactura(id: number, data: any) {
+    return this.httpService.put<any>(`general/documento/${id}/`, data);
   }
 
-  consultarDetalle(id: number){
-    return this.httpService.get<any>(`general/documento/${id}/`)
+  consultarDetalle(id: number) {
+    return this.httpService.get<any>(`general/documento/${id}/`);
   }
 }

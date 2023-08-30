@@ -40,10 +40,7 @@ import { FacturaService } from '@modulos/factura/servicios/factura.service';
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
 })
-export default class FacturaNuevoComponent
-  extends General
-  implements OnInit, OnDestroy
-{
+export default class FacturaNuevoComponent extends General implements OnInit {
   formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
@@ -66,11 +63,12 @@ export default class FacturaNuevoComponent
     total: 0,
     total_bruto: 0,
     metodo_pago: null,
-    detalles:[]
+    detalles: [],
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
-
+  arrDetallesEliminado: number  [] = [];
+  accion: 'nuevo' | 'detalle';
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -82,23 +80,24 @@ export default class FacturaNuevoComponent
     this.initForm();
     this.changeDetectorRef.detectChanges();
     this.active = 1;
+    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
     if (this.activatedRoute.snapshot.queryParams['detalle']) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }
   }
 
-  ngOnDestroy(): void {
-    this.formSubmit();
-  }
-
   initForm() {
     const fechaActual = new Date(); // Obtener la fecha actual
-    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
+      fechaActual.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
     this.formularioFactura = this.formBuilder.group({
       cliente: ['', Validators.compose([Validators.required])],
-      numero: ['', Validators.compose([Validators.required])],
+      numero: [null, Validators.compose([Validators.required])],
       fechaVencimiento: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -153,9 +152,27 @@ export default class FacturaNuevoComponent
   }
 
   formSubmit() {
-    if(this.detalle === 0){
-      if(this.formularioFactura.touched && this.formularioFactura.dirty){
-        this.facturaService.guardarFactura(this.formularioFactura.value);
+    if (this.formularioFactura.touched && this.formularioFactura.dirty) {
+      if (this.detalle === 0) {
+        this.facturaService
+          .guardarFactura(this.formularioFactura.value)
+          .subscribe(({ documento }) => {
+            this.detalle = documento.id;
+            this.changeDetectorRef.detectChanges();
+          });
+      } else {
+
+
+
+        this.facturaService
+          .actualizarDatosFactura(this.detalle,
+            {
+              ...this.formularioFactura.value,
+              ...{"detalles_eliminados": this.arrDetallesEliminado}
+            })
+          .subscribe((respuesta) => {
+            console.log('facturas', respuesta);
+          });
       }
     }
   }
@@ -240,6 +257,9 @@ export default class FacturaNuevoComponent
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
+    const item = detalleFormGroup.get('item') as FormControl;
+
+    this.arrDetallesEliminado.push(item.value)
 
     for (const impuestoIndex in this.acumuladorImpuestos) {
       const impuesto = this.acumuladorImpuestos[impuestoIndex];
@@ -370,7 +390,6 @@ export default class FacturaNuevoComponent
   }
 
   consultarCliente(event: any) {
-    
     let arrFiltros = {
       filtros: [
         {

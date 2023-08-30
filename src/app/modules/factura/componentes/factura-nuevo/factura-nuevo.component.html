@@ -1,11 +1,12 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  {{this.detalle}}
   <div class="row mb-5">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
       <label
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
       ></label>
-      <ng-container *ngIf="detalle; else campoCliente">
+      <ng-container *ngIf="accion === 'detalle'; else campoCliente">
         <p contenteditable (blur)="actualizarDatos($event, 'descuento')"></p>
       </ng-container>
       <ng-template #campoCliente>
@@ -52,7 +53,7 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
       ></label>
-      <ng-container *ngIf="detalle; else campoFechaFactura">
+      <ng-container *ngIf="accion === 'detalle'; else campoFechaFactura">
         <p>{{ informacionDetalle.fecha }}</p>
       </ng-container>
       <ng-template #campoFechaFactura>
@@ -69,7 +70,7 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
       ></label>
-      <ng-container *ngIf="detalle; else FECHAVENCIMIENTO">
+      <ng-container *ngIf="accion === 'detalle'; else FECHAVENCIMIENTO">
         <p>{{ informacionDetalle.fecha_vence }}</p>
       </ng-container>
       <ng-template #FECHAVENCIMIENTO>
@@ -88,7 +89,7 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
       ></label>
-      <ng-container *ngIf="detalle; else TIPOOPERACION">
+      <ng-container *ngIf="accion === 'detalle'; else TIPOOPERACION">
         <p>{{ informacionDetalle.TIPOOPERACION }}</p>
       </ng-container>
       <ng-template #TIPOOPERACION>
@@ -106,7 +107,7 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
       ></label>
-      <ng-container *ngIf="detalle; else PLAZO">
+      <ng-container *ngIf="accion === 'detalle'; else PLAZO">
         <p>{{ informacionDetalle.plazo }}</p>
       </ng-container>
       <ng-template #PLAZO>
@@ -123,7 +124,7 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
       ></label>
-      <ng-container *ngIf="detalle; else METODOPAGO">
+      <ng-container *ngIf="accion === 'detalle'; else METODOPAGO">
         <p>{{ informacionDetalle.metodo_pago }}</p>
       </ng-container>
       <ng-template #METODOPAGO>
@@ -187,7 +188,7 @@
                 </thead>
                 <tbody formArrayName="detalles">
                   <ng-container
-                    *ngIf="detalle; then listaDetalle; else listaNuevo"
+                    *ngIf="accion === 'detalle'; then listaDetalle; else listaNuevo"
                   ></ng-container>
                   <ng-template #listaDetalle>
                     <ng-container
@@ -371,7 +372,7 @@
       class="btn btn-primary btn-sm"
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      *ngIf="!detalle"
+      [disabled]="!formularioFactura.dirty && !formularioFactura.touched"
     ></button>
   </div>
 </form>
