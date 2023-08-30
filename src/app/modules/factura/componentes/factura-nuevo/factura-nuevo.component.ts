@@ -210,6 +210,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
               this.detalles.push(detalleFormGroup);
             });
+            this.arrDetallesEliminado = [];
             this.calcularTotales();
             this.formularioFactura.markAsPristine();
             this.formularioFactura.markAsUntouched();
@@ -310,6 +311,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   eliminarProducto(index: number, id: number | null) {
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
@@ -340,7 +343,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     }
 
     this.changeDetectorRef.detectChanges();
-
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
