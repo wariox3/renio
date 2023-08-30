@@ -158,10 +158,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         this.facturaService
           .guardarFactura(this.formularioFactura.value)
           .subscribe(({ documento }) => {
-            console.log(documento.detalles);
             this.detalles.clear();
             documento.detalles.forEach((detalle: any) => {
-              console.log(detalle);
               const detalleFormGroup = this.formBuilder.group({
                 item: [null],
                 cantidad: [0],
@@ -301,7 +299,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   agregarItemSeleccionado(item: Item, index: number) {
-    console.log(item);
     this.detalles.controls[index].patchValue({
       precio: item.precio,
       item: item.id,
