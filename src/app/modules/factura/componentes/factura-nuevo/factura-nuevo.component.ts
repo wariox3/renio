@@ -65,7 +65,8 @@ export default class FacturaNuevoComponent
     subtotal: 0,
     total: 0,
     total_bruto: 0,
-    metodo_pago: null
+    metodo_pago: null,
+    detalles:[]
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -369,6 +370,7 @@ export default class FacturaNuevoComponent
   }
 
   consultarCliente(event: any) {
+    
     let arrFiltros = {
       filtros: [
         {
@@ -414,7 +416,8 @@ export default class FacturaNuevoComponent
     this.facturaService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.informacionDetalle = respuesta;
+        this.informacionDetalle = respuesta.documento;
+        this.changeDetectorRef.detectChanges();
       });
   }
 }
