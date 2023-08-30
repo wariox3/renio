@@ -1,5 +1,5 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  {{this.detalle}}
+  {{ this.detalle }}
   <div class="row mb-5">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
       <label
@@ -188,108 +188,69 @@
                 </thead>
                 <tbody formArrayName="detalles">
                   <ng-container
-                    *ngIf="accion === 'detalle'; then listaDetalle; else listaNuevo"
-                  ></ng-container>
-                  <ng-template #listaDetalle>
-                    <ng-container
-                      *ngFor="
-                        let detalle of informacionDetalle.detalles;
-                        let i = index
-                      "
-                      [formGroupName]="i"
-                    >
-                      <tr>
-                        <td>
-                          {{ detalle.id }}
-                        </td>
-                        <td>
-                          {{ detalle.cantidad }}
-                        </td>
-                        <td>
-                          {{ detalle.precio }}
-                        </td>
-                        <td>
-                          {{ detalle.descuento }}
-                        </td>
-                        <td>
-                          {{ detalle.descuento }}
-
-                          <!-- <app-comun-impuestos (emitirImpuestos)="agregarImpuesto($event, i)" (emitirImpuesto)="removerImpuesto($event, i)"></app-comun-impuestos> -->
-                        </td>
-                        <td>
-                          {{ detalle.subtotal }}
-                        </td>
-                      </tr>
-                    </ng-container>
-                  </ng-template>
-                  <ng-template #listaNuevo>
-                    <ng-container
-                      *ngFor="let detalle of detalles.controls; let i = index"
-                      [formGroupName]="i"
-                    >
-                      <tr>
-                        <td>lorem: {{detalle.value.id|json}}</td>
-                        <td>
-                          <app-comun-productos
-                            (emitirArrItems)="
-                              agregarItemSeleccionado($event, i)
-                            "
-                          ></app-comun-productos>
-                        </td>
-                        <td>
-                          <textarea
-                            class="o_input"
-                            formControlName="cantidad"
-                            [value]="detalle.value?.cantidad"
-                            (change)="actualizarDetalle(i, 'cantidad', $event)"
-                            rows="1"
-                            spellcheck="true"
-                          ></textarea>
-                        </td>
-                        <td>
-                          <textarea
-                            class="o_input"
-                            [value]="detalle.value.precio"
-                            (change)="actualizarDetalle(i, 'precio', $event)"
-                            rows="1"
-                            spellcheck="true"
-                          ></textarea>
-                        </td>
-                        <td>
-                          <textarea
-                            class="o_input"
-                            [value]="detalle.value.descuento"
-                            (change)="actualizarDetalle(i, 'descuento', $event)"
-                            rows="1"
-                            spellcheck="true"
-                          ></textarea>
-                        </td>
-                        <td>
-                          <app-comun-impuestos
-                            (emitirImpuestos)="agregarImpuesto($event, i)"
-                            (emitirImpuesto)="removerImpuesto($event, i)"
-                          ></app-comun-impuestos>
-                        </td>
-                        <td>
-                          <textarea
-                            [value]="
-                              detalle.value.cantidad * detalle.value.precio
-                            "
-                            (blur)="onImpuestoBlur(i)"
-                            readonly
-                            rows="1"
-                            spellcheck="true"
-                          ></textarea>
-                        </td>
-                        <td class="text-center">
-                          <i
-                            class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                            (click)="eliminarProducto(i, detalle.value.id )"
-                          ></i>
-                        </td>
-                      </tr>
-                    </ng-container>
-                  </ng-template>
+                  *ngFor="let detalle of detalles.controls; let i = index"
+                  [formGroupName]="i"
+                >
+                  <tr>
+                    <td>lorem: {{ detalle.value.id | json }}</td>
+                    <td>
+                      <app-comun-productos
+                        (emitirArrItems)="agregarItemSeleccionado($event, i)"
+                      ></app-comun-productos>
+                    </td>
+                    <td>
+                      <textarea
+                        class="o_input"
+                        formControlName="cantidad"
+                        [value]="detalle.value?.cantidad"
+                        (change)="actualizarDetalle(i, 'cantidad', $event)"
+                        rows="1"
+                        spellcheck="true"
+                      ></textarea>
+                    </td>
+                    <td>
+                      <textarea
+                        class="o_input"
+                        [value]="detalle.value.precio"
+                        (change)="actualizarDetalle(i, 'precio', $event)"
+                        rows="1"
+                        spellcheck="true"
+                      ></textarea>
+                    </td>
+                    <td>
+                      <textarea
+                        class="o_input"
+                        [value]="detalle.value.descuento"
+                        (change)="actualizarDetalle(i, 'descuento', $event)"
+                        rows="1"
+                        spellcheck="true"
+                      ></textarea>
+                    </td>
+                    <td>
+                      <app-comun-impuestos
+                        (emitirImpuestos)="agregarImpuesto($event, i)"
+                        (emitirImpuesto)="removerImpuesto($event, i)"
+                      ></app-comun-impuestos>
+                    </td>
+                    <td>
+                      <textarea
+                        [value]="
+                          detalle.value.cantidad * detalle.value.precio
+                        "
+                        (blur)="onImpuestoBlur(i)"
+                        readonly
+                        rows="1"
+                        spellcheck="true"
+                      ></textarea>
+                    </td>
+                    <td class="text-center">
+                      <i
+                        class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                        (click)="eliminarProducto(i, detalle.value.id)"
+                      ></i>
+                    </td>
+                  </tr>
+                </ng-container>
                 </tbody>
               </table>
             </div>
