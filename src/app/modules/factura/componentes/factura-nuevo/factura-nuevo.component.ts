@@ -301,6 +301,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   agregarItemSeleccionado(item: Item, index: number) {
+    console.log(item);
     this.detalles.controls[index].patchValue({
       precio: item.precio,
       item: item.id,

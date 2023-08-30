@@ -47,6 +47,11 @@ export class ProductosComponent extends General implements AfterViewInit {
 
   agregarItem(item: Item) {
     this.itemSeleccionado = item;
+
+    this.httpService.get<any>(`general/item/${item.id}/`).subscribe((respuesta)=>{
+      this.emitirArrItems.emit(respuesta);
+      
+    })
     this.changeDetectorRef.detectChanges();
     this.emitirArrItems.emit(this.itemSeleccionado);
   }
