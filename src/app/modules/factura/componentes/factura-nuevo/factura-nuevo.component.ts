@@ -159,6 +159,33 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         this.facturaService
           .guardarFactura(this.formularioFactura.value)
           .subscribe(({ documento }) => {
+            console.log(documento.detalles);
+
+            this.detalles.clear()
+
+            documento.detalles.forEach((detalle:any)=>{
+              console.log(detalle);
+              const detalleFormGroup = this.formBuilder.group({
+                item: [null],
+                cantidad: [0],
+                precio: [0],
+                porcentaje_descuento: [0],
+                descuento: [0],
+                subtotal: [0],
+                total_bruto: [0],
+                total: [0],
+                neto: [0],
+                impuestos: this.formBuilder.array([]),
+                id: [detalle.id],
+              });
+
+              this.detalles.push(detalleFormGroup);
+            })
+
+
+            this.calcularTotales();
+
+
             this.detalle = documento.id;
             this.changeDetectorRef.detectChanges();
           });
