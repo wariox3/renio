@@ -228,6 +228,7 @@
                       [formGroupName]="i"
                     >
                       <tr>
+                        <td>lorem: {{detalle.value.id|json}}</td>
                         <td>
                           <app-comun-productos
                             (emitirArrItems)="
@@ -283,7 +284,7 @@
                         <td class="text-center">
                           <i
                             class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                            (click)="eliminarProducto(i)"
+                            (click)="eliminarProducto(i, detalle.value.id )"
                           ></i>
                         </td>
                       </tr>

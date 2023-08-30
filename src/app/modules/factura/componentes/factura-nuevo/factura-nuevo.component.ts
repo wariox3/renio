@@ -21,6 +21,7 @@ import { Item } from '@modulos/general/modelos/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/factura/servicios/factura.service';
+import { DocumentoDetalleService } from '@modulos/factura/servicios/documento-detalle.service';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -67,12 +68,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
-  arrDetallesEliminado: number  [] = [];
+  arrDetallesEliminado: number[] = [];
   accion: 'nuevo' | 'detalle';
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private DocumentoDetalleService: DocumentoDetalleService
   ) {
     super();
   }
@@ -161,15 +163,11 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       } else {
-
-
-
         this.facturaService
-          .actualizarDatosFactura(this.detalle,
-            {
-              ...this.formularioFactura.value,
-              ...{"detalles_eliminados": this.arrDetallesEliminado}
-            })
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioFactura.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
           .subscribe((respuesta) => {
             console.log('facturas', respuesta);
           });
@@ -179,7 +177,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
-      item: [0],
+      item: [null],
       cantidad: [0],
       precio: [0],
       porcentaje_descuento: [0],
@@ -189,7 +187,19 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       total: [0],
       neto: [0],
       impuestos: this.formBuilder.array([]),
+      id: [null],
     });
+    //guardarel registro si detalle es diferente 0
+    if (this.detalle != 0) {
+      this.DocumentoDetalleService.nuevoDetalle(this.detalle).subscribe(
+        ({ documento }) => {
+          if (documento && documento.id !== null) {
+            detalleFormGroup.get('id')?.setValue(documento.id);
+            this.changeDetectorRef.detectChanges();
+          }
+        }
+      );
+    }
 
     this.detalles.push(detalleFormGroup);
     this.calcularTotales();
@@ -253,13 +263,15 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  eliminarProducto(index: number) {
+  eliminarProducto(index: number, id: number | null) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
     const item = detalleFormGroup.get('item') as FormControl;
 
-    this.arrDetallesEliminado.push(item.value)
+    if (id != null) {
+      this.arrDetallesEliminado.push(id);
+    }
 
     for (const impuestoIndex in this.acumuladorImpuestos) {
       const impuesto = this.acumuladorImpuestos[impuestoIndex];
@@ -280,8 +292,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         }
       }
     }
-
-    console.log(this.acumuladorImpuestos);
 
     this.changeDetectorRef.detectChanges();
 
