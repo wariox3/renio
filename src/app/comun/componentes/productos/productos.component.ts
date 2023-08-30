@@ -41,33 +41,32 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.inputItem.nativeElement.click();
+
     this.inputItem.nativeElement.focus();
   }
 
   agregarItem(item: Item) {
     this.itemSeleccionado = item;
 
-    this.httpService.get<any>(`general/item/${item.id}/`).subscribe((respuesta)=>{
-      this.emitirArrItems.emit(respuesta);
-      
-    })
+    this.httpService
+      .get<any>(`general/item/${item.id}/`)
+      .subscribe((respuesta) => {
+        this.emitirArrItems.emit(respuesta);
+      });
     this.changeDetectorRef.detectChanges();
     this.emitirArrItems.emit(this.itemSeleccionado);
   }
 
-
-  consultarItems(event:any) {
-
+  consultarItems(event: any) {
     let arrFiltros = {
       filtros: [
         {
-          id:"1692284537644-1688",
-          operador: "__contains",
-          propiedad:"nombre__contains",
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'nombre__contains',
           valor1: `${event?.target.value}`,
-          valor2: "",
-        }
+          valor2: '',
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -87,16 +86,16 @@ export class ProductosComponent extends General implements AfterViewInit {
       });
   }
 
-  aplicarFiltrosItems(event:any){
+  aplicarFiltrosItems(event: any) {
     let arrFiltros = {
       filtros: [
         {
-          id:"1692284537644-1688",
-          operador: "__contains",
-          propiedad:"nombre__contains",
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'nombre__contains',
           valor1: `${event?.target.value}`,
-          valor2: "",
-        }
+          valor2: '',
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -105,25 +104,19 @@ export class ProductosComponent extends General implements AfterViewInit {
       modelo: 'Item',
     };
 
-
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
         'general/funcionalidad/lista-autocompletar/',
         arrFiltros
       )
       .pipe(
-        throttleTime(300, asyncScheduler, {leading: true, trailing: true}),
-        tap(respuesta => {
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
           this.arrItemsLista = respuesta.registros;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
         })
-
       )
       .subscribe();
-
-    console.log(arrFiltros);
-
   }
-
 }
