@@ -1,5 +1,4 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  {{ this.detalle }}
   <div class="row mb-5">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
       <label
@@ -160,7 +159,7 @@
               >
                 <thead>
                   <tr>
-                    <th></th>
+                    <th>Id</th>
                     <th
                       translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
                     ></th>
