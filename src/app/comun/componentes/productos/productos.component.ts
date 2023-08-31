@@ -50,8 +50,8 @@ export class ProductosComponent extends General implements AfterViewInit {
 
     this.httpService
       .get<any>(`general/item/${item.id}/`)
-      .subscribe((respuesta) => {
-        this.emitirArrItems.emit(respuesta);
+      .subscribe((respuesta:any) => {
+        this.emitirArrItems.emit(respuesta.item);
       });
     this.changeDetectorRef.detectChanges();
     this.emitirArrItems.emit(this.itemSeleccionado);
