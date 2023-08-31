@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,6 +7,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { Item } from '@modulos/general/modelos/item';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -21,14 +22,25 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
   templateUrl: './impuestos.component.html',
   styleUrls: ['./impuestos.component.scss'],
 })
-export class ImpuestosComponent extends General {
+export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: Impuesto[] = [];
   arrImpuestoLista: Impuesto[];
+  @Input() arrLista: Impuesto[];
   @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuesto: EventEmitter<any> = new EventEmitter();
 
   constructor(private httpService: HttpService) {
     super();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.arrLista.currentValue){
+      this.arrLista.map((impuesto: any) => {
+        impuesto['nombre'] = impuesto.impuesto_nombre
+        delete impuesto.impuesto_nombre
+        this.agregarImpuesto(impuesto)
+      })
+    }
   }
 
   agregarImpuesto(impuesto: Impuesto) {

@@ -21,4 +21,9 @@ export class FacturaService {
   consultarDetalle(id: number) {
     return this.httpService.get<any>(`general/documento/${id}/`);
   }
+
+  aprobar(data: number){
+    return this.httpService.post<any>('general/documento/aprobar/', data);
+
+  }
 }

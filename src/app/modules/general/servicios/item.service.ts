@@ -1,51 +1,31 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subdomino } from '@comun/clases/subdomino';
-import { Listafiltros } from '@interfaces/comunes/filtros';
+import { HttpService } from '@comun/services/http.service';
+import { Store } from '@ngrx/store';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { switchMap } from 'rxjs';
+import { Item } from '../modelos/item';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ItemService  {
+export class ItemService {
+  constructor(private httpService: HttpService, private store: Store) {}
 
+  guardarItem(data: any) {
+    return this.store
+      .select(obtenerUsuarioId)
+      .pipe(
+        switchMap(([usuarioId]) =>
+          this.httpService.post<Item>('general/item/', data)
+        )
+      )
+    }
 
-  estructuraFiltrosLista():Listafiltros[] {
-    return [
-      {
-        tipo: 'Texto',
-        valor: 'nombre',
-      },
-      {
-        tipo: 'Texto',
-        valor: 'codigo',
-      },
-      {
-        tipo: 'Texto',
-        valor: 'referencia',
-      },
-      {
-        tipo: 'Numero',
-        valor: 'costo',
-      },
-      {
-        tipo: 'Numero',
-        valor: 'precio',
-      },
-      {
-        tipo: "Numero",
-        valor: 'Id'
-      }
-    ];
+  consultarDetalle(id: number) {
+    return this.httpService.get<any>(`general/item/${id}/`);
   }
 
-  arrEncabezado(): string[]{
-    return [
-      'Codigo',
-      'Costo',
-      'Id',
-      'Nombre',
-      'Precio',
-      'Referencia',
-    ];
+  actualizarDatosItem(id: number, data: any) {
+    return this.httpService.put<any>(`general/item/${id}/`, data);
   }
 }

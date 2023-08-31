@@ -11,7 +11,7 @@
       {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
     </a>
     <div class="btn-group btn-sm" role="group" aria-label="Basic example" *ngIf="accion === 'detalle' ">
-      <button type="button" class="btn btn-sm btn-primary">Aprobar</button>
+      <button type="button" class="btn btn-sm btn-primary" (click)="aprobar()">Aprobar</button>
     </div>
   </div>
   <div class="formulario">

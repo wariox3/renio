@@ -57,7 +57,7 @@ export class BaseListaComponent extends General implements OnInit {
     let baseUrl = 'general/';
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
-        baseUrl += 'administrador/lista/';
+        baseUrl += 'funcionalidad/lista-administrador/';
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';

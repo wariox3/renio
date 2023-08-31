@@ -238,7 +238,12 @@
       ></label>
     </div>
   </div>
-  <app-comun-impuestos></app-comun-impuestos>
+  <app-comun-impuestos
+    (emitirImpuestos)="agregarImpuesto($event)"
+    (emitirImpuesto)="removerImpuesto($event)"
+    [arrLista]="this.informacionFormulario.impuestos"
+
+  ></app-comun-impuestos>
   <div class="fv-row d-flex justify-content-end">
     <button
       type="submit"

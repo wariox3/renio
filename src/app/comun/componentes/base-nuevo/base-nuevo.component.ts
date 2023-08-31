@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { componeteNuevos, componeteDetalle } from '@comun/extra/imports';
+import { FacturaService } from '@modulos/factura/servicios/factura.service';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -22,7 +23,9 @@ export class BaseNuevoComponent extends General implements OnInit, AfterViewInit
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
 
-  constructor() {
+  constructor(
+    private facturaService: FacturaService
+  ) {
     super();
   }
 
@@ -36,12 +39,18 @@ export class BaseNuevoComponent extends General implements OnInit, AfterViewInit
   ngAfterViewInit() {
     this.loadComponente();
   }
-  
+
   async loadComponente() {
     let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
     let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
     let componeteNuevoCargado =
       this.componenteDinamico.createComponent(componeteNuevo);
       componeteNuevoCargado.changeDetectorRef.detectChanges();
+  }
+
+  aprobar(){
+    // this.facturaService.aprobar({
+    //   'id':1
+    // }).subscribe()
   }
 }
