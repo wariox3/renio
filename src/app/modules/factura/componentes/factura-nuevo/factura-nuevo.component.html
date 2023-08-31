@@ -229,8 +229,10 @@
                       <td>
                         <app-comun-impuestos
                           (emitirImpuestos)="agregarImpuesto($event, i)"
-                          (emitirImpuesto)="removerImpuesto($event, i)"
+                          (emitirImpuestos)="removerImpuesto($event, i)"
+                          [arrLista]="detalles.controls[i].value.impuestos"
                         ></app-comun-impuestos>
+                        {{ detalles.controls[i].value.impuestos | json }}
                       </td>
                       <td>
                         <textarea
@@ -313,6 +315,11 @@
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
+  <code>
+    <pre>
+      {{formularioFactura.value | json}}
+    </pre>
+  </code>
   <div class="d-flex justify-content-end mb-10">
     <button
       type="submit"

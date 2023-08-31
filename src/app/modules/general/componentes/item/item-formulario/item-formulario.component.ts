@@ -105,8 +105,6 @@ export class ItemFormularioComponent
   }
 
   formSubmit() {
-    console.log(this.formularioItem.valid);
-
     if (this.formularioItem.valid) {
       if (this.activatedRoute.snapshot.queryParams['detalle']) {
         this.itemService.actualizarDatosItem(
@@ -116,13 +114,11 @@ export class ItemFormularioComponent
             ...{ impuestos_eliminados: this.arrImpuestosEliminado },
           }
         ).subscribe((respuesta)=>{
-          console.log("actualizacion",respuesta);
           this.arrImpuestosEliminado = []
           this.changeDetectorRef.detectChanges()
         });
       } else {
         this.itemService.guardarItem(this.formularioItem.value).subscribe((respuesta)=>{
-          console.log("creacion", respuesta);
         });
       }
     } else {
@@ -145,12 +141,11 @@ export class ItemFormularioComponent
   }
 
   removerImpuesto(impuesto: any) {
-    console.log(impuesto);
 
     const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
 
     let nuevosImpuestos = arrImpuesto.value.filter(
-      (item: any) => item.impuesto !== impuesto.id
+      (item: any) => item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
     );
 
     // Limpiar el FormArray actual

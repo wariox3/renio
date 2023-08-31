@@ -41,7 +41,6 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-
     this.inputItem.nativeElement.focus();
   }
 
@@ -50,11 +49,9 @@ export class ProductosComponent extends General implements AfterViewInit {
 
     this.httpService
       .get<any>(`general/item/${item.id}/`)
-      .subscribe((respuesta:any) => {
+      .subscribe((respuesta: any) => {
         this.emitirArrItems.emit(respuesta.item);
       });
-    this.changeDetectorRef.detectChanges();
-    this.emitirArrItems.emit(this.itemSeleccionado);
   }
 
   consultarItems(event: any) {

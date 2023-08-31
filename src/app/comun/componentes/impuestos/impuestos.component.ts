@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,26 +41,31 @@ export class ImpuestosComponent extends General implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.arrLista.currentValue){
+    if (changes.arrLista.currentValue) {
       this.arrLista.map((impuesto: any) => {
-        impuesto['nombre'] = impuesto.impuesto_nombre
-        delete impuesto.impuesto_nombre
-        this.agregarImpuesto(impuesto)
-      })
+        if (impuesto.hasOwnProperty('impuesto_nombre')) {
+          impuesto['nombre'] = impuesto['impuesto_nombre'];
+          delete impuesto['impuesto_nombre'];
+        }
+        this.agregarImpuesto(impuesto);
+      });
     }
   }
 
   agregarImpuesto(impuesto: Impuesto) {
     // Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-      imp => imp.id === impuesto.id
+      (imp) => imp.id === impuesto.id
     );
     if (!impuestoExistente) {
       this.arrImpuestoSeleccionados.push(impuesto);
       this.changeDetectorRef.detectChanges();
       this.emitirImpuestos.emit(impuesto);
     } else {
-      this.alertaService.mensajeError("Error", "El producto ya cuenta con este impuesto seleccionado")
+      this.alertaService.mensajeError(
+        'Error',
+        'El producto ya cuenta con este impuesto seleccionado'
+      );
     }
   }
 
