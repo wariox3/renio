@@ -188,69 +188,69 @@
                 </thead>
                 <tbody formArrayName="detalles">
                   <ng-container
-                  *ngFor="let detalle of detalles.controls; let i = index"
-                  [formGroupName]="i"
-                >
-                  <tr>
-                    <td>{{ detalle.value.id }}</td>
-                    <td>
-                      <app-comun-productos
-                        (emitirArrItems)="agregarItemSeleccionado($event, i)"
-                      ></app-comun-productos>
-                    </td>
-                    <td>
-                      <textarea
-                        class="o_input"
-                        formControlName="cantidad"
-                        [value]="detalle.value?.cantidad"
-                        (change)="actualizarDetalle(i, 'cantidad', $event)"
-                        rows="1"
-                        spellcheck="true"
-                      ></textarea>
-                    </td>
-                    <td>
-                      <textarea
-                        class="o_input"
-                        [value]="detalle.value.precio"
-                        (change)="actualizarDetalle(i, 'precio', $event)"
-                        rows="1"
-                        spellcheck="true"
-                      ></textarea>
-                    </td>
-                    <td>
-                      <textarea
-                        class="o_input"
-                        [value]="detalle.value.descuento"
-                        (change)="actualizarDetalle(i, 'descuento', $event)"
-                        rows="1"
-                        spellcheck="true"
-                      ></textarea>
-                    </td>
-                    <td>
-                      <app-comun-impuestos
-                        (emitirImpuestos)="agregarImpuesto($event, i)"
-                        (emitirImpuesto)="removerImpuesto($event, i)"
-                      ></app-comun-impuestos>
-                    </td>
-                    <td>
-                      <textarea
-                        [value]="
-                          detalle.value.cantidad * detalle.value.precio
-                        "
-                        (blur)="onImpuestoBlur(i)"
-                        readonly
-                        rows="1"
-                        spellcheck="true"
-                      ></textarea>
-                    </td>
-                    <td class="text-center">
-                      <i
-                        class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                        (click)="eliminarProducto(i, detalle.value.id)"
-                      ></i>
-                    </td>
-                  </tr>
-                </ng-container>
+                    *ngFor="let detalle of detalles.controls; let i = index"
+                    [formGroupName]="i"
+                  >
+                    <tr>
+                      <td>{{ detalle.value.id }}</td>
+                      <td>
+                        <app-comun-productos
+                          (emitirArrItems)="agregarItemSeleccionado($event, i)"
+                        ></app-comun-productos>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          formControlName="cantidad"
+                          [value]="detalle.value?.cantidad"
+                          (change)="actualizarDetalle(i, 'cantidad', $event)"
+                          rows="1"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          [value]="detalle.value.precio"
+                          (change)="actualizarDetalle(i, 'precio', $event)"
+                          rows="1"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <textarea
+                          class="o_input"
+                          [value]="detalle.value.descuento"
+                          (change)="actualizarDetalle(i, 'descuento', $event)"
+                          rows="1"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td>
+                        <app-comun-impuestos
+                          (emitirImpuestos)="agregarImpuesto($event, i)"
+                          (emitirImpuesto)="removerImpuesto($event, i)"
+                        ></app-comun-impuestos>
+                      </td>
+                      <td>
+                        <textarea
+                          [value]="
+                            detalle.value.cantidad * detalle.value.precio
+                          "
+                          (blur)="onImpuestoBlur(i)"
+                          readonly
+                          rows="1"
+                          spellcheck="true"
+                        ></textarea>
+                      </td>
+                      <td class="text-center">
+                        <i
+                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                          (click)="eliminarProducto(i, detalle.value.id)"
+                        ></i>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </div>
@@ -269,32 +269,22 @@
                     {{ impuesto.value.total | currency : "$" }}
                   </td>
                 </tr>
-                <tr *ngIf="totalDescuento > 0 || detalle">
+                <tr *ngIf="totalDescuento > 0">
                   <td
                     class="text-end"
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
                   ></td>
                   <td class="text-end">
-                    <ng-container *ngIf="detalle; else elseTemplate">{{
-                      informacionDetalle.descuento
-                    }}</ng-container>
-                    <ng-template #elseTemplate>{{
-                      totalDescuento | currency : "$"
-                    }}</ng-template>
+                    {{ totalDescuento | currency : "$" }}
                   </td>
                 </tr>
-                <tr *ngIf="totalImpuestos > 0 || detalle">
+                <tr *ngIf="totalImpuestos > 0">
                   <td
                     class="text-end"
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                   ></td>
                   <td class="text-end">
-                    <ng-container *ngIf="detalle; else elseTemplate">{{
-                      informacionDetalle.impuesto
-                    }}</ng-container>
-                    <ng-template #elseTemplate>{{
-                      totalImpuestos | currency : "$"
-                    }}</ng-template>
+                    {{ totalImpuestos | currency : "$" }}
                   </td>
                 </tr>
                 <tr class="border-top">
@@ -303,12 +293,7 @@
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                   ></td>
                   <td class="text-end" style="padding-left: 24px">
-                    <ng-container *ngIf="detalle; else elseTemplate">{{
-                      informacionDetalle.total
-                    }}</ng-container>
-                    <ng-template #elseTemplate>{{
-                      totalGeneral | currency : "$"
-                    }}</ng-template>
+                    {{ totalGeneral | currency : "$" }}
                   </td>
                 </tr>
               </table>
