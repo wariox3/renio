@@ -54,13 +54,13 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
-    let baseUrl = 'general/funcionalidad/lista-';
+    let baseUrl = 'general/';
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
-        baseUrl += 'administrador/';
+        baseUrl += 'administrador/lista/';
         break;
       case 'Documento':
-        baseUrl += 'documento/';
+        baseUrl += 'documento/lista/';
         break;
     }
     this.httpService
