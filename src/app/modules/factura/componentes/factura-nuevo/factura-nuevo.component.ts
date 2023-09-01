@@ -98,9 +98,9 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
     this.formularioFactura = this.formBuilder.group({
-      cliente: ['', Validators.compose([Validators.required])],
+      contacto: ['', Validators.compose([Validators.required])],
       numero: [null, Validators.compose([Validators.required])],
-      fechaVencimiento: [
+      fecha_vence: [
         fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
@@ -109,7 +109,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      fechaFactura: [
+      fecha: [
         fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
@@ -191,23 +191,27 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           })
           .subscribe((respuesta) => {
             this.detalles.clear();
-            respuesta.documento.detalles.forEach((detalle: any) => {
-              const detalleFormGroup = this.formBuilder.group({
-                item: [detalle.item],
-                cantidad: [detalle.cantidad],
-                precio: [detalle.precio],
-                porcentaje_descuento: [detalle.porcentaje_descuento],
-                descuento: [detalle.descuento],
-                subtotal: [detalle.subtotal],
-                total_bruto: [detalle.total_bruto],
-                total: [detalle.total],
-                neto: [detalle.neto],
-                impuestos: this.formBuilder.array([]),
-                id: [detalle.id],
-              });
-
-              this.detalles.push(detalleFormGroup);
-            });
+            respuesta.documento.detalles.forEach(
+              (detalle: any, index: number) => {
+                const detalleFormGroup = this.formBuilder.group({
+                  item: [detalle.item],
+                  cantidad: [detalle.cantidad],
+                  precio: [detalle.precio],
+                  porcentaje_descuento: [detalle.porcentaje_descuento],
+                  descuento: [detalle.descuento],
+                  subtotal: [detalle.subtotal],
+                  total_bruto: [detalle.total_bruto],
+                  total: [detalle.total],
+                  neto: [detalle.neto],
+                  impuestos: this.formBuilder.array([]),
+                  id: [detalle.id],
+                });
+                this.detalles.push(detalleFormGroup);
+                detalle.impuestos.forEach((impuesto: any, index: number) => {
+                  this.agregarImpuesto(impuesto, index);
+                });
+              }
+            );
             this.arrDetallesEliminado = [];
             this.calcularTotales();
             this.formularioFactura.markAsPristine();
@@ -308,18 +312,18 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     if (item.impuestos) {
       item.impuestos.map((impuesto: any) => {
-        impuesto['item_impuesto_id'] =  impuesto['id'];
+        impuesto['item_impuesto_id'] = impuesto['id'];
         impuesto['nombre'] = impuesto['impuesto_nombre'];
         impuesto['compra'] = impuesto['impuesto_compra'];
-        impuesto['venta'] =  impuesto['impuesto_venta'];
-        impuesto['porcentaje'] =  impuesto['impuesto_porcentaje'];
-        impuesto['id'] =  impuesto['impuesto_id'];
+        impuesto['venta'] = impuesto['impuesto_venta'];
+        impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
+        impuesto['id'] = impuesto['impuesto_id'];
         delete impuesto['impuesto_nombre'];
         delete impuesto['impuesto_compra'];
         delete impuesto['impuesto_venta'];
         delete impuesto['impuesto_porcentaje'];
         delete impuesto['impuesto_id'];
-        this.agregarImpuesto(impuesto, index)
+        this.agregarImpuesto(impuesto, index);
       });
     }
     this.calcularTotales();
@@ -383,31 +387,32 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       ...impuesto,
       index,
     };
-    if (item.value) {
-      let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
-      if (!this.acumuladorImpuestos[impuesto.nombre]) {
-        this.acumuladorImpuestos[impuesto.nombre] = {
-          total: totalImpuesto,
-          data: [impuesto],
-        };
-        let impuestoFormGrup = this.formBuilder.group({
-          impuesto: [impuesto.id],
-          base: [neto.value],
-          porcentaje: [impuesto.porcentaje],
-          total: [totalImpuesto],
-          nombre: [impuesto.nombre],
-        });
-        console.log(impuestoFormGrup);
+    let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
+    if (!this.acumuladorImpuestos[impuesto.nombre]) {
+      this.acumuladorImpuestos[impuesto.nombre] = {
+        total: totalImpuesto,
+        data: [impuesto],
+      };
 
-        arrDetalleImpuestos.push(impuestoFormGrup);
-      } else {
-        this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
-        this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto);
-      }
-
-      this.calcularTotales();
+      let impuestoFormGrup = this.formBuilder.group({
+        id: [impuesto.impuesto_id ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
+        impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
+        base: [neto.value === null ?  0 : neto.value],
+        porcentaje: [impuesto.porcentaje],
+        total: [totalImpuesto],
+        nombre: [impuesto.nombre],
+      });
+      arrDetalleImpuestos.push(impuestoFormGrup);
+      this.formularioFactura.markAsTouched();
+      this.formularioFactura.markAsDirty();
       this.changeDetectorRef.detectChanges();
+    } else {
+      this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
+      this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto);
     }
+
+    this.calcularTotales();
+    this.changeDetectorRef.detectChanges();
   }
 
   actualizarImpuestos(index: number) {
@@ -515,7 +520,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.detalles.clear();
-        respuesta.documento.detalles.forEach((detalle: any) => {
+        respuesta.documento.detalles.forEach((detalle: any, index: number) => {
           const detalleFormGroup = this.formBuilder.group({
             item: [detalle.item],
             cantidad: [detalle.cantidad],
@@ -530,6 +535,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             id: [detalle.id],
           });
           this.detalles.push(detalleFormGroup);
+
+          detalle.impuestos.forEach((impuesto: any, index: number) => {
+            this.agregarImpuesto(impuesto, index);
+          });
         });
 
         this.calcularTotales();

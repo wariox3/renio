@@ -33,34 +33,39 @@ export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: Impuesto[] = [];
   arrImpuestoLista: Impuesto[];
   @Input() arrLista: Impuesto[];
-  @Output() emitirImpuestos: EventEmitter<any> = new EventEmitter();
-  @Output() emitirImpuesto: EventEmitter<any> = new EventEmitter();
+  @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
+  @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
 
   constructor(private httpService: HttpService) {
     super();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.arrLista.currentValue) {
-      this.arrLista.map((impuesto: any) => {
-        if (impuesto.hasOwnProperty('impuesto_nombre')) {
-          impuesto['nombre'] = impuesto['impuesto_nombre'];
-          delete impuesto['impuesto_nombre'];
-        }
-        this.agregarImpuesto(impuesto);
-      });
-    }
+    // if (changes.arrLista.firstChange) {
+    //   this.arrLista.map((impuesto: any) => {
+    //     impuesto['id'] = `${impuesto['impuesto']}`;
+    //     delete impuesto['impuesto'];
+
+    //     const impuestoExistente = this.arrImpuestoSeleccionados.find(
+    //       (imp) => imp.id === impuesto.id
+    //     );
+    //     if (!impuestoExistente) {
+    //       this.arrImpuestoSeleccionados.push(impuesto);
+    //     }
+    //   });
+    //   this.changeDetectorRef.detectChanges();
+    // }
   }
 
-  agregarImpuesto(impuesto: Impuesto) {
-    // Verificar si el impuesto ya existe en el array
+  agregarImpuesto(impuesto: any) {
+
+    //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
       (imp) => imp.id === impuesto.id
     );
     if (!impuestoExistente) {
       this.arrImpuestoSeleccionados.push(impuesto);
-      this.changeDetectorRef.detectChanges();
-      this.emitirImpuestos.emit(impuesto);
+      this.emitirImpuestoAgregado.emit(impuesto);
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -74,7 +79,7 @@ export class ImpuestosComponent extends General implements OnChanges {
       (index: Impuesto) => index.id !== impuesto.id
     );
     this.changeDetectorRef.detectChanges();
-    this.emitirImpuesto.emit(impuesto);
+    this.emitirImpuestoElimiando.emit(impuesto);
   }
 
   consultarImpuesto() {
