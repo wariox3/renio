@@ -181,7 +181,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           this.formularioFactura.markAsPristine();
           this.formularioFactura.markAsUntouched();
           this.changeDetectorRef.detectChanges();
-          this.consultardetalle()
+          this.consultardetalle();
         });
     } else {
       if (this.formularioFactura.touched && this.formularioFactura.dirty) {
@@ -220,7 +220,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
             this.formularioFactura.markAsPristine();
             this.formularioFactura.markAsUntouched();
             this.changeDetectorRef.detectChanges();
-            this.consultardetalle()
+            this.consultardetalle();
           });
       }
     }
@@ -404,11 +404,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       porcentaje: [impuesto.porcentaje],
       total: [totalImpuesto],
       nombre: [impuesto.nombre],
-      nombre_extendido: [impuesto.nombre_extendido]
+      nombre_extendido: [impuesto.nombre_extendido],
     });
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
-
 
     if (!this.acumuladorImpuestos[impuesto.nombre_extendido]) {
       this.acumuladorImpuestos[impuesto.nombre_extendido] = {
@@ -416,7 +415,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         data: [impuesto],
       };
     } else {
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto;
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
+        totalImpuesto;
       this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
     }
 
@@ -455,19 +455,21 @@ export default class FacturaNuevoComponent extends General implements OnInit {
         porcentaje: [nuevoImpuesto.porcentaje],
         total: [totalImpuesto],
         nombre: [nuevoImpuesto.nombre],
-        nombre_extendido: [nuevoImpuesto.nombre_extendido]
+        nombre_extendido: [nuevoImpuesto.nombre_extendido],
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    this.acumuladorImpuestos[impuesto.nombre_extendido].data = this.acumuladorImpuestos[
-      impuesto.nombre_extendido
-    ].data.filter(
-      (impuestoAcumulado: any) => impuestoAcumulado.index !== index
-    );
+    console.log( this.acumuladorImpuestos);
+
+    this.acumuladorImpuestos[impuesto.nombre_extendido].data =
+      this.acumuladorImpuestos[impuesto.nombre_extendido].data.filter(
+        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
+      );
 
     this.acumuladorImpuestos[impuesto.nombre_extendido].total -= totalImpuesto;
-    if (this.acumuladorImpuestos[impuesto.nombre_extendido].total <= 0) {
+
+    if (this.acumuladorImpuestos[impuesto.nombre_extendido].data.length === 0) {
       delete this.acumuladorImpuestos[impuesto.nombre_extendido];
       this.changeDetectorRef.detectChanges();
     }
