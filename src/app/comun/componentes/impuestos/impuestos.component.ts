@@ -44,8 +44,6 @@ export class ImpuestosComponent extends General implements OnChanges {
     if (changes.arrLista.currentValue) {
       this.arrImpuestoSeleccionados = [];
       this.arrLista.map((impuesto: any) => {
-        console.log('impuesto a buscar', impuesto);
-
         const impuestoExistente = this.arrImpuestoSeleccionados.find(
           (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto === impuesto.impuesto
         );
