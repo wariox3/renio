@@ -136,4 +136,18 @@ export class BaseListaComponent extends General implements OnInit {
       );
     }
   }
+  
+  descargarExcel() {
+    this.httpService.generarExcel('general/documento/excel/', this.arrParametrosConsulta).subscribe((data) => {
+      const blob = new Blob([data], { type: 'application/ms-excel' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+  
 }

@@ -45,6 +45,7 @@ export const locale = {
           EXPORTAR: 'Exportar',
           IMPORTAR: 'Importar',
           DETALLE: 'Detalle',
+          EXCEL: 'Excel'
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
