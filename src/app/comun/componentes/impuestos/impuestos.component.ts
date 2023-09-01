@@ -44,17 +44,10 @@ export class ImpuestosComponent extends General implements OnChanges {
     if (changes.arrLista.currentValue) {
       this.arrImpuestoSeleccionados = [];
       this.arrLista.map((impuesto: any) => {
+        console.log('impuesto a buscar', impuesto);
 
         const impuestoExistente = this.arrImpuestoSeleccionados.find(
-          (impuestoSeleccionado: any) => {
-            if (impuestoSeleccionado.id) {
-              return impuestoSeleccionado.id === impuesto.id;
-            } else if (impuestoSeleccionado.impuesto === impuesto.impuesto) {
-              return impuestoSeleccionado.impuesto === impuesto.impuesto;
-            } else {
-              return impuestoSeleccionado.impuesto === impuesto.id;
-            }
-          }
+          (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto === impuesto.impuesto
         );
         if (!impuestoExistente) {
           this.arrImpuestoSeleccionados.push(impuesto);
@@ -67,13 +60,7 @@ export class ImpuestosComponent extends General implements OnChanges {
   agregarImpuesto(impuesto: any) {
     //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-      (impuestoSeleccionado: any) => {
-        if (impuestoSeleccionado.id) {
-          return impuestoSeleccionado.id === impuesto.id;
-        } else {
-          return impuestoSeleccionado.impuesto === impuesto.id;
-        }
-      }
+      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto === impuesto.impuesto
     );
     if (!impuestoExistente) {
       this.arrImpuestoSeleccionados.push(impuesto);
