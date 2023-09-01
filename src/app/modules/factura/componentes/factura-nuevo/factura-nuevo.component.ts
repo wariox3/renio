@@ -460,15 +460,15 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    this.acumuladorImpuestos[impuesto.nombre].data = this.acumuladorImpuestos[
-      impuesto.nombre
+    this.acumuladorImpuestos[impuesto.nombre_extendido].data = this.acumuladorImpuestos[
+      impuesto.nombre_extendido
     ].data.filter(
       (impuestoAcumulado: any) => impuestoAcumulado.index !== index
     );
 
-    this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto;
-    if (this.acumuladorImpuestos[impuesto.nombre].total <= 0) {
-      delete this.acumuladorImpuestos[impuesto.nombre];
+    this.acumuladorImpuestos[impuesto.nombre_extendido].total -= totalImpuesto;
+    if (this.acumuladorImpuestos[impuesto.nombre_extendido].total <= 0) {
+      delete this.acumuladorImpuestos[impuesto.nombre_extendido];
       this.changeDetectorRef.detectChanges();
     }
 
