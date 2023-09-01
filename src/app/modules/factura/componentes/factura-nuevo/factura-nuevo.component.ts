@@ -69,12 +69,12 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrDetallesEliminado: number[] = [];
+  arrImpuestosEliminado: number[] = [];
   accion: 'nuevo' | 'detalle';
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private facturaService: FacturaService,
-    private DocumentoDetalleService: DocumentoDetalleService
   ) {
     super();
   }
@@ -171,6 +171,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
               total: [0],
               neto: [0],
               impuestos: this.formBuilder.array([]),
+              impuestos_eliminados: this.formBuilder.array([]),
               id: [detalle.id],
             });
 
@@ -205,6 +206,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
                   total: [detalle.total],
                   neto: [detalle.neto],
                   impuestos: this.formBuilder.array([]),
+                  impuestos_eliminados: this.formBuilder.array([]),
                   id: [detalle.id],
                 });
                 this.detalles.push(detalleFormGroup);
@@ -238,6 +240,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       total: [0],
       neto: [0],
       impuestos: this.formBuilder.array([]),
+      impuestos_eliminados: this.formBuilder.array([]),
       id: [null],
     });
     //guardarel registro si detalle es diferente 0
@@ -439,6 +442,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   removerImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    const arrDetalleImpuestosEliminado = detalleFormGroup.get('impuestos_eliminados') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto !== impuesto.impuesto
@@ -448,8 +452,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     arrDetalleImpuestos.clear();
     // Agregar los impuestos filtrados de nuevo al FormArray
     nuevosImpuestos.forEach((nuevoImpuesto: any) => {
+      console.log(nuevoImpuesto);
+
       const nuevoDetalle = this.formBuilder.group({
-        id: [nuevoImpuesto.impuesto_id], //id tabla intermedia entre documento y impuesto
+        id: [nuevoImpuesto.id], //id tabla intermedia entre documento y impuesto
         impuesto: [nuevoImpuesto.impuesto], //id
         base: [neto.value === null ? 0 : neto.value],
         porcentaje: [nuevoImpuesto.porcentaje],
@@ -460,7 +466,10 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       arrDetalleImpuestos.push(nuevoDetalle);
     });
 
-    console.log( this.acumuladorImpuestos);
+    if(impuesto.id){
+      arrDetalleImpuestosEliminado.push(this.formBuilder.control(impuesto.id))
+    }
+
 
     this.acumuladorImpuestos[impuesto.nombre_extendido].data =
       this.acumuladorImpuestos[impuesto.nombre_extendido].data.filter(
@@ -548,6 +557,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
               total: [detalle.total],
               neto: [detalle.neto],
               impuestos: this.formBuilder.array([]),
+              impuestos_eliminados: this.formBuilder.array([]),
               id: [detalle.id],
             });
             this.detalles.push(detalleFormGroup);
