@@ -439,22 +439,23 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   removerImpuesto(impuesto: any, index: number) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const neto = detalleFormGroup.get('neto') as FormControl;
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
-      (item: any) => item.impuesto !== impuesto.id
+      (item: any) => item.impuesto !== impuesto.impuesto
     );
-
+    let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
     // Agregar los impuestos filtrados de nuevo al FormArray
-    nuevosImpuestos.forEach((item: any) => {
+    nuevosImpuestos.forEach((nuevoImpuesto: any) => {
       const nuevoDetalle = this.formBuilder.group({
-        // Aquí debes definir la estructura de tu FormGroup para un impuesto
-        impuesto: [item.impuesto],
-        base: [neto.value],
-        porcentaje: [19],
-        total: [10],
+        id: [nuevoImpuesto.impuesto_id], //id tabla intermedia entre documento y impuesto
+        impuesto: [nuevoImpuesto.impuesto], //id
+        base: [neto.value === null ? 0 : neto.value],
+        porcentaje: [nuevoImpuesto.porcentaje],
+        total: [totalImpuesto],
+        nombre: [nuevoImpuesto.nombre],
+        nombre_extendido: [nuevoImpuesto.nombre_extendido]
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
@@ -464,15 +465,16 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     ].data.filter(
       (impuestoAcumulado: any) => impuestoAcumulado.index !== index
     );
-    let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
-    this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto;
 
+    this.acumuladorImpuestos[impuesto.nombre].total -= totalImpuesto;
     if (this.acumuladorImpuestos[impuesto.nombre].total <= 0) {
       delete this.acumuladorImpuestos[impuesto.nombre];
       this.changeDetectorRef.detectChanges();
     }
 
     this.calcularTotales();
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
   }
 

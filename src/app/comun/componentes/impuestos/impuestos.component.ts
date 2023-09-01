@@ -42,24 +42,23 @@ export class ImpuestosComponent extends General implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.arrLista.currentValue) {
-    this.arrImpuestoSeleccionados = []
-     this.arrLista.map((impuesto: any) => {
-    //     impuesto['id'] = `${impuesto['impuesto']}`;
-    //     delete impuesto['impuesto'];
+      this.arrImpuestoSeleccionados = [];
+      this.arrLista.map((impuesto: any) => {
+        //     impuesto['id'] = `${impuesto['impuesto']}`;
+        //     delete impuesto['impuesto'];
 
-    //     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-    //       (imp) => imp.id === impuesto.id
-    //     );
-    //     if (!impuestoExistente) {
-           this.arrImpuestoSeleccionados.push(impuesto);
-    //     }
-       });
-       this.changeDetectorRef.detectChanges();
+        //     const impuestoExistente = this.arrImpuestoSeleccionados.find(
+        //       (imp) => imp.id === impuesto.id
+        //     );
+        //     if (!impuestoExistente) {
+        this.arrImpuestoSeleccionados.push(impuesto);
+        //     }
+      });
+      this.changeDetectorRef.detectChanges();
     }
   }
 
   agregarImpuesto(impuesto: any) {
-
     //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
       (imp) => imp.id === impuesto.id
@@ -75,9 +74,9 @@ export class ImpuestosComponent extends General implements OnChanges {
     }
   }
 
-  removerItem(impuesto: Impuesto) {
+  removerItem(impuesto: any) {
     this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
-      (index: Impuesto) => index.id !== impuesto.id
+      (index: any) => index.impuesto !== impuesto.impuesto
     );
     this.changeDetectorRef.detectChanges();
     this.emitirImpuestoElimiando.emit(impuesto);
