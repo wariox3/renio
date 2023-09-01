@@ -376,42 +376,51 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   agregarImpuesto(impuesto: any, index: number) {
-    console.log(impuesto);
-
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const neto = detalleFormGroup.get('neto') as FormControl;
-    const item = detalleFormGroup.get('item') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     impuesto = {
       ...impuesto,
       index,
     };
+    console.log(impuesto);
+
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
-    if (!this.acumuladorImpuestos[impuesto.nombre]) {
-      this.acumuladorImpuestos[impuesto.nombre] = {
+    if (impuesto.hasOwnProperty('impuesto_nombre')) {
+      impuesto['nombre'] = impuesto['impuesto_nombre'];
+      delete impuesto['impuesto_nombre'];
+    }
+    if (impuesto.hasOwnProperty('impuesto_nombre_extendido')) {
+      impuesto['nombre_extendido'] = impuesto['impuesto_nombre_extendido'];
+      delete impuesto['impuesto_nombre_extendido'];
+    }
+
+    let impuestoFormGrup = this.formBuilder.group({
+      id: [impuesto.impuesto_id ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
+      impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
+      base: [neto.value === null ? 0 : neto.value],
+      porcentaje: [impuesto.porcentaje],
+      total: [totalImpuesto],
+      nombre: [impuesto.nombre],
+      nombre_extendido: [impuesto.nombre_extendido]
+    });
+    arrDetalleImpuestos.push(impuestoFormGrup);
+    this.changeDetectorRef.detectChanges();
+
+
+    if (!this.acumuladorImpuestos[impuesto.impuesto_id]) {
+      this.acumuladorImpuestos[impuesto.impuesto_id] = {
         total: totalImpuesto,
         data: [impuesto],
       };
-
-      let impuestoFormGrup = this.formBuilder.group({
-        id: [impuesto.impuesto_id ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
-        impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
-        base: [neto.value === null ?  0 : neto.value],
-        porcentaje: [impuesto.porcentaje],
-        total: [totalImpuesto],
-        nombre: [impuesto.nombre],
-      });
-      arrDetalleImpuestos.push(impuestoFormGrup);
-      this.formularioFactura.markAsTouched();
-      this.formularioFactura.markAsDirty();
-      this.changeDetectorRef.detectChanges();
     } else {
-      this.acumuladorImpuestos[impuesto.nombre].total += totalImpuesto;
-      this.acumuladorImpuestos[impuesto.nombre].data.push(impuesto);
+      this.acumuladorImpuestos[impuesto.impuesto_id].total += totalImpuesto;
+      this.acumuladorImpuestos[impuesto.impuesto_id].data.push(impuesto);
     }
 
     this.calcularTotales();
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -520,26 +529,28 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.detalles.clear();
-        respuesta.documento.detalles.forEach((detalle: any, index: number) => {
-          const detalleFormGroup = this.formBuilder.group({
-            item: [detalle.item],
-            cantidad: [detalle.cantidad],
-            precio: [detalle.precio],
-            porcentaje_descuento: [detalle.porcentaje_descuento],
-            descuento: [detalle.descuento],
-            subtotal: [detalle.subtotal],
-            total_bruto: [detalle.total_bruto],
-            total: [detalle.total],
-            neto: [detalle.neto],
-            impuestos: this.formBuilder.array([]),
-            id: [detalle.id],
-          });
-          this.detalles.push(detalleFormGroup);
+        respuesta.documento.detalles.forEach(
+          (detalle: any, indexDetalle: number) => {
+            const detalleFormGroup = this.formBuilder.group({
+              item: [detalle.item],
+              cantidad: [detalle.cantidad],
+              precio: [detalle.precio],
+              porcentaje_descuento: [detalle.porcentaje_descuento],
+              descuento: [detalle.descuento],
+              subtotal: [detalle.subtotal],
+              total_bruto: [detalle.total_bruto],
+              total: [detalle.total],
+              neto: [detalle.neto],
+              impuestos: this.formBuilder.array([]),
+              id: [detalle.id],
+            });
+            this.detalles.push(detalleFormGroup);
 
-          detalle.impuestos.forEach((impuesto: any, index: number) => {
-            this.agregarImpuesto(impuesto, index);
-          });
-        });
+            detalle.impuestos.forEach((impuesto: any) => {
+              this.agregarImpuesto(impuesto, indexDetalle);
+            });
+          }
+        );
 
         this.calcularTotales();
         this.changeDetectorRef.detectChanges();
