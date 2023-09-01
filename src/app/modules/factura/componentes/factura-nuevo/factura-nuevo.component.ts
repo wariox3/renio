@@ -408,14 +408,14 @@ export default class FacturaNuevoComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
 
 
-    if (!this.acumuladorImpuestos[impuesto.impuesto_id]) {
-      this.acumuladorImpuestos[impuesto.impuesto_id] = {
+    if (!this.acumuladorImpuestos[impuesto.nombre_extendido]) {
+      this.acumuladorImpuestos[impuesto.nombre_extendido] = {
         total: totalImpuesto,
         data: [impuesto],
       };
     } else {
-      this.acumuladorImpuestos[impuesto.impuesto_id].total += totalImpuesto;
-      this.acumuladorImpuestos[impuesto.impuesto_id].data.push(impuesto);
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto;
+      this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
     }
 
     this.calcularTotales();
