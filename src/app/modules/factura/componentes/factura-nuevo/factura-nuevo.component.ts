@@ -181,6 +181,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           this.formularioFactura.markAsPristine();
           this.formularioFactura.markAsUntouched();
           this.changeDetectorRef.detectChanges();
+          this.consultardetalle()
         });
     } else {
       if (this.formularioFactura.touched && this.formularioFactura.dirty) {
@@ -192,7 +193,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           .subscribe((respuesta) => {
             this.detalles.clear();
             respuesta.documento.detalles.forEach(
-              (detalle: any, index: number) => {
+              (detalle: any, indexDetalle: number) => {
                 const detalleFormGroup = this.formBuilder.group({
                   item: [detalle.item],
                   cantidad: [detalle.cantidad],
@@ -208,15 +209,18 @@ export default class FacturaNuevoComponent extends General implements OnInit {
                 });
                 this.detalles.push(detalleFormGroup);
                 detalle.impuestos.forEach((impuesto: any, index: number) => {
-                  this.agregarImpuesto(impuesto, index);
+                  this.agregarImpuesto(impuesto, indexDetalle);
                 });
               }
             );
+            this.detalle = respuesta.documento.id;
+
             this.arrDetallesEliminado = [];
             this.calcularTotales();
             this.formularioFactura.markAsPristine();
             this.formularioFactura.markAsUntouched();
             this.changeDetectorRef.detectChanges();
+            this.consultardetalle()
           });
       }
     }
@@ -383,8 +387,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       ...impuesto,
       index,
     };
-    console.log(impuesto);
-
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
     if (impuesto.hasOwnProperty('impuesto_nombre')) {
       impuesto['nombre'] = impuesto['impuesto_nombre'];

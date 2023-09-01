@@ -32,7 +32,7 @@ import { Item } from '@modulos/general/modelos/item';
 export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: Impuesto[] = [];
   arrImpuestoLista: Impuesto[];
-  @Input() arrLista: Impuesto[];
+  @Input() arrLista: any[];
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
 
@@ -41,8 +41,9 @@ export class ImpuestosComponent extends General implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes.arrLista.firstChange) {
-    //   this.arrLista.map((impuesto: any) => {
+    if (changes.arrLista.currentValue) {
+    this.arrImpuestoSeleccionados = []
+     this.arrLista.map((impuesto: any) => {
     //     impuesto['id'] = `${impuesto['impuesto']}`;
     //     delete impuesto['impuesto'];
 
@@ -50,11 +51,11 @@ export class ImpuestosComponent extends General implements OnChanges {
     //       (imp) => imp.id === impuesto.id
     //     );
     //     if (!impuestoExistente) {
-    //       this.arrImpuestoSeleccionados.push(impuesto);
+           this.arrImpuestoSeleccionados.push(impuesto);
     //     }
-    //   });
-    //   this.changeDetectorRef.detectChanges();
-    // }
+       });
+       this.changeDetectorRef.detectChanges();
+    }
   }
 
   agregarImpuesto(impuesto: any) {
