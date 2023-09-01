@@ -44,7 +44,7 @@ export class HttpService extends Subdomino  {
     return this.http.delete(url, data);
   }
 
-  public generarExcel(endpoint: string, data:any): Observable<Blob> {
+  public descargarArchivo(endpoint: string, data:any): Observable<Blob> {
     const url = `${this.urlSubDominio}/${endpoint}`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post(url, data, { headers: headers, responseType: 'blob' });

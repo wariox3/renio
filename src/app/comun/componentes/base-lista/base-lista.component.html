@@ -24,6 +24,13 @@
     translate="FORMULARIOS.BOTONES.COMUNES.EXCEL"
     (click)="descargarExcel()"
   ></button>
+  <button
+  type="submit"
+  class="btn btn-success btn-sm"
+  #btnGuardar
+  translate="FORMULARIOS.BOTONES.COMUNES.PDF"
+  (click)="imprimir()"
+></button>
   </div>
   <div class="tabla">
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.ITEMS'">
