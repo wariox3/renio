@@ -22,6 +22,7 @@ import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/factura/servicios/factura.service';
 import { DocumentoDetalleService } from '@modulos/factura/servicios/documento-detalle.service';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -37,6 +38,7 @@ import { DocumentoDetalleService } from '@modulos/factura/servicios/documento-de
     TablaComponent,
     ImpuestosComponent,
     ProductosComponent,
+    SoloNumerosDirective
   ],
   templateUrl: './factura-nuevo.component.html',
   styleUrls: ['./factura-nuevo.component.scss'],
@@ -214,6 +216,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
       item: [null],
+      item_nombre: [null],
       cantidad: [0],
       precio: [0],
       porcentaje_descuento: [0],
@@ -226,17 +229,6 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       impuestos_eliminados: this.formBuilder.array([]),
       id: [null],
     });
-    //guardarel registro si detalle es diferente 0
-    // if (this.detalle != 0) {
-    //   this.DocumentoDetalleService.nuevoDetalle(this.detalle).subscribe(
-    //     ({ documento }) => {
-    //       if (documento && documento.id !== null) {
-    //         detalleFormGroup.get('id')?.setValue(documento.id);
-    //         this.changeDetectorRef.detectChanges();
-    //       }
-    //     }
-    //   );
-    // }
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
 
@@ -298,6 +290,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       item: item.id,
       cantidad: 1,
       subtotal: item.precio * 1,
+      item_nombre: item.nombre
     });
 
     if (item.impuestos) {
@@ -579,6 +572,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           (detalle: any, indexDetalle: number) => {
             const detalleFormGroup = this.formBuilder.group({
               item: [detalle.item],
+              item_nombre: [detalle.item_nombre],
               cantidad: [detalle.cantidad],
               precio: [detalle.precio],
               porcentaje_descuento: [detalle.porcentaje_descuento],

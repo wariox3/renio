@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -30,6 +31,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   styleUrls: ['./productos.component.scss'],
 })
 export class ProductosComponent extends General implements AfterViewInit {
+  @Input() itemNombre:string = "";
   itemSeleccionado: Item | null = null;
   arrItemsLista: Item[];
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
@@ -41,6 +43,7 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.inputItem.nativeElement.value = this.itemNombre
     this.inputItem.nativeElement.focus();
   }
 
