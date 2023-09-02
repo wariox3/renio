@@ -147,6 +147,7 @@ export const locale = {
           RESUMEN: 'Resumen del mes hasta la fecha',
           TEXTOAYUDA3: 'Estos cargos se incluyen en el saldo de su cuenta',
           LISTA: 'Lista',
+          DETALLES: 'Detalles',
           OTRAINFROMACION: 'Otra información',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',

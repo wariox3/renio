@@ -148,6 +148,7 @@ export const locale = {
           RESUMEN: 'Summary of the month to date',
           TEXTOAYUDA3: 'These charges are factored into your account balance',
           LISTA: 'List',
+          DETALLES: 'Details',
           OTRAINFROMACION: 'Other information',
           PRODUCTO: 'Product',
           CANTIDAD: 'Quantity',

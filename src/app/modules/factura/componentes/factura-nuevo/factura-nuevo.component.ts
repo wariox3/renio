@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -42,6 +42,7 @@ import { DocumentoDetalleService } from '@modulos/factura/servicios/documento-de
   styleUrls: ['./factura-nuevo.component.scss'],
 })
 export default class FacturaNuevoComponent extends General implements OnInit {
+  informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
@@ -68,6 +69,7 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
+  arrMetodosPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   accion: 'nuevo' | 'detalle';
@@ -99,16 +101,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
 
     this.formularioFactura = this.formBuilder.group({
       contacto: ['', Validators.compose([Validators.required])],
+      contactoNombre:[''],
       numero: [null, Validators.compose([Validators.required])],
-      fecha_vence: [
-        fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -118,8 +112,8 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      plazo: [
-        '',
+      fecha_vence: [
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -127,24 +121,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      metodoPago: [
+      metodo_pago: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      tipoOperacion: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
+      metodo_pago_nombre:[''],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -490,9 +473,15 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    this.formularioFactura.get(campo)?.markAsDirty();
-    this.formularioFactura.get(campo)?.markAsTouched();
-    this.formularioFactura.get(campo)?.setValue(dato);
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
+    this.formularioFactura.get(campo)?.setValue(dato.id);
+    if (campo === 'contacto') {
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+    }
+    if (campo === 'metodo_pago') {
+      this.formularioFactura.get('metodo_pago_nombre')?.setValue(dato.nombre);
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -529,6 +518,39 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .subscribe();
   }
 
+  consultarMetodo(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'nombre__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'MetodoPago',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrMetodosPago = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
   actualizarDatos(event: any, campo: string) {
     let data: any = {
       documento_tipo: 1,
@@ -543,6 +565,15 @@ export default class FacturaNuevoComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
+        console.log(respuesta);
+        this.formularioFactura.patchValue({
+          contacto: respuesta.documento.contacto_id,
+          contactoNombre: respuesta.documento.contacto_nombre_corto,
+          fecha: respuesta.documento.fecha,
+          fecha_vence: respuesta.documento.fecha_vence,
+          metodo_pago: respuesta.documento.metodo_pago,
+          metodo_pago_nombre: respuesta.documento.metodo_pago_nombre
+        })
         this.detalles.clear();
         respuesta.documento.detalles.forEach(
           (detalle: any, indexDetalle: number) => {

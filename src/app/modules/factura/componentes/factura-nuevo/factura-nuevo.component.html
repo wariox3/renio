@@ -5,45 +5,38 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
       ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else campoCliente">
-        <p contenteditable (blur)="actualizarDatos($event, 'descuento')"></p>
-      </ng-container>
-      <ng-template #campoCliente> -->
-        <div class="position-relative">
-          <input
-            type="text"
-            class="form-control form-control"
-            minlength="3"
-            maxlength="4"
-            ngbDropdownAnchor
-            formControlName="contacto"
-            (focus)="consultarCliente($event); ClienteDropdown.open()"
-            (keyup)="consultarCliente($event)"
-          />
-          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-            <i class="bi bi-search fs-2x"></i>
-          </div>
+      <div class="position-relative">
+        <input
+          type="text"
+          class="form-control form-control"
+          minlength="3"
+          maxlength="4"
+          ngbDropdownAnchor
+          formControlName="contactoNombre"
+          (focus)="consultarCliente($event); ClienteDropdown.open()"
+          (keyup)="consultarCliente($event)"
+        />
+        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <i class="bi bi-search fs-2x"></i>
         </div>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
-          <ng-container *ngFor="let impuesto of arrMovimientosClientes">
-            <button
-              type="button"
-              ngbDropdownItem
-              (click)="
-                modificarCampoFormulario('cliente', impuesto.nombre_corto)
-              "
-            >
-              {{ impuesto.nombre_corto }}
-            </button>
-          </ng-container>
-          <div class="dropdown-divider"></div>
-          <button type="button" ngbDropdownItem>Nuevo</button>
-        </div>
-      <!-- </ng-template> -->
+      </div>
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container *ngFor="let contacto of arrMovimientosClientes">
+          <button
+            type="button"
+            ngbDropdownItem
+            (click)="modificarCampoFormulario('contacto', contacto)"
+          >
+            {{ contacto.id }} - {{ contacto.nombre_corto }}
+          </button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+        <button type="button" ngbDropdownItem>Nuevo</button>
+      </div>
     </div>
   </div>
   <div class="row mb-5">
@@ -52,88 +45,66 @@
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
       ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else campoFechaFactura">
-        <p>{{ informacionDetalle.fecha }}</p>
-      </ng-container>
-      <ng-template #campoFechaFactura> -->
-        <input
-          formControlName="fecha"
-          class="form-control bg-transparent"
-          type="datetime"
-          autocomplete="off"
-        />
-      <!-- </ng-template> -->
+      <input
+        formControlName="fecha"
+        #fecha
+        class="form-control bg-transparent"
+        type="date"
+        autocomplete="off"
+      />
     </div>
     <div class="col">
       <label
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
       ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else FECHAVENCIMIENTO">
-        <p>{{ informacionDetalle.fecha_vence }}</p>
-      </ng-container>
-      <ng-template #FECHAVENCIMIENTO> -->
-        <input
-          formControlName="fecha_vence"
-          class="form-control bg-transparent"
-          type="datetime"
-          autocomplete="off"
-        />
+      <input
+        formControlName="fecha_vence"
+        class="form-control bg-transparent"
+        type="date"
+        [min]="fecha.value"
+        autocomplete="off"
+      />
       <!-- </ng-template> -->
     </div>
   </div>
   <div class="row mb-5">
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.TIPOOPERACION"
-      ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else TIPOOPERACION">
-        <p>{{ informacionDetalle.TIPOOPERACION }}</p>
-      </ng-container>
-      <ng-template #TIPOOPERACION>-->
-        <select class="form-select" formControlName="tipoOperacion">
-          <option value="1">SUMA</option>
-          <option value="0">NEUTRO</option>
-          <option value="-1">RESTA</option>
-        </select>
-      <!-- </ng-template> -->
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.PLAZO"
-      ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else PLAZO">
-        <p>{{ informacionDetalle.plazo }}</p>
-      </ng-container>
-      <ng-template #PLAZO> -->
-        <input
-          formControlName="plazo"
-          class="form-control bg-transparent"
-          type="number"
-          autocomplete="off"
-        />
-      <!-- </ng-template> -->
-    </div>
-    <div class="col-6">
+    <div class="col-6" ngbDropdown #MetodoDropdown="ngbDropdown">
       <label
         class="form-label required"
         translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
       ></label>
-      <!-- <ng-container *ngIf="accion === 'detalle'; else METODOPAGO">
-        <p>{{ informacionDetalle.metodo_pago }}</p>
-      </ng-container>
-      <ng-template #METODOPAGO> -->
+      <div class="position-relative">
         <input
-          formControlName="metodoPago"
+          formControlName="metodo_pago_nombre"
           class="form-control bg-transparent"
           type="text"
           autocomplete="off"
+          ngbDropdownAnchor
+          (focus)="consultarMetodo($event); MetodoDropdown.open()"
+          (keyup)="consultarMetodo($event)"
         />
-      <!-- </ng-template> -->
+        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <i class="bi bi-search fs-2x"></i>
+        </div>
+      </div>
+      <div
+      ngbDropdownMenu
+      aria-labelledby="dropdownBasic1"
+      class="dropdown-menu"
+    >
+      <ng-container *ngFor="let metodoPago of arrMetodosPago">
+        <button
+          type="button"
+          ngbDropdownItem
+          (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
+        >
+          {{ metodoPago.id }} - {{ metodoPago.nombre }}
+        </button>
+      </ng-container>
+      <div class="dropdown-divider"></div>
+      <button type="button" ngbDropdownItem>Nuevo</button>
+    </div>
     </div>
   </div>
   <div class="row mb-5">
@@ -149,7 +120,7 @@
             class="nav-link"
             ngbNavLink
             data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.LISTA"
+            translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
           ></a>
           <ng-template ngbNavContent>
             <div class="table-responsive-sm">
@@ -232,7 +203,6 @@
                           (emitirImpuestoElimiando)="removerImpuesto($event, i)"
                           [arrLista]="detalles.controls[i].value.impuestos"
                         ></app-comun-impuestos>
-                        
                       </td>
                       <td>
                         <textarea
@@ -317,7 +287,7 @@
   </div>
   <code>
     <pre>
-      {{formularioFactura.value | json}}
+      {{ formularioFactura.value | json }}
     </pre>
   </code>
   <div class="d-flex justify-content-end mb-10">
