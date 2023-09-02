@@ -468,12 +468,13 @@ export default class FacturaNuevoComponent extends General implements OnInit {
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    this.formularioFactura.get(campo)?.setValue(dato.id);
     if (campo === 'contacto') {
-      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.contacto_nombre_corto);
     }
     if (campo === 'metodo_pago') {
-      this.formularioFactura.get('metodo_pago_nombre')?.setValue(dato.nombre);
+      this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
+      this.formularioFactura.get('metodo_pago_nombre')?.setValue(dato.metodo_pago_nombre);
     }
     this.changeDetectorRef.detectChanges();
   }

@@ -31,7 +31,7 @@
             ngbDropdownItem
             (click)="modificarCampoFormulario('contacto', contacto)"
           >
-            {{ contacto.id }} - {{ contacto.nombre_corto }}
+            {{ contacto.contacto_id}} - {{ contacto.contacto_nombre_corto }}
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>
@@ -99,7 +99,7 @@
           ngbDropdownItem
           (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
         >
-          {{ metodoPago.id }} - {{ metodoPago.nombre }}
+          {{ metodoPago.metodo_pago_id }} - {{ metodoPago.metodo_pogo_nombre }}
         </button>
       </ng-container>
       <div class="dropdown-divider"></div>
