@@ -41,9 +41,7 @@ export class BaseNuevoComponent extends General implements OnInit, AfterViewInit
   }
 
   async loadComponente() {
-    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
-    console.log(posicionNuevo);
-    
+    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;    
     let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
     let componeteNuevoCargado =
       this.componenteDinamico.createComponent(componeteNuevo);

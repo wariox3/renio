@@ -428,7 +428,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     arrDetalleImpuestos.clear();
     // Agregar los impuestos filtrados de nuevo al FormArray
     nuevosImpuestos.forEach((nuevoImpuesto: any) => {
-      console.log(nuevoImpuesto);
 
       const nuevoDetalle = this.formBuilder.group({
         id: [nuevoImpuesto.id], //id tabla intermedia entre documento y impuesto
@@ -559,7 +558,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
-        console.log(respuesta);
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,

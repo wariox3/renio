@@ -125,7 +125,7 @@ export default class ItemDetalleComponent
   agregarImpuesto(impuesto: any) {
     const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
     let impuestoFormGrup = this.formBuilder.group({
-      impuesto: [impuesto.id],
+      impuesto: [impuesto.impuesto_id],
     });
     arrImpuesto.push(impuestoFormGrup);
 

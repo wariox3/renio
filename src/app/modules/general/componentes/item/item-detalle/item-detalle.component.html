@@ -239,8 +239,8 @@
     </div>
   </div>
   <app-comun-impuestos
-    (emitirImpuestos)="agregarImpuesto($event)"
-    (emitirImpuesto)="removerImpuesto($event)"
+    (emitirImpuestoAgregado)="agregarImpuesto($event)"
+    (emitirImpuestoElimiando)="removerImpuesto($event)"
   ></app-comun-impuestos>
   <div class="fv-row d-flex justify-content-end">
     <button
@@ -251,7 +251,6 @@
     ></button>
   </div>
 </form>
-
 <ng-template
   #formError
   let-control="control"

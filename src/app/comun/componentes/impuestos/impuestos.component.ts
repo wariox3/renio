@@ -15,6 +15,7 @@ import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { Item } from '@interfaces/general/item';
+import { tap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -30,8 +31,8 @@ import { Item } from '@interfaces/general/item';
   styleUrls: ['./impuestos.component.scss'],
 })
 export class ImpuestosComponent extends General implements OnChanges {
-  arrImpuestoSeleccionados: Impuesto[] = [];
-  arrImpuestoLista: Impuesto[];
+  arrImpuestoSeleccionados: any[] = [];
+  arrImpuestoLista: any[];
   @Input() arrLista: any[];
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
@@ -45,8 +46,8 @@ export class ImpuestosComponent extends General implements OnChanges {
       this.arrImpuestoSeleccionados = [];
       this.arrLista.map((impuesto: any) => {
         const impuestoExistente = this.arrImpuestoSeleccionados.find(
-          (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto === impuesto.impuesto
-        );
+          (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
+          );
         if (!impuestoExistente) {
           this.arrImpuestoSeleccionados.push(impuesto);
         }
@@ -58,7 +59,7 @@ export class ImpuestosComponent extends General implements OnChanges {
   agregarImpuesto(impuesto: any) {
     //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto === impuesto.impuesto
+      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
     );
     if (!impuestoExistente) {
       this.arrImpuestoSeleccionados.push(impuesto);
@@ -80,11 +81,36 @@ export class ImpuestosComponent extends General implements OnChanges {
   }
 
   consultarImpuesto() {
+
+
     this.httpService
-      .get<Impuesto>('general/impuesto/')
-      .subscribe((respuesta) => {
-        this.arrImpuestoLista = respuesta;
-        this.changeDetectorRef.detectChanges();
-      });
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__contains',
+              propiedad: 'nombre__contains',
+              valor1: ``,
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'Impuesto',
+        }
+      )
+      .pipe(
+        tap((respuesta) => {
+          console.log(respuesta);
+
+          this.arrImpuestoLista = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 }

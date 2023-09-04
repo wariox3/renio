@@ -3,7 +3,7 @@
     <div class="col-md-6 d-flex flex-wrap align-items-start">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
         <span class="badge badge-primary badge-sm mb-1 me-2">
-          {{ impuesto.nombre }}
+          {{ impuesto.impuesto_nombre }}
           <i
             class="bi bi-x fs-1x text-white cursor-pointer"
             (click)="removerItem(impuesto)"
@@ -35,7 +35,7 @@
               type="button"
               ngbDropdownItem
             >
-              {{ impuesto.nombre_extendido }}
+              {{ impuesto.impuesto_nombre_extendido }}
             </button>
           </ng-container>
           <div class="dropdown-divider"></div>
