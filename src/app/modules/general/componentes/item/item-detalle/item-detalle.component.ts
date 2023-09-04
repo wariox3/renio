@@ -34,12 +34,10 @@ import { ItemService } from '@modulos/general/servicios/item.service';
   ],
   templateUrl: './item-detalle.component.html',
 })
-export default class ItemDetalleComponent
-  extends General
-  implements OnInit
-{
+export default class ItemDetalleComponent extends General implements OnInit {
   formularioItem: FormGroup;
   arrImpuestosEliminado: number[] = [];
+  arrImpuestos: any[] = [];
   @Input() informacionFormulario: any;
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
@@ -51,20 +49,23 @@ export default class ItemDetalleComponent
     super();
   }
   ngOnInit() {
-    this.iniciarFormulario()
+    this.iniciarFormulario();
+    if (this.detalle) {
+      this.consultardetalle();
+    }
   }
 
   iniciarFormulario() {
     this.formularioItem = this.formBuilder.group({
       codigo: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
       nombre: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -72,7 +73,7 @@ export default class ItemDetalleComponent
         ]),
       ],
       referencia: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -80,7 +81,7 @@ export default class ItemDetalleComponent
         ]),
       ],
       precio: [
-        "",
+        '',
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -99,19 +100,42 @@ export default class ItemDetalleComponent
   enviarFormulario() {
     if (this.formularioItem.valid) {
       if (this.activatedRoute.snapshot.queryParams['detalle']) {
-        this.itemService.actualizarDatosItem(
-          this.activatedRoute.snapshot.queryParams['detalle'],
-          {
-            ...this.formularioItem.value,
-            ...{ impuestos_eliminados: this.arrImpuestosEliminado },
-          }
-        ).subscribe((respuesta)=>{
-          this.arrImpuestosEliminado = []
-          this.changeDetectorRef.detectChanges()
-        });
+        this.itemService
+          .actualizarDatosItem(
+            this.activatedRoute.snapshot.queryParams['detalle'],
+            {
+              ...this.formularioItem.value,
+              ...{ impuestos_eliminados: this.arrImpuestosEliminado },
+            }
+          )
+          .subscribe((respuesta) => {
+            this.formularioItem.patchValue({
+              codigo: respuesta.item.codigo,
+              nombre: respuesta.item.nombre,
+              referencia: respuesta.item.referencia,
+              precio: respuesta.item.precio,
+            });
+
+            let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
+
+            arrImpuesto.clear();
+
+            respuesta.item.impuestos.map((impuesto: any) => {
+              arrImpuesto.push(
+                this.formBuilder.group({
+                  impuesto: impuesto,
+                })
+              );
+            });
+            this.arrImpuestos = respuesta.item.impuestos;
+            this.arrImpuestosEliminado = [];
+
+            this.changeDetectorRef.detectChanges();
+          });
       } else {
-        this.itemService.guardarItem(this.formularioItem.value).subscribe((respuesta)=>{
-        });
+        this.itemService
+          .guardarItem(this.formularioItem.value)
+          .subscribe((respuesta) => {});
       }
     } else {
       this.formularioItem.markAllAsTouched();
@@ -133,11 +157,11 @@ export default class ItemDetalleComponent
   }
 
   removerImpuesto(impuesto: any) {
-
     const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
 
     let nuevosImpuestos = arrImpuesto.value.filter(
-      (item: any) => item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
+      (item: any) =>
+        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
     );
 
     // Limpiar el FormArray actual
@@ -158,4 +182,31 @@ export default class ItemDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  consultardetalle() {
+    this.itemService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.formularioItem.patchValue({
+          codigo: respuesta.item.codigo,
+          nombre: respuesta.item.nombre,
+          referencia: respuesta.item.referencia,
+          precio: respuesta.item.precio,
+        });
+
+        let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
+
+        arrImpuesto.clear();
+
+        respuesta.item.impuestos.map((impuesto: any) => {
+          arrImpuesto.push(
+            this.formBuilder.group({
+              impuesto: impuesto,
+            })
+          );
+        });
+        this.arrImpuestos = respuesta.item.impuestos;
+        // this.calcularTotales();
+        this.changeDetectorRef.detectChanges();
+      });
+  }
 }

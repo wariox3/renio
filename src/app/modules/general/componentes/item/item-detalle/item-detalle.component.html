@@ -241,6 +241,7 @@
   <app-comun-impuestos
     (emitirImpuestoAgregado)="agregarImpuesto($event)"
     (emitirImpuestoElimiando)="removerImpuesto($event)"
+    [arrLista]="arrImpuestos"
   ></app-comun-impuestos>
   <div class="fv-row d-flex justify-content-end">
     <button
