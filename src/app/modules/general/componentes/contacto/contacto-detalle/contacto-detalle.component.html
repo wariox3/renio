@@ -1,9 +1,5 @@
-<form
-  [formGroup]="formularioContacto"
-  (ngSubmit)="enviarFormulario()"
-  id="my-dropzone"
->
-  <div class="row">
+<form [formGroup]="formularioContacto" (ngSubmit)="enviarFormulario()">
+  <div class="row mb-5">
     <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
@@ -42,37 +38,13 @@
         }"
       ></ng-container>
     </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
-      ></label>
-      <select
-        formControlName="tipo_documento"
-        class="form-control bg-transparent"
-        [ngClass]="{
-          'is-invalid':
-            formularioContacto.controls['tipo_documento'].touched &&
-            formularioContacto.controls['tipo_documento'].invalid,
-          'is-valid':
-            formularioContacto.controls['tipo_documento'].touched &&
-            formularioContacto.controls['tipo_documento'].valid
-        }"
-      >
-        <option value="" disabled selected>
-          Seleccione un tipo de documento
-        </option>
-        <!-- <option *ngFor="let opcion of arrIdentificacion"></option> -->
-      </select>
-    </div>
   </div>
   <div class="row">
     <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
         class="form-label required"
-        ></label
-      >
+      ></label>
       <input
         formControlName="nombre_corto"
         class="form-control bg-transparent"
@@ -146,43 +118,41 @@
         }"
       ></ng-container>
     </div>
-    <div class="col-md-6 col-sm-12">
+    <div class="col-12" ngbDropdown #CiudadDropdown="ngbDropdown">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
         class="form-label required"
       ></label>
-      <input
-        formControlName="ciudad"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioContacto.controls['ciudad'].touched &&
-            formularioContacto.controls['ciudad'].invalid,
-          'is-valid':
-            formularioContacto.controls['ciudad'].touched &&
-            formularioContacto.controls['ciudad'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['ciudad']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioContacto.controls['ciudad']
-        }"
-      ></ng-container>
+      <div class="position-relative">
+        <input
+          type="text"
+          class="form-control form-control"
+          ngbDropdownAnchor
+          formControlName="ciudad_nombre"
+          (focus)="consultarCiudad($event); CiudadDropdown.open()"
+          (keyup)="consultarCiudad($event)"
+        />
+        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <i class="bi bi-search fs-2x"></i>
+        </div>
+      </div>
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container *ngFor="let ciudad of arrCiudades">
+          <button
+            type="button"
+            ngbDropdownItem
+            (click)="modificarCampoFormulario('ciudad', ciudad)"
+          >
+            {{ ciudad.ciudad_id}} - {{ ciudad.ciudad_nombre }}
+          </button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+        <button type="button" ngbDropdownItem>Nuevo</button>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -341,46 +311,6 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.DOCUMENTOTIPO"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="tipo_documento"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioContacto.controls['tipo_documento'].touched &&
-            formularioContacto.controls['tipo_documento'].invalid,
-          'is-valid':
-            formularioContacto.controls['tipo_documento'].touched &&
-            formularioContacto.controls['tipo_documento'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['tipo_documento']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioContacto.controls['tipo_documento']
-        }"
-      ></ng-container>
-    </div>
-  </div>
 
   <div class="fv-row d-flex justify-content-end">
     <button
@@ -409,4 +339,3 @@
     </div>
   </ng-container>
 </ng-template>
-
