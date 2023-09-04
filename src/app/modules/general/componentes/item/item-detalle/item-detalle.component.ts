@@ -51,38 +51,36 @@ export default class ItemDetalleComponent
     super();
   }
   ngOnInit() {
-
+    this.iniciarFormulario()
   }
 
-  initForm() {
+  iniciarFormulario() {
     this.formularioItem = this.formBuilder.group({
       codigo: [
-        this.informacionFormulario.codigo,
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
       nombre: [
-        this.informacionFormulario.nombre,
+        "",
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
       referencia: [
-        this.informacionFormulario.referencia,
+        "",
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
       precio: [
-        this.informacionFormulario.precio,
+        "",
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -90,7 +88,7 @@ export default class ItemDetalleComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      impuestos: this.formBuilder.array(this.informacionFormulario.impuestos),
+      impuestos: this.formBuilder.array([]),
     });
   }
 
