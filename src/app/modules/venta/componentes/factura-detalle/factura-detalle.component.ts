@@ -17,7 +17,7 @@ import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { Item } from '@modulos/general/modelos/item';
+import { Item } from '@interfaces/general/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';

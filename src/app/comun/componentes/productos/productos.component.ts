@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
-import { Item } from '@modulos/general/modelos/item';
+import { Item } from '@interfaces/general/item';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({

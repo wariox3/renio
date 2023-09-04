@@ -3,7 +3,7 @@ import { HttpService } from '@comun/services/http.service';
 import { Store } from '@ngrx/store';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
-import { Item } from '../modelos/item';
+import { Item } from '@interfaces/general/item';
 
 @Injectable({
   providedIn: 'root',

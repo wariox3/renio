@@ -32,11 +32,11 @@ import { ItemService } from '@modulos/general/servicios/item.service';
     TranslationModule,
     ImpuestosComponent,
   ],
-  templateUrl: './item-formulario.component.html',
+  templateUrl: './item-detalle.component.html',
 })
-export class ItemFormularioComponent
+export default class ItemDetalleComponent
   extends General
-  implements OnInit, OnChanges
+  implements OnInit
 {
   formularioItem: FormGroup;
   arrImpuestosEliminado: number[] = [];
@@ -51,13 +51,7 @@ export class ItemFormularioComponent
     super();
   }
   ngOnInit() {
-    this.initForm();
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.informacionFormulario.currentValue) {
-      this.initForm();
-    }
   }
 
   initForm() {
@@ -100,11 +94,11 @@ export class ItemFormularioComponent
     });
   }
 
-  get formFields() {
+  get obtenerFormularioCampos() {
     return this.formularioItem.controls;
   }
 
-  formSubmit() {
+  enviarFormulario() {
     if (this.formularioItem.valid) {
       if (this.activatedRoute.snapshot.queryParams['detalle']) {
         this.itemService.actualizarDatosItem(
@@ -165,4 +159,5 @@ export class ItemFormularioComponent
 
     this.changeDetectorRef.detectChanges();
   }
+
 }
