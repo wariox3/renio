@@ -129,13 +129,16 @@ export default class ItemDetalleComponent extends General implements OnInit {
             });
             this.arrImpuestos = respuesta.item.impuestos;
             this.arrImpuestosEliminado = [];
+            this.alertaService.mensajaExitoso("Se actualizo la información")
 
             this.changeDetectorRef.detectChanges();
           });
       } else {
         this.itemService
           .guardarItem(this.formularioItem.value)
-          .subscribe((respuesta) => {});
+          .subscribe((respuesta) => {
+            this.alertaService.mensajaExitoso("Se guardo la información")
+          });
       }
     } else {
       this.formularioItem.markAllAsTouched();

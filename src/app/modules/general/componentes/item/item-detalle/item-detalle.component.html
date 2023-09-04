@@ -1,5 +1,5 @@
 <form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
-  <div class="fv-row mb-10">
+  <div class="row mb-5">
     <label
       translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
       class="form-label required"
@@ -65,7 +65,7 @@
       </div>
     </div>
   </div>
-  <div class="fv-row mb-10">
+  <div class="row mb-5">
     <label
       translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
       class="form-label required"
@@ -120,7 +120,7 @@
       }"
     ></ng-container>
   </div>
-  <div class="fv-row mb-10">
+  <div class="row mb-5">
     <label
       translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
       class="form-label required"
@@ -174,7 +174,7 @@
       }"
     ></ng-container>
   </div>
-  <div class="fv-row mb-10">
+  <div class="row mb-5">
     <label
       translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
       class="form-label required"
@@ -230,7 +230,7 @@
     ></ng-container>
   </div>
 
-  <div class="fv-row mb-10">
+  <div class="row mb-5">
     <div class="d-flex justify-content-between">
       <label
         translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
@@ -243,7 +243,7 @@
     (emitirImpuestoElimiando)="removerImpuesto($event)"
     [arrLista]="arrImpuestos"
   ></app-comun-impuestos>
-  <div class="fv-row d-flex justify-content-end">
+  <div class="d-flex justify-content-end">
     <button
       type="submit"
       class="btn btn-primary btn-sm"
