@@ -2,21 +2,21 @@
   <div class="row mb-5">
     <div class="col-md-6 col-sm-12">
       <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
+        translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
         class="form-label required"
       ></label>
       <input
-        formControlName="identificacion"
+        formControlName="numero_identificacion"
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
-            formularioContacto.controls['identificacion'].touched &&
-            formularioContacto.controls['identificacion'].invalid,
+            formularioContacto.controls['numero_identificacion'].touched &&
+            formularioContacto.controls['numero_identificacion'].invalid,
           'is-valid':
-            formularioContacto.controls['identificacion'].touched &&
-            formularioContacto.controls['identificacion'].valid
+            formularioContacto.controls['numero_identificacion'].touched &&
+            formularioContacto.controls['numero_identificacion'].valid
         }"
       />
       <ng-container
@@ -25,7 +25,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '3',
-          control: formularioContacto.controls['identificacion']
+          control: formularioContacto.controls['numero_identificacion']
         }"
       ></ng-container>
       <ng-container
@@ -34,9 +34,29 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '100',
-          control: formularioContacto.controls['identificacion']
+          control: formularioContacto.controls['numero_identificacion']
         }"
       ></ng-container>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <label
+      translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
+      class="form-label required"
+    ></label>
+      <select
+      class="form-select"
+      formControlName="identificacion"
+
+    >
+      <option value="">Seleccionar...</option>
+      <option
+        *ngFor="let identificacion of arrIdentificacion"
+        [value]="identificacion.identificacion_id"
+      
+      >
+        {{ identificacion.identificacion_nombre  }}
+      </option>
+    </select>
     </div>
   </div>
   <div class="row">
@@ -233,82 +253,46 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-5">
     <div class="col-md-6 col-sm-12">
       <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="tipo_persona"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioContacto.controls['tipo_persona'].touched &&
-            formularioContacto.controls['tipo_persona'].invalid,
-          'is-valid':
-            formularioContacto.controls['tipo_persona'].touched &&
-            formularioContacto.controls['tipo_persona'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['tipo_persona']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioContacto.controls['tipo_persona']
-        }"
-      ></ng-container>
+      translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
+      class="form-label required"
+    ></label>
+      <select
+      class="form-select"
+      formControlName="tipo_persona"
+
+    >
+      <option value="">Seleccionar...</option>
+      <option
+        *ngFor="let tipoPersona of arrTipoPersona"
+        [value]="tipoPersona.tipo_persona_id"
+      
+      >
+        {{ tipoPersona.tipo_persona_nombre  }}
+      </option>
+    </select>
     </div>
     <div class="col-md-6 col-sm-12">
       <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="regimen"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioContacto.controls['regimen'].touched &&
-            formularioContacto.controls['regimen'].invalid,
-          'is-valid':
-            formularioContacto.controls['regimen'].touched &&
-            formularioContacto.controls['regimen'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['regimen']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioContacto.controls['regimen']
-        }"
-      ></ng-container>
+      translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
+      class="form-label required"
+    ></label>
+      <select
+      class="form-select"
+      formControlName="regimen"
+
+    >
+      <option value="">Seleccionar...</option>
+      <option
+        *ngFor="let regimen of arrRegimen"
+        [value]="regimen.regimen_id"
+      
+      >
+        {{ regimen.regimen_nombre  }}
+      </option>
+    </select>
     </div>
   </div>
 
