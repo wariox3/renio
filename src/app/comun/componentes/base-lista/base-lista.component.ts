@@ -103,7 +103,7 @@ export class BaseListaComponent extends General implements OnInit {
       queryParams: {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
-        formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
+        formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
         accion: 'nuevo',
       },
     });
@@ -114,7 +114,7 @@ export class BaseListaComponent extends General implements OnInit {
       queryParams: {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
-        formulario: `${this.arrParametrosConsulta.modelo}Nuevo`,
+        formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
         detalle: id,
         accion: 'detalle',
       },

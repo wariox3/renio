@@ -223,7 +223,7 @@ export const initialState: Menu = {
               url: 'lista',
               modelo: 'Contacto',
               tipo: 'Administrador',
-              data: { formulario: 'ContactoNuevo' },
+              data: { formulario: 'ContactoInformacion' },
             },
           ],
         },

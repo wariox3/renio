@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { componeteNuevos, componeteDetalle } from '@comun/extra/imports';
+import { componeteNuevos } from '@comun/extra/imports';
 import { FacturaService } from '@modulos/factura/servicios/factura.service';
 
 @Component({
@@ -42,6 +42,8 @@ export class BaseNuevoComponent extends General implements OnInit, AfterViewInit
 
   async loadComponente() {
     let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
+    console.log(posicionNuevo);
+    
     let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
     let componeteNuevoCargado =
       this.componenteDinamico.createComponent(componeteNuevo);

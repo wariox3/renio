@@ -11,6 +11,15 @@ export class General {
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected modelo = '';
+  protected tipo = '';
+  protected formulario = '';
+  protected accion = '';
 
-  constructor() {}
+  constructor() {
+    this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
+    this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
+    this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
+    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
+  }
 }
