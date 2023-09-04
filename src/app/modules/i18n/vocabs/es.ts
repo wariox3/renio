@@ -180,10 +180,16 @@ export const locale = {
           IDENTIFICACION: 'Identificacion',
           CODIGO: 'Código',
           CLIENTE: 'Cliente',
-          DOCUMENTOTIPO: 'Documento tipo',
+          IDENTIFICACIONTIPO: 'Tipo de identificación',
           DIRECCION: 'Dirección',
           CIUDAD: 'Ciudad',
-          CELULAR: 'Celular'
+          CELULAR: 'Celular',
+          NUMEROIDENTIFICACION: 'Número de identificación',
+          NOMBRECORTO:'Nombre corto',
+          NOMBRE1:'Primer nombre',
+          NOMBRE2:'Segundo nombre',
+          APELLIDO1:'Primer apellido',
+          APELLIDO2:'Segundo apellido',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',

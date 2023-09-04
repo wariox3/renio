@@ -175,10 +175,17 @@ export const locale = {
           IDENTIFICACION: 'Identification',
           CODIGO: 'Code',
           CLIENTE: 'Customer',
+          IDENTIFICACIONTIPO: 'Identification type',
           DOCUMENTOTIPO: 'Document Type',
           DIRECCION: 'Address',
           CIUDAD: 'City',
-          CELULAR: 'Cell phone'
+          CELULAR: 'Cell phone',
+          NUMEROIDENTIFICACION: 'Identification Number',
+          NOMBRECORTO:'Short name',
+          NOMBRE1:'First name',
+          NOMBRE2:'Second name',
+          APELLIDO1:'First surname',
+          APELLIDO2:'Second last name',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
