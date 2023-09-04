@@ -15,11 +15,13 @@ export class General {
   protected tipo = '';
   protected formulario = '';
   protected accion = '';
+  protected detalle = 0;
 
   constructor() {
     this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
     this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
     this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
     this.accion = this.activatedRoute.snapshot.queryParams['accion'];
+    this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
   }
 }

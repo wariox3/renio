@@ -21,11 +21,10 @@ import { General } from '@comun/clases/general';
 })
 export class BaseDetalleComponent extends General {
   modelo: string;
-  detalle: string;
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
-  
+
   constructor() {
     super();
   }

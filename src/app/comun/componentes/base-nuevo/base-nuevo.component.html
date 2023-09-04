@@ -21,11 +21,13 @@
         <!--begin::Heading-->
         <div class="card-title">
           <h3>
-            <ng-container *ngIf="accion === 'nuevo'; else detalle">
+            <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
             </ng-container>
-            <ng-template #detalle>
+            <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+              {{modelo}}
+              {{detalle}}
             </ng-template>
           </h3>
         </div>

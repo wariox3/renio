@@ -14,7 +14,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
   templateUrl: './base-nuevo.component.html',
   styleUrls: ['./base-nuevo.component.scss'],
 })
-export class BaseNuevoComponent extends General implements OnInit, AfterViewInit {
+export class BaseNuevoComponent extends General implements AfterViewInit {
   modelo: string;
   formulario: string;
   tipo: string;
@@ -29,19 +29,14 @@ export class BaseNuevoComponent extends General implements OnInit, AfterViewInit
     super();
   }
 
-  ngOnInit(): void {
-    this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-    this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
-    this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
-    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
-  }
-
   ngAfterViewInit() {
+    console.log(this.detalle);
+
     this.loadComponente();
   }
 
   async loadComponente() {
-    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;    
+    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
     let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
     let componeteNuevoCargado =
       this.componenteDinamico.createComponent(componeteNuevo);

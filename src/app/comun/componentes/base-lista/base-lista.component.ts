@@ -98,7 +98,7 @@ export class BaseListaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-  nuevo() {
+  navegarNuevo() {
     this.router.navigate(['/nuevo'], {
       queryParams: {
         modelo: this.arrParametrosConsulta.modelo,
@@ -109,7 +109,7 @@ export class BaseListaComponent extends General implements OnInit {
     });
   }
 
-  detalle(id: number) {
+  navegarDetalle(id: number) {
     this.router.navigate(['/nuevo'], {
       queryParams: {
         modelo: this.arrParametrosConsulta.modelo,
@@ -136,7 +136,7 @@ export class BaseListaComponent extends General implements OnInit {
       );
     }
   }
-  
+
   descargarExcel() {
     this.httpService.descargarArchivo('general/documento/excel/', this.arrParametrosConsulta).subscribe((data) => {
       const blob = new Blob([data], { type: 'application/ms-excel' });
@@ -162,5 +162,5 @@ export class BaseListaComponent extends General implements OnInit {
       window.URL.revokeObjectURL(url);
     });
   }
-  
+
 }

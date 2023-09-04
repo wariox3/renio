@@ -13,7 +13,7 @@
   <div class="acciones">
     <ng-content select="[base-acciones]"></ng-content>
     <a
-      (click)="nuevo()"
+      (click)="navegarNuevo()"
       class="btn btn-sm btn-primary"
       translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
     ></a>
@@ -43,7 +43,7 @@
           (emitirOrdenamiento)="cambiarOrdemiento($event)"
           (emitirPaginacion)="cambiarPaginacion($event)"
           (emitirRegistraEliminar)="eliminarRegistros($event)"
-          (itemDetalle)="detalle($event)"
+          (itemDetalle)="navegarDetalle($event)"
         >
         </app-comun-tabla>
       </section>
