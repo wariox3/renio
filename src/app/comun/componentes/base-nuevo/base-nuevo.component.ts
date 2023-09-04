@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { componeteNuevos } from '@comun/extra/imports';
-import { FacturaService } from '@modulos/factura/servicios/factura.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
 
 @Component({
   selector: 'app-comun-base-nuevo',

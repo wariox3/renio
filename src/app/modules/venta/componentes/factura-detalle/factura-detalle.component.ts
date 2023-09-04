@@ -20,8 +20,8 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { Item } from '@modulos/general/modelos/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { FacturaService } from '@modulos/factura/servicios/factura.service';
-import { DocumentoDetalleService } from '@modulos/factura/servicios/documento-detalle.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { DocumentoDetalleService } from '@modulos/venta/servicios/documento-detalle.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
@@ -40,10 +40,10 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
     ProductosComponent,
     SoloNumerosDirective
   ],
-  templateUrl: './factura-nuevo.component.html',
-  styleUrls: ['./factura-nuevo.component.scss'],
+  templateUrl: './factura-detalle.component.html',
+  styleUrls: ['./factura-detalle.component.scss'],
 })
-export default class FacturaNuevoComponent extends General implements OnInit {
+export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
