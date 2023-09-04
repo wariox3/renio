@@ -1,21 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Contacto } from '../modelos/contacto';
+import { Contacto } from '@interfaces/general/contacto';
 import { Subdomino } from '@comun/clases/subdomino';
+import { HttpService } from '@comun/services/http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactoService extends Subdomino {
-
-  constructor(private http: HttpClient, private store: Store) {
-    super()
+  constructor(private http: HttpService, private store: Store) {
+    super();
   }
-
-  lista() {
-    return this.http.get<Contacto[]>(`${this.urlSubDominio}/general/contacto/`);
+  
+  guardarContacto(data: any) {
+    return this.http.post<Contacto[]>(`general/contacto/`, data);
   }
 }
-
-

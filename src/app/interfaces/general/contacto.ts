@@ -1,4 +1,4 @@
-export interface ContactoFormulario {
+export interface Contacto {
   identificacion: number;
   numero_identificacion: number;
   nombre_corto: string;

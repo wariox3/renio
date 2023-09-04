@@ -407,6 +407,46 @@
   <div class="row mb-5">
     <div class="col-md-6 col-sm-12">
       <label
+        translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="correo"
+        class="form-control bg-transparent"
+        type="text"
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid':
+            formularioContacto.controls['correo'].touched &&
+            formularioContacto.controls['correo'].invalid,
+          'is-valid':
+            formularioContacto.controls['correo'].touched &&
+            formularioContacto.controls['correo'].valid
+        }"
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+          cantidadCaracteres: '3',
+          control: formularioContacto.controls['correo']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '100',
+          control: formularioContacto.controls['correo']
+        }"
+      ></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-6 col-sm-12">
+      <label
         translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
         class="form-label required"
       ></label>

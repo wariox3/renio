@@ -13,6 +13,7 @@ import { TranslationModule } from '@modulos/i18n';
 import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContactoService } from '@modulos/general/servicios/contacto.service';
 
 @Component({
   selector: 'app-contacto-informacion',
@@ -37,7 +38,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private contactoService: ContactoService
   ) {
     super();
   }
@@ -57,7 +59,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
       apellido1: [''],
       apellido2: [''],
       direccion: [''],
+      correo: [''],
       ciudad_nombre: [''],
+      ciudad_id: [''],
       telefono: [''],
       celular: [''],
       tipo_persona: [''],
@@ -69,7 +73,20 @@ export default class ContactDetalleComponent extends General implements OnInit {
     return this.formularioContacto.controls;
   }
 
-  enviarFormulario() {}
+  enviarFormulario() {
+    if (this.formularioContacto.valid) {
+      if (this.detalle) {
+      } else {
+        this.contactoService
+          .guardarContacto(this.formularioContacto.value)
+          .subscribe((respuesta) => {
+            this.alertaService.mensajaExitoso('hola');
+          });
+      }
+    } else {
+      this.formularioContacto.markAllAsTouched();
+    }
+  }
 
   consultarCiudad(event: any) {
     let arrFiltros = {
@@ -163,8 +180,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           modelo: 'TipoPersona',
         }
       )
-
-    ).subscribe((respuesta:any) => {
+    ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
