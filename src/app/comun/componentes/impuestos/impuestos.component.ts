@@ -74,7 +74,7 @@ export class ImpuestosComponent extends General implements OnChanges {
 
   removerItem(impuesto: any) {
     this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
-      (index: any) => index.impuesto !== impuesto.impuesto
+      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id !== impuesto.impuesto_id
     );
     this.changeDetectorRef.detectChanges();
     this.emitirImpuestoElimiando.emit(impuesto);
