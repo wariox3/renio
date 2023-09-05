@@ -208,21 +208,21 @@ export default class ContactDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioContacto.patchValue({
-          numero_identificacion:respuesta.numero_identificacion,
+          numero_identificacion: respuesta.numero_identificacion,
           identificacion: respuesta.identificacion,
           codigo: respuesta.codigo,
           nombre_corto: respuesta.nombre_corto,
           nombre1: respuesta.nombre1,
           nombre2: respuesta.nombre2,
           apellido1: respuesta.apellido1,
-          apellido2:respuesta.apellido2,
+          apellido2: respuesta.apellido2,
           ciudad_nombre: respuesta.ciudad,
           direccion: respuesta.direccion,
           telefono: respuesta.telefono,
           celular: respuesta.celular,
           correo: respuesta.correo,
           tipo_persona: respuesta.tipo_persona,
-          regimen: respuesta.regimen
+          regimen: respuesta.regimen,
         });
         this.changeDetectorRef.detectChanges();
       });
