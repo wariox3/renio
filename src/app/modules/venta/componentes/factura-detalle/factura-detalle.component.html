@@ -237,7 +237,7 @@
                     class="text-end"
                     translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
                   ></td>
-                  <td class="text-end">{{ totalCantidad | currency : "$" }}</td>
+                  <td class="text-end">{{ totalCantidad }}</td>
                 </tr>
                 <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                   <td class="text-end">{{ impuesto.key }}</td>

@@ -280,18 +280,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       let subtotalFinal = subtotal - descuento;
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
-      impuestos.forEach((impuesto:any) => {
-        console.log('impuesto',impuesto);
-        console.log('impuesto.total',impuesto.total);
-        
+      impuestos.forEach((impuesto:any) => {      
         this.totalImpuestos += impuesto.total;  
       });
       
-      console.log('this.totalImpuestos', this.totalImpuestos);
-      
       let neto = detalleControl.get('neto')?.value || 0;
 
-      this.totalCantidad += cantidad;
+      this.totalCantidad += parseInt(cantidad);
       this.totalDescuento += descuento;
       this.subtotalGeneral += subtotalFinal;
       this.totalNetoGeneral += neto;
