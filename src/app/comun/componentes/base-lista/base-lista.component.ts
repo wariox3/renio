@@ -122,7 +122,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   eliminarRegistros(data: Number[]) {
-    if (data.length > 0) {
+    if (data.length > 0) {        
       this.httpService
         .post('general/documento/eliminar/', { documentos: data })
         .subscribe((respuesta:any) => {

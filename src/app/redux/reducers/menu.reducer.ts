@@ -3,6 +3,7 @@ import { selecionModuloAction } from '../actions/menu.actions';
 
 interface informacionItem {
   nombre: string;
+  modulo?: string;
   modelo?: string;
   tipo?: string;
   data?: {
@@ -136,6 +137,7 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAVENTA',
               url: 'lista',
+              modulo: 'venta',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
@@ -202,6 +204,7 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAVENTA',
               url: 'lista',
+              modulo: 'general',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
