@@ -437,7 +437,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         (impuestoAcumulado: any) => impuestoAcumulado.index !== index
       );
 
-    this.acumuladorImpuestos[impuesto.nombre_extendido].total -= totalImpuesto;
+    
+    this.acumuladorImpuestos[impuesto.nombre_extendido].total -= impuesto.total;
 
     if (this.acumuladorImpuestos[impuesto.nombre_extendido].data.length === 0) {
       delete this.acumuladorImpuestos[impuesto.nombre_extendido];
