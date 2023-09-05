@@ -138,7 +138,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    if (this.detalle === 0) {
+    console.log(this.detalle);
+    
+    if (this.detalle == undefined) {
       this.facturaService
         .guardarFactura(this.formularioFactura.value)
         .subscribe(({ documento }) => {
