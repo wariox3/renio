@@ -420,14 +420,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const arrDetalleImpuestosEliminado = detalleFormGroup.get('impuestos_eliminados') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
-    console.log(impuesto);
-    console.log(arrDetalleImpuestos.value);
+
 
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto_id !== impuesto.impuesto_id
     );
 
-    console.log(nuevosImpuestos);
+
 
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
     // Limpiar el FormArray actual
@@ -474,7 +473,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(campo, dato);
+
     
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
