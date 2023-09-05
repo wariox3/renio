@@ -56,7 +56,7 @@
           <a
             class="menu-link without-sub"
             routerLink="{{ item.url }}"
-            [queryParams]="{ modulo:item.modulo, modelo: item.modelo, tipo: item.tipo }"
+            [queryParams]="{ modulo: (MenuSeleccion$ | async | lowercase), modelo: item.modelo, tipo: item.tipo }"
           >
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>

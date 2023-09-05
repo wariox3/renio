@@ -9,6 +9,7 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { TablaComponent } from '../tabla/tabla.component';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -122,14 +123,26 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   eliminarRegistros(data: Number[]) {
-    if (data.length > 0) {        
-      this.httpService
-        .post('general/documento/eliminar/', { documentos: data })
-        .subscribe((respuesta:any) => {
-          this.alertaService.mensajaExitoso(respuesta.mensaje);
-          this.consultarLista()
-        });
+    if (data.length > 0) {
+      if (this.tipo === 'Documento') {
+        this.httpService
+          .post('general/documento/eliminar/', { documentos: data })
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso(respuesta.mensaje);
+            this.consultarLista();
+          });
+      } else {
+        const eliminarSolicitudes = data.map((registro) =>{
+          return this.httpService.delete(`${this.modulo}/${this.modelo.toLowerCase()}/${registro}/`,{})
+        })
+
+        combineLatest(eliminarSolicitudes).subscribe((respuesta:any)=>{
+          console.log(respuesta);
+        })
+      }
     } else {
+
+
       this.alertaService.mensajeError(
         'Error',
         'no se existen mensajes a eliminar'
@@ -138,29 +151,35 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.httpService.descargarArchivo('general/documento/excel/', this.arrParametrosConsulta).subscribe((data) => {
-      const blob = new Blob([data], { type: 'application/ms-excel' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
+    this.httpService
+      .descargarArchivo('general/documento/excel/', this.arrParametrosConsulta)
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/ms-excel' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
 
   imprimir() {
-    this.httpService.descargarArchivo('general/documento/imprimir/', this.arrParametrosConsulta).subscribe((data) => {
-      const blob = new Blob([data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-    });
+    this.httpService
+      .descargarArchivo(
+        'general/documento/imprimir/',
+        this.arrParametrosConsulta
+      )
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      });
   }
-
 }
