@@ -48,6 +48,10 @@
         <option
           *ngFor="let identificacion of arrIdentificacion"
           [value]="identificacion.identificacion_id"
+          [selected]="
+          identificacion.identificacion_nombre===
+          formularioContacto.value.identificacion
+        "
         >
           {{ identificacion.identificacion_nombre }}
         </option>
@@ -455,6 +459,10 @@
         <option
           *ngFor="let tipoPersona of arrTipoPersona"
           [value]="tipoPersona.tipo_persona_id"
+          [selected]="
+            tipoPersona.tipo_persona_nombre ===
+            formularioContacto.value.tipo_persona
+          "
         >
           {{ tipoPersona.tipo_persona_nombre }}
         </option>
@@ -467,7 +475,14 @@
       ></label>
       <select class="form-select" formControlName="regimen">
         <option value="">Seleccionar...</option>
-        <option *ngFor="let regimen of arrRegimen" [value]="regimen.regimen_id">
+        <option
+          *ngFor="let regimen of arrRegimen"
+          [value]="regimen.regimen_id"
+          [selected]="
+            regimen.regimen_nombre===
+            formularioContacto.value.regimen
+          "
+        >
           {{ regimen.regimen_nombre }}
         </option>
       </select>

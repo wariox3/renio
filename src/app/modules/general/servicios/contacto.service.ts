@@ -8,11 +8,15 @@ import { HttpService } from '@comun/services/http.service';
   providedIn: 'root',
 })
 export class ContactoService extends Subdomino {
-  constructor(private http: HttpService, private store: Store) {
+  constructor(private httpService: HttpService, private store: Store) {
     super();
   }
   
   guardarContacto(data: any) {
-    return this.http.post<Contacto[]>(`general/contacto/`, data);
+    return this.httpService.post<Contacto[]>(`general/contacto/`, data);
+  }
+
+  consultarDetalle(id: number) {
+    return this.httpService.get<any>(`general/contacto/${id}/`);
   }
 }
