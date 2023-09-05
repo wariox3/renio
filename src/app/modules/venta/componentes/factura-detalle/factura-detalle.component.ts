@@ -280,15 +280,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       let subtotalFinal = subtotal - descuento;
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
-
+      impuestos.forEach((impuesto:any) => {
+        console.log('impuesto',impuesto);
+        console.log('impuesto.total',impuesto.total);
+        
+        this.totalImpuestos += impuesto.total;  
+      });
+      
+      console.log('this.totalImpuestos', this.totalImpuestos);
+      
       let neto = detalleControl.get('neto')?.value || 0;
-      if (Array.isArray(impuestos)) {
-        for (const impuesto of impuestos) {
-          this.totalImpuestos += impuesto.total || 0;
-        }
-      } else {
-        this.totalImpuestos += impuestos.total || 0;
-      }
 
       this.totalCantidad += cantidad;
       this.totalDescuento += descuento;
@@ -358,7 +359,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id],
         base: [subtotal.value],
         porcentaje: [impuesto.porcentaje],
-        totalImpuesto: [totalImpuesto],
+        total: [totalImpuesto],
         nombre: [impuesto.nombre],
         nombre_extendido: [impuesto.nombre_extendido],
         impuesto_id: [impuesto.impuesto_id],
@@ -368,9 +369,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total =
       totalImpuesto;
+      this.changeDetectorRef.detectChanges();
     });
 
-    
+    this.calcularTotales();    
     this.changeDetectorRef.detectChanges();
   }
 
