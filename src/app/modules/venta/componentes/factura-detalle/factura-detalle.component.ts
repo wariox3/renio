@@ -474,6 +474,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    console.log(campo, dato);
+    
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
@@ -482,7 +484,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
-      this.formularioFactura.get('metodo_pago_nombre')?.setValue(dato.metodo_pago_nombre);
+      this.formularioFactura.get('metodo_pago_nombre')?.setValue(dato.metodo_pogo_nombre);
     }
     this.changeDetectorRef.detectChanges();
   }
