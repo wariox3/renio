@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,17 +21,12 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
   styleUrls: ['./base-nuevo.component.scss'],
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
-  modelo: string;
-  formulario: string;
-  tipo: string;
-  accion: 'nuevo' | 'detalle';
+
 
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
 
-  constructor(
-    private facturaService: FacturaService
-  ) {
+  constructor() {
     super();
   }
 
@@ -38,10 +39,10 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
     let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
     let componeteNuevoCargado =
       this.componenteDinamico.createComponent(componeteNuevo);
-      componeteNuevoCargado.changeDetectorRef.detectChanges();
+    componeteNuevoCargado.changeDetectorRef.detectChanges();
   }
 
-  aprobar(){
+  aprobar() {
     // this.facturaService.aprobar({
     //   'id':1
     // }).subscribe()

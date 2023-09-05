@@ -102,6 +102,7 @@ export class BaseListaComponent extends General implements OnInit {
   navegarNuevo() {
     this.router.navigate(['/nuevo'], {
       queryParams: {
+        modulo: this.modulo,
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
@@ -113,6 +114,7 @@ export class BaseListaComponent extends General implements OnInit {
   navegarDetalle(id: number) {
     this.router.navigate(['/nuevo'], {
       queryParams: {
+        modulo: this.modulo,
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
