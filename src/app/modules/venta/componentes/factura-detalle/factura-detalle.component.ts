@@ -133,8 +133,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    console.log(this.detalle);
-
     if (this.detalle == undefined) {
       this.facturaService
         .guardarFactura(this.formularioFactura.value)
@@ -241,8 +239,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   agregarItemSeleccionado(item: any, index: number) {
-    console.log(item);
-
     this.detalles.controls[index].patchValue({
       precio: item.precio,
       item: item.id,
