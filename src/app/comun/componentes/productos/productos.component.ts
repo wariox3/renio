@@ -32,8 +32,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 })
 export class ProductosComponent extends General implements AfterViewInit {
   @Input() itemNombre:string = "";
-  itemSeleccionado: Item | null = null;
-  arrItemsLista: Item[];
+  itemSeleccionado: any | null = null;
+  arrItemsLista: any[];
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
@@ -47,11 +47,11 @@ export class ProductosComponent extends General implements AfterViewInit {
     this.inputItem.nativeElement.focus();
   }
 
-  agregarItem(item: Item) {
+  agregarItem(item: any) {
     this.itemSeleccionado = item;
 
     this.httpService
-      .get<any>(`general/item/${item.id}/`)
+      .get<any>(`general/item/${item.item_id}/`)
       .subscribe((respuesta: any) => {
         this.emitirArrItems.emit(respuesta.item);
       });
