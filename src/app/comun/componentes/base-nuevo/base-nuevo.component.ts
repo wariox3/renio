@@ -30,8 +30,6 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.detalle);
-
     this.loadComponente();
   }
 

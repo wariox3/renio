@@ -368,11 +368,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
     if (impuesto.hasOwnProperty('impuesto_nombre')) {
       impuesto['nombre'] = impuesto['impuesto_nombre'];
-      delete impuesto['impuesto_nombre'];
     }
     if (impuesto.hasOwnProperty('impuesto_nombre_extendido')) {
       impuesto['nombre_extendido'] = impuesto['impuesto_nombre_extendido'];
-      delete impuesto['impuesto_nombre_extendido'];
     }
 
     let impuestoFormGrup = this.formBuilder.group({
@@ -383,6 +381,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       total: [totalImpuesto],
       nombre: [impuesto.nombre],
       nombre_extendido: [impuesto.nombre_extendido],
+      impuesto_id:[impuesto.impuesto_id],
+      impuesto_nombre_extendido: [impuesto.nombre_extendido],
+      impuesto_nombre: [impuesto.nombre],
     });
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -419,9 +420,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const arrDetalleImpuestosEliminado = detalleFormGroup.get('impuestos_eliminados') as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
+    console.log(impuesto);
+    console.log(arrDetalleImpuestos.value);
+
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
-      (item: any) => item.impuesto !== impuesto.impuesto
+      (item: any) => item.impuesto_id !== impuesto.impuesto_id
     );
+
+    console.log(nuevosImpuestos);
+
     let totalImpuesto = (neto.value * impuesto.porcentaje) / 100;
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
@@ -436,6 +443,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         total: [totalImpuesto],
         nombre: [nuevoImpuesto.nombre],
         nombre_extendido: [nuevoImpuesto.nombre_extendido],
+        impuesto_id:[nuevoImpuesto.impuesto_id],
+        impuesto_nombre_extendido: [nuevoImpuesto.nombre_extendido],
+        impuesto_nombre: [nuevoImpuesto.nombre],
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });

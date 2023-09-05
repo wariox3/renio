@@ -105,8 +105,6 @@ export class ImpuestosComponent extends General implements OnChanges {
       )
       .pipe(
         tap((respuesta) => {
-          console.log(respuesta);
-
           this.arrImpuestoLista = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
