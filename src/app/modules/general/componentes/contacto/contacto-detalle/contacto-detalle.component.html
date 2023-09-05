@@ -49,7 +49,7 @@
           *ngFor="let identificacion of arrIdentificacion"
           [value]="identificacion.identificacion_id"
           [selected]="
-          identificacion.identificacion_nombre===
+          identificacion.identificacion_id===
           formularioContacto.value.identificacion
         "
         >
@@ -460,7 +460,7 @@
           *ngFor="let tipoPersona of arrTipoPersona"
           [value]="tipoPersona.tipo_persona_id"
           [selected]="
-            tipoPersona.tipo_persona_nombre ===
+            tipoPersona.tipo_persona_id ===
             formularioContacto.value.tipo_persona
           "
         >
@@ -479,7 +479,7 @@
           *ngFor="let regimen of arrRegimen"
           [value]="regimen.regimen_id"
           [selected]="
-            regimen.regimen_nombre===
+            regimen.regimen_id===
             formularioContacto.value.regimen
           "
         >

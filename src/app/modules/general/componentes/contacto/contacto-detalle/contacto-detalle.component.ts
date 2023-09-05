@@ -79,6 +79,31 @@ export default class ContactDetalleComponent extends General implements OnInit {
   enviarFormulario() {
     if (this.formularioContacto.valid) {
       if (this.detalle) {
+        this.contactoService.actualizarDatosContacto(
+          this.detalle, this.formularioContacto.value
+        ).subscribe((respuesta) => {
+          
+          this.formularioContacto.patchValue({
+            numero_identificacion: respuesta.numero_identificacion,
+            identificacion: respuesta.identificacion_id,
+            codigo: respuesta.codigo,
+            nombre_corto: respuesta.nombre_corto,
+            nombre1: respuesta.nombre1,
+            nombre2: respuesta.nombre2,
+            apellido1: respuesta.apellido1,
+            apellido2: respuesta.apellido2,
+            ciudad: respuesta.ciudad_id,
+            ciudad_nombre: respuesta.ciudad_nombre,
+            direccion: respuesta.direccion,
+            telefono: respuesta.telefono,
+            celular: respuesta.celular,
+            correo: respuesta.correo,
+            tipo_persona: respuesta.tipo_persona_id,
+            regimen: respuesta.regimen_id,
+          });
+          this.alertaService.mensajaExitoso("Se actualizo la información")
+          this.changeDetectorRef.detectChanges();
+        })
       } else {
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
@@ -209,20 +234,21 @@ export default class ContactDetalleComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
-          identificacion: respuesta.identificacion,
+          identificacion: respuesta.identificacion_id,
           codigo: respuesta.codigo,
           nombre_corto: respuesta.nombre_corto,
           nombre1: respuesta.nombre1,
           nombre2: respuesta.nombre2,
           apellido1: respuesta.apellido1,
           apellido2: respuesta.apellido2,
-          ciudad_nombre: respuesta.ciudad,
+          ciudad: respuesta.ciudad_id,
+          ciudad_nombre: respuesta.ciudad_nombre,
           direccion: respuesta.direccion,
           telefono: respuesta.telefono,
           celular: respuesta.celular,
           correo: respuesta.correo,
-          tipo_persona: respuesta.tipo_persona,
-          regimen: respuesta.regimen,
+          tipo_persona: respuesta.tipo_persona_id,
+          regimen: respuesta.regimen_id,
         });
         this.changeDetectorRef.detectChanges();
       });

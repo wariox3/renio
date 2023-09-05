@@ -19,4 +19,8 @@ export class ContactoService extends Subdomino {
   consultarDetalle(id: number) {
     return this.httpService.get<any>(`general/contacto/${id}/`);
   }
+
+  actualizarDatosContacto(id: number, data: any) {
+    return this.httpService.put<any>(`general/contacto/${id}/`, data);
+  }
 }
