@@ -295,7 +295,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.subtotalGeneral += subtotalFinal;
       this.totalNetoGeneral += neto;
 
-      detalleControl.get('subtotal')?.patchValue(subtotal);
+      detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
       this.changeDetectorRef.detectChanges();
     });
@@ -351,11 +351,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     arrDetalleImpuestos.clear();
 
-    impuestoTemporales.map((impuesto: any) => {
-      console.log(impuesto);
-      
+    impuestoTemporales.map((impuesto: any) => { 
       let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
-
       let impuestoFormGrup = this.formBuilder.group({
         id: [impuesto.impuesto_id ? impuesto.id : null],
         impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id],
