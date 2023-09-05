@@ -55,13 +55,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
       identificacion: [''],
       nombre_corto: [''],
       nombre1: [''],
-      nombre2: [''],
+      nombre2: [null],
       apellido1: [''],
-      apellido2: [''],
+      apellido2: [null],
       direccion: [''],
       correo: [''],
       ciudad_nombre: [''],
-      ciudad_id: [''],
+      ciudad: [''],
       telefono: [''],
       celular: [''],
       tipo_persona: [''],
@@ -80,7 +80,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
           .subscribe((respuesta) => {
-            this.alertaService.mensajaExitoso('hola');
+            this.alertaService.mensajaExitoso('Guardado con exito');
           });
       }
     } else {
