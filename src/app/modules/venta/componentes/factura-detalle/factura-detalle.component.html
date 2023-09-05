@@ -145,7 +145,7 @@
                       translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
                     ></th>
                     <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPINCLUIDOS"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
                     ></th>
                     <th class="text-center">
                       <button
@@ -211,7 +211,7 @@
                       <td>
                         <textarea
                           [value]="
-                            detalle.value.cantidad * detalle.value.precio
+                            detalle.value.neto
                           "
                           (blur)="onImpuestoBlur(i)"
                           readonly
