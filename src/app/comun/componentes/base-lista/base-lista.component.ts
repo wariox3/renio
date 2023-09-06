@@ -141,6 +141,7 @@ export class BaseListaComponent extends General implements OnInit {
         combineLatest(eliminarSolicitudes).subscribe((respuesta:any)=>{
 
         })
+        
       }
     } else {
 
