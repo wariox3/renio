@@ -145,7 +145,7 @@
                       translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
                     ></th>
                     <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
                     ></th>
                     <th class="text-center">
                       <button
@@ -203,7 +203,7 @@
                       </td>
                       <td>
                         <app-comun-impuestos
-                          (emitirImpuestoAgregado)="agregarImpuesto($event, i)"
+                          (emitirImpuestoAgregado)="agregarImpuesto($event, i, 'agregar')"
                           (emitirImpuestoElimiando)="removerImpuesto($event, i)"
                           [arrLista]="detalles.controls[i].value.impuestos"
                         ></app-comun-impuestos>

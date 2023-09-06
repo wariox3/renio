@@ -190,7 +190,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                 });
                 this.detalles.push(detalleFormGroup);
                 detalle.impuestos.forEach((impuesto: any, index: number) => {
-                  this.agregarImpuesto(impuesto, indexDetalle);
+                  this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
                 });
               }
             );
@@ -249,13 +249,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (item.impuestos) {
       item.impuestos.map((impuesto: any) => {
-        impuesto['item_impuesto_id'] = impuesto['id'];
+        impuesto['item_impuesto_id'] = null;
         impuesto['nombre'] = impuesto['impuesto_nombre'];
         impuesto['compra'] = impuesto['impuesto_compra'];
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['id'] = impuesto['impuesto_id'];
-        this.agregarImpuesto(impuesto, index);
+        impuesto['id'] = null;
+        this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
     this.changeDetectorRef.detectChanges();
@@ -371,7 +371,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarImpuesto(impuesto: any, index: number) {
+  agregarImpuesto(impuesto: any, index: number, accion: 'actualizacion' | 'agregar') {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
@@ -386,9 +386,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (impuesto.hasOwnProperty('impuesto_nombre_extendido')) {
       impuesto['nombre_extendido'] = impuesto['impuesto_nombre_extendido'];
     }
-
+    
     let impuestoFormGrup = this.formBuilder.group({
-      id: [impuesto.impuesto_id ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
+      id: [accion === 'actualizacion'? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
       base: [subtotal.value === null ? 0 : subtotal.value],
       porcentaje: [impuesto.porcentaje],
@@ -600,7 +600,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             this.detalles.push(detalleFormGroup);
 
             detalle.impuestos.forEach((impuesto: any) => {
-              this.agregarImpuesto(impuesto, indexDetalle);
+              this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
             });
           }
         );

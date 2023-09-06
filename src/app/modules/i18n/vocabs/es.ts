@@ -159,7 +159,8 @@ export const locale = {
           TOTALCANTIDAD: 'Total cantidad:',
           TOTALDESCUENTO: 'Total descuento:',
           TOTALIMPUESTOS: 'Total impuestos:',
-          TOTALGENERAL: 'Total general:'
+          TOTALGENERAL: 'Total general:',
+          TOTALNETO: 'Total neto'
         },
         GENERAL: {
           ITEM: {

@@ -160,7 +160,8 @@ export const locale = {
           TOTALCANTIDAD: 'Total quantity:',
           TOTALDESCUENTO: 'Total discount:',
           TOTALIMPUESTOS: 'Total taxes:',
-          TOTALGENERAL: 'Grand Total:'
+          TOTALGENERAL: 'Grand Total:',
+          TOTALNETO: 'Total net'
         },
       },
       CAMPOS: {
