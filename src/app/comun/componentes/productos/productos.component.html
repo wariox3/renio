@@ -16,6 +16,7 @@
           class="cursor-pointer form-select w-100"
           (focus)="consultarItems($event)"
           (keyup)="aplicarFiltrosItems($event)"
+          *ngIf="itemSeleccionado === null"
           [disabled]="estado_aprobado"
           [readonly]="estado_aprobado"
           [ngClass]="{'disabled-cursor': estado_aprobado}"

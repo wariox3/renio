@@ -303,18 +303,18 @@
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
-  <code>
+  <!-- <code>
     <pre>
-      <!-- {{ formularioFactura.value | json }} -->
+      {{ formularioFactura.value | json }}
     </pre>
-  </code>
+  </code> -->
   <div class="d-flex justify-content-end mb-10" *ngIf="!estado_aprobado">
     <button
       type="submit"
       class="btn btn-primary btn-sm"
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      [attr.disabled]="!formularioFactura.dirty && !formularioFactura.touched"
+      [disabled]="!formularioFactura.dirty && !formularioFactura.touched"
     ></button>
   </div>
 </form>
