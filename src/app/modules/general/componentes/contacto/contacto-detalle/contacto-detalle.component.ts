@@ -54,21 +54,34 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   iniciarFormulario() {
     this.formularioContacto = this.formBuilder.group({
-      numero_identificacion: ['', Validators.compose([Validators.required])],
-      identificacion: [''],
-      nombre_corto: [''],
-      nombre1: [''],
-      nombre2: [null],
-      apellido1: [''],
-      apellido2: [null],
-      direccion: [''],
-      correo: [''],
+      numero_identificacion: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(20)]),
+      ],
+      digito_verificacion: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(1)]),
+      ],
+      identificacion: ['', Validators.compose([Validators.required])],
+      nombre_corto: ['', Validators.compose([Validators.maxLength(200)])],
+      nombre1: ['', Validators.compose([Validators.required])],
+      nombre2: [null, Validators.compose([Validators.maxLength(50)])],
+      apellido1: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
+      apellido2: [null, Validators.compose([Validators.maxLength(50)])],
+      direccion: ['', Validators.compose([Validators.maxLength(50)])],
+      correo: [
+        '',
+        Validators.compose([Validators.email, Validators.maxLength(255)]),
+      ],
       ciudad_nombre: [''],
-      ciudad: [''],
-      telefono: [''],
-      celular: [''],
-      tipo_persona: [''],
-      regimen: [''],
+      ciudad: ['', Validators.compose([Validators.required])],
+      telefono: ['', Validators.compose([Validators.maxLength(50)])],
+      celular: ['', Validators.compose([Validators.maxLength(50)])],
+      tipo_persona: ['', Validators.compose([Validators.required])],
+      regimen: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -79,31 +92,30 @@ export default class ContactDetalleComponent extends General implements OnInit {
   enviarFormulario() {
     if (this.formularioContacto.valid) {
       if (this.detalle) {
-        this.contactoService.actualizarDatosContacto(
-          this.detalle, this.formularioContacto.value
-        ).subscribe((respuesta) => {
-          
-          this.formularioContacto.patchValue({
-            numero_identificacion: respuesta.numero_identificacion,
-            identificacion: respuesta.identificacion_id,
-            codigo: respuesta.codigo,
-            nombre_corto: respuesta.nombre_corto,
-            nombre1: respuesta.nombre1,
-            nombre2: respuesta.nombre2,
-            apellido1: respuesta.apellido1,
-            apellido2: respuesta.apellido2,
-            ciudad: respuesta.ciudad_id,
-            ciudad_nombre: respuesta.ciudad_nombre,
-            direccion: respuesta.direccion,
-            telefono: respuesta.telefono,
-            celular: respuesta.celular,
-            correo: respuesta.correo,
-            tipo_persona: respuesta.tipo_persona_id,
-            regimen: respuesta.regimen_id,
+        this.contactoService
+          .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
+          .subscribe((respuesta) => {
+            this.formularioContacto.patchValue({
+              numero_identificacion: respuesta.numero_identificacion,
+              identificacion: respuesta.identificacion_id,
+              codigo: respuesta.codigo,
+              nombre_corto: respuesta.nombre_corto,
+              nombre1: respuesta.nombre1,
+              nombre2: respuesta.nombre2,
+              apellido1: respuesta.apellido1,
+              apellido2: respuesta.apellido2,
+              ciudad: respuesta.ciudad_id,
+              ciudad_nombre: respuesta.ciudad_nombre,
+              direccion: respuesta.direccion,
+              telefono: respuesta.telefono,
+              celular: respuesta.celular,
+              correo: respuesta.correo,
+              tipo_persona: respuesta.tipo_persona_id,
+              regimen: respuesta.regimen_id,
+            });
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.changeDetectorRef.detectChanges();
           });
-          this.alertaService.mensajaExitoso("Se actualizo la información")
-          this.changeDetectorRef.detectChanges();
-        })
       } else {
         this.contactoService
           .guardarContacto(this.formularioContacto.value)

@@ -43,15 +43,26 @@
         translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
         class="form-label required"
       ></label>
-      <select class="form-select" formControlName="identificacion">
+      <select
+        class="form-select"
+        formControlName="identificacion"
+        [ngClass]="{
+          'is-invalid':
+            formularioContacto.controls['identificacion'].touched &&
+            formularioContacto.controls['identificacion'].invalid,
+          'is-valid':
+            formularioContacto.controls['identificacion'].touched &&
+            formularioContacto.controls['identificacion'].valid
+        }"
+      >
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let identificacion of arrIdentificacion"
           [value]="identificacion.identificacion_id"
           [selected]="
-          identificacion.identificacion_id===
-          formularioContacto.value.identificacion
-        "
+            identificacion.identificacion_id ===
+            formularioContacto.value.identificacion
+          "
         >
           {{ identificacion.identificacion_nombre }}
         </option>
@@ -263,9 +274,17 @@
       <div class="position-relative">
         <input
           type="text"
-          class="form-control form-control"
+          class="form-control"
           ngbDropdownAnchor
           formControlName="ciudad_nombre"
+          [ngClass]="{
+            'is-invalid':
+              formularioContacto.controls['ciudad'].touched &&
+              formularioContacto.controls['ciudad'].invalid,
+            'is-valid':
+              formularioContacto.controls['ciudad'].touched &&
+              formularioContacto.controls['ciudad'].valid
+          }"
           (focus)="consultarCiudad($event); CiudadDropdown.open()"
           (keyup)="consultarCiudad($event)"
         />
@@ -454,7 +473,15 @@
         translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
         class="form-label required"
       ></label>
-      <select class="form-select" formControlName="tipo_persona">
+      <select class="form-select" formControlName="tipo_persona"
+      [ngClass]="{
+        'is-invalid':
+          formularioContacto.controls['tipo_persona'].touched &&
+          formularioContacto.controls['tipo_persona'].invalid,
+        'is-valid':
+          formularioContacto.controls['tipo_persona'].touched &&
+          formularioContacto.controls['tipo_persona'].valid
+      }">
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let tipoPersona of arrTipoPersona"
@@ -473,15 +500,23 @@
         translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
         class="form-label required"
       ></label>
-      <select class="form-select" formControlName="regimen">
+      <select
+        class="form-select"
+        formControlName="regimen"
+        [ngClass]="{
+          'is-invalid':
+            formularioContacto.controls['regimen'].touched &&
+            formularioContacto.controls['regimen'].invalid,
+          'is-valid':
+            formularioContacto.controls['regimen'].touched &&
+            formularioContacto.controls['regimen'].valid
+        }"
+      >
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let regimen of arrRegimen"
           [value]="regimen.regimen_id"
-          [selected]="
-            regimen.regimen_id===
-            formularioContacto.value.regimen
-          "
+          [selected]="regimen.regimen_id === formularioContacto.value.regimen"
         >
           {{ regimen.regimen_nombre }}
         </option>

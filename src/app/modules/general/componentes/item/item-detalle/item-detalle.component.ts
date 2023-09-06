@@ -61,14 +61,13 @@ export default class ItemDetalleComponent extends General implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
+          Validators.maxLength(100),
         ]),
       ],
       nombre: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
           Validators.maxLength(200),
         ]),
       ],
@@ -76,12 +75,11 @@ export default class ItemDetalleComponent extends General implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
+          Validators.maxLength(50),
         ]),
       ],
       precio: [
-        '',
+        0,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -89,6 +87,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
+      costo:[0],
       impuestos: this.formBuilder.array([]),
     });
   }
