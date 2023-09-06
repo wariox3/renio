@@ -102,17 +102,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
     this.formularioFactura = this.formBuilder.group({
-      contacto: [
-        { value: '', disabled: this.estado_aprobado },
-        Validators.compose([Validators.required]),
-      ],
-      contactoNombre: [{ value: '', disabled: this.estado_aprobado }],
-      numero: [
-        { value: null, disabled: this.estado_aprobado },
-        Validators.compose([Validators.required]),
-      ],
+      contacto: ['', Validators.compose([Validators.required])],
+      contactoNombre: [''],
+      numero: [null, Validators.compose([Validators.required])],
       fecha: [
-        { value: fechaVencimientoInicial, disabled: this.estado_aprobado },
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -129,8 +123,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      metodo_pago: [{ value: '', disabled: this.estado_aprobado }, Validators.compose([Validators.required])],
-      metodo_pago_nombre: [{ value: '', disabled: this.estado_aprobado }],
+      metodo_pago: ['', Validators.compose([Validators.required])],
+      metodo_pago_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -636,9 +630,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             });
           }
         );
-        if (respuesta.documento.estado_aprobado) {
-          this.formularioFactura.disable();
-        }
         this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
