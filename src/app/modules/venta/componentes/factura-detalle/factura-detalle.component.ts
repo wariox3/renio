@@ -355,6 +355,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     detalleFormGroup.get(campo)?.patchValue(evento.target.value);
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
+    const neto = detalleFormGroup.get('neto') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     this.calcularTotales();
 
@@ -379,8 +380,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total = totalImpuesto;
       this.changeDetectorRef.detectChanges();
+      neto.patchValue(subtotal.value + totalImpuesto )   
     });
-
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
@@ -390,10 +391,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     index: number,
     accion: 'actualizacion' | 'agregar'
   ) {
-    console.log(impuesto);
 
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
+    const neto = detalleFormGroup.get('neto') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     impuesto = {
       ...impuesto,
@@ -409,9 +410,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (impuesto.hasOwnProperty('impuesto_porcentaje')) {
       impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
     }
-
-    console.log(totalImpuesto);
-
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
@@ -438,6 +436,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
     }
 
+    neto.patchValue(subtotal.value + totalImpuesto )    
     this.calcularTotales();
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
