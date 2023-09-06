@@ -2,7 +2,7 @@
   <div class="col-12">
     <div ngbDropdown class="d-flex row-gap-4">
       <span
-        *ngIf="itemSeleccionado !== null || estado_aprobado"
+        *ngIf="itemSeleccionado !== null"
         class="d-flex align-items-center cursor-pointer"
       >
         {{ itemSeleccionado.item_nombre }}
@@ -16,7 +16,9 @@
           class="cursor-pointer form-select w-100"
           (focus)="consultarItems($event)"
           (keyup)="aplicarFiltrosItems($event)"
-          *ngIf="itemSeleccionado === null || estado_aprobado"
+          [disabled]="estado_aprobado"
+          [readonly]="estado_aprobado"
+          [ngClass]="{'disabled-cursor': estado_aprobado}"
         />
         <div
           ngbDropdownMenu

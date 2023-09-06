@@ -308,7 +308,7 @@
       <!-- {{ formularioFactura.value | json }} -->
     </pre>
   </code>
-  <div class="d-flex justify-content-end mb-10">
+  <div class="d-flex justify-content-end mb-10" *ngIf="!estado_aprobado">
     <button
       type="submit"
       class="btn btn-primary btn-sm"
