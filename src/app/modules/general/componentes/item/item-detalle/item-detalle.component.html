@@ -242,7 +242,8 @@
     (emitirImpuestoAgregado)="agregarImpuesto($event)"
     (emitirImpuestoElimiando)="removerImpuesto($event)"
     [arrLista]="arrImpuestos"
-  ></app-comun-impuestos>
+    [estado_aprobado]="true"
+    ></app-comun-impuestos>
   <div class="d-flex justify-content-end">
     <button
       type="submit"

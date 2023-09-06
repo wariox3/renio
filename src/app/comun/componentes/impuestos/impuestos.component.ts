@@ -34,7 +34,7 @@ export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: any[] = [];
   arrImpuestoLista: any[];
   @Input() arrLista: any[];
-  @Input() estado_aprobado: false;
+  @Input() estado_aprobado= false;
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
 

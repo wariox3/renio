@@ -22,9 +22,8 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioContacto.controls['numero_identificacion']
         }"
       ></ng-container>
@@ -33,7 +32,7 @@
         [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '20',
           control: formularioContacto.controls['numero_identificacion']
         }"
       ></ng-container>
@@ -67,6 +66,14 @@
           {{ identificacion.identificacion_nombre }}
         </option>
       </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['identificacion']
+        }"
+      ></ng-container>
     </div>
   </div>
   <div class="row mb-5">
@@ -92,18 +99,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['nombre_corto']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '200',
           control: formularioContacto.controls['nombre_corto']
         }"
       ></ng-container>
@@ -132,18 +130,8 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['nombre1']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioContacto.controls['nombre1']
         }"
       ></ng-container>
@@ -210,19 +198,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['apellido1']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioContacto.controls['apellido1']
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['nombre1']
         }"
       ></ng-container>
     </div>
@@ -248,18 +226,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['apellido2']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '50',
           control: formularioContacto.controls['apellido2']
         }"
       ></ng-container>
@@ -292,6 +261,14 @@
           <i class="bi bi-search fs-2x"></i>
         </div>
       </div>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['ciudad']
+        }"
+      ></ng-container>
       <div
         ngbDropdownMenu
         aria-labelledby="dropdownBasic1"
@@ -332,18 +309,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['direccion']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '255',
           control: formularioContacto.controls['direccion']
         }"
       ></ng-container>
@@ -372,18 +340,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['telefono']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '50',
           control: formularioContacto.controls['telefono']
         }"
       ></ng-container>
@@ -410,18 +369,9 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['celular']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
+          cantidadCaracteres: '50',
           control: formularioContacto.controls['celular']
         }"
       ></ng-container>
@@ -436,7 +386,7 @@
       <input
         formControlName="correo"
         class="form-control bg-transparent"
-        type="text"
+        type="email"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
@@ -447,15 +397,14 @@
             formularioContacto.controls['correo'].valid
         }"
       />
-      <ng-container
+      <!-- <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioContacto.controls['correo']
+          validation: 'email',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+          control: formularioContacto.controls['email']
         }"
-      ></ng-container>
+      ></ng-container> -->
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
@@ -473,15 +422,18 @@
         translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
         class="form-label required"
       ></label>
-      <select class="form-select" formControlName="tipo_persona"
-      [ngClass]="{
-        'is-invalid':
-          formularioContacto.controls['tipo_persona'].touched &&
-          formularioContacto.controls['tipo_persona'].invalid,
-        'is-valid':
-          formularioContacto.controls['tipo_persona'].touched &&
-          formularioContacto.controls['tipo_persona'].valid
-      }">
+      <select
+        class="form-select"
+        formControlName="tipo_persona"
+        [ngClass]="{
+          'is-invalid':
+            formularioContacto.controls['tipo_persona'].touched &&
+            formularioContacto.controls['tipo_persona'].invalid,
+          'is-valid':
+            formularioContacto.controls['tipo_persona'].touched &&
+            formularioContacto.controls['tipo_persona'].valid
+        }"
+      >
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let tipoPersona of arrTipoPersona"
@@ -494,6 +446,14 @@
           {{ tipoPersona.tipo_persona_nombre }}
         </option>
       </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['tipo_persona']
+        }"
+      ></ng-container>
     </div>
     <div class="col-md-6 col-sm-12">
       <label
@@ -521,6 +481,14 @@
           {{ regimen.regimen_nombre }}
         </option>
       </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['regimen']
+        }"
+      ></ng-container>
     </div>
   </div>
   <div class="fv-row d-flex justify-content-end">

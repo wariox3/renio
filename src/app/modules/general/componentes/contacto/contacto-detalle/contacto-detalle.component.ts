@@ -58,10 +58,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
-      digito_verificacion: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(1)]),
-      ],
+      digito_verificacion: [''],
       identificacion: ['', Validators.compose([Validators.required])],
       nombre_corto: ['', Validators.compose([Validators.maxLength(200)])],
       nombre1: ['', Validators.compose([Validators.required])],
@@ -90,6 +87,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   enviarFormulario() {
+
     if (this.formularioContacto.valid) {
       if (this.detalle) {
         this.contactoService
