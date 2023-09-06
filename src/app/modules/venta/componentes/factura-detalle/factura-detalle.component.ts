@@ -372,6 +372,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   agregarImpuesto(impuesto: any, index: number, accion: 'actualizacion' | 'agregar') {
+    console.log(impuesto);
+    
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
@@ -386,6 +388,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (impuesto.hasOwnProperty('impuesto_nombre_extendido')) {
       impuesto['nombre_extendido'] = impuesto['impuesto_nombre_extendido'];
     }
+    if (impuesto.hasOwnProperty('impuesto_porcentaje')) {
+      impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
+    }
+    
+    console.log(totalImpuesto);
     
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion'? impuesto.id : null], //id tabla intermedia entre documento y impuesto
