@@ -104,7 +104,7 @@ const Routing: Routes = [
   },
   {
     path:'detalle',
-    loadComponent: () => import('../comun/componentes/base-detalle/base-detalle.component').then(c => c.BaseDetalleComponent),
+    loadComponent: () => import('../comun/componentes/base-nuevo/base-nuevo.component').then(c => c.BaseNuevoComponent),
   },
   {
     path: '',

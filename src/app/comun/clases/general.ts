@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, inject } from '@angular/core';
+import { ChangeDetectorRef,  inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
-export class General {
+export class General  {
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
   protected store = inject(Store);
@@ -19,11 +19,20 @@ export class General {
   protected detalle = 0;
 
   constructor() {
-    this.modulo = this.activatedRoute.snapshot.queryParams['modulo'];
-    this.modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-    this.tipo = this.activatedRoute.snapshot.queryParams['tipo'];
-    this.formulario = this.activatedRoute.snapshot.queryParams['formulario'];
-    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
-    this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+    this.consultarParametros()
   }
+
+  consultarParametros(){
+    const cambiosQueryParams = this.activatedRoute.queryParams.subscribe(queryParam => {
+      this.modulo = queryParam['modulo'];
+      this.modelo = queryParam['modelo'];
+      this.tipo = queryParam['tipo'];
+      this.formulario = queryParam['formulario'];
+      this.accion = queryParam['accion'];
+      this.detalle = queryParam['detalle'];
+    });
+
+    cambiosQueryParams.unsubscribe()
+  }
+
 }

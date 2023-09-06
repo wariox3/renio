@@ -136,33 +136,52 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.detalle == undefined) {
       this.facturaService
         .guardarFactura(this.formularioFactura.value)
-        .subscribe(({ documento }) => {
-          this.detalles.clear();
-          documento.detalles.forEach((detalle: any) => {
-            const detalleFormGroup = this.formBuilder.group({
-              item: [null],
-              cantidad: [0],
-              precio: [0],
-              porcentaje_descuento: [0],
-              descuento: [0],
-              subtotal: [0],
-              total_bruto: [0],
-              total: [0],
-              neto: [0],
-              impuestos: this.formBuilder.array([]),
-              impuestos_eliminados: this.formBuilder.array([]),
-              id: [detalle.id],
-            });
+        .pipe(
+          tap(
+            ({ documento }) => {
+              this.detalles.clear();
+              documento.detalles.forEach((detalle: any) => {
+                const detalleFormGroup = this.formBuilder.group({
+                  item: [null],
+                  cantidad: [0],
+                  precio: [0],
+                  porcentaje_descuento: [0],
+                  descuento: [0],
+                  subtotal: [0],
+                  total_bruto: [0],
+                  total: [0],
+                  neto: [0],
+                  impuestos: this.formBuilder.array([]),
+                  impuestos_eliminados: this.formBuilder.array([]),
+                  id: [detalle.id],
+                });
 
-            this.detalles.push(detalleFormGroup);
-          });
-          this.calcularTotales();
-          this.detalle = documento.id;
-          this.formularioFactura.markAsPristine();
-          this.formularioFactura.markAsUntouched();
-          this.changeDetectorRef.detectChanges();
-          this.consultardetalle();
-        });
+                this.detalles.push(detalleFormGroup);
+              });
+              this.calcularTotales();
+              this.detalle = documento.id;
+              this.formularioFactura.markAsPristine();
+              this.formularioFactura.markAsUntouched();
+              this.changeDetectorRef.detectChanges();
+              this.consultardetalle();
+
+
+            }
+          ),
+          tap((respuesta)=> {
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.documento.id,
+                accion: 'detalle',
+              },
+           });
+          }
+          )
+        )
+        .subscribe();
     } else {
       if (this.formularioFactura.touched && this.formularioFactura.dirty) {
         this.facturaService
@@ -280,10 +299,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       let subtotalFinal = subtotal - descuento;
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
-      impuestos.forEach((impuesto:any) => {      
-        this.totalImpuestos += impuesto.total;  
+      impuestos.forEach((impuesto:any) => {
+        this.totalImpuestos += impuesto.total;
       });
-      
+
       let neto = detalleControl.get('neto')?.value || 0;
 
       this.totalCantidad += parseInt(cantidad);
@@ -347,7 +366,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     arrDetalleImpuestos.clear();
 
-    impuestoTemporales.map((impuesto: any) => { 
+    impuestoTemporales.map((impuesto: any) => {
       let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
       let impuestoFormGrup = this.formBuilder.group({
         id: [impuesto.impuesto_id ? impuesto.id : null],
@@ -367,13 +386,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.calcularTotales();    
+    this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
 
   agregarImpuesto(impuesto: any, index: number, accion: 'actualizacion' | 'agregar') {
     console.log(impuesto);
-    
+
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
@@ -391,9 +410,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (impuesto.hasOwnProperty('impuesto_porcentaje')) {
       impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
     }
-    
+
     console.log(totalImpuesto);
-    
+
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion'? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
