@@ -144,6 +144,9 @@
                       translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
                     ></th>
                     <th
+                      translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                    ></th>
+                    <th
                       translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
                     ></th>
                     <th
@@ -181,7 +184,7 @@
                           (change)="actualizarDetalle(i, 'cantidad', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{'disabled-cursor': estado_aprobado}"
+                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -194,7 +197,7 @@
                           (change)="actualizarDetalle(i, 'precio', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{'disabled-cursor': estado_aprobado}"
+                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -207,11 +210,14 @@
                           (change)="actualizarDetalle(i, 'descuento', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{'disabled-cursor': estado_aprobado}"
+                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
                         ></textarea>
+                      </td>
+                      <td>
+                        0
                       </td>
                       <td>
                         <app-comun-impuestos
@@ -229,7 +235,7 @@
                           (blur)="onImpuestoBlur(i)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{'disabled-cursor': estado_aprobado}"
+                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
                           readonly
                           rows="1"
                           spellcheck="true"
@@ -305,11 +311,11 @@
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
-  <code>
+  <!-- <code>
     <pre>
       {{ formularioFactura.value | json }}
     </pre>
-  </code>
+  </code> -->
   <div class="d-flex justify-content-end mb-10" *ngIf="!estado_aprobado">
     <button
       type="submit"
