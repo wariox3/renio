@@ -74,6 +74,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   accion: 'nuevo' | 'detalle';
+  estado_aprobado: false;
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -101,11 +102,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
     this.formularioFactura = this.formBuilder.group({
-      contacto: ['', Validators.compose([Validators.required])],
-      contactoNombre: [''],
-      numero: [null, Validators.compose([Validators.required])],
+      contacto: [
+        { value: '', disabled: this.estado_aprobado },
+        Validators.compose([Validators.required]),
+      ],
+      contactoNombre: [{ value: '', disabled: this.estado_aprobado }],
+      numero: [
+        { value: null, disabled: this.estado_aprobado },
+        Validators.compose([Validators.required]),
+      ],
       fecha: [
-        fechaVencimientoInicial,
+        { value: fechaVencimientoInicial, disabled: this.estado_aprobado },
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -122,8 +129,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      metodo_pago: ['', Validators.compose([Validators.required])],
-      metodo_pago_nombre: [''],
+      metodo_pago: [{ value: '', disabled: this.estado_aprobado }, Validators.compose([Validators.required])],
+      metodo_pago_nombre: [{ value: '', disabled: this.estado_aprobado }],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -137,38 +144,34 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.facturaService
         .guardarFactura(this.formularioFactura.value)
         .pipe(
-          tap(
-            ({ documento }) => {
-              this.detalles.clear();
-              documento.detalles.forEach((detalle: any) => {
-                const detalleFormGroup = this.formBuilder.group({
-                  item: [null],
-                  cantidad: [0],
-                  precio: [0],
-                  porcentaje_descuento: [0],
-                  descuento: [0],
-                  subtotal: [0],
-                  total_bruto: [0],
-                  total: [0],
-                  neto: [0],
-                  impuestos: this.formBuilder.array([]),
-                  impuestos_eliminados: this.formBuilder.array([]),
-                  id: [detalle.id],
-                });
-
-                this.detalles.push(detalleFormGroup);
+          tap(({ documento }) => {
+            this.detalles.clear();
+            documento.detalles.forEach((detalle: any) => {
+              const detalleFormGroup = this.formBuilder.group({
+                item: [null],
+                cantidad: [0],
+                precio: [0],
+                porcentaje_descuento: [0],
+                descuento: [0],
+                subtotal: [0],
+                total_bruto: [0],
+                total: [0],
+                neto: [0],
+                impuestos: this.formBuilder.array([]),
+                impuestos_eliminados: this.formBuilder.array([]),
+                id: [detalle.id],
               });
-              this.calcularTotales();
-              this.detalle = documento.id;
-              this.formularioFactura.markAsPristine();
-              this.formularioFactura.markAsUntouched();
-              this.changeDetectorRef.detectChanges();
-              this.consultardetalle();
 
-
-            }
-          ),
-          tap((respuesta)=> {
+              this.detalles.push(detalleFormGroup);
+            });
+            this.calcularTotales();
+            this.detalle = documento.id;
+            this.formularioFactura.markAsPristine();
+            this.formularioFactura.markAsUntouched();
+            this.changeDetectorRef.detectChanges();
+            this.consultardetalle();
+          }),
+          tap((respuesta) => {
             this.router.navigate(['/detalle'], {
               queryParams: {
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
@@ -177,9 +180,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                 detalle: respuesta.documento.id,
                 accion: 'detalle',
               },
-           });
-          }
-          )
+            });
+          })
         )
         .subscribe();
     } else {
@@ -299,7 +301,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       let subtotalFinal = subtotal - descuento;
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
-      impuestos.forEach((impuesto:any) => {
+      impuestos.forEach((impuesto: any) => {
         this.totalImpuestos += impuesto.total;
       });
 
@@ -381,8 +383,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [impuesto.nombre],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total =
-      totalImpuesto;
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total = totalImpuesto;
       this.changeDetectorRef.detectChanges();
     });
 
@@ -390,7 +391,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarImpuesto(impuesto: any, index: number, accion: 'actualizacion' | 'agregar') {
+  agregarImpuesto(
+    impuesto: any,
+    index: number,
+    accion: 'actualizacion' | 'agregar'
+  ) {
     console.log(impuesto);
 
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
@@ -414,7 +419,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     console.log(totalImpuesto);
 
     let impuestoFormGrup = this.formBuilder.group({
-      id: [accion === 'actualizacion'? impuesto.id : null], //id tabla intermedia entre documento y impuesto
+      id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
       base: [subtotal.value === null ? 0 : subtotal.value],
       porcentaje: [impuesto.porcentaje],
@@ -597,6 +602,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
+        this.estado_aprobado = respuesta.documento.estado_aprobado;
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
@@ -630,7 +636,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             });
           }
         );
-
+        if (respuesta.documento.estado_aprobado) {
+          this.formularioFactura.disable();
+        }
         this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });

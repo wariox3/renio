@@ -32,6 +32,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 })
 export class ProductosComponent extends General implements AfterViewInit {
   @Input() itemNombre:string = "";
+  @Input() estado_aprobado: false;
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();

@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { componeteNuevos } from '@comun/extra/imports';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -21,12 +21,10 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
   styleUrls: ['./base-nuevo.component.scss'],
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
-
-
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
 
-  constructor() {
+  constructor(private httpService: HttpService) {
     super();
   }
 
@@ -43,8 +41,11 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   aprobar() {
-    // this.facturaService.aprobar({
-    //   'id':1
-    // }).subscribe()
+    this.httpService
+      .post('general/documento/aprobar/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Documento aprobado');
+        window.location.reload();
+      });
   }
 }

@@ -31,7 +31,7 @@
             ngbDropdownItem
             (click)="modificarCampoFormulario('contacto', contacto)"
           >
-            {{ contacto.contacto_id}} - {{ contacto.contacto_nombre_corto }}
+            {{ contacto.contacto_id }} - {{ contacto.contacto_nombre_corto }}
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>
@@ -89,22 +89,23 @@
         </div>
       </div>
       <div
-      ngbDropdownMenu
-      aria-labelledby="dropdownBasic1"
-      class="dropdown-menu"
-    >
-      <ng-container *ngFor="let metodoPago of arrMetodosPago">
-        <button
-          type="button"
-          ngbDropdownItem
-          (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
-        >
-          {{ metodoPago.metodo_pago_id }} - {{ metodoPago.metodo_pogo_nombre }}
-        </button>
-      </ng-container>
-      <div class="dropdown-divider"></div>
-      <button type="button" ngbDropdownItem>Nuevo</button>
-    </div>
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container *ngFor="let metodoPago of arrMetodosPago">
+          <button
+            type="button"
+            ngbDropdownItem
+            (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
+          >
+            {{ metodoPago.metodo_pago_id }} -
+            {{ metodoPago.metodo_pogo_nombre }}
+          </button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+        <button type="button" ngbDropdownItem>Nuevo</button>
+      </div>
     </div>
   </div>
   <div class="row mb-5">
@@ -147,7 +148,7 @@
                     <th
                       translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
                     ></th>
-                    <th class="text-center">
+                    <th class="text-center" *ngIf="!estado_aprobado">
                       <button
                         (click)="agregarProductos()"
                         class="btn btn-sm btn-primary"
@@ -168,6 +169,7 @@
                         <app-comun-productos
                           [itemNombre]="detalle.value.item_nombre"
                           (emitirArrItems)="agregarItemSeleccionado($event, i)"
+                          [estado_aprobado]="estado_aprobado"
                         ></app-comun-productos>
                       </td>
                       <td>
@@ -176,6 +178,9 @@
                           formControlName="cantidad"
                           [value]="detalle.value.cantidad"
                           (change)="actualizarDetalle(i, 'cantidad', $event)"
+                          [disabled]="estado_aprobado"
+                          [readonly]="estado_aprobado"
+                          [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -186,6 +191,9 @@
                           class="o_input"
                           [value]="detalle.value.precio"
                           (change)="actualizarDetalle(i, 'precio', $event)"
+                          [disabled]="estado_aprobado"
+                          [readonly]="estado_aprobado"
+                          [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -196,6 +204,9 @@
                           class="o_input"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
+                          [disabled]="estado_aprobado"
+                          [readonly]="estado_aprobado"
+                          [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -203,23 +214,26 @@
                       </td>
                       <td>
                         <app-comun-impuestos
-                          (emitirImpuestoAgregado)="agregarImpuesto($event, i, 'agregar')"
+                          (emitirImpuestoAgregado)="
+                            agregarImpuesto($event, i, 'agregar')
+                          "
                           (emitirImpuestoElimiando)="removerImpuesto($event, i)"
                           [arrLista]="detalles.controls[i].value.impuestos"
                         ></app-comun-impuestos>
                       </td>
                       <td>
                         <textarea
-                          [value]="
-                            detalle.value.neto
-                          "
+                          [value]="detalle.value.neto"
                           (blur)="onImpuestoBlur(i)"
+                          [disabled]="estado_aprobado"
+                          [readonly]="estado_aprobado"
+                          [ngClass]="{'disabled-cursor': estado_aprobado}"
                           readonly
                           rows="1"
                           spellcheck="true"
                         ></textarea>
                       </td>
-                      <td class="text-center">
+                      <td class="text-center" *ngIf="!estado_aprobado">
                         <i
                           class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                           (click)="eliminarProducto(i, detalle.value.id)"
@@ -291,7 +305,7 @@
   </div>
   <code>
     <pre>
-      {{ formularioFactura.value | json }}
+      <!-- {{ formularioFactura.value | json }} -->
     </pre>
   </code>
   <div class="d-flex justify-content-end mb-10">

@@ -8,11 +8,12 @@
             class="bi bi-x fs-1x text-white cursor-pointer"
             (click)="removerItem(impuesto)"
             title="Retirar {{impuesto.impuesto_nombre_extendido}}"
+            *ngIf="estado_aprobado"
           ></i>
         </span>
       </ng-container>
     </div>
-    <div class="col-md-6 d-flex align-items-start flex-column justify-content-center">
+    <div class="col-md-6 d-flex align-items-start flex-column justify-content-center" *ngIf="estado_aprobado">
       <div ngbDropdown class="d-inline-flex gap-1 align-self-start">
         <div class="position-relative">
           <input
