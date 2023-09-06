@@ -134,14 +134,17 @@ export class BaseListaComponent extends General implements OnInit {
             this.consultarLista();
           });
       } else {
+        let modelo = this.activatedRoute.snapshot.queryParams['modelo'];
+
         const eliminarSolicitudes = data.map((registro) =>{
-          return this.httpService.delete(`${this.modulo}/${this.modelo.toLowerCase()}/${registro}/`,{})
+
+          return this.httpService.delete(`${this.modulo}/${modelo.toLowerCase()}/${registro}/`,{})
         })
 
         combineLatest(eliminarSolicitudes).subscribe((respuesta:any)=>{
 
         })
-        
+
       }
     } else {
 
