@@ -18,19 +18,12 @@
       translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
     ></a>
     <button
-    type="submit"
-    class="btn btn-info btn-sm"
-    #btnGuardar
-    translate="FORMULARIOS.BOTONES.COMUNES.EXCEL"
-    (click)="descargarExcel()"
-  ></button>
-  <button
-  type="submit"
-  class="btn btn-success btn-sm"
-  #btnGuardar
-  translate="FORMULARIOS.BOTONES.COMUNES.PDF"
-  (click)="imprimir()"
-></button>
+      type="submit"
+      class="btn btn-info btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.EXCEL"
+      (click)="descargarExcel()"
+    ></button>
   </div>
   <div class="tabla">
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.ITEMS'">

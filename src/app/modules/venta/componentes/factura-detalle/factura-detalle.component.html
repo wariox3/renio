@@ -1,3 +1,4 @@
+<span class="badge badge-secondary" *ngIf="estado_aprobado">Aprobado</span>
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="row mb-5">
     <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">

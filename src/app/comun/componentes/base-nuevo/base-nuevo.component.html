@@ -12,6 +12,13 @@
     </a>
     <div class="btn-group btn-sm" role="group" aria-label="Basic example" *ngIf="accion === 'detalle' ">
       <button type="button" class="btn btn-sm btn-primary" (click)="aprobar()">Aprobar</button>
+      <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.PDF"
+      (click)="imprimir()"
+    ></button>
     </div>
   </div>
   <div class="formulario">
