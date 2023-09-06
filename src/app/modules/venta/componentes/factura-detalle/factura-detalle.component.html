@@ -220,6 +220,7 @@
                           "
                           (emitirImpuestoElimiando)="removerImpuesto($event, i)"
                           [arrLista]="detalles.controls[i].value.impuestos"
+                          [estado_aprobado]="!estado_aprobado"
                         ></app-comun-impuestos>
                       </td>
                       <td>
