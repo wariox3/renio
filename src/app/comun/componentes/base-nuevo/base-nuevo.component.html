@@ -30,6 +30,7 @@
           <h3>
             <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+              {{modelo}}
             </ng-container>
             <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
