@@ -58,7 +58,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
-      digito_verificacion: [''],
+      digito_verificacion: [null],
       identificacion: ['', Validators.compose([Validators.required])],
       nombre_corto: ['', Validators.compose([Validators.maxLength(200)])],
       nombre1: ['', Validators.compose([Validators.required])],
