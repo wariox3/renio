@@ -630,6 +630,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             });
           }
         );
+        if(respuesta.documento.estado_aprobado){
+          this.formularioFactura.disable()
+        }
         this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });

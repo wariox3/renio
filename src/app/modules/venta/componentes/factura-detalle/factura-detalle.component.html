@@ -8,7 +8,7 @@
       <div class="position-relative">
         <input
           type="text"
-          class="form-control form-control"
+          class="form-control"
           minlength="3"
           maxlength="4"
           ngbDropdownAnchor
@@ -48,7 +48,7 @@
       <input
         formControlName="fecha"
         #fecha
-        class="form-control bg-transparent"
+        class="form-control"
         type="date"
         autocomplete="off"
       />
@@ -60,7 +60,7 @@
       ></label>
       <input
         formControlName="fecha_vence"
-        class="form-control bg-transparent"
+        class="form-control"
         type="date"
         [min]="fecha.value"
         autocomplete="off"
@@ -77,7 +77,7 @@
       <div class="position-relative">
         <input
           formControlName="metodo_pago_nombre"
-          class="form-control bg-transparent"
+          class="form-control"
           type="text"
           autocomplete="off"
           ngbDropdownAnchor
@@ -178,7 +178,7 @@
                           formControlName="cantidad"
                           [value]="detalle.value.cantidad"
                           (change)="actualizarDetalle(i, 'cantidad', $event)"
-                          [disabled]="estado_aprobado"
+                          [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
                           [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
@@ -191,7 +191,7 @@
                           class="o_input"
                           [value]="detalle.value.precio"
                           (change)="actualizarDetalle(i, 'precio', $event)"
-                          [disabled]="estado_aprobado"
+                          [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
                           [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
@@ -204,7 +204,7 @@
                           class="o_input"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
-                          [disabled]="estado_aprobado"
+                          [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
                           [ngClass]="{'disabled-cursor': estado_aprobado}"
                           rows="1"
@@ -225,7 +225,7 @@
                         <textarea
                           [value]="detalle.value.neto"
                           (blur)="onImpuestoBlur(i)"
-                          [disabled]="estado_aprobado"
+                          [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
                           [ngClass]="{'disabled-cursor': estado_aprobado}"
                           readonly
@@ -314,7 +314,7 @@
       class="btn btn-primary btn-sm"
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      [disabled]="!formularioFactura.dirty && !formularioFactura.touched"
+      [attr.disabled]="!formularioFactura.dirty && !formularioFactura.touched"
     ></button>
   </div>
 </form>
