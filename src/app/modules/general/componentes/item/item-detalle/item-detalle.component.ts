@@ -78,15 +78,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
           Validators.maxLength(50),
         ]),
       ],
-      precio: [
-        0,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
+      precio: [0],
       costo:[0],
       impuestos: this.formBuilder.array([]),
     });

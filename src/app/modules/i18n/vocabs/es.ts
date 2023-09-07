@@ -167,6 +167,7 @@ export const locale = {
           ITEM: {
             IMPUESTOS: 'Impuestos',
             IMPUESTO: 'Impuesto',
+
           },
         },
       },
@@ -202,6 +203,7 @@ export const locale = {
             IMPUESTO: 'Impuesto',
             REFERENCIA: 'Referencia',
             PRECIO: 'Precio',
+            COSTO: 'Costo'
           },
           CONTACTO:{
             PERSONATIPO: 'Persona tipo',

@@ -197,7 +197,8 @@ export const locale = {
             IMPUESTOS: 'Taxes',
             IMPUESTO: 'Tax',
             REFERENCIA: 'Reference',
-            PRECIO: 'Price'
+            PRECIO: 'Price',
+            COSTO: 'Cost'
           },
           CONTACTO:{
             PERSONATIPO: 'Type person',
