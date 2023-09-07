@@ -14,6 +14,7 @@ import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-contacto-informacion',
@@ -28,6 +29,16 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
   ],
   templateUrl: './contacto-detalle.component.html',
   styleUrls: ['./contacto-detalle.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition(':enter, :leave', [
+        animate(800)
+      ])
+    ])
+  ]
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
@@ -60,23 +71,29 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ],
       digito_verificacion: [null],
       identificacion: ['', Validators.compose([Validators.required])],
-      nombre_corto: ['', Validators.compose([Validators.maxLength(200)])],
-      nombre1: ['', Validators.compose([Validators.required])],
+      nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
+      nombre1: [null, Validators.compose([Validators.required])],
       nombre2: [null, Validators.compose([Validators.maxLength(50)])],
       apellido1: [
-        '',
+        null,
         Validators.compose([Validators.required, Validators.maxLength(50)]),
       ],
       apellido2: [null, Validators.compose([Validators.maxLength(50)])],
-      direccion: ['', Validators.compose([Validators.maxLength(50)])],
+      direccion: [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
       correo: [
-        '',
-        Validators.compose([Validators.email, Validators.maxLength(255)]),
+        null,
+        Validators.compose([Validators.required,Validators.email, Validators.maxLength(255)]),
       ],
       ciudad_nombre: [''],
       ciudad: ['', Validators.compose([Validators.required])],
-      telefono: ['', Validators.compose([Validators.maxLength(50)])],
-      celular: ['', Validators.compose([Validators.maxLength(50)])],
+      telefono: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
+      celular: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
     });
@@ -86,8 +103,28 @@ export default class ContactDetalleComponent extends General implements OnInit {
     return this.formularioContacto.controls;
   }
 
-  enviarFormulario() {
+  private setValidators(fieldName: string, validators: any[]) {
+    const control = this.formularioContacto.get(fieldName);
+    control?.clearValidators();
+    control?.setValidators(validators);
+    control?.updateValueAndValidity();
+  }
 
+  tipoPersonaSeleccionado($event: any) {
+    if ($event.target.value === '1') {
+      //1 es igual a juridico
+      this.setValidators('nombre1', []);
+      this.setValidators('apellido1', []);
+      this.setValidators('nombre_corto', [Validators.required, Validators.maxLength(200)]);
+    } else {
+      //2 es natural
+      this.setValidators('nombre1', [Validators.required,]);
+      this.setValidators('apellido1', [Validators.required]);
+      this.setValidators('nombre_corto', [Validators.maxLength(200)]);
+    }
+  }
+
+  enviarFormulario() {
     if (this.formularioContacto.valid) {
       if (this.detalle) {
         this.contactoService
