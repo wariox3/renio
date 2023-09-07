@@ -217,7 +217,17 @@
                         ></textarea>
                       </td>
                       <td>
-                        0
+                        <textarea
+                          class="o_input"
+                          [value]="detalle.value.precio"
+                          (change)="actualizarDetalle(i, 'precio', $event)"
+                          [attr.disabled]="estado_aprobado"
+                          [readonly]="estado_aprobado"
+                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+                          rows="1"
+                          spellcheck="true"
+                          appSoloNumeros
+                        ></textarea>
                       </td>
                       <td>
                         <app-comun-impuestos
@@ -311,11 +321,11 @@
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
-  <!-- <code>
+  <code>
     <pre>
       {{ formularioFactura.value | json }}
     </pre>
-  </code> -->
+  </code>
   <div class="d-flex justify-content-end mb-10" *ngIf="!estado_aprobado">
     <button
       type="submit"

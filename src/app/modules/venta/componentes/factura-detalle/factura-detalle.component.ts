@@ -436,7 +436,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     let netoTemporal = neto.value;
 
-    if (netoTemporal == 0) {
+    if (netoTemporal == 0 || netoTemporal == null) {
       netoTemporal = subtotal.value + totalImpuesto;
     } else {
       netoTemporal += totalImpuesto;
@@ -502,7 +502,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       netoTemporal -= totalImpuesto
     }
 
-    console.log(netoTemporal);
     neto.patchValue(netoTemporal);
     
     this.calcularTotales();
@@ -646,7 +645,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         if (respuesta.documento.estado_aprobado) {
           this.formularioFactura.disable();
         }
-        this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
   }
