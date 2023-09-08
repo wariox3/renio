@@ -1,42 +1,44 @@
 <div class="fv-row">
   <div class="col-12">
-    <div ngbDropdown class="d-flex row-gap-4">
-      <span
-        *ngIf="itemSeleccionado !== null"
-        class="d-flex align-items-center cursor-pointer"
-      >
-        {{ itemSeleccionado.item_nombre }}
-      </span>
-      <div>
-        <input
-          #inputItem
-          type="text"
-          formControlName="impuestos"
-          ngbDropdownToggle
-          class="cursor-pointer form-select w-100"
-          (focus)="consultarItems($event)"
-          (keyup)="aplicarFiltrosItems($event)"
-          *ngIf="itemSeleccionado === null"
-          [disabled]="estado_aprobado"
-          [readonly]="estado_aprobado"
-          [ngClass]="{'disabled-cursor': estado_aprobado}"
-        />
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
-          <ng-container *ngFor="let impuesto of arrItemsLista">
-            <button
-              (click)="agregarItem(impuesto)"
-              type="button"
-              ngbDropdownItem
-            >
-              {{ impuesto.item_nombre }}
-            </button>
-          </ng-container>
+    <ng-container *ngIf="itemNombre; else elseTemplate">
+      {{ itemNombre }}
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div ngbDropdown class="d-flex row-gap-4" #ItemDropdown="ngbDropdown">
+        <span *ngIf="itemSeleccionado !== null">
+          {{ itemSeleccionado.item_nombre }}
+        </span>
+        <div>
+          <input
+            #inputItem
+            type="text"
+            formControlName="impuestos"
+            ngbDropdownAnchor
+            class="cursor-pointer form-select w-100"
+            (focus)="consultarItems($event); ItemDropdown.open()"
+            (keyup)="aplicarFiltrosItems($event)"
+            *ngIf="itemSeleccionado === null"
+            [disabled]="estado_aprobado"
+            [readonly]="estado_aprobado"
+            [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+          />
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let impuesto of arrItemsLista">
+              <button
+                (click)="agregarItem(impuesto)"
+                type="button"
+                ngbDropdownItem
+              >
+                {{ impuesto.item_nombre }}
+              </button>
+            </ng-container>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-template>
   </div>
 </div>

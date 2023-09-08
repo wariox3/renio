@@ -44,8 +44,7 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.inputItem.nativeElement.value = this.itemNombre
-    this.inputItem.nativeElement.focus();
+    this.inputItem?.nativeElement.focus();
   }
 
   agregarItem(item: any) {
