@@ -2,16 +2,13 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Listafiltros } from '@interfaces/comunes/filtros';
-import { KeysPipe } from './keys.pipe';
+import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
   selector: 'app-comun-tabla',
