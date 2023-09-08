@@ -198,7 +198,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   subtotal: [detalle.subtotal],
                   total_bruto: [detalle.total_bruto],
                   total: [detalle.total],
-                  neto: [detalle.neto],
+                  neto: [detalle.total],
                   item_nombre: [detalle.item_nombre],
                   impuestos: this.formBuilder.array([]),
                   impuestos_eliminados: this.formBuilder.array([]),
