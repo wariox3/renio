@@ -361,7 +361,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [impuesto.nombre],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total = totalImpuesto;
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto - impuesto.total;
+      console.log(this.acumuladorImpuestos[impuesto.nombre_extendido]);
+      
       neto.patchValue(subtotal.value + totalImpuesto);
       total.patchValue(subtotal.value + totalImpuesto);
       this.changeDetectorRef.detectChanges();
