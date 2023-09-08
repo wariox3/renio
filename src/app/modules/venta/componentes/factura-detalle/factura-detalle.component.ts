@@ -365,6 +365,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     detalleFormGroup.get(campo)?.patchValue(evento.target.value);
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const neto = detalleFormGroup.get('neto') as FormControl;
+    const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     this.calcularTotales();
 
@@ -389,6 +390,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total = totalImpuesto;
       neto.patchValue(subtotal.value + totalImpuesto);
+      total.patchValue(subtotal.value + totalImpuesto);
       this.changeDetectorRef.detectChanges();
     });
     this.calcularTotales();
@@ -458,8 +460,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (netoTemporal == 0 || netoTemporal == null) {
       netoTemporal = subtotal.value + totalImpuesto;
-    } else {
-      netoTemporal += totalImpuesto;
     }
     neto.patchValue(netoTemporal);
     total.patchValue(netoTemporal);
