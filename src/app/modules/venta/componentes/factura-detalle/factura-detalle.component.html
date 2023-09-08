@@ -193,6 +193,7 @@
                       <td>
                         <textarea
                           class="o_input"
+                          formControlName="precio"
                           [value]="detalle.value.precio"
                           (change)="actualizarDetalle(i, 'precio', $event)"
                           [attr.disabled]="estado_aprobado"
@@ -206,6 +207,7 @@
                       <td>
                         <textarea
                           class="o_input"
+                          formControlName="descuento"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
                           [attr.disabled]="estado_aprobado"
