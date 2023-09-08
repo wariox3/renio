@@ -204,10 +204,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   impuestos_eliminados: this.formBuilder.array([]),
                   id: [detalle.id],
                 });
+
+                if (detalle.impuestos.length === 0) {
+                  const cantidad = detalleFormGroup.get('cantidad')?.value;
+                  const precio = detalleFormGroup.get('precio')?.value;
+                  const neto = cantidad * precio;
+                  detalleFormGroup.get('neto')?.setValue(neto);
+                }
+
                 this.detalles.push(detalleFormGroup);
+
                 detalle.impuestos.forEach((impuesto: any, index: number) => {
                   this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
                 });
+              
               }
             );
             this.detalle = respuesta.documento.id;
@@ -428,16 +438,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         data: [impuesto],
       };
     } else {
-      const existingData = this.acumuladorImpuestos[impuesto.nombre_extendido].data;
-    
-      const impuestoExistente = existingData.find((item:any) => item.index === impuesto.index);
-    
+      const existingData =
+        this.acumuladorImpuestos[impuesto.nombre_extendido].data;
+
+      const impuestoExistente = existingData.find(
+        (item: any) => item.index === impuesto.index
+      );
+
       if (!impuestoExistente) {
-        this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto;
+        this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
+          totalImpuesto;
         this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
       }
     }
-    
+
     let netoTemporal = neto.value;
 
     if (netoTemporal == 0 || netoTemporal == null) {
@@ -500,19 +514,22 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       delete this.acumuladorImpuestos[impuesto.nombre_extendido];
       this.changeDetectorRef.detectChanges();
     }
-    
-    if (this.acumuladorImpuestos[impuesto.nombre_extendido]?.total !== undefined) {
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total -= impuesto.total;
+
+    if (
+      this.acumuladorImpuestos[impuesto.nombre_extendido]?.total !== undefined
+    ) {
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total -=
+        impuesto.total;
     }
-    
+
     let netoTemporal = neto.value;
 
-    if(netoTemporal > 0){
-      netoTemporal -= totalImpuesto
+    if (netoTemporal > 0) {
+      netoTemporal -= totalImpuesto;
     }
 
     neto.patchValue(netoTemporal);
-    
+
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
