@@ -500,9 +500,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       delete this.acumuladorImpuestos[impuesto.nombre_extendido];
       this.changeDetectorRef.detectChanges();
     }
-
-    this.acumuladorImpuestos[impuesto.nombre_extendido].total -= impuesto.total;
-
+    
+    if (this.acumuladorImpuestos[impuesto.nombre_extendido]?.total !== undefined) {
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total -= impuesto.total;
+    }
     
     let netoTemporal = neto.value;
 
