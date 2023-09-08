@@ -384,7 +384,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ...impuesto,
       index,
     };
-    let totalImpuesto = (subtotal.value * impuesto.impuesto_porcentaje) / 100;
+    let totalImpuesto =  impuesto.total
+    if(accion=='agregar'){
+      totalImpuesto = (subtotal.value * impuesto.impuesto_porcentaje) / 100;
+    }
+    
     if (impuesto.hasOwnProperty('impuesto_nombre')) {
       impuesto['nombre'] = impuesto['impuesto_nombre'];
     }
@@ -428,12 +432,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
       }
     }
+    let netoTemporal = total.value;
+    if(accion=='actualizacion'){
+      netoTemporal = subtotal.value;
+    }
 
-    let netoTemporal = neto.value;
 
     if (netoTemporal == 0 || netoTemporal == null) {
       netoTemporal = subtotal.value + totalImpuesto;
+    } else {
+      netoTemporal += totalImpuesto;
     }
+
     neto.patchValue(netoTemporal);
     total.patchValue(netoTemporal);
     this.calcularTotales();
