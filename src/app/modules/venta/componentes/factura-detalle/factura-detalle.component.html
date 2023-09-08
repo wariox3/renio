@@ -266,6 +266,15 @@
                   ></td>
                   <td class="text-end">{{ totalCantidad }}</td>
                 </tr>
+                <tr *ngIf="subtotalGeneral > 0">
+                  <td
+                    class="text-end"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                  ></td>
+                  <td class="text-end">
+                    {{ subtotalGeneral | currency : "$" }}
+                  </td>
+                </tr>
                 <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                   <td class="text-end">{{ impuesto.key }}</td>
                   <td class="text-end">

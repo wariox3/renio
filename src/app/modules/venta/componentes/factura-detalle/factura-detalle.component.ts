@@ -138,33 +138,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.facturaService
         .guardarFactura(this.formularioFactura.value)
         .pipe(
-          tap(({ documento }) => {
-            this.detalles.clear();
-            documento.detalles.forEach((detalle: any) => {
-              const detalleFormGroup = this.formBuilder.group({
-                item: [null],
-                cantidad: [0],
-                precio: [0],
-                porcentaje_descuento: [0],
-                descuento: [0],
-                subtotal: [0],
-                total_bruto: [0],
-                total: [0],
-                neto: [0],
-                impuestos: this.formBuilder.array([]),
-                impuestos_eliminados: this.formBuilder.array([]),
-                id: [detalle.id],
-              });
-
-              this.detalles.push(detalleFormGroup);
-            });
-            this.calcularTotales();
-            this.detalle = documento.id;
-            this.formularioFactura.markAsPristine();
-            this.formularioFactura.markAsUntouched();
-            this.changeDetectorRef.detectChanges();
-            this.consultardetalle();
-          }),
           tap((respuesta) => {
             this.router.navigate(['/detalle'], {
               queryParams: {
