@@ -453,6 +453,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   removerImpuesto(impuesto: any, index: number) {
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
@@ -511,8 +513,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     neto.patchValue(netoTemporal);
     
     this.calcularTotales();
-    this.formularioFactura.markAsTouched();
-    this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
   }
 
