@@ -199,6 +199,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   total_bruto: [detalle.total_bruto],
                   total: [detalle.total],
                   neto: [detalle.neto],
+                  item_nombre: [detalle.item_nombre],
                   impuestos: this.formBuilder.array([]),
                   impuestos_eliminados: this.formBuilder.array([]),
                   id: [detalle.id],
@@ -216,7 +217,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             this.formularioFactura.markAsPristine();
             this.formularioFactura.markAsUntouched();
             this.changeDetectorRef.detectChanges();
-            this.consultardetalle();
           });
       }
     }
@@ -430,10 +430,19 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         data: [impuesto],
       };
     } else {
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
-        totalImpuesto;
-      this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
+      const existingData = this.acumuladorImpuestos[impuesto.nombre_extendido].data;
+    
+      const impuestoExistente = existingData.find((item:any) => item.index === impuesto.index);
+    
+      if (!impuestoExistente) {
+        this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto;
+        this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
+      } else {
+
+        
+      }
     }
+    
     let netoTemporal = neto.value;
 
     if (netoTemporal == 0 || netoTemporal == null) {
