@@ -221,8 +221,7 @@
                       <td>
                         <textarea
                           class="o_input"
-                          [value]="detalle.value.precio"
-                          (change)="actualizarDetalle(i, 'precio', $event)"
+                          [value]="detalle.value.subtotal"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
                           [ngClass]="{ 'disabled-cursor': estado_aprobado }"
