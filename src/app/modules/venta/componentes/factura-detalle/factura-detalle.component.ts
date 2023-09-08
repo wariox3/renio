@@ -308,22 +308,24 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.arrDetallesEliminado.push(id);
     }
 
-    for (const impuestoIndex in this.acumuladorImpuestos) {
-      const impuesto = this.acumuladorImpuestos[impuestoIndex];
-
-      impuesto.data = impuesto.data.filter((item: any) => {
-        return item.index !== index;
-      });
-
-      // Verificar si el tamaño de data es cero y eliminar la posición si es así
-      if (impuesto.data.length <= 0) {
-        delete this.acumuladorImpuestos[impuestoIndex];
-      } else {
-        let totalImpuesto = 0;
-
-        if (impuesto.data[0]) {
-          totalImpuesto = (subtotal.value * impuesto.data[0].porcentaje) / 100;
-          impuesto.total -= totalImpuesto;
+    if(detalleFormGroup.value.impuestos.length > 0){
+      for (const impuestoIndex in this.acumuladorImpuestos) {
+        const impuesto = this.acumuladorImpuestos[impuestoIndex];
+  
+        impuesto.data = impuesto.data.filter((item: any) => {
+          return item.index !== index;
+        });
+  
+        // Verificar si el tamaño de data es cero y eliminar la posición si es así
+        if (impuesto.data.length <= 0) {
+          delete this.acumuladorImpuestos[impuestoIndex];
+        } else {
+          let totalImpuesto = 0;
+  
+          if (impuesto.data[0]) {
+            totalImpuesto = (subtotal.value * impuesto.data[0].porcentaje) / 100;
+            impuesto.total -= totalImpuesto;
+          }
         }
       }
     }
