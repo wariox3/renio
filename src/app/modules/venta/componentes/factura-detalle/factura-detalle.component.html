@@ -220,15 +220,10 @@
                       </td>
                       <td>
                         <textarea
-                          class="o_input"
-                          [value]="detalle.value.subtotal"
-                          [attr.disabled]="estado_aprobado"
-                          [readonly]="estado_aprobado"
-                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+                          disabled
                           rows="1"
                           spellcheck="true"
-                          appSoloNumeros
-                        ></textarea>
+                        >{{ detalle.value.subtotal }}</textarea>
                       </td>
                       <td>
                         <app-comun-impuestos
@@ -242,15 +237,10 @@
                       </td>
                       <td>
                         <textarea
-                          [value]="detalle.value.neto"
-                          (blur)="onImpuestoBlur(i)"
-                          [attr.disabled]="estado_aprobado"
-                          [readonly]="estado_aprobado"
-                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
-                          readonly
+                          disabled
                           rows="1"
                           spellcheck="true"
-                        ></textarea>
+                        >{{ detalle.value.neto }}</textarea>
                       </td>
                       <td class="text-center" *ngIf="!estado_aprobado">
                         <i
