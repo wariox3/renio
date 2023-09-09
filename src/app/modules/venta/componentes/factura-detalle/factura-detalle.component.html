@@ -37,6 +37,15 @@
         </ng-container>
         <div class="dropdown-divider"></div>
         <button type="button" ngbDropdownItem>Nuevo</button>
+        <button type="button" ngbDropdownItem>
+          <app-comun-buscar-avanzado
+            [consultarModelo]="'Contacto'"
+            [consultarTipo]="'Administrador'"
+            (emitirRegistroSeleccionado)="actualizarFormulario($event, 'contacto')"
+          >
+
+          </app-comun-buscar-avanzado>
+        </button>
       </div>
     </div>
   </div>

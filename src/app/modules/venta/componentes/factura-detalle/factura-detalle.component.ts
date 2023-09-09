@@ -17,6 +17,7 @@ import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { Item } from '@interfaces/general/item';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -38,6 +39,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
     TablaComponent,
     ImpuestosComponent,
     ProductosComponent,
+    BuscarAvanzadoComponent,
     SoloNumerosDirective,
   ],
   templateUrl: './factura-detalle.component.html',
@@ -235,6 +237,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
     }
   }
+
+  actualizarFormulario(dato: any, campo:string) {
+    if (campo === 'contacto') {
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura
+        .get('contactoNombre')
+        ?.setValue(dato.nombre_corto);
+    }
+
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
+    this.changeDetectorRef.detectChanges();
+  }
+
 
   agregarItemSeleccionado(item: any, index: number) {
     this.detalles.controls[index].patchValue({
