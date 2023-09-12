@@ -207,13 +207,13 @@
             }"
           ></ng-container>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'pattern',
-            message: 'El campo contiene caracteres no validos',
-            control: formularioContacto.controls['apellido1']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
+              control: formularioContacto.controls['apellido1']
+            }"
+          ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -257,7 +257,7 @@
     </div>
   </div>
   <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-4 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
         class="form-label required"
@@ -267,6 +267,7 @@
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
+        (blur)="calcularDigitoVerificacion()"
         [ngClass]="{
           'is-invalid':
             formularioContacto.controls['numero_identificacion'].touched &&
@@ -292,6 +293,45 @@
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '20',
           control: formularioContacto.controls['numero_identificacion']
+        }"
+      ></ng-container>
+    </div>
+    <div class="col-md-2 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.COMUNES.DIGITOVERIFICACION"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="digito_verificacion"
+        class="form-control"
+        type="text"
+        autocomplete="off"
+        readonly
+        [ngClass]="{
+          'is-invalid':
+            formularioContacto.controls['digito_verificacion'].touched &&
+            formularioContacto.controls['digito_verificacion'].invalid,
+          'is-valid':
+            formularioContacto.controls['digito_verificacion'].touched &&
+            formularioContacto.controls['digito_verificacion'].valid
+        }"
+        appSoloNumeros
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContacto.controls['digito_verificacion']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '20',
+          control: formularioContacto.controls['digito_verificacion']
         }"
       ></ng-container>
     </div>

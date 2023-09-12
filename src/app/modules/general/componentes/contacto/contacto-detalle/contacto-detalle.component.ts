@@ -23,6 +23,7 @@ import {
   animate,
 } from '@angular/animations';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 
 @Component({
   selector: 'app-contacto-informacion',
@@ -60,7 +61,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private contactoService: ContactoService
+    private contactoService: ContactoService,
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
   }
@@ -79,7 +81,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
-      digito_verificacion: [null],
+      digito_verificacion: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(1)]),
+      ],
       identificacion: ['', Validators.compose([Validators.required])],
       nombre_corto: [
         null,
@@ -110,7 +115,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.pattern(/^[a-zA-Z]+$/),
         ]),
       ],
-      apellido2: [null, Validators.compose([Validators.maxLength(50), Validators.pattern(/^[a-zA-Z]+$/)])],
+      apellido2: [
+        null,
+        Validators.compose([
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z]+$/),
+        ]),
+      ],
       direccion: [
         null,
         Validators.compose([Validators.required, Validators.maxLength(50)]),
@@ -190,8 +201,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
       });
     } else {
       //2 es natural
-      this.setValidators('nombre1', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]);
-      this.setValidators('apellido1', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]);
+      this.setValidators('nombre1', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+$/),
+      ]);
+      this.setValidators('apellido1', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+$/),
+      ]);
       this.setValidators('nombre_corto', [
         Validators.maxLength(200),
         Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
@@ -422,5 +439,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  calcularDigitoVerificacion() {
+    let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
+      this.formularioContacto.get('numero_identificacion')?.value
+    );
+    this.formularioContacto.patchValue({
+      digito_verificacion: digito,
+    });
   }
 }

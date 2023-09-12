@@ -188,6 +188,7 @@ export const locale = {
           CIUDAD: 'Ciudad',
           CELULAR: 'Celular',
           NUMEROIDENTIFICACION: 'Número de identificación',
+          DIGITOVERIFICACION: 'Digito verificación',
           NOMBRECORTO:'Nombre corto',
           NOMBRE1:'Primer nombre',
           NOMBRE2:'Segundo nombre',
