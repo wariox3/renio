@@ -135,20 +135,18 @@ export class BaseListaComponent extends General implements OnInit {
           });
       } else {
         let modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-
-        const eliminarSolicitudes = data.map((registro) =>{
-
-          return this.httpService.delete(`${this.modulo}/${modelo.toLowerCase()}/${registro}/`,{})
-        })
-
-        combineLatest(eliminarSolicitudes).subscribe((respuesta:any)=>{
-
-        })
-
+        const eliminarSolicitudes = data.map((registro) => {
+          return this.httpService.delete(
+            `${this.modulo}/${modelo.toLowerCase()}/${registro}/`,
+            {}
+          );
+        });
+        combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+          this.consultarLista();
+        });
       }
     } else {
-
-
       this.alertaService.mensajeError(
         'Error',
         'no se existen mensajes a eliminar'

@@ -144,6 +144,8 @@ export class TablaComponent {
   eliminarRegistros(){
     this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar)
     this.arrRegistrosEliminar = []
+    this.selectAll = !this.selectAll;
+
   }
 
   toggleSelectAll() {
