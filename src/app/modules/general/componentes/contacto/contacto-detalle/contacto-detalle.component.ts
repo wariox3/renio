@@ -90,7 +90,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         null,
         Validators.compose([
           Validators.maxLength(200),
-          Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
+          Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
         ]),
       ],
       nombre1: [
@@ -189,7 +189,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
+        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
       ]);
       this.formularioContacto.patchValue({
         nombre1: null,
@@ -209,7 +209,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ]);
       this.setValidators('nombre_corto', [
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
+        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
       ]);
     }
   }
@@ -248,9 +248,21 @@ export default class ContactDetalleComponent extends General implements OnInit {
       } else {
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
-          .subscribe((respuesta) => {
-            this.alertaService.mensajaExitoso('Guardado con exito');
-          });
+          .pipe(
+            tap((respuesta: any) => {
+              this.alertaService.mensajaExitoso('Guardado con exito');
+              this.router.navigate(['/detalle'], {
+                queryParams: {
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                  detalle: respuesta.id,
+                  accion: 'detalle',
+                },
+              });
+            })
+          )
+          .subscribe();
       }
     } else {
       this.formularioContacto.markAllAsTouched();
@@ -373,8 +385,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
+          digito_verificacion: respuesta.digito_verificacion,
           identificacion: respuesta.identificacion_id,
           codigo: respuesta.codigo,
           nombre_corto: respuesta.nombre_corto,
@@ -399,7 +413,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
+            Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
           ]);
           this.formularioContacto.patchValue({
             nombre1: null,
