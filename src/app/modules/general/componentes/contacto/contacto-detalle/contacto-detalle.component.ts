@@ -90,7 +90,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         null,
         Validators.compose([
           Validators.maxLength(200),
-          Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+          Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
         ]),
       ],
       nombre1: [
@@ -160,8 +160,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
     const apellido1 = this.formularioContacto.get('apellido1')?.value;
     const apellido2 = this.formularioContacto.get('apellido2')?.value;
 
-    console.log(nombre1, nombre2, apellido1, apellido2);
-
     nombreCorto = `${nombre1}`;
     if (nombre2 !== null) {
       nombreCorto += ` ${nombre2}`;
@@ -191,7 +189,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
       ]);
       this.formularioContacto.patchValue({
         nombre1: null,
@@ -211,7 +209,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ]);
       this.setValidators('nombre_corto', [
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
       ]);
     }
   }
@@ -255,32 +253,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
           });
       }
     } else {
-      console.log(
-        '%c ==>> Validation Errors: ',
-        'color: red; font-weight: bold; font-size:25px;'
-      );
-
-      let totalErrors = 0;
-
-      Object.keys(this.formularioContacto.controls).forEach((key) => {
-        const controlErrors: ValidationErrors | null | undefined =
-          this.formularioContacto.get(key)?.errors;
-        if (controlErrors != null) {
-          totalErrors++;
-          Object.keys(controlErrors).forEach((keyError) => {
-            console.log(
-              'Key control: ' +
-                key +
-                ', keyError: ' +
-                keyError +
-                ', err value: ',
-              controlErrors[keyError]
-            );
-          });
-        }
-      });
-
-      console.log('Number of errors: ', totalErrors);
       this.formularioContacto.markAllAsTouched();
     }
   }
@@ -427,7 +399,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+            Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/)
           ]);
           this.formularioContacto.patchValue({
             nombre1: null,
