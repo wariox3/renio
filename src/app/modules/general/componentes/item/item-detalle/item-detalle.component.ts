@@ -20,6 +20,7 @@ import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-item-formulario',
@@ -127,9 +128,21 @@ export default class ItemDetalleComponent extends General implements OnInit {
       } else {
         this.itemService
           .guardarItem(this.formularioItem.value)
-          .subscribe((respuesta) => {
-            this.alertaService.mensajaExitoso("Se guardo la información")
-          });
+          .pipe(
+            tap((respuesta:any)=>{
+              this.alertaService.mensajaExitoso("Se guardo la información")
+              this.router.navigate(['/detalle'], {
+                queryParams: {
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                  detalle: respuesta.item.id,
+                  accion: 'detalle',
+                },
+              });
+            })
+          )
+          .subscribe();
       }
     } else {
       this.formularioItem.markAllAsTouched();
