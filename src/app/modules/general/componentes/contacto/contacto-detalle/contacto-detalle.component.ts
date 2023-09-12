@@ -22,6 +22,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-contacto-informacion',
@@ -33,6 +34,7 @@ import {
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
+    SoloNumerosDirective
   ],
   templateUrl: './contacto-detalle.component.html',
   styleUrls: ['./contacto-detalle.component.scss'],
