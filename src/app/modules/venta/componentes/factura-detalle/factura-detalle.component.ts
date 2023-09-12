@@ -688,6 +688,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.formularioFactura.markAsPristine();
           this.formularioFactura.markAsUntouched();
         }
+        this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
   }
