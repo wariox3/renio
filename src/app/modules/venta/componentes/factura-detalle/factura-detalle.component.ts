@@ -454,13 +454,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     let netoTemporal = total.value;
     if(accion=='actualizacion'){
-      console.log(detalleFormGroup.value);
-      
-      if(detalleFormGroup.value.impuestos.length > 0){
+      if(detalleFormGroup.value.impuestos.length == 1){
         netoTemporal = subtotal.value
         netoTemporal += totalImpuesto
       } else {
-        netoTemporal = subtotal.value;
+        netoTemporal = neto.value;
+        netoTemporal += totalImpuesto
       }
     }
 
