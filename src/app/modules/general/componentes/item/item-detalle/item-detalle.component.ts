@@ -185,6 +185,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
           nombre: respuesta.item.nombre,
           referencia: respuesta.item.referencia,
           precio: respuesta.item.precio,
+          costo: respuesta.item.costo,
         });
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
