@@ -7,6 +7,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  ValidationErrors,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -14,7 +15,13 @@ import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-contacto-informacion',
@@ -31,14 +38,15 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   styleUrls: ['./contacto-detalle.component.scss'],
   animations: [
     trigger('fadeInOut', [
-      state('void', style({
-        opacity: 0
-      })),
-      transition(':enter, :leave', [
-        animate(800)
-      ])
-    ])
-  ]
+      state(
+        'void',
+        style({
+          opacity: 0,
+        })
+      ),
+      transition(':enter, :leave', [animate(800)]),
+    ]),
+  ],
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
@@ -79,10 +87,17 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.compose([Validators.required, Validators.maxLength(50)]),
       ],
       apellido2: [null, Validators.compose([Validators.maxLength(50)])],
-      direccion: [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      direccion: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
       correo: [
         null,
-        Validators.compose([Validators.required,Validators.email, Validators.maxLength(255)]),
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(255),
+        ]),
       ],
       ciudad_nombre: [''],
       ciudad: ['', Validators.compose([Validators.required])],
@@ -103,6 +118,29 @@ export default class ContactDetalleComponent extends General implements OnInit {
     return this.formularioContacto.controls;
   }
 
+  actualizarNombreCorto() {
+    let nombreCorto = '';
+    const nombre1 = this.formularioContacto.get('nombre1')?.value;
+    const nombre2 = this.formularioContacto.get('nombre2')?.value;
+    const apellido1 = this.formularioContacto.get('apellido1')?.value;
+    const apellido2 = this.formularioContacto.get('apellido2')?.value;
+
+    console.log(nombre1, nombre2, apellido1, apellido2);
+
+    nombreCorto = `${nombre1}`;
+    if (nombre2 !== null) {
+      nombreCorto += ` ${nombre2}`;
+    }
+    nombreCorto += ` ${apellido1}`;
+    if (apellido2 !== null) {
+      nombreCorto += ` ${apellido2}`;
+    }
+
+    this.formularioContacto
+      .get('nombre_corto')
+      ?.patchValue(nombreCorto, { emitEvent: false });
+  }
+
   private setValidators(fieldName: string, validators: any[]) {
     const control = this.formularioContacto.get(fieldName);
     control?.clearValidators();
@@ -115,17 +153,33 @@ export default class ContactDetalleComponent extends General implements OnInit {
       //1 es igual a juridico
       this.setValidators('nombre1', []);
       this.setValidators('apellido1', []);
-      this.setValidators('nombre_corto', [Validators.required, Validators.maxLength(200)]);
+      this.setValidators('nombre_corto', [
+        Validators.required,
+        Validators.maxLength(200),
+      ]);
+      this.formularioContacto.patchValue({
+        nombre1: null,
+        nombre2: null,
+        apellido1: null,
+        apellido2: null,
+      })
     } else {
       //2 es natural
-      this.setValidators('nombre1', [Validators.required,]);
+      this.setValidators('nombre1', [Validators.required]);
       this.setValidators('apellido1', [Validators.required]);
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
   }
 
   enviarFormulario() {
+    console.log(this.formularioContacto.valid);
+
     if (this.formularioContacto.valid) {
+
+      if(this.formularioContacto.get('tipo_persona')?.value === 2){
+        this.actualizarNombreCorto()
+      }
+
       if (this.detalle) {
         this.contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
@@ -159,6 +213,21 @@ export default class ContactDetalleComponent extends General implements OnInit {
           });
       }
     } else {
+      console.log('%c ==>> Validation Errors: ', 'color: red; font-weight: bold; font-size:25px;');
+
+      let totalErrors = 0;
+
+      Object.keys(this.formularioContacto.controls).forEach(key => {
+        const controlErrors: ValidationErrors| null| undefined = this.formularioContacto.get(key)?.errors;
+        if (controlErrors != null) {
+           totalErrors++;
+           Object.keys(controlErrors).forEach(keyError => {
+             console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+            });
+        }
+      });
+
+      console.log('Number of errors: ' ,totalErrors);
       this.formularioContacto.markAllAsTouched();
     }
   }
@@ -297,6 +366,23 @@ export default class ContactDetalleComponent extends General implements OnInit {
           tipo_persona: respuesta.tipo_persona_id,
           regimen: respuesta.regimen_id,
         });
+
+        if (respuesta.tipo_persona_id === 1) {
+          //1 es igual a juridico
+          this.setValidators('nombre1', []);
+          this.setValidators('apellido1', []);
+          this.setValidators('nombre_corto', [
+            Validators.required,
+            Validators.maxLength(200),
+          ]);
+          this.formularioContacto.patchValue({
+            nombre1: null,
+            nombre2: null,
+            apellido1: null,
+            apellido2: null,
+          })
+        }
+
         this.changeDetectorRef.detectChanges();
       });
   }
