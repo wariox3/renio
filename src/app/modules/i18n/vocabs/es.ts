@@ -25,7 +25,7 @@ export const locale = {
       FUNCIONALIDAD:{
         FACTURAVENTA: 'Factura de venta',
         FACTURACOMPRA: 'Factura de compra',
-        ITEM: 'Item',
+        ITEM: 'Ítem',
         CONTACTO: 'Contacto'
       }
     },
@@ -79,7 +79,7 @@ export const locale = {
           IMAGEN: 'Cargar imagen',
           PREVISUALIZAR: 'Previsualizar',
           FACTURACION: 'Facturación',
-          ITEMS: 'Items',
+          ITEMS: 'Ítems',
           CARGARARCHIVOS: 'Cargar archivo',
           MENU: {
             PERFIL: 'Mi perfil',
@@ -155,7 +155,7 @@ export const locale = {
           DESCUENTO: 'Descuento',
           IMPUESTO: 'Impuesto',
           IMPINCLUIDOS: 'Imp Incluidos',
-          AGREGARITEM: 'Agregar item',
+          AGREGARITEM: 'Agregar ítem',
           TOTALCANTIDAD: 'Total cantidad:',
           TOTALDESCUENTO: 'Total descuento:',
           TOTALIMPUESTOS: 'Total impuestos:',
