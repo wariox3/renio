@@ -34,7 +34,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
-    SoloNumerosDirective
+    SoloNumerosDirective,
   ],
   templateUrl: './contacto-detalle.component.html',
   styleUrls: ['./contacto-detalle.component.scss'],
@@ -81,14 +81,36 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ],
       digito_verificacion: [null],
       identificacion: ['', Validators.compose([Validators.required])],
-      nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
-      nombre1: [null, Validators.compose([Validators.required])],
-      nombre2: [null, Validators.compose([Validators.maxLength(50)])],
+      nombre_corto: [
+        null,
+        Validators.compose([
+          Validators.maxLength(200),
+          Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+        ]),
+      ],
+      nombre1: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z]+$/),
+        ]),
+      ],
+      nombre2: [
+        null,
+        Validators.compose([
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z]+$/),
+        ]),
+      ],
       apellido1: [
         null,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(/^[a-zA-Z]+$/),
+        ]),
       ],
-      apellido2: [null, Validators.compose([Validators.maxLength(50)])],
+      apellido2: [null, Validators.compose([Validators.maxLength(50), Validators.pattern(/^[a-zA-Z]+$/)])],
       direccion: [
         null,
         Validators.compose([Validators.required, Validators.maxLength(50)]),
@@ -153,33 +175,34 @@ export default class ContactDetalleComponent extends General implements OnInit {
   tipoPersonaSeleccionado($event: any) {
     if ($event.target.value === '1') {
       //1 es igual a juridico
-      this.setValidators('nombre1', []);
-      this.setValidators('apellido1', []);
+      this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
+      this.setValidators('apellido1', [Validators.pattern(/^[a-zA-Z]+$/)]);
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
+        Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
       ]);
       this.formularioContacto.patchValue({
         nombre1: null,
         nombre2: null,
         apellido1: null,
         apellido2: null,
-      })
+      });
     } else {
       //2 es natural
-      this.setValidators('nombre1', [Validators.required]);
-      this.setValidators('apellido1', [Validators.required]);
-      this.setValidators('nombre_corto', [Validators.maxLength(200)]);
+      this.setValidators('nombre1', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]);
+      this.setValidators('apellido1', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]);
+      this.setValidators('nombre_corto', [
+        Validators.maxLength(200),
+        Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
+      ]);
     }
   }
 
   enviarFormulario() {
-    console.log(this.formularioContacto.valid);
-
     if (this.formularioContacto.valid) {
-
-      if(this.formularioContacto.get('tipo_persona')?.value === 2){
-        this.actualizarNombreCorto()
+      if (this.formularioContacto.get('tipo_persona')?.value == 2) {
+        this.actualizarNombreCorto();
       }
 
       if (this.detalle) {
@@ -215,21 +238,32 @@ export default class ContactDetalleComponent extends General implements OnInit {
           });
       }
     } else {
-      console.log('%c ==>> Validation Errors: ', 'color: red; font-weight: bold; font-size:25px;');
+      console.log(
+        '%c ==>> Validation Errors: ',
+        'color: red; font-weight: bold; font-size:25px;'
+      );
 
       let totalErrors = 0;
 
-      Object.keys(this.formularioContacto.controls).forEach(key => {
-        const controlErrors: ValidationErrors| null| undefined = this.formularioContacto.get(key)?.errors;
+      Object.keys(this.formularioContacto.controls).forEach((key) => {
+        const controlErrors: ValidationErrors | null | undefined =
+          this.formularioContacto.get(key)?.errors;
         if (controlErrors != null) {
-           totalErrors++;
-           Object.keys(controlErrors).forEach(keyError => {
-             console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-            });
+          totalErrors++;
+          Object.keys(controlErrors).forEach((keyError) => {
+            console.log(
+              'Key control: ' +
+                key +
+                ', keyError: ' +
+                keyError +
+                ', err value: ',
+              controlErrors[keyError]
+            );
+          });
         }
       });
 
-      console.log('Number of errors: ' ,totalErrors);
+      console.log('Number of errors: ', totalErrors);
       this.formularioContacto.markAllAsTouched();
     }
   }
@@ -371,18 +405,19 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
-          this.setValidators('nombre1', []);
-          this.setValidators('apellido1', []);
+          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
+          this.setValidators('apellido1', [Validators.pattern(/^[a-zA-Z]+$/)]);
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),
+            Validators.pattern(/^[a-zA-Z0-9&.\-_]+$/),
           ]);
           this.formularioContacto.patchValue({
             nombre1: null,
             nombre2: null,
             apellido1: null,
             apellido2: null,
-          })
+          });
         }
 
         this.changeDetectorRef.detectChanges();

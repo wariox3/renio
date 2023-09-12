@@ -63,13 +63,13 @@
             }"
           />
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContacto.controls['nombre_corto']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['nombre_corto']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -77,6 +77,14 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '200',
+              control: formularioContacto.controls['nombre_corto']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
               control: formularioContacto.controls['nombre_corto']
             }"
           ></ng-container>
@@ -109,6 +117,14 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['nombre1']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
               control: formularioContacto.controls['nombre1']
             }"
           ></ng-container>
@@ -152,6 +168,14 @@
               control: formularioContacto.controls['nombre2']
             }"
           ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
+              control: formularioContacto.controls['nombre2']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -182,6 +206,14 @@
               control: formularioContacto.controls['apellido1']
             }"
           ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'El campo contiene caracteres no validos',
+            control: formularioContacto.controls['apellido1']
+          }"
+        ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -209,6 +241,14 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
+              control: formularioContacto.controls['apellido2']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'El campo contiene caracteres no validos',
               control: formularioContacto.controls['apellido2']
             }"
           ></ng-container>
