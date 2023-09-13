@@ -236,10 +236,10 @@
                           disabled
                           rows="1"
                           spellcheck="true"
-                          class="disabled-cursor"
+                          class="disabled-cursor bg-transparent"
                           [ngClass]="{
                             'disabled-cursor bg-transparent': estado_aprobado,
-                            'text-white': theme_value === 'dark'
+                            'text-white bg-transparent': theme_value === 'dark'
                           }"
                           readonly
                           >{{ detalle.value.subtotal }}</textarea
