@@ -106,7 +106,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura = this.formBuilder.group({
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
-      numero: [null, Validators.compose([Validators.required])],
+      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -210,6 +210,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       }
     } else {
+      console.log(this.formularioFactura)
+
       this.formularioFactura.markAllAsTouched();
     }
   }
