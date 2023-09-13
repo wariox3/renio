@@ -265,7 +265,7 @@
       <input
         formControlName="numero_identificacion"
         class="form-control bg-transparent"
-        type="text"
+        type="number"
         autocomplete="off"
         (blur)="calcularDigitoVerificacion()"
         [ngClass]="{
@@ -276,7 +276,6 @@
             formularioContacto.controls['numero_identificacion'].touched &&
             formularioContacto.controls['numero_identificacion'].valid
         }"
-        appSoloNumeros
       />
       <ng-container
         [ngTemplateOutlet]="formError"
@@ -295,6 +294,14 @@
           control: formularioContacto.controls['numero_identificacion']
         }"
       ></ng-container>
+      <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+        control: formularioContacto.controls['numero_identificacion']
+      }"
+    ></ng-container>
     </div>
     <div class="col-md-2 col-sm-12">
       <label

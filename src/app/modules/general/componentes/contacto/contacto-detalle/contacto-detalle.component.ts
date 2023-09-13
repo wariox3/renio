@@ -79,7 +79,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.formularioContacto = this.formBuilder.group({
       numero_identificacion: [
         '',
-        Validators.compose([Validators.required, Validators.maxLength(20)]),
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.pattern(/^[0-9]+$/),
+        ]),
       ],
       digito_verificacion: [
         null,
@@ -385,7 +389,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,

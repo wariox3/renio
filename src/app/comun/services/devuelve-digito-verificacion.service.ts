@@ -5,8 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class DevuelveDigitoVerificacionService {
   digitoVerificacion(nit: number): number | boolean {
-    if (isNaN(nit)) {
-      return false;
+
+    if (isNaN(nit) ) {
+      return 0;
     }
 
     const arr: { [key: number]: number } = {
