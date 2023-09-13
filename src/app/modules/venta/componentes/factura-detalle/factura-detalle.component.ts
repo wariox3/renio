@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -18,11 +18,8 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { Item } from '@interfaces/general/item';
-import { Impuesto } from '@interfaces/general/impuesto';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { DocumentoDetalleService } from '@modulos/venta/servicios/documento-detalle.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
@@ -78,6 +75,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   accion: 'nuevo' | 'detalle';
   estado_aprobado: false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
+  theme_value = localStorage.getItem('kt_theme_mode_value')
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -231,10 +230,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  onImpuestoBlur(index: number) {
-    if (this.detalles.controls[index].get('item')?.value) {
-      if (index === this.detalles.length - 1) {
-        this.agregarProductos();
+  onImpuestoBlur(index: number, estado_aprobado: boolean) {
+    if(!estado_aprobado){
+      if (this.detalles.controls[index].get('item')?.value) {
+        if (index === this.detalles.length - 1) {
+          this.agregarProductos();
+        }
       }
     }
   }

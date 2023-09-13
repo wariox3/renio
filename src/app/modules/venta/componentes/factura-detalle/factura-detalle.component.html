@@ -38,9 +38,10 @@
           <app-comun-buscar-avanzado
             [consultarModelo]="'Contacto'"
             [consultarTipo]="'Administrador'"
-            (emitirRegistroSeleccionado)="actualizarFormulario($event, 'contacto')"
+            (emitirRegistroSeleccionado)="
+              actualizarFormulario($event, 'contacto')
+            "
           >
-
           </app-comun-buscar-avanzado>
         </button>
       </div>
@@ -183,13 +184,15 @@
                       </td>
                       <td>
                         <textarea
-                          class="o_input"
                           formControlName="cantidad"
                           [value]="detalle.value.cantidad"
                           (change)="actualizarDetalle(i, 'cantidad', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+                          [ngClass]="{
+                            'disabled-cursor bg-transparent': estado_aprobado,
+                            'text-white': theme_value === 'dark' && estado_aprobado
+                          }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -197,13 +200,15 @@
                       </td>
                       <td>
                         <textarea
-                          class="o_input"
                           formControlName="precio"
                           [value]="detalle.value.precio"
                           (change)="actualizarDetalle(i, 'precio', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+                          [ngClass]="{
+                            'disabled-cursor bg-transparent': estado_aprobado,
+                            'text-white': theme_value === 'dark' && estado_aprobado
+                          }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -211,13 +216,15 @@
                       </td>
                       <td>
                         <textarea
-                          class="o_input"
                           formControlName="descuento"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
                           [attr.disabled]="estado_aprobado"
                           [readonly]="estado_aprobado"
-                          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+                          [ngClass]="{
+                            'disabled-cursor bg-transparent': estado_aprobado,
+                            'text-white': theme_value === 'dark' && estado_aprobado
+                          }"
                           rows="1"
                           spellcheck="true"
                           appSoloNumeros
@@ -225,12 +232,18 @@
                       </td>
                       <td>
                         <textarea
+                          class="form-control form-control-sm"
                           disabled
                           rows="1"
                           spellcheck="true"
                           class="disabled-cursor"
+                          [ngClass]="{
+                            'disabled-cursor bg-transparent': estado_aprobado,
+                            'text-white': theme_value === 'dark'
+                          }"
                           readonly
-                        >{{ detalle.value.subtotal }}</textarea>
+                          >{{ detalle.value.subtotal }}</textarea
+                        >
                       </td>
                       <td>
                         <app-comun-impuestos
@@ -247,9 +260,14 @@
                           readonly
                           rows="1"
                           spellcheck="true"
-                          (blur)="onImpuestoBlur(i)"
+                          (blur)="onImpuestoBlur(i, estado_aprobado)"
                           class="disabled-cursor"
-                        >{{ detalle.value.total }}</textarea>
+                          [ngClass]="{
+                            'bg-transparent': estado_aprobado,
+                            'text-white': theme_value === 'dark' && estado_aprobado
+                          }"
+                          >{{ detalle.value.total }}</textarea
+                        >
                       </td>
                       <td class="text-center" *ngIf="!estado_aprobado">
                         <i
