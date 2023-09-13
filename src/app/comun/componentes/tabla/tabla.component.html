@@ -22,8 +22,9 @@
       type="button"
       (click)="eliminarRegistros()"
       class="btn btn-sm btn-danger"
+      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
     >
-      Eliminar
+
     </button>
   </div>
 </div>
@@ -81,8 +82,7 @@
           {{ item[key] }}
         </td>
         <td class="w-45px">
-          <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1">
-            información
+          <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1"  translate="FORMULARIOS.BOTONES.COMUNES.INFORMACION">
           </button>
         </td>
         <td class="w-20px">

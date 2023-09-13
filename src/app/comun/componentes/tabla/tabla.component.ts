@@ -1,21 +1,25 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
 
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NgbDropdownModule, KeysPipe]
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbDropdownModule,
+    KeysPipe,
+    TranslateModule,
+    TranslationModule,
+  ],
 })
 export class TablaComponent {
   tamanoEncabezado = 0;
@@ -25,10 +29,10 @@ export class TablaComponent {
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
   cargandoDatos = false;
-  arrRegistrosEliminar:number[] = [];
+  arrRegistrosEliminar: number[] = [];
   selectAll = false;
-  @Input() encabezado:  Listafiltros[] = [];
-  @Input() datos: any[]= [];
+  @Input() encabezado: Listafiltros[] = [];
+  @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
@@ -115,20 +119,25 @@ export class TablaComponent {
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
           limite -= 1;
-          if(desplazamiento > 0 && limite > 0){
-            this.emitirPaginacion.emit({desplazamiento, limite})
+          if (desplazamiento > 0 && limite > 0) {
+            this.emitirPaginacion.emit({ desplazamiento, limite });
           }
         }
         if (desplazamiento < 0) {
           evento.target.value = `${this.lado}-${this.al}`;
         }
       } else {
-        this.emitirPaginacion.emit({desplazamiento:parseInt(valorInicial), limite:1})
+        this.emitirPaginacion.emit({
+          desplazamiento: parseInt(valorInicial),
+          limite: 1,
+        });
       }
     } else {
       evento.target.value = `${this.lado}-${this.al}`;
-      this.emitirPaginacion.emit({desplazamiento:this.al, limite:this.lado})
-
+      this.emitirPaginacion.emit({
+        desplazamiento: this.al,
+        limite: this.lado,
+      });
     }
   }
 
@@ -141,27 +150,23 @@ export class TablaComponent {
     }
   }
 
-  eliminarRegistros(){
-    this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar)
-    this.arrRegistrosEliminar = []
+  eliminarRegistros() {
+    this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar);
+    this.arrRegistrosEliminar = [];
     this.selectAll = !this.selectAll;
-
   }
 
   toggleSelectAll() {
     this.selectAll = !this.selectAll;
 
-    this.datos.forEach(item => {
+    this.datos.forEach((item) => {
       item.selected = this.selectAll;
       const index = this.arrRegistrosEliminar.indexOf(item.id);
       if (index !== -1) {
         this.arrRegistrosEliminar.splice(index, 1);
       } else {
         this.arrRegistrosEliminar.push(item.id);
-
       }
     });
-
   }
-
 }
