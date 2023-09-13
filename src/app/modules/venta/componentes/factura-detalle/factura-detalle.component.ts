@@ -75,7 +75,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   accion: 'nuevo' | 'detalle';
   estado_aprobado: false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
-  theme_value = localStorage.getItem('kt_theme_mode_value')
+  theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -136,74 +136,81 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    if (this.detalle == undefined) {
-      this.facturaService
-        .guardarFactura(this.formularioFactura.value)
-        .pipe(
-          tap((respuesta) => {
-            this.router.navigate(['/detalle'], {
-              queryParams: {
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.documento.id,
-                accion: 'detalle',
-              },
-            });
-          })
-        )
-        .subscribe();
-    } else {
-      if (this.formularioFactura.touched && this.formularioFactura.dirty) {
+    if (this.formularioFactura.valid) {
+      if (this.detalle == undefined) {
         this.facturaService
-          .actualizarDatosFactura(this.detalle, {
-            ...this.formularioFactura.value,
-            ...{ detalles_eliminados: this.arrDetallesEliminado },
-          })
-          .subscribe((respuesta) => {
-            this.detalles.clear();
-            respuesta.documento.detalles.forEach(
-              (detalle: any, indexDetalle: number) => {
-                const detalleFormGroup = this.formBuilder.group({
-                  item: [detalle.item],
-                  cantidad: [detalle.cantidad],
-                  precio: [detalle.precio],
-                  porcentaje_descuento: [detalle.porcentaje_descuento],
-                  descuento: [detalle.descuento],
-                  subtotal: [detalle.subtotal],
-                  total_bruto: [detalle.total_bruto],
-                  total: [detalle.total],
-                  neto: [detalle.total],
-                  item_nombre: [detalle.item_nombre],
-                  impuestos: this.formBuilder.array([]),
-                  impuestos_eliminados: this.formBuilder.array([]),
-                  id: [detalle.id],
-                });
+          .guardarFactura(this.formularioFactura.value)
+          .pipe(
+            tap((respuesta) => {
+              this.router.navigate(['/detalle'], {
+                queryParams: {
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                  detalle: respuesta.documento.id,
+                  accion: 'detalle',
+                },
+              });
+            })
+          )
+          .subscribe();
+      } else {
+        if (this.formularioFactura.touched && this.formularioFactura.dirty) {
+          this.facturaService
+            .actualizarDatosFactura(this.detalle, {
+              ...this.formularioFactura.value,
+              ...{ detalles_eliminados: this.arrDetallesEliminado },
+            })
+            .subscribe((respuesta) => {
+              this.detalles.clear();
+              respuesta.documento.detalles.forEach(
+                (detalle: any, indexDetalle: number) => {
+                  const detalleFormGroup = this.formBuilder.group({
+                    item: [detalle.item],
+                    cantidad: [detalle.cantidad],
+                    precio: [detalle.precio],
+                    porcentaje_descuento: [detalle.porcentaje_descuento],
+                    descuento: [detalle.descuento],
+                    subtotal: [detalle.subtotal],
+                    total_bruto: [detalle.total_bruto],
+                    total: [detalle.total],
+                    neto: [detalle.total],
+                    item_nombre: [detalle.item_nombre],
+                    impuestos: this.formBuilder.array([]),
+                    impuestos_eliminados: this.formBuilder.array([]),
+                    id: [detalle.id],
+                  });
 
-                if (detalle.impuestos.length === 0) {
-                  const cantidad = detalleFormGroup.get('cantidad')?.value;
-                  const precio = detalleFormGroup.get('precio')?.value;
-                  const neto = cantidad * precio;
-                  detalleFormGroup.get('neto')?.setValue(neto);
+                  if (detalle.impuestos.length === 0) {
+                    const cantidad = detalleFormGroup.get('cantidad')?.value;
+                    const precio = detalleFormGroup.get('precio')?.value;
+                    const neto = cantidad * precio;
+                    detalleFormGroup.get('neto')?.setValue(neto);
+                  }
+
+                  this.detalles.push(detalleFormGroup);
+
+                  detalle.impuestos.forEach((impuesto: any, index: number) => {
+                    this.agregarImpuesto(
+                      impuesto,
+                      indexDetalle,
+                      'actualizacion'
+                    );
+                  });
                 }
+              );
+              this.detalle = respuesta.documento.id;
 
-                this.detalles.push(detalleFormGroup);
-
-                detalle.impuestos.forEach((impuesto: any, index: number) => {
-                  this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
-                });
-
-              }
-            );
-            this.detalle = respuesta.documento.id;
-
-            this.arrDetallesEliminado = [];
-            this.calcularTotales();
-            this.formularioFactura.markAsPristine();
-            this.formularioFactura.markAsUntouched();
-            this.changeDetectorRef.detectChanges();
-          });
+              this.arrDetallesEliminado = [];
+              this.calcularTotales();
+              this.formularioFactura.markAsPristine();
+              this.formularioFactura.markAsUntouched();
+              this.changeDetectorRef.detectChanges();
+            });
+        }
       }
+    } else {
+      this.formularioFactura.markAllAsTouched();
     }
   }
 
@@ -231,7 +238,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   onImpuestoBlur(index: number, estado_aprobado: boolean) {
-    if(!estado_aprobado){
+    if (!estado_aprobado) {
       if (this.detalles.controls[index].get('item')?.value) {
         if (index === this.detalles.length - 1) {
           this.agregarProductos();
@@ -240,19 +247,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
   }
 
-  actualizarFormulario(dato: any, campo:string) {
+  actualizarFormulario(dato: any, campo: string) {
     if (campo === 'contacto') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
 
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     this.changeDetectorRef.detectChanges();
   }
-
 
   agregarItemSeleccionado(item: any, index: number) {
     this.detalles.controls[index].patchValue({
@@ -261,7 +265,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       cantidad: 1,
       subtotal: item.precio * 1,
       item_nombre: item.nombre,
-      total: item.precio * 1
+      total: item.precio * 1,
     });
 
     if (item.impuestos) {
@@ -326,7 +330,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.arrDetallesEliminado.push(id);
     }
 
-    if(detalleFormGroup.value.impuestos.length > 0){
+    if (detalleFormGroup.value.impuestos.length > 0) {
       for (const impuestoIndex in this.acumuladorImpuestos) {
         const impuesto = this.acumuladorImpuestos[impuestoIndex];
 
@@ -341,7 +345,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           let totalImpuesto = 0;
 
           if (impuesto.data[0]) {
-            totalImpuesto = (subtotal.value * impuesto.data[0].porcentaje) / 100;
+            totalImpuesto =
+              (subtotal.value * impuesto.data[0].porcentaje) / 100;
             impuesto.total -= totalImpuesto;
           }
         }
@@ -357,7 +362,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     console.log(evento.target.value !== '');
 
-    if(evento.target.value !== ''){
+    if (evento.target.value !== '') {
       detalleFormGroup.get(campo)?.patchValue(evento.target.value);
     } else {
       detalleFormGroup.get(campo)?.patchValue(0);
@@ -389,7 +394,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [impuesto.nombre],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total += totalImpuesto - impuesto.total;
+      this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
+        totalImpuesto - impuesto.total;
       impuestoTotal += totalImpuesto;
 
       this.changeDetectorRef.detectChanges();
@@ -414,8 +420,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ...impuesto,
       index,
     };
-    let totalImpuesto =  impuesto.total
-    if(accion=='agregar'){
+    let totalImpuesto = impuesto.total;
+    if (accion == 'agregar') {
       totalImpuesto = (subtotal.value * impuesto.impuesto_porcentaje) / 100;
     }
 
@@ -463,13 +469,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
     }
     let netoTemporal = total.value;
-    if(accion=='actualizacion'){
-      if(detalleFormGroup.value.impuestos.length == 1){
-        netoTemporal = subtotal.value
-        netoTemporal += totalImpuesto
+    if (accion == 'actualizacion') {
+      if (detalleFormGroup.value.impuestos.length == 1) {
+        netoTemporal = subtotal.value;
+        netoTemporal += totalImpuesto;
       } else {
         netoTemporal = neto.value;
-        netoTemporal += totalImpuesto
+        netoTemporal += totalImpuesto;
       }
     }
 
@@ -477,7 +483,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       netoTemporal = subtotal.value + totalImpuesto;
     }
 
-    if(accion=='agregar'){
+    if (accion == 'agregar') {
       netoTemporal += totalImpuesto;
     }
 
@@ -515,7 +521,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto: [nuevoImpuesto.impuesto], //id
         base: [neto.value === null ? 0 : neto.value],
         porcentaje: [nuevoImpuesto.porcentaje],
-        total: [subtotal.value * nuevoImpuesto.porcentaje / 100],
+        total: [(subtotal.value * nuevoImpuesto.porcentaje) / 100],
         nombre: [nuevoImpuesto.nombre],
         nombre_extendido: [nuevoImpuesto.nombre_extendido],
         impuesto_id: [nuevoImpuesto.impuesto_id],
