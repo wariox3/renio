@@ -354,7 +354,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
               id: '1692284537644-1688',
               operador: '__contains',
               propiedad: 'nombre__contains',
-              valor1: ``,
+              valor1: '',
               valor2: '',
             },
           ],

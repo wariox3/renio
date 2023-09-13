@@ -44,8 +44,8 @@ export class BaseFiltroComponent implements OnInit {
     {
       propiedad: '',
       operador: '',
-      valor1: '',
-      valor2: '',
+      valor_1: '',
+      valor_2: '',
       visualizarBtnAgregarFiltro: true,
     },
   ];
@@ -68,31 +68,31 @@ export class BaseFiltroComponent implements OnInit {
 
   esCampoInvalido(index: number, campo: string) {
     const filtro = this.filtros.at(index);
-    
+
     if (filtro) {
       const campoControl = filtro.get(campo);
-      
+
       if (campoControl) {
         return campoControl.invalid && (campoControl.touched || campoControl.dirty);
       }
     }
-  
+
     return false;
   }
-  
+
 
   get filtros() {
     return this.formularioItem.get('filtros') as FormArray;
   }
 
   private crearControlFiltros(propiedades: any | null) {
-    let valor1 = '';
-    let valor2 = '';
+    let valor_1 = '';
+    let valor_2 = '';
     let propiedad = '';
     let operador = '';
     if (propiedades) {
-      valor1 = propiedades.valor1;
-      valor2 = propiedades.valor2;
+      valor_1 = propiedades.valor_1;
+      valor_2 = propiedades.valor_2;
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
     }
@@ -100,8 +100,8 @@ export class BaseFiltroComponent implements OnInit {
     return this.formBuilder.group({
       propiedad: [propiedad],
       operador: [operador],
-      valor1: [valor1, [Validators.required]],
-      valor2: [valor2],
+      valor_1: [valor_1, [Validators.required]],
+      valor_2: [valor_2],
     });
   }
 
@@ -110,8 +110,8 @@ export class BaseFiltroComponent implements OnInit {
       this.formBuilder.group({
         propiedad: [''],
         operador: [''],
-        valor1: ['', [Validators.required]],
-        valor2: [''],
+        valor_1: ['', [Validators.required]],
+        valor_2: [''],
       })
     );
   }
@@ -141,7 +141,7 @@ export class BaseFiltroComponent implements OnInit {
     );
   }
 
-  aplicarFiltro() {    
+  aplicarFiltro() {
     const filtros = this.formularioItem.value['filtros'];
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
@@ -151,7 +151,7 @@ export class BaseFiltroComponent implements OnInit {
       if (
         filtro.propiedad === '' &&
         filtro.operador === '' &&
-        filtro.valor1 === ''
+        filtro.valor_1 === ''
       ) {
         hayFiltrosSinValores = true;
         return;
