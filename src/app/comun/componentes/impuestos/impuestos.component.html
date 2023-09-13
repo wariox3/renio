@@ -1,4 +1,4 @@
-<div class="container">
+
   <div class="row">
     <div class="col-md-6 d-flex flex-wrap align-items-start">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
@@ -13,18 +13,18 @@
         </span>
       </ng-container>
     </div>
-    <div class="col-md-6 d-flex align-items-start flex-column justify-content-center" *ngIf="estado_aprobado">
-      <div ngbDropdown class="d-inline-flex gap-1 align-self-start">
-        <div class="position-relative">
+    <div  class="col-md-6 d-flex align-items-start flex-column justify-content-center" *ngIf="estado_aprobado">
+      <div ngbDropdown  #ImpuestoDropdown="ngbDropdown" class="d-inline-flex gap-1 align-self-start">
+        <div class="position-relative cursor-pointer">
           <input
             type="text"
             formControlName="impuestos"
-            ngbDropdownToggle
+            ngbDropdownAnchor
             class="cursor-pointer w-100"
-            (focus)="consultarImpuesto()"
+            (focus)="consultarImpuesto(); ImpuestoDropdown.open()"
             appSoloNumeros
           />
-          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3 cursor-pointer" (click)="consultarImpuesto(); ImpuestoDropdown.open()">
             <i class="ki-duotone ki-down"></i>
           </div>
         </div>
@@ -44,4 +44,3 @@
       </div>
     </div>
   </div>
-</div>
