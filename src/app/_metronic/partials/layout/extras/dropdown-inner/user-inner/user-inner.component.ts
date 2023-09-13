@@ -111,7 +111,7 @@ const languages = [
   },
   {
     lang: 'en',
-    name: 'Ingles',
+    name: 'Inglés',
     flag: './assets/media/flags/united-states.svg',
   },
   // {
