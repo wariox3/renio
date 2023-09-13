@@ -354,7 +354,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+    console.log(evento.target.value !== '');
+
+    if(evento.target.value !== ''){
+      detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+    } else {
+      detalleFormGroup.get(campo)?.patchValue(0);
+    }
+
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
     const neto = detalleFormGroup.get('neto') as FormControl;
     const total = detalleFormGroup.get('total') as FormControl;
@@ -575,8 +582,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           id: '1692284537644-1688',
           operador: '__contains',
           propiedad: 'nombre_corto__contains',
-          valor_1: `${event?.target.value}`,
-          valor_2: '',
+          valor1: `${event?.target.value}`,
+          valor2: '',
         },
       ],
       limite: 10,
