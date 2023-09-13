@@ -60,27 +60,18 @@ export default class ItemDetalleComponent extends General implements OnInit {
     this.formularioItem = this.formBuilder.group({
       codigo: [
         '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
       nombre: [
         '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(200),
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
       referencia: [
         '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
       ],
-      precio: [0],
-      costo:[0],
+      precio: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      costo: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       impuestos: this.formBuilder.array([]),
     });
   }
@@ -108,7 +99,8 @@ export default class ItemDetalleComponent extends General implements OnInit {
               precio: respuesta.item.precio,
             });
 
-            let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
+            let arrImpuesto = this.obtenerFormularioCampos
+              .impuestos as FormArray;
 
             arrImpuesto.clear();
 
@@ -121,7 +113,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
             });
             this.arrImpuestos = respuesta.item.impuestos;
             this.arrImpuestosEliminado = [];
-            this.alertaService.mensajaExitoso("Se actualizo la información")
+            this.alertaService.mensajaExitoso('Se actualizo la información');
 
             this.changeDetectorRef.detectChanges();
           });
@@ -129,8 +121,8 @@ export default class ItemDetalleComponent extends General implements OnInit {
         this.itemService
           .guardarItem(this.formularioItem.value)
           .pipe(
-            tap((respuesta:any)=>{
-              this.alertaService.mensajaExitoso("Se guardo la información")
+            tap((respuesta: any) => {
+              this.alertaService.mensajaExitoso('Se guardo la información');
               this.router.navigate(['/detalle'], {
                 queryParams: {
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
