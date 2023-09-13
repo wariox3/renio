@@ -62,6 +62,7 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
           modelo: '',
           tipo: '',
           documento_tipo_id: 1,
+          documento_id: this.detalle
         }
       )
       .subscribe((data) => {
