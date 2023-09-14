@@ -15,9 +15,11 @@ export class AlertaService {
       icon: 'error',
       position: 'bottom-right',
       toast: true,
-      timer: 5000,
+      timer: 35000,
+      showConfirmButton: true,
       timerProgressBar: true,
-      showConfirmButton: false,
+      confirmButtonText: "Cerrar",
+      confirmButtonColor: '#d9214e',
       showClass: {
         popup: 'animate__animated animate__fadeInDown',
       },
