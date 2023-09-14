@@ -296,6 +296,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -689,7 +691,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           contactoNombre: respuesta.documento.contacto_nombre_corto,
           fecha: respuesta.documento.fecha,
           fecha_vence: respuesta.documento.fecha_vence,
-          metodo_pago: respuesta.documento.metodo_pago,
+          metodo_pago: respuesta.documento.metodo_pago_id,
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
         });
         this.detalles.clear();
