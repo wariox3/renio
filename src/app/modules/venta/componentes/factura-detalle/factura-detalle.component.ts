@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -130,7 +131,19 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       total: [0],
       subtotal: [0],
       detalles: this.formBuilder.array([]),
+    },
+    {
+      validator: this.validarFecha,
     });
+  }
+
+  validarFecha(control: AbstractControl){
+    const fecha = control.get('fecha')?.value
+    const fecha_vence = control.get('fecha_vence')?.value
+
+    if(fecha > fecha_vence){
+      control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
+    }
   }
 
   get detalles() {

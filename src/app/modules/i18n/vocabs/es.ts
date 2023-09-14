@@ -22,12 +22,12 @@ export const locale = {
         PROCESO: 'Proceso',
         INFORME: 'Informe',
       },
-      FUNCIONALIDAD:{
+      FUNCIONALIDAD: {
         FACTURAVENTA: 'Factura de venta',
         FACTURACOMPRA: 'Factura de compra',
         ITEM: 'Ítem',
-        CONTACTO: 'Contacto'
-      }
+        CONTACTO: 'Contacto',
+      },
     },
     FORMULARIOS: {
       BOTONES: {
@@ -47,7 +47,7 @@ export const locale = {
           DETALLE: 'Detalle',
           EXCEL: 'Excel',
           PDF: 'Pdf',
-          INFORMACION: 'Información'
+          INFORMACION: 'Información',
         },
         EMPRESA: {
           CONECTAR: 'Conectar',
@@ -162,13 +162,12 @@ export const locale = {
           TOTALIMPUESTOS: 'Total impuestos:',
           TOTALGENERAL: 'Total general:',
           TOTALNETO: 'Neto',
-          SUBTOTAL: 'Subtotal'
+          SUBTOTAL: 'Subtotal',
         },
         GENERAL: {
           ITEM: {
             IMPUESTOS: 'Impuestos',
             IMPUESTO: 'Impuesto',
-
           },
         },
       },
@@ -190,11 +189,11 @@ export const locale = {
           CELULAR: 'Celular',
           NUMEROIDENTIFICACION: 'Número de identificación',
           DIGITOVERIFICACION: 'Digito verificación',
-          NOMBRECORTO:'Nombre corto',
-          NOMBRE1:'Primer nombre',
-          NOMBRE2:'Segundo nombre',
-          APELLIDO1:'Primer apellido',
-          APELLIDO2:'Segundo apellido',
+          NOMBRECORTO: 'Nombre corto',
+          NOMBRE1: 'Primer nombre',
+          NOMBRE2: 'Segundo nombre',
+          APELLIDO1: 'Primer apellido',
+          APELLIDO2: 'Segundo apellido',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -205,12 +204,12 @@ export const locale = {
             IMPUESTO: 'Impuesto',
             REFERENCIA: 'Referencia',
             PRECIO: 'Precio',
-            COSTO: 'Costo'
+            COSTO: 'Costo',
           },
-          CONTACTO:{
+          CONTACTO: {
             PERSONATIPO: 'Persona tipo',
-            REGIMEN: 'Régimen'
-          }
+            REGIMEN: 'Régimen',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',
@@ -237,6 +236,10 @@ export const locale = {
         SEGURIDAD: {
           NOCOINCIDEN: 'La contraseña nueva y la confirmación no coinciden',
           NOCOINCIDENNUEVO: 'La contraseña y la confirmación no coinciden',
+        },
+        FACTURA: {
+          FECHASUPERIOAFECHAVENCIMINETO:
+            'La fecha no puede ser superior a la fecha de vencimiento',
         },
       },
       MENSAJES: {

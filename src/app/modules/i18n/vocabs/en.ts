@@ -7,28 +7,27 @@ export const locale = {
     },
     MENU: {
       DASHBOARD: 'Start',
-      TITULOS:{
+      TITULOS: {
         GENERAL: 'GENERAL',
         CARTERA: 'Portfolio',
         COMPRA: 'Purchasing',
         CONTABILIDAD: 'Accounting',
         HUMANO: 'Human',
         VENTA: 'Sale',
-
       },
-      COMUNES:{
+      COMUNES: {
         MOVIMIENTO: 'Movement',
         ADMINISTRACION: 'Administration',
         UTILIDAD: 'Utility',
         PROCESO: 'Process',
-        INFORME: 'Report'
+        INFORME: 'Report',
       },
-      FUNCIONALIDAD:{
+      FUNCIONALIDAD: {
         FACTURAVENTA: 'Sales Invoice',
         FACTURACOMPRA: 'Invoice of purchase',
         ITEM: 'Item',
-        CONTACTO: 'Contact'
-      }
+        CONTACTO: 'Contact',
+      },
     },
     FORMULARIOS: {
       BOTONES: {
@@ -47,8 +46,7 @@ export const locale = {
           DETALLE: 'Detail',
           EXCEL: 'Excel',
           PDF: 'Pdf',
-          INFORMACION: 'Information'
-
+          INFORMACION: 'Information',
         },
         EMPRESA: {
           CONECTAR: 'Connect',
@@ -56,9 +54,9 @@ export const locale = {
           INVITAR: 'Invite',
         },
         GENERAL: {
-          ITEM:{
+          ITEM: {
             AGREGARIMPUESTOS: 'Add taxes',
-          }
+          },
         },
         INVENTARIO: {},
         SEGURIDAD: {
@@ -163,7 +161,7 @@ export const locale = {
           TOTALIMPUESTOS: 'Total taxes:',
           TOTALGENERAL: 'Grand Total:',
           TOTALNETO: 'Net',
-          SUBTOTAL: 'Subtotal'
+          SUBTOTAL: 'Subtotal',
         },
       },
       CAMPOS: {
@@ -185,37 +183,37 @@ export const locale = {
           CELULAR: 'Cell phone',
           NUMEROIDENTIFICACION: 'Identification Number',
           DIGITOVERIFICACION: 'Verification digit',
-          NOMBRECORTO:'Short name',
-          NOMBRE1:'First name',
-          NOMBRE2:'Second name',
-          APELLIDO1:'First surname',
-          APELLIDO2:'Second last name',
+          NOMBRECORTO: 'Short name',
+          NOMBRE1: 'First name',
+          NOMBRE2: 'Second name',
+          APELLIDO1: 'First surname',
+          APELLIDO2: 'Second last name',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
         },
         GENERAL: {
-          ITEM:{
+          ITEM: {
             IMPUESTOS: 'Taxes',
             IMPUESTO: 'Tax',
             REFERENCIA: 'Reference',
             PRECIO: 'Price',
-            COSTO: 'Cost'
+            COSTO: 'Cost',
           },
-          CONTACTO:{
+          CONTACTO: {
             PERSONATIPO: 'Type person',
-            REGIMEN: 'Regime'
-          }
+            REGIMEN: 'Regime',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
           FECHAFACTURA: 'Invoice date',
           FECHAVENCIMIENTO: 'Due date',
           PLAZO: 'Deadline',
-          URLANEXO:  'Url for Attachments?',
+          URLANEXO: 'Url for Attachments?',
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
-        }
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -234,6 +232,10 @@ export const locale = {
           NOCOINCIDENNUEVO:
             'New password and confirmation password do not match',
         },
+        FACTURA: {
+          FECHASUPERIOAFECHAVENCIMINETO:
+            'The date cannot be longer than the expiration date.',
+        },
       },
       MENSAJES: {
         COMUNES: {
@@ -244,7 +246,7 @@ export const locale = {
           ALERTASUSPENCIONTITULO: 'Account at risk',
           ALERTASUSPENCIONMENSAJE:
             'Your account is at risk of suspension for payment',
-          CARGARIMAGEN: 'Image uploaded successfully'
+          CARGARIMAGEN: 'Image uploaded successfully',
         },
         EMPRESAS: {
           CREAREMPRESA: 'We are creating your company, wait a moment...',
