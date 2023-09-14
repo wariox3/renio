@@ -135,9 +135,11 @@ export class BaseListaComponent extends General implements OnInit {
           });
       } else {
         let modelo = this.activatedRoute.snapshot.queryParams['modelo'];
+        let modulo = this.activatedRoute.snapshot.queryParams['modulo'];
+
         const eliminarSolicitudes = data.map((registro) => {
           return this.httpService.delete(
-            `${this.modulo}/${modelo.toLowerCase()}/${registro}/`,
+            `${modulo}/${modelo.toLowerCase()}/${registro}/`,
             {}
           );
         });
