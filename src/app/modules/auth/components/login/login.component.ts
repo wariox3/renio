@@ -70,6 +70,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.email,
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
           Validators.minLength(3),
           Validators.maxLength(320),
           Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),

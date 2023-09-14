@@ -295,13 +295,13 @@
         }"
       ></ng-container>
       <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-        control: formularioContacto.controls['numero_identificacion']
-      }"
-    ></ng-container>
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioContacto.controls['numero_identificacion']
+        }"
+      ></ng-container>
     </div>
     <div class="col-md-2 col-sm-12">
       <label
@@ -586,13 +586,13 @@
         }"
       ></ng-container>
       <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-        control: formularioContacto.controls['correo']
-      }"
-    ></ng-container>
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+          control: formularioContacto.controls['correo']
+        }"
+      ></ng-container>
     </div>
   </div>
   <div class="row mb-5">
