@@ -127,6 +127,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ],
       metodo_pago: ['', Validators.compose([Validators.required])],
       metodo_pago_nombre: [''],
+      total: [0],
+      subtotal: [0],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -320,6 +322,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
 
     this.totalGeneral = this.subtotalGeneral + this.totalImpuestos;
+    this.formularioFactura.patchValue({
+      total: this.totalGeneral,
+      subtotal: this.subtotalGeneral,
+    })
   }
 
   eliminarProducto(index: number, id: number | null) {
