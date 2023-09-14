@@ -210,7 +210,7 @@ const languages = [
   },
   {
     lang: 'en',
-    name: 'Ingles',
+    name: 'English',
     flag: '🇺🇸',
   },
 ];

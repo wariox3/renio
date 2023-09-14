@@ -57,7 +57,7 @@ const languages = [
   },
   {
     lang: 'en',
-    name: 'Ingles',
+    name: 'English',
     flag: './assets/media/flags/united-states.svg',
   },
 ];
