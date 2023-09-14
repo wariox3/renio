@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ImageCroppedEvent,
   ImageCropperModule,
@@ -34,6 +34,9 @@ import { General } from '@comun/clases/general';
   ],
 })
 export class CargarImagenComponent extends General implements OnChanges {
+
+  imagenMuyGrande = false
+
   constructor(private modalService: NgbModal, private sanitizer: DomSanitizer) {
     super();
   }
@@ -99,7 +102,11 @@ export class CargarImagenComponent extends General implements OnChanges {
   imageCropped(event: ImageCroppedEvent) {
     var reader = new FileReader();
     if (event.blob) {
-
+      if(event.blob.size >= 2012490){
+        this.imagenMuyGrande = true
+      }else {
+        this.imagenMuyGrande = false
+      }
       const convertedBlob = event.blob.slice(0, event.blob.size, 'image/jpeg');
       reader.readAsDataURL(convertedBlob);
       reader.onloadend = () => {
@@ -115,7 +122,9 @@ export class CargarImagenComponent extends General implements OnChanges {
       );
     }
   }
+
   imageLoaded(image: LoadedImage) {
+
   }
   cropperReady() {
     // cropper ready

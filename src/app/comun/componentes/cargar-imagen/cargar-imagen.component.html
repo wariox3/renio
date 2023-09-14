@@ -86,6 +86,11 @@
         (cropperReady)="cropperReady()"
         (loadImageFailed)="loadImageFailed()"
       ></image-cropper>
+      <div class="fv-plugins-message-container" *ngIf="imagenMuyGrande">
+        <div class="fv-help-block">
+          <span role="alert"> imagen muy grande </span>
+        </div>
+      </div>
     </div>
     <div class="card-footer d-flex justify-content-end">
       <button
