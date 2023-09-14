@@ -571,14 +571,6 @@
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
-          validation: 'email',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-          control: formularioContacto.controls['correo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
           control: formularioContacto.controls['correo']
@@ -593,6 +585,14 @@
           control: formularioContacto.controls['correo']
         }"
       ></ng-container>
+      <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+        control: formularioContacto.controls['correo']
+      }"
+    ></ng-container>
     </div>
   </div>
   <div class="row mb-5">

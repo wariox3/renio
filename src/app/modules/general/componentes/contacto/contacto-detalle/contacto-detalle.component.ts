@@ -136,6 +136,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.required,
           Validators.email,
           Validators.maxLength(255),
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
         ]),
       ],
       ciudad_nombre: [''],
