@@ -154,8 +154,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     } else {
       if ( control.get('fecha')?.getError("fechaSuperiorNoValida")) {
         control.get('fecha')?.setErrors(null);
-
-
       }
     }
 
@@ -311,6 +309,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
+    this.calcularTotales()
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
