@@ -1,7 +1,5 @@
 import {
   Component,
-  TemplateRef,
-  ViewChild,
   Input,
   OnInit,
   Output,
@@ -21,6 +19,7 @@ import {
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-base-filtro',
@@ -34,10 +33,9 @@ import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
     FormsModule,
     ReactiveFormsModule,
     BaseFiltroFormularioComponent,
-
   ],
 })
-export class BaseFiltroComponent implements OnInit {
+export class BaseFiltroComponent extends General implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: Listafiltros[] = [];
   filtrosAplicados: FiltrosAplicados[] = [
@@ -51,8 +49,11 @@ export class BaseFiltroComponent implements OnInit {
   ];
   @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
+  nombreFiltro = `${this.modulo}_${this.modelo}_${this.tipo}`
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+    super()
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -117,9 +118,9 @@ export class BaseFiltroComponent implements OnInit {
   }
 
   cargarCamposAlFormulario() {
-    if (localStorage.getItem(document.location.pathname)) {
+    if (localStorage.getItem(this.nombreFiltro)) {
       this.filtrosAplicados = JSON.parse(
-        localStorage.getItem(document.location.pathname)!
+        localStorage.getItem(this.nombreFiltro)!
       );
       this.filtrosAplicados.map((propiedad) => {
         this.filtros.push(this.crearControlFiltros(propiedad));
@@ -178,7 +179,7 @@ export class BaseFiltroComponent implements OnInit {
     this.listaFiltros = listaFiltros;
 
     localStorage.setItem(
-      document.location.pathname,
+      this.nombreFiltro,
       JSON.stringify(this.listaFiltros)
     );
 
