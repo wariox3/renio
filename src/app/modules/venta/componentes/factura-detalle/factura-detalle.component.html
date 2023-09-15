@@ -93,23 +93,21 @@
         }"
       ></ng-container>
       <div
-      *ngIf="
-      formularioFactura.controls.fecha?.touched &&
-      formularioFactura.controls.fecha?.hasError(
-          'fechaSuperiorNoValida'
-        )
-      "
-    >
-      <div class="fv-plugins-message-container">
-        <div class="fv-help-block">
-          <span
-            translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-            role="alert"
-          >
-          </span>
+        *ngIf="
+          formularioFactura.controls.fecha?.touched &&
+          formularioFactura.controls.fecha?.hasError('fechaSuperiorNoValida')
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <span
+              translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+              role="alert"
+            >
+            </span>
+          </div>
         </div>
       </div>
-    </div>
     </div>
     <div class="col">
       <label
@@ -139,6 +137,22 @@
           control: formularioFactura.controls['fecha_vence']
         }"
       ></ng-container>
+      <div
+      *ngIf="
+        formularioFactura.controls.fecha_vence?.touched &&
+        formularioFactura.controls.fecha_vence?.hasError('fechaVenceInferiorNoValida')
+      "
+    >
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span
+            translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
+            role="alert"
+          >
+          </span>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
   <div class="row mb-5">

@@ -234,7 +234,9 @@ export const locale = {
         },
         FACTURA: {
           FECHASUPERIOAFECHAVENCIMINETO:
-            'The date cannot be longer than the expiration date.',
+            'The date cannot be greater than the due date.',
+          FECHAVENCEINFERIORNOVALIDA:
+            'The due date cannot be less than the invoice date.',
         },
       },
       MENSAJES: {

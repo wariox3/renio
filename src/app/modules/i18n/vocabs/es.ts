@@ -239,7 +239,9 @@ export const locale = {
         },
         FACTURA: {
           FECHASUPERIOAFECHAVENCIMINETO:
-            'La fecha no puede ser superior a la fecha de vencimiento',
+            'La fecha no puede ser superior a la fecha vencimiento',
+
+          FECHAVENCEINFERIORNOVALIDA: 'La fecha vencimiento no puede ser inferior a la fecha factura'
         },
       },
       MENSAJES: {

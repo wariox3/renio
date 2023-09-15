@@ -143,7 +143,22 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if(fecha > fecha_vence){
       control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
+    } else {
+      if (control.get('fecha_vence')?.getError("fechaVenceInferiorNoValida")) {
+        control.get('fecha_vence')?.setErrors(null);
+      }
     }
+
+    if(fecha_vence < fecha){
+      control.get('fecha_vence')?.setErrors({ fechaVenceInferiorNoValida: true });
+    } else {
+      if ( control.get('fecha')?.getError("fechaSuperiorNoValida")) {
+        control.get('fecha')?.setErrors(null);
+
+
+      }
+    }
+
   }
 
   get detalles() {
