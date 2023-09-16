@@ -150,12 +150,10 @@ export class BaseFiltroComponent extends General implements OnInit {
     filtros.forEach((filtro: any) => {
 
       if (
-        filtro.propiedad === '' &&
-        filtro.operador === '' &&
+        filtro.propiedad === '' ||
         filtro.valor_1 === ''
       ) {
         hayFiltrosSinValores = true;
-        return;
       }
 
       const nuevoFiltro = {
@@ -173,17 +171,21 @@ export class BaseFiltroComponent extends General implements OnInit {
     });
 
     if (hayFiltrosSinValores) {
-      return;
+      hayFiltrosSinValores = false;
+
+      this.alertaService.mensajeError('Error en formulario filtros', "contiene campos vacios");
+    } else {
+      this.listaFiltros = listaFiltros;
+
+      localStorage.setItem(
+        this.nombreFiltro,
+        JSON.stringify(this.listaFiltros)
+      );
+  
+      this.emitirFiltros.emit(this.listaFiltros);
     }
 
-    this.listaFiltros = listaFiltros;
 
-    localStorage.setItem(
-      this.nombreFiltro,
-      JSON.stringify(this.listaFiltros)
-    );
-
-    this.emitirFiltros.emit(this.listaFiltros);
   }
 
   actualizarPropiedad(propiedad: string, index: number) {

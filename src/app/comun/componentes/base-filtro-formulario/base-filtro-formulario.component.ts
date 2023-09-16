@@ -112,9 +112,6 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    // if(this.datosSeleccionados){
-    //
-    // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
