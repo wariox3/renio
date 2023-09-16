@@ -40,6 +40,8 @@ export class BaseListaComponent extends General implements OnInit {
   arrPropiedades: Listafiltros[];
   arrItems: any[];
   cantidad_registros!: number;
+  nombreFiltro = '';
+
 
   constructor(private httpService: HttpService) {
     super();
@@ -49,12 +51,28 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
+      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`
+      this.changeDetectorRef.detectChanges();
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista(): void {
+
+    if (localStorage.getItem(this.nombreFiltro)) {
+      this.arrParametrosConsulta.filtros = JSON.parse(
+        localStorage.getItem(this.nombreFiltro)!
+      );
+    } else {
+      if(this.arrParametrosConsulta.filtros.length > 0){
+        this.arrParametrosConsulta.filtros = []
+      }
+    }
+
+    console.log(this.nombreFiltro);
+    
+
     let baseUrl = 'general/';
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
