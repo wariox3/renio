@@ -1,9 +1,7 @@
-
-
 table#tableDetalles {
   user-select: none;
   border-collapse: collapse;
-  border: 1px dashed #A1A5B7; /* Gris muy claro */
+  border: 1px dashed #a1a5b7; /* Gris muy claro */
   width: 100%;
 
   tr {
@@ -50,5 +48,12 @@ table#tableDetalles {
   .disabled-cursor {
     cursor: not-allowed;
   }
-
 }
+
+.containerDescuento {
+  display: grid;
+  grid-template-columns: 98% 2%;
+  justify-content: center;
+  align-items: center;
+}
+

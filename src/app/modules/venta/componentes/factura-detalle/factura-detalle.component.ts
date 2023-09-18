@@ -397,10 +397,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    console.log(evento.target.value !== '');
 
     if (evento.target.value !== '') {
-      detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+      if (parseFloat(evento.target.value) < 0) {
+        detalleFormGroup.get(campo)?.patchValue(0);
+      } else {
+        detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+      }
     } else {
       detalleFormGroup.get(campo)?.patchValue(0);
     }

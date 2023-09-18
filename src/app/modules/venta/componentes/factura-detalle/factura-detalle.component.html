@@ -138,21 +138,23 @@
         }"
       ></ng-container>
       <div
-      *ngIf="
-        formularioFactura.controls.fecha_vence?.touched &&
-        formularioFactura.controls.fecha_vence?.hasError('fechaVenceInferiorNoValida')
-      "
-    >
-      <div class="fv-plugins-message-container">
-        <div class="fv-help-block">
-          <span
-            translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
-            role="alert"
-          >
-          </span>
+        *ngIf="
+          formularioFactura.controls.fecha_vence?.touched &&
+          formularioFactura.controls.fecha_vence?.hasError(
+            'fechaVenceInferiorNoValida'
+          )
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <span
+              translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
+              role="alert"
+            >
+            </span>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
   <div class="row mb-5">
@@ -310,8 +312,9 @@
                           appSoloNumeros
                         ></textarea>
                       </td>
-                      <td>
-                        <textarea
+                      <td class="containerDescuento">
+                        <div class="column1">
+                          <textarea
                           formControlName="descuento"
                           [value]="detalle.value.descuento"
                           (change)="actualizarDetalle(i, 'descuento', $event)"
@@ -326,6 +329,8 @@
                           spellcheck="true"
                           appSoloNumeros
                         ></textarea>
+                        </div>
+                        <div class="column2">%</div>
                       </td>
                       <td>
                         <textarea
