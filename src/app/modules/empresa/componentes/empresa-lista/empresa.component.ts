@@ -50,7 +50,7 @@ export class EmpresaComponent extends General implements OnInit {
           nombre: respuesta.nombre,
           imagen:
             'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
-          empresa_id: respuesta.id,
+          inquilino_id: respuesta.id,
           subdominio: respuesta.subdominio,
           id: respuesta.id,
           usuario_id: 1,
@@ -59,7 +59,14 @@ export class EmpresaComponent extends General implements OnInit {
           plan_id: null,
           plan_nombre: null,
           usuarios: 1,
-          usuarios_base: 0
+          usuarios_base: 0,
+          ciudad: 0,
+          correo: '',
+          direccion: '',
+          identificacion: 0,
+          nombre_corto: '',
+          numero_identificacion: 0,
+          telefono: ''
         };
         this.store.dispatch(empresaActionInit({ empresa }));
         if(environment.production){
@@ -114,12 +121,12 @@ export class EmpresaComponent extends General implements OnInit {
 
   navegarAinvitaciones(empresa: Empresa) {
     this.router.navigateByUrl(
-      `/empresa/${empresa.empresa_id}/invitacion/nuevo`,
+      `/empresa/${empresa.inquilino_id}/invitacion/nuevo`,
       { state: { empresa: empresa } }
     );
   }
 
-  detalleEmpresa(empresa_id: Number){
-    this.router.navigate([`/empresa/detalle/${empresa_id}`]);
+  detalleEmpresa(inquilino_id: Number){
+    this.router.navigate([`/empresa/detalle/${inquilino_id}`]);
   }
 }

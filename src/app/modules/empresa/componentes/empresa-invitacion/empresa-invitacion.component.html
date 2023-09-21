@@ -9,10 +9,8 @@
         translate="FORMULARIOS.TITULOS.EMPRESAS.NUEVAINVITACION"
         class="card-title"
       >
-      <span class="mx-1">  {{ empresa_nombre }} </span>
-
+        <span class="mx-1"> {{ empresa_nombre }} </span>
       </h3>
-
     </div>
     <div class="card-body">
       <div class="row">
@@ -63,20 +61,13 @@
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'email',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-              control: formularioEmpresaInvitacion.controls['nombre']
-            }"
-          ></ng-container>
+
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'pattern',
-              message: 'El campo contiene caracteres no validos',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioEmpresaInvitacion.controls['nombre']
             }"
           ></ng-container>

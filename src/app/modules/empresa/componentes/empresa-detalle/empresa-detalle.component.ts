@@ -12,7 +12,7 @@ import { of, pipe, switchMap } from 'rxjs';
 export class EmpresaDetalleComponent extends General implements OnInit {
   empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
   informacionEmpresa: Empresa = {
-    empresa_id: 0,
+    inquilino_id: 0,
     id: 0,
     imagen: '',
     nombre: '',
@@ -23,6 +23,13 @@ export class EmpresaDetalleComponent extends General implements OnInit {
     plan_id: 0,
     plan_nombre: 0,
     usuarios_base: 0,
+    ciudad: 0,
+    correo: '',
+    direccion: '',
+    identificacion: 0,
+    nombre_corto: '',
+    numero_identificacion: 0,
+    telefono: ''
   };
 
   constructor(private empresaService: EmpresaService) {

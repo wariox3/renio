@@ -32,7 +32,7 @@ export class EmpresaService {
 
   lista(usuario_id: string) {
     return this.http.post<EmpresaLista>(
-      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/consulta-usuario/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/consulta-usuario/`,
       {
         usuario_id,
       }
@@ -40,7 +40,7 @@ export class EmpresaService {
   }
 
   nuevo(data: EmpresaFormulario, codigoUsuario: string) {
-    return this.http.post(`${environment.URL_API_MUUP}/inquilino/empresa/`, {
+    return this.http.post(`${environment.URL_API_MUUP}/inquilino/inquilino/`, {
       nombre: data.nombre,
       subdominio: data.subdominio,
       usuario: codigoUsuario,
@@ -51,13 +51,13 @@ export class EmpresaService {
 
   detalle(codigoEmpresa: string) {
     return this.http.get<Empresa>(
-      `${environment.URL_API_MUUP}/inquilino/empresa/${codigoEmpresa}`
+      `${environment.URL_API_MUUP}/inquilino/inquilino/${codigoEmpresa}`
     );
   }
 
   consultarNombre(subdominio: string) {
     return this.http.post<{ validar: boolean }>(
-      `${environment.URL_API_MUUP}/inquilino/empresa/validar/`,
+      `${environment.URL_API_MUUP}/inquilino/inquilino/validar/`,
       {
         subdominio,
       }
@@ -66,13 +66,13 @@ export class EmpresaService {
 
   consultarInformacion(empresa_id: Number | string) {
     return this.http.get<EmpresaFormulario>(
-      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`
+      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`
     );
   }
 
   editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: string) {
     return this.http.put(
-      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`,
+      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
@@ -84,34 +84,34 @@ export class EmpresaService {
 
   enviarInvitacion(data: EmpresaInvitacion) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/invitar/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/invitar/`,
       {
         accion: 'invitar',
-        empresa_id: data.empresa_id,
+        inquilino_id: data.inquilino_id,
         usuario_id: data.usuario_id,
         invitado: data.invitado,
       }
     );
   }
 
-  listaInvitaciones(empresa_id: string) {
+  listaInvitaciones(inquilino_id: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/consulta-empresa/`,
+      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/consulta-inquilino/`,
       {
-        empresa_id,
+        inquilino_id,
       }
     );
   }
 
   eliminarEmpresa(empresa_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/inquilino/empresa/${empresa_id}/`
+      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`
     );
   }
 
   eliminarEmpresaUsuario(usuario_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/inquilino/usuarioempresa/${usuario_id}/`
+      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/${usuario_id}/`
     );
   }
 
@@ -121,7 +121,7 @@ export class EmpresaService {
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post<{cargar: boolean}>(
-      `${environment.URL_API_MUUP}/inquilino/empresa/cargar-logo/`,
+      `${environment.URL_API_MUUP}/inquilino/inquilino/cargar-logo/`,
       {
         empresa_id,
         imagenB64,
@@ -134,7 +134,7 @@ export class EmpresaService {
       limpiar: boolean,
       imagen: string
     }>(
-      `${environment.URL_API_MUUP}/inquilino/empresa/limpiar-logo/`,
+      `${environment.URL_API_MUUP}/inquilino/inquilino/limpiar-logo/`,
       {
         empresa_id,
       }

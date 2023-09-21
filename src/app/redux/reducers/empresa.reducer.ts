@@ -12,7 +12,7 @@ let empresaData = getCookie(`empresa-${dominioActual.split('.')[0]}`);
 let estadoAnalizado: Empresa = {
   nombre: '',
   imagen: '',
-  empresa_id: 0,
+  inquilino_id: 0,
   id: 0,
   subdominio: '',
   usuario_id: 0,
@@ -21,7 +21,14 @@ let estadoAnalizado: Empresa = {
   plan_id: null,
   plan_nombre: null,
   usuarios: 1,
-  usuarios_base: 0
+  usuarios_base: 0,
+  ciudad: 0,
+  correo: '',
+  direccion: '',
+  identificacion: 0,
+  nombre_corto: '',
+  numero_identificacion: 0,
+  telefono: ''
 };
 
 export const initialState: Empresa = empresaData

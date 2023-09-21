@@ -55,10 +55,9 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.email,
           Validators.minLength(3),
           Validators.maxLength(50),
-          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
       ],
     });
@@ -71,7 +70,7 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
     if (this.formularioEmpresaInvitacion.valid) {
       this.empresaService
         .enviarInvitacion({
-          empresa_id: empresaCodigo,
+          inquilino_id: empresaCodigo,
           invitado: this.formFields.nombre.value,
           usuario_id: this.usuarioCodigo,
         })

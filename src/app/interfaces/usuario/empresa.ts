@@ -1,16 +1,23 @@
 export interface Empresa {
-  empresa_id: number;
+  ciudad: number;
+  correo: string;
+  direccion: string;
   id: number;
+  identificacion: number;
   imagen: string;
+  inquilino_id: number;
   nombre: string | null;
+  nombre_corto: string;
+  numero_identificacion: number;
+  plan_id: number | null;
+  plan_nombre: number | null;
+  rol: string;
+  seleccion?: boolean;
   subdominio: string;
+  telefono: string;
   usuario_id: number;
-  seleccion?: boolean
-  rol: string
-  usuarios: number,
-  plan_id: number | null,
-  plan_nombre : number | null,
-  usuarios_base : number | null
+  usuarios: number;
+  usuarios_base: number | null;
 }
 
 
@@ -19,7 +26,7 @@ export interface EmpresaLista {
 }
 
 export interface EmpresaInvitacion {
-  empresa_id: string;
+  inquilino_id: string;
   usuario_id: string;
   invitado: string;
 }
