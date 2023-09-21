@@ -43,7 +43,7 @@ export class EmpresaService {
     return this.http.post(`${environment.URL_API_MUUP}/inquilino/inquilino/`, {
       nombre: data.nombre,
       subdominio: data.subdominio,
-      usuario: codigoUsuario,
+      usuario_id: codigoUsuario,
       plan_id: data.plan_id,
       imagen: data.imagen,
     });
