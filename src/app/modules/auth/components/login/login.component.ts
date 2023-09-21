@@ -11,6 +11,8 @@ import { Subscription, Observable, switchMap, tap, of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
+import { SubdominioService } from '@comun/services/subdominio.service';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +39,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private renderer2: Renderer2,
+    private subdominioService: SubdominioService,
+    private empresaService: EmpresaService
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -122,7 +126,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   idioma: respuesta.user.idioma,
                   dominio: respuesta.user.dominio,
                   fecha_limite_pago: new Date(respuesta.user.fecha_limite_pago),
-                  vr_saldo: respuesta.user.vr_saldo
+                  vr_saldo: respuesta.user.vr_saldo,
                 },
               })
             );
@@ -134,6 +138,12 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
               this.router.navigate(['/empresa/lista']);
             }
           }),
+          switchMap((respuesta) => {
+            if (this.subdominioService.esSubdominioActual()) {
+              this.consultarInformacionEmpresa(respuesta.user.id, this.subdominioService.subdominioNombre())
+            }
+            return of(null);
+          }),
           switchMap(() => {
             if (tokenUrl) {
               return this.authService.confirmarInivitacion(tokenUrl);
@@ -144,7 +154,9 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             if (tokenUrl) {
               if (respuestaConfirmarInivitacion.confirmar) {
                 this.alertaService.mensajaExitoso(
-                  this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.INVITACIONACEPTADA")
+                  this.translateService.instant(
+                    'FORMULARIOS.MENSAJES.EMPRESAS.INVITACIONACEPTADA'
+                  )
                 );
               }
             }
@@ -163,6 +175,15 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  consultarInformacionEmpresa(empresa_id:string, empresa_nombre:string){
+    // this.empresaService
+    // .consultarInformacion(this.empresa_id)
+    // .subscribe((respuesta: any) => {
+    //   this.informacionEmpresa = respuesta;
+    //   this.changeDetectorRef.detectChanges();
+    // });
   }
 
   ngOnDestroy() {
