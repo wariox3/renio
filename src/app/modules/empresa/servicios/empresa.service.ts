@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
-  Empresa,
-  EmpresaFormulario,
-  EmpresaInvitacion,
-  EmpresaLista,
-} from '@interfaces/usuario/empresa';
+  Inquilino,
+  InquilinoFormulario,
+  InquilinoInvitacion,
+  InquilinoLista,
+} from '@interfaces/usuario/inquilino';
 import { Plan } from '../modelos/plan';
 import { FechasService } from '@comun/services/fechas.service';
 
@@ -31,7 +31,7 @@ export class EmpresaService {
    private fechaServices: FechasService) {}
 
   lista(usuario_id: string) {
-    return this.http.post<EmpresaLista>(
+    return this.http.post<InquilinoLista>(
       `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/consulta-usuario/`,
       {
         usuario_id,
@@ -39,7 +39,7 @@ export class EmpresaService {
     );
   }
 
-  nuevo(data: EmpresaFormulario, codigoUsuario: string) {
+  nuevo(data: InquilinoFormulario, codigoUsuario: string) {
     return this.http.post(`${environment.URL_API_MUUP}/inquilino/inquilino/`, {
       nombre: data.nombre,
       subdominio: data.subdominio,
@@ -49,9 +49,9 @@ export class EmpresaService {
     });
   }
 
-  detalle(codigoEmpresa: string) {
-    return this.http.get<Empresa>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/${codigoEmpresa}`
+  detalle(codigoInquilino: string) {
+    return this.http.get<Inquilino>(
+      `${environment.URL_API_MUUP}/inquilino/inquilino/${codigoInquilino}`
     );
   }
 
@@ -65,12 +65,12 @@ export class EmpresaService {
   }
 
   consultarInformacion(empresa_id: Number | string) {
-    return this.http.get<EmpresaFormulario>(
+    return this.http.get<InquilinoFormulario>(
       `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`
     );
   }
 
-  editar(data: EmpresaFormulario, codigoUsuario: string, empresa_id: string) {
+  editar(data: InquilinoFormulario, codigoUsuario: string, empresa_id: string) {
     return this.http.put(
       `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`,
       {
@@ -82,7 +82,7 @@ export class EmpresaService {
     );
   }
 
-  enviarInvitacion(data: EmpresaInvitacion) {
+  enviarInvitacion(data: InquilinoInvitacion) {
     return this.http.post(
       `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/invitar/`,
       {

@@ -37,7 +37,7 @@ const routes: Routes = [
 
   },
   {
-    path: ':nombreempresa/:codigoempresa/invitacion/nuevo',
+    path: ':inquilino_nombre/:inquino_codigo/invitacion/nuevo',
     component: EmpresaInvitacionComponent,
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },

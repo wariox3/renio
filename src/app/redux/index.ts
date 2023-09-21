@@ -1,13 +1,13 @@
 import { usuarioReducer } from './reducers/usuario.reducer';
 import { menuReducer } from './reducers/menu.reducer';
-import { empresaReducer } from './reducers/empresa.reducer';
-import { EmpresaEffects } from './efectos/EmpresaEffects';
+import { inquilinoReducer } from './reducers/Inquilino.reducer';
+import { InquilinoEffects } from './efectos/InquilinoEffects';
 import { UsuarioEffects } from './efectos/UsuarioEffects';
 
 export const StoreApp = {
   usuario: usuarioReducer,
   menu: menuReducer,
-  empresa: empresaReducer,
+  empresa: inquilinoReducer,
 };
 
-export const EffectsApp = [EmpresaEffects, UsuarioEffects];
+export const EffectsApp = [InquilinoEffects, UsuarioEffects];

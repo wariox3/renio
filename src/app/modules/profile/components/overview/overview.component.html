@@ -5,15 +5,15 @@
   <div class="table-responsive-sm p-5">
     <table class="table table-row-dashed table-row-gray-300">
       <tbody>
-        <ng-container *ngIf="arrEmpresas.length > 0; else sinEmpresas">
+        <ng-container *ngIf="arrInquilinos.length > 0; else sinEmpresas">
           <tr
-            *ngFor="let empresa of arrEmpresas"
+            *ngFor="let inquilino of arrInquilinos"
             style="height: calc(82px - 0.6rem) !important"
           >
             <td style="width: 120px">
-              <ng-container *ngIf="empresa.imagen">
+              <ng-container *ngIf="inquilino.imagen">
                 <img
-                  src="{{ empresa.imagen }}"
+                  src="{{ inquilino.imagen }}"
                   alt="LOGO"
                   style="min-width: 120px"
                   class="img-thumbnail"
@@ -22,28 +22,28 @@
             </td>
             <td>
               <p class="text-dark fw-bolder fs-6">
-                {{ empresa.nombre }}
+                {{ inquilino.nombre }}
                 <small class="badge badge-light-primary fs-8 fw-bold">{{
-                  empresa.rol
+                  inquilino.rol
                 }}</small>
               </p>
               <span class="text-muted fw-bold text-muted d-block fs-7">
-                {{ empresa.subdominio }}.muup.online
+                {{ inquilino.subdominio }}.muup.online
               </span>
             </td>
             <td class="w-50px">
               <div
                 ngbDropdown
                 class="d-inline-block"
-                *ngIf="empresa.rol === 'propietario'"
+                *ngIf="inquilino.rol === 'propietario'"
               ></div>
             </td>
-            <td>{{ empresa.usuarios }} / {{empresa.usuarios_base}}</td>
+            <td>{{ inquilino.usuarios }} / {{inquilino.usuarios_base}}</td>
           </tr>
         </ng-container>
         <ng-template #sinEmpresas>
           <tr>
-            <td colspan="4">No cuenta con empresas creadas</td>
+            <td colspan="4">No cuenta con inquilinos creados</td>
           </tr>
         </ng-template>
       </tbody>

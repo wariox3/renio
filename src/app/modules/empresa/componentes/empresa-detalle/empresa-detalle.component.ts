@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { Empresa } from '@interfaces/usuario/empresa';
+import { Inquilino } from '@interfaces/usuario/inquilino';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { of, pipe, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-detalle',
@@ -11,7 +11,7 @@ import { of, pipe, switchMap } from 'rxjs';
 })
 export class EmpresaDetalleComponent extends General implements OnInit {
   empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
-  informacionEmpresa: Empresa = {
+  informacionEmpresa: Inquilino = {
     inquilino_id: 0,
     id: 0,
     imagen: '',

@@ -2,8 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { EmpresaService } from '../../servicios/empresa.service';
 import { switchMap, tap } from 'rxjs';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { Empresa } from '@interfaces/usuario/empresa';
-import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { Inquilino } from '@interfaces/usuario/inquilino';
+import { InquilinoActionInit } from '@redux/actions/inquilino.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
@@ -14,7 +14,7 @@ import { environment } from '@env/environment';
   styleUrls: ['./empresa.component.scss'],
 })
 export class EmpresaComponent extends General implements OnInit {
-  arrEmpresas: Empresa[] = [];
+  arrInquilinos: Inquilino[] = [];
 
   constructor(private empresaService: EmpresaService, private subdominioService: SubdominioService) {
     super();
@@ -30,7 +30,7 @@ export class EmpresaComponent extends General implements OnInit {
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrEmpresas = respuesta.empresas;
+          this.arrInquilinos = respuesta.inquilinos;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
@@ -46,7 +46,7 @@ export class EmpresaComponent extends General implements OnInit {
     const consultaEmpresa = this.empresaService
       .detalle(`${empresaSeleccionada}`)
       .subscribe((respuesta) => {
-        const empresa: Empresa = {
+        const inquilino: Inquilino = {
           nombre: respuesta.nombre,
           imagen:
             'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
@@ -68,7 +68,7 @@ export class EmpresaComponent extends General implements OnInit {
           numero_identificacion: 0,
           telefono: ''
         };
-        this.store.dispatch(empresaActionInit({ empresa }));
+        this.store.dispatch(InquilinoActionInit({ inquilino }));
         if(environment.production){
           window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
         }else{
@@ -119,7 +119,7 @@ export class EmpresaComponent extends General implements OnInit {
       });
   }
 
-  navegarAinvitaciones(empresa: Empresa) {
+  navegarAinvitaciones(empresa: Inquilino) {
     this.router.navigateByUrl(
       `/empresa/${empresa.inquilino_id}/invitacion/nuevo`,
       { state: { empresa: empresa } }

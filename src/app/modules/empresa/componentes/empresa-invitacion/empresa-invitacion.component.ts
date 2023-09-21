@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { EmpresaUsuariosInvicionAceptada } from '@interfaces/usuario/empresa';
+import { InquilinoUsuariosInvicionAceptada } from '@interfaces/usuario/inquilino';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { tap } from 'rxjs';
@@ -12,22 +12,21 @@ import { tap } from 'rxjs';
   styleUrls: ['./empresa-invitacion.component.scss'],
 })
 export class EmpresaInvitacionComponent extends General implements OnInit {
-  arrInvitaciones: EmpresaUsuariosInvicionAceptada[] = [
-
-  ]
+  arrInvitaciones: InquilinoUsuariosInvicionAceptada[] = [];
   formularioEmpresaInvitacion: FormGroup;
-  empresa_nombre = ""
+  inquilino_nombre: string;
   usuarioCodigo = '';
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
+    private empresaService: EmpresaService
   ) {
-    super()
+    super();
   }
 
   ngOnInit(): void {
     this.initForm();
-    this.empresa_nombre = this.activatedRoute.snapshot.paramMap.get('nombreempresa')!;
+    this.inquilino_nombre =
+      this.activatedRoute.snapshot.paramMap.get('inquilino_nombre')!;
 
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.usuarioCodigo = codigoUsuario;
@@ -37,12 +36,14 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    let empresaCodigo =
-    this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
-    this.empresaService.listaInvitaciones(empresaCodigo).subscribe((respuesta: any) => {
-      this.arrInvitaciones = respuesta.usuarios;
-      this.changeDetectorRef.detectChanges();
-    });
+    let inquilino_codigo =
+      this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
+    this.empresaService
+      .listaInvitaciones(inquilino_codigo)
+      .subscribe((respuesta: any) => {
+        this.arrInvitaciones = respuesta.usuarios;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   get formFields() {
@@ -64,22 +65,21 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    let empresaCodigo =
-      this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+    let inquilino_id =
+      this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
 
     if (this.formularioEmpresaInvitacion.valid) {
       this.empresaService
         .enviarInvitacion({
-          inquilino_id: empresaCodigo,
+          inquilino_id: inquilino_id,
           invitado: this.formFields.nombre.value,
           usuario_id: this.usuarioCodigo,
         })
         .subscribe(() => {
           this.alertaService.mensajaExitoso(
-
             `Se ha enviado un correo de invitación.`
           );
-          this.consultarLista()
+          this.consultarLista();
           this.formularioEmpresaInvitacion.reset();
         });
     } else {
@@ -96,17 +96,20 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
-          this.empresaService.eliminarEmpresaUsuario(usuario_id)
-          .pipe(
-            tap(()=>{
-              this.alertaService.mensajaExitoso(this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION")
-              );
-              this.consultarLista()
-            })
-          )
-          .subscribe();
+          this.empresaService
+            .eliminarEmpresaUsuario(usuario_id)
+            .pipe(
+              tap(() => {
+                this.alertaService.mensajaExitoso(
+                  this.translateService.instant(
+                    'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION'
+                  )
+                );
+                this.consultarLista();
+              })
+            )
+            .subscribe();
         }
       });
   }
-
 }

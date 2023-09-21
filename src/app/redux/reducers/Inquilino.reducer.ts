@@ -1,15 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  empresaActionInit,
-  empresaSeleccionAction,
-} from '../actions/empresa.actions';
-import { Empresa } from '@interfaces/usuario/empresa';
+  InquilinoActionInit,
+  InquilinoSeleccionAction,
+} from '../actions/inquilino.actions';
+import { Inquilino } from '@interfaces/usuario/inquilino';
 import { getCookie } from 'typescript-cookie';
 
 let dominioActual = window.location.host;
 
-let empresaData = getCookie(`empresa-${dominioActual.split('.')[0]}`);
-let estadoAnalizado: Empresa = {
+let InquilinoDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
+let estadoAnalizado: Inquilino = {
   nombre: '',
   imagen: '',
   inquilino_id: 0,
@@ -31,19 +31,19 @@ let estadoAnalizado: Empresa = {
   telefono: ''
 };
 
-export const initialState: Empresa = empresaData
-  ? JSON.parse(empresaData)
+export const initialState: Inquilino = InquilinoDatos
+  ? JSON.parse(InquilinoDatos)
   : estadoAnalizado;
 
-export const empresaReducer = createReducer(
+export const inquilinoReducer = createReducer(
   initialState,
-  on(empresaActionInit, (state, { empresa }) => {
+  on(InquilinoActionInit, (state, { inquilino }) => {
     return {
       ...state,
-      ...empresa,
+      ...inquilino,
     };
   }),
-  on(empresaSeleccionAction, (state, { seleccion }) => {
+  on(InquilinoSeleccionAction, (state, { seleccion }) => {
     return {
       ...state,
       seleccion: seleccion,

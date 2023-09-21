@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import { obtenerInquilinoNombre } from '@redux/selectors/inquilono.selectors';
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
@@ -25,11 +25,11 @@ export class ProfileComponent extends General {
     super();
   }
 
-  empresaNombre = this.store.select(obtenerEmpresaNombre);
+  inquilinoNombre = this.store.select(obtenerInquilinoNombre);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
-  nombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
-  telefono = this.store.select(obtenerUsuarioTelefono);
+  usuarioNombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);
+  usuarioTelefono = this.store.select(obtenerUsuarioTelefono);
 
   recuperarBase64(event: any) {
     this.store

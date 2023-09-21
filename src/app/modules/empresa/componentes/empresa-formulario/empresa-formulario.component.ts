@@ -1,7 +1,7 @@
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { EmpresaFormulario } from '@interfaces/usuario/empresa';
+import { InquilinoFormulario } from '@interfaces/usuario/inquilino';
 import { Plan } from '@modulos/empresa/modelos/plan';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { tap } from 'rxjs';
@@ -16,7 +16,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   codigoUsuario = '';
   planSeleccionado: Number = 2;
   arrPlanes: Plan[] = [];
-  @Input() informacionEmpresa!: EmpresaFormulario ;
+  @Input() informacionInquilino!: InquilinoFormulario;
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   @Input() visualizarBtnAtras: boolean = true;
   @Input() visualizarCampoSubdominio: boolean = true;
@@ -36,17 +36,17 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.consultarPlanes();
-    this.planSeleccionado =this.informacionEmpresa.plan_id !== 0
-    ? this.informacionEmpresa.plan_id
-    : this.planSeleccionado
+    this.planSeleccionado =
+      this.informacionInquilino.plan_id !== 0
+        ? this.informacionInquilino.plan_id
+        : this.planSeleccionado;
     this.initForm();
   }
 
   initForm() {
-
     this.formularioEmpresa = this.formBuilder.group({
       nombre: [
-        this.informacionEmpresa.nombre,
+        this.informacionInquilino.nombre,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -54,7 +54,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ]),
       ],
       subdominio: [
-        this.informacionEmpresa.subdominio,
+        this.informacionInquilino.subdominio,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -65,7 +65,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       plan_id: [
         this.planSeleccionado,
         Validators.compose([Validators.required]),
-      ]
+      ],
     });
   }
 

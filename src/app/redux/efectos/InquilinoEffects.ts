@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { empresaActionInit } from '@redux/actions/empresa.actions';
-import { map, tap } from 'rxjs/operators';
+import { InquilinoActionInit } from '@redux/actions/inquilino.actions';
+import { tap } from 'rxjs/operators';
 import { setCookie } from 'typescript-cookie';
 
 @Injectable()
-export class EmpresaEffects {
-  guardarEmpresa$ = createEffect(
+export class InquilinoEffects {
+  guardarInquilino$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(empresaActionInit),
+        ofType(InquilinoActionInit),
         tap((action) => {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
@@ -18,8 +18,8 @@ export class EmpresaEffects {
 
           if (environment.production) {
             setCookie(
-              `empresa-${action.empresa.subdominio}`,
-              JSON.stringify(action.empresa),
+              `empresa-${action.inquilino.subdominio}`,
+              JSON.stringify(action.inquilino),
               {
                 expires: calcularTresHoras,
                 path: '/',
@@ -28,8 +28,8 @@ export class EmpresaEffects {
             );
           } else {
             setCookie(
-              `empresa-${action.empresa.subdominio}`,
-              JSON.stringify(action.empresa),
+              `empresa-${action.inquilino.subdominio}`,
+              JSON.stringify(action.inquilino),
               {
                 expires: calcularTresHoras,
                 path: '/',

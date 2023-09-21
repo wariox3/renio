@@ -1,11 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaService } from '../../servicios/empresa.service';
-import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { of, switchMap, tap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { General } from '@comun/clases/general';
-import { Empresa, EmpresaFormulario } from '@interfaces/usuario/empresa';
+import { Inquilino, InquilinoFormulario } from '@interfaces/usuario/inquilino';
 
 @Component({
   selector: 'app-empresa-nuevo',
@@ -19,7 +17,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
   visualizarBtnAtras = true;
   procesando = false;
 
-  informacionEmpresa: EmpresaFormulario = {
+  informacionInquilino: InquilinoFormulario = {
     nombre: '',
     subdominio: '',
     plan_id: 0,
@@ -40,7 +38,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
   }
 
 
-  enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
+  enviarFormulario(dataFormularioLogin: InquilinoFormulario) {
     this.visualizarBtnAtras = false;
     this.procesando = true;
 

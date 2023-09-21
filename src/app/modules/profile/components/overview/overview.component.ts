@@ -6,14 +6,14 @@ import {
 } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 import { EmpresaService } from '../../../empresa/servicios/empresa.service';
-import { Empresa } from '@interfaces/usuario/empresa';
+import { Inquilino } from '@interfaces/usuario/inquilino';
 import { General } from '@comun/clases/general';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent extends General implements OnInit {
-  arrEmpresas: Empresa[] = [];
+  arrInquilinos: Inquilino[] = [];
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -33,7 +33,7 @@ export class OverviewComponent extends General implements OnInit {
       .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrEmpresas = respuesta.empresas;
+          this.arrInquilinos = respuesta.inquilinos;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {

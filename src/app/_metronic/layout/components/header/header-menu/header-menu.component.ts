@@ -1,11 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { LayoutType } from '../../../core/configs/config';
 import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
-import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
-import { obtenerEmpresaSeleccion } from '@redux/selectors/empresa.selectors';
 import { General } from '@comun/clases/general';
 import { environment } from '@env/environment';
 
@@ -52,7 +49,7 @@ export class HeaderMenuComponent extends General implements OnInit {
     }
   }
 
-  seleccionarMenu(ruta: string){    
+  seleccionarMenu(ruta: string){
     localStorage.setItem('ruta', ruta)
     this.store.dispatch(selecionModuloAction({seleccion: ruta}))
   }

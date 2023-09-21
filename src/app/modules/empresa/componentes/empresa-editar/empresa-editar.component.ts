@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { EmpresaFormulario } from '@interfaces/usuario/empresa';
+import { InquilinoFormulario } from '@interfaces/usuario/inquilino';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
@@ -20,7 +20,7 @@ import { switchMap, tap } from 'rxjs';
 })
 export class EmpresaEditarComponent extends General {
   visualizarBtnAtras = false;
-  informacionEmpresa: EmpresaFormulario = {
+  informacionInquilino: InquilinoFormulario = {
     nombre: '',
     subdominio: '',
     plan_id: 0,
@@ -39,7 +39,7 @@ export class EmpresaEditarComponent extends General {
     super();
   }
 
-  enviarFormulario(dataFormularioLogin: EmpresaFormulario) {
+  enviarFormulario(dataFormularioLogin: InquilinoFormulario) {
     this.store
       .select(obtenerUsuarioId)
       .pipe(
@@ -70,7 +70,7 @@ export class EmpresaEditarComponent extends General {
       .consultarInformacion(this.empresa_id)
       .pipe(
         tap((respuesta) => {
-          this.informacionEmpresa = respuesta;
+          this.informacionInquilino = respuesta;
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
             size: 'lg',

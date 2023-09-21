@@ -1,4 +1,4 @@
-export interface Empresa {
+export interface Inquilino {
   ciudad: number;
   correo: string;
   direccion: string;
@@ -21,21 +21,21 @@ export interface Empresa {
 }
 
 
-export interface EmpresaLista {
-  empresas: Empresa[];
+export interface InquilinoLista {
+  inquilinos: Inquilino[];
 }
 
-export interface EmpresaInvitacion {
+export interface InquilinoInvitacion {
   inquilino_id: string;
   usuario_id: string;
   invitado: string;
 }
 
-export interface EmpresaUsuariosInvicionAceptada extends Omit<Empresa, 'subdominio' | 'imagen' | 'seleccion'>{
+export interface InquilinoUsuariosInvicionAceptada extends Omit<Inquilino, 'subdominio' | 'imagen' | 'seleccion'>{
   username: string
 }
 
-export interface EmpresaFormulario {
+export interface InquilinoFormulario {
   nombre: string;
   subdominio: string;
   plan_id: Number ,

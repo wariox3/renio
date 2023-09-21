@@ -4,7 +4,7 @@ import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
 
-import { obtenerEmpresaId, obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import { obtenerInquilinoId, obtenerInquilinoNombre } from '@redux/selectors/inquilono.selectors';
 import {
   obtenerUsuarioCargo,
   obtenerUsuarioImagen,
@@ -33,7 +33,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioCargo$ = this.store.select(obtenerUsuarioCargo);
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
-  obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
+  obtenerInquilinoNombre$ = this.store.select(obtenerInquilinoNombre);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
 
@@ -86,8 +86,8 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   }
 
   navegarAmiEmpresa(){
-    this.store.select(obtenerEmpresaId).subscribe((empresa_id)=>{
-      this.router.navigate([`/empresa/detalle/${empresa_id}/facturacion`])
+    this.store.select(obtenerInquilinoId).subscribe((inquilino_id)=>{
+      this.router.navigate([`/empresa/detalle/${inquilino_id}/facturacion`])
     });
   }
 
