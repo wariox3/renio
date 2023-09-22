@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { of, switchMap, tap } from 'rxjs';
+import { of, switchMap, tap, zip } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 
@@ -22,6 +22,15 @@ export class ContenedorNuevoComponent extends General implements OnInit {
     subdominio: '',
     plan_id: 0,
     imagen: null,
+    ciudad: '',
+    correo: '',
+    direccion: '',
+    identificacion: '',
+    nombre_corto: '',
+    numero_identificacion: '',
+    telefono: '',
+    ciudad_nombre: '',
+    digito_verificacion: ''
   };
 
   constructor(private contenedorService: ContenedorService) {

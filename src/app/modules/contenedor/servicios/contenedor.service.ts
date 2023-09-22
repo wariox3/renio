@@ -11,13 +11,11 @@ import { FechasService } from '@comun/services/fechas.service';
 import { Plan } from '@interfaces/contenedor/plan';
 import { Consumo } from '@interfaces/contenedor/consumo';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class ContenedorService {
-  constructor(private http: HttpClient,
-   private fechaServices: FechasService) {}
+  constructor(private http: HttpClient, private fechaServices: FechasService) {}
 
   lista(usuario_id: string) {
     return this.http.post<ContenedorLista>(
@@ -29,13 +27,16 @@ export class ContenedorService {
   }
 
   nuevo(data: ContenedorFormulario, codigoUsuario: string) {
-    return this.http.post(`${environment.URL_API_MUUP}/contenedor/contenedor/`, {
-      nombre: data.nombre,
-      subdominio: data.subdominio,
-      usuario_id: codigoUsuario,
-      plan_id: data.plan_id,
-      imagen: data.imagen,
-    });
+    return this.http.post(
+      `${environment.URL_API_MUUP}/contenedor/contenedor/`,
+      {
+        nombre: data.nombre,
+        subdominio: data.subdominio,
+        usuario_id: codigoUsuario,
+        plan_id: data.plan_id,
+        imagen: data.imagen,
+      }
+    );
   }
 
   detalle(codigoContenedor: string) {
@@ -59,7 +60,11 @@ export class ContenedorService {
     );
   }
 
-  editar(data: ContenedorFormulario, codigoUsuario: string, empresa_id: string) {
+  editar(
+    data: ContenedorFormulario,
+    codigoUsuario: string,
+    empresa_id: string
+  ) {
     return this.http.put(
       `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`,
       {
@@ -105,11 +110,25 @@ export class ContenedorService {
   }
 
   listaPlanes() {
-    return this.http.get<Plan[]>(`${environment.URL_API_MUUP}/contenedor/plan/`);
+    return this.http.get<Plan[]>(
+      `${environment.URL_API_MUUP}/contenedor/plan/`
+    );
+  }
+
+  listaCiudades() {
+    return this.http.get<Plan[]>(
+      `${environment.URL_API_MUUP}/contenedor/plan/`
+    );
+  }
+
+  listaTipoIdentificacion() {
+    return this.http.get<Plan[]>(
+      `${environment.URL_API_MUUP}/contenedor/plan/`
+    );
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.http.post<{cargar: boolean}>(
+    return this.http.post<{ cargar: boolean }>(
       `${environment.URL_API_MUUP}/contenedor/contenedor/cargar-logo/`,
       {
         empresa_id,
@@ -120,14 +139,11 @@ export class ContenedorService {
 
   eliminarLogoEmpresa(empresa_id: Number | string) {
     return this.http.post<{
-      limpiar: boolean,
-      imagen: string
-    }>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/limpiar-logo/`,
-      {
-        empresa_id,
-      }
-    );
+      limpiar: boolean;
+      imagen: string;
+    }>(`${environment.URL_API_MUUP}/contenedor/contenedor/limpiar-logo/`, {
+      empresa_id,
+    });
   }
 
   consultarConsumoFecha(empresa_id: Number | string) {

@@ -24,6 +24,15 @@ export class ContenedorEditarComponent extends General {
     subdominio: '',
     plan_id: 0,
     imagen: null,
+    ciudad: '',
+    ciudad_nombre: '',
+    correo: '',
+    digito_verificacion: '',
+    direccion: '',
+    identificacion: '',
+    nombre_corto: '',
+    numero_identificacion: '',
+    telefono: '',
   };
   @Input() contenedor_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();

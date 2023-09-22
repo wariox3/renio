@@ -39,5 +39,14 @@ export interface ContenedorFormulario {
   nombre: string;
   subdominio: string;
   plan_id: Number ,
-  imagen: string | null
+  imagen: string | null,
+  numero_identificacion: string,
+  nombre_corto: string,
+  direccion: string,
+  telefono: string,
+  correo: string,
+  identificacion: string,
+  ciudad: string,
+  ciudad_nombre: string,
+  digito_verificacion: string,
 }
