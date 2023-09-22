@@ -152,7 +152,7 @@ export class AuthService implements OnDestroy {
   }
 
   confirmarInivitacion(token: string){
-    return this.http.post(`${environment.URL_API_MUUP}/inquilino/usuarioempresa/confirmar/`,{
+    return this.http.post(`${environment.URL_API_MUUP}/contenedor/usuarioempresa/confirmar/`,{
       token
     })
   }

@@ -3,7 +3,7 @@ import { ContenedorService } from '../../servicios/contenedor.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { of, switchMap, tap } from 'rxjs';
 import { General } from '@comun/clases/general';
-import { Contenedor, ContenedorFormulario } from '@interfaces/usuario/contenedor';
+import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 
 @Component({
   selector: 'app-contenedor-nuevo',

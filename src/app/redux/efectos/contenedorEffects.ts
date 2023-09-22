@@ -7,7 +7,7 @@ import { setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class ContenedorEffects {
-  guardarInquilino$ = createEffect(
+  guardarConenedor$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(ContenedorActionInit),

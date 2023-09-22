@@ -62,7 +62,7 @@ export class ResumenService {
 
   facturacion(usuario_id: string) {
     return this.http.post<Facturas>(
-      `${environment.URL_API_MUUP}/inquilino/movimiento/consulta-usuario/`,
+      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-usuario/`,
       {
         usuario_id,
       }
@@ -71,7 +71,7 @@ export class ResumenService {
 
   facturacionFechas(usuario_id: string) {
     return this.http.post<Consumos>(
-      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-usuario-fecha/`,
+      `${environment.URL_API_MUUP}/contenedor/consumo/consulta-usuario-fecha/`,
       {
         usuario_id,
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),

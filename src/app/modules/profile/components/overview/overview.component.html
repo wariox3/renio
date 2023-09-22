@@ -5,15 +5,15 @@
   <div class="table-responsive-sm p-5">
     <table class="table table-row-dashed table-row-gray-300">
       <tbody>
-        <ng-container *ngIf="arrInquilinos.length > 0; else sinEmpresas">
+        <ng-container *ngIf="arrContenedores.length > 0; else sinEmpresas">
           <tr
-            *ngFor="let inquilino of arrInquilinos"
+            *ngFor="let contenedor of arrContenedores"
             style="height: calc(82px - 0.6rem) !important"
           >
             <td style="width: 120px">
-              <ng-container *ngIf="inquilino.imagen">
+              <ng-container *ngIf="contenedor.imagen">
                 <img
-                  src="{{ inquilino.imagen }}"
+                  src="{{ contenedor.imagen }}"
                   alt="LOGO"
                   style="min-width: 120px"
                   class="img-thumbnail"
@@ -22,28 +22,28 @@
             </td>
             <td>
               <p class="text-dark fw-bolder fs-6">
-                {{ inquilino.nombre }}
+                {{ contenedor.nombre }}
                 <small class="badge badge-light-primary fs-8 fw-bold">{{
-                  inquilino.rol
+                  contenedor.rol
                 }}</small>
               </p>
               <span class="text-muted fw-bold text-muted d-block fs-7">
-                {{ inquilino.subdominio }}.muup.online
+                {{ contenedor.subdominio }}.muup.online
               </span>
             </td>
             <td class="w-50px">
               <div
                 ngbDropdown
                 class="d-inline-block"
-                *ngIf="inquilino.rol === 'propietario'"
+                *ngIf="contenedor.rol === 'propietario'"
               ></div>
             </td>
-            <td>{{ inquilino.usuarios }} / {{inquilino.usuarios_base}}</td>
+            <td>{{ contenedor.usuarios }} / {{contenedor.usuarios_base}}</td>
           </tr>
         </ng-container>
         <ng-template #sinEmpresas>
           <tr>
-            <td colspan="4">No cuenta con inquilinos creados</td>
+            <td colspan="4">No cuenta con contenedors creados</td>
           </tr>
         </ng-template>
       </tbody>

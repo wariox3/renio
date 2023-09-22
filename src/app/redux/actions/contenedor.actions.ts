@@ -7,11 +7,11 @@ export const ContenedorActionInit = createAction(
 );
 
 export const ContenedorGuardarAction = createAction(
-  '[Contenedor] Guardar inquilino en localstore',
+  '[Contenedor] Guardar contenedor en localstore',
   props<{contenedor: Contenedor}>()
 );
 
 export const ContenedorSeleccionAction = createAction(
-  '[Inquilino] Seleccionar Inquilino',
+  '[Contenedor] Seleccionar contenedor',
   props<{ seleccion: boolean }>()
 );

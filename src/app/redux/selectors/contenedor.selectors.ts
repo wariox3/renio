@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 
-const Contenedor = createFeatureSelector<Contenedor>('inquilino');
+const Contenedor = createFeatureSelector<Contenedor>('conenedor');
 
 export const obtenerContenedorSeleccion = createSelector(
   Contenedor,

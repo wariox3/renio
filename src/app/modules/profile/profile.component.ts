@@ -25,7 +25,7 @@ export class ProfileComponent extends General {
     super();
   }
 
-  inquilinoNombre = this.store.select(obtenerContenedorNombre);
+  contenedorNombre = this.store.select(obtenerContenedorNombre);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   usuarioNombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);

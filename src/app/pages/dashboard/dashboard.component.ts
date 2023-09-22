@@ -8,7 +8,7 @@ import { ModalConfig, ModalComponent } from '../../_metronic/partials';
 })
 export class DashboardComponent {
   modalConfig: ModalConfig = {
-    modalTitle: 'Inquilino información',
+    modalTitle: 'Contenedor información',
     dismissButtonLabel: 'Guardar',
   };
   @ViewChild('modal') private modalComponent: ModalComponent;

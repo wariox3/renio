@@ -21,7 +21,7 @@ export class ContenedorService {
 
   lista(usuario_id: string) {
     return this.http.post<ContenedorLista>(
-      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/consulta-usuario/`,
+      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-usuario/`,
       {
         usuario_id,
       }
@@ -29,7 +29,7 @@ export class ContenedorService {
   }
 
   nuevo(data: ContenedorFormulario, codigoUsuario: string) {
-    return this.http.post(`${environment.URL_API_MUUP}/inquilino/inquilino/`, {
+    return this.http.post(`${environment.URL_API_MUUP}/contenedor/contenedor/`, {
       nombre: data.nombre,
       subdominio: data.subdominio,
       usuario_id: codigoUsuario,
@@ -40,13 +40,13 @@ export class ContenedorService {
 
   detalle(codigoContenedor: string) {
     return this.http.get<Contenedor>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/${codigoContenedor}`
+      `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}`
     );
   }
 
   consultarNombre(subdominio: string) {
     return this.http.post<{ validar: boolean }>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/validar/`,
+      `${environment.URL_API_MUUP}/contenedor/contenedor/validar/`,
       {
         subdominio,
       }
@@ -55,13 +55,13 @@ export class ContenedorService {
 
   consultarInformacion(empresa_id: Number | string) {
     return this.http.get<ContenedorFormulario>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`
+      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`
     );
   }
 
   editar(data: ContenedorFormulario, codigoUsuario: string, empresa_id: string) {
     return this.http.put(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`,
+      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
@@ -73,44 +73,44 @@ export class ContenedorService {
 
   enviarInvitacion(data: ContenedorInvitacion) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/invitar/`,
+      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/invitar/`,
       {
         accion: 'invitar',
-        inquilino_id: data.contenedor_id,
+        contenedor_id: data.contenedor_id,
         usuario_id: data.usuario_id,
         invitado: data.invitado,
       }
     );
   }
 
-  listaInvitaciones(inquilino_id: string) {
+  listaInvitaciones(contenedor_id: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/consulta-inquilino/`,
+      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-contenedor/`,
       {
-        inquilino_id,
+        contenedor_id,
       }
     );
   }
 
   eliminarEmpresa(empresa_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/${empresa_id}/`
+      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`
     );
   }
 
   eliminarEmpresaUsuario(usuario_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/inquilino/usuarioinquilino/${usuario_id}/`
+      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/${usuario_id}/`
     );
   }
 
   listaPlanes() {
-    return this.http.get<Plan[]>(`${environment.URL_API_MUUP}/inquilino/plan/`);
+    return this.http.get<Plan[]>(`${environment.URL_API_MUUP}/contenedor/plan/`);
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post<{cargar: boolean}>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/cargar-logo/`,
+      `${environment.URL_API_MUUP}/contenedor/contenedor/cargar-logo/`,
       {
         empresa_id,
         imagenB64,
@@ -123,7 +123,7 @@ export class ContenedorService {
       limpiar: boolean,
       imagen: string
     }>(
-      `${environment.URL_API_MUUP}/inquilino/inquilino/limpiar-logo/`,
+      `${environment.URL_API_MUUP}/contenedor/contenedor/limpiar-logo/`,
       {
         empresa_id,
       }
@@ -132,7 +132,7 @@ export class ContenedorService {
 
   consultarConsumoFecha(empresa_id: Number | string) {
     return this.http.post<Consumo>(
-      `${environment.URL_API_MUUP}/inquilino/consumo/consulta-empresa-fecha/`,
+      `${environment.URL_API_MUUP}/contenedor/consumo/consulta-empresa-fecha/`,
       {
         empresa_id,
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),

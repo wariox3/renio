@@ -13,7 +13,7 @@ import { General } from '@comun/clases/general';
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent extends General implements OnInit {
-  arrInquilinos: Contenedor[] = [];
+  arrContenedores: Contenedor[] = [];
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -33,7 +33,7 @@ export class OverviewComponent extends General implements OnInit {
       .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrInquilinos = respuesta.contenedores;
+          this.arrContenedores = respuesta.contenedores;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
