@@ -49,7 +49,7 @@ export const locale = {
           PDF: 'Pdf',
           INFORMACION: 'Información',
         },
-        EMPRESA: {
+        CONTENEDOR: {
           CONECTAR: 'Conectar',
           INVITACION: 'Invitaciones',
           INVITAR: 'Invitar',
@@ -85,16 +85,16 @@ export const locale = {
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',
-            EMPRESA: 'Mi empresa',
-            EMPRESAS: 'Mis empresas',
+            CONTENEDOR: 'Mi container',
+            CONTENEDORES: 'Mis contenedores',
           },
         },
-        EMPRESAS: {
-          TITULO: 'Empresas',
-          EDITAR: 'Editar empresa',
+        CONTENEDOR: {
+          TITULO: 'Contenedores',
+          EDITAR: 'Editar contenedor',
           INVITAR: 'Invitaciones',
           NUEVAINVITACION: 'Nueva invitación para',
-          NUEVO: 'Nueva empresa',
+          NUEVO: 'Nueva contenedor',
           SUBDOMINIO: 'Subdominio',
           IMAGEN: 'Imagen',
           IMAGENESACEPTADAS: 'Tipos de archivo permitidos: jpg',
@@ -230,7 +230,7 @@ export const locale = {
           TIPOCORREO: 'El campo no es un correo electrónico válido',
           NOVALIDO: 'El campo contiene caracteres no válidos',
         },
-        EMPRESA: {
+        CONTENEDORES: {
           NOMBREUSADO: 'Nombre no disponible',
         },
         SEGURIDAD: {
@@ -255,14 +255,14 @@ export const locale = {
             'Su cuenta esta en riesgo de suspension por pago',
           CARGARIMAGEN: 'Imagen cargada con éxito',
         },
-        EMPRESAS: {
-          CREAREMPRESA: 'Estamos creando su empresa, espere un momento...',
-          ELIMINAREMPRESATITULO: 'Eliminar empresa',
-          ELIMINAREMPRESASUBTITULO: 'Este proceso no tiene reversa',
-          ELIMINAREMPRESAAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
-          SINEMPRESAS: 'No cuenta con empresas creadas',
+        CONTENEDOR: {
+          CREARCONTENEDOR: 'Estamos creando su contenedor, espere un momento...',
+          ELIMINACONTENEDORTITULO: 'Eliminar contenedor',
+          ELIMINARCONTENEDORSUBTITULO: 'Este proceso no tiene reversa',
+          ELIMINARCONTENEDORAAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
+          SINCONTENEDORES: 'No cuenta con contenedores creados',
           INVITACIONACEPTADA: 'Invitacion aceptada',
-          NUEVAEMPRESA: 'La nueva empresa fue creada',
+          NUEVOCONTENEDOR: 'La nueva empresa fue creada',
         },
         AUTENTIFICACION: {
           VERIFICACION:

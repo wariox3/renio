@@ -96,15 +96,6 @@ export class RegistrationComponent extends General  implements OnInit {
 
   submit() {
     if (this.formularioRegistro.valid) {
-
-      const mensajes = this.translateService.instant([
-        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESATITULO',
-        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESASUBTITULO',
-        'FORMULARIOS.MENSAJES.EMPRESAS.ELIMINAREMPRESAAYUDA',
-        'FORMULARIOS.BOTONES.COMUNES.ELIMINAR',
-        'FORMULARIOS.BOTONES.COMUNES.CANCELAR',
-      ]);
-
       this.renderer2.setAttribute(
         this.btnCrear.nativeElement,
         'disabled',

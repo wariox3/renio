@@ -48,7 +48,7 @@ export const locale = {
           PDF: 'Pdf',
           INFORMACION: 'Information',
         },
-        EMPRESA: {
+        CONTENEDORES: {
           CONECTAR: 'Connect',
           INVITACION: 'Invitations',
           INVITAR: 'Invite',
@@ -84,16 +84,16 @@ export const locale = {
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',
-            EMPRESA: 'My company',
-            EMPRESAS: 'My companies',
+            CONTENEDOR: 'My container',
+            CONTENEDORES: 'My containers',
           },
         },
-        EMPRESAS: {
+        CONTENEDORESS: {
           TITULO: 'Companies',
-          EDITAR: 'Edit company',
+          EDITAR: 'Edit container',
           INVITAR: 'Invitations',
           NUEVAINVITACION: 'New invitation to',
-          NUEVO: 'New company',
+          NUEVO: 'New container',
           SUBDOMINIO: 'Subdomain',
           IMAGEN: 'Imagen',
           IMAGENESACEPTADAS: 'Allowed file types: jpg',
@@ -224,7 +224,7 @@ export const locale = {
           TIPOCORREO: 'Field is not a valid email address',
           NOVALIDO: 'Field contains invalid characters',
         },
-        EMPRESA: {
+        CONTENEDORES: {
           NOMBREUSADO: 'Name not available',
         },
         SEGURIDAD: {
@@ -250,14 +250,14 @@ export const locale = {
             'Your account is at risk of suspension for payment',
           CARGARIMAGEN: 'Image uploaded successfully',
         },
-        EMPRESAS: {
-          CREAREMPRESA: 'We are creating your company, wait a moment...',
-          ELIMINAREMPRESATITULO: 'Eliminate company',
-          ELIMINAREMPRESASUBTITULO: 'This process is not reversed',
-          ELIMINAREMPRESAAYUDA: `To confirm, type in the box below:`,
-          SINEMPRESAS: 'No companies have been created',
+        CONTENEDORES: {
+          CREARCONTENEDOR: 'We are creating your container, wait a moment...',
+          ELIMINARCONTENEDORESTITULO: 'Remove container',
+          ELIMINARCONTENEDORSUBTITULO: 'This process is not reversed',
+          ELIMINARCONTENEDORAAYUDA: `To confirm, type in the box below:`,
+          SINCONTENEDORES: 'No container have been created',
           INVITACIONACEPTADA: 'Invitation accepted',
-          NUEVAEMPRESA: 'The new company was created',
+          NUEVOCONTENEDOR: 'The new container was created',
         },
         AUTENTIFICACION: {
           VERIFICACION: 'An email has been sent to verify your account.',

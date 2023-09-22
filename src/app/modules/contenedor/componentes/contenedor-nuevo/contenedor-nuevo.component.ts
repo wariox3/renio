@@ -46,18 +46,13 @@ export class ContenedorNuevoComponent extends General implements OnInit {
         if (respuesta && respuesta.contenedor) {
           this.alertaService.mensajaExitoso(
             this.translateService.instant(
-              'FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA'
+              'FORMULARIOS.MENSAJES.CONTENEDOR.NUEVAEMPRESA'
             )
           );
           this.router.navigate(['/contenedor/lista']);
-          this.procesando = false;
         }
-      }),
-      tap({
-        error: () => {
-          this.procesando = false;
-          this.changeDetectorRef.detectChanges();
-        },
+        this.procesando = false;
+        this.changeDetectorRef.detectChanges();
       }),
       switchMap(({ validar }) => {
         if (!validar) {

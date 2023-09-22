@@ -7,7 +7,7 @@
       <div class="card-header">
         <div class="card-title m-0">
           <h3
-            translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO"
+            translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO"
             class="fw-bolder m-0"
           ></h3>
         </div>
@@ -38,7 +38,7 @@
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngIf="arrContenedores.length > 0; else sinEmpresas">
+              <ng-container *ngIf="arrContenedores.length > 0; else sinContenedores">
                 <tr
                   *ngFor="let contenedor of arrContenedores"
                   style="height: calc(82px - 0.6rem) !important"
@@ -163,11 +163,11 @@
                   </td>
                 </tr>
               </ng-container>
-              <ng-template #sinEmpresas>
+              <ng-template #sinContenedores>
                 <tr>
                   <td
                     colspan="4"
-                    translate="FORMULARIOS.MENSAJES.EMPRESAS.SINEMPRESAS"
+                    translate="FORMULARIOS.MENSAJES.CONTENEDOR.SINCONTENEDORES"
                   ></td>
                 </tr>
               </ng-template>

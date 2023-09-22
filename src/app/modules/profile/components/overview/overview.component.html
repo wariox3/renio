@@ -1,11 +1,11 @@
 <div class="card shadow-sm">
   <div class="card-header">
-    <h3 translate="FORMULARIOS.TITULOS.EMPRESAS.TITULO" class="card-title"></h3>
+    <h3 translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO" class="card-title"></h3>
   </div>
   <div class="table-responsive-sm p-5">
     <table class="table table-row-dashed table-row-gray-300">
       <tbody>
-        <ng-container *ngIf="arrContenedores.length > 0; else sinEmpresas">
+        <ng-container *ngIf="arrContenedores.length > 0; else sinContenedores">
           <tr
             *ngFor="let contenedor of arrContenedores"
             style="height: calc(82px - 0.6rem) !important"
@@ -41,7 +41,7 @@
             <td>{{ contenedor.usuarios }} / {{contenedor.usuarios_base}}</td>
           </tr>
         </ng-container>
-        <ng-template #sinEmpresas>
+        <ng-template #sinContenedores>
           <tr>
             <td colspan="4">No cuenta con contenedors creados</td>
           </tr>

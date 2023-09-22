@@ -158,7 +158,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
               if (respuestaConfirmarInivitacion.confirmar) {
                 this.alertaService.mensajaExitoso(
                   this.translateService.instant(
-                    'FORMULARIOS.MENSAJES.EMPRESAS.INVITACIONACEPTADA'
+                    'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA'
                   )
                 );
               }
