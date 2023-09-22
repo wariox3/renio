@@ -21,7 +21,7 @@ const routes: Routes = [
     component: InquilinoNuevoComponent,
   },
   {
-    path: 'detalle/:inquinoCodigo',
+    path: 'detalle/:inquilinoCodigo',
     component: InquilinoDetalleComponent,
     children: [
       {
@@ -36,7 +36,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: ':inquilinoNombre/:inquinoCodigo/invitacion/nuevo',
+    path: ':inquilinoNombre/:inquilinoCodigo/invitacion/nuevo',
     component: InquilinoInvitacionComponent,
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },

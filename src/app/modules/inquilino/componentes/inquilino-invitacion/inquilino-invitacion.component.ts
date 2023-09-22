@@ -14,7 +14,7 @@ import { tap } from 'rxjs';
 export class InquilinoInvitacionComponent extends General implements OnInit {
   arrInvitaciones: InquilinoUsuariosInvicionAceptada[] = [];
   formularioEmpresaInvitacion: FormGroup;
-  inquilino_nombre: string;
+  inquilinoNombre: string;
   usuarioCodigo = '';
   constructor(
     private formBuilder: FormBuilder,
@@ -25,21 +25,16 @@ export class InquilinoInvitacionComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.inquilino_nombre =
-      this.activatedRoute.snapshot.paramMap.get('inquilino_nombre')!;
-
-    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
-      this.usuarioCodigo = codigoUsuario;
-      this.changeDetectorRef.detectChanges();
-    });
+    this.inquilinoNombre =
+      this.activatedRoute.snapshot.paramMap.get('inquilinoNombre')!;
     this.consultarLista();
   }
 
   consultarLista() {
-    let inquilino_codigo =
-      this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
-    this.inquilinoService
-      .listaInvitaciones(inquilino_codigo)
+    let inquilinoCodigo =
+      this.activatedRoute.snapshot.paramMap.get('inquilinoCodigo')!;
+      this.inquilinoService
+      .listaInvitaciones(inquilinoCodigo)
       .subscribe((respuesta: any) => {
         this.arrInvitaciones = respuesta.usuarios;
         this.changeDetectorRef.detectChanges();
@@ -66,7 +61,11 @@ export class InquilinoInvitacionComponent extends General implements OnInit {
 
   formSubmit() {
     let inquilino_id =
-      this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
+      this.activatedRoute.snapshot.paramMap.get('inquilinoCodigo')!;
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
+      this.usuarioCodigo = codigoUsuario;
+      this.changeDetectorRef.detectChanges();
+    });
 
     if (this.formularioEmpresaInvitacion.valid) {
       this.inquilinoService

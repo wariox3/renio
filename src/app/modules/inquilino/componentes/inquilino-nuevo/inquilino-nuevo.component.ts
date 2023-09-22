@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { InquilinoService } from '../../servicios/inquilino.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { of, switchMap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { Inquilino, InquilinoFormulario } from '@interfaces/usuario/inquilino';
 
@@ -24,9 +24,7 @@ export class InquilinoNuevoComponent extends General implements OnInit {
     imagen: null,
   };
 
-  constructor(
-    private inquilinoService: InquilinoService,
-  ) {
+  constructor(private inquilinoService: InquilinoService) {
     super();
   }
 
@@ -37,40 +35,44 @@ export class InquilinoNuevoComponent extends General implements OnInit {
     });
   }
 
-
   enviarFormulario(dataFormularioLogin: InquilinoFormulario) {
     this.visualizarBtnAtras = false;
     this.procesando = true;
 
     this.inquilinoService
-      .consultarNombre(dataFormularioLogin.subdominio)
-      .pipe(
-        switchMap(({validar}) => {
-          if (!validar) {
-            this.procesando = false;
-            this.changeDetectorRef.detectChanges();
-            this.alertaService.mensajeError('Error', 'Nombre en uso');
-          } else {
-             return this.inquilinoService.nuevo(dataFormularioLogin, this.codigoUsuario);
-          }
-          return of(null);
-        })
-      )
-      .subscribe({
-        next:(respuesta: any)=>{
-            if(respuesta.inquilino){
-              this.alertaService.mensajaExitoso(
-                this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA")
-              );
-              this.router.navigate(['/inquilino/lista']);
-              this.procesando = false;
-            }
-        },
-        error:() =>{
+    .consultarNombre(dataFormularioLogin.subdominio)
+    .pipe(
+      tap((respuesta: any) => {
+        if (respuesta && respuesta.inquilino) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA'
+            )
+          );
+          this.router.navigate(['/inquilino/lista']);
+          this.procesando = false;
+        }
+      }),
+      tap({
+        error: () => {
           this.procesando = false;
           this.changeDetectorRef.detectChanges();
+        },
+      }),
+      switchMap(({ validar }) => {
+        if (!validar) {
+          this.procesando = false;
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError('Error', 'Nombre en uso');
+        } else {
+          return this.inquilinoService.nuevo(
+            dataFormularioLogin,
+            this.codigoUsuario
+          );
         }
-      });
+        return of(null);
+      }),
+    )
+    .subscribe();
   }
-
 }
