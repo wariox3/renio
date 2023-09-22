@@ -2,23 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { InquilinoUsuariosInvicionAceptada } from '@interfaces/usuario/inquilino';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-empresa-invitacion',
-  templateUrl: './empresa-invitacion.component.html',
-  styleUrls: ['./empresa-invitacion.component.scss'],
+  selector: 'app-inquilino-invitacion',
+  templateUrl: './inquilino-invitacion.component.html',
+  styleUrls: ['./inquilino-invitacion.component.scss'],
 })
-export class EmpresaInvitacionComponent extends General implements OnInit {
+export class InquilinoInvitacionComponent extends General implements OnInit {
   arrInvitaciones: InquilinoUsuariosInvicionAceptada[] = [];
   formularioEmpresaInvitacion: FormGroup;
   inquilino_nombre: string;
   usuarioCodigo = '';
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService
+    private inquilinoService: InquilinoService
   ) {
     super();
   }
@@ -38,7 +38,7 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
   consultarLista() {
     let inquilino_codigo =
       this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
-    this.empresaService
+    this.inquilinoService
       .listaInvitaciones(inquilino_codigo)
       .subscribe((respuesta: any) => {
         this.arrInvitaciones = respuesta.usuarios;
@@ -69,7 +69,7 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
       this.activatedRoute.snapshot.paramMap.get('inquilino_codigo')!;
 
     if (this.formularioEmpresaInvitacion.valid) {
-      this.empresaService
+      this.inquilinoService
         .enviarInvitacion({
           inquilino_id: inquilino_id,
           invitado: this.formFields.nombre.value,
@@ -90,13 +90,13 @@ export class EmpresaInvitacionComponent extends General implements OnInit {
   eliminarInvitado(usuario_id: Number) {
     this.alertaService
       .mensajeValidacion(
-        'Eliminar usuario de esta empresa',
+        'Eliminar usuario de esta inquilino',
         'Este proceso no tiene reversa',
         'warning'
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
-          this.empresaService
+          this.inquilinoService
             .eliminarEmpresaUsuario(usuario_id)
             .pipe(
               tap(() => {

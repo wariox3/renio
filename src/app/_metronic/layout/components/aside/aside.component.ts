@@ -29,7 +29,7 @@ export class AsideComponent implements OnInit, OnDestroy {
   appPreviewDocsUrl: string = environment.appPreviewDocsUrl;
   @ViewChild('ktAsideScroll', { static: true }) ktAsideScroll: ElementRef;
   private unsubscribe: Subscription[] = [];
-  navegar = this.subdominioService.esSubdominioActual() ? "/dashboard" : "/empresa/lista";
+  navegar = this.subdominioService.esSubdominioActual() ? "/dashboard" : "/inquilino/lista";
 
   constructor(
     private layout: LayoutService,

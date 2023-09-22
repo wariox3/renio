@@ -8,17 +8,17 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { InquilinoFormulario } from '@interfaces/usuario/inquilino';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-empresa-editar',
-  templateUrl: './empresa-editar.component.html',
-  styleUrls: ['./empresa-editar.component.scss'],
+  selector: 'app-inquilino-editar',
+  templateUrl: './inquilino-editar.component.html',
+  styleUrls: ['./inquilino-editar.component.scss'],
 })
-export class EmpresaEditarComponent extends General {
+export class InquilinoEditarComponent extends General {
   visualizarBtnAtras = false;
   informacionInquilino: InquilinoFormulario = {
     nombre: '',
@@ -26,7 +26,7 @@ export class EmpresaEditarComponent extends General {
     plan_id: 0,
     imagen: null,
   };
-  @Input() empresa_id!: string;
+  @Input() inquilino_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   modalRef: any;
@@ -34,7 +34,7 @@ export class EmpresaEditarComponent extends General {
   constructor(
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    private empresaService: EmpresaService
+    private inquilinoService: InquilinoService
   ) {
     super();
   }
@@ -44,37 +44,37 @@ export class EmpresaEditarComponent extends General {
       .select(obtenerUsuarioId)
       .pipe(
         switchMap((codigoUsuario) => {
-          return this.empresaService.editar(
+          return this.inquilinoService.editar(
             dataFormularioLogin,
             codigoUsuario,
-            this.empresa_id
+            this.inquilino_id
           );
         }),
-        tap((respuestaActualizacion: any)=>{
-          if(respuestaActualizacion.actualizacion){
+        tap((respuestaActualizacion: any) => {
+          if (respuestaActualizacion.actualizacion) {
             this.modalService.dismissAll();
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
               )
             );
-            return this.emitirActualizacion.emit(true)
+            return this.emitirActualizacion.emit(true);
           }
-        }),
+        })
       )
       .subscribe();
   }
 
   openModal() {
-    this.empresaService
-      .consultarInformacion(this.empresa_id)
+    this.inquilinoService
+      .consultarInformacion(this.inquilino_id)
       .pipe(
         tap((respuesta) => {
           this.informacionInquilino = respuesta;
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
             size: 'lg',
-            keyboard: false
+            keyboard: false,
           });
         })
       )

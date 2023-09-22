@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { Inquilino } from '@interfaces/usuario/inquilino';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
 import { of, switchMap } from 'rxjs';
 
 @Component({
-  selector: 'app-empresa-detalle',
-  templateUrl: './empresa-detalle.component.html',
-  styleUrls: ['./empresa-detalle.component.scss'],
+  selector: 'app-inquilino-detalle',
+  templateUrl: './inquilino-detalle.component.html',
+  styleUrls: ['./inquilino-detalle.component.scss'],
 })
-export class EmpresaDetalleComponent extends General implements OnInit {
-  empresa_id = this.activatedRoute.snapshot.paramMap.get('codigoempresa')!;
+export class InquilinoDetalleComponent extends General implements OnInit {
+  inquilino_id = this.activatedRoute.snapshot.paramMap.get('codigoinquilino')!;
   informacionEmpresa: Inquilino = {
     inquilino_id: 0,
     id: 0,
@@ -29,10 +29,10 @@ export class EmpresaDetalleComponent extends General implements OnInit {
     identificacion: 0,
     nombre_corto: '',
     numero_identificacion: 0,
-    telefono: ''
+    telefono: '',
   };
 
-  constructor(private empresaService: EmpresaService) {
+  constructor(private inquilinoService: InquilinoService) {
     super();
   }
 
@@ -41,8 +41,8 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   consultarDetalle() {
-    this.empresaService
-      .consultarInformacion(this.empresa_id)
+    this.inquilinoService
+      .consultarInformacion(this.inquilino_id)
       .subscribe((respuesta: any) => {
         this.informacionEmpresa = respuesta;
         this.changeDetectorRef.detectChanges();
@@ -50,7 +50,7 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   recuperarBase64(event: any) {
-    this.empresaService.cargarLogo(this.empresa_id, event).subscribe({
+    this.inquilinoService.cargarLogo(this.inquilino_id, event).subscribe({
       next: (respuesta) => {
         if (respuesta.cargar) {
           this.alertaService.mensajaExitoso(
@@ -65,14 +65,16 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   eliminarLogo(event: boolean) {
-    this.empresaService
-      .eliminarLogoEmpresa(this.empresa_id)
-      .pipe(switchMap((respuestaEliminarLogoEmpresa) => {
-        if(respuestaEliminarLogoEmpresa.limpiar){
-          this.consultarDetalle()
-        }
-         return of(null)
-      }))
+    this.inquilinoService
+      .eliminarLogoEmpresa(this.inquilino_id)
+      .pipe(
+        switchMap((respuestaEliminarLogoEmpresa) => {
+          if (respuestaEliminarLogoEmpresa.limpiar) {
+            this.consultarDetalle();
+          }
+          return of(null);
+        })
+      )
       .subscribe();
   }
 }

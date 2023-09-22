@@ -26,7 +26,7 @@ export interface ConsumoPlan {
 @Injectable({
   providedIn: 'root',
 })
-export class EmpresaService {
+export class InquilinoService {
   constructor(private http: HttpClient,
    private fechaServices: FechasService) {}
 

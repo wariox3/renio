@@ -1,5 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { EmpresaService } from '../../servicios/empresa.service';
+import { Component, OnInit } from '@angular/core';
+import { InquilinoService } from '../../servicios/inquilino.service';
 import { switchMap, tap } from 'rxjs';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Inquilino } from '@interfaces/usuario/inquilino';
@@ -9,14 +9,17 @@ import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
 
 @Component({
-  selector: 'app-empresa',
-  templateUrl: './empresa.component.html',
-  styleUrls: ['./empresa.component.scss'],
+  selector: 'app-inquilino-lista',
+  templateUrl: './inquilino-lista.component.html',
+  styleUrls: ['./inquilino-lista.component.scss'],
 })
-export class EmpresaComponent extends General implements OnInit {
+export class InquilinoListaComponent extends General implements OnInit {
   arrInquilinos: Inquilino[] = [];
 
-  constructor(private empresaService: EmpresaService, private subdominioService: SubdominioService) {
+  constructor(
+    private inquilinoService: InquilinoService,
+    private subdominioService: SubdominioService
+  ) {
     super();
   }
 
@@ -27,7 +30,7 @@ export class EmpresaComponent extends General implements OnInit {
   consultarLista() {
     let suscripcion = this.store
       .select(obtenerUsuarioId)
-      .pipe(switchMap((usuarioId) => this.empresaService.lista(usuarioId)))
+      .pipe(switchMap((usuarioId) => this.inquilinoService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
           this.arrInquilinos = respuesta.inquilinos;
@@ -43,7 +46,7 @@ export class EmpresaComponent extends General implements OnInit {
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
-    const consultaEmpresa = this.empresaService
+    const consultaEmpresa = this.inquilinoService
       .detalle(`${empresaSeleccionada}`)
       .subscribe((respuesta) => {
         const inquilino: Inquilino = {
@@ -66,13 +69,13 @@ export class EmpresaComponent extends General implements OnInit {
           identificacion: 0,
           nombre_corto: '',
           numero_identificacion: 0,
-          telefono: ''
+          telefono: '',
         };
         this.store.dispatch(InquilinoActionInit({ inquilino }));
-        if(environment.production){
+        if (environment.production) {
           window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
-        }else{
-          this.router.navigate(['/dashboard'])
+        } else {
+          this.router.navigate(['/dashboard']);
         }
       });
   }
@@ -98,14 +101,16 @@ export class EmpresaComponent extends General implements OnInit {
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
           if (respuesta.value === empresa_subdominio) {
-            let suscripcion = this.empresaService
+            let suscripcion = this.inquilinoService
               .eliminarEmpresa(empresa_id)
               .pipe(
                 tap(() => {
                   this.alertaService.mensajaExitoso(
-                   this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION")
+                    this.translateService.instant(
+                      'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION'
+                    )
                   );
-                  this.consultarLista()
+                  this.consultarLista();
                 })
               )
               .subscribe();
@@ -126,7 +131,7 @@ export class EmpresaComponent extends General implements OnInit {
     );
   }
 
-  detalleEmpresa(inquilino_id: Number){
+  detalleEmpresa(inquilino_id: Number) {
     this.router.navigate([`/empresa/detalle/${inquilino_id}`]);
   }
 }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-let redirectToValue: string = '/empresa/lista';
+let redirectToValue: string = '/inquilino/lista';
 
 function getRedirectTo(): string {
   // Aquí puedes agregar tu lógica para determinar el valor de redirección
@@ -83,28 +83,41 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'empresa',
+    path: 'inquilino',
     loadChildren: () =>
-      import('../modules/empresa/empresa.module').then((m) => m.EmpresaModule),
+      import('../modules/inquilino/inquilino.module').then(
+        (m) => m.InquilinoModule
+      ),
     data: { layout: 'dark-header' },
   },
   {
     path: 'seguridad',
     loadChildren: () =>
-      import('../modules/seguridad/seguridad.module').then((m) => m.SeguridadModule),
+      import('../modules/seguridad/seguridad.module').then(
+        (m) => m.SeguridadModule
+      ),
     data: { layout: 'dark-header' },
   },
   {
-    path:'lista',
-    loadComponent: () => import('../comun/componentes/base-lista/base-lista.component').then(c => c.BaseListaComponent),
+    path: 'lista',
+    loadComponent: () =>
+      import('../comun/componentes/base-lista/base-lista.component').then(
+        (c) => c.BaseListaComponent
+      ),
   },
   {
-    path:'nuevo',
-    loadComponent: () => import('../comun/componentes/base-nuevo/base-nuevo.component').then(c => c.BaseNuevoComponent),
+    path: 'nuevo',
+    loadComponent: () =>
+      import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+        (c) => c.BaseNuevoComponent
+      ),
   },
   {
-    path:'detalle',
-    loadComponent: () => import('../comun/componentes/base-nuevo/base-nuevo.component').then(c => c.BaseNuevoComponent),
+    path: 'detalle',
+    loadComponent: () =>
+      import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+        (c) => c.BaseNuevoComponent
+      ),
   },
   {
     path: '',

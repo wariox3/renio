@@ -18,12 +18,12 @@
       <button type="button" class="btn btn-bg-light btn-color-danger" aria-label="Close" (click)="modalRef.dismiss('Cross click')"><i class="bi bi-x fs-2x"></i></button>
     </div>
     <div class="card-body">
-      <app-empresa-formulario
+      <app-inquilino-formulario
         [informacionInquilino]="informacionInquilino"
         [visualizarCampoSubdominio]="false"
         [visualizarBtnAtras]="visualizarBtnAtras"
         (dataFormulario)="enviarFormulario($event)"
-      ></app-empresa-formulario>
+      ></app-inquilino-formulario>
     </div>
   </div>
   <!--end::Form group-->

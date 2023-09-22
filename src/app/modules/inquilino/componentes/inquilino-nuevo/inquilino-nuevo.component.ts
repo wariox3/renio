@@ -1,16 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { EmpresaService } from '../../servicios/empresa.service';
+import { InquilinoService } from '../../servicios/inquilino.service';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { of, switchMap } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { Inquilino, InquilinoFormulario } from '@interfaces/usuario/inquilino';
 
 @Component({
-  selector: 'app-empresa-nuevo',
-  templateUrl: './empresa-nuevo.component.html',
-  styleUrls: ['./empresa-nuevo.component.scss'],
+  selector: 'app-inquilino-nuevo',
+  templateUrl: './inquilino-nuevo.component.html',
+  styleUrls: ['./inquilino-nuevo.component.scss'],
 })
-export class EmpresaNuevoComponent extends General implements OnInit {
+export class InquilinoNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
@@ -25,7 +25,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
   };
 
   constructor(
-    private empresaService: EmpresaService,
+    private inquilinoService: InquilinoService,
   ) {
     super();
   }
@@ -42,7 +42,7 @@ export class EmpresaNuevoComponent extends General implements OnInit {
     this.visualizarBtnAtras = false;
     this.procesando = true;
 
-    this.empresaService
+    this.inquilinoService
       .consultarNombre(dataFormularioLogin.subdominio)
       .pipe(
         switchMap(({validar}) => {
@@ -51,18 +51,18 @@ export class EmpresaNuevoComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
             this.alertaService.mensajeError('Error', 'Nombre en uso');
           } else {
-             return this.empresaService.nuevo(dataFormularioLogin, this.codigoUsuario);
+             return this.inquilinoService.nuevo(dataFormularioLogin, this.codigoUsuario);
           }
           return of(null);
         })
       )
       .subscribe({
         next:(respuesta: any)=>{
-            if(respuesta.empresa){
+            if(respuesta.inquilino){
               this.alertaService.mensajaExitoso(
                 this.translateService.instant("FORMULARIOS.MENSAJES.EMPRESAS.NUEVAEMPRESA")
               );
-              this.router.navigate(['/empresa/lista']);
+              this.router.navigate(['/inquilino/lista']);
               this.procesando = false;
             }
         },

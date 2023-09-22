@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   navegar = this.subdominioService.esSubdominioActual()
     ? '/dashboard'
-    : '/empresa/lista';
+    : '/inquilino/lista';
 
 
 

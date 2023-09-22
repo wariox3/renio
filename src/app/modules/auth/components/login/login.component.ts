@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +40,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     private authService: AuthService,
     private renderer2: Renderer2,
     private subdominioService: SubdominioService,
-    private empresaService: EmpresaService
+    private inquilinoService: InquilinoService
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -135,12 +135,15 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             if (esSubdominio) {
               this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate(['/empresa/lista']);
+              this.router.navigate(['/inquilino/lista']);
             }
           }),
           switchMap((respuesta) => {
             if (this.subdominioService.esSubdominioActual()) {
-              this.consultarInformacionEmpresa(respuesta.user.id, this.subdominioService.subdominioNombre())
+              this.consultarInformacionEmpresa(
+                respuesta.user.id,
+                this.subdominioService.subdominioNombre()
+              );
             }
             return of(null);
           }),
@@ -177,7 +180,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
   }
 
-  consultarInformacionEmpresa(empresa_id:string, empresa_nombre:string){
+  consultarInformacionEmpresa(empresa_id: string, empresa_nombre: string) {
     // this.empresaService
     // .consultarInformacion(this.empresa_id)
     // .subscribe((respuesta: any) => {

@@ -7,7 +7,7 @@ import { UsuarioEffects } from './efectos/UsuarioEffects';
 export const StoreApp = {
   usuario: usuarioReducer,
   menu: menuReducer,
-  empresa: inquilinoReducer,
+  inquilino: inquilinoReducer,
 };
 
 export const EffectsApp = [InquilinoEffects, UsuarioEffects];

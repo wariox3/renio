@@ -2,16 +2,16 @@ import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { InquilinoFormulario } from '@interfaces/usuario/inquilino';
-import { Plan } from '@modulos/empresa/modelos/plan';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { Plan } from '@modulos/inquilino/modelos/plan';
+import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-empresa-formulario',
-  templateUrl: './empresa-formulario.component.html',
-  styleUrls: ['./empresa-formulario.component.scss'],
+  selector: 'app-inquilino-formulario',
+  templateUrl: './inquilino-formulario.component.html',
+  styleUrls: ['./inquilino-formulario.component.scss'],
 })
-export class EmpresaFormularioComponent extends General implements OnInit {
+export class InquilinoFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   codigoUsuario = '';
   planSeleccionado: Number = 2;
@@ -29,7 +29,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService
+    private inquilinoService: InquilinoService
   ) {
     super();
   }
@@ -90,7 +90,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   confirmarExistencia() {
     if (this.formFields.subdominio.value !== '') {
-      this.empresaService
+      this.inquilinoService
         .consultarNombre(this.formFields.subdominio.value)
         .subscribe(({ validar }) => {
           if (!validar) {
@@ -102,7 +102,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   consultarPlanes() {
-    this.empresaService
+    this.inquilinoService
       .listaPlanes()
       .pipe(
         tap((respuesta: any) => {
