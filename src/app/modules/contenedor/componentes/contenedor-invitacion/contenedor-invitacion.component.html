@@ -1,0 +1,155 @@
+<form
+  class="form w-100 mb-4"
+  [formGroup]="formularioEmpresaInvitacion"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h3
+        translate="FORMULARIOS.TITULOS.EMPRESAS.NUEVAINVITACION"
+        class="card-title"
+      >
+        <span class="mx-1"> {{ contenedorNombre }} </span>
+      </h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+            class="form-label fw-bolder text-dark fs-6 required"
+          ></label>
+          <input
+            type="text"
+            formControlName="nombre"
+            [placeholder]="'FORMULARIOS.CAMPOS.COMUNES.CORREO' | translate"
+            class="form-control bg-transparent"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpresaInvitacion.controls['nombre'].touched &&
+                formularioEmpresaInvitacion.controls['nombre'].invalid,
+              'is-valid':
+                formularioEmpresaInvitacion.controls['nombre'].touched &&
+                formularioEmpresaInvitacion.controls['nombre'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: 3,
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: 255,
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+              control: formularioEmpresaInvitacion.controls['nombre']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-between">
+        <a
+          translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
+          class="btn btn-secondary"
+          ng-reflect-router-link="/crafted/account/settings"
+          [routerLink]="['/contenedor/lista']"
+        >
+        </a>
+        <button
+          translate="FORMULARIOS.BOTONES.EMPRESA.INVITAR"
+          type="submit"
+          class="btn btn-primary"
+          #btnGuardar
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3
+      translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
+      class="card-title"
+    ></h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <!--begin::Table-->
+      <table class="table table-row-dashed table-row-gray-300">
+        <thead>
+          <tr>
+            <th translate="FORMULARIOS.CAMPOS.COMUNES.USUARIO"></th>
+            <th translate="FORMULARIOS.CAMPOS.COMUNES.ROL"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invitacion of arrInvitaciones">
+            <td>
+              {{ invitacion.username }}
+            </td>
+            <td>
+              {{ invitacion.rol }}
+            </td>
+            <td class="w-50px">
+              <button
+                type="button"
+                class="btn btn-link text-hover-danger"
+                title="Eliminar"
+                (click)="eliminarInvitado(invitacion.id)"
+                *ngIf="invitacion.rol !== 'propietario'"
+              >
+                <i class="bi bi-trash fs-2x"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

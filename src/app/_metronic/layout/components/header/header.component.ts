@@ -35,11 +35,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   navegar = this.subdominioService.esSubdominioActual()
     ? '/dashboard'
-    : '/inquilino/lista';
+    : '/contenedor/lista';
 
-
-
-  constructor(private layout: LayoutService, private router: Router,     private subdominioService: SubdominioService) {
+  constructor(
+    private layout: LayoutService,
+    private router: Router,
+    private subdominioService: SubdominioService
+  ) {
     this.routingChanges();
   }
 

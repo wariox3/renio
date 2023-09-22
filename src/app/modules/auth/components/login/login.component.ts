@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
-import { InquilinoService } from '@modulos/inquilino/servicios/inquilino.service';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +40,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     private authService: AuthService,
     private renderer2: Renderer2,
     private subdominioService: SubdominioService,
-    private inquilinoService: InquilinoService
+    private contenedorService: ContenedorService
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -135,7 +135,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             if (esSubdominio) {
               this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate(['/inquilino/lista']);
+              this.router.navigate(['/contenedor/lista']);
             }
           }),
           switchMap((respuesta) => {

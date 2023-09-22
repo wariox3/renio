@@ -17,7 +17,7 @@
           }}</small>
         </div>
         <small class="fw-bold text-muted fs-7">
-          {{ obtenerInquilinoNombre$ | async }}
+          {{ obtenerContenedorNombre$ | async }}
         </small>
       </div>
     </div>
@@ -31,17 +31,14 @@
       class="menu-link px-5"
       translate="FORMULARIOS.TITULOS.COMUNES.MENU.PERFIL"
     ></a>
-    <a
-      routerLink="/profile/facturacion"
-      class="menu-link px-5 cursor-pointer"
-    >
+    <a routerLink="/profile/facturacion" class="menu-link px-5 cursor-pointer">
       <span
         class="menu-text"
         translate="FORMULARIOS.TITULOS.COMUNES.MENU.FACTURACION"
       ></span>
     </a>
     <a
-      href="http://muup.online/inquilino/lista"
+      href="http://muup.online/contenedor/lista"
       class="menu-link px-5 cursor-pointer"
     >
       <span
@@ -51,14 +48,10 @@
     </a>
   </div>
 
-
   <ng-container *ngIf="esSubdominio">
     <div class="separator my-2"></div>
     <div class="menu-item px-5">
-      <a
-        (click)="navegarAmiEmpresa()"
-        class="menu-link px-5 cursor-pointer"
-      >
+      <a (click)="navegarAmiEmpresa()" class="menu-link px-5 cursor-pointer">
         <span
           class="menu-text"
           translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
@@ -66,8 +59,6 @@
       </a>
     </div>
   </ng-container>
-
-
 
   <!-- <div
     class="menu-item px-5"

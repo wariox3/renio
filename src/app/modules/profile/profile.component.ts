@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { obtenerInquilinoNombre } from '@redux/selectors/inquilono.selectors';
+import { obtenerContenedorNombre } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
@@ -25,7 +25,7 @@ export class ProfileComponent extends General {
     super();
   }
 
-  inquilinoNombre = this.store.select(obtenerInquilinoNombre);
+  inquilinoNombre = this.store.select(obtenerContenedorNombre);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   usuarioNombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);

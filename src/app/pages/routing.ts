@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-let redirectToValue: string = '/inquilino/lista';
+let redirectToValue: string = '/contenedor/lista';
 
 function getRedirectTo(): string {
   // Aquí puedes agregar tu lógica para determinar el valor de redirección
@@ -83,10 +83,10 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'inquilino',
+    path: 'contenedor',
     loadChildren: () =>
-      import('../modules/inquilino/inquilino.module').then(
-        (m) => m.InquilinoModule
+      import('../modules/contenedor/contenedor.module').then(
+        (m) => m.ContenedorModule
       ),
     data: { layout: 'dark-header' },
   },

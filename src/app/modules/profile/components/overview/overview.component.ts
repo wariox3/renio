@@ -5,21 +5,21 @@ import {
   obtenerUsuarioNombre,
 } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
-import { InquilinoService } from '../../../inquilino/servicios/inquilino.service';
-import { Inquilino } from '@interfaces/usuario/inquilino';
+import { ContenedorService } from '../../../contenedor/servicios/contenedor.service';
+import { Contenedor } from '@interfaces/usuario/contenedor';
 import { General } from '@comun/clases/general';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent extends General implements OnInit {
-  arrInquilinos: Inquilino[] = [];
+  arrInquilinos: Contenedor[] = [];
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
-  constructor(private inquilinoService: InquilinoService) {
+  constructor(private contenedorService: ContenedorService) {
     super();
   }
 
@@ -30,10 +30,10 @@ export class OverviewComponent extends General implements OnInit {
   consultarLista() {
     this.store
       .select(obtenerUsuarioId)
-      .pipe(switchMap((usuarioId) => this.inquilinoService.lista(usuarioId)))
+      .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
-          this.arrInquilinos = respuesta.inquilinos;
+          this.arrInquilinos = respuesta.contenedores;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
