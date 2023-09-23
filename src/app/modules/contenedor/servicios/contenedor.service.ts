@@ -26,15 +26,12 @@ export class ContenedorService {
     );
   }
 
-  nuevo(data: ContenedorFormulario, codigoUsuario: string) {
+  nuevo(data: ContenedorFormulario, usuario_id: string) {
     return this.http.post(
       `${environment.URL_API_MUUP}/contenedor/contenedor/`,
       {
-        nombre: data.nombre,
-        subdominio: data.subdominio,
-        usuario_id: codigoUsuario,
-        plan_id: data.plan_id,
-        imagen: data.imagen,
+        ...data,
+        usuario_id
       }
     );
   }
@@ -115,15 +112,24 @@ export class ContenedorService {
     );
   }
 
-  listaCiudades() {
-    return this.http.get<Plan[]>(
-      `${environment.URL_API_MUUP}/contenedor/plan/`
+  listaCiudades(arrFiltros: any) {
+    return this.http.post<Plan[]>(
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      arrFiltros
     );
   }
 
   listaTipoIdentificacion() {
-    return this.http.get<Plan[]>(
-      `${environment.URL_API_MUUP}/contenedor/plan/`
+    return this.http.post<Plan[]>(
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      {
+        filtros: [],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'ContenedorIdentificacion',
+      }
     );
   }
 

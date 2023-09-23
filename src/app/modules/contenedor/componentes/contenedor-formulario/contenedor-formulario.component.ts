@@ -39,25 +39,23 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.consultarInformacion()
     this.planSeleccionado =
       this.informacionContenedor.plan_id !== 0
         ? this.informacionContenedor.plan_id
         : this.planSeleccionado;
     this.initForm();
+    this.consultarInformacion()
+
   }
 
   consultarInformacion(){
     zip(
-      this.contenedorService.listaCiudades(),
       this.contenedorService.listaTipoIdentificacion(),
       this.contenedorService.listaPlanes(),
-    ).subscribe((respuesta)=>{
-      console.log(respuesta);
-      // this.arrIdentificacion = respuesta[0];
-      // this.arrTipoPersona = respuesta[1];
-      // this.arrPlanes = respuesta[2];
-
+    ).subscribe((respuesta: any)=>{
+      this.arrIdentificacion = respuesta[0].registros;
+      this.arrPlanes = respuesta[1];
+      this.changeDetectorRef.detectChanges()
     })
   }
 
@@ -65,7 +63,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__contains',
           propiedad: 'nombre__contains',
           valor1: `${event?.target.value}`,
@@ -76,17 +73,12 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Ciudad',
+      modelo: 'ContenedorCiudad',
     };
-
-    this.http
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
+    this.contenedorService.listaCiudades(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
+        tap((respuesta:any) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
@@ -94,34 +86,23 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       .subscribe();
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
-    if (campo === 'ciudad') {
-      this.formularioContenedor.get(campo)?.setValue(dato.ciudad_id);
-      this.formularioContenedor
-        .get('ciudad_nombre')
-        ?.setValue(dato.ciudad_nombre);
-    }
-    this.changeDetectorRef.detectChanges();
-  }
-
-
   initForm() {
-    this.formularioContenedor = this.formBuilder.group({
-      nombre: [
-        this.informacionContenedor.nombre,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(100), // Se ha removido la restricción de mayúsculas
-        ]),
-      ],
+     this.formularioContenedor = this.formBuilder.group({
       subdominio: [
         this.informacionContenedor.subdominio,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern(/^[a-z-0-9]*$/), // Se ha removido la restricción de mayúsculas
+          Validators.pattern(/^[a-z-0-9]*$/),
+        ]),
+      ],
+      nombre: [
+        this.informacionContenedor.nombre,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100), // Se ha removido la restricción de mayúsculas
         ]),
       ],
       plan_id: [
@@ -143,13 +124,12 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         this.informacionContenedor.correo,
         Validators.compose([
           Validators.required,
-          Validators.email,
           Validators.maxLength(255),
           Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
       ],
       ciudad_nombre: [this.informacionContenedor.ciudad_nombre],
-      ciudad: [
+      ciudad_id: [
         this.informacionContenedor.ciudad,
         Validators.compose([Validators.required]),
       ],
@@ -165,12 +145,29 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         this.informacionContenedor.digito_verificacion,
         Validators.compose([Validators.required, Validators.maxLength(1)]),
       ],
-      identificacion: [
+      identificacion_id: [
         this.informacionContenedor.identificacion,
-        ,
         Validators.compose([Validators.required]),
       ],
+      telefono: [
+        this.informacionContenedor.telefono,
+        Validators.compose([
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern(/^[0-9]+$/),
+        ]),
+      ],
     });
+  }
+
+  modificarCampoFormulario(campo: string, dato: any) {
+    if (campo === 'ciudad_id') {
+      this.formularioContenedor.get(campo)?.setValue(dato.ciudad_id);
+      this.formularioContenedor
+        .get('ciudad_nombre')
+        ?.setValue(dato.ciudad_nombre);
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   get formFields() {
@@ -180,6 +177,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioContenedor.valid) {
       this.procesando = true;
+      
       return this.dataFormulario.emit(this.formularioContenedor.value);
     } else {
       this.formularioContenedor.markAllAsTouched();

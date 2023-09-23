@@ -85,7 +85,7 @@ export const locale = {
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',
-            CONTENEDOR: 'Mi container',
+            CONTENEDOR: 'Mi contenedor',
             CONTENEDORES: 'Mis contenedores',
           },
         },

@@ -37,17 +37,21 @@ export class ContenedorNuevoComponent extends General implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
-      this.codigoUsuario = codigoUsuario;
-      this.changeDetectorRef.detectChanges();
-    });
+  ngOnInit() {
+    this.consultarInformacion()
   }
 
-  enviarFormulario(dataFormularioLogin: ContenedorFormulario) {
+  consultarInformacion(){
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {      
+      this.codigoUsuario = codigoUsuario;
+    });    
+  }
+
+  enviarFormulario(dataFormularioLogin: any) {
     this.visualizarBtnAtras = false;
     this.procesando = true;
-
+    console.log(dataFormularioLogin);
+    
     this.contenedorService
     .consultarNombre(dataFormularioLogin.subdominio)
     .pipe(
