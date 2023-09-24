@@ -252,9 +252,9 @@ export const locale = {
         },
         CONTENEDORES: {
           CREARCONTENEDOR: 'We are creating your container, wait a moment...',
-          ELIMINARCONTENEDORESTITULO: 'Remove container',
+          ELIMINARCONTENEDORTITULO: 'Remove container',
           ELIMINARCONTENEDORSUBTITULO: 'This process is not reversed',
-          ELIMINARCONTENEDORAAYUDA: `To confirm, type in the box below:`,
+          ELIMINARCONTENEDORAYUDA: `To confirm, type in the box below:`,
           SINCONTENEDORES: 'No container have been created',
           INVITACIONACEPTADA: 'Invitation accepted',
           NUEVOCONTENEDOR: 'The new container was created',
