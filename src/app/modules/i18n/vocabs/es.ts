@@ -183,7 +183,7 @@ export const locale = {
           IDENTIFICACION: 'Identificacion',
           CODIGO: 'Código',
           CLIENTE: 'Cliente',
-          IDENTIFICACIONTIPO: 'Identificación tipo',
+          IDENTIFICACIONTIPO: 'Tipo identificación',
           DIRECCION: 'Dirección',
           CIUDAD: 'Ciudad',
           CELULAR: 'Celular',

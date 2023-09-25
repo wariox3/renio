@@ -109,13 +109,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         this.planSeleccionado,
         Validators.compose([Validators.required]),
       ],
-      nombre_corto: [
-        this.informacionContenedor.nombre_corto,
-        Validators.compose([
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
-        ]),
-      ],
       direccion: [
         this.informacionContenedor.direccion,
         Validators.compose([Validators.required, Validators.maxLength(50)]),
@@ -177,7 +170,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioContenedor.valid) {
       this.procesando = true;
-      
+
       return this.dataFormulario.emit(this.formularioContenedor.value);
     } else {
       this.formularioContenedor.markAllAsTouched();

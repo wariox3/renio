@@ -128,53 +128,6 @@
     </div>
   </div>
   <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
-    <div class="col-md-12 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="nombre_corto"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioContenedor.controls['nombre_corto'].touched &&
-            formularioContenedor.controls['nombre_corto'].invalid,
-          'is-valid':
-            formularioContenedor.controls['nombre_corto'].touched &&
-            formularioContenedor.controls['nombre_corto'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioContenedor.controls['nombre_corto']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '200',
-          control: formularioContenedor.controls['nombre_corto']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'El campo contiene caracteres no validos',
-          control: formularioContenedor.controls['nombre_corto']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
     <div class="col-md-4 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
