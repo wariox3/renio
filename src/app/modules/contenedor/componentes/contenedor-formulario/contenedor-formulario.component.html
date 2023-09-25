@@ -127,7 +127,7 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
     <div class="col-md-12 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
@@ -174,7 +174,7 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
     <div class="col-md-4 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
@@ -295,7 +295,7 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
     <div class="col-6" ngbDropdown #CiudadDropdown="ngbDropdown">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
@@ -385,7 +385,7 @@
       ></ng-container>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-10" *ngIf="visualizarCampoSubdominio">
     <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
@@ -431,8 +431,6 @@
         }"
       ></ng-container>
     </div>
-  </div>
-  <div class="row mb-10">
     <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
