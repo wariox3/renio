@@ -18,7 +18,7 @@ export class ContenedorEffects {
 
           if (environment.production) {
             setCookie(
-              `empresa-${action.contenedor.subdominio}`,
+              `contenedor-${action.contenedor.subdominio}`,
               JSON.stringify(action.contenedor),
               {
                 expires: calcularTresHoras,
@@ -28,7 +28,7 @@ export class ContenedorEffects {
             );
           } else {
             setCookie(
-              `empresa-${action.contenedor.subdominio}`,
+              `contenedor-${action.contenedor.subdominio}`,
               JSON.stringify(action.contenedor),
               {
                 expires: calcularTresHoras,
