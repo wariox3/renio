@@ -5,7 +5,6 @@ import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
 import {
   obtenerContenedorId,
-  obtenerContenedorNombre,
 } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioCargo,
@@ -17,6 +16,7 @@ import {
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { Router } from '@angular/router';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
+import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -35,7 +35,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   usuarioCargo$ = this.store.select(obtenerUsuarioCargo);
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
-  obtenerContenedorNombre$ = this.store.select(obtenerContenedorNombre);
+  obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
 

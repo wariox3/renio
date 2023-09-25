@@ -7,3 +7,8 @@ export const obtenerEmpresaImagen = createSelector(
   Empresa,
   (Empresa) => `${Empresa.imagen}`
 );
+
+export const obtenerEmpresaNombre = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.nombre_corto}`
+);
