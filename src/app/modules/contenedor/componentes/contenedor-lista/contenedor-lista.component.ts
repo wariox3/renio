@@ -126,12 +126,12 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   navegarAinvitaciones(empresa: Contenedor) {
     this.router.navigateByUrl(
-      `/empresa/${empresa.contenedor_id}/invitacion/nuevo`,
+      `/contenedor/${empresa.contenedor_id}/invitacion/nuevo`,
       { state: { empresa: empresa } }
     );
   }
 
   detalleEmpresa(contenedor_id: Number) {
-    this.router.navigate([`/empresa/detalle/${contenedor_id}`]);
+    this.router.navigate([`/contenedor/detalle/${contenedor_id}`]);
   }
 }
