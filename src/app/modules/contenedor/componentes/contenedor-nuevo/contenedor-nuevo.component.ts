@@ -30,7 +30,7 @@ export class ContenedorNuevoComponent extends General implements OnInit {
     numero_identificacion: '',
     telefono: '',
     ciudad_nombre: '',
-    digito_verificacion: ''
+    digito_verificacion: '',
   };
 
   constructor(private contenedorService: ContenedorService) {
@@ -38,35 +38,21 @@ export class ContenedorNuevoComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    this.consultarInformacion()
+    this.consultarInformacion();
   }
 
-  consultarInformacion(){
-    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {      
+  consultarInformacion() {
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
-    });    
+    });
   }
 
   enviarFormulario(dataFormularioLogin: any) {
     this.visualizarBtnAtras = false;
     this.procesando = true;
-    console.log(dataFormularioLogin);
-    
     this.contenedorService
     .consultarNombre(dataFormularioLogin.subdominio)
     .pipe(
-      tap((respuesta: any) => {
-        if (respuesta && respuesta.contenedor) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.CONTENEDOR.NUEVAEMPRESA'
-            )
-          );
-          this.router.navigate(['/contenedor/lista']);
-        }
-        this.procesando = false;
-        this.changeDetectorRef.detectChanges();
-      }),
       switchMap(({ validar }) => {
         if (!validar) {
           this.procesando = false;
@@ -79,8 +65,24 @@ export class ContenedorNuevoComponent extends General implements OnInit {
           );
         }
         return of(null);
-      }),
+      })
     )
-    .subscribe();
+    .subscribe({
+      next: (respuesta: any) => {
+        if (respuesta.contenedor) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.CONTENEDOR.NUEVOCONTENEDOR'
+            )
+          );
+          this.router.navigate(['/contenedor/lista']);
+          this.procesando = false;
+        }
+      },
+      error: () => {
+        this.procesando = false;
+        this.changeDetectorRef.detectChanges();
+      },
+    });
   }
 }
