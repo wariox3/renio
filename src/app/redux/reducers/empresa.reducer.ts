@@ -1,15 +1,22 @@
+import { Empresa } from '@interfaces/contenedor/empresa';
 import { createReducer, on } from '@ngrx/store';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 
-const initialState = {
-  nombre: "",
-  imagen: ""
-}
+const initialState: Empresa = {
+  id: 0,
+  numero_identificacion: '',
+  digito_verificacion: '',
+  nombre_corto: '',
+  direccion: '',
+  telefono: '',
+  correo: '',
+  imagen: '',
+};
 
 export const empresaReducer = createReducer(
   initialState,
   on(empresaActionInit, (state, { empresa }) => ({
     ...state,
-    empresa,
+    ...empresa,
   }))
 );

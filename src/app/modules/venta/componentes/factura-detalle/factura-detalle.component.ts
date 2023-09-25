@@ -238,8 +238,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       }
     } else {
-      console.log(this.formularioFactura)
-
       this.formularioFactura.markAllAsTouched();
     }
   }

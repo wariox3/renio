@@ -1,20 +1,34 @@
-import { Component, ViewChild } from '@angular/core';
-import { ModalConfig, ModalComponent } from '../../_metronic/partials';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { General } from '@comun/clases/general';
+import { HttpService } from '@comun/services/http.service';
+import { Empresa } from '@interfaces/contenedor/empresa';
+import { Store } from '@ngrx/store';
+import { empresaActionInit } from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  modalConfig: ModalConfig = {
-    modalTitle: 'Contenedor información',
-    dismissButtonLabel: 'Guardar',
-  };
-  @ViewChild('modal') private modalComponent: ModalComponent;
-  constructor() {}
+export class DashboardComponent extends General implements OnInit {
 
-  async openModal() {
-    return await this.modalComponent.open();
+  constructor(private httpService: HttpService) {
+    super()
+  }
+
+  ngOnInit() {
+    this.consultarInformacion();
+  }
+
+  consultarInformacion() {
+    this.httpService
+      .get<any>(`general/empresa/1/`)
+      .subscribe((empresa: any) => {
+
+        this.store.dispatch(
+          empresaActionInit({empresa})
+        );
+        this.changeDetectorRef.detectChanges()
+      });
   }
 }

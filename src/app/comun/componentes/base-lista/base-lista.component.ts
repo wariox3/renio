@@ -70,9 +70,6 @@ export class BaseListaComponent extends General implements OnInit {
       }
     }
 
-    console.log(this.nombreFiltro);
-    
-
     let baseUrl = 'general/';
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
