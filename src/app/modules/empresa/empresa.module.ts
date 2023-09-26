@@ -11,22 +11,24 @@ import { TranslationModule } from '@modulos/i18n';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from "../../_metronic/shared/shared.module";
 
 @NgModule({
-  declarations: [EmpresaDetalleComponent, EmpresaEditarComponent],
-  imports: [
-    CommonModule,
-    EmpresaRoutingModule,
-    CargarImagenComponent,
-    CardComponent,
-    TranslateModule,
-    TranslationModule,
-    ImageCropperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModalModule,
-    NgbDropdownModule,
-  ],
-  providers: [NgbActiveModal],
+    declarations: [EmpresaDetalleComponent, EmpresaEditarComponent],
+    providers: [NgbActiveModal],
+    imports: [
+        CommonModule,
+        EmpresaRoutingModule,
+        CargarImagenComponent,
+        CardComponent,
+        TranslateModule,
+        TranslationModule,
+        ImageCropperModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModalModule,
+        NgbDropdownModule,
+        SharedModule
+    ]
 })
 export class EmpresaModule {}

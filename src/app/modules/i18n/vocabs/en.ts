@@ -8,7 +8,7 @@ export const locale = {
     MENU: {
       DASHBOARD: 'Start',
       TITULOS: {
-        GENERAL: 'GENERAL',
+        GENERAL: 'General',
         CARTERA: 'Portfolio',
         COMPRA: 'Purchasing',
         CONTABILIDAD: 'Accounting',
@@ -81,7 +81,7 @@ export const locale = {
           FACTURACION: 'Billing',
           ITEMS: 'Items',
           CARGARARCHIVOS: 'Upload file',
-          GENERAL: 'GENERAL',
+          GENERAL: 'General',
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',

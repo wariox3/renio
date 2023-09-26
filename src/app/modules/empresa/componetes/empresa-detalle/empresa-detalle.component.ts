@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { obtenerEmpresaImagen, obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import { obtenerEmpresaDireccion, obtenerEmpresaImagen, obtenerEmpresaNombre, obtenerEmpresaNumeroIdenticionDigitoVerificacion, obtenerEmpresaTelefono } from '@redux/selectors/empresa.selectors';
 import { of, switchMap } from 'rxjs';
 
 @Component({
@@ -15,6 +15,9 @@ export class EmpresaDetalleComponent extends General {
   contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
   informacionEmpresa$ = this.store.select(obtenerEmpresaNombre)
   obtenerEmpresaImagen$ = this.store.select(obtenerEmpresaImagen)
+  obtenerEmpresaDireccion$ = this.store.select(obtenerEmpresaDireccion)
+  obtenerEmpresaTelefono$ = this.store.select(obtenerEmpresaTelefono)
+  obtenerEmpresaNumeroIdenticionDigitoVerificacion$ = this.store.select(obtenerEmpresaNumeroIdenticionDigitoVerificacion)
 
   constructor(private empresaServices: EmpresaService) {
     super();
