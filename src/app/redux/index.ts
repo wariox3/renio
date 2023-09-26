@@ -4,12 +4,13 @@ import { contendorReducer } from './reducers/contendor.reducer';
 import { ContenedorEffects } from './efectos/contenedorEffects';
 import { UsuarioEffects } from './efectos/UsuarioEffects';
 import { empresaReducer } from './reducers/empresa.reducer';
+import { EmpresaEffects } from './efectos/empresaEffects';
 
 export const StoreApp = {
   usuario: usuarioReducer,
   menu: menuReducer,
   contenedor: contendorReducer,
-  empresa: empresaReducer
+  empresa: empresaReducer,
 };
 
-export const EffectsApp = [ContenedorEffects, UsuarioEffects];
+export const EffectsApp = [ContenedorEffects, UsuarioEffects, EmpresaEffects];

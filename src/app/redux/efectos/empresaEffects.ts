@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { tap } from 'rxjs/operators';
 import { setCookie } from 'typescript-cookie';
 
 @Injectable()
-export class ContenedorEffects {
+export class EmpresaEffects {
   guardarConenedor$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(ContenedorActionInit),
+        ofType(empresaActionInit),
         tap((action) => {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
@@ -18,8 +18,8 @@ export class ContenedorEffects {
 
           if (environment.production) {
             setCookie(
-              `contenedor-${action.contenedor.subdominio}`,
-              JSON.stringify(action.contenedor),
+              `empresa-${action.empresa.nombre_corto}`,
+              JSON.stringify(action.empresa),
               {
                 expires: calcularTresHoras,
                 path: '/',
@@ -29,7 +29,7 @@ export class ContenedorEffects {
           } else {
             setCookie(
               `empresa-${environment.EMPRESA_LOCALHOST}`,
-              JSON.stringify(action.contenedor),
+              JSON.stringify(action.empresa),
               {
                 expires: calcularTresHoras,
                 path: '/',

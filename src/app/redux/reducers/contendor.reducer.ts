@@ -5,10 +5,17 @@ import {
 } from '../actions/contenedor.actions';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { getCookie } from 'typescript-cookie';
+import { environment } from '@env/environment';
 
-let dominioActual = window.location.host;
+let ContenedorDatos: any;
 
-let ContenedorDatos = getCookie(`contenedor-${dominioActual.split('.')[0]}`);
+if (environment.production) {
+  let dominioActual = window.location.host;
+  ContenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
+} else {
+  ContenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
+}
+
 let estadoAnalizado: Contenedor = {
   nombre: '',
   imagen: '',

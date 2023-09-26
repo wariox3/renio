@@ -16,4 +16,23 @@ export class EmpresaService {
     return this.httpService.put<any>(`general/documento/${id}/`, data);
   }
 
+  cargarLogo(empresa_id: Number | string, imagenB64: string) {
+    return this.httpService.post<{ cargar: boolean }>(
+      `/contenedor/contenedor/cargar-logo/`,
+      {
+        empresa_id,
+        imagenB64,
+      }
+    );
+  }
+
+  eliminarLogoEmpresa(empresa_id: Number | string) {
+    return this.httpService.post<{
+      limpiar: boolean;
+      imagen: string;
+    }>(`contenedor/contenedor/limpiar-logo/`, {
+      empresa_id,
+    });
+  }
+
 }
