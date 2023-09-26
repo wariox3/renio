@@ -57,6 +57,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
             plan_id: respuesta.plan_id
           })
 
+          this.planSeleccionado = respuesta.plan_id
+
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
             size: 'lg',

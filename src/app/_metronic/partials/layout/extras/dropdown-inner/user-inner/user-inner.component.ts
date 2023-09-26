@@ -95,8 +95,6 @@ export class UserInnerComponent implements OnInit, OnDestroy {
 
   navegarAmiEmpresa() {
     this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
-      console.log(empresa_id);
-
       this.router.navigate([`/empresa/detalle/${empresa_id}/`]);
     });
   }

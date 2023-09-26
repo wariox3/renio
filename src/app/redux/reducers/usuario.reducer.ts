@@ -11,7 +11,6 @@ import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
 
 let usuarioData = getCookie('usuario');
-console.log(usuarioData);
 
 let parsedState:Usuario =  {
   id: '',
