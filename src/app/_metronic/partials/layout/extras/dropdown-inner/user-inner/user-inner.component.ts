@@ -16,7 +16,7 @@ import {
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { Router } from '@angular/router';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
-import { obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import { obtenerEmpresaId, obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -87,9 +87,17 @@ export class UserInnerComponent implements OnInit, OnDestroy {
     });
   }
 
-  navegarAmiEmpresa() {
+  navegarAmiContenedor() {
     this.store.select(obtenerContenedorId).subscribe((contenedor_id) => {
       this.router.navigate([`/contenedor/detalle/${contenedor_id}/facturacion`]);
+    });
+  }
+
+  navegarAmiEmpresa() {
+    this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
+      console.log(empresa_id);
+
+      this.router.navigate([`/empresa/detalle/${empresa_id}/`]);
     });
   }
 

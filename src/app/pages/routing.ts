@@ -91,6 +91,14 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'empresa',
+    loadChildren: () =>
+      import('../modules/empresa/empresa.module').then(
+        (m) => m.EmpresaModule
+      ),
+    data: { layout: 'dark-header' },
+  },
+  {
     path: 'seguridad',
     loadChildren: () =>
       import('../modules/seguridad/seguridad.module').then(

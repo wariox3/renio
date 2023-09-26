@@ -1,6 +1,6 @@
 import { Empresa } from '@interfaces/contenedor/empresa';
 import { createReducer, on } from '@ngrx/store';
-import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { empresaActionInit, empresaActualizacionAction } from '@redux/actions/empresa.actions';
 
 const initialState: Empresa = {
   id: 0,
@@ -16,6 +16,10 @@ const initialState: Empresa = {
 export const empresaReducer = createReducer(
   initialState,
   on(empresaActionInit, (state, { empresa }) => ({
+    ...state,
+    ...empresa,
+  })),
+  on(empresaActualizacionAction, (state, {empresa})=>({
     ...state,
     ...empresa,
   }))

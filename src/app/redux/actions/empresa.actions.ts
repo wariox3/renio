@@ -7,3 +7,9 @@ export const empresaActionInit = createAction(
 );
 
 
+export const empresaActualizacionAction = createAction(
+  '[Empresa] actualizar informacion',
+  props<{empresa: Empresa}>()
+);
+
+

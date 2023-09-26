@@ -82,10 +82,12 @@ export const locale = {
           FACTURACION: 'Facturación',
           ITEMS: 'Ítems',
           CARGARARCHIVOS: 'Cargar archivo',
+          GENERAL: 'GENERAL',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',
             CONTENEDOR: 'Mi contenedor',
+            EMPRESA: 'Mi empresa',
             CONTENEDORES: 'Mis contenedores',
           },
         },
@@ -170,6 +172,9 @@ export const locale = {
             IMPUESTO: 'Impuesto',
           },
         },
+        EMPRESA:{
+          EDITAR: 'Editar empresa',
+        }
       },
       CAMPOS: {
         COMUNES: {

@@ -12,3 +12,8 @@ export const obtenerEmpresaNombre = createSelector(
   Empresa,
   (Empresa) => `${Empresa.nombre_corto}`
 );
+
+export const obtenerEmpresaId = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.id}`
+);
