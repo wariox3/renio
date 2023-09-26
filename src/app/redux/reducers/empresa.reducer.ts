@@ -4,6 +4,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   empresaActionInit,
   empresaActualizacionAction,
+  empresaLimpiarAction
 } from '@redux/actions/empresa.actions';
 import { getCookie } from 'typescript-cookie';
 
@@ -40,5 +41,9 @@ export const empresaReducer = createReducer(
   on(empresaActualizacionAction, (state, { empresa }) => ({
     ...state,
     ...empresa,
+  })),
+  on(empresaLimpiarAction, (state) => ({
+    ...state,
+    ...estadoInicializado
   }))
 );

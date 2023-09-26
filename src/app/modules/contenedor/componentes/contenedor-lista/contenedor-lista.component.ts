@@ -7,6 +7,7 @@ import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
+import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -25,6 +26,7 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarLista();
+    this.limpiarEmpresa();
   }
 
   consultarLista() {
@@ -133,5 +135,9 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   detalleEmpresa(contenedor_id: Number) {
     this.router.navigate([`/contenedor/detalle/${contenedor_id}`]);
+  }
+
+  limpiarEmpresa(){
+    this.store.dispatch(empresaLimpiarAction())
   }
 }

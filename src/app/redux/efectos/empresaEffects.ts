@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { empresaActionInit, empresaLimpiarAction } from '@redux/actions/empresa.actions';
 import { tap } from 'rxjs/operators';
-import { setCookie } from 'typescript-cookie';
+import { removeCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class EmpresaEffects {
-  guardarConenedor$ = createEffect(
+
+  constructor(private actions$: Actions) {}
+
+  guardarEmpresa$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(empresaActionInit),
@@ -41,5 +44,20 @@ export class EmpresaEffects {
     { dispatch: false }
   );
 
-  constructor(private actions$: Actions) {}
+  eliminarEmpresa$= createEffect(()=>
+        this.actions$.pipe(
+          ofType(empresaLimpiarAction),
+          tap(()=>{
+            const empresaPatron = 'empresa-';
+            document.cookie.split(';').forEach(function (cookie) {
+              const cookieNombre = cookie.split('=')[0].trim();
+              if (cookieNombre.startsWith(empresaPatron)) {
+                removeCookie(cookieNombre);
+              }
+            });
+          })
+        ), {
+          dispatch: false
+        }
+  )
 }

@@ -6,10 +6,11 @@ export const empresaActionInit = createAction(
   props<{empresa: Empresa}>()
 );
 
-
 export const empresaActualizacionAction = createAction(
   '[Empresa] actualizar informacion',
   props<{empresa: Empresa}>()
 );
 
-
+export const empresaLimpiarAction = createAction(
+  '[Empresa] actualizar informacion'
+);
