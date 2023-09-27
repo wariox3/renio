@@ -8,12 +8,12 @@ export class EmpresaService {
 
   constructor(private httpService: HttpService) { }
 
-  consultarDetalle(id: number) {
-    return this.httpService.get<any>(`general/documento/${id}/`);
+  consultarDetalle(id: string) {
+    return this.httpService.get<any>(`general/empresa/${id}/`);
   }
 
   actualizarDatosEmpresa(id: number, data: any) {
-    return this.httpService.put<any>(`general/documento/${id}/`, data);
+    return this.httpService.put<any>(`general/empresa/${id}/`, data);
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {

@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
+import { Empresa } from '@interfaces/contenedor/empresa';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { empresaActionInit, empresaLimpiarAction } from '@redux/actions/empresa.actions';
+import {
+  empresaActionInit,
+  empresaLimpiarAction,
+  empresaActualizacionAction,
+} from '@redux/actions/empresa.actions';
 import { tap } from 'rxjs/operators';
-import { removeCookie, setCookie } from 'typescript-cookie';
+import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class EmpresaEffects {
-
   constructor(private actions$: Actions) {}
 
   guardarEmpresa$ = createEffect(
@@ -44,20 +48,80 @@ export class EmpresaEffects {
     { dispatch: false }
   );
 
-  eliminarEmpresa$= createEffect(()=>
-        this.actions$.pipe(
-          ofType(empresaLimpiarAction),
-          tap(()=>{
-            const empresaPatron = 'empresa-';
-            document.cookie.split(';').forEach(function (cookie) {
-              const cookieNombre = cookie.split('=')[0].trim();
-              if (cookieNombre.startsWith(empresaPatron)) {
-                removeCookie(cookieNombre);
+  actualizarCookie$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(empresaActualizacionAction),
+        tap((action) => {
+          let contenedorDatos: any;
+
+          if (environment.production) {
+            let dominioActual = window.location.host;
+            contenedorDatos = getCookie(
+              `empresa-${dominioActual.split('.')[0]}`
+            );
+          } else {
+            contenedorDatos = getCookie(
+              `empresa-${environment.EMPRESA_LOCALHOST}`
+            );
+          }
+          console.log(contenedorDatos.)
+          let jsonEmpresa: Empresa = JSON.parse(contenedorDatos);
+
+          jsonEmpresa = {
+            ...jsonEmpresa,
+            ...{
+              numero_identificacion: action.empresa.numero_identificacion,
+              identificacion_id: action.empresa.identificacion,
+              ciudad_id: action.empresa.ciudad,
+              ciudad_nombre: action.empresa.ciudad_nombre,
+              digito_verificacion: action.empresa.digito_verificacion,
+              nombre_corto: action.empresa.nombre_corto,
+              direccion: action.empresa.direccion,
+              telefono: action.empresa.telefono,
+              correo: action.empresa.correo,
+            },
+          };
+
+          if (environment.production) {
+            let dominioActual = window.location.host;
+
+            setCookie(
+              `empresa-${dominioActual.split('.')[0]}`,
+              JSON.stringify(jsonEmpresa),
+              {
+                path: '/',
+                domain: '.muup.online',
               }
-            });
-          })
-        ), {
-          dispatch: false
-        }
-  )
+            );
+          } else {
+            setCookie(
+              `empresa-${environment.EMPRESA_LOCALHOST}`,
+              JSON.stringify(jsonEmpresa),
+              { path: '/' }
+            );
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  eliminarEmpresa$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(empresaLimpiarAction),
+        tap(() => {
+          const empresaPatron = 'empresa-';
+          document.cookie.split(';').forEach(function (cookie) {
+            const cookieNombre = cookie.split('=')[0].trim();
+            if (cookieNombre.startsWith(empresaPatron)) {
+              removeCookie(cookieNombre);
+            }
+          });
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
 }

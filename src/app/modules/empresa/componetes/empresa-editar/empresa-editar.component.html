@@ -11,17 +11,17 @@
         class="form-label required"
       ></label>
       <input
-        formControlName="nombre"
+        formControlName="nombre_corto"
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
-            formularioEmpresa.controls['nombre'].touched &&
-            formularioEmpresa.controls['nombre'].invalid,
+            formularioEmpresa.controls['nombre_corto'].touched &&
+            formularioEmpresa.controls['nombre_corto'].invalid,
           'is-valid':
-            formularioEmpresa.controls['nombre'].touched &&
-            formularioEmpresa.controls['nombre'].valid
+            formularioEmpresa.controls['nombre_corto'].touched &&
+            formularioEmpresa.controls['nombre_corto'].valid
         }"
       />
       <ng-container
@@ -29,7 +29,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioEmpresa.controls['nombre']
+          control: formularioEmpresa.controls['nombre_corto']
         }"
       ></ng-container>
       <ng-container
@@ -37,7 +37,7 @@
         [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioEmpresa.controls['nombre']
+          control: formularioEmpresa.controls['nombre_corto']
         }"
       ></ng-container>
       <ng-container
@@ -46,7 +46,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '3',
-          control: formularioEmpresa.controls['nombre']
+          control: formularioEmpresa.controls['nombre_corto']
         }"
       ></ng-container>
       <ng-container
@@ -55,7 +55,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '100',
-          control: formularioEmpresa.controls['nombre']
+          control: formularioEmpresa.controls['nombre_corto']
         }"
       ></ng-container>
     </div>
@@ -154,14 +154,14 @@
       ></label>
       <select
         class="form-select"
-        formControlName="identificacion_id"
+        formControlName="identificacion"
         [ngClass]="{
           'is-invalid':
-            formularioEmpresa.controls['identificacion_id'].touched &&
-            formularioEmpresa.controls['identificacion_id'].invalid,
+            formularioEmpresa.controls['identificacion'].touched &&
+            formularioEmpresa.controls['identificacion'].invalid,
           'is-valid':
-            formularioEmpresa.controls['identificacion_id'].touched &&
-            formularioEmpresa.controls['identificacion_id'].valid
+            formularioEmpresa.controls['identificacion'].touched &&
+            formularioEmpresa.controls['identificacion'].valid
         }"
       >
         <option value="">Seleccionar...</option>
@@ -177,7 +177,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioEmpresa.controls['identificacion_id']
+          control: formularioEmpresa.controls['identificacion']
         }"
       ></ng-container>
     </div>
@@ -196,11 +196,11 @@
           formControlName="ciudad_nombre"
           [ngClass]="{
             'is-invalid':
-              formularioEmpresa.controls['ciudad_id'].touched &&
-              formularioEmpresa.controls['ciudad_id'].invalid,
+              formularioEmpresa.controls['ciudad'].touched &&
+              formularioEmpresa.controls['ciudad'].invalid,
             'is-valid':
-              formularioEmpresa.controls['ciudad_id'].touched &&
-              formularioEmpresa.controls['ciudad_id'].valid
+              formularioEmpresa.controls['ciudad'].touched &&
+              formularioEmpresa.controls['ciudad'].valid
           }"
           (focus)="consultarCiudad($event); CiudadDropdown.open()"
           (keyup)="consultarCiudad($event)"
@@ -214,7 +214,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioEmpresa.controls['ciudad_id']
+          control: formularioEmpresa.controls['ciudad']
         }"
       ></ng-container>
       <div
@@ -226,7 +226,7 @@
           <button
             type="button"
             ngbDropdownItem
-            (click)="modificarCampoFormulario('ciudad_id', ciudad)"
+            (click)="modificarCampoFormulario('ciudad', ciudad)"
           >
             {{ ciudad.ciudad_id }} - {{ ciudad.ciudad_nombre }}
           </button>

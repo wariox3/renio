@@ -14,7 +14,8 @@ import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.serv
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { asyncScheduler, switchMap, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -22,10 +23,6 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 })
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
-  informacionEmpresa = {
-    nombre: '',
-    plan_id: 0,
-  };
   planSeleccionado: Number = 2;
   arrCiudades: any = [];
   arrIdentificacion: any = [];
@@ -50,9 +47,23 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   consultarInformacion() {
-    zip(this.contenedorService.listaTipoIdentificacion()).subscribe(
+    zip(
+      this.contenedorService.listaTipoIdentificacion(),
+      this.empresaService.consultarDetalle(this.empresa_id)
+    ).subscribe(
       (respuesta: any) => {
         this.arrIdentificacion = respuesta[0].registros;
+        this.formularioEmpresa.patchValue({
+          nombre_corto: respuesta[1].nombre_corto,
+          correo: respuesta[1].correo,
+          digito_verificacion: respuesta[1].digito_verificacion,
+          direccion: respuesta[1].direccion,
+          numero_identificacion:  respuesta[1].numero_identificacion,
+          telefono: respuesta[1].telefono,
+          identificacion: respuesta[1].identificacion_id,
+          ciudad_nombre:  respuesta[1].ciudad_nombre,
+          ciudad:  respuesta[1].ciudad_id,
+        })
         this.changeDetectorRef.detectChanges();
       }
     );
@@ -60,7 +71,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
-      nombre: [
+      nombre_corto: [
         '',
         Validators.compose([
           Validators.required,
@@ -81,7 +92,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
         ]),
       ],
       ciudad_nombre: [''],
-      ciudad_id: ['', Validators.compose([Validators.required])],
+      ciudad: ['', Validators.compose([Validators.required])],
       numero_identificacion: [
         '',
         Validators.compose([
@@ -94,7 +105,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(1)]),
       ],
-      identificacion_id: ['', Validators.compose([Validators.required])],
+      identificacion: ['', Validators.compose([Validators.required])],
       telefono: [
         '',
         Validators.compose([
@@ -107,31 +118,22 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    // this.store
-    //   .select(obtenerUsuarioId)
-    //   .pipe(
-    //     switchMap((codigoUsuario) => {
-    //       return this.empresaService.editar(
-    //         this.formularioEmpresa.value,
-    //         codigoUsuario,
-    //         this.empresa_id
-    //       );
-    //     }),
-    //     tap((respuestaActualizacion: any) => {
-    //       if (respuestaActualizacion.actualizacion) {
-    //         this.modalService.dismissAll();
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-              )
-            );
-
-            //this.store.dispatch(empresaActualizacionAction({empresa}))
-    //         return this.emitirActualizacion.emit(true);
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
+    this.empresaService
+      .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
+      .pipe(
+        tap((respuestaActualizacion: any)=>{
+        if (respuestaActualizacion.actualizacion) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+            )
+          );
+          this.store.dispatch(empresaActualizacionAction({
+            empresa: respuestaActualizacion.empresa
+          }))
+        }
+        })
+      ).subscribe();
   }
 
   consultarCiudad(event: any) {
@@ -163,7 +165,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    if (campo === 'ciudad_id') {
+    if (campo === 'ciudad') {
       this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
       this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato.ciudad_nombre);
     }

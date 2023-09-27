@@ -12,5 +12,5 @@ export const empresaActualizacionAction = createAction(
 );
 
 export const empresaLimpiarAction = createAction(
-  '[Empresa] actualizar informacion'
+  '[Empresa] limpiar informacion'
 );

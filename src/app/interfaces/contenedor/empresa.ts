@@ -7,4 +7,7 @@ export interface Empresa {
   telefono: string;
   correo: string;
   imagen: string;
+  ciudad: number;
+  ciudad_nombre?: string;
+  identificacion: number;
 }

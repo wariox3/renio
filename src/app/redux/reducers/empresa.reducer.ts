@@ -26,6 +26,8 @@ let estadoInicializado: Empresa = {
   telefono: '',
   correo: '',
   imagen: '',
+  ciudad: 0,
+  identificacion: 0
 };
 
 const initialState: Empresa = ContenedorDatos
@@ -38,10 +40,24 @@ export const empresaReducer = createReducer(
     ...state,
     ...empresa,
   })),
-  on(empresaActualizacionAction, (state, { empresa }) => ({
-    ...state,
-    ...empresa,
-  })),
+  on(empresaActualizacionAction, (state, { empresa }) => {
+    console.log(empresa);
+
+    return ({
+      ...state,
+      ...{
+        numero_identificacion: empresa.numero_identificacion,
+        digito_verificacion: empresa.digito_verificacion,
+        nombre_corto: empresa.nombre_corto,
+        direccion: empresa.direccion,
+        telefono: empresa.telefono,
+        correo: empresa.correo,
+        imagen: empresa.imagen,
+        ciudad: empresa.ciudad,
+        identificacion: empresa.identificacion
+      },
+    })
+  }),
   on(empresaLimpiarAction, (state) => ({
     ...state,
     ...estadoInicializado

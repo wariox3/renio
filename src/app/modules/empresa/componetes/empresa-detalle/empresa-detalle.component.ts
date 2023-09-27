@@ -12,7 +12,7 @@ import { of, switchMap } from 'rxjs';
 export class EmpresaDetalleComponent extends General {
 
 
-  contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
+  empresa_id = this.activatedRoute.snapshot.paramMap.get('empresacodigo')!;
   informacionEmpresa$ = this.store.select(obtenerEmpresaNombre)
   obtenerEmpresaImagen$ = this.store.select(obtenerEmpresaImagen)
   obtenerEmpresaDireccion$ = this.store.select(obtenerEmpresaDireccion)
@@ -25,7 +25,7 @@ export class EmpresaDetalleComponent extends General {
 
 
   recuperarBase64(event: any) {
-    this.empresaServices.cargarLogo(this.contenedor_id, event).subscribe({
+    this.empresaServices.cargarLogo(this.empresa_id, event).subscribe({
       next: (respuesta) => {
         if (respuesta.cargar) {
           this.alertaService.mensajaExitoso(
@@ -41,7 +41,7 @@ export class EmpresaDetalleComponent extends General {
 
   eliminarLogo(event: boolean) {
     this.empresaServices
-      .eliminarLogoEmpresa(this.contenedor_id)
+      .eliminarLogoEmpresa(this.empresa_id)
       .pipe(
         switchMap((respuestaEliminarLogoEmpresa) => {
           if (respuestaEliminarLogoEmpresa.limpiar) {
