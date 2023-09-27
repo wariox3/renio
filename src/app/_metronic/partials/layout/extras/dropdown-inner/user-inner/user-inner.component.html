@@ -38,7 +38,7 @@
       ></span>
     </a>
     <a
-      href="http://muup.online/contenedor/lista"
+      (click)="navegarAmisContenedores()"
       class="menu-link px-5 cursor-pointer"
     >
       <span
@@ -58,6 +58,7 @@
         ></span>
       </a>
     </div>
+    <div class="separator my-2"></div>
     <div class="menu-item px-5">
       <a (click)="navegarAmiContenedor()" class="menu-link px-5 cursor-pointer">
         <span
@@ -67,14 +68,6 @@
       </a>
     </div>
   </ng-container>
-  <div class="menu-item px-5">
-    <a (click)="navegarAmiEmpresa()" class="menu-link px-5 cursor-pointer">
-      <span
-        class="menu-text"
-        translate="FORMULARIOS.TITULOS.COMUNES.MENU.EMPRESA"
-      ></span>
-    </a>
-  </div>
   <!-- <div
     class="menu-item px-5"
     data-kt-menu-trigger="hover"

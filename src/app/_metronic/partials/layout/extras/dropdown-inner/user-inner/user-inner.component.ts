@@ -3,9 +3,7 @@ import { Observable, Subscription, tap } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
-import {
-  obtenerContenedorId,
-} from '@redux/selectors/contenedor.selectors';
+import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioCargo,
   obtenerUsuarioImagen,
@@ -16,7 +14,10 @@ import {
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { Router } from '@angular/router';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
-import { obtenerEmpresaId, obtenerEmpresaNombre } from '@redux/selectors/empresa.selectors';
+import {
+  obtenerEmpresaId,
+  obtenerEmpresaNombre,
+} from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-user-inner',
@@ -89,7 +90,9 @@ export class UserInnerComponent implements OnInit, OnDestroy {
 
   navegarAmiContenedor() {
     this.store.select(obtenerContenedorId).subscribe((contenedor_id) => {
-      this.router.navigate([`/contenedor/detalle/${contenedor_id}/facturacion`]);
+      this.router.navigate([
+        `/contenedor/detalle/${contenedor_id}/facturacion`,
+      ]);
     });
   }
 
@@ -97,6 +100,14 @@ export class UserInnerComponent implements OnInit, OnDestroy {
     this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
       this.router.navigate([`/empresa/detalle/${empresa_id}/`]);
     });
+  }
+
+  navegarAmisContenedores() {
+    if (this.esSubdominio) {
+      location.href = 'http://muup.online/contenedor/lista';
+    } else {
+      this.router.navigate([`/contenedor/lista`]);
+    }
   }
 
   ngOnDestroy() {
