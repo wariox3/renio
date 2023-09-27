@@ -65,7 +65,6 @@ export class EmpresaEffects {
               `empresa-${environment.EMPRESA_LOCALHOST}`
             );
           }
-          console.log(contenedorDatos.)
           let jsonEmpresa: Empresa = JSON.parse(contenedorDatos);
 
           jsonEmpresa = {
