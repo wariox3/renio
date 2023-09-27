@@ -11,7 +11,7 @@ import { of, switchMap } from 'rxjs';
 })
 export class ContenedorDetalleComponent extends General implements OnInit {
   contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
-  informacionEmpresa: Contenedor = {
+  informacionEmpresa: any = {
     contenedor_id: 0,
     id: 0,
     imagen: '',

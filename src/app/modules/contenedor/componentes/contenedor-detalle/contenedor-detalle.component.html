@@ -42,8 +42,8 @@
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
               >
-                <!-- <app-keenicon name="user" class="fs-4 me-1"></app-keenicon> -->
-                <!-- usuarioNombreCompleto | async -->
+                <app-keenicon name="sms" class="fs-4 me-1"></app-keenicon>
+                {{ informacionEmpresa.plan_nombre }}
               </a>
             </div>
 
@@ -51,14 +51,13 @@
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 cursor-pointer"
               >
-                <!-- <app-keenicon name="phone" class="fs-4 me-1"></app-keenicon> -->
-                <!-- telefono | async -->
+                <app-keenicon name="user" class="fs-4 me-1"></app-keenicon>
+                {{ informacionEmpresa.plan_limite_usuarios }} /
+                {{ informacionEmpresa.plan_usuarios_base }}
               </a>
               <a
                 class="d-flex align-items-center text-gray-400 text-hover-primary mb-2 cursor-pointer"
               >
-                <!-- <app-keenicon name="sms" class="fs-4 me-1"></app-keenicon> -->
-                <!-- usuarioCorreo | async -->
               </a>
             </div>
           </div>
