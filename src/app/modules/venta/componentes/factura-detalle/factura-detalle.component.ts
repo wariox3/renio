@@ -105,6 +105,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
     this.formularioFactura = this.formBuilder.group({
+      empresa: [1],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
       numero: [null],
