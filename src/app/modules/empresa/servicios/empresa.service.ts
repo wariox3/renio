@@ -17,8 +17,8 @@ export class EmpresaService {
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.httpService.post<{ cargar: boolean }>(
-      `/contenedor/contenedor/cargar-logo/`,
+    return this.httpService.post<{ cargar: boolean, imagen: string }>(
+      `general/empresa/cargar-logo/`,
       {
         empresa_id,
         imagenB64,
@@ -30,7 +30,7 @@ export class EmpresaService {
     return this.httpService.post<{
       limpiar: boolean;
       imagen: string;
-    }>(`contenedor/contenedor/limpiar-logo/`, {
+    }>(`general/empresa/limpiar-logo/`, {
       empresa_id,
     });
   }
