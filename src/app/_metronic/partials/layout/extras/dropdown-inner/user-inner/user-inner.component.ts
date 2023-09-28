@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, tap, zip } from 'rxjs';
+import { Observable, Subscription, combineLatest, tap, zip } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { Store } from '@ngrx/store';
@@ -20,13 +20,14 @@ import {
 } from '@redux/selectors/empresa.selectors';
 import { environment } from '@env/environment';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
+import { General } from '@comun/clases/general';
 
 @Component({
   selector: 'app-user-inner',
   templateUrl: './user-inner.component.html',
   styleUrls: ['user-inner.scss'],
 })
-export class UserInnerComponent implements OnInit, OnDestroy {
+export class UserInnerComponent extends General implements OnInit, OnDestroy {
   @HostBinding('class')
   class = `menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px`;
   @HostBinding('attr.data-kt-menu') dataKtMenu = 'true';
@@ -46,21 +47,24 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private translationService: TranslationService,
-    private store: Store,
     private subdominioService: SubdominioService,
-    private router: Router
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.setLanguage(this.translationService.getSelectedLanguage());
-    zip(
+    combineLatest(
       this.store.select(obtenerUsuarioidioma),
       this.store.select(obtenerConfiguracionVisualizarApp)
     ).subscribe(([idioma, VisualizarApp]) => {
       this.selectLanguage(idioma);
       this.visualizarMenuApps = VisualizarApp;
+      this.changeDetectorRef.detectChanges()
     });
+    this.changeDetectorRef.detectChanges()
+
   }
 
   logout() {
