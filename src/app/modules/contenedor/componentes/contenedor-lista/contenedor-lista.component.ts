@@ -154,5 +154,12 @@ export class ContenedorListaComponent extends General implements OnInit {
       })
     );
     this.store.dispatch(empresaLimpiarAction());
+    let dominioActual = window.location.host;
+    let esSubdominio = dominioActual.split('.').length > 2;
+    if (esSubdominio) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/contenedor/lista']);
+    }
   }
 }
