@@ -13,6 +13,7 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-login',
@@ -133,6 +134,13 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             let dominioActual = window.location.host;
             let esSubdominio = dominioActual.split('.').length > 2;
             if (esSubdominio) {
+              this.store.dispatch(
+                configuracionVisualizarAction({
+                  configuracion: {
+                    visualizarApps: false,
+                  },
+                })
+              );
               this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/contenedor/lista']);
