@@ -11,13 +11,10 @@ let contenedorDatos: any;
 
 if (environment.production) {
   let dominioActual = window.location.host;
-  contenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
-  console.log(`empresa-${dominioActual.split('.')[0]}`);
-
+  contenedorDatos = getCookie(`contenedor-${dominioActual.split('.')[0]}`);
 } else {
-  contenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
+  contenedorDatos = getCookie(`contenedor-${environment.EMPRESA_LOCALHOST}`);
 }
-
 
 
 let estadoInicializado: Contenedor = {
