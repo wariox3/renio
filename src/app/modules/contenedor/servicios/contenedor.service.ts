@@ -38,7 +38,7 @@ export class ContenedorService {
 
   detalle(codigoContenedor: string) {
     return this.http.get<Contenedor>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}`
+      `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}/`
     );
   }
 

@@ -42,6 +42,10 @@ export const initialState: Contenedor = contenedorDatos
   ? JSON.parse(contenedorDatos)
   : estadoInicializado;
 
+
+console.log(initialState);
+
+
 export const contendorReducer = createReducer(
   initialState,
   on(ContenedorActionInit, (state, { contenedor }) => {
