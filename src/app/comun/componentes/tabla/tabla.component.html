@@ -79,7 +79,7 @@
     <tbody>
       <tr *ngFor="let item of datos">
         <td *ngFor="let key of item | keys">
-          {{ item[key] }}
+          {{ getTipoDato(item[key], key)  }}
         </td>
         <td class="w-45px">
           <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1"  translate="FORMULARIOS.BOTONES.COMUNES.INFORMACION">

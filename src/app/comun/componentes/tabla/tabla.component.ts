@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Listafiltros } from '@interfaces/comunes/filtros';
@@ -20,6 +20,7 @@ import { TranslationModule } from '@modulos/i18n';
     TranslateModule,
     TranslationModule,
   ],
+  providers: [CurrencyPipe, DecimalPipe],
 })
 export class TablaComponent {
   tamanoEncabezado = 0;
@@ -41,6 +42,8 @@ export class TablaComponent {
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
   @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
+
+  constructor(private currencyPipe: CurrencyPipe) {}
 
   objectKeys(obj: any) {
     let encabezado: any = [];
@@ -168,5 +171,23 @@ export class TablaComponent {
         this.arrRegistrosEliminar.push(item.id);
       }
     });
+  }
+
+  getTipoDato(valor: any, key: string) {
+    let tipo = typeof valor;
+    switch (tipo) {
+      case 'number':
+        const identificadores = ['id', 'descuento', 'impuesto', 'contacto', 'documento_tipo', 'metodo_pago'];
+        if (!identificadores.includes(key)) {
+          let formattedAmount = this.currencyPipe.transform(valor, 'COP');
+          return formattedAmount;
+        } else {
+          return valor;
+        }
+      case 'boolean':
+        return valor ? 'Si' : 'No';
+      default:
+        return valor;
+    }
   }
 }
