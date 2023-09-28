@@ -12,9 +12,13 @@ let contenedorDatos: any;
 if (environment.production) {
   let dominioActual = window.location.host;
   contenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
+  console.log(`empresa-${dominioActual.split('.')[0]}`);
+
 } else {
   contenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
 }
+
+
 
 let estadoInicializado: Contenedor = {
   nombre: '',
@@ -43,7 +47,6 @@ export const initialState: Contenedor = contenedorDatos
   : estadoInicializado;
 
 
-console.log(initialState);
 
 
 export const contendorReducer = createReducer(
