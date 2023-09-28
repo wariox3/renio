@@ -36,13 +36,6 @@ export class ContenedorFacturacionComponent extends General implements OnInit {
     this.fechasServices.obtenerResumenMesHastaFecha().subscribe((mensaje) => {
       this.resumenMes = mensaje;
     });
-    this.store.dispatch(
-      configuracionVisualizarAction({
-        configuracion: {
-          visualizarApps: false,
-        },
-      })
-    );
     this.changeDetectorRef.detectChanges();
   }
 
