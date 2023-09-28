@@ -267,7 +267,7 @@ export const locale = {
           ELIMINARCONTENEDORAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
           SINCONTENEDORES: 'No cuenta con contenedores creados',
           INVITACIONACEPTADA: 'Invitacion aceptada',
-          NUEVOCONTENEDOR: 'La nueva empresa fue creada',
+          NUEVOCONTENEDOR: 'El nuevo contenedor fue creado',
         },
         AUTENTIFICACION: {
           VERIFICACION:
