@@ -19,28 +19,17 @@ import { configuracionVisualizarAction } from '@redux/actions/configuracion.acti
   selector: 'app-profile',
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent extends General implements OnInit {
+export class ProfileComponent extends General {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
-
-  constructor(private resumenService: ResumenService) {
-    super();
-  }
-
-  ngOnInit() {
-    this.store.dispatch(
-      configuracionVisualizarAction({
-        configuracion: {
-          visaulizarApp: false,
-        },
-      })
-    );
-  }
-
   contenedorNombre = this.store.select(obtenerContenedorNombre);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   usuarioNombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);
   usuarioTelefono = this.store.select(obtenerUsuarioTelefono);
+
+  constructor(private resumenService: ResumenService) {
+    super();
+  }
 
   recuperarBase64(event: any) {
     this.store
