@@ -18,6 +18,7 @@ import {
   obtenerEmpresaId,
   obtenerEmpresaNombre,
 } from '@redux/selectors/empresa.selectors';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-user-inner',
@@ -39,6 +40,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
+  visualizarMenuApps = false
 
   constructor(
     private auth: AuthService,
@@ -59,6 +61,11 @@ export class UserInnerComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+      console.log(this.router.url)
+      let dominioActual = window.location.host
+      if (dominioActual.split('.').length > 2 || environment.production == false) {
+        this.visualizarMenuApps = true
+      }
   }
 
   logout() {
