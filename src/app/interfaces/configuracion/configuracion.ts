@@ -1,3 +1,3 @@
 export interface Configuracion {
-  visaulizarApp: boolean
+  visualizarApps: boolean;
 }

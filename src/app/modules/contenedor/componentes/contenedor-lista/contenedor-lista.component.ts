@@ -78,7 +78,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         this.store.dispatch(
           configuracionVisualizarAction({
             configuracion: {
-              visaulizarApp: true,
+              visualizarApps: true,
             },
           })
         );
@@ -149,7 +149,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.store.dispatch(
       configuracionVisualizarAction({
         configuracion: {
-          visaulizarApp: false,
+          visualizarApps: false,
         },
       })
     );

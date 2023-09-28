@@ -11,7 +11,7 @@ let contenedorDatos: any;
 contenedorDatos = getCookie(`configuracion`);
 
 let estadoInicializado = {
-  visaulizarApp: false,
+  visualizarApps: false,
 };
 
 export const initialState = contenedorDatos
@@ -30,8 +30,8 @@ export const configuracionReducer = createReducer(
     return {
       ...state,
       ...{
-        visaulizarApp : configuracion.visaulizarApp
-      }
+        visualizarApps: configuracion.visualizarApps,
+      },
     };
   })
 );

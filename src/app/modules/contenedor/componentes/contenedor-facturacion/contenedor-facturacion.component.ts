@@ -39,7 +39,7 @@ export class ContenedorFacturacionComponent extends General implements OnInit {
     this.store.dispatch(
       configuracionVisualizarAction({
         configuracion: {
-          visaulizarApp: false,
+          visualizarApps: false,
         },
       })
     );
