@@ -1,5 +1,5 @@
 <div class="container-grid">
-  <div class="ayuda ">
+  <div class="ayuda">
     <a
       [routerLink]="['../lista']"
       [queryParams]="{modulo, modelo, tipo}"
@@ -10,15 +10,30 @@
       ></i>
       {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
     </a>
-    <div class="btn-group btn-sm" role="group" aria-label="Basic example" *ngIf="accion === 'detalle' ">
-      <button type="button" class="btn btn-sm btn-primary" (click)="aprobar()">Aprobar</button>
+    <div
+      class="btn-group btn-sm"
+      role="group"
+      aria-label="Basic example"
+      *ngIf="accion === 'detalle'"
+    >
+      <button type="button" class="btn btn-sm btn-primary" (click)="aprobar()">
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
       <button
-      type="submit"
-      class="btn btn-success btn-sm"
-      #btnGuardar
-      translate="FORMULARIOS.BOTONES.COMUNES.PDF"
-      (click)="imprimir()"
-    ></button>
+        type="submit"
+        class="btn btn-success btn-sm"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+        [disabled]="generarPDF"
+      >
+        <ng-container *ngIf="generarPDF; else elseTemplate">
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERANDO" | translate }}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+        </ng-template>
+      </button>
     </div>
   </div>
   <div class="formulario">
@@ -30,12 +45,12 @@
           <h3>
             <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-              {{modelo}}
+              {{ modelo }}
             </ng-container>
             <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
-              {{modelo}}
-              {{detalle}}
+              {{ modelo }}
+              {{ detalle }}
             </ng-template>
           </h3>
         </div>

@@ -48,6 +48,8 @@ export const locale = {
           EXCEL: 'Excel',
           PDF: 'Pdf',
           INFORMACION: 'Información',
+          APROBAR: 'Aprobar',
+          GENERANDO: 'GENERANDO'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

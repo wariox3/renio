@@ -21,6 +21,8 @@ import { HttpService } from '@comun/services/http.service';
   styleUrls: ['./base-nuevo.component.scss'],
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
+
+  generarPDF = false
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
 
@@ -50,6 +52,7 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   imprimir() {
+    this.generarPDF = true
     this.httpService
       .descargarArchivo(
         'general/documento/imprimir/',
@@ -66,6 +69,8 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
         }
       )
       .subscribe((data) => {
+        this.generarPDF = false
+        this.changeDetectorRef.detectChanges()
         const blob = new Blob([data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
