@@ -8,6 +8,7 @@ import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
 import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -74,6 +75,13 @@ export class ContenedorListaComponent extends General implements OnInit {
           telefono: '',
         };
         this.store.dispatch(ContenedorActionInit({ contenedor }));
+        this.store.dispatch(
+          configuracionVisualizarAction({
+            configuracion: {
+              visaulizarApp: true,
+            },
+          })
+        );
         if (environment.production) {
           window.location.href = `http://${respuesta.subdominio}.muup.online/dashboard`;
         } else {
@@ -137,7 +145,14 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.router.navigate([`/contenedor/detalle/${contenedor_id}`]);
   }
 
-  limpiarEmpresa(){
-    this.store.dispatch(empresaLimpiarAction())
+  limpiarEmpresa() {
+    this.store.dispatch(
+      configuracionVisualizarAction({
+        configuracion: {
+          visaulizarApp: false,
+        },
+      })
+    );
+    this.store.dispatch(empresaLimpiarAction());
   }
 }

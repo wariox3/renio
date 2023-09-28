@@ -5,12 +5,20 @@ import { ContenedorEffects } from './efectos/contenedorEffects';
 import { UsuarioEffects } from './efectos/UsuarioEffects';
 import { empresaReducer } from './reducers/empresa.reducer';
 import { EmpresaEffects } from './efectos/empresaEffects';
+import { configuracionReducer } from './reducers/configuracion.reducer';
+import { ConfiguracionEffects } from './efectos/configuracionEffects';
 
 export const StoreApp = {
   usuario: usuarioReducer,
   menu: menuReducer,
   contenedor: contendorReducer,
   empresa: empresaReducer,
+  configuracion: configuracionReducer,
 };
 
-export const EffectsApp = [ContenedorEffects, UsuarioEffects, EmpresaEffects];
+export const EffectsApp = [
+  ContenedorEffects,
+  UsuarioEffects,
+  EmpresaEffects,
+  ConfiguracionEffects,
+];

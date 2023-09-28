@@ -4,7 +4,8 @@ import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { General } from '@comun/clases/general';
-import { environment } from '@env/environment';
+import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-header-menu',
@@ -12,23 +13,26 @@ import { environment } from '@env/environment';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent extends General implements OnInit {
-
   arrMenu = ['CARTERA', 'COMPRA', 'CONTABILIDAD', 'HUMANO', 'VENTA'];
 
-  visualizarMenuApps = false
+  visualizarMenuApps = false;
 
   constructor(
     private layout: LayoutService,
-    private layoutInit: LayoutInitService,
+    private layoutInit: LayoutInitService
   ) {
-    super()
+    super();
   }
 
-  ngOnInit(): void {
-    let dominioActual = window.location.host
-    if (dominioActual.split('.').length > 2 || environment.production == false) {
-      this.visualizarMenuApps = true
-    }
+  ngOnInit() {
+    this.store
+      .select(obtenerConfiguracionVisualizarApp)
+      .pipe(
+        tap((visualizarMenuApps) => {
+          this.visualizarMenuApps = visualizarMenuApps;
+        })
+      )
+      .subscribe();
   }
 
   calculateMenuItemCssClass(url: string): string {
@@ -49,11 +53,10 @@ export class HeaderMenuComponent extends General implements OnInit {
     }
   }
 
-  seleccionarMenu(ruta: string){
-    localStorage.setItem('ruta', ruta)
-    this.store.dispatch(selecionModuloAction({seleccion: ruta}))
+  seleccionarMenu(ruta: string) {
+    localStorage.setItem('ruta', ruta);
+    this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
-
 }
 
 const getCurrentUrl = (pathname: string): string => {

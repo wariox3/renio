@@ -7,16 +7,16 @@ import { Contenedor } from '@interfaces/usuario/contenedor';
 import { getCookie } from 'typescript-cookie';
 import { environment } from '@env/environment';
 
-let ContenedorDatos: any;
+let contenedorDatos: any;
 
 if (environment.production) {
   let dominioActual = window.location.host;
-  ContenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
+  contenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
 } else {
-  ContenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
+  contenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
 }
 
-let estadoAnalizado: Contenedor = {
+let estadoInicializado: Contenedor = {
   nombre: '',
   imagen: '',
   contenedor_id: 0,
@@ -38,9 +38,9 @@ let estadoAnalizado: Contenedor = {
   telefono: ''
 };
 
-export const initialState: Contenedor = ContenedorDatos
-  ? JSON.parse(ContenedorDatos)
-  : estadoAnalizado;
+export const initialState: Contenedor = contenedorDatos
+  ? JSON.parse(contenedorDatos)
+  : estadoInicializado;
 
 export const contendorReducer = createReducer(
   initialState,

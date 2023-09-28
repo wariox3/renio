@@ -13,16 +13,27 @@ import { General } from '@comun/clases/general';
 import { ResumenService } from './services/resumen.service';
 import { switchMap, tap } from 'rxjs';
 import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent extends General {
+export class ProfileComponent extends General implements OnInit {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
 
   constructor(private resumenService: ResumenService) {
     super();
+  }
+
+  ngOnInit() {
+    this.store.dispatch(
+      configuracionVisualizarAction({
+        configuracion: {
+          visaulizarApp: false,
+        },
+      })
+    );
   }
 
   contenedorNombre = this.store.select(obtenerContenedorNombre);
@@ -41,8 +52,10 @@ export class ProfileComponent extends General {
         tap((respuestaCargarImagen) => {
           if (respuestaCargarImagen.cargar) {
             this.store.dispatch(
-              usuarioActionActualizarImagen({imagen: respuestaCargarImagen.imagen})
-            )
+              usuarioActionActualizarImagen({
+                imagen: respuestaCargarImagen.imagen,
+              })
+            );
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
@@ -64,8 +77,10 @@ export class ProfileComponent extends General {
         tap((respuestaEliminarImagen) => {
           if (respuestaEliminarImagen.limpiar) {
             this.store.dispatch(
-              usuarioActionActualizarImagen({imagen: respuestaEliminarImagen.imagen})
-            )
+              usuarioActionActualizarImagen({
+                imagen: respuestaEliminarImagen.imagen,
+              })
+            );
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'

@@ -3,6 +3,7 @@ import { General } from '@comun/clases/general';
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-contenedor-facturacion',
@@ -35,6 +36,13 @@ export class ContenedorFacturacionComponent extends General implements OnInit {
     this.fechasServices.obtenerResumenMesHastaFecha().subscribe((mensaje) => {
       this.resumenMes = mensaje;
     });
+    this.store.dispatch(
+      configuracionVisualizarAction({
+        configuracion: {
+          visaulizarApp: false,
+        },
+      })
+    );
     this.changeDetectorRef.detectChanges();
   }
 
