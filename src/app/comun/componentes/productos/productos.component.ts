@@ -23,7 +23,6 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
-    NgIf,
     NgFor,
     CommonModule,
   ],
@@ -31,10 +30,11 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   styleUrls: ['./productos.component.scss'],
 })
 export class ProductosComponent extends General implements AfterViewInit {
-  @Input() itemNombre:string = "";
-  @Input() estado_aprobado: false;
+
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
+  @Input() itemNombre: string = '';
+  @Input() estado_aprobado: false;
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
@@ -44,7 +44,9 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.inputItem?.nativeElement.focus();
+    if (this.inputItem?.nativeElement.value === '') {
+      this.inputItem?.nativeElement.focus();
+    }
   }
 
   agregarItem(item: any) {

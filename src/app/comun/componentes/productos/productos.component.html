@@ -1,13 +1,6 @@
 <div class="fv-row">
   <div class="col-12">
-    <ng-container *ngIf="itemNombre; else elseTemplate">
-      {{ itemNombre }}
-    </ng-container>
-    <ng-template #elseTemplate>
       <div ngbDropdown class="d-flex row-gap-4" #ItemDropdown="ngbDropdown">
-        <span *ngIf="itemSeleccionado !== null">
-          {{ itemSeleccionado.item_nombre }}
-        </span>
         <div>
           <input
             #inputItem
@@ -16,11 +9,11 @@
             ngbDropdownAnchor
             class="cursor-pointer form-select w-100"
             (focus)="consultarItems($event); ItemDropdown.open()"
-            (keyup)="aplicarFiltrosItems($event)"
-            *ngIf="itemSeleccionado === null"
+            (keyup)="aplicarFiltrosItems($event); ItemDropdown.open()"
             [disabled]="estado_aprobado"
             [readonly]="estado_aprobado"
             [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+            [value]="itemNombre"
           />
           <div
             ngbDropdownMenu
@@ -39,6 +32,5 @@
           </div>
         </div>
       </div>
-    </ng-template>
   </div>
 </div>
