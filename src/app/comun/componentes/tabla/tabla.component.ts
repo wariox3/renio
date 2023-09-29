@@ -179,7 +179,7 @@ export class TablaComponent {
       case 'number':
         const identificadores = ['id', 'descuento', 'impuesto', 'contacto', 'documento_tipo', 'metodo_pago'];
         if (!identificadores.includes(key)) {
-          let formattedAmount = this.currencyPipe.transform(valor, 'COP');
+          let formattedAmount = this.currencyPipe.transform(valor, 'COP', 'symbol', '1.0-0');
           return formattedAmount;
         } else {
           return valor;
