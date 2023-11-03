@@ -9,7 +9,7 @@ import { Item } from '@interfaces/general/item';
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private httpService: HttpService, private store: Store) {}
+  constructor(private httpService: HttpService, private store: Store) { }
 
   guardarItem(data: any) {
     return this.store
@@ -19,7 +19,7 @@ export class ItemService {
           this.httpService.post<Item>('general/item/', data)
         )
       )
-    }
+  }
 
   consultarDetalle(id: number) {
     return this.httpService.get<any>(`general/item/${id}/`);

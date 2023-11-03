@@ -27,6 +27,7 @@ export const locale = {
         FACTURACOMPRA: 'Factura de compra',
         ITEM: 'Ítem',
         CONTACTO: 'Contacto',
+        RESOLUCION: 'Resolución'
       },
     },
     FORMULARIOS: {
@@ -201,6 +202,9 @@ export const locale = {
           NOMBRE2: 'Segundo nombre',
           APELLIDO1: 'Primer apellido',
           APELLIDO2: 'Segundo apellido',
+          NUMERO: 'Número',
+          FECHADESDE: 'Fecha desde',
+          FECHAHASTA: 'Fecha hasta',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -217,6 +221,11 @@ export const locale = {
             PERSONATIPO: 'Persona tipo',
             REGIMEN: 'Régimen',
           },
+          RESOLUCION:{
+            PREFIJO: 'Prefijo',
+            CONSECUTIVODESDE: 'Consecutivo desde',
+            CONSECUTIVOHASTA: 'Consecutivo hasta',
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',

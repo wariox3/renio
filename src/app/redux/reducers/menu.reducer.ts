@@ -225,6 +225,13 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { formulario: 'ContactoInformacion' },
             },
+            {
+              nombre: 'Resolucion',
+              url: 'lista',
+              modelo: 'Resolucion',
+              tipo: 'Administrador',
+              data: { formulario: 'ResolucionNuevo' },
+            },
           ],
         },
       ],

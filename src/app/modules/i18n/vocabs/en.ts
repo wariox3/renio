@@ -27,6 +27,7 @@ export const locale = {
         FACTURACOMPRA: 'Invoice of purchase',
         ITEM: 'Item',
         CONTACTO: 'Contact',
+        RESOLUCION: 'Resolution'
       },
     },
     FORMULARIOS: {
@@ -201,6 +202,9 @@ export const locale = {
           NOMBRE2: 'Second name',
           APELLIDO1: 'First surname',
           APELLIDO2: 'Second last name',
+          NUMERO: 'Number',
+          FECHADESDE: 'Date from',
+          FECHAHASTA: 'Date to',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -217,6 +221,11 @@ export const locale = {
             PERSONATIPO: 'Type person',
             REGIMEN: 'Regime',
           },
+          RESOLUCION:{
+            PREFIJO: 'Prefix',
+            CONSECUTIVO_DESDE: 'Consecutive from',
+            CONSECUTIVO_HASTA: 'Consecutive until',
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
