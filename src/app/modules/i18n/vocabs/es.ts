@@ -205,6 +205,7 @@ export const locale = {
           NUMERO: 'Número',
           FECHADESDE: 'Fecha desde',
           FECHAHASTA: 'Fecha hasta',
+          BARRIO: 'Barrio'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -220,6 +221,7 @@ export const locale = {
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
             REGIMEN: 'Régimen',
+            CODIGOCIUU: 'Código ciuu'
           },
           RESOLUCION:{
             PREFIJO: 'Prefijo',

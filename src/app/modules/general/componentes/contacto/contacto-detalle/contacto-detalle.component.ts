@@ -151,6 +151,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
+      codigo_ciuu: ['', Validators.compose([Validators.maxLength(200)])],
+      barrio: ['', Validators.compose([Validators.maxLength(200)])],
     });
   }
 

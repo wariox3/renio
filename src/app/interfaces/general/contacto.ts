@@ -15,5 +15,7 @@ export interface Contacto {
   apellido2: string | null;
   codigo_postal: string | null;
   correo: string;
+  codigo_ciuu: string;
+  barrio: string
 }
 
