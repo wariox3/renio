@@ -45,7 +45,7 @@
           <h3>
             <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-              {{ modelo }}
+              {{ 'MENU.FUNCIONALIDAD.' + (modelo | uppercase) | translate }}              
             </ng-container>
             <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}

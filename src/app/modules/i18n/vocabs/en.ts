@@ -225,8 +225,8 @@ export const locale = {
           },
           RESOLUCION:{
             PREFIJO: 'Prefix',
-            CONSECUTIVO_DESDE: 'Consecutive from',
-            CONSECUTIVO_HASTA: 'Consecutive until',
+            CONSECUTIVODESDE: 'Consecutive from',
+            CONSECUTIVOHASTA: 'Consecutive until',
           }
         },
         FACTURA: {

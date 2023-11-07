@@ -26,7 +26,7 @@
     ></button>
   </div>
   <div class="tabla">
-    <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.ITEMS'">
+    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
       <section card-body>
         <app-comun-tabla
           [datos]="arrItems"
