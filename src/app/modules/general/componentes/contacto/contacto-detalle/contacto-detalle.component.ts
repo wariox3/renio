@@ -260,6 +260,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
               this.alertaService.mensajaExitoso('Guardado con exito');
               this.router.navigate(['/detalle'], {
                 queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                   tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                   formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,

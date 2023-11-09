@@ -125,6 +125,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
               this.alertaService.mensajaExitoso('Se guardo la información');
               this.router.navigate(['/detalle'], {
                 queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                   tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                   formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
