@@ -65,10 +65,10 @@ export default class ResolucionNuevoComponent extends General implements OnInit 
           Validators.pattern(/^[0-9]*$/),
         ]),
       ],
-      fechaDesde: [
+      fecha_desde: [
         null
       ],
-      fechaHasta: [
+      fecha_hasta: [
         null
       ],
     })
