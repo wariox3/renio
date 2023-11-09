@@ -19,7 +19,7 @@ export class ResolucionService {
     return this.httpService.get<any>(`general/resolucion/${id}/`);
   }
 
-  actualizarDatosContacto(id: number, data: any) {
+  actualizarDatos(id: number, data: any) {
     return this.httpService.put<any>(`general/resolucion/${id}/`, data);
   }
 }

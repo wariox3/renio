@@ -81,10 +81,32 @@ export default class ResolucionNuevoComponent extends General implements OnInit 
 
   enviarFormulario(){
     if(this.detalle){
-
+      this.resolucionService.actualizarDatos(this.detalle, this.formularioResolucion.value)
+      .subscribe((respuesta: any)=>{
+        this.formularioResolucion.patchValue({
+          prefijo: respuesta.prefijo,
+          numero: respuesta.numero,
+          consecutivo_desde: respuesta.consecutivo_desde,
+          consecutivo_hasta: respuesta.consecutivo_hasta,
+          fecha_desde: respuesta.fecha_desde,
+          fecha_hasta: respuesta.fecha_hasta,
+        });
+        this.alertaService.mensajaExitoso('Se actualizo la información');
+      })
     } else {
       this.resolucionService.guardarResolucion(this.formularioResolucion.value)
-      .subscribe()
+      .subscribe((respuesta:any) => {
+        this.alertaService.mensajaExitoso('Se actualizo la información');
+        this.router.navigate(['/detalle'], {
+          queryParams: {
+            modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+            tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+            formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+            detalle: respuesta.id,
+            accion: 'detalle',
+          },
+        });
+      })
 
     }
   }
@@ -98,7 +120,8 @@ export default class ResolucionNuevoComponent extends General implements OnInit 
         numero: respuesta.numero,
         consecutivo_desde: respuesta.consecutivo_desde,
         consecutivo_hasta: respuesta.consecutivo_hasta,
-        fechaDesde: respuesta.fechaHasta,
+        fecha_desde: respuesta.fecha_desde,
+        fecha_hasta: respuesta.fecha_hasta,
       })
       this.changeDetectorRef.detectChanges();
 
