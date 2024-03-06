@@ -20,7 +20,7 @@ export class ConfiguracionEffects {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {
               expires: calcularTresHoras,
               path: '/',
-              domain: `.muup.online`,
+              domain: `.reddoc.online`,
             });
           } else {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {

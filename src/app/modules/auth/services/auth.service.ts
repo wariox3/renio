@@ -73,7 +73,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.authLocalStorageToken);
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
-    removeCookie('usuario', { path: '/', domain: '.muup.online' });
+    removeCookie('usuario', { path: '/', domain: '.reddoc.online' });
     removeCookie('usuario', { path: '/' });
     const empresaPatron = 'empresa-';
     document.cookie.split(';').forEach(function (cookie) {

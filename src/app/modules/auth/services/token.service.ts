@@ -13,7 +13,7 @@ export class TokenService {
   guardarToken(token: string, calcularTresHoras: Date) {
     //para calcular las 3 horas la formula es fechaActual * horas * minutos * segundos * milisegundos
     if(environment.production){
-      setCookie('token', token, { expires: calcularTresHoras, path: '/', domain: '.muup.online' })
+      setCookie('token', token, { expires: calcularTresHoras, path: '/', domain: '.reddoc.online' })
     }else {
       setCookie('token', token, { expires: calcularTresHoras, path: '/'})
     }
@@ -25,13 +25,13 @@ export class TokenService {
   }
 
   eliminarToken(){
-    removeCookie('token',  {path: '/', domain:  '.muup.online' })
+    removeCookie('token',  {path: '/', domain:  '.reddoc.online' })
     removeCookie('token',  {path: '/'})
   }
 
   guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {
     if(environment.production){
-      setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/', domain: '.muup.online' })
+      setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/', domain: '.reddoc.online' })
     }else {
       setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/'})
     }
@@ -43,7 +43,7 @@ export class TokenService {
   }
 
   eliminarRefreshToken(){
-    removeCookie('RefreshToken',  {path: '/',  domain: '.muup.online'})
+    removeCookie('RefreshToken',  {path: '/',  domain: '.reddoc.online'})
     removeCookie('RefreshToken',  {path: '/'})
 
   }

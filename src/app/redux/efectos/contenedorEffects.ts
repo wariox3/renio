@@ -25,7 +25,7 @@ export class ContenedorEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `.muup.online`,
+                domain: `.reddoc.online`,
               }
             );
           } else {

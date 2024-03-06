@@ -22,7 +22,7 @@ export class EmpresaCookieInterceptor implements HttpInterceptor {
 
         if((this.subdominioService.subdominioNombre() !== empresa.subdominio)){
           //alert("Cambio la empresa ir")
-          //window.location.href = `http://${empresa.subdominio}.muup.online/dashboard`;
+          //window.location.href = `http://${empresa.subdominio}.reddoc.online/dashboard`;
         }
       }
     }

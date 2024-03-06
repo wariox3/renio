@@ -31,7 +31,7 @@ export class EmpresaEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `.muup.online`,
+                domain: `.reddoc.online`,
               }
             );
           } else {
@@ -91,7 +91,7 @@ export class EmpresaEffects {
               JSON.stringify(jsonEmpresa),
               {
                 path: '/',
-                domain: '.muup.online',
+                domain: '.reddoc.online',
               }
             );
           } else {
@@ -140,7 +140,7 @@ export class EmpresaEffects {
               JSON.stringify(jsonEmpresa),
               {
                 path: '/',
-                domain: '.muup.online',
+                domain: '.reddoc.online',
               }
             );
           } else {
