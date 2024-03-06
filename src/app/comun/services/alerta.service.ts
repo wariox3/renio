@@ -90,12 +90,13 @@ export class AlertaService {
       confirmButtonColor: '#f1416c',
       input: 'text',
       inputLabel: `${inputLabel}${empresaNombre}`,
-      inputAutoFocus: true,
       didOpen: () => {
-        //deshabilitar el botton de confirmar
+        // Deshabilitar el botón de confirmar
         Swal.getConfirmButton()?.setAttribute('disabled', 'true');
+        // Configurar el foco del input
         const input = Swal.getInput();
         if (input) {
+          input.focus(); // Establecer el foco en el input
           input.oninput = () => {
             if (Swal.getInput()?.value === empresaNombre) {
               Swal.getConfirmButton()?.removeAttribute('disabled');
@@ -106,7 +107,6 @@ export class AlertaService {
         }
       },
     });
-
     return mensaje;
   }
 }
