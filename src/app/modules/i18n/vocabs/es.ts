@@ -23,6 +23,7 @@ export const locale = {
         INFORME: 'Informe',
       },
       FUNCIONALIDAD: {
+        FACTURA: 'Factura',
         FACTURAVENTA: 'Factura de venta',
         FACTURACOMPRA: 'Factura de compra',
         ITEM: 'Ítem',
