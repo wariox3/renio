@@ -10,6 +10,7 @@ import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { TablaComponent } from '../tabla/tabla.component';
 import { combineLatest } from 'rxjs';
+import { ImportarComponent } from '../importar/importar.component';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -22,6 +23,7 @@ import { combineLatest } from 'rxjs';
     CardComponent,
     BaseFiltroComponent,
     TablaComponent,
+    ImportarComponent
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -41,6 +43,8 @@ export class BaseListaComponent extends General implements OnInit {
   arrItems: any[];
   cantidad_registros!: number;
   nombreFiltro = '';
+  tipo = ''
+  modelo = ''
 
 
   constructor(private httpService: HttpService) {
@@ -51,6 +55,8 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
+      this.tipo = parametro.tipo;
+      this.modelo = parametro.modelo;
       this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`
       this.changeDetectorRef.detectChanges();
       this.consultarLista();

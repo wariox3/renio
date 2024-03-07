@@ -12,6 +12,11 @@
   </div>
   <div class="acciones">
     <ng-content select="[base-acciones]"></ng-content>
+
+    <app-importar
+      modelo="{{ modelo }}"
+      *ngIf="tipo === 'Administrador'"
+    ></app-importar>
     <a
       (click)="navegarNuevo()"
       class="btn btn-sm btn-primary"

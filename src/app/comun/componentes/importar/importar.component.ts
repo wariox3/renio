@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -20,7 +20,7 @@ export class ImportarComponent {
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   @ViewChild('fileInput',  { read: ElementRef }) fileInput: ElementRef<HTMLInputElement>;
 
-  @Input() subtitulo:string
+  @Input() modelo:string
   modalRef: any;
 
   constructor(private modalService: NgbModal) {}
@@ -85,7 +85,8 @@ export class ImportarComponent {
   }
 
   removerArchivoSeleccionado() {
-    //this.fileInput?.nativeElement.value = "";
+    this.archivoNombre = ''
+
   }
 
 }
