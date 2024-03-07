@@ -51,6 +51,15 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
       });
   }
 
+  emitir() {
+    this.httpService
+      .post('general/documento/emitir/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Documento aprobado');
+        window.location.reload();
+      });
+  }
+
   imprimir() {
     this.generarPDF = true
     this.httpService

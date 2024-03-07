@@ -51,7 +51,8 @@ export const locale = {
           PDF: 'Pdf',
           INFORMACION: 'Información',
           APROBAR: 'Aprobar',
-          GENERANDO: 'GENERANDO'
+          GENERANDO: 'GENERANDO',
+          EMITIR: 'Emitir',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
