@@ -1,3 +1,4 @@
+import { Ciudad } from './../../../../interfaces/general/ciudad';
 import {
   Component,
   EventEmitter,
@@ -10,12 +11,13 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { Regimen } from '@interfaces/general/regimen';
+import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
+import { TipoPersona } from '@interfaces/general/tipoPersona';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { asyncScheduler, switchMap, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -24,8 +26,10 @@ import { asyncScheduler, switchMap, tap, throttleTime, zip } from 'rxjs';
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
-  arrCiudades: any = [];
-  arrIdentificacion: any = [];
+  arrCiudades: Ciudad[] = [];
+  arrIdentificacion: TipoIdentificacion[] = [];
+  arrTipoPersona: TipoPersona[] = [];
+  arrRegimen: Regimen[] = [];
   @Input() empresa_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -33,14 +37,13 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal,
-    private modalService: NgbModal,
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
   }
+  
   ngOnInit() {
     this.initForm();
     this.consultarInformacion();
@@ -49,24 +52,30 @@ export class EmpresaEditarComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.contenedorService.listaTipoIdentificacion(),
-      this.empresaService.consultarDetalle(this.empresa_id)
-    ).subscribe(
-      (respuesta: any) => {
-        this.arrIdentificacion = respuesta[0].registros;
-        this.formularioEmpresa.patchValue({
-          nombre_corto: respuesta[1].nombre_corto,
-          correo: respuesta[1].correo,
-          digito_verificacion: respuesta[1].digito_verificacion,
-          direccion: respuesta[1].direccion,
-          numero_identificacion:  respuesta[1].numero_identificacion,
-          telefono: respuesta[1].telefono,
-          identificacion: respuesta[1].identificacion_id,
-          ciudad_nombre:  respuesta[1].ciudad_nombre,
-          ciudad:  respuesta[1].ciudad_id,
-        })
-        this.changeDetectorRef.detectChanges();
-      }
-    );
+      this.empresaService.consultarDetalle(this.empresa_id),
+      this.contenedorService.listaRegimen(),
+      this.contenedorService.listaTipoPersona(),
+    ).subscribe((respuesta: any) => {
+      this.arrIdentificacion = respuesta[0].registros;
+      this.formularioEmpresa.patchValue({
+        nombre_corto: respuesta[1].nombre_corto,
+        correo: respuesta[1].correo,
+        digito_verificacion: respuesta[1].digito_verificacion,
+        direccion: respuesta[1].direccion,
+        numero_identificacion: respuesta[1].numero_identificacion,
+        telefono: respuesta[1].telefono,
+        identificacion: respuesta[1].identificacion_id,
+        ciudad_nombre: respuesta[1].ciudad_nombre,
+        ciudad: respuesta[1].ciudad_id,
+        suscriptor: respuesta[1].suscriptor,
+        tipo_persona: respuesta[1].tipo_persona,
+        regimen: respuesta[1].regimen,
+      });
+      this.arrRegimen = respuesta[2].registros;
+      this.arrTipoPersona = respuesta[3].registros;
+      this.changeDetectorRef.detectChanges();
+
+    });
   }
 
   initForm() {
@@ -114,6 +123,12 @@ export class EmpresaEditarComponent extends General implements OnInit {
           Validators.pattern(/^[0-9]+$/),
         ]),
       ],
+      suscriptor: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(200)]),
+      ],
+      tipo_persona: ['', Validators.compose([Validators.required])],
+      regimen: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -121,19 +136,22 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.empresaService
       .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
       .pipe(
-        tap((respuestaActualizacion: any)=>{
-        if (respuestaActualizacion.actualizacion) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-            )
-          );
-          this.store.dispatch(empresaActualizacionAction({
-            empresa: respuestaActualizacion.empresa
-          }))
-        }
+        tap((respuestaActualizacion: any) => {
+          if (respuestaActualizacion.actualizacion) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+              )
+            );
+            this.store.dispatch(
+              empresaActualizacionAction({
+                empresa: respuestaActualizacion.empresa,
+              })
+            );
+          }
         })
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   consultarCiudad(event: any) {

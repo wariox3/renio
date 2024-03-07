@@ -10,6 +10,10 @@ import {
 import { FechasService } from '@comun/services/fechas.service';
 import { Plan } from '@interfaces/contenedor/plan';
 import { Consumo } from '@interfaces/contenedor/consumo';
+import { Ciudad } from '@interfaces/general/ciudad';
+import { TipoIdentificacionLista } from '@interfaces/general/tipoIdentificacion';
+import { Regimen } from '@interfaces/general/regimen';
+import { TipoPersona } from '@interfaces/general/tipoPersona';
 
 @Injectable({
   providedIn: 'root',
@@ -113,14 +117,14 @@ export class ContenedorService {
   }
 
   listaCiudades(arrFiltros: any) {
-    return this.http.post<Plan[]>(
+    return this.http.post<Ciudad[]>(
       `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       arrFiltros
     );
   }
 
   listaTipoIdentificacion() {
-    return this.http.post<Plan[]>(
+    return this.http.post<TipoIdentificacionLista[]>(
       `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
@@ -132,6 +136,36 @@ export class ContenedorService {
       }
     );
   }
+
+
+  listaRegimen() {
+    return this.http.post<Regimen[]>(
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      {
+        filtros: [],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'ContenedorRegimen',
+      }
+    );
+  }
+
+  listaTipoPersona() {
+    return this.http.post<TipoPersona[]>(
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      {
+        filtros: [],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'ContenedorTipoPersona',
+      }
+    );
+  }
+
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post<{ cargar: boolean }>(
@@ -162,4 +196,6 @@ export class ContenedorService {
       }
     );
   }
+
+  
 }

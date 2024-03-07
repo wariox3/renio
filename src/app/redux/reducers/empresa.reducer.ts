@@ -29,6 +29,11 @@ let estadoInicializado: Empresa = {
   imagen: '',
   ciudad: 0,
   identificacion: 0,
+  regimen: 0,
+  tipo_persona: 0,
+  suscriptor: 0,
+  ciudad_id: 0,
+  identificacion_id: 0
 };
 
 const initialState: Empresa = ContenedorDatos

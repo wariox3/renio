@@ -1,5 +1,5 @@
 export interface Regimen {
-  id: number,
-  nombre: string
+  regimen_id: number,
+  regimen_nombre: string
 }
 

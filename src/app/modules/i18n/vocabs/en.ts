@@ -238,6 +238,11 @@ export const locale = {
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
         },
+        EMPRESA: {
+          SUSCRIPTOR: 'Subscriber',
+          REGIMEN: 'Regime',
+          TIPOPERSONA: 'Type of person'
+        }
       },
       VALIDACIONES: {
         COMUNES: {
