@@ -41,7 +41,7 @@
       </button>
       <!-- <span class="badge badge-secondary" *ngIf="estado_aprobado">Aprobado</span> -->
       <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">
-        <span class="badge badge-secondary">Aprobado</span>
+        <span *ngIf="documentoEstados$.estados.estado_aprobado" class="badge badge-secondary">Aprobado</span>
       </ng-container>
     </div>
   </div>
