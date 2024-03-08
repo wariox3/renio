@@ -119,7 +119,7 @@ export const locale = {
           REGISTRATE: 'Register',
           NOINGRESO: 'Cant log in to your account?',
           MENSAJE:
-            'We have sent a link to your email address to reset your password.',
+            'We have sent a link to your email to reset your password.',
           RESTABLECER: 'Reset password',
         },
         AUTENTIFICACION: {

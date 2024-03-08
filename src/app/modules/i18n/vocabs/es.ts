@@ -120,7 +120,7 @@ export const locale = {
           REGISTRATE: 'Regístrate',
           NOINGRESO: '¿No puedes ingresar a tu cuenta?',
           MENSAJE:
-            'Hemos enviado un enlace a tu correo electrónico para restablecer tu contraseña',
+            'Hemos enviado un enlace al correo electrónico para restablecer tu contraseña',
           RESTABLECER: 'Restablecer contraseña',
         },
         AUTENTIFICACION: {
