@@ -223,7 +223,7 @@ export const locale = {
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
             REGIMEN: 'Régimen',
-            CODIGOCIUU: 'Código ciuu'
+            CODIGOCIUU: 'Código CIUU'
           },
           RESOLUCION:{
             PREFIJO: 'Prefijo',

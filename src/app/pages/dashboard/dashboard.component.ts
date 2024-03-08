@@ -4,6 +4,8 @@ import { HttpService } from '@comun/services/http.service';
 import { Empresa } from '@interfaces/contenedor/empresa';
 import { Store } from '@ngrx/store';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
+import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',

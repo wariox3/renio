@@ -13,7 +13,7 @@ import { tap } from 'rxjs';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent extends General implements OnInit {
-  arrMenu = ['CARTERA', 'COMPRA', 'CONTABILIDAD', 'HUMANO', 'VENTA'];
+  arrMenu = [ 'COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO'];
 
   visualizarMenuApps = false;
 
