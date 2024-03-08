@@ -121,12 +121,20 @@ const Routing: Routes = [
       ),
   },
   {
-    path: 'detalle',
+    path: 'editar',
     loadComponent: () =>
       import('../comun/componentes/base-nuevo/base-nuevo.component').then(
         (c) => c.BaseNuevoComponent
       ),
   },
+  {
+    path: 'detalle',
+    loadComponent: () =>
+      import('../comun/componentes/base-detalle/base-detalle.component').then(
+        (c) => c.BaseDetalleComponent
+      ),
+  },
+
   {
     path: '',
     redirectTo: getRedirectTo(),

@@ -11,13 +11,13 @@ export class ContactoService extends Subdomino {
   constructor(private httpService: HttpService, private store: Store) {
     super();
   }
-  
+
   guardarContacto(data: any) {
     return this.httpService.post<Contacto[]>(`general/contacto/`, data);
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<any>(`general/contacto/${id}/`);
+    return this.httpService.getDetalle<Contacto>(`general/contacto/${id}/`);
   }
 
   actualizarDatosContacto(id: number, data: any) {

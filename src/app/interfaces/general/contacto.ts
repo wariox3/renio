@@ -6,7 +6,8 @@ export interface Contacto {
   ciudad: number;
   telefono: number;
   celular: number;
-  tipo_persona: number;
+  tipo_persona_id: number;
+  tipo_persona_nombre: number;
   regimen: number;
   digito_verificacion: string | null;
   nombre1: string | null;

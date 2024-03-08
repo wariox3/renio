@@ -127,20 +127,33 @@ export class BaseListaComponent extends General implements OnInit {
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
-        accion: 'nuevo',
+        //accion: 'nuevo',
       },
     });
   }
 
-  navegarDetalle(id: number) {
-    this.router.navigate(['/nuevo'], {
+  navegarEditar(id: number) {
+    this.router.navigate(['/editar'], {
       queryParams: {
         modulo: this.modulo,
         modelo: this.arrParametrosConsulta.modelo,
         tipo: this.arrParametrosConsulta.tipo,
         formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
         detalle: id,
-        accion: 'detalle',
+        //accion: 'nuevo',
+      },
+    });
+  }
+
+  navegarDetalle(id: number) {
+    this.router.navigate(['/detalle'], {
+      queryParams: {
+        modulo: this.modulo,
+        modelo: this.arrParametrosConsulta.modelo,
+        tipo: this.arrParametrosConsulta.tipo,
+        formulario: `${this.arrParametrosConsulta.modelo}Detalle`,
+        detalle: id,
+        //accion: 'detalle',
       },
     });
   }

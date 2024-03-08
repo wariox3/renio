@@ -1,0 +1,77 @@
+<div class="container-grid">
+  <div class="ayuda">
+    <a
+      [routerLink]="['../lista']"
+      [queryParams]="{modulo, modelo, tipo}"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold me-2"
+    >
+      <i class="ki-duotone ki-arrow-left fs-6 text-muted"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
+    </a>
+    <div
+      class="btn-group btn-sm"
+      role="group"
+      aria-label="Basic example"
+      *ngIf="accion === 'detalle'"
+    >
+      <button type="button" class="btn btn-sm btn-primary" (click)="aprobar()">
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-success btn-sm"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+        [disabled]="generarPDF"
+      >
+        <ng-container *ngIf="generarPDF; else elseTemplate">
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERANDO" | translate }}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+        </ng-template>
+      </button>
+
+      <button type="button" class="btn btn-sm btn-primary" (click)="emitir()">
+        {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+      </button>
+      <!-- <span class="badge badge-secondary" *ngIf="estado_aprobado">Aprobado</span> -->
+      <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">
+        <span *ngIf="documentoEstados$.estados.estado_aprobado" class="badge badge-secondary">Aprobado</span>
+      </ng-container>
+    </div>
+  </div>
+  <div class="formulario">
+    <div class="card mb-5 mb-lg-10">
+      <!--begin::Card header-->
+      <div class="card-header">
+        <!--begin::Heading-->
+        <div class="card-title">
+          <h3>
+            <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+              {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+            </ng-container>
+            <ng-template #tituloDetalle>
+              {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+              {{ modelo }}
+              {{ detalle }}
+            </ng-template>
+          </h3>
+        </div>
+        <!--end::Heading-->
+      </div>
+      <!--end::Card header-->
+
+      <!--begin::Card body-->
+      <div class="card-body">
+        <div #dynamicComponentContainer></div>
+      </div>
+      <!--end::Card body-->
+    </div>
+  </div>
+</div>

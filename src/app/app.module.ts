@@ -18,19 +18,7 @@ import { ErrorhttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { EffectsModule } from '@ngrx/effects';
 import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 import { BtnwhatsappComponent } from './comun/componentes/btnwhatsapp/btnwhatsapp.component';
-
-// function appInitializer(authService: AuthService) {
-//   return () => {
-//     return new Promise((resolve) => {
-//       //@ts-ignore
-//       authService.getUserByToken().subscribe().add(resolve);
-//     });
-//   };
-// }
-
 registerLocaleData(localeEsCo, 'es-CO');
-
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -56,17 +44,9 @@ registerLocaleData(localeEsCo, 'es-CO');
     BtnwhatsappComponent
   ],
   providers: [
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: appInitializer,
-    //   multi: true,
-    //   deps: [AuthService],
-    // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorhttpInterceptor,multi: true },
-    //{ provide: HTTP_INTERCEPTORS, useClass: EmpresaCookieInterceptor,multi: true },
     { provide: LOCALE_ID, useValue: 'es-CO' }
-
   ],
   bootstrap: [AppComponent],
 })
