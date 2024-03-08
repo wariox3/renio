@@ -12,6 +12,8 @@ import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { componeteNuevos } from '@comun/extra/imports';
 import { HttpService } from '@comun/services/http.service';
+import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
+import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -21,10 +23,10 @@ import { HttpService } from '@comun/services/http.service';
   styleUrls: ['./base-nuevo.component.scss'],
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
-
-  generarPDF = false
+  generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
+  documentoEstados$: any = {};
 
   constructor(private httpService: HttpService) {
     super();
@@ -32,6 +34,7 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadComponente();
+    this.store.select(obtenerDocumentosEstado).subscribe((estados)=> this.documentoEstados$ = estados)
   }
 
   async loadComponente() {
@@ -61,25 +64,22 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   imprimir() {
-    this.generarPDF = true
+    this.generarPDF = true;
     this.httpService
-      .descargarArchivo(
-        'general/documento/imprimir/',
-        {
-          filtros: [],
-          limite: 50,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: '',
-          tipo: '',
-          documento_tipo_id: 1,
-          documento_id: this.detalle
-        }
-      )
+      .descargarArchivo('general/documento/imprimir/', {
+        filtros: [],
+        limite: 50,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: '',
+        tipo: '',
+        documento_tipo_id: 1,
+        documento_id: this.detalle,
+      })
       .subscribe((data) => {
-        this.generarPDF = false
-        this.changeDetectorRef.detectChanges()
+        this.generarPDF = false;
+        this.changeDetectorRef.detectChanges();
         const blob = new Blob([data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

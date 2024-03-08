@@ -39,7 +39,10 @@
       <button type="button" class="btn btn-sm btn-primary" (click)="emitir()">
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
       </button>
-
+      <!-- <span class="badge badge-secondary" *ngIf="estado_aprobado">Aprobado</span> -->
+      <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">
+        <span class="badge badge-secondary">Aprobado</span>
+      </ng-container>
     </div>
   </div>
   <div class="formulario">
@@ -51,7 +54,7 @@
           <h3>
             <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-              {{ 'MENU.FUNCIONALIDAD.' + (modelo | uppercase) | translate }}
+              {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
             </ng-container>
             <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}

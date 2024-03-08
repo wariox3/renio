@@ -7,6 +7,7 @@ import { empresaReducer } from './reducers/empresa.reducer';
 import { EmpresaEffects } from './efectos/empresaEffects';
 import { configuracionReducer } from './reducers/configuracion.reducer';
 import { ConfiguracionEffects } from './efectos/configuracionEffects';
+import { documentoReducer } from './reducers/documento.reducer';
 
 export const StoreApp = {
   usuario: usuarioReducer,
@@ -14,6 +15,7 @@ export const StoreApp = {
   contenedor: contendorReducer,
   empresa: empresaReducer,
   configuracion: configuracionReducer,
+  documento: documentoReducer,
 };
 
 export const EffectsApp = [

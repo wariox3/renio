@@ -22,6 +22,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 
 @Component({
   selector: 'app-factura-nuevo',
@@ -703,6 +704,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
+
+        this.store.dispatch(documentosEstadosAction({estados:{
+          estado_aprobado: respuesta.documento.estado_aprobado,
+          estado_emitido: respuesta.documento.estado_aprobado
+        }}));
+
+
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,

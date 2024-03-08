@@ -145,7 +145,7 @@ export class BaseListaComponent extends General implements OnInit {
     });
   }
 
-  eliminarRegistros(data: Number[]) {    
+  eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       if (this.tipo === 'Documento') {
         this.httpService
