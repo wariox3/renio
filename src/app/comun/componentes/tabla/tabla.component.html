@@ -65,11 +65,16 @@
           </div>
         </th>
         <th></th>
-        <th class=" text-center">
+        <th class="text-center">
           <div
-            class="form-check form-check-custom form-check-danger form-check-solid "
+            class="form-check form-check-custom form-check-danger form-check-solid"
           >
-            <input class="form-check-input cursor-pointer" type="checkbox"  [checked]="selectAll" (change)="toggleSelectAll()"/>
+            <input
+              class="form-check-input cursor-pointer"
+              type="checkbox"
+              [checked]="selectAll"
+              (change)="toggleSelectAll()"
+            />
           </div>
         </th>
       </tr>
@@ -77,15 +82,27 @@
     <tbody>
       <tr *ngFor="let item of datos">
         <td *ngFor="let key of item | keys">
-          {{ getTipoDato(item[key], key)  }}
+          {{ getTipoDato(item[key], key) }}
         </td>
         <td class="w-45px">
-          <button (click)="detalle(item.id)" class="btn btn-primary btn-sm p-1"  translate="FORMULARIOS.BOTONES.COMUNES.INFORMACION">
+          <button
+            (click)="detalle(item.id)"
+            class="btn btn-link btn-active-color-primary me-5 mb-2"
+          >
+            <i class="fa-regular fa-eye fs-2x"></i>
+          </button>
+        </td>
+        <td class="w-45px">
+          <button
+            (click)="detalle(item.id)"
+            class="btn btn-link btn-active-color-primary me-5 mb-2"
+          >
+            <i class="fa-regular fa-pen-to-square fs-2x"></i>
           </button>
         </td>
         <td class="w-20px text-center">
           <div
-            class="form-check form-check-custom form-check-danger form-check-solid "
+            class="form-check form-check-custom form-check-danger form-check-solid"
           >
             <input
               class="form-check-input cursor-pointer"
