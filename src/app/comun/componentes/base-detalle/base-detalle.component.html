@@ -52,15 +52,8 @@
         <!--begin::Heading-->
         <div class="card-title">
           <h3>
-            <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
-              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-              {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
-            </ng-container>
-            <ng-template #tituloDetalle>
               {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
-              {{ modelo }}
-              {{ detalle }}
-            </ng-template>
+              {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
           </h3>
         </div>
         <!--end::Heading-->

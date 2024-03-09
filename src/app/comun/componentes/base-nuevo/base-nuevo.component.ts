@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { componeteNuevos } from '@comun/extra/imports';
+import { componeteNuevos, componeteNuevos2 } from '@comun/extra/imports';
 import { HttpService } from '@comun/services/http.service';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
@@ -26,7 +26,6 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
-  documentoEstados$: any = {};
 
   constructor(private httpService: HttpService) {
     super();
@@ -34,15 +33,14 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadComponente();
-    this.store.select(obtenerDocumentosEstado).subscribe((estados)=> this.documentoEstados$ = estados)
   }
 
-  async loadComponente() {
-    let posicionNuevo: keyof typeof componeteNuevos = `${this.modelo}-${this.formulario}`;
-    let componeteNuevo = await (await componeteNuevos[posicionNuevo]).default;
-    let componeteNuevoCargado =
-      this.componenteDinamico.createComponent(componeteNuevo);
-    componeteNuevoCargado.changeDetectorRef.detectChanges();
+  async loadComponente() {    
+    let posicion: keyof typeof componeteNuevos2 = `${this.modelo}`;
+     let componete = await (await componeteNuevos2[posicion].formulario).default;
+     let componeteCargado =
+       this.componenteDinamico.createComponent(componete);
+       componeteCargado.changeDetectorRef.detectChanges();
   }
 
   aprobar() {

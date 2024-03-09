@@ -23,12 +23,17 @@ export class General  {
   }
 
   consultarParametros(){
+
+    if(this.router.url.includes('nuevo')){
+      this.accion = 'nuevo'
+    } else {
+      this.accion = 'detalle'
+    }
+  
     const cambiosQueryParams = this.activatedRoute.queryParams.subscribe(queryParam => {
       this.modulo = queryParam['modulo'];
       this.modelo = queryParam['modelo'];
       this.tipo = queryParam['tipo'];
-      this.formulario = queryParam['formulario'];
-      this.accion = queryParam['accion'];
       this.detalle = queryParam['detalle'];
     });
 
