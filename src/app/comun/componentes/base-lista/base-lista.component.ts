@@ -23,7 +23,7 @@ import { ImportarComponent } from '../importar/importar.component';
     CardComponent,
     BaseFiltroComponent,
     TablaComponent,
-    ImportarComponent
+    ImportarComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -43,9 +43,8 @@ export class BaseListaComponent extends General implements OnInit {
   arrItems: any[];
   cantidad_registros!: number;
   nombreFiltro = '';
-  tipo = ''
-  modelo = ''
-
+  tipo = '';
+  modelo = '';
 
   constructor(private httpService: HttpService) {
     super();
@@ -57,7 +56,7 @@ export class BaseListaComponent extends General implements OnInit {
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.tipo = parametro.tipo;
       this.modelo = parametro.modelo;
-      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`
+      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`;
       this.changeDetectorRef.detectChanges();
       this.consultarLista();
     });
@@ -65,14 +64,13 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista(): void {
-
     if (localStorage.getItem(this.nombreFiltro)) {
       this.arrParametrosConsulta.filtros = JSON.parse(
         localStorage.getItem(this.nombreFiltro)!
       );
     } else {
-      if(this.arrParametrosConsulta.filtros.length > 0){
-        this.arrParametrosConsulta.filtros = []
+      if (this.arrParametrosConsulta.filtros.length > 0) {
+        this.arrParametrosConsulta.filtros = [];
       }
     }
 

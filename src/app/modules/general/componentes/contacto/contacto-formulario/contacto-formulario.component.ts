@@ -7,7 +7,6 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  ValidationErrors,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -226,7 +225,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
       if (this.formularioContacto.get('tipo_persona')?.value == 2) {
         this.actualizarNombreCorto();
       }
-
       if (this.detalle) {
         this.contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
@@ -248,6 +246,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
               correo: respuesta.correo,
               tipo_persona: respuesta.tipo_persona_id,
               regimen: respuesta.regimen_id,
+              codigo_ciuu: respuesta.codigo_ciuu,
+              barrio: respuesta.barrio
             });
             this.alertaService.mensajaExitoso('Se actualizo la información');
             this.changeDetectorRef.detectChanges();
@@ -392,7 +392,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   consultardetalle() {
     this.contactoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta: any) => {        
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -411,6 +411,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
           correo: respuesta.correo,
           tipo_persona: respuesta.tipo_persona_id,
           regimen: respuesta.regimen_id,
+          barrio: respuesta.barrio,
+          codigo_ciuu: respuesta.codigo_ciuu
         });
 
         if (respuesta.tipo_persona_id === 1) {

@@ -45,15 +45,6 @@ export class TablaComponent {
 
   constructor(private currencyPipe: CurrencyPipe) {}
 
-  objectKeys(obj: any) {
-    let encabezado: any = [];
-    for (const iterator in obj) {
-      encabezado = Object.keys(obj[iterator]);
-    }
-
-    return encabezado;
-  }
-
   objectEntries(obj: any) {
     return Object.entries(obj);
   }
