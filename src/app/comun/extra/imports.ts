@@ -36,4 +36,20 @@ export const componeteNuevos2: ObjetoEjemplo = {
       '../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
     ),
   },
+  'Item': {
+    detalle: import(
+      '../../modules/general/componentes/item/item-detalle/item-detalle.component'
+    ),
+    formulario: import(
+      '../../modules/general/componentes/item/item-formulario/item-formulario.component'
+    ),
+  },
+  'Resolucion': {
+    detalle: import(
+      '../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
+    ),
+    formulario: import(
+      '../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
+    ),
+  },
 };

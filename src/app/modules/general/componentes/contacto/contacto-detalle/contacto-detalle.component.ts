@@ -27,7 +27,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
-  selector: 'app-contacto-informacion',
+  selector: 'app-contacto-detalle',
   standalone: true,
   imports: [
     CommonModule,

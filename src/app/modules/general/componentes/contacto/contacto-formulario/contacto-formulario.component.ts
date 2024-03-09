@@ -25,7 +25,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 
 @Component({
-  selector: 'app-contacto-informacion',
+  selector: 'app-contacto-formulario',
   standalone: true,
   imports: [
     CommonModule,

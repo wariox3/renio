@@ -1,318 +1,53 @@
-<form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="nombre"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioItem.controls['nombre'].touched &&
-            formularioItem.controls['nombre'].invalid,
-          'is-valid':
-            formularioItem.controls['nombre'].touched &&
-            formularioItem.controls['nombre'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioItem.controls['nombre']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioItem.controls['nombre']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioItem.controls['nombre']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioItem.controls['nombre']
-        }"
-      ></ng-container>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
-        class="form-label required"
-      >
-      </label>
-      <input
-        formControlName="codigo"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioItem.controls['codigo'].touched &&
-            formularioItem.controls['codigo'].invalid,
-          'is-valid':
-            formularioItem.controls['codigo'].touched &&
-            formularioItem.controls['codigo'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioItem.controls['codigo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioItem.controls['codigo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioItem.controls['codigo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioItem.controls['codigo']
-        }"
-      ></ng-container>
-    </div>
+<div class="row mb-5">
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+      class="fw-semibold text-gray-600 fs-7"
+    ></label>
+    <p class="fw-bold text-gray-800 fs-6">{{ item.nombre }}</p>
   </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="referencia"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioItem.controls['referencia'].touched &&
-            formularioItem.controls['referencia'].invalid,
-          'is-valid':
-            formularioItem.controls['referencia'].touched &&
-            formularioItem.controls['referencia'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioItem.controls['referencia']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioItem.controls['referencia']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioItem.controls['referencia']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioItem.controls['referencia']
-        }"
-      ></ng-container>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
-        class="form-label required"
-      >
-      </label>
-      <input
-        formControlName="precio"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioItem.controls['precio'].touched &&
-            formularioItem.controls['precio'].invalid,
-          'is-valid':
-            formularioItem.controls['precio'].touched &&
-            formularioItem.controls['precio'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioItem.controls['precio']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioItem.controls['precio']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioItem.controls['precio']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioItem.controls['precio']
-        }"
-      ></ng-container>
-    </div>
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+      class="fw-semibold text-gray-600 fs-7"
+    >
+    </label>
+    <p class="fw-bold text-gray-800 fs-6">{{ item.codigo }}</p>
   </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-        class="form-label required"
-      ></label>
-      <app-comun-impuestos
-        (emitirImpuestoAgregado)="agregarImpuesto($event)"
-        (emitirImpuestoElimiando)="removerImpuesto($event)"
-        [arrLista]="arrImpuestos"
-        [estado_aprobado]="true"
-      ></app-comun-impuestos>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="costo"
-        class="form-control bg-transparent"
-        type="text"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioItem.controls['costo'].touched &&
-            formularioItem.controls['costo'].invalid,
-          'is-valid':
-            formularioItem.controls['costo'].touched &&
-            formularioItem.controls['costo'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioItem.controls['costo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioItem.controls['costo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-          cantidadCaracteres: '3',
-          control: formularioItem.controls['costo']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '100',
-          control: formularioItem.controls['costo']
-        }"
-      ></ng-container>
-    </div>
+</div>
+<div class="row mb-5">
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
+      class="fw-semibold text-gray-600 fs-7"
+    ></label>
+    <p class="fw-bold text-gray-800 fs-6">{{ item.referencia }}</p>
   </div>
-
-  <div class="d-flex justify-content-end">
-    <button
-      type="submit"
-      class="btn btn-primary btn-sm"
-      #btnGuardar
-      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-    ></button>
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
+      class="fw-semibold text-gray-600 fs-7"
+    ></label>
+    <p class="fw-bold text-gray-800 fs-6">{{ item.precio }}</p>
   </div>
-</form>
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
-    <div class="fv-plugins-message-container">
-      <div class="fv-help-block">
-        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
-      </div>
-    </div>
-  </ng-container>
-</ng-template>
+</div>
+<div class="row mb-5">
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
+      class="fw-semibold text-gray-600 fs-7"
+    ></label>
+    <li *ngFor="let impuesto of item.impuestos">
+      <span class="fw-bold text-gray-800 fs-6">{{
+        impuesto.impuesto_nombre_extendido
+      }}</span>
+    </li>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <label
+      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
+      class="fw-semibold text-gray-600 fs-7"
+    ></label>
+    <p class="fw-bold text-gray-800 fs-6">{{ item.costo }}</p>
+  </div>
+</div>
