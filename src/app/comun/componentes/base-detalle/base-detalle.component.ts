@@ -35,7 +35,10 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadComponente();
-    this.store.select(obtenerDocumentosEstado).subscribe((estados)=> this.documentoEstados$ = estados)
+    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento)=> {
+      this.documentoEstados$ = estadosDocumento
+      this.changeDetectorRef.detectChanges();
+    })
   }
 
   async loadComponente() {
