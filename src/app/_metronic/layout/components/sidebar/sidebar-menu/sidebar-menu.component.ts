@@ -37,7 +37,7 @@ export class SidebarMenuComponent implements OnInit {
       .subscribe();
   }
 
-  obtenerIcono(nombre: string) {    
+  obtenerIcono(nombre: string) {
     switch (nombre) {
       case 'movimiento':
         return 'element-7';
@@ -46,7 +46,7 @@ export class SidebarMenuComponent implements OnInit {
       case 'informe':
         return 'document';
       case 'proceso':
-        return 'notepad';
+        return 'setting-3';
       case 'utilidad':
         return 'share';
     }
