@@ -17,6 +17,6 @@ export interface Contacto {
   codigo_postal: string | null;
   correo: string;
   codigo_ciuu: string;
-  barrio: string
+  barrio: string,
 }
 

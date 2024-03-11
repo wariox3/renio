@@ -10,7 +10,7 @@ export const componeteNuevos: ComponentImport = {
     '../../modules/general/componentes/item/item-detalle/item-detalle.component'
   ),
   'Factura-FacturaDetalle': import(
-    '../../modules/venta/componentes/factura-detalle/factura-detalle.component'
+    '../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
   ),
   'Contacto-ContactoDetalle': import(
     '../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
@@ -28,7 +28,7 @@ type ObjetoEjemplo = {
 };
 
 export const componeteNuevos2: ObjetoEjemplo = {
-  'Contacto': {
+  Contacto: {
     detalle: import(
       '../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
     ),
@@ -36,7 +36,7 @@ export const componeteNuevos2: ObjetoEjemplo = {
       '../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
     ),
   },
-  'Item': {
+  Item: {
     detalle: import(
       '../../modules/general/componentes/item/item-detalle/item-detalle.component'
     ),
@@ -44,12 +44,20 @@ export const componeteNuevos2: ObjetoEjemplo = {
       '../../modules/general/componentes/item/item-formulario/item-formulario.component'
     ),
   },
-  'Resolucion': {
+  Resolucion: {
     detalle: import(
       '../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
     ),
     formulario: import(
       '../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
+    ),
+  },
+  Factura: {
+    detalle: import(
+      '../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
+    ),
+    formulario: import(
+      '../../modules/venta/componentes/factura/factura-formulario/factura-formulario.component'
     ),
   },
 };

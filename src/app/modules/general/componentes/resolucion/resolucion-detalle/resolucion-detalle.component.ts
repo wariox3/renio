@@ -11,6 +11,7 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
+import { Resolucion } from '@interfaces/general/resolucion';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -29,7 +30,14 @@ export default class ResolucionNuevoComponent
   extends General
   implements OnInit
 {
-  resolucion: any;
+  resolucion: Resolucion = {
+    prefijo: '',
+    numero: '',
+    consecutivo_desde: 0,
+    consecutivo_hasta: 0,
+    fecha_desde: undefined,
+    fecha_hasta: undefined
+  };
 
   constructor(private resolucionService: ResolucionService) {
     super();

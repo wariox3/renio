@@ -25,7 +25,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 
 @Component({
-  selector: 'app-factura-nuevo',
+  selector: 'app-factura-formulario',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,8 +41,8 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
   ],
-  templateUrl: './factura-detalle.component.html',
-  styleUrls: ['./factura-detalle.component.scss'],
+  templateUrl: './factura-formulario.component.html',
+  styleUrls: ['./factura-formulario.component.scss'],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;

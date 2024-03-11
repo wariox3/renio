@@ -3,6 +3,6 @@ export interface Resolucion {
     numero: string;
     consecutivo_desde: number;
     consecutivo_hasta: number;
-    fechaDesde: Date; 
-    fechaHasta: Date;
+    fecha_desde: Date | undefined,
+    fecha_hasta: Date | undefined
 }

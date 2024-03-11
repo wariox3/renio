@@ -43,7 +43,27 @@ import { Contacto } from '@interfaces/general/contacto';
 })
 export default class ContactoDetalleComponent extends General implements OnInit {
 
-  contacto: Contacto
+  contacto: Contacto = {
+    identificacion: 0,
+    numero_identificacion: 0,
+    nombre_corto: '',
+    direccion: '',
+    ciudad: 0,
+    telefono: 0,
+    celular: 0,
+    tipo_persona_id: 0,
+    tipo_persona_nombre: 0,
+    regimen: 0,
+    digito_verificacion: null,
+    nombre1: null,
+    nombre2: null,
+    apellido1: null,
+    apellido2: null,
+    codigo_postal: null,
+    correo: '',
+    codigo_ciuu: '',
+    barrio: ''
+  }
 
   constructor(
     private contactoService: ContactoService,
