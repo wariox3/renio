@@ -24,7 +24,7 @@ import { tap } from 'rxjs';
 import { Item } from '@interfaces/general/item';
 
 @Component({
-  selector: 'app-item-formulario',
+  selector: 'app-item-detalle',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,27 +39,38 @@ import { Item } from '@interfaces/general/item';
 export default class ItemDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
   arrImpuestos: any[] = [];
-  item: any
+  item: any = {
+    nombre: '',
+    id: 0,
+    impuestos: [],
+    codigo: null,
+    referencia: null,
+    costo: 0,
+    precio: 0,
+    base: 0,
+    porcentaje: 0,
+    total: 0,
+    nombre_extendido: '',
+    porcentaje_total: 0,
+    venta: false,
+    compra: false
+  };
   @Input() informacionFormulario: any;
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
 
-  constructor(
-    private itemService: ItemService
-  ) {
+  constructor(private itemService: ItemService) {
     super();
   }
   ngOnInit() {
-  	this.consultardetalle();
+    this.consultardetalle();
   }
-
-
 
   consultardetalle() {
     this.itemService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {        
-        this.item = respuesta.item
+      .subscribe((respuesta: any) => {
+        this.item = respuesta.item;
         this.changeDetectorRef.detectChanges();
       });
   }
