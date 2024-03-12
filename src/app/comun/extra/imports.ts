@@ -4,7 +4,9 @@ type ObjetoEjemplo = {
     formulario: Promise<{ default: any }>;
     titulos?: {
       nombre: string;
-      visitabletabla: boolean;
+      visibleTabla: boolean;
+      visibleFiltro: boolean;
+      ordenable: boolean;
       tipo:
         | 'IntegerField'
         | 'FloatField'
@@ -24,37 +26,139 @@ export const Componetes: ObjetoEjemplo = {
       '../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
     ),
     titulos: [
-      { nombre: 'ID', tipo: 'IntegerField', visitabletabla: true },
+      {
+        nombre: 'ID',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
       {
         nombre: 'IDENTIFICACION_ABREVIATURA',
         tipo: 'IntegerField',
-        visitabletabla: false,
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
       },
       {
         nombre: 'NUMERO_IDENTIFICACION',
         tipo: 'CharField',
-        visitabletabla: false,
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: true,
       },
       {
         nombre: 'DIGITO_VERIFICACION',
         tipo: 'CharField',
-        visitabletabla: false,
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
       },
-      { nombre: 'NOMBRE_CORTO', tipo: 'CharField', visitabletabla: true },
-      { nombre: 'CORREO', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'DIRECCION', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'NOMBRE1', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'NOMBRE2', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'APELLIDO1', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'APELLIDO2', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'CODIGO_POSTAL', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'TELEFONO', tipo: 'CharField', visitabletabla: true },
-      { nombre: 'CELULAR', tipo: 'CharField', visitabletabla: true },
-      { nombre: 'BARRIO', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'CODIGO_CIUU', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'CIUDAD_NOMBRE', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'REGIMEN_NOMBRE', tipo: 'CharField', visitabletabla: false },
-      { nombre: 'TIPO_PERSONA', tipo: 'CharField', visitabletabla: false },
+      {
+        nombre: 'NOMBRE_CORTO',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CORREO',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'DIRECCION',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'NOMBRE1',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'NOMBRE2',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'APELLIDO1',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'APELLIDO2',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'CODIGO_POSTAL',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'TELEFONO',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'CELULAR',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'BARRIO',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'CODIGO_CIUU',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'CIUDAD_NOMBRE',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'REGIMEN_NOMBRE',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'TIPO_PERSONA',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
     ],
   },
   Item: {

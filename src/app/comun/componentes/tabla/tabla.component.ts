@@ -83,7 +83,7 @@ export class TablaComponent implements OnChanges {
 
     //se crean los datos que se visualizan en la thead de la tabla
     this.camposVisibles = this.encabezadoTestCopia.filter(
-      (titulo: any) => titulo.visitabletabla === true
+      (titulo: any) => titulo.visibleTabla === true
     );
 
     //se  construye el tbody de la tabla
@@ -279,9 +279,9 @@ export class TablaComponent implements OnChanges {
   // Esta función establece que todas las columnas en la copia de "encabezadoTest" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.
   visualizarColumnas() {
     // Establece todas las columnas como visibles en la copia de "encabezadoTestCopia"
-    this.encabezadoTestCopia.map((item: any) => (item.visitabletabla = true));
+    this.encabezadoTestCopia.map((item: any) => (item.visibleTabla = true));
     // Establece todas las columnas como visibles en "encabezadoTest"
-    this.encabezadoTest.map((campo: any) => (campo.visitabletabla = true));
+    this.encabezadoTest.map((campo: any) => (campo.visibleTabla = true));
 
     localStorage.setItem(
       this.claveLocalStore,
@@ -294,10 +294,10 @@ export class TablaComponent implements OnChanges {
 
   // Esta función agrega o quita una columna específica de la tabla según su visibilidad actual y luego reconstruye la tabla.
   agregarColumna(columna: string) {
-    // Busca la columna en "encabezadoTest" y modifica su propiedad "visitabletabla" para alternar su visibilidad
+    // Busca la columna en "encabezadoTest" y modifica su propiedad "visibleTabla" para alternar su visibilidad
     this.encabezadoTest.find((campo: any) => {
       if (campo.nombre === columna) {
-        campo.visitabletabla = !campo.visitabletabla;
+        campo.visibleTabla = !campo.visibleTabla;
       }
     });
 
