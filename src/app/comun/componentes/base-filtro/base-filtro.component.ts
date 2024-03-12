@@ -139,26 +139,26 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   aplicarFiltro() {
     const filtros = this.formularioItem.value['filtros'];
+
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
 
     filtros.forEach((filtro: any) => {
       if (filtro.propiedad === '' || filtro.valor1 === '') {
         hayFiltrosSinValores = true;
+      } else {
+        const nuevoFiltro = {
+          ...filtro,
+          id: this.generarIdUnico(),
+          ...{
+            propiedad:
+              filtro.propiedad + filtro.operador !== null
+                ? filtro.propiedad + filtro.operador
+                : '',
+          },
+        };
+        listaFiltros.push(nuevoFiltro);
       }
-
-      const nuevoFiltro = {
-        ...filtro,
-        id: this.generarIdUnico(),
-        ...{
-          propiedad:
-            filtro.propiedad + filtro.operador !== null
-              ? filtro.propiedad + filtro.operador
-              : '',
-        },
-      };
-
-      listaFiltros.push(nuevoFiltro);
     });
 
     if (hayFiltrosSinValores) {
@@ -195,6 +195,8 @@ export class BaseFiltroComponent extends General implements OnInit {
     localStorage.removeItem(document.location.pathname);
     this.filtros.clear();
     this.agregarNuevoFiltro();
+    this.emitirFiltros.emit([]);
+
   }
 
   generarIdUnico() {

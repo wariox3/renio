@@ -45,7 +45,7 @@ export class BaseListaComponent extends General implements OnInit {
   nombreFiltro = '';
   tipo = '';
   modelo = '';
-  titulos: any = []
+  titulos: any = [];
 
   constructor(private httpService: HttpService) {
     super();
@@ -60,21 +60,19 @@ export class BaseListaComponent extends General implements OnInit {
       this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`;
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
-      this.titulos = Componetes[posicion].titulos
+      this.titulos = Componetes[posicion].titulos;
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista(): void {
-    if (localStorage.getItem(this.nombreFiltro)) {
-      this.arrParametrosConsulta.filtros = JSON.parse(
-        localStorage.getItem(this.nombreFiltro)!
-      );
-    } else {
-      if (this.arrParametrosConsulta.filtros.length > 0) {
-        this.arrParametrosConsulta.filtros = [];
-      }
+    const filtroGuardado = localStorage.getItem(this.nombreFiltro);
+
+    if (filtroGuardado) {
+      this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
+    } else if (this.arrParametrosConsulta.filtros.length > 0) {
+      this.arrParametrosConsulta.filtros = [];
     }
 
     let baseUrl = 'general/';
@@ -101,8 +99,14 @@ export class BaseListaComponent extends General implements OnInit {
       });
   }
 
-  obtenerFiltros(arrfiltros: any) {
-    this.arrParametrosConsulta.filtros = arrfiltros;
+  obtenerFiltros(arrfiltros: any[]) {
+    if (arrfiltros.length >= 1) {
+      this.arrParametrosConsulta.filtros = arrfiltros;
+    } else {
+      localStorage.removeItem(this.nombreFiltro);
+    }
+
+    this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
 
