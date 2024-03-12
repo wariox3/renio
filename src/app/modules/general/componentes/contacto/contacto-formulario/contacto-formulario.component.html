@@ -80,14 +80,6 @@
               control: formularioContacto.controls['nombre_corto']
             }"
           ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'El campo contiene caracteres no validos',
-              control: formularioContacto.controls['nombre_corto']
-            }"
-          ></ng-container>
         </div>
       </div>
     </div>

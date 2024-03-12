@@ -5,19 +5,21 @@
       (change)="propiedadSeleccionada($event)"
     >
       <option value="">Seleccionar...</option>
-      <option
-        *ngFor="let propiedad of propiedades"
-        [value]="propiedad.tipo"
-        [selected]="propiedad.nombre === datosSeleccionados?.nombre"
-        [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
-      >
-        {{
-          "LISTAS." +
-            (modelo | uppercase) +
-            "." +
-            (propiedad.nombre | uppercase) | translate
-        }}
-      </option>
+      <ng-container *ngFor="let propiedad of propiedades">
+        <option
+          *ngIf="propiedad.visibleFiltro"
+          [value]="propiedad.tipo"
+          [selected]="propiedad.nombre === datosSeleccionados?.nombre"
+          [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
+        >
+          {{
+            "LISTAS." +
+              (modelo | uppercase) +
+              "." +
+              (propiedad.nombre | uppercase) | translate
+          }}
+        </option>
+      </ng-container>
     </select>
   </div>
   <div class="col">
@@ -36,4 +38,3 @@
     </select>
   </div>
 </div>
-

@@ -54,7 +54,7 @@
                 type="checkbox"
                 class="form-check-input"
                 [id]="item.nombre"
-                [checked]="item.visitabletabla ? true : false"
+                [checked]="item.visibleTabla ? true : false"
                 (click)="agregarColumna(item.nombre)"
                 [disabled]="item.nombre === 'ID'"
               />
@@ -88,8 +88,8 @@
       <tr class="fw-bold fs-6 text-gray-800">
         <ng-container *ngFor="let item of camposVisibles; let i = index">
           <th
-            (click)="orderPor(item.nombre, i)"
-            class="cursor-pointer user-select-none"
+            (click)="item.ordenable && orderPor(item.nombre, i)"
+            [ngClass]="{'cursor-pointer user-select-none': item.ordenable}"
           >
             <div class="d-flex justify-content-between">
               <span>

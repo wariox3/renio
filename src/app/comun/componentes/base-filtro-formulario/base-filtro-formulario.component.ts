@@ -19,7 +19,7 @@ import { TranslationModule } from '@modulos/i18n';
   templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
-  @Input() propiedades: Listafiltros[];
+  @Input() propiedades: any[];
   @Input() modelo: string;
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();

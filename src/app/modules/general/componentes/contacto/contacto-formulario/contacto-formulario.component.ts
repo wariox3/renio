@@ -93,7 +93,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         null,
         Validators.compose([
           Validators.maxLength(200),
-          Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
         ]),
       ],
       nombre1: [
