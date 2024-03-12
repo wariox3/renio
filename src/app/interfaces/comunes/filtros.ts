@@ -8,7 +8,7 @@ export interface Listafiltros {
 export interface FiltrosAplicados {
   propiedad: string,
   operador: string,
-  valor_1: string,
-  valor_2: string,
+  valor1: string,
+  valor2: string,
   visualizarBtnAgregarFiltro: boolean
 }

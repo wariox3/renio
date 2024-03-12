@@ -6,6 +6,7 @@
     >
       <div class="col-5" [formGroupName]="i">
         <app-base-filtro-formulario
+          [modelo]="modelo"
           [propiedades]="propiedades"
           [datosSeleccionados]="filtrosAplicados[i]"
           (dataPropiedad)="actualizarPropiedad($event, i)"
@@ -30,9 +31,9 @@
                   : 'text'
               "
               placeholder="Buscar..."
-              formControlName="valor_1"
+              formControlName="valor1"
             />
-            <div *ngIf="esCampoInvalido(i, 'valor_1')" class="error-message">
+            <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
               El campo es obligatorio
             </div>
           </ng-container>
@@ -52,7 +53,7 @@
                   : 'date'
               "
               placeholder="entre"
-              formControlName="valor_2"
+              formControlName="valor2"
             />
           </ng-container>
         </div>

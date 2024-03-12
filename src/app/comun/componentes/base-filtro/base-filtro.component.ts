@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,7 +9,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
@@ -38,21 +32,22 @@ import { General } from '@comun/clases/general';
 export class BaseFiltroComponent extends General implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: Listafiltros[] = [];
+  modelo: any = this.modelo;
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
       operador: '',
-      valor_1: '',
-      valor_2: '',
+      valor1: '',
+      valor2: '',
       visualizarBtnAgregarFiltro: true,
     },
   ];
   @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
-  nombreFiltro = `${this.modulo}_${this.modelo}_${this.tipo}`
+  nombreFiltro = `${this.modulo}_${this.modelo}_${this.tipo}`;
 
   constructor(private formBuilder: FormBuilder) {
-    super()
+    super();
   }
 
   ngOnInit(): void {
@@ -62,8 +57,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   initForm() {
     this.formularioItem = this.formBuilder.group({
-      filtros: this.formBuilder.array([
-      ]),
+      filtros: this.formBuilder.array([]),
     });
   }
 
@@ -74,26 +68,27 @@ export class BaseFiltroComponent extends General implements OnInit {
       const campoControl = filtro.get(campo);
 
       if (campoControl) {
-        return campoControl.invalid && (campoControl.touched || campoControl.dirty);
+        return (
+          campoControl.invalid && (campoControl.touched || campoControl.dirty)
+        );
       }
     }
 
     return false;
   }
 
-
   get filtros() {
     return this.formularioItem.get('filtros') as FormArray;
   }
 
   private crearControlFiltros(propiedades: any | null) {
-    let valor_1 = '';
-    let valor_2 = '';
+    let valor1 = '';
+    let valor2 = '';
     let propiedad = '';
     let operador = '';
     if (propiedades) {
-      valor_1 = propiedades.valor_1;
-      valor_2 = propiedades.valor_2;
+      valor1 = propiedades.valor1;
+      valor2 = propiedades.valor2;
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
     }
@@ -101,8 +96,8 @@ export class BaseFiltroComponent extends General implements OnInit {
     return this.formBuilder.group({
       propiedad: [propiedad],
       operador: [operador],
-      valor_1: [valor_1, [Validators.required]],
-      valor_2: [valor_2],
+      valor1: [valor1, [Validators.required]],
+      valor2: [valor2],
     });
   }
 
@@ -111,8 +106,8 @@ export class BaseFiltroComponent extends General implements OnInit {
       this.formBuilder.group({
         propiedad: [''],
         operador: [''],
-        valor_1: ['', [Validators.required]],
-        valor_2: [''],
+        valor1: ['', [Validators.required]],
+        valor2: [''],
       })
     );
   }
@@ -148,11 +143,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     let hayFiltrosSinValores = false;
 
     filtros.forEach((filtro: any) => {
-
-      if (
-        filtro.propiedad === '' ||
-        filtro.valor_1 === ''
-      ) {
+      if (filtro.propiedad === '' || filtro.valor1 === '') {
         hayFiltrosSinValores = true;
       }
 
@@ -173,7 +164,10 @@ export class BaseFiltroComponent extends General implements OnInit {
     if (hayFiltrosSinValores) {
       hayFiltrosSinValores = false;
 
-      this.alertaService.mensajeError('Error en formulario filtros', "contiene campos vacios");
+      this.alertaService.mensajeError(
+        'Error en formulario filtros',
+        'contiene campos vacios'
+      );
     } else {
       this.listaFiltros = listaFiltros;
 
@@ -181,11 +175,9 @@ export class BaseFiltroComponent extends General implements OnInit {
         this.nombreFiltro,
         JSON.stringify(this.listaFiltros)
       );
-  
+
       this.emitirFiltros.emit(this.listaFiltros);
     }
-
-
   }
 
   actualizarPropiedad(propiedad: string, index: number) {

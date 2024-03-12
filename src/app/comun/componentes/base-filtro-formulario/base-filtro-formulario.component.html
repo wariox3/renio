@@ -8,14 +8,18 @@
       <option
         *ngFor="let propiedad of propiedades"
         [value]="propiedad.tipo"
-        [selected]="propiedad.nombre === datosSeleccionados?.propiedad"
+        [selected]="propiedad.nombre === datosSeleccionados?.nombre"
         [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
       >
-        {{ propiedad.etiqueta  }}
+        {{
+          "LISTAS." +
+            (modelo | uppercase) +
+            "." +
+            (propiedad.nombre | uppercase) | translate
+        }}
       </option>
     </select>
   </div>
-
   <div class="col">
     <select
       class="form-control form-control-sm"
