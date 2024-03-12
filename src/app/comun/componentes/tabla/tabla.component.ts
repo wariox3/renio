@@ -50,6 +50,7 @@ export class TablaComponent implements OnChanges {
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
+  @Input() claveLocalStore: string;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
   @Output() itemEditar: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
@@ -61,7 +62,13 @@ export class TablaComponent implements OnChanges {
   constructor(private currencyPipe: CurrencyPipe) {}
 
   ngOnChanges() {
-    if (this.encabezadoTest && this.datos) {
+    if (this.encabezadoTest && this.datos && this.claveLocalStore) {
+      if (!localStorage.getItem(this.claveLocalStore)) {
+        localStorage.setItem(
+          this.claveLocalStore,
+          JSON.stringify(this.encabezadoTest)
+        );
+      }
       this.construirTabla();
     }
   }
@@ -70,7 +77,9 @@ export class TablaComponent implements OnChanges {
     // se reinicia la tabla
     this.datosFiltrados = [];
     //se usa para listar las columnas
-    this.encabezadoTestCopia = JSON.parse(JSON.stringify(this.encabezadoTest));
+    this.encabezadoTestCopia = JSON.parse(
+      localStorage.getItem(this.claveLocalStore)!
+    );
 
     //se crean los datos que se visualizan en la thead de la tabla
     this.camposVisibles = this.encabezadoTestCopia.filter(
@@ -273,6 +282,12 @@ export class TablaComponent implements OnChanges {
     this.encabezadoTestCopia.map((item: any) => (item.visitabletabla = true));
     // Establece todas las columnas como visibles en "encabezadoTest"
     this.encabezadoTest.map((campo: any) => (campo.visitabletabla = true));
+
+    localStorage.setItem(
+      this.claveLocalStore,
+      JSON.stringify(this.encabezadoTest)
+    );
+
     // Reconstruye la tabla
     this.construirTabla();
   }
@@ -285,6 +300,12 @@ export class TablaComponent implements OnChanges {
         campo.visitabletabla = !campo.visitabletabla;
       }
     });
+
+    localStorage.setItem(
+      this.claveLocalStore,
+      JSON.stringify(this.encabezadoTest)
+    );
+
     // Reconstruye la tabla
     this.construirTabla();
   }

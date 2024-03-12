@@ -38,7 +38,7 @@
           [datos]="arrItems"
           [encabezado]="arrPropiedades"
           [encabezadoTest]="titulos"
-
+          [claveLocalStore]="this.nombreFiltro + '_tabla'"
           [cantidad_registros]="cantidad_registros"
           (emitirDesplazamiento)="cambiarDesplazamiento($event)"
           (emitirOrdenamiento)="cambiarOrdemiento($event)"
