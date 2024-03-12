@@ -339,7 +339,7 @@ export const locale = {
         CODIGO_POSTAL: 'Código Postal',
         TELEFONO: 'Teléfono',
         CELULAR: 'Celular',
-        CORREO: 'Correo Electrónico',
+        CORREO: 'Correo',
         TIPO_PERSONA: 'Tipo de Persona',
         REGIMEN_NOMBRE: 'Régimen',
         BARRIO: 'Barrio',
