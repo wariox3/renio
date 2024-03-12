@@ -11,6 +11,7 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
 import { TablaComponent } from '../tabla/tabla.component';
 import { combineLatest } from 'rxjs';
 import { ImportarComponent } from '../importar/importar.component';
+import { Componetes } from '@comun/extra/imports';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -45,6 +46,7 @@ export class BaseListaComponent extends General implements OnInit {
   nombreFiltro = '';
   tipo = '';
   modelo = '';
+  titulos: any = []
 
   constructor(private httpService: HttpService) {
     super();
@@ -58,6 +60,8 @@ export class BaseListaComponent extends General implements OnInit {
       this.modelo = parametro.modelo;
       this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}`;
       this.changeDetectorRef.detectChanges();
+      let posicion: keyof typeof Componetes = `${parametro.modelo}`;
+      this.titulos = Componetes[posicion].titulos
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
@@ -93,6 +97,7 @@ export class BaseListaComponent extends General implements OnInit {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
         this.arrPropiedades = respuesta.propiedades;
+
         this.changeDetectorRef.detectChanges();
       });
   }

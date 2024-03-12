@@ -34,8 +34,11 @@
     <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
       <section card-body>
         <app-comun-tabla
+          [modelo]="modelo"
           [datos]="arrItems"
           [encabezado]="arrPropiedades"
+          [encabezadoTest]="titulos"
+
           [cantidad_registros]="cantidad_registros"
           (emitirDesplazamiento)="cambiarDesplazamiento($event)"
           (emitirOrdenamiento)="cambiarOrdemiento($event)"

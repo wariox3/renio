@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { componeteNuevos, componeteNuevos2 } from '@comun/extra/imports';
+import { Componetes } from '@comun/extra/imports';
 import { HttpService } from '@comun/services/http.service';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
@@ -35,12 +35,11 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
     this.loadComponente();
   }
 
-  async loadComponente() {    
-    let posicion: keyof typeof componeteNuevos2 = `${this.modelo}`;
-     let componete = await (await componeteNuevos2[posicion].formulario).default;
-     let componeteCargado =
-       this.componenteDinamico.createComponent(componete);
-       componeteCargado.changeDetectorRef.detectChanges();
+  async loadComponente() {
+    let posicion: keyof typeof Componetes = `${this.modelo}`;
+    let componete = await (await Componetes[posicion].formulario).default;
+    let componeteCargado = this.componenteDinamico.createComponent(componete);
+    componeteCargado.changeDetectorRef.detectChanges();
   }
 
   aprobar() {

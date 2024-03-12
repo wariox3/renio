@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { componeteNuevos2 } from '@comun/extra/imports';
+import { Componetes } from '@comun/extra/imports';
 import { HttpService } from '@comun/services/http.service';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
@@ -22,7 +22,6 @@ import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
   templateUrl: './base-detalle.component.html',
   styleUrls: ['./base-detalle.component.scss'],
 })
-
 export class BaseDetalleComponent extends General implements AfterViewInit {
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
@@ -35,18 +34,17 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadComponente();
-    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento)=> {
-      this.documentoEstados$ = estadosDocumento
+    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
+      this.documentoEstados$ = estadosDocumento;
       this.changeDetectorRef.detectChanges();
-    })
+    });
   }
 
   async loadComponente() {
-    let posicion: keyof typeof componeteNuevos2 = `${this.modelo}`;
-     let componete = await (await componeteNuevos2[posicion].detalle).default;
-     let componeteCargado =
-       this.componenteDinamico.createComponent(componete);
-       componeteCargado.changeDetectorRef.detectChanges();
+    let posicion: keyof typeof Componetes = `${this.modelo}`;
+    let componete = await (await Componetes[posicion].detalle).default;
+    let componeteCargado = this.componenteDinamico.createComponent(componete);
+    componeteCargado.changeDetectorRef.detectChanges();
   }
 
   aprobar() {

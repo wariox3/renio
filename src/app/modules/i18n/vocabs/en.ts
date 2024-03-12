@@ -28,7 +28,7 @@ export const locale = {
         FACTURACOMPRA: 'Invoice of purchase',
         ITEM: 'Item',
         CONTACTO: 'Contact',
-        RESOLUCION: 'Resolution'
+        RESOLUCION: 'Resolution',
       },
     },
     FORMULARIOS: {
@@ -51,7 +51,7 @@ export const locale = {
           INFORMACION: 'Information',
           APROBAR: 'Approve',
           GENERANDO: 'Generating',
-          EMITIR: 'Issue'
+          EMITIR: 'Issue',
         },
         CONTENEDORES: {
           CONECTAR: 'Connect',
@@ -118,8 +118,7 @@ export const locale = {
           OLVIDARCONTRASENA: '¿Forgot your password?',
           REGISTRATE: 'Register',
           NOINGRESO: 'Cant log in to your account?',
-          MENSAJE:
-            'We have sent a link to your email to reset your password.',
+          MENSAJE: 'We have sent a link to your email to reset your password.',
           RESTABLECER: 'Reset password',
         },
         AUTENTIFICACION: {
@@ -176,9 +175,9 @@ export const locale = {
             IMPUESTO: 'Tax',
           },
         },
-        EMPRESA:{
+        EMPRESA: {
           EDITAR: 'Edit company',
-        }
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -207,7 +206,7 @@ export const locale = {
           NUMERO: 'Number',
           FECHADESDE: 'Date from',
           FECHAHASTA: 'Date to',
-          BARRIO: 'Neighborhood'
+          BARRIO: 'Neighborhood',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -223,13 +222,13 @@ export const locale = {
           CONTACTO: {
             PERSONATIPO: 'Type person',
             REGIMEN: 'Regime',
-            CODIGOCIUU: 'Code CIUU'
+            CODIGOCIUU: 'Code CIUU',
           },
-          RESOLUCION:{
+          RESOLUCION: {
             PREFIJO: 'Prefix',
             CONSECUTIVODESDE: 'Consecutive from',
             CONSECUTIVOHASTA: 'Consecutive until',
-          }
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
@@ -243,8 +242,8 @@ export const locale = {
         EMPRESA: {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
-          TIPOPERSONA: 'Type of person'
-        }
+          TIPOPERSONA: 'Type of person',
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -297,6 +296,60 @@ export const locale = {
           INGRESARCLAVE: 'Please login with your new password',
           INICIARSESION: 'Please log in',
         },
+      },
+    },
+    LISTAS: {
+      FACTURA: {
+        ID: 'ID',
+        NUMERO: 'Number',
+        FECHA: 'Date',
+        VENCE: 'Expires',
+        DESCUENTO: 'Discount',
+        SUBTOTAL: 'Subtotal',
+        IMPUESTO: 'Tax',
+        TOTAL: 'Total',
+        APR: 'Approved',
+        CONTACTO: 'contact',
+        DOCUMENTO_TIPO: 'document type',
+        METODO_PAGO: 'payment method',
+      },
+      ITEM: {
+        ID: 'ID',
+        CODIGO: 'Code',
+        NOMBRE: 'Name',
+        REFERENCIA: 'Reference',
+        COSTO: 'Cost',
+        PRECIO: 'Price',
+      },
+      CONTACTO: {
+        ID: 'ID',
+        IDENTIFICACION: 'Identification',
+        NIT: 'Tax ID',
+        DV: 'Check Digit',
+        NOMBRE: 'Name',
+        NOMBRE1: 'Name1',
+        NOMBRE2: 'Name2',
+        APELLIDO1: 'Surname1',
+        APELLIDO2: 'Surname2',
+        DIRECCION: 'Address',
+        CIUDAD_NOMBRE: 'City',
+        C_POSTAL: 'Postal Code',
+        TELEFONO: 'Telephone',
+        CELULAR: 'Cellphone',
+        CORREO: 'Email',
+        TIPO_PERSONA: 'Person Type',
+        REGIMEN: 'Regime',
+        BARRIO: 'Neighborhood',
+        CIUU: 'CIUU',
+      },
+      RESOLUCION: {
+        ID: 'ID',
+        PREFIJO: 'Prefix',
+        NUMERO: 'Number',
+        'CONSECUTIVO_DESDE': 'Consecutive from',
+        'CONSECUTIVO_HASTA': 'Consecutive to',
+        'FECHA_DESDE': 'Date from',
+        'FECHA:HASTA': 'Date to',
       },
     },
     TEMA: {

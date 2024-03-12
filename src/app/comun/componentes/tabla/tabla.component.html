@@ -17,7 +17,61 @@
       class="bi bi-arrow-right fs-2x cursor-pointer"
     ></i>
   </div>
-  <div class="col-4 d-flex justify-content-end">
+  <div class="col-4 d-flex justify-content-end gap-3">
+    <div ngbDropdown>
+      <button
+        type="button"
+        class="btn btn-sm btn-info"
+        id="dropdownForm1"
+        ngbDropdownToggle
+      >
+        <i class="fas fa-table-columns text-white"></i>
+        columns
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="p-2">
+        <div>
+          <input type="text" class="form-control form-control-sm" placeholder="Buscar" (keyup)="filterCampos($event)"/>
+        </div>
+        <div class="dropdown-divider my-2"></div>
+        <div>
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="dropdownCheck"
+              (change)="visualizarColumnas()"
+            />
+            <label class="form-check-label" for="dropdownCheck">
+              seleccionar todos
+            </label>
+          </div>
+        </div>
+        <div class="dropdown-divider my-2"></div>
+        <ng-container *ngFor="let item of encabezadoTestCopia; let i = index">
+          <div class="mb-2">
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [id]="item.nombre"
+                [checked]="item.visitabletabla ? true : false"
+                (click)="agregarColumna(item.nombre)"
+                [disabled]="item.nombre === 'ID'"
+              />
+              <label class="form-check-label" [for]="item.nombre">
+                {{
+                  "LISTAS." +
+                    (modelo | uppercase) +
+                    "." +
+                    (item.nombre | uppercase) | translate
+                }}
+              </label>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
     <button
       type="button"
       (click)="eliminarRegistros()"
@@ -32,40 +86,48 @@
   >
     <thead>
       <tr class="fw-bold fs-6 text-gray-800">
-        <th
-          (click)="orderPor(item.nombre, i)"
-          *ngFor="let item of encabezado; let i = index"
-          class="cursor-pointer user-select-none"
-        >
-          <div class="d-flex justify-content-between">
-            <span>
-              {{ item.titulo }}
-            </span>
-            <div class="d-flex">
-              <ng-container
-                *ngIf="
-                  this.ordenadoTabla === item.nombre.toLowerCase() ||
-                    this.ordenadoTabla === '-' + item.nombre.toLowerCase();
-                  else iconopordefecto
-                "
-              >
-                <i
-                  class="ki-outline ki-arrow-up fs-2x"
-                  *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
-                ></i>
-                <i
-                  class="ki-outline ki-arrow-down fs-2x"
-                  *ngIf="this.ordenadoTabla === '-' + item.nombre.toLowerCase()"
-                ></i>
-              </ng-container>
-              <ng-template #iconopordefecto>
-                <i class="ki-outline ki-arrow-up-down fs-2x"></i>
-              </ng-template>
+        <ng-container *ngFor="let item of camposVisibles; let i = index">
+          <th
+            (click)="orderPor(item.nombre, i)"
+            class="cursor-pointer user-select-none"
+          >
+            <div class="d-flex justify-content-between">
+              <span>
+                {{
+                  "LISTAS." +
+                    (modelo | uppercase) +
+                    "." +
+                    (item.nombre | uppercase) | translate
+                }}
+              </span>
+              <div class="d-flex">
+                <ng-container
+                  *ngIf="
+                    this.ordenadoTabla === item.nombre.toLowerCase() ||
+                      this.ordenadoTabla === '-' + item.nombre.toLowerCase();
+                    else iconopordefecto
+                  "
+                >
+                  <i
+                    class="ki-outline ki-arrow-up fs-2x"
+                    *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
+                  ></i>
+                  <i
+                    class="ki-outline ki-arrow-down fs-2x"
+                    *ngIf="
+                      this.ordenadoTabla === '-' + item.nombre.toLowerCase()
+                    "
+                  ></i>
+                </ng-container>
+                <ng-template #iconopordefecto>
+                  <i class="ki-outline ki-arrow-up-down fs-2x"></i>
+                </ng-template>
+              </div>
             </div>
-          </div>
-        </th>
-        <th></th>
-        <th></th>
+          </th>
+        </ng-container>
+
+        <th colspan="2"></th>
         <th class="text-center">
           <div
             class="form-check form-check-custom form-check-danger form-check-solid"
@@ -81,7 +143,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of datos">
+      <tr *ngFor="let item of datosFiltrados">
         <td *ngFor="let key of item | keys">
           {{ getTipoDato(item[key], key) }}
         </td>
@@ -90,7 +152,7 @@
             (click)="detalle(item.id)"
             class="btn btn-link btn-active-color-primary me-5 mb-2"
           >
-            <i class="fa-regular fa-eye fs-2x"></i>
+            <i class="fa-regular fa-eye text-gray-500 fs-2x"></i>
           </button>
         </td>
         <td class="w-45px">

@@ -28,7 +28,7 @@ export const locale = {
         FACTURACOMPRA: 'Factura de compra',
         ITEM: 'Ítem',
         CONTACTO: 'Contacto',
-        RESOLUCION: 'Resolución'
+        RESOLUCION: 'Resolución',
       },
     },
     FORMULARIOS: {
@@ -177,9 +177,9 @@ export const locale = {
             IMPUESTO: 'Impuesto',
           },
         },
-        EMPRESA:{
+        EMPRESA: {
           EDITAR: 'Editar empresa',
-        }
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -207,7 +207,7 @@ export const locale = {
           NUMERO: 'Número',
           FECHADESDE: 'Fecha desde',
           FECHAHASTA: 'Fecha hasta',
-          BARRIO: 'Barrio'
+          BARRIO: 'Barrio',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -223,13 +223,13 @@ export const locale = {
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
             REGIMEN: 'Régimen',
-            CODIGOCIUU: 'Código CIUU'
+            CODIGOCIUU: 'Código CIUU',
           },
-          RESOLUCION:{
+          RESOLUCION: {
             PREFIJO: 'Prefijo',
             CONSECUTIVODESDE: 'Consecutivo desde',
             CONSECUTIVOHASTA: 'Consecutivo hasta',
-          }
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',
@@ -243,8 +243,8 @@ export const locale = {
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
           REGIMEN: 'Régimen',
-          TIPOPERSONA: 'Tipo persona'
-        }
+          TIPOPERSONA: 'Tipo persona',
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -266,7 +266,8 @@ export const locale = {
           FECHASUPERIOAFECHAVENCIMINETO:
             'La fecha no puede ser superior a la fecha vencimiento',
 
-          FECHAVENCEINFERIORNOVALIDA: 'La fecha vencimiento no puede ser inferior a la fecha factura'
+          FECHAVENCEINFERIORNOVALIDA:
+            'La fecha vencimiento no puede ser inferior a la fecha factura',
         },
       },
       MENSAJES: {
@@ -281,7 +282,8 @@ export const locale = {
           CARGARIMAGEN: 'Imagen cargada con éxito',
         },
         CONTENEDOR: {
-          CREARCONTENEDOR: 'Estamos creando su contenedor, espere un momento...',
+          CREARCONTENEDOR:
+            'Estamos creando su contenedor, espere un momento...',
           ELIMINARCONTENEDORTITULO: 'Eliminar contenedor',
           ELIMINARCONTENEDORSUBTITULO: 'Este proceso no tiene reversa',
           ELIMINARCONTENEDORAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
@@ -297,6 +299,60 @@ export const locale = {
           INGRESARCLAVE: 'Por favor ingrese con su nueva clave',
           INICIARSESION: 'Por favor iniciar sesión',
         },
+      },
+    },
+    LISTAS: {
+      FACTURA: {
+        ID: 'ID',
+        NUMERO: 'Número',
+        FECHA: 'Fecha',
+        VENCE: 'Vence',
+        DESCUENTO: 'Descuento',
+        SUBTOTAL: 'Subtotal',
+        IMPUESTO: 'Impuesto',
+        TOTAL: 'Total',
+        APR: 'Apr',
+        CONTACTO: 'Contacto',
+        DOCUMENTO_TIPO: 'Documento tipo',
+        METODO_PAGO: 'Metodo pago',
+      },
+      ITEM: {
+        ID: 'ID',
+        CODIGO: 'Código',
+        NOMBRE: 'Nombre',
+        REFERENCIA: 'Referencia',
+        COSTO: 'Costo',
+        PRECIO: 'Precio',
+      },
+      CONTACTO: {
+        ID: 'ID',
+        IDENTIFICACION: 'Identificación',
+        NUMERO_IDENTIFICACION: 'Número de Identificación',
+        DIGITO_VERIFICACION: 'Dígito de Verificación',
+        NOMBRE_CORTO: 'Nombre',
+        NOMBRE1: 'Nombre 1',
+        NOMBRE2: 'Nombre 2',
+        APELLIDO1: 'Apellido 1',
+        APELLIDO2: 'Apellido 2',
+        DIRECCION: 'Dirección',
+        CIUDAD_NOMBRE: 'Ciudad',
+        CODIGO_POSTAL: 'Código Postal',
+        TELEFONO: 'Teléfono',
+        CELULAR: 'Celular',
+        CORREO: 'Correo Electrónico',
+        TIPO_PERSONA: 'Tipo de Persona',
+        REGIMEN: 'Régimen',
+        BARRIO: 'Barrio',
+        CODIGO_CIUU: 'CIUU',
+      },
+      RESOLUCION: {
+        ID: 'ID',
+        PREFIJO: 'Prefijo',
+        NUMERO: 'Número',
+        CONSECUTIVO_DESDE: 'Consecutivo desde',
+        CONSECUTIVO_HASTA: 'Consecutivo hasta',
+        FECHA_DESDE: 'Fecha desde',
+        FECHA_HASTA: 'Fecha hasta',
       },
     },
     TEMA: {

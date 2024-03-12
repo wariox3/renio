@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  inject,
+} from '@angular/core';
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +30,9 @@ import { TranslationModule } from '@modulos/i18n';
   ],
   providers: [CurrencyPipe, DecimalPipe],
 })
-export class TablaComponent {
+export class TablaComponent implements OnChanges {
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
   registrosVisiables = 50;
@@ -32,7 +42,12 @@ export class TablaComponent {
   cargandoDatos = false;
   arrRegistrosEliminar: number[] = [];
   selectAll = false;
+  encabezadoTestCopia: any;
+  camposVisibles: any;
+  datosFiltrados: any = [];
   @Input() encabezado: Listafiltros[] = [];
+  @Input() encabezadoTest: any;
+  @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
   @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
@@ -45,8 +60,49 @@ export class TablaComponent {
 
   constructor(private currencyPipe: CurrencyPipe) {}
 
-  objectEntries(obj: any) {
-    return Object.entries(obj);
+  ngOnChanges() {
+    if (this.encabezadoTest && this.datos) {
+      this.construirTabla();
+    }
+  }
+
+  construirTabla() {
+    // se reinicia la tabla
+    this.datosFiltrados = [];
+    //se usa para listar las columnas
+    this.encabezadoTestCopia = JSON.parse(JSON.stringify(this.encabezadoTest));
+
+    //se crean los datos que se visualizan en la thead de la tabla
+    this.camposVisibles = this.encabezadoTestCopia.filter(
+      (titulo: any) => titulo.visitabletabla === true
+    );
+
+    //se  construye el tbody de la tabla
+
+    // Recorre todas las claves en el objeto "camposVisibles"
+    for (let clave in this.camposVisibles) {
+      // Obtiene el nombre de la clave actual y lo convierte a minúsculas
+      let buscarClave = this.camposVisibles[clave].nombre.toLowerCase();
+
+      // Recorre todas las claves en el objeto "datos"
+      for (const key in this.datos) {
+        // Verifica si la clave pertenece al objeto "datos"
+        if (Object.prototype.hasOwnProperty.call(this.datos, key)) {
+          // Verifica si el objeto "datos" en la clave actual tiene la propiedad buscada
+          if (this.datos[key].hasOwnProperty(buscarClave)) {
+            // Si la clave actual no existe en el objeto "datosFiltrados", la crea
+            if (!this.datosFiltrados.hasOwnProperty(key)) {
+              this.datosFiltrados[key] = {};
+            }
+            // Agrega la propiedad y el valor correspondientes al objeto "datosFiltrados"
+            this.datosFiltrados[key][buscarClave] =
+              this.datos[key][buscarClave];
+          }
+        }
+      }
+    }
+    // Detecta los cambios y actualiza la vista
+    this.changeDetectorRef.detectChanges();
   }
 
   detalle(item: any) {
@@ -135,32 +191,47 @@ export class TablaComponent {
     }
   }
 
+  // Esta función agrega o elimina un registro del array de registros a eliminar según su presencia actual en el array.
   agregarRegistrosEliminar(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
     const index = this.arrRegistrosEliminar.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
     if (index !== -1) {
       this.arrRegistrosEliminar.splice(index, 1);
     } else {
+      // Si el registro no está en el array, lo agrega
       this.arrRegistrosEliminar.push(id);
     }
   }
 
+  // Esta función emite un evento con los registros que se van a eliminar, luego limpia el array de registros a eliminar y deselecciona todos los registros si "selectAll" es verdadero.
   eliminarRegistros() {
+    // Emite un evento con los registros a eliminar
     this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar);
+    // Limpia el array de registros a eliminar
     this.arrRegistrosEliminar = [];
-    if(this.selectAll){
-      this.toggleSelectAll()
+    // Si todos los registros están seleccionados, deselecciona todos
+    if (this.selectAll) {
+      this.toggleSelectAll();
     }
   }
 
+  // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
   toggleSelectAll() {
+    // Alterna el estado de selección de todos los registros
     this.selectAll = !this.selectAll;
 
-    this.datos.forEach((item) => {
+    // Itera sobre todos los datos
+    this.datosFiltrados.forEach((item: any) => {
+      // Establece el estado de selección de cada registro
       item.selected = this.selectAll;
+      // Busca el índice del registro en el array de registros a eliminar
       const index = this.arrRegistrosEliminar.indexOf(item.id);
+      // Si el registro ya estaba en el array de registros a eliminar, lo elimina
       if (index !== -1) {
         this.arrRegistrosEliminar.splice(index, 1);
       } else {
+        // Si el registro no estaba en el array de registros a eliminar, lo agrega
         this.arrRegistrosEliminar.push(item.id);
       }
     });
@@ -170,9 +241,21 @@ export class TablaComponent {
     let tipo = typeof valor;
     switch (tipo) {
       case 'number':
-        const identificadores = ['id', 'descuento', 'impuesto', 'contacto', 'documento_tipo', 'metodo_pago'];
+        const identificadores = [
+          'id',
+          'descuento',
+          'impuesto',
+          'contacto',
+          'documento_tipo',
+          'metodo_pago',
+        ];
         if (!identificadores.includes(key)) {
-          let formattedAmount = this.currencyPipe.transform(valor, 'COP', 'symbol', '1.0-0');
+          let formattedAmount = this.currencyPipe.transform(
+            valor,
+            'COP',
+            'symbol',
+            '1.0-0'
+          );
           return formattedAmount;
         } else {
           return valor;
@@ -181,6 +264,43 @@ export class TablaComponent {
         return valor ? 'Si' : 'No';
       default:
         return valor;
+    }
+  }
+
+  // Esta función establece que todas las columnas en la copia de "encabezadoTest" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.
+  visualizarColumnas() {
+    // Establece todas las columnas como visibles en la copia de "encabezadoTestCopia"
+    this.encabezadoTestCopia.map((item: any) => (item.visitabletabla = true));
+    // Establece todas las columnas como visibles en "encabezadoTest"
+    this.encabezadoTest.map((campo: any) => (campo.visitabletabla = true));
+    // Reconstruye la tabla
+    this.construirTabla();
+  }
+
+  // Esta función agrega o quita una columna específica de la tabla según su visibilidad actual y luego reconstruye la tabla.
+  agregarColumna(columna: string) {
+    // Busca la columna en "encabezadoTest" y modifica su propiedad "visitabletabla" para alternar su visibilidad
+    this.encabezadoTest.find((campo: any) => {
+      if (campo.nombre === columna) {
+        campo.visitabletabla = !campo.visitabletabla;
+      }
+    });
+    // Reconstruye la tabla
+    this.construirTabla();
+  }
+
+  // Esta función filtra las columnas en base al texto ingresado y actualiza la lista de columnas visibles.
+  filterCampos(event: any) {
+    // Obtiene el texto de búsqueda en minúsculas
+    const searchText = event.target.value.toLowerCase();
+    // Filtra las columnas en "encabezadoTestCopia" basándose en el texto de búsqueda
+    if (searchText !== '') {
+      this.encabezadoTestCopia = this.encabezadoTestCopia.filter((item: any) =>
+        item.nombre.toLowerCase().includes(searchText)
+      );
+    } else {
+      // Si el texto de búsqueda está vacío, muestra todas las columnas de nuevo
+      this.encabezadoTestCopia = this.encabezadoTest;
     }
   }
 }
