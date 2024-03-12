@@ -250,6 +250,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
               barrio: respuesta.barrio
             });
             this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                detalle: respuesta.id,
+              },
+            });
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -392,7 +400,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   consultardetalle() {
     this.contactoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {        
+      .subscribe((respuesta: any) => {
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
