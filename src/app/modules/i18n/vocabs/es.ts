@@ -228,6 +228,9 @@ export const locale = {
             PERSONATIPO: 'Persona tipo',
             REGIMEN: 'Régimen',
             CODIGOCIUU: 'Código CIUU',
+            PLAZOPAGO: 'Plazo de pago',
+            LISTAPRECIO: 'Lista de precio',
+            ASESOR: 'Asesor',
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',
