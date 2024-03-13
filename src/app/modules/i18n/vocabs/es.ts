@@ -369,6 +369,7 @@ export const locale = {
         CONSECUTIVO_HASTA: 'Consecutivo hasta',
         FECHA_DESDE: 'Fecha desde',
         FECHA_HASTA: 'Fecha hasta',
+        AMBIENTE: 'Ambiente'
       },
     },
     TEMA: {

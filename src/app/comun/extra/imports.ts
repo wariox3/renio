@@ -168,7 +168,50 @@ export const Componetes: ObjetoEjemplo = {
     formulario: import(
       '../../modules/general/componentes/item/item-formulario/item-formulario.component'
     ),
-    //titulos: ['ID', 'CODIGO', 'NOMBRE', 'REFERENCIA', 'COSTO', 'PRECIO'],
+    titulos: [
+      {
+        nombre: 'ID',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CODIGO',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'REFERENCIA',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'PRECIO',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'COSTO',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      }
+    ],
   },
   Resolucion: {
     detalle: import(
@@ -177,15 +220,78 @@ export const Componetes: ObjetoEjemplo = {
     formulario: import(
       '../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
     ),
-    // titulos: [
-    //   'ID',
-    //   'PREFIJO',
-    //   'NUMERO',
-    //   'CONSECUTIVO_DESDE',
-    //   'CONSECUTIVO_HASTA',
-    //   'FECHA_DESDE',
-    //   'FECHA_HASTA',
-    // ],
+    titulos: [
+      {
+        nombre: 'ID',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'PREFIJO',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'NUMERO',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CONSECUTIVO_DESDE',
+        tipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CONSECUTIVO_HASTA',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'FECHA_DESDE',
+        tipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'FECHA_HASTA',
+        tipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'AMBIENTE',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CLAVE_TECNICA',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'SET_PRUEBA',
+        tipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: false,
+        ordenable: false,
+      }
+    ],
   },
   Factura: {
     detalle: import(
