@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import {
@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import {
   trigger,
@@ -23,6 +23,7 @@ import {
 } from '@angular/animations';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -35,6 +36,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
     TranslationModule,
     NgbDropdownModule,
     SoloNumerosDirective,
+    BtnAtrasComponent,
   ],
   templateUrl: './contacto-formulario.component.html',
   styleUrls: ['./contacto-formulario.component.scss'],
@@ -56,6 +58,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrIdentificacion: any[];
   arrTipoPersona: any[];
   arrRegimen: any[];
+  @ViewChild(NgbDropdown, { static: true })
+  public ciudadDropdown: NgbDropdown;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -89,12 +93,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.compose([Validators.required, Validators.maxLength(1)]),
       ],
       identificacion: ['', Validators.compose([Validators.required])],
-      nombre_corto: [
-        null,
-        Validators.compose([
-          Validators.maxLength(200),
-        ]),
-      ],
+      nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
       nombre1: [
         null,
         Validators.compose([
@@ -134,7 +133,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.required,
           Validators.email,
           Validators.maxLength(255),
-          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
       ],
       ciudad_nombre: [''],
@@ -211,9 +210,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.required,
         Validators.pattern(/^[a-zA-Z]+$/),
       ]);
-      this.setValidators('nombre_corto', [
-        Validators.maxLength(200),
-      ]);
+      this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
   }
 
@@ -244,7 +241,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
               tipo_persona: respuesta.tipo_persona_id,
               regimen: respuesta.regimen_id,
               codigo_ciuu: respuesta.codigo_ciuu,
-              barrio: respuesta.barrio
+              barrio: respuesta.barrio,
             });
             this.alertaService.mensajaExitoso('Se actualizo la información');
             this.router.navigate(['/detalle'], {
@@ -283,6 +280,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
+    if (event.key === 'Tab') {
+      // Realiza la lógica que deseas cuando se presiona la tecla Tab en el input
+      if (this.ciudadDropdown.isOpen()) {
+        this.ciudadDropdown.close();
+      }
+    }
+
     let arrFiltros = {
       filtros: [
         {
@@ -373,8 +377,48 @@ export default class ContactDetalleComponent extends General implements OnInit {
           limite_conteo: 10000,
           modelo: 'TipoPersona',
         }
-      )
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__contains',
+              propiedad: 'nombre__contains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'Precio',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__contains',
+              propiedad: 'nombre__contains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'Asesor',
+        },
+      ),
     ).subscribe((respuesta: any) => {
+      console.log(respuesta);
+      
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
@@ -417,7 +461,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           tipo_persona: respuesta.tipo_persona_id,
           regimen: respuesta.regimen_id,
           barrio: respuesta.barrio,
-          codigo_ciuu: respuesta.codigo_ciuu
+          codigo_ciuu: respuesta.codigo_ciuu,
         });
 
         if (respuesta.tipo_persona_id === 1) {

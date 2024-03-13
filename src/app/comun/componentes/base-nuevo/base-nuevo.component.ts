@@ -20,7 +20,6 @@ import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
   standalone: true,
   imports: [CommonModule, RouterModule, TranslateModule, TranslationModule],
   templateUrl: './base-nuevo.component.html',
-  styleUrls: ['./base-nuevo.component.scss'],
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
   generarPDF = false;

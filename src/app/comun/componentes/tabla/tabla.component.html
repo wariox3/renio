@@ -17,68 +17,79 @@
       class="bi bi-arrow-right fs-2x cursor-pointer"
     ></i>
   </div>
-  <div class="col-4 d-flex justify-content-end gap-3">
-    <div ngbDropdown>
+  <div class="col-4 d-flex justify-content-end p-0">
+    <div class="btn-group">
       <button
-        type="button"
-        class="btn btn-sm btn-info"
-        id="dropdownForm1"
-        ngbDropdownToggle
-      >
-        <i class="fas fa-table-columns text-white"></i>
-        {{"FORMULARIOS.TITULOS.COMUNES.COLUMNAS" | translate}}
-
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="p-2">
-        <div>
-          <input type="text" class="form-control form-control-sm" placeholder="Buscar" (keyup)="filterCampos($event)"/>
-        </div>
-        <div class="dropdown-divider my-2"></div>
-        <div>
-          <div class="form-check">
+        type="submit"
+        class="btn btn-info btn-sm"
+        translate="FORMULARIOS.BOTONES.COMUNES.EXCEL"
+      ></button>
+      <app-importar modelo="{{ modelo }}"></app-importar>
+      <a
+        (click)="navegarNuevo()"
+        class="btn btn-sm btn-primary"
+        translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+      ></a>
+      <div class="btn-group" ngbDropdown role="group">
+        <button type="button" class="btn btn-info btn-sm" ngbDropdownToggle>
+          <i class="fas fa-table-columns text-white"></i>
+          {{ "FORMULARIOS.TITULOS.COMUNES.COLUMNAS" | translate }}
+        </button>
+        <div class="dropdown-menu p-2" ngbDropdownMenu>
+          <div>
             <input
-              type="checkbox"
-              class="form-check-input"
-              id="dropdownCheck"
-              (change)="visualizarColumnas()"
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Buscar"
+              (keyup)="filterCampos($event)"
             />
-            <label class="form-check-label" for="dropdownCheck">
-              seleccionar todos
-            </label>
           </div>
-        </div>
-        <div class="dropdown-divider my-2"></div>
-        <ng-container *ngFor="let item of encabezadoTestCopia; let i = index">
-          <div class="mb-2">
+          <div class="dropdown-divider my-2"></div>
+          <div>
             <div class="form-check">
               <input
                 type="checkbox"
                 class="form-check-input"
-                [id]="item.nombre"
-                [checked]="item.visibleTabla ? true : false"
-                (click)="agregarColumna(item.nombre)"
-                [disabled]="item.nombre === 'ID'"
+                id="dropdownCheck"
+                (change)="visualizarColumnas()"
               />
-              <label class="form-check-label" [for]="item.nombre">
-                {{
-                  "LISTAS." +
-                    (modelo | uppercase) +
-                    "." +
-                    (item.nombre | uppercase) | translate
-                }}
+              <label class="form-check-label" for="dropdownCheck">
+                seleccionar todos
               </label>
             </div>
           </div>
-        </ng-container>
+          <div class="dropdown-divider my-2"></div>
+          <ng-container *ngFor="let item of encabezadoTestCopia; let i = index">
+            <div class="mb-2">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [id]="item.nombre"
+                  [checked]="item.visibleTabla ? true : false"
+                  (click)="agregarColumna(item.nombre)"
+                  [disabled]="item.nombre === 'ID'"
+                />
+                <label class="form-check-label" [for]="item.nombre">
+                  {{
+                    "LISTAS." +
+                      (modelo | uppercase) +
+                      "." +
+                      (item.nombre | uppercase) | translate
+                  }}
+                </label>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
+      <button
+        type="button"
+        (click)="eliminarRegistros()"
+        class="btn btn-sm btn-danger"
+        translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+      ></button>
     </div>
-
-    <button
-      type="button"
-      (click)="eliminarRegistros()"
-      class="btn btn-sm btn-danger"
-      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-    ></button>
   </div>
 </div>
 <div class="table-responsive table-loading">
@@ -90,7 +101,7 @@
         <ng-container *ngFor="let item of camposVisibles; let i = index">
           <th
             (click)="item.ordenable && orderPor(item.nombre, i)"
-            [ngClass]="{'cursor-pointer user-select-none': item.ordenable}"
+            [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
           >
             <div class="d-flex justify-content-between align-items-end">
               <span>
@@ -150,7 +161,7 @@
         </td>
         <td class="w-45px">
           <button
-            (click)="editar(item.id)"
+            (click)="navegarEditar(item.id)"
             class="btn btn-link btn-active-color-primary me-5 mb-2"
           >
             <i class="fa-regular fa-pen-to-square fs-2x"></i>
@@ -158,7 +169,7 @@
         </td>
         <td class="w-45px">
           <button
-            (click)="detalle(item.id)"
+            (click)="navegarDetalle(item.id)"
             class="btn btn-link btn-active-color-primary me-5 mb-2"
           >
             <i class="fa-regular fa-eye text-gray-500 fs-2x"></i>

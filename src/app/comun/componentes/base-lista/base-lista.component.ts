@@ -126,38 +126,6 @@ export class BaseListaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-  navegarNuevo() {
-    this.router.navigate(['/nuevo'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.arrParametrosConsulta.modelo,
-        tipo: this.arrParametrosConsulta.tipo,
-      },
-    });
-  }
-
-  navegarEditar(id: number) {
-    this.router.navigate(['/editar'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.arrParametrosConsulta.modelo,
-        tipo: this.arrParametrosConsulta.tipo,
-        detalle: id,
-      },
-    });
-  }
-
-  navegarDetalle(id: number) {
-    this.router.navigate(['/detalle'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.arrParametrosConsulta.modelo,
-        tipo: this.arrParametrosConsulta.tipo,
-        detalle: id,
-      },
-    });
-  }
-
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       if (this.tipo === 'Documento') {

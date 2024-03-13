@@ -10,26 +10,6 @@
       </section>
     </app-card>
   </div>
-  <div class="acciones">
-    <ng-content select="[base-acciones]"></ng-content>
-
-    <app-importar
-      modelo="{{ modelo }}"
-      *ngIf="tipo === 'Administrador'"
-    ></app-importar>
-    <a
-      (click)="navegarNuevo()"
-      class="btn btn-sm btn-primary"
-      translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-    ></a>
-    <button
-      type="submit"
-      class="btn btn-info btn-sm"
-      #btnGuardar
-      translate="FORMULARIOS.BOTONES.COMUNES.EXCEL"
-      (click)="descargarExcel()"
-    ></button>
-  </div>
   <div class="tabla">
     <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
       <section card-body>
@@ -44,8 +24,6 @@
           (emitirOrdenamiento)="cambiarOrdemiento($event)"
           (emitirPaginacion)="cambiarPaginacion($event)"
           (emitirRegistraEliminar)="eliminarRegistros($event)"
-          (itemEditar)="navegarEditar($event)"
-          (itemDetalle)="navegarDetalle($event)"
         >
         </app-comun-tabla>
       </section>

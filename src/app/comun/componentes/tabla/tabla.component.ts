@@ -14,23 +14,26 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { ImportarComponent } from "../importar/importar.component";
+import { General } from '@comun/clases/general';
 
 @Component({
-  selector: 'app-comun-tabla',
-  templateUrl: './tabla.component.html',
-  styleUrls: ['./tabla.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbDropdownModule,
-    KeysPipe,
-    TranslateModule,
-    TranslationModule,
-  ],
-  providers: [CurrencyPipe, DecimalPipe],
+    selector: 'app-comun-tabla',
+    templateUrl: './tabla.component.html',
+    styleUrls: ['./tabla.component.scss'],
+    standalone: true,
+    providers: [CurrencyPipe, DecimalPipe],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgbDropdownModule,
+        KeysPipe,
+        TranslateModule,
+        TranslationModule,
+        ImportarComponent
+    ]
 })
-export class TablaComponent implements OnChanges {
+export class TablaComponent extends General implements OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
 
   tamanoEncabezado = 0;
@@ -51,15 +54,16 @@ export class TablaComponent implements OnChanges {
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
   @Input() claveLocalStore: string;
-  @Output() itemDetalle: EventEmitter<any> = new EventEmitter();
-  @Output() itemEditar: EventEmitter<any> = new EventEmitter();
+
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
   @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
 
-  constructor(private currencyPipe: CurrencyPipe) {}
+  constructor(private currencyPipe: CurrencyPipe) {
+    super();
+  }
 
   ngOnChanges() {
     if (this.encabezadoTest && this.datos && this.claveLocalStore) {
@@ -114,12 +118,36 @@ export class TablaComponent implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
-  detalle(item: any) {
-    return this.itemDetalle.emit(item);
+  navegarNuevo() {
+    this.router.navigate(['/nuevo'], {
+      queryParams: {
+        modulo: this.modulo,
+        modelo: this.modelo,
+        tipo: this.tipo,
+      },
+    });
   }
 
-  editar(item: any) {
-    return this.itemEditar.emit(item);
+  navegarEditar(id: number) {
+    this.router.navigate(['/editar'], {
+      queryParams: {
+        modulo: this.modulo,
+        modelo: this.modelo,
+        tipo: this.tipo,
+        detalle: id,
+      },
+    });
+  }
+
+  navegarDetalle(id: number) {
+    this.router.navigate(['/detalle'], {
+      queryParams: {
+        modulo: this.modulo,
+        modelo: this.modelo,
+        tipo: this.tipo,
+        detalle: id,
+      },
+    });
   }
 
   cambiarCantidadRegistros() {
