@@ -34,87 +34,87 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
     IntegerField: [
       {
         valor: '',
-        texto: 'Igual',
+        texto: 'IGUAL',
       },
       {
         valor: '__gt',
-        texto: 'Mayor que',
+        texto: 'MAYORQUE',
       },
       {
         valor: '__gte',
-        texto: 'Mayor o igual que',
+        texto: 'MAYORIGUALQUE',
       },
       {
         valor: '__lt',
-        texto: 'Menor que',
+        texto: 'MENORQUE',
       },
       {
         valor: '__lte',
-        texto: 'Menor o igual que',
+        texto: 'MENORIGUALQUE',
       },
     ],
     FloatField: [
       {
         valor: '',
-        texto: 'Igual',
+        texto: 'IGUAL',
       },
       {
         valor: '__gt',
-        texto: 'Mayor que',
+        texto: 'MAYORQUE',
       },
       {
         valor: '__gte',
-        texto: 'Mayor o igual que',
+        texto: 'MAYORIGUALQUE',
       },
       {
         valor: '__lt',
-        texto: 'Menor que',
+        texto: 'MENORQUE',
       },
       {
         valor: '__lte',
-        texto: 'Menor o igual que',
+        texto: 'Menor o IGUAL que',
       },
     ],
     CharField: [
       {
         valor: '',
-        texto: 'Igual',
+        texto: 'IGUAL',
       },
       {
         valor: '__contains',
-        texto: 'Contiene',
+        texto: 'CONTIENE',
       },
     ],
     DateField: [
       {
         valor: '',
-        texto: 'Igual',
+        texto: 'IGUAL',
       },
       {
         valor: '__gt',
-        texto: 'Mayor que',
+        texto: 'MAYORQUE',
       },
       {
         valor: '__gte',
-        texto: 'Mayor o igual que',
+        texto: 'MAYORIGUALQUE',
       },
       {
         valor: '__lt',
-        texto: 'Menor que',
+        texto: 'MENORQUE',
       },
       {
         valor: '__lte',
-        texto: 'Menor o igual que',
+        texto: 'Menor o IGUAL que',
       },
     ],
     Booleano: [
       {
         valor: '__is',
-        texto: 'es',
+        texto: 'ES',
       },
       {
         valor: '__no_is',
-        texto: 'no',
+        texto: 'NO',
       },
     ],
   };

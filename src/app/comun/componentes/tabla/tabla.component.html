@@ -26,7 +26,8 @@
         ngbDropdownToggle
       >
         <i class="fas fa-table-columns text-white"></i>
-        columns
+        {{"FORMULARIOS.TITULOS.COMUNES.COLUMNAS" | translate}}
+
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="p-2">
         <div>
@@ -91,7 +92,7 @@
             (click)="item.ordenable && orderPor(item.nombre, i)"
             [ngClass]="{'cursor-pointer user-select-none': item.ordenable}"
           >
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-end">
               <span>
                 {{
                   "LISTAS." +
@@ -109,18 +110,18 @@
                   "
                 >
                   <i
-                    class="ki-outline ki-arrow-up fs-2x"
+                    class="ki-outline ki-arrow-up fs-2"
                     *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
                   ></i>
                   <i
-                    class="ki-outline ki-arrow-down fs-2x"
+                    class="ki-outline ki-arrow-down fs-2"
                     *ngIf="
                       this.ordenadoTabla === '-' + item.nombre.toLowerCase()
                     "
                   ></i>
                 </ng-container>
                 <ng-template #iconopordefecto>
-                  <i class="ki-outline ki-arrow-up-down fs-2x"></i>
+                  <i class="ki-outline ki-arrow-up-down fs-2"></i>
                 </ng-template>
               </div>
             </div>

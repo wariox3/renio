@@ -75,6 +75,7 @@ export const locale = {
         COMUNES: {
           FILTRO: 'Filters',
           FILTRAR: 'Filter',
+          LIMPIAR: 'Clean',
           USUARIOS: 'Users',
           IDIOMA: 'Language',
           CERRARSESION: 'Log out',
@@ -87,6 +88,7 @@ export const locale = {
           ITEMS: 'Items',
           CARGARARCHIVOS: 'Upload file',
           GENERAL: 'General',
+          COLUMNAS: 'Columns',
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',
@@ -95,7 +97,7 @@ export const locale = {
             CONTENEDORES: 'My containers',
           },
         },
-        CONTENEDORESS: {
+        CONTENEDOR: {
           TITULO: 'Companies',
           EDITAR: 'Edit container',
           INVITAR: 'Invitations',
@@ -207,6 +209,7 @@ export const locale = {
           FECHADESDE: 'Date from',
           FECHAHASTA: 'Date to',
           BARRIO: 'Neighborhood',
+          SELECCIONAR: 'Select',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -243,6 +246,18 @@ export const locale = {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
           TIPOPERSONA: 'Type of person',
+        },
+        FILTROS: {
+          OPERADORES: {
+            IGUAL: 'Equal',
+            MAYORQUE: 'Greater than',
+            MAYORIGUALQUE: 'Greater than or equal to',
+            MENORQUE: 'Less than',
+            MENORIGUALQUE: 'Less than or equal to',
+            CONTIENE: 'Contains',
+            ES: 'Is',
+            NO: 'Not',
+          }
         },
       },
       VALIDACIONES: {
@@ -326,9 +341,7 @@ export const locale = {
         IDENTIFICACION_ABREVIATURA: 'Type',
         NUMERO_IDENTIFICACION: 'Number Identification',
         DIGITO_VERIFICACION: 'Check Digit',
-        NIT: 'Tax ID',
-        DV: 'Check Digit',
-        NOMBRE: 'Name',
+        NOMBRE_CORTO: 'Name',
         NOMBRE1: 'Name 1',
         NOMBRE2: 'Name 2',
         APELLIDO1: 'Surname 1',

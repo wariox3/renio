@@ -43,7 +43,7 @@ export const locale = {
           INGRESAR: 'Ingresar',
           RESTABLECER: 'Restablecer',
           DESCARGAR: 'Descargar',
-          FILTRO: 'Descargar',
+          FILTRO: 'FILTRO',
           EXPORTAR: 'Exportar',
           IMPORTAR: 'Importar',
           DETALLE: 'Detalle',
@@ -76,6 +76,7 @@ export const locale = {
         COMUNES: {
           FILTRO: 'Filtros',
           FILTRAR: 'Filtrar',
+          LIMPIAR: 'Limpiar',
           USUARIOS: 'Usuarios',
           IDIOMA: 'Idioma',
           CERRARSESION: 'Cerrar sesión',
@@ -88,6 +89,7 @@ export const locale = {
           ITEMS: 'Ítems',
           CARGARARCHIVOS: 'Cargar archivo',
           GENERAL: 'General',
+          COLUMNAS: 'Columnas',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',
@@ -208,6 +210,8 @@ export const locale = {
           FECHADESDE: 'Fecha desde',
           FECHAHASTA: 'Fecha hasta',
           BARRIO: 'Barrio',
+          SELECCIONAR: 'Seleccionar',
+
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -245,6 +249,18 @@ export const locale = {
           REGIMEN: 'Régimen',
           TIPOPERSONA: 'Tipo persona',
         },
+        FILTROS: {
+          OPERADORES: {
+            IGUAL: 'Igual',
+            MAYORQUE: 'Mayor que',
+            MAYORIGUALQUE: 'Mayor o igual que',
+            MENORQUE: 'Menor que',
+            MENORIGUALQUE: 'Menor o igual que',
+            CONTIENE: 'Contiene',
+            ES: 'Es',
+            NO: 'No',
+          }
+        }
       },
       VALIDACIONES: {
         COMUNES: {

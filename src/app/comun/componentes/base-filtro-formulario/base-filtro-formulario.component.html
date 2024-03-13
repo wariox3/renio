@@ -4,7 +4,9 @@
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
     >
-      <option value="">Seleccionar...</option>
+      <option value="">
+        {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+      </option>
       <ng-container *ngFor="let propiedad of propiedades">
         <option
           *ngIf="propiedad.visibleFiltro"
@@ -27,13 +29,18 @@
       class="form-control form-control-sm"
       (change)="onCriterioSeleccionado($event)"
     >
-      <option value="">Seleccionar...</option>
+      <option value="">
+        {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+      </option>
       <option
         *ngFor="let criterioBusqueda of criteriosBusqueda"
         [value]="criterioBusqueda.valor"
         [selected]="criterioBusqueda === datosSeleccionados?.operador"
       >
-        {{ criterioBusqueda.texto }}
+        {{
+          "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+            (criterioBusqueda.texto | uppercase) | translate
+        }}
       </option>
     </select>
   </div>
