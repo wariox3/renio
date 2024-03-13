@@ -300,19 +300,56 @@ export const Componetes: ObjetoEjemplo = {
     formulario: import(
       '../../modules/venta/componentes/factura/factura-formulario/factura-formulario.component'
     ),
-    // titulos: [
-    //   'ID',
-    //   'Numero',
-    //   'Fecha',
-    //   'Vence',
-    //   'Descuento',
-    //   'Subtotal',
-    //   'Impuesto',
-    //   'Total',
-    //   'APR',
-    //   'contacto',
-    //   'documento_tipo',
-    //   'metodo_pago',
-    // ],
+    titulos: [
+      {
+        nombre: 'ID',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NUMERO',
+        tipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'FECHA',
+        tipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'SUBTOTAL',
+        tipo: 'FloatField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'IMPUESTO',
+        tipo: 'FloatField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'TOTAL',
+        tipo: 'FloatField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'ESTADO_APROBADO',
+        tipo: 'Booleano',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      }
+    ],
   },
 };
