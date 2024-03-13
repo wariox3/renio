@@ -82,8 +82,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           JSON.stringify(changes.encabezadoTest.currentValue)
         );
       }
-      this.construirTabla();
     }
+    this.construirTabla();
   }
 
   construirTabla() {
@@ -105,9 +105,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     for (let clave in this.camposVisibles) {
       // Obtiene el nombre de la clave actual y lo convierte a minúsculas
       let buscarClave = this.camposVisibles[clave].nombre.toLowerCase();
-
-console.log(this.datos);
-
 
       // Recorre todas las claves en el objeto "datos"
       for (const key in this.datos) {
