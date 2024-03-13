@@ -4,7 +4,9 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
@@ -14,26 +16,26 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { ImportarComponent } from "../importar/importar.component";
+import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 
 @Component({
-    selector: 'app-comun-tabla',
-    templateUrl: './tabla.component.html',
-    styleUrls: ['./tabla.component.scss'],
-    standalone: true,
-    providers: [CurrencyPipe, DecimalPipe],
-    imports: [
-        CommonModule,
-        FormsModule,
-        NgbDropdownModule,
-        KeysPipe,
-        TranslateModule,
-        TranslationModule,
-        ImportarComponent
-    ]
+  selector: 'app-comun-tabla',
+  templateUrl: './tabla.component.html',
+  styleUrls: ['./tabla.component.scss'],
+  standalone: true,
+  providers: [CurrencyPipe, DecimalPipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbDropdownModule,
+    KeysPipe,
+    TranslateModule,
+    TranslationModule,
+    ImportarComponent,
+  ],
 })
-export class TablaComponent extends General implements OnChanges {
+export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
 
   tamanoEncabezado = 0;
@@ -48,12 +50,12 @@ export class TablaComponent extends General implements OnChanges {
   encabezadoTestCopia: any;
   camposVisibles: any;
   datosFiltrados: any = [];
+  claveLocalStore: string
   @Input() encabezado: Listafiltros[] = [];
   @Input() encabezadoTest: any;
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
-  @Input() claveLocalStore: string;
 
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
@@ -65,12 +67,19 @@ export class TablaComponent extends General implements OnChanges {
     super();
   }
 
-  ngOnChanges() {
-    if (this.encabezadoTest && this.datos && this.claveLocalStore) {
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.encabezadoTest) {
       if (!localStorage.getItem(this.claveLocalStore)) {
         localStorage.setItem(
           this.claveLocalStore,
-          JSON.stringify(this.encabezadoTest)
+          JSON.stringify(changes.encabezadoTest.currentValue)
         );
       }
       this.construirTabla();
@@ -96,6 +105,9 @@ export class TablaComponent extends General implements OnChanges {
     for (let clave in this.camposVisibles) {
       // Obtiene el nombre de la clave actual y lo convierte a minúsculas
       let buscarClave = this.camposVisibles[clave].nombre.toLowerCase();
+
+console.log(this.datos);
+
 
       // Recorre todas las claves en el objeto "datos"
       for (const key in this.datos) {
