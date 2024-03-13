@@ -1,14 +1,17 @@
 export interface Contacto {
   identificacion: number;
   numero_identificacion: number;
+  identificacion_abreviatura: string;
   nombre_corto: string;
   direccion: string;
   ciudad: number;
+  ciudad_nombre: number;
   telefono: number;
   celular: number;
   tipo_persona_id: number;
-  tipo_persona_nombre: number;
-  regimen: number;
+  tipo_persona: number;
+  regimen_id: number;
+  regimen_nombre: string;
   digito_verificacion: string | null;
   nombre1: string | null;
   nombre2: string | null;

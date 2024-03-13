@@ -46,14 +46,15 @@ export default class ContactoDetalleComponent extends General implements OnInit 
   contacto: Contacto = {
     identificacion: 0,
     numero_identificacion: 0,
+    identificacion_abreviatura: '',
     nombre_corto: '',
     direccion: '',
     ciudad: 0,
     telefono: 0,
     celular: 0,
     tipo_persona_id: 0,
-    tipo_persona_nombre: 0,
-    regimen: 0,
+    regimen_id: 0,
+    regimen_nombre: '',
     digito_verificacion: null,
     nombre1: null,
     nombre2: null,
@@ -62,7 +63,9 @@ export default class ContactoDetalleComponent extends General implements OnInit 
     codigo_postal: null,
     correo: '',
     codigo_ciuu: '',
-    barrio: ''
+    barrio: '',
+    tipo_persona: 0,
+    ciudad_nombre: 0
   }
 
   constructor(

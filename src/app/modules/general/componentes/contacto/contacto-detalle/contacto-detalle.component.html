@@ -4,7 +4,7 @@
       translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
       class="fw-semibold text-gray-600 fs-7"
     ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ contacto.tipo_persona_id }}</p>
+    <p class="fw-bold text-gray-800 fs-6">{{ contacto.tipo_persona }}</p>
   </div>
 </div>
 <div [ngSwitch]="contacto.tipo_persona_id">
@@ -79,7 +79,7 @@
       translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
       class="form-label required"
     ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ contacto.identificacion }}</p>
+    <p class="fw-bold text-gray-800 fs-6">{{ contacto.identificacion_abreviatura }}</p>
   </div>
 </div>
 <div class="row mb-5">
@@ -88,7 +88,7 @@
       translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
       class="fw-semibold text-gray-600 fs-7"
     ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ contacto.ciudad }}</p>
+    <p class="fw-bold text-gray-800 fs-6">{{ contacto.ciudad_nombre }}</p>
   </div>
   <div class="col-md-6 col-sm-12">
     <label
@@ -129,7 +129,7 @@
       translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
       class="fw-semibold text-gray-600 fs-7"
     ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ contacto.regimen }}</p>
+    <p class="fw-bold text-gray-800 fs-6">{{ contacto.regimen_nombre }}</p>
   </div>
 </div>
 <div class="row mb-5">

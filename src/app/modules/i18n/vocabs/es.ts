@@ -326,7 +326,7 @@ export const locale = {
       },
       CONTACTO: {
         ID: 'ID',
-        IDENTIFICACION_ABREVIATURA: 'Identificación',
+        IDENTIFICACION_ABREVIATURA: 'Tipo',
         NUMERO_IDENTIFICACION: 'Número de Identificación',
         DIGITO_VERIFICACION: 'Dígito de Verificación',
         NOMBRE_CORTO: 'Nombre',

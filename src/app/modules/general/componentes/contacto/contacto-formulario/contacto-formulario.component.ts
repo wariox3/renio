@@ -194,7 +194,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
       ]);
       this.formularioContacto.patchValue({
         nombre1: null,
@@ -214,7 +213,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ]);
       this.setValidators('nombre_corto', [
         Validators.maxLength(200),
-        Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
       ]);
     }
   }
@@ -429,7 +427,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),
-            Validators.pattern(/^[a-zA-Z0-9&.\-_\s]*$/),
           ]);
           this.formularioContacto.patchValue({
             nombre1: null,

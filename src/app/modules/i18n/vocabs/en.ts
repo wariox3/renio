@@ -323,7 +323,7 @@ export const locale = {
       },
       CONTACTO: {
         ID: 'ID',
-        IDENTIFICACION_ABREVIATURA: 'Identification',
+        IDENTIFICACION_ABREVIATURA: 'Type',
         NUMERO_IDENTIFICACION: 'Number Identification',
         DIGITO_VERIFICACION: 'Check Digit',
         NIT: 'Tax ID',
