@@ -24,33 +24,32 @@ import {
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from "@comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-contacto-formulario',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-    NgbDropdownModule,
-    SoloNumerosDirective,
-    BtnAtrasComponent,
-  ],
-  templateUrl: './contacto-formulario.component.html',
-  styleUrls: ['./contacto-formulario.component.scss'],
-  animations: [
-    trigger('fadeInOut', [
-      state(
-        'void',
-        style({
-          opacity: 0,
-        })
-      ),
-      transition(':enter, :leave', [animate(800)]),
-    ]),
-  ],
+    selector: 'app-contacto-formulario',
+    standalone: true,
+    templateUrl: './contacto-formulario.component.html',
+    styleUrls: ['./contacto-formulario.component.scss'],
+    animations: [
+        trigger('fadeInOut', [
+            state('void', style({
+                opacity: 0,
+            })),
+            transition(':enter, :leave', [animate(800)]),
+        ]),
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        NgbDropdownModule,
+        SoloNumerosDirective,
+        BtnAtrasComponent,
+        CardComponent
+    ]
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
@@ -58,6 +57,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrIdentificacion: any[];
   arrTipoPersona: any[];
   arrRegimen: any[];
+  arrAsesores: any[];
+  arrPrecios: any[];
+  arrPagos: any[];
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
 
@@ -150,6 +152,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
       regimen: ['', Validators.compose([Validators.required])],
       codigo_ciuu: ['', Validators.compose([Validators.maxLength(200)])],
       barrio: ['', Validators.compose([Validators.maxLength(200)])],
+      precio: [null],
+      plazo_pago: [null],
+      asesor: [null],
     });
   }
 
@@ -255,6 +260,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       } else {
+        console.log(this.formularioContacto.value);
+        
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
           .pipe(
@@ -404,7 +411,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
             {
               id: '1692284537644-1688',
               operador: '__contains',
-              propiedad: 'nombre__contains',
+              propiedad: 'nombre_corto__contains',
               valor1: '',
               valor2: '',
             },
@@ -414,14 +421,34 @@ export default class ContactDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'Asesor',
-        },
+        }
       ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__contains',
+              propiedad: 'nombre__contains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'PlazoPago',
+        }
+      )
     ).subscribe((respuesta: any) => {
-      console.log(respuesta);
-      
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
+      this.arrPrecios = respuesta[3].registros;
+      this.arrAsesores = respuesta[4].registros;
+      this.arrPagos = respuesta[5].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
