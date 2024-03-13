@@ -439,46 +439,6 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-10">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.SUSCRIPTOR"
-            class="form-label required"
-          ></label>
-          <input
-            formControlName="suscriptor"
-            class="form-control bg-transparent"
-            type="email"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpresa.controls['suscriptor'].touched &&
-                formularioEmpresa.controls['suscriptor'].invalid,
-              'is-valid':
-                formularioEmpresa.controls['suscriptor'].touched &&
-                formularioEmpresa.controls['suscriptor'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpresa.controls['suscriptor']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioEmpresa.controls['suscriptor']
-            }"
-          ></ng-container>
-        </div>
-      </div>
       <div class="fv-row d-flex justify-content-end">
         <button
           translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"

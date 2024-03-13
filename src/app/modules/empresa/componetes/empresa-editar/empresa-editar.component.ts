@@ -67,7 +67,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
         identificacion: respuesta[1].identificacion_id,
         ciudad_nombre: respuesta[1].ciudad_nombre,
         ciudad: respuesta[1].ciudad_id,
-        suscriptor: respuesta[1].suscriptor,
         tipo_persona: respuesta[1].tipo_persona,
         regimen: respuesta[1].regimen,
       });
@@ -122,10 +121,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
         ]),
-      ],
-      suscriptor: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
