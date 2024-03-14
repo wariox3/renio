@@ -751,7 +751,7 @@
               *ngFor="let pago of arrPagos"
               [value]="pago.plazo_pago_id"
               [selected]="
-                pago.plazo_pago_id === formularioContacto.value.plazo_pago
+                pago.plazo_pago_id === formularioContacto.value.plazo_pago_id
               "
             >
               {{ pago.plazo_pago_nombre }}
@@ -780,7 +780,7 @@
               *ngFor="let precio of arrPrecios"
               [value]="precio.precio_id"
               [selected]="
-                precio.precio_id === formularioContacto.value.precio
+                precio.precio_id === formularioContacto.value.precio_id
               "
             >
               {{ precio.precio_nombre }}
@@ -811,7 +811,7 @@
               *ngFor="let asesor of arrAsesores"
               [value]="asesor.asesor_id"
               [selected]="
-                asesor.asesor_id === formularioContacto.value.precio
+                asesor.asesor_id === formularioContacto.value.asesor_id
               "
             >
               {{ asesor.asesor_nombre }}

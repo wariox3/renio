@@ -24,33 +24,37 @@ import {
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from "@comun/componentes/card/card.component";
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @Component({
-    selector: 'app-contacto-formulario',
-    standalone: true,
-    templateUrl: './contacto-formulario.component.html',
-    styleUrls: ['./contacto-formulario.component.scss'],
-    animations: [
-        trigger('fadeInOut', [
-            state('void', style({
-                opacity: 0,
-            })),
-            transition(':enter, :leave', [animate(800)]),
-        ]),
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        NgbDropdownModule,
-        SoloNumerosDirective,
-        BtnAtrasComponent,
-        CardComponent
-    ]
+  selector: 'app-contacto-formulario',
+  standalone: true,
+  templateUrl: './contacto-formulario.component.html',
+  styleUrls: ['./contacto-formulario.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+        })
+      ),
+      transition(':enter, :leave', [animate(800)]),
+    ]),
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    NgbDropdownModule,
+    SoloNumerosDirective,
+    BtnAtrasComponent,
+    CardComponent,
+  ],
 })
+
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
   arrCiudades: any[];
@@ -260,8 +264,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        console.log(this.formularioContacto.value);
-        
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
           .pipe(
@@ -489,6 +491,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
           regimen: respuesta.regimen_id,
           barrio: respuesta.barrio,
           codigo_ciuu: respuesta.codigo_ciuu,
+          precio: respuesta.precio_id,
+          plazo_pago: respuesta.plazo_pago_id,
+          asesor: respuesta.asesor_id,
         });
 
         if (respuesta.tipo_persona_id === 1) {
