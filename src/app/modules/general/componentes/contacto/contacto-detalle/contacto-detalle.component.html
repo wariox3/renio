@@ -148,3 +148,33 @@
     <p class="fw-bold text-gray-800 fs-6">{{ contacto.barrio }}</p>
   </div>
 </div>
+<app-card [titulo]="'información comercial'">
+  <section card-body>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ contacto.plazo_pago_nombre }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.LISTAPRECIO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ contacto.precio_nombre }}</p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.ASESOR"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ contacto.asesor_nombre_corto }}</p>
+      </div>
+    </div>
+  </section>
+</app-card>
+

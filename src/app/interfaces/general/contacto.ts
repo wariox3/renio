@@ -21,5 +21,11 @@ export interface Contacto {
   correo: string;
   codigo_ciuu: string;
   barrio: string,
+  plazo_pago_id: number;
+  plazo_pago_nombre: string;
+  precio_id: number;
+  precio_nombre: string;
+  asesor_id: number;
+  asesor_nombre_corto: string
 }
 

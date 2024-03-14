@@ -25,21 +25,23 @@ import {
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { Contacto } from '@interfaces/general/contacto';
+import { CardComponent } from "../../../../../comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-contacto-detalle',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-    NgbDropdownModule,
-    SoloNumerosDirective,
-  ],
-  templateUrl: './contacto-detalle.component.html',
-  styleUrls: ['./contacto-detalle.component.scss'],
+    selector: 'app-contacto-detalle',
+    standalone: true,
+    templateUrl: './contacto-detalle.component.html',
+    styleUrls: ['./contacto-detalle.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        NgbDropdownModule,
+        SoloNumerosDirective,
+        CardComponent
+    ]
 })
 export default class ContactoDetalleComponent extends General implements OnInit {
 
@@ -65,7 +67,13 @@ export default class ContactoDetalleComponent extends General implements OnInit 
     codigo_ciuu: '',
     barrio: '',
     tipo_persona: 0,
-    ciudad_nombre: 0
+    ciudad_nombre: 0,
+    plazo_pago_id: 0,
+    plazo_pago_nombre: '',
+    precio_id: 0,
+    precio_nombre: '',
+    asesor_id: 0,
+    asesor_nombre_corto: ''
   }
 
   constructor(
