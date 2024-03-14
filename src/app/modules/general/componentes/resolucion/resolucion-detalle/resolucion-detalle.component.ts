@@ -12,19 +12,21 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { Resolucion } from '@interfaces/general/resolucion';
+import { CardComponent } from "../../../../../comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-resolucion-nuevo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-  ],
-  templateUrl: './resolucion-detalle.component.html',
-  styleUrls: ['./resolucion-detalle.component.scss'],
+    selector: 'app-resolucion-nuevo',
+    standalone: true,
+    templateUrl: './resolucion-detalle.component.html',
+    styleUrls: ['./resolucion-detalle.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        CardComponent
+    ]
 })
 export default class ResolucionNuevoComponent
   extends General
