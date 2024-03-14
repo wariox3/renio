@@ -1,30 +1,29 @@
-<div class="row">
-  <div class="col-md-6 d-flex flex-wrap align-items-start">
-    <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
-      <span
-        class="badge badge-primary badge-sm mb-1 me-2"
-        title="{{ impuesto.impuesto_nombre_extendido }}"
-      >
-        {{ impuesto.impuesto_nombre }}
-        <i
-          class="bi bi-x fs-1x text-white cursor-pointer"
-          (click)="removerItem(impuesto)"
-          title="Retirar {{ impuesto.impuesto_nombre_extendido }}"
-          *ngIf="estado_aprobado"
-        ></i>
-      </span>
-    </ng-container>
-  </div>
-  <div
-    class="col-md-6 d-flex align-items-start flex-column justify-content-center"
-    *ngIf="estado_aprobado"
-  >
+<div class="form-control">
+  <div class="row justify-content-between">
+    <div class="col-8 d-flex flex-wrap align-items-start ">
+      <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
+        <span
+          class="badge badge-primary badge-sm mb-1 me-2"
+          title="{{ impuesto.impuesto_nombre_extendido }}"
+        >
+          {{ impuesto.impuesto_nombre }}
+          <i
+            class="bi bi-x fs-1x text-white cursor-pointer"
+            (click)="removerItem(impuesto)"
+            title="Retirar {{ impuesto.impuesto_nombre_extendido }}"
+            *ngIf="estado_aprobado"
+          ></i>
+        </span>
+      </ng-container>
+    </div>
     <div
-      ngbDropdown
-      #ImpuestoDropdown="ngbDropdown"
-      class="d-inline-flex gap-1 align-self-start"
+      class="col-4 d-flex align-items-end flex-column justify-content-center"
     >
-      <div class="position-relative cursor-pointer">
+      <div
+        ngbDropdown
+        #ImpuestoDropdown="ngbDropdown"
+        class="d-inline-flex gap-1 align-self-start"
+      >
         <input
           type="text"
           formControlName="impuestos"
@@ -33,29 +32,27 @@
           (focus)="consultarImpuesto(); ImpuestoDropdown.open()"
           appSoloNumeros
         />
-        <div
-          class="position-absolute translate-middle-y top-50 end-0 me-3 cursor-pointer"
+        <i
+          class="ki-duotone ki-down fs-2"
           (click)="consultarImpuesto(); ImpuestoDropdown.open()"
-        >
-          <i class="ki-duotone ki-down"></i>
-        </div>
-      </div>
+        ></i>
 
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
-      >
-        <ng-container *ngFor="let impuesto of arrImpuestoLista">
-          <button
-            (click)="agregarImpuesto(impuesto)"
-            type="button"
-            ngbDropdownItem
-          >
-            {{ impuesto.impuesto_nombre_extendido }}
-          </button>
-        </ng-container>
-        <div class="dropdown-divider"></div>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic1"
+          class="dropdown-menu"
+        >
+          <ng-container *ngFor="let impuesto of arrImpuestoLista">
+            <button
+              (click)="agregarImpuesto(impuesto)"
+              type="button"
+              ngbDropdownItem
+            >
+              {{ impuesto.impuesto_nombre_extendido }}
+            </button>
+          </ng-container>
+          <div class="dropdown-divider"></div>
+        </div>
       </div>
     </div>
   </div>
