@@ -1,15 +1,6 @@
 <div class="container-grid">
   <div class="ayuda">
-    <a
-      [routerLink]="['../lista']"
-      [queryParams]="{modulo, modelo, tipo}"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold me-2"
-    >
-      <i class="ki-duotone ki-arrow-left fs-6 text-muted"
-        ><span class="path1"></span><span class="path2"></span
-      ></i>
-      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
-    </a>
+    <app-comun-btn-atras />
     <ng-container *ngIf="tipo === 'Documento'">
       <div class="btn-group btn-sm" role="group" aria-label="Basic example">
         <button
@@ -55,25 +46,14 @@
     </ng-container>
   </div>
   <div class="formulario">
-    <div class="card mb-5 mb-lg-10">
-      <!--begin::Card header-->
-      <div class="card-header">
-        <!--begin::Heading-->
-        <div class="card-title">
-          <h3>
-            {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
-            {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
-          </h3>
-        </div>
-        <!--end::Heading-->
-      </div>
-      <!--end::Card header-->
-
-      <!--begin::Card body-->
-      <div class="card-body">
-        <div #dynamicComponentContainer></div>
-      </div>
-      <!--end::Card body-->
+    <div
+      class="page-title gap-4 me-3 mb-5 mb-lg-2"
+    >
+     <h1 class="text-gray-900 fw-bolder m-0">
+      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+     </h1>
     </div>
+    <div #dynamicComponentContainer></div>
   </div>
 </div>
