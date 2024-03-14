@@ -14,9 +14,9 @@ import { TranslateModule } from '@ngx-translate/core';
       <a
         [routerLink]="['../lista']"
         [queryParams]="{modulo, modelo, tipo}"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold me-2"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold"
       >
-        <i class="ki-duotone ki-arrow-left fs-6 text-muted"
+        <i class="bi bi-arrow-left fs-6 text-muted"
           ><span class="path1"></span><span class="path2"></span
         ></i>
         {{ 'FORMULARIOS.BOTONES.COMUNES.ATRAS' | translate }}

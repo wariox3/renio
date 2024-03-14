@@ -82,6 +82,12 @@ export class BaseListaComponent extends General implements OnInit {
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';
+        this.arrParametrosConsulta = {
+          ...this.arrParametrosConsulta,
+          ...{
+            documento_tipo_id: 1
+          }
+        }
         break;
     }
     this.httpService

@@ -1,478 +1,501 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <div class="row mb-5">
-    <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
-      ></label>
-      <div class="position-relative">
-        <input
-          type="text"
-          class="form-control"
-          ngbDropdownAnchor
-          formControlName="contactoNombre"
-          (focus)="consultarCliente($event); ClienteDropdown.open()"
-          (keyup)="consultarCliente($event)"
-          [ngClass]="{
-            'is-invalid':
-              formularioFactura.controls['contacto'].touched &&
-              formularioFactura.controls['contacto'].invalid,
-            'is-valid':
-              formularioFactura.controls['contacto'].touched &&
-              formularioFactura.controls['contacto'].valid
-          }"
-        />
-        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-          <i class="bi bi-search fs-2x"></i>
-        </div>
-      </div>
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
-      >
-        <ng-container *ngFor="let contacto of arrMovimientosClientes">
-          <button
-            type="button"
-            ngbDropdownItem
-            (click)="modificarCampoFormulario('contacto', contacto)"
-          >
-            {{ contacto.contacto_id }} - {{ contacto.contacto_nombre_corto }}
-          </button>
-        </ng-container>
-        <div class="dropdown-divider"></div>
-        <button type="button" ngbDropdownItem>
-          <app-comun-buscar-avanzado
-            [consultarModelo]="'Contacto'"
-            [consultarTipo]="'Administrador'"
-            (emitirRegistroSeleccionado)="
-              actualizarFormulario($event, 'contacto')
-            "
-          >
-          </app-comun-buscar-avanzado>
-        </button>
-      </div>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioFactura.controls['contacto']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
-      ></label>
-      <input
-        formControlName="fecha"
-        #fecha
-        class="form-control"
-        type="date"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioFactura.controls['fecha'].touched &&
-            formularioFactura.controls['fecha'].invalid,
-          'is-valid':
-            formularioFactura.controls['fecha'].touched &&
-            formularioFactura.controls['fecha'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioFactura.controls['fecha']
-        }"
-      ></ng-container>
-      <div
-        *ngIf="
-          formularioFactura.controls.fecha?.touched &&
-          formularioFactura.controls.fecha?.hasError('fechaSuperiorNoValida')
-        "
-      >
-        <div class="fv-plugins-message-container">
-          <div class="fv-help-block">
-            <span
-              translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-              role="alert"
-            >
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
-      ></label>
-      <input
-        formControlName="fecha_vence"
-        class="form-control"
-        type="date"
-        [min]="fecha.value"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            formularioFactura.controls['fecha_vence'].touched &&
-            formularioFactura.controls['fecha_vence'].invalid,
-          'is-valid':
-            formularioFactura.controls['fecha_vence'].touched &&
-            formularioFactura.controls['fecha_vence'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioFactura.controls['fecha_vence']
-        }"
-      ></ng-container>
-      <div
-        *ngIf="
-          formularioFactura.controls.fecha_vence?.touched &&
-          formularioFactura.controls.fecha_vence?.hasError(
-            'fechaVenceInferiorNoValida'
-          )
-        "
-      >
-        <div class="fv-plugins-message-container">
-          <div class="fv-help-block">
-            <span
-              translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
-              role="alert"
-            >
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div  class="col-md-6 col-sm-12" ngbDropdown #MetodoDropdown="ngbDropdown">
-      <label
-        class="form-label required"
-        translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-      ></label>
-      <div class="position-relative">
-        <input
-          formControlName="metodo_pago_nombre"
-          class="form-control"
-          type="text"
-          autocomplete="off"
-          ngbDropdownAnchor
-          (focus)="consultarMetodo($event); MetodoDropdown.open()"
-          (keyup)="consultarMetodo($event)"
-          [ngClass]="{
-            'is-invalid':
-              formularioFactura.controls['metodo_pago'].touched &&
-              formularioFactura.controls['metodo_pago'].invalid,
-            'is-valid':
-              formularioFactura.controls['metodo_pago'].touched &&
-              formularioFactura.controls['metodo_pago'].valid
-          }"
-        />
-        <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-          <i class="bi bi-search fs-2x"></i>
-        </div>
-      </div>
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
-      >
-        <ng-container *ngFor="let metodoPago of arrMetodosPago">
-          <button
-            type="button"
-            ngbDropdownItem
-            (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
-          >
-            {{ metodoPago.metodo_pago_id }} -
-            {{ metodoPago.metodo_pogo_nombre }}
-          </button>
-        </ng-container>
-      </div>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioFactura.controls['metodo_pago']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-12">
-      <ul
-        ngbNav
-        #nav="ngbNav"
-        [(activeId)]="active"
-        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-      >
-        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-          ></a>
-          <ng-template ngbNavContent>
-            <div class="table-responsive-sm">
-              <table
-                id="tableDetalles"
-                class="table table-row-dashed table-row-gray-500"
-              >
-                <thead>
-                  <tr>
-                    <th>Id</th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                    ></th>
-                    <th translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                    ></th>
-                    <th
-                      translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
-                    ></th>
-                    <th class="text-center" *ngIf="!estado_aprobado">
-                      <button
-                        (click)="agregarProductos()"
-                        class="btn btn-sm btn-primary"
-                        type="button"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                      ></button>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody formArrayName="detalles">
-                  <ng-container
-                    *ngFor="let detalle of detalles.controls; let i = index"
-                    [formGroupName]="i"
-                  >
-                    <tr>
-                      <td>{{ detalle.value.id }}</td>
-                      <td>
-                        <app-comun-productos
-                          [itemNombre]="detalle.value.item_nombre"
-                          (emitirArrItems)="agregarItemSeleccionado($event, i)"
-                          [estado_aprobado]="estado_aprobado"
-                        ></app-comun-productos>
-                      </td>
-                      <td>
-                        <textarea
-                          formControlName="cantidad"
-                          [value]="detalle.value.cantidad"
-                          (change)="actualizarDetalle(i, 'cantidad', $event)"
-                          [attr.disabled]="estado_aprobado"
-                          [readonly]="estado_aprobado"
-                          [ngClass]="{
-                            'disabled-cursor bg-transparent': estado_aprobado,
-                            'text-white':
-                              theme_value === 'dark' && estado_aprobado
-                          }"
-                          rows="1"
-                          spellcheck="true"
-                          appSoloNumeros
-                        ></textarea>
-                      </td>
-                      <td>
-                        <textarea
-                          formControlName="precio"
-                          [value]="detalle.value.precio"
-                          (change)="actualizarDetalle(i, 'precio', $event)"
-                          [attr.disabled]="estado_aprobado"
-                          [readonly]="estado_aprobado"
-                          [ngClass]="{
-                            'disabled-cursor bg-transparent': estado_aprobado,
-                            'text-white':
-                              theme_value === 'dark' && estado_aprobado
-                          }"
-                          rows="1"
-                          spellcheck="true"
-                          appSoloNumeros
-                        ></textarea>
-                      </td>
-                      <td class="containerDescuento">
-                        <div class="column1">
-                          <textarea
-                          formControlName="descuento"
-                          [value]="detalle.value.descuento"
-                          (change)="actualizarDetalle(i, 'descuento', $event)"
-                          [attr.disabled]="estado_aprobado"
-                          [readonly]="estado_aprobado"
-                          [ngClass]="{
-                            'disabled-cursor bg-transparent': estado_aprobado,
-                            'text-white':
-                              theme_value === 'dark' && estado_aprobado
-                          }"
-                          rows="1"
-                          spellcheck="true"
-                          appSoloNumeros
-                        ></textarea>
-                        </div>
-                        <div class="column2">%</div>
-                      </td>
-                      <td>
-                        <textarea
-                          class="form-control form-control-sm"
-                          disabled
-                          rows="1"
-                          spellcheck="true"
-                          class="disabled-cursor bg-transparent"
-                          [ngClass]="{
-                            'disabled-cursor bg-transparent': estado_aprobado,
-                            'text-white bg-transparent': theme_value === 'dark'
-                          }"
-                          readonly
-                          >{{ detalle.value.subtotal }}</textarea
-                        >
-                      </td>
-                      <td>
-                        <app-comun-impuestos
-                          (emitirImpuestoAgregado)="
-                            agregarImpuesto($event, i, 'agregar')
-                          "
-                          (emitirImpuestoElimiando)="removerImpuesto($event, i)"
-                          [arrLista]="detalles.controls[i].value.impuestos"
-                          [estado_aprobado]="!estado_aprobado"
-                        ></app-comun-impuestos>
-                      </td>
-                      <td>
-                        <textarea
-                          readonly
-                          rows="1"
-                          spellcheck="true"
-                          (blur)="onImpuestoBlur(i, estado_aprobado)"
-                          class="disabled-cursor"
-                          [ngClass]="{
-                            'bg-transparent': estado_aprobado,
-                            'text-white':
-                              theme_value === 'dark' && estado_aprobado
-                          }"
-                          >{{ detalle.value.total }}</textarea
-                        >
-                      </td>
-                      <td class="text-center" *ngIf="!estado_aprobado">
-                        <i
-                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                          (click)="eliminarProducto(i, detalle.value.id)"
-                        ></i>
-                      </td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-            <div class="d-flex justify-content-end mb-5">
-              <table>
-                <tr *ngIf="totalCantidad > 0">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                  ></td>
-                  <td class="text-end">{{ totalCantidad }}</td>
-                </tr>
-                <tr *ngIf="subtotalGeneral > 0">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                  ></td>
-                  <td class="text-end">
-                    {{ subtotalGeneral | currency : "$" }}
-                  </td>
-                </tr>
-                <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
-                  <td class="text-end">{{ impuesto.key }}</td>
-                  <td class="text-end">
-                    {{ impuesto.value.total | currency : "$" }}
-                  </td>
-                </tr>
-                <tr *ngIf="totalDescuento > 0">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                  ></td>
-                  <td class="text-end">
-                    {{ totalDescuento | currency : "$" }}
-                  </td>
-                </tr>
-                <tr *ngIf="totalImpuestos > 0">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                  ></td>
-                  <td class="text-end">
-                    {{ totalImpuestos | currency : "$" }}
-                  </td>
-                </tr>
-                <tr class="border-top">
-                  <td
-                    class="text-end"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                  ></td>
-                  <td class="text-end" style="padding-left: 24px">
-                    {{ totalGeneral | currency : "$" }}
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-          ></a>
-          <ng-template ngbNavContent> </ng-template>
-        </li>
-      </ul>
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
-    </div>
-  </div>
-  <!-- <div class="d-flex">
-    <code>
-      <pre>
-      {{ formularioFactura.value | json }}
-    </pre
-      >
-    </code>
-    <code>
-      <pre>
-      {{ acumuladorImpuestos | keyvalue | json }}
-    </pre
-      >
-    </code>
-  </div> -->
-  <div class="d-flex justify-content-end mb-10" *ngIf="!estado_aprobado">
+  <div class="d-flex mb-2">
+    <app-comun-btn-atras />
     <button
       type="submit"
       class="btn btn-primary btn-sm"
       #btnGuardar
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      [disabled]="!formularioFactura.dirty && !formularioFactura.touched"
     ></button>
   </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+        {{ modelo }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()"
+              (keyup)="consultarCliente($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFactura.controls['contacto'].touched &&
+                  formularioFactura.controls['contacto'].invalid,
+                'is-valid':
+                  formularioFactura.controls['contacto'].touched &&
+                  formularioFactura.controls['contacto'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2x"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contacto of arrMovimientosClientes">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contacto', contacto)"
+              >
+                {{ contacto.contacto_id }} -
+                {{ contacto.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'Contacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  actualizarFormulario($event, 'contacto')
+                "
+              >
+              </app-comun-buscar-avanzado>
+            </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['contacto']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
+          ></label>
+          <input
+            formControlName="fecha"
+            #fecha
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['fecha'].touched &&
+                formularioFactura.controls['fecha'].invalid,
+              'is-valid':
+                formularioFactura.controls['fecha'].touched &&
+                formularioFactura.controls['fecha'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['fecha']
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioFactura.controls.fecha?.touched &&
+              formularioFactura.controls.fecha?.hasError(
+                'fechaSuperiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
+          ></label>
+          <input
+            formControlName="fecha_vence"
+            class="form-control"
+            type="date"
+            [min]="fecha.value"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['fecha_vence'].touched &&
+                formularioFactura.controls['fecha_vence'].invalid,
+              'is-valid':
+                formularioFactura.controls['fecha_vence'].touched &&
+                formularioFactura.controls['fecha_vence'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['fecha_vence']
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioFactura.controls.fecha_vence?.touched &&
+              formularioFactura.controls.fecha_vence?.hasError(
+                'fechaVenceInferiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div
+          class="col-md-6 col-sm-12"
+          ngbDropdown
+          #MetodoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
+          ></label>
+          <div class="position-relative">
+            <input
+              formControlName="metodo_pago_nombre"
+              class="form-control"
+              type="text"
+              autocomplete="off"
+              ngbDropdownAnchor
+              (focus)="consultarMetodo($event); MetodoDropdown.open()"
+              (keyup)="consultarMetodo($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFactura.controls['metodo_pago'].touched &&
+                  formularioFactura.controls['metodo_pago'].invalid,
+                'is-valid':
+                  formularioFactura.controls['metodo_pago'].touched &&
+                  formularioFactura.controls['metodo_pago'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2x"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let metodoPago of arrMetodosPago">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
+              >
+                {{ metodoPago.metodo_pago_id }} -
+                {{ metodoPago.metodo_pogo_nombre }}
+              </button>
+            </ng-container>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['metodo_pago']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            [(activeId)]="active"
+            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+          >
+            <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="table-responsive-sm">
+                  <table
+                    id="tableDetalles"
+                    class="table table-row-dashed table-row-gray-500"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
+                        ></th>
+                        <th class="text-center" *ngIf="!estado_aprobado">
+                          <button
+                            (click)="agregarProductos()"
+                            class="btn btn-sm btn-primary"
+                            type="button"
+                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                          ></button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="detalles">
+                      <ng-container
+                        *ngFor="let detalle of detalles.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <tr>
+                          <td>{{ detalle.value.id }}</td>
+                          <td>
+                            <app-comun-productos
+                              [itemNombre]="detalle.value.item_nombre"
+                              (emitirArrItems)="
+                                agregarItemSeleccionado($event, i)
+                              "
+                              [estado_aprobado]="estado_aprobado"
+                            ></app-comun-productos>
+                          </td>
+                          <td>
+                            <textarea
+                              formControlName="cantidad"
+                              [value]="detalle.value.cantidad"
+                              (change)="
+                                actualizarDetalle(i, 'cantidad', $event)
+                              "
+                              [attr.disabled]="estado_aprobado"
+                              [readonly]="estado_aprobado"
+                              [ngClass]="{
+                                'disabled-cursor bg-transparent':
+                                  estado_aprobado,
+                                'text-white':
+                                  theme_value === 'dark' && estado_aprobado
+                              }"
+                              rows="1"
+                              spellcheck="true"
+                              appSoloNumeros
+                            ></textarea>
+                          </td>
+                          <td>
+                            <textarea
+                              formControlName="precio"
+                              [value]="detalle.value.precio"
+                              (change)="actualizarDetalle(i, 'precio', $event)"
+                              [attr.disabled]="estado_aprobado"
+                              [readonly]="estado_aprobado"
+                              [ngClass]="{
+                                'disabled-cursor bg-transparent':
+                                  estado_aprobado,
+                                'text-white':
+                                  theme_value === 'dark' && estado_aprobado
+                              }"
+                              rows="1"
+                              spellcheck="true"
+                              appSoloNumeros
+                            ></textarea>
+                          </td>
+                          <td class="containerDescuento">
+                            <div class="column1">
+                              <textarea
+                                formControlName="descuento"
+                                [value]="detalle.value.descuento"
+                                (change)="
+                                  actualizarDetalle(i, 'descuento', $event)
+                                "
+                                [attr.disabled]="estado_aprobado"
+                                [readonly]="estado_aprobado"
+                                [ngClass]="{
+                                  'disabled-cursor bg-transparent':
+                                    estado_aprobado,
+                                  'text-white':
+                                    theme_value === 'dark' && estado_aprobado
+                                }"
+                                rows="1"
+                                spellcheck="true"
+                                appSoloNumeros
+                              ></textarea>
+                            </div>
+                            <div class="column2">%</div>
+                          </td>
+                          <td>
+                            <textarea
+                              class="form-control form-control-sm"
+                              disabled
+                              rows="1"
+                              spellcheck="true"
+                              class="disabled-cursor bg-transparent"
+                              [ngClass]="{
+                                'disabled-cursor bg-transparent':
+                                  estado_aprobado,
+                                'text-white bg-transparent':
+                                  theme_value === 'dark'
+                              }"
+                              readonly
+                              >{{ detalle.value.subtotal }}</textarea
+                            >
+                          </td>
+                          <td>
+                            <app-comun-impuestos
+                              (emitirImpuestoAgregado)="
+                                agregarImpuesto($event, i, 'agregar')
+                              "
+                              (emitirImpuestoElimiando)="
+                                removerImpuesto($event, i)
+                              "
+                              [arrLista]="detalles.controls[i].value.impuestos"
+                              [estado_aprobado]="!estado_aprobado"
+                            ></app-comun-impuestos>
+                          </td>
+                          <td>
+                            <textarea
+                              readonly
+                              rows="1"
+                              spellcheck="true"
+                              (blur)="onImpuestoBlur(i, estado_aprobado)"
+                              class="disabled-cursor"
+                              [ngClass]="{
+                                'bg-transparent': estado_aprobado,
+                                'text-white':
+                                  theme_value === 'dark' && estado_aprobado
+                              }"
+                              >{{ detalle.value.total }}</textarea
+                            >
+                          </td>
+                          <td class="text-center" *ngIf="!estado_aprobado">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="eliminarProducto(i, detalle.value.id)"
+                            ></i>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mb-5">
+                  <table>
+                    <tr *ngIf="totalCantidad > 0">
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
+                      ></td>
+                      <td class="text-end">{{ totalCantidad }}</td>
+                    </tr>
+                    <tr *ngIf="subtotalGeneral > 0">
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                      ></td>
+                      <td class="text-end">
+                        {{ subtotalGeneral | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
+                      <td class="text-end">{{ impuesto.key }}</td>
+                      <td class="text-end">
+                        {{ impuesto.value.total | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="totalDescuento > 0">
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalDescuento | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="totalImpuestos > 0">
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalImpuestos | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr class="border-top">
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
+                      ></td>
+                      <td class="text-end" style="padding-left: 24px">
+                        {{ totalGeneral | currency : "$" }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+              ></a>
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+  </app-card>
 </form>
 <ng-template
   #formError

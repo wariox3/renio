@@ -23,26 +23,30 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { BtnAtrasComponent } from "../../../../../comun/componentes/btn-atras/btn-atras.component";
+import { CardComponent } from "../../../../../comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-factura-formulario',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
-    BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-  ],
-  templateUrl: './factura-formulario.component.html',
-  styleUrls: ['./factura-formulario.component.scss'],
+    selector: 'app-factura-formulario',
+    standalone: true,
+    templateUrl: './factura-formulario.component.html',
+    styleUrls: ['./factura-formulario.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        NgbDropdownModule,
+        NgbNavModule,
+        TablaComponent,
+        ImpuestosComponent,
+        ProductosComponent,
+        BuscarAvanzadoComponent,
+        SoloNumerosDirective,
+        BtnAtrasComponent,
+        CardComponent
+    ]
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;
@@ -74,7 +78,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrMetodosPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
-  accion: 'nuevo' | 'detalle';
   estado_aprobado: false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
@@ -89,8 +92,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.initForm();
     this.active = 1;
-    this.accion = this.activatedRoute.snapshot.queryParams['accion'];
-    if (this.activatedRoute.snapshot.queryParams['detalle']) {
+    if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }

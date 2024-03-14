@@ -329,7 +329,7 @@ export const locale = {
         SUBTOTAL: 'Subtotal',
         IMPUESTO: 'Tax',
         TOTAL: 'Total',
-        APR: 'Approved',
+        ESTADO_APROBADO: 'Approved',
         CONTACTO: 'contact',
         DOCUMENTO_TIPO: 'document type',
         METODO_PAGO: 'payment method',

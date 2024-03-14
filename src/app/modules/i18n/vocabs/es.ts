@@ -333,7 +333,7 @@ export const locale = {
         SUBTOTAL: 'Subtotal',
         IMPUESTO: 'Impuesto',
         TOTAL: 'Total',
-        APR: 'Apr',
+        ESTADO_APROBADO: 'Apr',
         CONTACTO: 'Contacto',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',

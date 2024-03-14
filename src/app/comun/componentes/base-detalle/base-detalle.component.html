@@ -1,8 +1,8 @@
 <div class="container-grid">
   <div class="ayuda">
-    <app-comun-btn-atras />
-    <ng-container *ngIf="tipo === 'Documento'">
-      <div class="btn-group btn-sm" role="group" aria-label="Basic example">
+    <div class="btn-group btn-sm" role="group" aria-label="Basic example">
+      <app-comun-btn-atras />
+      <ng-container *ngIf="tipo === 'Documento'">
         <button
           type="button"
           class="btn btn-sm btn-primary"
@@ -35,24 +35,22 @@
         <button type="button" class="btn btn-sm btn-primary" (click)="emitir()">
           {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
         </button>
-      </div>
-      <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">
-        <span
-          *ngIf="documentoEstados$.estados.estado_aprobado"
-          class="badge badge-secondary"
-          >Aprobado</span
-        >
       </ng-container>
+    </div>
+    <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">
+      <span
+        *ngIf="documentoEstados$.estados.estado_aprobado"
+        class="badge badge-secondary"
+        >Aprobado</span
+      >
     </ng-container>
   </div>
   <div class="formulario">
-    <div
-      class="page-title gap-4 me-3 mb-5 mb-lg-2"
-    >
-     <h1 class="text-gray-900 fw-bolder m-0">
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
-     </h1>
+    <div class="page-title gap-4 me-3 mb-5 mb-lg-2">
+      <h1 class="text-gray-900 fw-bolder m-0">
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+      </h1>
     </div>
     <div #dynamicComponentContainer></div>
   </div>
