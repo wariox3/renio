@@ -139,34 +139,40 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   navegarNuevo() {
-    this.router.navigate(['/nuevo'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.modelo,
-        tipo: this.tipo,
-      },
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate(['/nuevo'], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+        },
+      });
     });
   }
 
   navegarEditar(id: number) {
-    this.router.navigate(['/editar'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.modelo,
-        tipo: this.tipo,
-        detalle: id,
-      },
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate(['/editar'], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+        },
+      });
     });
   }
 
   navegarDetalle(id: number) {
-    this.router.navigate(['/detalle'], {
-      queryParams: {
-        modulo: this.modulo,
-        modelo: this.modelo,
-        tipo: this.tipo,
-        detalle: id,
-      },
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate(['/detalle'], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+        },
+      });
     });
   }
 
