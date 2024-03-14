@@ -23,30 +23,30 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { BtnAtrasComponent } from "../../../../../comun/componentes/btn-atras/btn-atras.component";
-import { CardComponent } from "../../../../../comun/componentes/card/card.component";
+import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '../../../../../comun/componentes/card/card.component';
 
 @Component({
-    selector: 'app-factura-formulario',
-    standalone: true,
-    templateUrl: './factura-formulario.component.html',
-    styleUrls: ['./factura-formulario.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        NgbDropdownModule,
-        NgbNavModule,
-        TablaComponent,
-        ImpuestosComponent,
-        ProductosComponent,
-        BuscarAvanzadoComponent,
-        SoloNumerosDirective,
-        BtnAtrasComponent,
-        CardComponent
-    ]
+  selector: 'app-factura-formulario',
+  standalone: true,
+  templateUrl: './factura-formulario.component.html',
+  styleUrls: ['./factura-formulario.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    TablaComponent,
+    ImpuestosComponent,
+    ProductosComponent,
+    BuscarAvanzadoComponent,
+    SoloNumerosDirective,
+    BtnAtrasComponent,
+    CardComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;
@@ -107,60 +107,63 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
-    this.formularioFactura = this.formBuilder.group({
-      empresa: [1],
-      contacto: ['', Validators.compose([Validators.required])],
-      contactoNombre: [''],
-      numero: [null],
-      fecha: [
-        fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      fecha_vence: [
-        fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      metodo_pago: ['', Validators.compose([Validators.required])],
-      metodo_pago_nombre: [''],
-      total: [0],
-      subtotal: [0],
-      detalles: this.formBuilder.array([]),
-    },
-    {
-      validator: this.validarFecha,
-    });
+    this.formularioFactura = this.formBuilder.group(
+      {
+        empresa: [1],
+        contacto: ['', Validators.compose([Validators.required])],
+        contactoNombre: [''],
+        numero: [null],
+        fecha: [
+          fechaVencimientoInicial,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        fecha_vence: [
+          fechaVencimientoInicial,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        metodo_pago: ['', Validators.compose([Validators.required])],
+        metodo_pago_nombre: [''],
+        total: [0],
+        subtotal: [0],
+        detalles: this.formBuilder.array([]),
+      },
+      {
+        validator: this.validarFecha,
+      }
+    );
   }
 
-  validarFecha(control: AbstractControl){
-    const fecha = control.get('fecha')?.value
-    const fecha_vence = control.get('fecha_vence')?.value
+  validarFecha(control: AbstractControl) {
+    const fecha = control.get('fecha')?.value;
+    const fecha_vence = control.get('fecha_vence')?.value;
 
-    if(fecha > fecha_vence){
+    if (fecha > fecha_vence) {
       control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
     } else {
-      if (control.get('fecha_vence')?.getError("fechaVenceInferiorNoValida")) {
+      if (control.get('fecha_vence')?.getError('fechaVenceInferiorNoValida')) {
         control.get('fecha_vence')?.setErrors(null);
       }
     }
 
-    if(fecha_vence < fecha){
-      control.get('fecha_vence')?.setErrors({ fechaVenceInferiorNoValida: true });
+    if (fecha_vence < fecha) {
+      control
+        .get('fecha_vence')
+        ?.setErrors({ fechaVenceInferiorNoValida: true });
     } else {
-      if ( control.get('fecha')?.getError("fechaSuperiorNoValida")) {
+      if (control.get('fecha')?.getError('fechaSuperiorNoValida')) {
         control.get('fecha')?.setErrors(null);
       }
     }
-
   }
 
   get detalles() {
@@ -171,7 +174,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.formularioFactura.valid) {
       if (this.detalle == undefined) {
         this.facturaService
-          .guardarFactura(this.formularioFactura.value)
+          .guardarFactura({
+            ...this.formularioFactura.value,
+            ...{
+              base_impuesto: this.formularioFactura.value.subtotal
+            }
+          })
           .pipe(
             tap((respuesta) => {
               this.router.navigate(['/detalle'], {
@@ -312,7 +320,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
-    this.calcularTotales()
+    this.calcularTotales();
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
@@ -357,7 +365,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura.patchValue({
       total: this.totalGeneral,
       subtotal: this.subtotalGeneral,
-    })
+    });
   }
 
   eliminarProducto(index: number, id: number | null) {
@@ -707,11 +715,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
 
-        this.store.dispatch(documentosEstadosAction({estados:{
-          estado_aprobado: respuesta.documento.estado_aprobado,
-          estado_emitido: respuesta.documento.estado_aprobado
-        }}));
-
+        this.store.dispatch(
+          documentosEstadosAction({
+            estados: {
+              estado_aprobado: respuesta.documento.estado_aprobado,
+              estado_emitido: respuesta.documento.estado_aprobado,
+            },
+          })
+        );
 
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
