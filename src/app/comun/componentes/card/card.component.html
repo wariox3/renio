@@ -2,10 +2,14 @@
   <div class="card-header">
     <div class="card-title m-0">
       <h3 class="card-title">
-        {{titulo | translate}}
+        <ng-container *ngIf="titulo">
+          {{titulo | translate}}
+        </ng-container>
+        <ng-content select="[card-titulo]"></ng-content>
       </h3>
     </div>
   </div>
+
   <div class="card-body">
     <ng-content select="[card-body]"></ng-content>
   </div>

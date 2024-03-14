@@ -1,53 +1,57 @@
-<div class="row mb-5">
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
-      class="fw-semibold text-gray-600 fs-7"
-    ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ item.nombre }}</p>
-  </div>
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
-      class="fw-semibold text-gray-600 fs-7"
-    >
-    </label>
-    <p class="fw-bold text-gray-800 fs-6">{{ item.codigo }}</p>
-  </div>
-</div>
-<div class="row mb-5">
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
-      class="fw-semibold text-gray-600 fs-7"
-    ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ item.referencia }}</p>
-  </div>
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
-      class="fw-semibold text-gray-600 fs-7"
-    ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ item.precio }}</p>
-  </div>
-</div>
-<div class="row mb-5">
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-      class="fw-semibold text-gray-600 fs-7"
-    ></label>
-    <li *ngFor="let impuesto of item.impuestos">
-      <span class="fw-bold text-gray-800 fs-6">{{
-        impuesto.impuesto_nombre_extendido
-      }}</span>
-    </li>
-  </div>
-  <div class="col-md-6 col-sm-12">
-    <label
-      translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
-      class="fw-semibold text-gray-600 fs-7"
-    ></label>
-    <p class="fw-bold text-gray-800 fs-6">{{ item.costo }}</p>
-  </div>
-</div>
+<app-card [titulo]="'información general'">
+  <section card-body>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.nombre }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+          class="fw-semibold text-gray-600 fs-7"
+        >
+        </label>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.codigo }}</p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.referencia }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.precio }}</p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <li *ngFor="let impuesto of item.impuestos">
+          <span class="fw-bold text-gray-800 fs-6">{{
+            impuesto.impuesto_nombre_extendido
+          }}</span>
+        </li>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.costo }}</p>
+      </div>
+    </div>
+  </section>
+</app-card>

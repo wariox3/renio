@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -21,10 +14,13 @@ import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { tap } from 'rxjs';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @Component({
   selector: 'app-item-formulario',
   standalone: true,
+  templateUrl: './item-formulario.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -32,8 +28,9 @@ import { tap } from 'rxjs';
     TranslateModule,
     TranslationModule,
     ImpuestosComponent,
+    BtnAtrasComponent,
+    CardComponent,
   ],
-  templateUrl: './item-formulario.component.html',
 })
 export default class ItemFormularioComponent extends General implements OnInit {
   formularioItem: FormGroup;

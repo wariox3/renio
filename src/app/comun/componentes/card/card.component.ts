@@ -11,6 +11,6 @@ import { TranslationModule } from '@modulos/i18n';
 })
 export class CardComponent {
 
-  @Input() titulo: string = '';
+  @Input() titulo?: string = '';
 
 }

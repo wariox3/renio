@@ -1,40 +1,26 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
-import { tap } from 'rxjs';
-import { Item } from '@interfaces/general/item';
+import { CardComponent } from "@comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-item-detalle',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-    ImpuestosComponent,
-  ],
-  templateUrl: './item-detalle.component.html',
+    selector: 'app-item-detalle',
+    standalone: true,
+    templateUrl: './item-detalle.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        ImpuestosComponent,
+        CardComponent
+    ]
 })
 export default class ItemDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
@@ -53,7 +39,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
     nombre_extendido: '',
     porcentaje_total: 0,
     venta: false,
-    compra: false
+    compra: false,
   };
   @Input() informacionFormulario: any;
   @ViewChild('inputImpuestos', { static: false })
