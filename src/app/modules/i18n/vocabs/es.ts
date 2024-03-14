@@ -321,6 +321,9 @@ export const locale = {
       },
     },
     LISTAS: {
+      COMUNES: {
+        CARGANDOTABLA: "Cargando"
+      },
       FACTURA: {
         ID: 'ID',
         NUMERO: 'Número',

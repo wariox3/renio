@@ -93,6 +93,9 @@
   </div>
 </div>
 <div class="table-responsive table-loading">
+  <div class="table-loading-message" *ngIf="cargandoTabla">
+    {{ "LISTAS.COMUNES.CARGANDOTABLA" | translate }}
+  </div>
   <table
     class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
   >

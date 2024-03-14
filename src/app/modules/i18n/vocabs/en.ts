@@ -317,6 +317,9 @@ export const locale = {
       },
     },
     LISTAS: {
+      COMUNES: {
+        CARGANDOTABLA: "Loading"
+      },
       FACTURA: {
         ID: 'ID',
         NUMERO: 'Number',

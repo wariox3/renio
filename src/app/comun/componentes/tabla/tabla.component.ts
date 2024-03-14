@@ -18,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
+import { interval, take } from 'rxjs';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -47,10 +48,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   cargandoDatos = false;
   arrRegistrosEliminar: number[] = [];
   selectAll = false;
+  cargandoTabla = false;
   encabezadoTestCopia: any;
   camposVisibles: any;
   datosFiltrados: any = [];
-  claveLocalStore: string
+  claveLocalStore: string;
   @Input() encabezado: Listafiltros[] = [];
   @Input() encabezadoTest: any;
   @Input() modelo: string;
@@ -69,7 +71,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`
+      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -87,6 +89,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   construirTabla() {
+    this.cargandoTabla = true;
     // se reinicia la tabla
     this.datosFiltrados = [];
     //se usa para listar las columnas
@@ -123,6 +126,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         }
       }
     }
+
+    interval(800)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.cargandoTabla = false;
+        this.changeDetectorRef.detectChanges();
+      });
+
     // Detecta los cambios y actualiza la vista
     this.changeDetectorRef.detectChanges();
   }
