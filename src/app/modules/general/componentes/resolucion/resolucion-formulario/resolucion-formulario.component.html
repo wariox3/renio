@@ -1,185 +1,322 @@
 <form [formGroup]="formularioResolucion" (ngSubmit)="enviarFormulario()">
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO" class="form-label required"></label>
-      <input formControlName="prefijo" class="form-control bg-transparent" type="email" autocomplete="off" [ngClass]="{
+  <div class="d-flex mb-2">
+    <app-comun-btn-atras />
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+        {{ modelo }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="prefijo"
+            class="form-control bg-transparent"
+            type="email"
+            autocomplete="off"
+            [ngClass]="{
               'is-invalid':
-              formularioResolucion.controls['prefijo'].touched &&
+                formularioResolucion.controls['prefijo'].touched &&
                 formularioResolucion.controls['prefijo'].invalid,
               'is-valid':
                 formularioResolucion.controls['prefijo'].touched &&
                 formularioResolucion.controls['prefijo'].valid
-            }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioResolucion.controls['prefijo']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioResolucion.controls['prefijo']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioResolucion.controls['prefijo']
-            }"></ng-container>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO" class="form-label required"></label>
-      <input formControlName="numero" class="form-control bg-transparent" type="email" autocomplete="off" [ngClass]="{
-                'is-invalid':
-                formularioResolucion.controls['numero'].touched &&
-                  formularioResolucion.controls['numero'].invalid,
-                'is-valid':
-                  formularioResolucion.controls['numero'].touched &&
-                  formularioResolucion.controls['numero'].valid
-              }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioResolucion.controls['numero']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '100',
-                control: formularioResolucion.controls['numero']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                control: formularioResolucion.controls['numero']
-              }"></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE" class="form-label required"></label>
-      <input formControlName="consecutivo_desde" class="form-control bg-transparent" type="number" autocomplete="off"
-        [ngClass]="{
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="numero"
+            class="form-control bg-transparent"
+            type="email"
+            autocomplete="off"
+            [ngClass]="{
               'is-invalid':
-              formularioResolucion.controls['consecutivo_desde'].touched &&
+                formularioResolucion.controls['numero'].touched &&
+                formularioResolucion.controls['numero'].invalid,
+              'is-valid':
+                formularioResolucion.controls['numero'].touched &&
+                formularioResolucion.controls['numero'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioResolucion.controls['numero']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioResolucion.controls['numero']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioResolucion.controls['numero']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="consecutivo_desde"
+            class="form-control bg-transparent"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioResolucion.controls['consecutivo_desde'].touched &&
                 formularioResolucion.controls['consecutivo_desde'].invalid,
               'is-valid':
                 formularioResolucion.controls['consecutivo_desde'].touched &&
                 formularioResolucion.controls['consecutivo_desde'].valid
-            }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioResolucion.controls['consecutivo_desde']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioResolucion.controls['consecutivo_desde']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioResolucion.controls['consecutivo_desde']
-            }"></ng-container>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA" class="form-label required"></label>
-      <input formControlName="consecutivo_hasta" class="form-control bg-transparent" type="number" autocomplete="off"
-        [ngClass]="{
-                'is-invalid':
-                formularioResolucion.controls['consecutivo_hasta'].touched &&
-                  formularioResolucion.controls['consecutivo_hasta'].invalid,
-                'is-valid':
-                  formularioResolucion.controls['consecutivo_hasta'].touched &&
-                  formularioResolucion.controls['consecutivo_hasta'].valid
-              }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioResolucion.controls['consecutivo_hasta']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '100',
-                control: formularioResolucion.controls['consecutivo_hasta']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                control: formularioResolucion.controls['consecutivo_hasta']
-              }"></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE" class="form-label required"></label>
-      <input #fechaDesde formControlName="fecha_desde" class="form-control bg-transparent" type="date" autocomplete="off" [ngClass]="{
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="consecutivo_hasta"
+            class="form-control bg-transparent"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
               'is-invalid':
-              formularioResolucion.controls['fecha_desde'].touched &&
+                formularioResolucion.controls['consecutivo_hasta'].touched &&
+                formularioResolucion.controls['consecutivo_hasta'].invalid,
+              'is-valid':
+                formularioResolucion.controls['consecutivo_hasta'].touched &&
+                formularioResolucion.controls['consecutivo_hasta'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioResolucion.controls['consecutivo_hasta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioResolucion.controls['consecutivo_hasta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioResolucion.controls['consecutivo_hasta']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+            class="form-label required"
+          ></label>
+          <input
+            #fechaDesde
+            formControlName="fecha_desde"
+            class="form-control bg-transparent"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioResolucion.controls['fecha_desde'].touched &&
                 formularioResolucion.controls['fecha_desde'].invalid,
               'is-valid':
                 formularioResolucion.controls['fecha_desde'].touched &&
                 formularioResolucion.controls['fecha_desde'].valid
-            }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioResolucion.controls['fecha_desde']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioResolucion.controls['fecha_desde']
-            }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioResolucion.controls['fecha_desde']
-            }"></ng-container>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA" class="form-label required"></label>
-      <input formControlName="fecha_hasta" class="form-control bg-transparent" type="date" 
-        [min]="fechaDesde.value"
-
-        [ngClass]="{
-                'is-invalid':
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="fecha_hasta"
+            class="form-control bg-transparent"
+            type="date"
+            [min]="fechaDesde.value"
+            [ngClass]="{
+              'is-invalid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
-                  formularioResolucion.controls['fecha_hasta'].invalid,
-                'is-valid':
-                  formularioResolucion.controls['fecha_hasta'].touched &&
-                  formularioResolucion.controls['fecha_hasta'].valid
-              }" />
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioResolucion.controls['fecha_hasta']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '100',
-                control: formularioResolucion.controls['fecha_hasta']
-              }"></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                control: formularioResolucion.controls['fecha_hasta']
-              }"></ng-container>
-    </div>
-  </div>
-  <div class="fv-row d-flex justify-content-end">
-    <button type="submit" class="btn btn-primary btn-sm" #btnGuardar
-      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"></button>
-  </div>
+                formularioResolucion.controls['fecha_hasta'].invalid,
+              'is-valid':
+                formularioResolucion.controls['fecha_hasta'].touched &&
+                formularioResolucion.controls['fecha_hasta'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioResolucion.controls['fecha_hasta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioResolucion.controls['fecha_hasta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioResolucion.controls['fecha_hasta']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
 </form>
-<ng-template #formError let-control="control" let-message="message" let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>

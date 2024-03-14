@@ -5,19 +5,23 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
+import { BtnAtrasComponent } from "../../../../../comun/componentes/btn-atras/btn-atras.component";
+import { CardComponent } from "../../../../../comun/componentes/card/card.component";
 
 @Component({
-  selector: 'app-resolucion-nuevo',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-  ],
-  templateUrl: './resolucion-formulario.component.html',
-  styleUrls: ['./resolucion-formulario.component.scss']
+    selector: 'app-resolucion-nuevo',
+    standalone: true,
+    templateUrl: './resolucion-formulario.component.html',
+    styleUrls: ['./resolucion-formulario.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        BtnAtrasComponent,
+        CardComponent
+    ]
 })
 export default class ResolucionFormularioComponent extends General implements OnInit {
   formularioResolucion: FormGroup;
