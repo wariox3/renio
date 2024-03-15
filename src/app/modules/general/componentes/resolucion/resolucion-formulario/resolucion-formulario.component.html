@@ -55,15 +55,7 @@
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioResolucion.controls['prefijo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              cantidadCaracteres: '10',
               control: formularioResolucion.controls['prefijo']
             }"
           ></ng-container>
@@ -140,16 +132,6 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['consecutivo_desde']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
               control: formularioResolucion.controls['consecutivo_desde']
             }"
           ></ng-container>
@@ -342,6 +324,14 @@
               {{ "FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRODUCCION" | translate }}
             </option>
           </select>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioResolucion.controls['ambiente']
+          }"
+        ></ng-container>
         </div>
       </div>
     </section>

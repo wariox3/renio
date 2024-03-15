@@ -46,8 +46,7 @@ export default class ResolucionFormularioComponent extends General implements On
         '',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(/^[0-9]+$/),
+          Validators.maxLength(10),
         ]),
       ],
       numero: [
@@ -59,23 +58,34 @@ export default class ResolucionFormularioComponent extends General implements On
       consecutivo_desde: [
         null,
         Validators.compose([
+          Validators.required,
           Validators.pattern(/^[0-9]*$/),
         ]),
       ],
       consecutivo_hasta: [
         null,
         Validators.compose([
+          Validators.required,
           Validators.pattern(/^[0-9]*$/),
         ]),
       ],
       fecha_desde: [
-        null
+        null,
+        Validators.compose([
+          Validators.required,
+        ]),
       ],
       fecha_hasta: [
-        null
+        null,
+        Validators.compose([
+          Validators.required,
+        ]),
       ],
       ambiente: [
-        null
+        null,
+        Validators.compose([
+          Validators.required,
+        ]),
       ]
     })
 
@@ -86,44 +96,49 @@ export default class ResolucionFormularioComponent extends General implements On
   }
 
   enviarFormulario(){
-    if(this.detalle){
-      this.resolucionService.actualizarDatos(this.detalle, this.formularioResolucion.value)
-      .subscribe((respuesta: any)=>{
-        this.formularioResolucion.patchValue({
-          prefijo: respuesta.prefijo,
-          numero: respuesta.numero,
-          consecutivo_desde: respuesta.consecutivo_desde,
-          consecutivo_hasta: respuesta.consecutivo_hasta,
-          fecha_desde: respuesta.fecha_desde,
-          fecha_hasta: respuesta.fecha_hasta,
-        });
-        this.alertaService.mensajaExitoso('Se actualizo la información');
-        this.router.navigate(['/detalle'], {
-          queryParams: {
-            modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-            modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-            tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-            formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-            detalle: respuesta.id,
-            accion: 'detalle',
-          },
-        });
-      })
+    if (this.formularioResolucion.valid) {
+      if(this.detalle){
+        this.resolucionService.actualizarDatos(this.detalle, this.formularioResolucion.value)
+        .subscribe((respuesta: any)=>{
+          this.formularioResolucion.patchValue({
+            prefijo: respuesta.prefijo,
+            numero: respuesta.numero,
+            consecutivo_desde: respuesta.consecutivo_desde,
+            consecutivo_hasta: respuesta.consecutivo_hasta,
+            fecha_desde: respuesta.fecha_desde,
+            fecha_hasta: respuesta.fecha_hasta,
+          });
+          this.alertaService.mensajaExitoso('Se actualizo la información');
+          this.router.navigate(['/detalle'], {
+            queryParams: {
+              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+              detalle: respuesta.id,
+              accion: 'detalle',
+            },
+          });
+        })
+      } else {
+        this.resolucionService.guardarResolucion(this.formularioResolucion.value)
+        .subscribe((respuesta:any) => {
+          this.alertaService.mensajaExitoso('Se actualizo la información');
+          this.router.navigate(['/detalle'], {
+            queryParams: {
+              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+              detalle: respuesta.id,
+              accion: 'detalle',
+            },
+          });
+        })
+  
+      }
     } else {
-      this.resolucionService.guardarResolucion(this.formularioResolucion.value)
-      .subscribe((respuesta:any) => {
-        this.alertaService.mensajaExitoso('Se actualizo la información');
-        this.router.navigate(['/detalle'], {
-          queryParams: {
-            modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-            modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-            tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-            formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-            detalle: respuesta.id,
-            accion: 'detalle',
-          },
-        });
-      })
+      this.formularioResolucion.markAllAsTouched();
 
     }
   }
