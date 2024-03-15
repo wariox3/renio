@@ -11,7 +11,6 @@ import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports';
 import { HttpService } from '@comun/services/http.service';
-import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
 import { BtnAtrasComponent } from "../btn-atras/btn-atras.component";
 
@@ -19,7 +18,6 @@ import { BtnAtrasComponent } from "../btn-atras/btn-atras.component";
     selector: 'app-comun-base-detalle',
     standalone: true,
     templateUrl: './base-detalle.component.html',
-    styleUrls: ['./base-detalle.component.scss'],
     imports: [CommonModule, RouterModule, TranslateModule, TranslationModule, BtnAtrasComponent]
 })
 export class BaseDetalleComponent extends General implements AfterViewInit {
