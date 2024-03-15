@@ -15,7 +15,7 @@ export class AlertaService {
       icon: 'error',
       position: 'bottom-right',
       toast: true,
-      timer: 35000,
+      timer: 20000,
       showConfirmButton: true,
       timerProgressBar: true,
       confirmButtonText: "Cerrar",
