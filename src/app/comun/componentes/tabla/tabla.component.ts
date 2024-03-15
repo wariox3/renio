@@ -301,29 +301,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   getTipoDato(valor: any, key: string) {
-    let tipo = typeof valor;
-    switch (tipo) {
-      case 'number':
-        const identificadores = [
-          'id',
-          'descuento',
-          'impuesto',
-          'contacto',
-          'documento_tipo',
-          'metodo_pago',
-        ];
-        if (!identificadores.includes(key)) {
-          let formattedAmount = this.currencyPipe.transform(
-            valor,
-            'COP',
-            'symbol',
-            '1.0-0'
-          );
-          return formattedAmount;
-        } else {
-          return valor;
-        }
-      case 'boolean':
+    let campo  = this.camposVisibles.find((campoVisible: any)=> {
+      if(campoVisible.nombre == key.toUpperCase() && campoVisible.visibleTabla === true){
+        return campoVisible
+      }
+    })
+    switch (campo.tipo) {
+      case 'Booleano':
         return valor ? 'Si' : 'No';
       default:
         return valor;
