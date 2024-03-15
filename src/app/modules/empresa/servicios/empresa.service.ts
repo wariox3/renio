@@ -35,4 +35,9 @@ export class EmpresaService {
     });
   }
 
+  activarEmpresa(empresa_id: Number | string){
+    return this.httpService.post('general/empresa/activar/', {
+      empresa_id
+    })
+  }
 }

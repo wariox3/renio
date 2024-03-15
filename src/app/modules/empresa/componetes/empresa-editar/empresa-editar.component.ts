@@ -198,4 +198,9 @@ export class EmpresaEditarComponent extends General implements OnInit {
       digito_verificacion: digito,
     });
   }
+
+
+  activarEmpresa(){
+    this.empresaService.activarEmpresa(this.empresa_id).subscribe()
+  }
 }

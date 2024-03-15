@@ -31,10 +31,18 @@
             {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
           </ng-template>
         </button>
-
+        <div
+          *ngIf="
+            documentoEstados$ &&
+            documentoEstados$.estados &&
+            documentoEstados$.estados.estado_aprobado
+          "
+        >
         <button type="button" class="btn btn-sm btn-primary" (click)="emitir()">
           {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
         </button>
+        </div>
+
       </ng-container>
     </div>
     <ng-container *ngIf="documentoEstados$ && documentoEstados$.estados">

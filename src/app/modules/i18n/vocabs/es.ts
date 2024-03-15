@@ -71,6 +71,9 @@ export const locale = {
         AUTENTIFICACION: {
           CREARCUENTA: 'Crear cuenta',
         },
+        EMPRESA: {
+          ACTIVAR: 'Activar'
+        }
       },
       TITULOS: {
         COMUNES: {

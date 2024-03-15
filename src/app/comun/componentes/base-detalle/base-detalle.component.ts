@@ -34,10 +34,6 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
 
   ngAfterViewInit() {
     this.loadComponente();
-    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
-      this.documentoEstados$ = estadosDocumento;
-      this.changeDetectorRef.detectChanges();
-    });
   }
 
   async loadComponente() {
@@ -45,6 +41,10 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
     let componete = await (await Componetes[posicion].detalle).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
+    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
+      this.documentoEstados$ = estadosDocumento;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   aprobar() {
@@ -58,7 +58,7 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
 
   emitir() {
     this.httpService
-      .post('general/documento/emitir/', { id: this.detalle })
+      .post('general/documento/emitir/', { documento_id: this.detalle })
       .subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Documento aprobado');
         window.location.reload();

@@ -1,4 +1,4 @@
-type ObjetoEjemplo = {
+type FormulariosYDetallesAsíncronos = {
   [key: string]: {
     detalle: Promise<{ default: any }>;
     formulario: Promise<{ default: any }>;
@@ -7,6 +7,7 @@ type ObjetoEjemplo = {
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;
+      aplicaFormatoNumerico?: boolean;
       tipo:
         | 'IntegerField'
         | 'FloatField'
@@ -17,7 +18,7 @@ type ObjetoEjemplo = {
   };
 };
 
-export const Componetes: ObjetoEjemplo = {
+export const Componetes: FormulariosYDetallesAsíncronos = {
   Contacto: {
     detalle: import(
       '../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
@@ -327,6 +328,7 @@ export const Componetes: ObjetoEjemplo = {
         tipo: 'FloatField',
         visibleTabla: true,
         visibleFiltro: false,
+        aplicaFormatoNumerico: true,
         ordenable: false,
       },
       {
@@ -341,6 +343,7 @@ export const Componetes: ObjetoEjemplo = {
         tipo: 'FloatField',
         visibleTabla: true,
         visibleFiltro: false,
+        aplicaFormatoNumerico: true,
         ordenable: false,
       },
       {
