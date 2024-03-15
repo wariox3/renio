@@ -6,8 +6,6 @@
     >
       <div class="col-5" [formGroupName]="i">
         <app-base-filtro-formulario
-          [modelo]="modelo"
-          [propiedades]="propiedades"
           [datosSeleccionados]="filtrosAplicados[i]"
           (dataPropiedad)="actualizarPropiedad($event, i)"
           (dataOperador)="actualizarOperador($event, i)"

@@ -4,7 +4,6 @@
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
       <section card-body>
         <app-base-filtro
-          [propiedades]="titulos"
           (emitirFiltros)="obtenerFiltros($event)"
         ></app-base-filtro>
       </section>

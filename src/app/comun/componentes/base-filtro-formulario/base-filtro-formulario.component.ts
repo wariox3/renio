@@ -1,14 +1,14 @@
+import { General } from '@comun/clases/general';
 import {
   Component,
   EventEmitter,
   Output,
   Input,
-  OnInit,
   OnChanges,
   SimpleChanges,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Listafiltros } from '@interfaces/comunes/filtros';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 
@@ -18,9 +18,11 @@ import { TranslationModule } from '@modulos/i18n';
   imports: [CommonModule, TranslateModule, TranslationModule],
   templateUrl: './base-filtro-formulario.component.html',
 })
-export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
-  @Input() propiedades: any[];
-  @Input() modelo: string;
+export class BaseFiltroFormularioComponent extends General implements OnInit, OnChanges {
+  claveLocalStore: string;
+  camposVisibles: any;
+  //@Input() propiedades: any[];
+  modelo: string;
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
@@ -121,7 +123,14 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
 
   criteriosBusqueda: { valor: string; texto: string }[] = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
+      this.modelo = parametro.modelo
+      this.construirFiltros();
+    });
+
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.propiedades && changes.propiedades.currentValue) {
@@ -132,6 +141,16 @@ export class BaseFiltroFormularioComponent implements OnInit, OnChanges {
         this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.tipo];
       }
     }
+  }
+
+  construirFiltros() {
+    //se crean los datos que se visualizan en los options del select
+    this.camposVisibles = JSON.parse(
+      localStorage.getItem(this.claveLocalStore)!
+    ).filter(
+      (titulo: any) => titulo.visibleFiltro === true
+    );
+    this.changeDetectorRef.detectChanges()
   }
 
   propiedadSeleccionada(event: any): void {

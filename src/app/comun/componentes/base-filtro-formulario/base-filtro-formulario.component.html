@@ -7,9 +7,8 @@
       <option value="">
         {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
       </option>
-      <ng-container *ngFor="let propiedad of propiedades">
+      <ng-container *ngFor="let propiedad of camposVisibles">
         <option
-          *ngIf="propiedad.visibleFiltro"
           [value]="propiedad.tipo"
           [selected]="propiedad.nombre === datosSeleccionados?.nombre"
           [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
