@@ -1,53 +1,79 @@
 <app-card [titulo]="'información general'">
   <section card-body>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.prefijo }}</p>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.prefijo }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.numero }}</p>
+      </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.numero }}</p>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ resolucion.consecutivo_desde }}
+        </p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ resolucion.consecutivo_hasta }}
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.consecutivo_desde }}</p>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_hasta }}</p>
+      </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.consecutivo_hasta }}</p>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
-    </div>
-    <div class="col-md-6 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
-        class="fw-semibold text-gray-600 fs-7"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_hasta }}</p>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.AMBIENTE"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
 
+        <p class="fw-bold text-gray-800 fs-6">
+          {{
+            resolucion.ambiente === "2"
+              ? ("FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRUEBA" | translate)
+              : ("FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRODUCCION" | translate)
+          }}
+        </p>
+      </div>
     </div>
-  </div>
   </section>
 </app-card>

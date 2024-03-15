@@ -5,14 +5,13 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
-import { BtnAtrasComponent } from "../../../../../comun/componentes/btn-atras/btn-atras.component";
-import { CardComponent } from "../../../../../comun/componentes/card/card.component";
+import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
+import { CardComponent } from "@comun/componentes/card/card.component";
 
 @Component({
     selector: 'app-resolucion-nuevo',
     standalone: true,
     templateUrl: './resolucion-formulario.component.html',
-    styleUrls: ['./resolucion-formulario.component.scss'],
     imports: [
         CommonModule,
         FormsModule,
@@ -75,6 +74,9 @@ export default class ResolucionFormularioComponent extends General implements On
       fecha_hasta: [
         null
       ],
+      ambiente: [
+        null
+      ]
     })
 
   }
@@ -96,6 +98,16 @@ export default class ResolucionFormularioComponent extends General implements On
           fecha_hasta: respuesta.fecha_hasta,
         });
         this.alertaService.mensajaExitoso('Se actualizo la información');
+        this.router.navigate(['/detalle'], {
+          queryParams: {
+            modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+            modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+            tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+            formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+            detalle: respuesta.id,
+            accion: 'detalle',
+          },
+        });
       })
     } else {
       this.resolucionService.guardarResolucion(this.formularioResolucion.value)
@@ -127,6 +139,7 @@ export default class ResolucionFormularioComponent extends General implements On
         consecutivo_hasta: respuesta.consecutivo_hasta,
         fecha_desde: respuesta.fecha_desde,
         fecha_hasta: respuesta.fecha_hasta,
+        ambiente: respuesta.ambiente
       })
       this.changeDetectorRef.detectChanges();
 

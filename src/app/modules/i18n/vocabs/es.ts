@@ -236,6 +236,9 @@ export const locale = {
             PREFIJO: 'Prefijo',
             CONSECUTIVODESDE: 'Consecutivo desde',
             CONSECUTIVOHASTA: 'Consecutivo hasta',
+            AMBIENTE: 'Ambiente',
+            PRODUCCION: 'Producción',
+            PRUEBA: 'Prueba',
           },
         },
         FACTURA: {
