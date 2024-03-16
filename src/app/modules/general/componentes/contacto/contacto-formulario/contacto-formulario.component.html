@@ -521,7 +521,7 @@
                   CiudadDropdown.close()
                 "
               >
-                {{ ciudad.ciudad_id }} - {{ ciudad.ciudad_nombre }}
+                {{ ciudad.ciudad_nombre }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -577,6 +577,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            (blur)="modificarCampoFormulario('barrio', null)"
             [ngClass]="{
               'is-invalid':
                 formularioContacto.controls['barrio'].touched &&

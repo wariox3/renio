@@ -73,7 +73,6 @@ export default class ContactoDetalleComponent
     this.contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta) => {
-        console.log(respuesta);
         this.contacto = respuesta;
         this.changeDetectorRef.detectChanges();
       });

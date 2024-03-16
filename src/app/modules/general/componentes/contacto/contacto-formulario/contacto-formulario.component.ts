@@ -76,8 +76,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    this.iniciarFormulario();
     this.consultarInformacion();
+    this.iniciarFormulario();
     if (this.detalle) {
       this.consultardetalle();
     }
@@ -154,7 +154,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
       codigo_ciuu: ['', Validators.compose([Validators.maxLength(200)])],
-      barrio: ['', Validators.compose([Validators.maxLength(200)])],
+      barrio: [null, Validators.compose([Validators.maxLength(200)])],
       precio: [null],
       plazo_pago: [null],
       asesor: [null],
@@ -458,10 +458,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
-      this.formularioContacto.get(campo)?.setValue(dato.ciudad_id);
       this.formularioContacto
         .get('ciudad_nombre')
         ?.setValue(dato.ciudad_nombre);
+    }
+    if (campo === 'barrio') {
+      if(this.formularioContacto.get(campo)?.value === ''){
+        this.formularioContacto.get(campo)?.setValue(null);
+      }
     }
     this.changeDetectorRef.detectChanges();
   }
