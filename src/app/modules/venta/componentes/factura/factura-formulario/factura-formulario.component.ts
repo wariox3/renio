@@ -19,12 +19,12 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -90,6 +90,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     super();
   }
   ngOnInit() {
+    this.consultarInformacion();
     this.initForm();
     this.active = 1;
     if (this.detalle) {
@@ -143,6 +144,33 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     );
   }
 
+  consultarInformacion() {
+    zip(
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__contains',
+              propiedad: 'nombre__contains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'MetodoPago',
+        }
+      )
+    ).subscribe((respuesta: any) => {
+      this.arrMetodosPago = respuesta[0].registros;
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
   validarFecha(control: AbstractControl) {
     const fecha = control.get('fecha')?.value;
     const fecha_vence = control.get('fecha_vence')?.value;
@@ -177,8 +205,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           .guardarFactura({
             ...this.formularioFactura.value,
             ...{
-              base_impuesto: this.formularioFactura.value.subtotal
-            }
+              base_impuesto: this.formularioFactura.value.subtotal,
+            },
           })
           .pipe(
             tap((respuesta) => {
@@ -660,39 +688,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
-  consultarMetodo(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre__contains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'MetodoPago',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMetodosPago = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
       )

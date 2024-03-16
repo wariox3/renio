@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { Resolucion } from '@interfaces/general/resolucion';
-import { CardComponent } from "../../../../../comun/componentes/card/card.component";
+import { CardComponent } from "@comun/componentes/card/card.component";
 
 @Component({
     selector: 'app-resolucion-nuevo',

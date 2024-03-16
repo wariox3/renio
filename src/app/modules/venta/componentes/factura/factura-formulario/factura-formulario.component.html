@@ -59,7 +59,6 @@
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_id }} -
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
@@ -191,44 +190,31 @@
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
           ></label>
-          <div class="position-relative">
-            <input
-              formControlName="metodo_pago_nombre"
-              class="form-control"
-              type="text"
-              autocomplete="off"
-              ngbDropdownAnchor
-              (focus)="consultarMetodo($event); MetodoDropdown.open()"
-              (keyup)="consultarMetodo($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioFactura.controls['metodo_pago'].touched &&
-                  formularioFactura.controls['metodo_pago'].invalid,
-                'is-valid':
-                  formularioFactura.controls['metodo_pago'].touched &&
-                  formularioFactura.controls['metodo_pago'].valid
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2x"></i>
-            </div>
-          </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
+          <select
+            class="form-select"
+            formControlName="metodo_pago"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].invalid,
+              'is-valid':
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].valid
+            }"
           >
-            <ng-container *ngFor="let metodoPago of arrMetodosPago">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('metodo_pago', metodoPago)"
-              >
-                {{ metodoPago.metodo_pago_id }} -
-                {{ metodoPago.metodo_pogo_nombre }}
-              </button>
-            </ng-container>
-          </div>
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let metodoPago of arrMetodosPago"
+              [value]="metodoPago.metodo_pago_id"
+              [selected]="
+                metodoPago.metodo_pago_id === formularioFactura.controls.metodo_pago_id
+              "
+            >
+              {{ metodoPago.metodo_pogo_nombre }}
+            </option>
+          </select>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

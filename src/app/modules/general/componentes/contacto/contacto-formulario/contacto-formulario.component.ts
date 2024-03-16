@@ -54,7 +54,6 @@ import { CardComponent } from '@comun/componentes/card/card.component';
     CardComponent,
   ],
 })
-
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
   arrCiudades: any[];

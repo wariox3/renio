@@ -12,7 +12,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { CardComponent } from "../../../../../comun/componentes/card/card.component";
+import { CardComponent } from "@comun/componentes/card/card.component";
 
 @Component({
     selector: 'app-factura-detalle',
