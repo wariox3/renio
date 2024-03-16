@@ -27,7 +27,7 @@ table#tableDetalles {
     align-items: center; /* Esto centra verticalmente el contenido */
   }
 
-  textarea {
+  td input {
     border-width: 0px;
     padding: 0px;
     resize: none;
@@ -47,14 +47,6 @@ table#tableDetalles {
 
   .disabled-cursor {
     cursor: not-allowed;
-  }
-
-  td.containerDescuento {
-    display: grid;
-    grid-template-columns: 98% 2%;
-    justify-content: center;
-    align-items: center;
-    border:0
   }
 
 }

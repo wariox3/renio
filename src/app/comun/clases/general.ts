@@ -35,6 +35,7 @@ export class General {
         this.modelo = queryParam['modelo'];
         this.tipo = queryParam['tipo'];
         this.detalle = queryParam['detalle'];
+        this.changeDetectorRef.detectChanges
       }
     );
 

@@ -224,59 +224,63 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           )
           .subscribe();
       } else {
-        if (this.formularioFactura.touched && this.formularioFactura.dirty) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
-              this.detalles.clear();
-              respuesta.documento.detalles.forEach(
-                (detalle: any, indexDetalle: number) => {
-                  const detalleFormGroup = this.formBuilder.group({
-                    item: [detalle.item],
-                    cantidad: [detalle.cantidad],
-                    precio: [detalle.precio],
-                    porcentaje_descuento: [detalle.porcentaje_descuento],
-                    descuento: [detalle.descuento],
-                    subtotal: [detalle.subtotal],
-                    total_bruto: [detalle.total_bruto],
-                    total: [detalle.total],
-                    neto: [detalle.total],
-                    item_nombre: [detalle.item_nombre],
-                    impuestos: this.formBuilder.array([]),
-                    impuestos_eliminados: this.formBuilder.array([]),
-                    id: [detalle.id],
-                  });
+        this.facturaService
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioFactura.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
+          .subscribe((respuesta) => {
+            this.detalles.clear();
+            respuesta.documento.detalles.forEach(
+              (detalle: any, indexDetalle: number) => {
+                const detalleFormGroup = this.formBuilder.group({
+                  item: [detalle.item],
+                  cantidad: [detalle.cantidad],
+                  precio: [detalle.precio],
+                  porcentaje_descuento: [detalle.porcentaje_descuento],
+                  descuento: [detalle.descuento],
+                  subtotal: [detalle.subtotal],
+                  total_bruto: [detalle.total_bruto],
+                  total: [detalle.total],
+                  neto: [detalle.total],
+                  item_nombre: [detalle.item_nombre],
+                  impuestos: this.formBuilder.array([]),
+                  impuestos_eliminados: this.formBuilder.array([]),
+                  id: [detalle.id],
+                });
 
-                  if (detalle.impuestos.length === 0) {
-                    const cantidad = detalleFormGroup.get('cantidad')?.value;
-                    const precio = detalleFormGroup.get('precio')?.value;
-                    const neto = cantidad * precio;
-                    detalleFormGroup.get('neto')?.setValue(neto);
-                  }
-
-                  this.detalles.push(detalleFormGroup);
-
-                  detalle.impuestos.forEach((impuesto: any, index: number) => {
-                    this.agregarImpuesto(
-                      impuesto,
-                      indexDetalle,
-                      'actualizacion'
-                    );
-                  });
+                if (detalle.impuestos.length === 0) {
+                  const cantidad = detalleFormGroup.get('cantidad')?.value;
+                  const precio = detalleFormGroup.get('precio')?.value;
+                  const neto = cantidad * precio;
+                  detalleFormGroup.get('neto')?.setValue(neto);
                 }
-              );
-              this.detalle = respuesta.documento.id;
 
-              this.arrDetallesEliminado = [];
-              this.calcularTotales();
-              this.formularioFactura.markAsPristine();
-              this.formularioFactura.markAsUntouched();
-              this.changeDetectorRef.detectChanges();
+                this.detalles.push(detalleFormGroup);
+
+                detalle.impuestos.forEach((impuesto: any, index: number) => {
+                  this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
+                });
+              }
+            );
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.documento.id,
+                accion: 'detalle',
+              },
             });
-        }
+            // this.detalle = respuesta.documento.id;
+
+            // this.arrDetallesEliminado = [];
+            // this.calcularTotales();
+            // this.formularioFactura.markAsPristine();
+            // this.formularioFactura.markAsUntouched();
+            // this.changeDetectorRef.detectChanges();
+          });
       }
     } else {
       this.formularioFactura.markAllAsTouched();

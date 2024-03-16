@@ -209,7 +209,8 @@
               *ngFor="let metodoPago of arrMetodosPago"
               [value]="metodoPago.metodo_pago_id"
               [selected]="
-                metodoPago.metodo_pago_id === formularioFactura.controls.metodo_pago_id
+                metodoPago.metodo_pago_id ===
+                formularioFactura.controls.metodo_pago_id
               "
             >
               {{ metodoPago.metodo_pogo_nombre }}
@@ -297,12 +298,14 @@
                             ></app-comun-productos>
                           </td>
                           <td>
-                            <textarea
-                              formControlName="cantidad"
+                            <input
+                              type="text"
                               [value]="detalle.value.cantidad"
+                              formControlName="cantidad"
                               (change)="
                                 actualizarDetalle(i, 'cantidad', $event)
                               "
+                              class="form-control-sm"
                               [attr.disabled]="estado_aprobado"
                               [readonly]="estado_aprobado"
                               [ngClass]="{
@@ -314,15 +317,16 @@
                               rows="1"
                               spellcheck="true"
                               appSoloNumeros
-                            ></textarea>
+                            />
                           </td>
                           <td>
-                            <textarea
+                            <input
                               formControlName="precio"
                               [value]="detalle.value.precio"
                               (change)="actualizarDetalle(i, 'precio', $event)"
                               [attr.disabled]="estado_aprobado"
                               [readonly]="estado_aprobado"
+                              class="form-control-sm"
                               [ngClass]="{
                                 'disabled-cursor bg-transparent':
                                   estado_aprobado,
@@ -332,11 +336,11 @@
                               rows="1"
                               spellcheck="true"
                               appSoloNumeros
-                            ></textarea>
+                            />
                           </td>
-                          <td class="containerDescuento">
-                            <div class="column1">
-                              <textarea
+                          <td>
+                            <div class="position-relative">
+                              <input
                                 formControlName="descuento"
                                 [value]="detalle.value.descuento"
                                 (change)="
@@ -344,6 +348,7 @@
                                 "
                                 [attr.disabled]="estado_aprobado"
                                 [readonly]="estado_aprobado"
+                                class="form-control-sm"
                                 [ngClass]="{
                                   'disabled-cursor bg-transparent':
                                     estado_aprobado,
@@ -353,17 +358,22 @@
                                 rows="1"
                                 spellcheck="true"
                                 appSoloNumeros
-                              ></textarea>
+                              />
+                              <div
+                                class="position-absolute translate-middle-y top-50 end-0 me-3"
+                              >
+                                <i class="bi bi-percent"></i>
+                              </div>
                             </div>
-                            <div class="column2">%</div>
                           </td>
                           <td>
-                            <textarea
+                            <input
                               class="form-control form-control-sm"
                               disabled
                               rows="1"
                               spellcheck="true"
                               class="disabled-cursor bg-transparent"
+                              class="form-control-sm"
                               [ngClass]="{
                                 'disabled-cursor bg-transparent':
                                   estado_aprobado,
@@ -371,8 +381,8 @@
                                   theme_value === 'dark'
                               }"
                               readonly
-                              >{{ detalle.value.subtotal }}</textarea
-                            >
+                              [value]="detalle.value.subtotal"
+                            />
                           </td>
                           <td>
                             <app-comun-impuestos
@@ -387,19 +397,20 @@
                             ></app-comun-impuestos>
                           </td>
                           <td>
-                            <textarea
+                            <input
                               readonly
                               rows="1"
                               spellcheck="true"
                               (blur)="onImpuestoBlur(i, estado_aprobado)"
                               class="disabled-cursor"
+                              class="form-control-sm"
                               [ngClass]="{
                                 'bg-transparent': estado_aprobado,
                                 'text-white':
                                   theme_value === 'dark' && estado_aprobado
                               }"
-                              >{{ detalle.value.total }}</textarea
-                            >
+                              [value]="detalle.value.total"
+                            />
                           </td>
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i
