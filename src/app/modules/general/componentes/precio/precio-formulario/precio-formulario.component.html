@@ -186,6 +186,7 @@
                         <th
                           translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
                         ></th>
+                        <td></td>
                         <th class="text-center">
                           <button
                             (click)="agregarProductos()"
@@ -223,64 +224,17 @@
                               appSoloNumeros
                             />
                           </td>
+                          <td class="text-center">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="eliminarProducto(i, detalle.value.id)"
+                            ></i>
+                          </td>
                         </tr>
                       </ng-container>
                     </tbody>
                   </table>
                 </div>
-                <!-- <div class="d-flex justify-content-end mb-5">
-                  <table>
-                    <tr *ngIf="totalCantidad > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                      ></td>
-                      <td class="text-end">{{ totalCantidad }}</td>
-                    </tr>
-                    <tr *ngIf="subtotalGeneral > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                      ></td>
-                      <td class="text-end">
-                        {{ subtotalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
-                      <td class="text-end">{{ impuesto.key }}</td>
-                      <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalDescuento > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalDescuento | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalImpuestos > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalImpuestos | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr class="border-top">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                      ></td>
-                      <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                  </table>
-                </div> -->
               </ng-template>
             </li>
           </ul>

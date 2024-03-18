@@ -150,4 +150,8 @@ export default class PrecioFormularioComponent
     this.formularioPrecio.markAsDirty();
     this.changeDetectorRef.detectChanges();
   }
+
+  eliminarProducto(index: number, id: number | null) {
+    this.detalles.removeAt(index);
+  }
 }
