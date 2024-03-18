@@ -78,6 +78,7 @@ export class AlertaService {
     confirmButtonText: string,
     cancelButtonText: string
   ) {
+
     const mensaje = await Swal.fire({
       title,
       icon: 'warning',
