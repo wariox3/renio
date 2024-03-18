@@ -5,6 +5,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { General } from '@comun/clases/general';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -13,10 +14,14 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProductosComponent } from '../../../../../comun/componentes/productos/productos.component';
 
 @Component({
   selector: 'app-precio-formulario',
   standalone: true,
+  templateUrl: './precio-formulario.component.html',
+  styleUrls: ['./precio-formulario.component.scss'],
   imports: [
     CommonModule,
     BtnAtrasComponent,
@@ -25,14 +30,16 @@ import { TranslationModule } from '@modulos/i18n';
     ReactiveFormsModule,
     TranslateModule,
     TranslationModule,
+    NgbNavModule,
+    ProductosComponent,
   ],
-  templateUrl: './precio-formulario.component.html',
 })
 export default class PrecioFormularioComponent
   extends General
   implements OnInit
 {
   formularioPrecio: FormGroup;
+  active: Number = 1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +63,12 @@ export default class PrecioFormularioComponent
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
       fecha_vence: [null, Validators.compose([Validators.required])],
+      detalles: this.formBuilder.array([]),
     });
+  }
+
+  get detalles() {
+    return this.formularioPrecio.get('detalles') as FormArray;
   }
 
   enviarFormulario() {
@@ -111,5 +123,31 @@ export default class PrecioFormularioComponent
 
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  agregarProductos() {
+    const detalleFormGroup = this.formBuilder.group({
+      item: [null],
+      item_nombre: [null],
+      item_precio: [null],
+      id: [null],
+    });
+    this.formularioPrecio.markAsDirty();
+    this.formularioPrecio?.markAsTouched();
+
+    this.detalles.push(detalleFormGroup);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarItemSeleccionado(item: any, index: number) {
+    this.detalles.controls[index].patchValue({
+      item: item.id,
+      item_nombre: item.nombre,
+      item_precio: item.precio,
+    });
+
+    this.formularioPrecio.markAsTouched();
+    this.formularioPrecio.markAsDirty();
+    this.changeDetectorRef.detectChanges();
   }
 }
