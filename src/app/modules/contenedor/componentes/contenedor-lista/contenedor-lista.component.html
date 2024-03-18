@@ -38,7 +38,9 @@
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngIf="arrContenedores.length > 0; else sinContenedores">
+              <ng-container
+                *ngIf="arrContenedores.length > 0; else sinContenedores"
+              >
                 <tr
                   *ngFor="let contenedor of arrContenedores"
                   style="height: calc(82px - 0.6rem) !important"
@@ -150,7 +152,7 @@
                               translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
                               (click)="
                                 eliminarEmpresa(
-                                  contenedor.nombre,
+                                  contenedor.subdominio,
                                   contenedor.contenedor_id
                                 )
                               "

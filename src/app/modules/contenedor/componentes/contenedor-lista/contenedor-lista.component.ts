@@ -90,7 +90,7 @@ export class ContenedorListaComponent extends General implements OnInit {
       });
   }
 
-  eliminarEmpresa(contenedor_nombre: string | null, empresa_id: Number) {
+  eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {
     const mensajes = this.translateService.instant([
       'FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORTITULO',
       'FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORSUBTITULO',
@@ -101,7 +101,7 @@ export class ContenedorListaComponent extends General implements OnInit {
 
     this.alertaService
       .mensajeEliminarEmpresa(
-        contenedor_nombre,
+        empresa_subdominio,
         mensajes['FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORTITULO'],
         mensajes['FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORSUBTITULO'],
         mensajes['FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORAYUDA'],
@@ -110,7 +110,7 @@ export class ContenedorListaComponent extends General implements OnInit {
       )
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
-          if (respuesta.value === contenedor_nombre) {
+          if (respuesta.value === empresa_subdominio) {
             let suscripcion = this.contenedorService
               .eliminarEmpresa(empresa_id)
               .pipe(
