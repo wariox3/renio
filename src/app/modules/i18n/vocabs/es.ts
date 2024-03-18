@@ -29,6 +29,8 @@ export const locale = {
         ITEM: 'Ítem',
         CONTACTO: 'Contacto',
         RESOLUCION: 'Resolución',
+        PRECIO: 'Lista de precios',
+        ASESOR: 'Asesor',
       },
     },
     FORMULARIOS: {
@@ -382,6 +384,14 @@ export const locale = {
         FECHA_DESDE: 'Fecha desde',
         FECHA_HASTA: 'Fecha hasta',
         AMBIENTE: 'Ambiente'
+      },
+      ASESOR: {
+        ID: 'ID',
+      },
+      PRECIO: {
+        ID: 'ID',
+        TIPO: 'Tipo',
+        FECHA_VENCE: 'Fecha vence'
       },
     },
     TEMA: {

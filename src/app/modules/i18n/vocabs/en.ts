@@ -29,6 +29,8 @@ export const locale = {
         ITEM: 'Item',
         CONTACTO: 'Contact',
         RESOLUCION: 'Resolution',
+        PRECIO: 'Price list',
+        ASESOR: 'Consultant',
       },
     },
     FORMULARIOS: {
@@ -377,6 +379,11 @@ export const locale = {
         'CONSECUTIVO_HASTA': 'Consecutive to',
         'FECHA_DESDE': 'Date from',
         'FECHA:HASTA': 'Date to',
+      },
+      PRECIO: {
+        ID: 'ID',
+        TIPO: 'Type',
+        FECHA_VENCE: 'Date expires'
       },
     },
     TEMA: {

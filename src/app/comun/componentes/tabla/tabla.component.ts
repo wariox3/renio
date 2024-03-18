@@ -103,7 +103,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     );
 
     //se  construye el tbody de la tabla
-
     // Recorre todas las claves en el objeto "camposVisibles"
     for (let clave in this.camposVisibles) {
       // Obtiene el nombre de la clave actual y lo convierte a minúsculas
@@ -306,11 +305,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         return campoVisible
       }
     })
-    switch (campo.tipo) {
-      case 'Booleano':
-        return valor ? 'Si' : 'No';
-      default:
-        return valor;
+    if(campo){
+      switch (campo.campoTipo) {
+        case 'Booleano':
+          return valor ? 'Si' : 'No';
+        default:
+          return valor;
+      }
     }
   }
 
