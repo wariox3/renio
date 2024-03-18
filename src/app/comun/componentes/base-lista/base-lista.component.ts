@@ -133,6 +133,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   eliminarRegistros(data: Number[]) {
+
     if (data.length > 0) {
       if (this.tipo === 'Documento') {
         this.httpService
@@ -159,7 +160,7 @@ export class BaseListaComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'no se existen mensajes a eliminar'
+        'No se han seleccionado registros para eliminar'
       );
     }
   }
