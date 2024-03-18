@@ -4,12 +4,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-asesor-formulario',
   standalone: true,
-  template: '',
+  templateUrl: './asesor-formulario.component.html',
   imports: [
     CommonModule,
     FormsModule,
@@ -23,7 +24,8 @@ export default class AsesorFormularioComponent extends General implements OnInit
   formularioAsesor: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private asesorService: AsesorService
   ) {
     super();
   }
@@ -44,8 +46,67 @@ export default class AsesorFormularioComponent extends General implements OnInit
     })
   }
 
+  get obtenerFormularioCampos() {
+    return this.formularioAsesor.controls;
+  }
+
+  enviarFormulario() {
+    if (this.formularioAsesor.valid) {
+      if(this.detalle){
+        this.asesorService.actualizarDatos(this.detalle, this.formularioAsesor.value)
+        .subscribe((respuesta: any)=>{
+          this.formularioAsesor.patchValue({
+            nombre_corto: respuesta.nombre_corto,
+            celular: respuesta.celular,
+            correo: respuesta.correo,
+          });
+          this.alertaService.mensajaExitoso('Se actualizo la información');
+          this.router.navigate(['/detalle'], {
+            queryParams: {
+              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+              detalle: respuesta.id,
+              accion: 'detalle',
+            },
+          });
+        })
+      } else {
+        this.asesorService.guardarAsesor(this.formularioAsesor.value)
+        .subscribe((respuesta:any) => {
+          this.alertaService.mensajaExitoso('Se actualizo la información');
+          this.router.navigate(['/detalle'], {
+            queryParams: {
+              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+              detalle: respuesta.id,
+              accion: 'detalle',
+            },
+          });
+        })
+  
+      }
+    } else {
+      this.formularioAsesor.markAllAsTouched();
+
+    }
+  }
+
   consultarDetalle() {
-    
+    this.asesorService
+    .consultarDetalle(this.detalle)
+    .subscribe((respuesta: any) => {
+      this.formularioAsesor.patchValue({
+        nombre_corto: respuesta.nombre_corto,
+        celular: respuesta.celular,
+        correo: respuesta.correo,
+      });
+
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
 }

@@ -1,0 +1,157 @@
+<form [formGroup]="formularioAsesor" (ngSubmit)="enviarFormulario()">
+  <div class="d-flex mb-2">
+    <app-comun-btn-atras />
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+        {{ modelo }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="nombre_corto"
+            class="form-control bg-transparent"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioAsesor.controls['nombre_corto'].touched &&
+                formularioAsesor.controls['nombre_corto'].invalid,
+              'is-valid':
+                formularioAsesor.controls['nombre_corto'].touched &&
+                formularioAsesor.controls['nombre_corto'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAsesor.controls['nombre_corto']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CELULAR"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="celular"
+            class="form-control bg-transparent"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioAsesor.controls['celular'].touched &&
+                formularioAsesor.controls['celular'].invalid,
+              'is-valid':
+                formularioAsesor.controls['celular'].touched &&
+                formularioAsesor.controls['celular'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAsesor.controls['celular']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioAsesor.controls['celular']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAsesor.controls['celular']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="correo"
+            class="form-control bg-transparent"
+            type="email"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioAsesor.controls['correo'].touched &&
+                formularioAsesor.controls['correo'].invalid,
+              'is-valid':
+                formularioAsesor.controls['correo'].touched &&
+                formularioAsesor.controls['correo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAsesor.controls['correo']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAsesor.controls['correo']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
