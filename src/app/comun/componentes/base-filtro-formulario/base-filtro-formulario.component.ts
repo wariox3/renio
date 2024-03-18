@@ -138,7 +138,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
         (item: any) => item.nombre === this.datosSeleccionados?.propiedad
       );
       if (dato) {
-        this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.tipo];
+        this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.campoTipo];
       }
     }
   }

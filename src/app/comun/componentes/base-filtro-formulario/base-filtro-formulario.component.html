@@ -9,7 +9,7 @@
       </option>
       <ng-container *ngFor="let propiedad of camposVisibles">
         <option
-          [value]="propiedad.tipo"
+          [value]="propiedad.campoTipo"
           [selected]="propiedad.nombre === datosSeleccionados?.nombre"
           [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
         >
