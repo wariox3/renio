@@ -455,12 +455,16 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
       this.formularioContacto
         .get('ciudad_nombre')
         ?.setValue(dato.ciudad_nombre);
+      this.formularioContacto
+        .get('ciudad')
+        ?.setValue(dato.ciudad_id);
     }
     if (campo === 'barrio') {
       if(this.formularioContacto.get(campo)?.value === ''){
