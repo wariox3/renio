@@ -13,6 +13,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { CardComponent } from "@comun/componentes/card/card.component";
+import { BotoneraDetalleComponent } from "@comun/componentes/botonera-detalle/botonera-detalle.component";
 
 @Component({
     selector: 'app-factura-detalle',
@@ -32,10 +33,11 @@ import { CardComponent } from "@comun/componentes/card/card.component";
         ProductosComponent,
         BuscarAvanzadoComponent,
         SoloNumerosDirective,
-        CardComponent
+        CardComponent,
+        BotoneraDetalleComponent
     ]
 })
-export default class FacturaDetalleComponent extends General implements OnInit {
+export default class FacturaDetalleComponent extends General {
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -57,30 +59,26 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrMetodosPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
+  arrEstados = {
+    estado_aprobado: false
+  };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(private facturaService: FacturaService) {
     super();
-  }
-  ngOnInit() {
     this.consultardetalle();
   }
+
 
   consultardetalle() {
     this.facturaService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
-        this.store.dispatch(
-          documentosEstadosAction({
-            estados: {
-              estado_aprobado: respuesta.documento.estado_aprobado,
-              estado_emitido: respuesta.documento.estado_aprobado,
-            },
-          })
-        );
-
+        this.arrEstados = {
+          estado_aprobado: respuesta.documento.estado_aprobado,
+        }
         this.changeDetectorRef.detectChanges();
       });
   }

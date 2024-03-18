@@ -7,6 +7,7 @@ import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { CardComponent } from "@comun/componentes/card/card.component";
+import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
 
 @Component({
     selector: 'app-item-detalle',
@@ -19,7 +20,8 @@ import { CardComponent } from "@comun/componentes/card/card.component";
         TranslateModule,
         TranslationModule,
         ImpuestosComponent,
-        CardComponent
+        CardComponent,
+        BtnAtrasComponent
     ]
 })
 export default class ItemDetalleComponent extends General implements OnInit {

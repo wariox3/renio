@@ -7,12 +7,13 @@ import { PrecioService } from '@modulos/general/servicios/precio.service';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { TranslationModule } from '@modulos/i18n';
 import { TranslateModule } from '@ngx-translate/core';
+import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
 
 @Component({
-  selector: 'app-precio-detalle',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule, CardComponent],
-  templateUrl: './precio-detalle.component.html',
+    selector: 'app-precio-detalle',
+    standalone: true,
+    templateUrl: './precio-detalle.component.html',
+    imports: [CommonModule, TranslateModule, TranslationModule, CardComponent, BtnAtrasComponent]
 })
 export default class PrecioDetalleComponent extends General implements OnInit {
   precio: Precio = {

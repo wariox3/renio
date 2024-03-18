@@ -7,19 +7,21 @@ import { Asesor } from '@interfaces/general/Asesor';
 import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
 
 @Component({
-  selector: 'app-asesor-detalle',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgbDropdownMenu,
-    CardComponent
-  ],
-  templateUrl: './asesor-detalle.component.html',
+    selector: 'app-asesor-detalle',
+    standalone: true,
+    templateUrl: './asesor-detalle.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgbDropdownMenu,
+        CardComponent,
+        BtnAtrasComponent
+    ]
 })
 export default class AsesorDetalleComponent 
 extends General implements OnInit 

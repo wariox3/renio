@@ -9,22 +9,24 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
 
 @Component({
-  selector: 'app-contacto-detalle',
-  standalone: true,
-  templateUrl: './contacto-detalle.component.html',
-  styleUrls: ['./contacto-detalle.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TranslationModule,
-    NgbDropdownModule,
-    SoloNumerosDirective,
-    CardComponent,
-  ],
+    selector: 'app-contacto-detalle',
+    standalone: true,
+    templateUrl: './contacto-detalle.component.html',
+    styleUrls: ['./contacto-detalle.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        TranslationModule,
+        NgbDropdownModule,
+        SoloNumerosDirective,
+        CardComponent,
+        BtnAtrasComponent
+    ]
 })
 export default class ContactoDetalleComponent
   extends General

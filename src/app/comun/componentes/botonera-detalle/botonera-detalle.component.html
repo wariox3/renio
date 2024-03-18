@@ -1,0 +1,39 @@
+<div class="row mb-5 justify-content-between">
+  <div class="col">
+    <div class="btn-group btn-sm" role="group" aria-label="Basic example">
+      <app-comun-btn-atras />
+      <button
+        type="button"
+        class="btn btn-sm btn-primary"
+        (click)="aprobar()"
+        [disabled]="estados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success btn-sm"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+      >
+        <ng-container *ngIf="generarPDF; else elseTemplate">
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERANDO" | translate }}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+        </ng-template>
+      </button>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-primary" (click)="emitir()">
+          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col d-flex justify-content-end">
+    <ng-container *ngIf="estados.estado_aprobado">
+      <span class="badge badge-secondary">Aprobado</span>
+    </ng-container>
+  </div>
+</div>

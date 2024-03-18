@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -20,7 +21,7 @@ import { BtnAtrasComponent } from "../btn-atras/btn-atras.component";
     templateUrl: './base-detalle.component.html',
     imports: [CommonModule, RouterModule, TranslateModule, TranslationModule, BtnAtrasComponent]
 })
-export class BaseDetalleComponent extends General implements AfterViewInit {
+export class BaseDetalleComponent extends General implements OnInit {
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -30,7 +31,7 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
     super();
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.loadComponente();
   }
 
@@ -45,49 +46,4 @@ export class BaseDetalleComponent extends General implements AfterViewInit {
     });
   }
 
-  aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Documento aprobado');
-        window.location.reload();
-      });
-  }
-
-  emitir() {
-    this.httpService
-      .post('general/documento/emitir/', { documento_id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Documento aprobado');
-        window.location.reload();
-      });
-  }
-
-  imprimir() {
-    this.generarPDF = true;
-    this.httpService
-      .descargarArchivo('general/documento/imprimir/', {
-        filtros: [],
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: '',
-        tipo: '',
-        documento_tipo_id: 1,
-        documento_id: this.detalle,
-      })
-      .subscribe((data) => {
-        this.generarPDF = false;
-        this.changeDetectorRef.detectChanges();
-        const blob = new Blob([data], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      });
-  }
 }
