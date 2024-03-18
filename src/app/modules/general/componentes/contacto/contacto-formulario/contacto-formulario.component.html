@@ -704,6 +704,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            (blur)="modificarCampoFormulario('codigo_ciuu', null)"
             [ngClass]="{
               'is-invalid':
                 formularioContacto.controls['codigo_ciuu'].touched &&

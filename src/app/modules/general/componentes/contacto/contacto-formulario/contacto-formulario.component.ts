@@ -153,7 +153,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
-      codigo_ciuu: ['', Validators.compose([Validators.maxLength(200)])],
+      codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
       barrio: [null, Validators.compose([Validators.maxLength(200)])],
       precio: [null],
       plazo_pago: [null],
@@ -455,6 +455,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    console.log(campo, dato);
     
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
@@ -467,6 +468,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
         ?.setValue(dato.ciudad_id);
     }
     if (campo === 'barrio') {
+      if(this.formularioContacto.get(campo)?.value === ''){
+        this.formularioContacto.get(campo)?.setValue(null);
+      }
+    }
+    if (campo === 'codigo_ciuu') {
       if(this.formularioContacto.get(campo)?.value === ''){
         this.formularioContacto.get(campo)?.setValue(null);
       }
