@@ -245,6 +245,10 @@ export const locale = {
             PRODUCCION: 'Producción',
             PRUEBA: 'Prueba',
           },
+          PRECIO: {
+            TIPO: 'Tipo',
+            FECHAVENCE: 'Fecha vence'
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',
@@ -394,6 +398,7 @@ export const locale = {
       PRECIO: {
         ID: 'ID',
         TIPO: 'Tipo',
+        NOMBRE: 'Nombre',
         FECHA_VENCE: 'Fecha vence'
       },
     },

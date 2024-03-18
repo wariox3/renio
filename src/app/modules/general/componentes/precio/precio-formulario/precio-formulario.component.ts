@@ -4,12 +4,28 @@ import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { General } from '@comun/clases/general';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
 
 @Component({
   selector: 'app-precio-formulario',
   standalone: true,
-  imports: [CommonModule, BtnAtrasComponent, CardComponent],
+  imports: [
+    CommonModule,
+    BtnAtrasComponent,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+  ],
   templateUrl: './precio-formulario.component.html',
 })
 export default class PrecioFormularioComponent
@@ -34,26 +50,63 @@ export default class PrecioFormularioComponent
 
   iniciarFormulario() {
     this.formularioPrecio = this.formBuilder.group({
-      tipo: [''],
-      fecha_vence: [
+      tipo: ['', Validators.compose([Validators.required])],
+      nombre: [
         '',
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
+      fecha_vence: [null, Validators.compose([Validators.required])],
     });
   }
 
-  enviarFormulario() {}
+  enviarFormulario() {
+    if (this.formularioPrecio.valid) {
+      if (this.detalle) {
+        this.precioService
+          .actualizarDatos(this.detalle, this.formularioPrecio.value)
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.id,
+                accion: 'detalle',
+              },
+            });
+          });
+      } else {
+        this.precioService
+          .guardarPrecio(this.formularioPrecio.value)
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.id,
+                accion: 'detalle',
+              },
+            });
+          });
+      }
+    } else {
+      this.formularioPrecio.markAllAsTouched();
+    }
+  }
 
   consultardetalle() {
     this.precioService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioPrecio.patchValue({
-          codigo: respuesta.item.codigo,
-          nombre: respuesta.item.nombre,
-          referencia: respuesta.item.referencia,
-          precio: respuesta.item.precio,
-          costo: respuesta.item.costo,
+          nombre: respuesta.nombre,
+          tipo: respuesta.tipo,
+          fecha_vence: respuesta.fecha_vence,
         });
 
         this.changeDetectorRef.detectChanges();

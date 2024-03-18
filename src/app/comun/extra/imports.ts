@@ -371,6 +371,13 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         ordenable: true,
       },
       {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
         nombre: 'TIPO',
         campoTipo: 'CharField',
         visibleTabla: true,

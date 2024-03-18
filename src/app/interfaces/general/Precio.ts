@@ -1,5 +1,6 @@
 export interface Precio {
   readonly id: number;
   tipo: string;
-  fecha_desde: Date | undefined,
+  fecha_vence: Date | undefined,
+  nombre: string
 }
