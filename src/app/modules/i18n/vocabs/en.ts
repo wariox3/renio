@@ -380,6 +380,12 @@ export const locale = {
         'FECHA_DESDE': 'Date from',
         'FECHA:HASTA': 'Date to',
       },
+      ASESOR: {
+        ID: 'ID',
+        NOMBRE_CORTO: 'Name',
+        CORREO: 'Email',
+        CELULAR: 'Cell phone',
+      },
       PRECIO: {
         ID: 'ID',
         TIPO: 'Type',

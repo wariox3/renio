@@ -387,6 +387,9 @@ export const locale = {
       },
       ASESOR: {
         ID: 'ID',
+        NOMBRE_CORTO: 'Nombre',
+        CORREO: 'Correo',
+        CELULAR: 'Celular',
       },
       PRECIO: {
         ID: 'ID',

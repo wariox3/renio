@@ -233,13 +233,13 @@ export const initialState: Menu = {
               data: { formulario: 'ResolucionNuevo' },
             },
             {
-              nombre: 'precio',
+              nombre: 'Precio',
               url: 'lista',
               modelo: 'Precio',
               tipo: 'Administrador',
             },
             {
-              nombre: 'asesor',
+              nombre: 'Asesor',
               url: 'lista',
               modelo: 'Asesor',
               tipo: 'Administrador',

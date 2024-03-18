@@ -386,4 +386,42 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
       },
     ]
   },
+  Asesor: {
+    detalle: import(
+      '../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
+    ),
+    formulario: import(
+      '../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
+    ),
+    titulos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE_CORTO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CORREO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CELULAR',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+    ],
+  }
 };
