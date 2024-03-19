@@ -278,13 +278,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
   toggleSelectAll() {
-    // Alterna el estado de selección de todos los registros
-    this.selectAll = !this.selectAll;
-
     // Itera sobre todos los datos
     this.datosFiltrados.forEach((item: any) => {
       // Establece el estado de selección de cada registro
-      item.selected = this.selectAll;
+      item.selected = !item.selected;
       // Busca el índice del registro en el array de registros a eliminar
       const index = this.arrRegistrosEliminar.indexOf(item.id);
       // Si el registro ya estaba en el array de registros a eliminar, lo elimina
@@ -295,6 +292,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         this.arrRegistrosEliminar.push(item.id);
       }
     });
+    // Alterna el estado de selección de todos los registros
+    this.selectAll = !this.selectAll;
+
+    this.changeDetectorRef.detectChanges()
   }
 
   getTipoDato(valor: any, key: string) {

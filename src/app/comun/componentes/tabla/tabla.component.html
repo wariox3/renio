@@ -26,7 +26,6 @@
         <div class="dropdown-menu p-2" ngbDropdownMenu>
           <app-importar modelo="{{ modelo }}" ngbDropdownItem></app-importar>
           <button ngbDropdownItem>Exportar</button>
-
         </div>
       </div>
       <a
@@ -145,55 +144,72 @@
             </div>
           </th>
         </ng-container>
-
         <th colspan="2"></th>
         <th class="text-center">
-          <div
-            class="form-check form-check-custom form-check-danger form-check-solid"
-          >
+          <label [for]="selectAll">
+            <i
+              class="fa-regular fs-2x cursor-pointer"
+              [ngClass]="
+                checkboxSelectAll.checked
+                  ? 'fa-square-check text-danger'
+                  : 'fa-square text-gray-500'
+              "
+            ></i>
             <input
-              class="form-check-input cursor-pointer"
-              type="checkbox"
-              [checked]="selectAll"
-              (change)="toggleSelectAll()"
-            />
-          </div>
+            class="d-none"
+            type="checkbox"
+            #checkboxSelectAll
+            [id]="selectAll"
+            [checked]="selectAll"
+            [value]="selectAll"
+            (change)="toggleSelectAll()"
+          />
+          </label>
         </th>
       </tr>
     </thead>
+
     <tbody>
       <tr *ngFor="let item of datosFiltrados">
         <td *ngFor="let key of item | keys">
           {{ getTipoDato(item[key], key) }}
         </td>
         <td class="w-45px">
-          <button
+          <label
             (click)="navegarEditar(item.id)"
-            class="btn btn-link btn-active-color-primary me-5 mb-2"
+            class="cursor-pointer"
           >
-            <i class="fa-regular fa-pen-to-square fs-2x"></i>
-          </button>
+            <i class="fa-regular hover-primary fa-pen-to-square fs-2x"></i>
+          </label>
         </td>
         <td class="w-45px">
-          <button
+          <label
             (click)="navegarDetalle(item.id)"
-            class="btn btn-link btn-active-color-primary me-5 mb-2"
+            class="cursor-pointer"
           >
-            <i class="fa-regular fa-eye text-gray-500 fs-2x"></i>
-          </button>
+            <i class="fa-regular hover-primary fa-eye text-gray-500 fs-2x"></i>
+          </label>
         </td>
-        <td class="w-20px text-center">
-          <div
-            class="form-check form-check-custom form-check-danger form-check-solid"
-          >
+        <td class="w-20px">
+          <label [for]="item['id']">
+            <i
+              class="fa-regular fs-2x cursor-pointer"
+              [ngClass]="
+                checked.checked
+                  ? 'fa-square-check text-danger'
+                  : 'fa-square text-gray-500'
+              "
+            ></i>
             <input
-              class="form-check-input cursor-pointer"
+              #checked
+              class="d-none"
               type="checkbox"
+              [id]="item['id']"
               [value]="item['id']"
               (change)="agregarRegistrosEliminar(item['id'])"
               [checked]="item.selected"
             />
-          </div>
+          </label>
         </td>
       </tr>
     </tbody>
