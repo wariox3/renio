@@ -56,13 +56,19 @@ export default class PrecioFormularioComponent
   }
 
   iniciarFormulario() {
+    const fechaActual = new Date(); // Obtener la fecha actual
+    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
+      fechaActual.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
     this.formularioPrecio = this.formBuilder.group({
       tipo: ['', Validators.compose([Validators.required])],
       nombre: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
-      fecha_vence: [null, Validators.compose([Validators.required])],
+      fecha_vence: [fechaVencimientoInicial, Validators.compose([Validators.required])],
       detalles: this.formBuilder.array([]),
     });
   }

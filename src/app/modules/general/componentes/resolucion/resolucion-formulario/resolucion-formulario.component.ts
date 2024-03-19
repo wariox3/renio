@@ -41,7 +41,15 @@ export default class ResolucionFormularioComponent extends General implements On
   }
 
   iniciarFormulario() {
-    this.formularioResolucion = this.formBuilder.group({
+    const fechaActual = new Date(); // Obtener la fecha actual
+    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
+      fechaActual.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+
+    this.formularioResolucion = this.formBuilder.group(
+      {
       prefijo: [
         '',
         Validators.compose([
@@ -52,6 +60,7 @@ export default class ResolucionFormularioComponent extends General implements On
       numero: [
         '',
         Validators.compose([
+          Validators.required,
           Validators.pattern(/^[0-9]+$/),
         ]),
       ],
@@ -70,13 +79,13 @@ export default class ResolucionFormularioComponent extends General implements On
         ]),
       ],
       fecha_desde: [
-        null,
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
         ]),
       ],
       fecha_hasta: [
-        null,
+        fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
         ]),
