@@ -24,4 +24,8 @@ export class PrecioService  extends Subdomino {
   actualizarDatos(id: number, data: any) {
     return this.httpService.put<any>(`general/precio/${id}/`, data);
   }
+
+  guardarPrecioDetalle(id: number, data: any) {
+    return this.httpService.post<any>(`general/precio/listadetalle/`, data);
+  }
 }
