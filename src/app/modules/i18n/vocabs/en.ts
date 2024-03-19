@@ -226,6 +226,11 @@ export const locale = {
             REFERENCIA: 'Reference',
             PRECIO: 'Price',
             COSTO: 'Cost',
+            PRODUCTO: 'Product',
+            SERVICIO: 'Service',
+            INVENTARIO: 'Inventory',
+            EXISTENCIA: 'Stock',
+            DISPONIBLE: 'Available',
           },
           CONTACTO: {
             PERSONATIPO: 'Type person',
@@ -353,6 +358,11 @@ export const locale = {
         REFERENCIA: 'Reference',
         COSTO: 'Cost',
         PRECIO: 'Price',
+        PRODUCTO: 'Product',
+        SERVICIO: 'Service',
+        INVENTARIO: 'Inventory',
+        EXISTENCIA: 'Stock',
+        DISPONIBLE: 'Available',
       },
       CONTACTO: {
         ID: 'ID',

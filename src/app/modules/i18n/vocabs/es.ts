@@ -228,6 +228,11 @@ export const locale = {
             REFERENCIA: 'Referencia',
             PRECIO: 'Precio',
             COSTO: 'Costo',
+            PRODUCTO: 'Producto',
+            SERVICIO: 'Servicio',
+            INVENTARIO: 'Inventario',
+            EXISTENCIA: 'Existencia',
+            DISPONIBLE: 'Disponible',
           },
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
@@ -272,7 +277,7 @@ export const locale = {
             MENORQUE: 'Menor que',
             MENORIGUALQUE: 'Menor o igual que',
             CONTIENE: 'Contiene',
-            ES: 'Es',
+            ES: 'Si',
             NO: 'No',
           }
         }
@@ -357,6 +362,11 @@ export const locale = {
         REFERENCIA: 'Referencia',
         COSTO: 'Costo',
         PRECIO: 'Precio',
+        PRODUCTO: 'Producto',
+        SERVICIO: 'Servicio',
+        INVENTARIO: 'Inventario',
+        EXISTENCIA: 'Existencia',
+        DISPONIBLE: 'Disponible',
       },
       CONTACTO: {
         ID: 'ID',

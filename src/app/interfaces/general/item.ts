@@ -13,4 +13,9 @@ export interface Item {
   porcentaje_total: number;
   venta: boolean;
   compra: boolean;
+  producto: boolean;
+  servicio: boolean;
+  inventario: boolean;
+  existencia: number;
+  disponible: number;
 }

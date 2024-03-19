@@ -321,6 +321,68 @@
           ></ng-container>
         </div>
       </div>
+      <div class="row mb-5 gap-3">
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="1"
+            id="producto"
+            formControlName="producto"
+            [ngClass]="{
+              'is-invalid':
+                formularioItem.controls['producto'].touched &&
+                formularioItem.controls['producto'].invalid,
+              'is-valid':
+                formularioItem.controls['producto'].touched &&
+                formularioItem.controls['producto'].valid
+            }"
+          />
+          <label class="form-check-label" for="producto">
+            Producto
+          </label>
+        </div>
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="1"
+            id="servicio"
+            formControlName="servicio"
+            [ngClass]="{
+              'is-invalid':
+                formularioItem.controls['servicio'].touched &&
+                formularioItem.controls['servicio'].invalid,
+              'is-valid':
+                formularioItem.controls['servicio'].touched &&
+                formularioItem.controls['servicio'].valid
+            }"
+          />
+          <label class="form-check-label" for="servicio">
+            Servicio
+          </label>
+        </div>
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="1"
+            id="inventario"
+            formControlName="inventario"
+            [ngClass]="{
+              'is-invalid':
+                formularioItem.controls['inventario'].touched &&
+                formularioItem.controls['inventario'].invalid,
+              'is-valid':
+                formularioItem.controls['inventario'].touched &&
+                formularioItem.controls['inventario'].valid
+            }"
+          />
+          <label class="form-check-label" for="inventario">
+            Inventario
+          </label>
+        </div>
+      </div>
     </section>
   </app-card>
 </form>

@@ -56,5 +56,27 @@
         <p class="fw-bold text-gray-800 fs-6">{{ item.costo }}</p>
       </div>
     </div>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12 d-flex flex-column gap-3">
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.INVENTARIO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+
+        <span class="fw-bold text-gray-800 fs-6">{{item.inventario ? "Si" : "No"}}</span>
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRODUCTO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+
+        <span class="fw-bold text-gray-800 fs-6">{{item.producto ? "Si" : "No"}}</span>
+        <label
+          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.SERVICIO"
+          class="fw-semibold text-gray-600 fs-7"
+        ></label>
+        <span class="fw-bold text-gray-800 fs-6">{{item.servicio ? "Si" : "No"}}</span>
+
+      </div>
+    </div>
   </section>
 </app-card>

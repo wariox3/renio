@@ -211,7 +211,42 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
-      }
+      },
+      {
+        nombre: 'PRODUCTO',
+        campoTipo: 'Booleano',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'SERVICIO',
+        campoTipo: 'Booleano',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'INVENTARIO',
+        campoTipo: 'Booleano',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'EXISTENCIA',
+        campoTipo: 'IntegerField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'DISPONIBLE',
+        campoTipo: 'IntegerField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
     ],
   },
   Resolucion: {
