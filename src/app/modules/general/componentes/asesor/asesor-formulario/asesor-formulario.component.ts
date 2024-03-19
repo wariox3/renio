@@ -42,7 +42,7 @@ export default class AsesorFormularioComponent extends General implements OnInit
     this.formularioAsesor =  this.formBuilder.group({
       nombre_corto: [null, Validators.compose([Validators.required])],
       celular: [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      correo: [null, Validators.compose([Validators.email, Validators.maxLength(255), Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])]
+      correo: [null, Validators.compose([Validators.required, Validators.email, Validators.maxLength(255), Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])]
     })
   }
 
