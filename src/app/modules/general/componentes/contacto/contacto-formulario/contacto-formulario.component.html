@@ -8,7 +8,22 @@
       translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
     ></button>
   </div>
-  <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+        {{ detalle }}
+      </ng-template>
+    </section>
     <section card-body>
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">

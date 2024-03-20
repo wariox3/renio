@@ -11,12 +11,12 @@
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
-        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
-        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase}}
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
       </ng-container>
       <ng-template #tituloDetalle>
-        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
-        {{ modelo }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
         {{ detalle }}
       </ng-template>
     </section>

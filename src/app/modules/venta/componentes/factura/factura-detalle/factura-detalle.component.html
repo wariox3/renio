@@ -1,5 +1,10 @@
 <app-botonera-detalle [estados]="arrEstados"></app-botonera-detalle>
-<app-card [titulo]="'información general'">
+<app-card>
+  <section card-titulo>
+      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+      {{ detalle }}
+  </section>
   <section card-body>
     <div class="row mb-5">
       <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
