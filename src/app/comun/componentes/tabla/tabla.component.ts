@@ -295,17 +295,25 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Alterna el estado de selección de todos los registros
     this.selectAll = !this.selectAll;
 
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   getTipoDato(valor: any, key: string) {
-    let campo  = this.camposVisibles.find((campoVisible: any)=> {
-      if(campoVisible.nombre == key.toUpperCase() && campoVisible.visibleTabla === true){
-        return campoVisible
+    let campo = this.camposVisibles.find((campoVisible: any) => {
+      if (
+        campoVisible.nombre == key.toUpperCase() &&
+        campoVisible.visibleTabla === true
+      ) {
+        return campoVisible;
       }
-    })
-    if(campo){
+    });
+    if (campo) {
       switch (campo.campoTipo) {
+        case 'IntegerField':
+          if (campo.aplicaFormatoNumerico) {
+            return valor.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+          }
+          return valor
         case 'Booleano':
           return valor ? 'Si' : 'No';
         default:

@@ -204,6 +204,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
+        aplicaFormatoNumerico: true
       },
       {
         nombre: 'COSTO',
@@ -211,6 +212,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
+        aplicaFormatoNumerico: true
       },
       {
         nombre: 'PRODUCTO',
