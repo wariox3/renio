@@ -291,10 +291,17 @@
                           <td>
                             <app-comun-productos
                               [itemNombre]="detalle.value.item_nombre"
+                              [estado_aprobado]="estado_aprobado"
+                              [campoInvalido]="
+                                detalle.get('item')?.touched &&
+                                detalle.get('item')?.invalid
+                              "
                               (emitirArrItems)="
                                 agregarItemSeleccionado($event, i)
                               "
-                              [estado_aprobado]="estado_aprobado"
+                              (emitirLineaVacia)="
+                                eliminarProducto(i, detalle.value.id)
+                              "
                             ></app-comun-productos>
                           </td>
                           <td>

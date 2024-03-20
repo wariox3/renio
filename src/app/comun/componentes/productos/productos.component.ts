@@ -4,14 +4,16 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -35,9 +37,12 @@ export class ProductosComponent extends General implements AfterViewInit {
   arrItemsLista: any[];
   @Input() itemNombre: string = '';
   @Input() estado_aprobado: false;
+  @Input() campoInvalido: any  = false;
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
+  @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
+  @ViewChild(NgbDropdown) dropdown: NgbDropdown;
 
   constructor(private httpService: HttpService) {
     super();
@@ -51,6 +56,10 @@ export class ProductosComponent extends General implements AfterViewInit {
 
   agregarItem(item: any) {
     this.itemSeleccionado = item;
+    if(this.campoInvalido){
+      this.campoInvalido = false
+      this.changeDetectorRef.detectChanges()
+    }
 
     this.httpService
       .get<any>(`general/item/${item.item_id}/`)
@@ -120,5 +129,11 @@ export class ProductosComponent extends General implements AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  onDropdownClose() {
+    if(this.itemSeleccionado === null){
+      this.emitirLineaVacia.emit();
+    }
   }
 }

@@ -201,15 +201,77 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioFactura.valid) {
       if (this.detalle == undefined) {
-        this.facturaService
-          .guardarFactura({
-            ...this.formularioFactura.value,
-            ...{
-              base_impuesto: this.formularioFactura.value.subtotal,
-            },
-          })
-          .pipe(
-            tap((respuesta) => {
+        console.log(this.validarCamposDetalles() );
+        
+        if (this.validarCamposDetalles() === false) {
+          this.facturaService
+            .guardarFactura({
+              ...this.formularioFactura.value,
+              ...{
+                base_impuesto: this.formularioFactura.value.subtotal,
+              },
+            })
+            .pipe(
+              tap((respuesta) => {
+                this.router.navigate(['/detalle'], {
+                  queryParams: {
+                    modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                    tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                    formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                    detalle: respuesta.documento.id,
+                    accion: 'detalle',
+                  },
+                });
+              })
+            )
+            .subscribe();
+        }
+      } else {
+        if (this.validarCamposDetalles() === false) {
+          this.facturaService
+            .actualizarDatosFactura(this.detalle, {
+              ...this.formularioFactura.value,
+              ...{ detalles_eliminados: this.arrDetallesEliminado },
+            })
+            .subscribe((respuesta) => {
+              this.detalles.clear();
+              respuesta.documento.detalles.forEach(
+                (detalle: any, indexDetalle: number) => {
+                  const detalleFormGroup = this.formBuilder.group({
+                    item: [detalle.item],
+                    cantidad: [detalle.cantidad],
+                    precio: [detalle.precio],
+                    porcentaje_descuento: [detalle.porcentaje_descuento],
+                    descuento: [detalle.descuento],
+                    subtotal: [detalle.subtotal],
+                    total_bruto: [detalle.total_bruto],
+                    total: [detalle.total],
+                    neto: [detalle.total],
+                    item_nombre: [detalle.item_nombre],
+                    impuestos: this.formBuilder.array([]),
+                    impuestos_eliminados: this.formBuilder.array([]),
+                    id: [detalle.id],
+                  });
+
+                  if (detalle.impuestos.length === 0) {
+                    const cantidad = detalleFormGroup.get('cantidad')?.value;
+                    const precio = detalleFormGroup.get('precio')?.value;
+                    const neto = cantidad * precio;
+                    detalleFormGroup.get('neto')?.setValue(neto);
+                  }
+
+                  this.detalles.push(detalleFormGroup);
+
+                  detalle.impuestos.forEach((impuesto: any, index: number) => {
+                    this.agregarImpuesto(
+                      impuesto,
+                      indexDetalle,
+                      'actualizacion'
+                    );
+                  });
+                }
+              );
               this.router.navigate(['/detalle'], {
                 queryParams: {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
@@ -220,76 +282,45 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   accion: 'detalle',
                 },
               });
-            })
-          )
-          .subscribe();
-      } else {
-        this.facturaService
-          .actualizarDatosFactura(this.detalle, {
-            ...this.formularioFactura.value,
-            ...{ detalles_eliminados: this.arrDetallesEliminado },
-          })
-          .subscribe((respuesta) => {
-            this.detalles.clear();
-            respuesta.documento.detalles.forEach(
-              (detalle: any, indexDetalle: number) => {
-                const detalleFormGroup = this.formBuilder.group({
-                  item: [detalle.item],
-                  cantidad: [detalle.cantidad],
-                  precio: [detalle.precio],
-                  porcentaje_descuento: [detalle.porcentaje_descuento],
-                  descuento: [detalle.descuento],
-                  subtotal: [detalle.subtotal],
-                  total_bruto: [detalle.total_bruto],
-                  total: [detalle.total],
-                  neto: [detalle.total],
-                  item_nombre: [detalle.item_nombre],
-                  impuestos: this.formBuilder.array([]),
-                  impuestos_eliminados: this.formBuilder.array([]),
-                  id: [detalle.id],
-                });
+              // this.detalle = respuesta.documento.id;
 
-                if (detalle.impuestos.length === 0) {
-                  const cantidad = detalleFormGroup.get('cantidad')?.value;
-                  const precio = detalleFormGroup.get('precio')?.value;
-                  const neto = cantidad * precio;
-                  detalleFormGroup.get('neto')?.setValue(neto);
-                }
-
-                this.detalles.push(detalleFormGroup);
-
-                detalle.impuestos.forEach((impuesto: any, index: number) => {
-                  this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
-                });
-              }
-            );
-            this.router.navigate(['/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.documento.id,
-                accion: 'detalle',
-              },
+              // this.arrDetallesEliminado = [];
+              // this.calcularTotales();
+              // this.formularioFactura.markAsPristine();
+              // this.formularioFactura.markAsUntouched();
+              // this.changeDetectorRef.detectChanges();
             });
-            // this.detalle = respuesta.documento.id;
-
-            // this.arrDetallesEliminado = [];
-            // this.calcularTotales();
-            // this.formularioFactura.markAsPristine();
-            // this.formularioFactura.markAsUntouched();
-            // this.changeDetectorRef.detectChanges();
-          });
+        }
       }
     } else {
       this.formularioFactura.markAllAsTouched();
+      this.validarCamposDetalles();
     }
+  }
+
+  validarCamposDetalles() {
+    let errores = false;
+    Object.values(this.detalles.controls).find((control: any) => {
+      if (control.get('item').value === null) {
+        control.markAsTouched(); // Marcar el control como 'touched'
+        control.markAsDirty();
+        errores = true;
+        this.detalles.markAllAsTouched();
+        this.detalles.markAsDirty();
+        this.changeDetectorRef.detectChanges();
+        this.alertaService.mensajeError(
+          'Error en formulario filtros',
+          'contiene campos vacios'
+        );
+      }
+    });
+    this.changeDetectorRef.detectChanges();
+    return errores;
   }
 
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
-      item: [null],
+      item: [null, Validators.compose([Validators.required])],
       item_nombre: [null],
       cantidad: [0],
       precio: [0],
