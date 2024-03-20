@@ -1,6 +1,13 @@
-import { CommonModule, } from '@angular/common';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -17,10 +24,16 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     TranslateModule,
     BtnAtrasComponent,
-    CardComponent
-  ]
+    CardComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [provideNgxMask()],
 })
-export default class AsesorFormularioComponent extends General implements OnInit  { 
+export default class AsesorFormularioComponent
+  extends General
+  implements OnInit
+{
   formularioAsesor: FormGroup;
 
   constructor(
@@ -39,11 +52,22 @@ export default class AsesorFormularioComponent extends General implements OnInit
   }
 
   iniciarFormulario() {
-    this.formularioAsesor =  this.formBuilder.group({
+    this.formularioAsesor = this.formBuilder.group({
       nombre_corto: [null, Validators.compose([Validators.required])],
-      celular: [null, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      correo: [null, Validators.compose([Validators.required, Validators.email, Validators.maxLength(255), Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])]
-    })
+      celular: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
+      correo: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(255),
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+        ]),
+      ],
+    });
   }
 
   get obtenerFormularioCampos() {
@@ -52,61 +76,60 @@ export default class AsesorFormularioComponent extends General implements OnInit
 
   enviarFormulario() {
     if (this.formularioAsesor.valid) {
-      if(this.detalle){
-        this.asesorService.actualizarDatos(this.detalle, this.formularioAsesor.value)
-        .subscribe((respuesta: any)=>{
-          this.formularioAsesor.patchValue({
-            nombre_corto: respuesta.nombre_corto,
-            celular: respuesta.celular,
-            correo: respuesta.correo,
+      if (this.detalle) {
+        this.asesorService
+          .actualizarDatos(this.detalle, this.formularioAsesor.value)
+          .subscribe((respuesta: any) => {
+            this.formularioAsesor.patchValue({
+              nombre_corto: respuesta.nombre_corto,
+              celular: respuesta.celular,
+              correo: respuesta.correo,
+            });
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.id,
+                accion: 'detalle',
+              },
+            });
           });
-          this.alertaService.mensajaExitoso('Se actualizo la información');
-          this.router.navigate(['/detalle'], {
-            queryParams: {
-              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-              detalle: respuesta.id,
-              accion: 'detalle',
-            },
-          });
-        })
       } else {
-        this.asesorService.guardarAsesor(this.formularioAsesor.value)
-        .subscribe((respuesta:any) => {
-          this.alertaService.mensajaExitoso('Se actualizo la información');
-          this.router.navigate(['/detalle'], {
-            queryParams: {
-              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-              detalle: respuesta.id,
-              accion: 'detalle',
-            },
+        this.asesorService
+          .guardarAsesor(this.formularioAsesor.value)
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.id,
+                accion: 'detalle',
+              },
+            });
           });
-        })
-  
       }
     } else {
       this.formularioAsesor.markAllAsTouched();
-
     }
   }
 
   consultarDetalle() {
     this.asesorService
-    .consultarDetalle(this.detalle)
-    .subscribe((respuesta: any) => {
-      this.formularioAsesor.patchValue({
-        nombre_corto: respuesta.nombre_corto,
-        celular: respuesta.celular,
-        correo: respuesta.correo,
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.formularioAsesor.patchValue({
+          nombre_corto: respuesta.nombre_corto,
+          celular: respuesta.celular,
+          correo: respuesta.correo,
+        });
+
+        this.changeDetectorRef.detectChanges();
       });
-
-      this.changeDetectorRef.detectChanges();
-    });
   }
-
 }

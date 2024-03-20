@@ -204,6 +204,10 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            prefix="$ "
+            mask="separator"
+            [thousandSeparator]="','"
+            [decimalMarker]="'.'"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['precio'].touched &&
@@ -274,6 +278,10 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            prefix="$ "
+            mask="separator.2"
+            [thousandSeparator]="','"
+            [decimalMarker]="'.'"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['costo'].touched &&

@@ -38,7 +38,7 @@
           translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ item.precio }}</p>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.precio | appPrecioFormatPipe }}</p>
       </div>
     </div>
     <div class="row mb-5">
@@ -58,7 +58,7 @@
           translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ item.costo }}</p>
+        <p class="fw-bold text-gray-800 fs-6">{{ item.costo | appPrecioFormatPipe }}</p>
       </div>
     </div>
     <div class="row mb-5">

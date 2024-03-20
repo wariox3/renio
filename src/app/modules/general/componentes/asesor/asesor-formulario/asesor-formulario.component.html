@@ -58,8 +58,9 @@
           <input
             formControlName="celular"
             class="form-control bg-transparent"
-            type="number"
+            type="text"
             autocomplete="off"
+            mask="000-000-0000"
             [ngClass]="{
               'is-invalid':
                 formularioAsesor.controls['celular'].touched &&

@@ -1,3 +1,4 @@
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
@@ -9,24 +10,27 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 
 @Component({
-    selector: 'app-contacto-detalle',
-    standalone: true,
-    templateUrl: './contacto-detalle.component.html',
-    styleUrls: ['./contacto-detalle.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        NgbDropdownModule,
-        SoloNumerosDirective,
-        CardComponent,
-        BtnAtrasComponent
-    ]
+  selector: 'app-contacto-detalle',
+  standalone: true,
+  templateUrl: './contacto-detalle.component.html',
+  styleUrls: ['./contacto-detalle.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    NgbDropdownModule,
+    SoloNumerosDirective,
+    CardComponent,
+    BtnAtrasComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [provideNgxMask()],
 })
 export default class ContactoDetalleComponent
   extends General

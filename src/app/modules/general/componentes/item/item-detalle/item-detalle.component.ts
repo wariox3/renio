@@ -6,23 +6,25 @@ import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
-import { CardComponent } from "@comun/componentes/card/card.component";
-import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { PrecioFormatPipe } from '@pipe/PrecioFormat.pipe';
 
 @Component({
-    selector: 'app-item-detalle',
-    standalone: true,
-    templateUrl: './item-detalle.component.html',
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        ImpuestosComponent,
-        CardComponent,
-        BtnAtrasComponent
-    ]
+  selector: 'app-item-detalle',
+  standalone: true,
+  templateUrl: './item-detalle.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    ImpuestosComponent,
+    CardComponent,
+    BtnAtrasComponent,
+    PrecioFormatPipe
+  ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];

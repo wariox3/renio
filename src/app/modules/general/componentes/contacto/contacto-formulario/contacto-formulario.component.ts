@@ -1,3 +1,4 @@
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
@@ -52,7 +53,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
     SoloNumerosDirective,
     BtnAtrasComponent,
     CardComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
+  providers: [provideNgxMask()],
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
@@ -456,24 +460,22 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   modificarCampoFormulario(campo: string, dato: any) {
     console.log(campo, dato);
-    
+
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
       this.formularioContacto
         .get('ciudad_nombre')
         ?.setValue(dato.ciudad_nombre);
-      this.formularioContacto
-        .get('ciudad')
-        ?.setValue(dato.ciudad_id);
+      this.formularioContacto.get('ciudad')?.setValue(dato.ciudad_id);
     }
     if (campo === 'barrio') {
-      if(this.formularioContacto.get(campo)?.value === ''){
+      if (this.formularioContacto.get(campo)?.value === '') {
         this.formularioContacto.get(campo)?.setValue(null);
       }
     }
     if (campo === 'codigo_ciuu') {
-      if(this.formularioContacto.get(campo)?.value === ''){
+      if (this.formularioContacto.get(campo)?.value === '') {
         this.formularioContacto.get(campo)?.setValue(null);
       }
     }

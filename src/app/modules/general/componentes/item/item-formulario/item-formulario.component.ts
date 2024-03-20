@@ -16,6 +16,7 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 import { tap } from 'rxjs';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 
 @Component({
   selector: 'app-item-formulario',
@@ -30,7 +31,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
     ImpuestosComponent,
     BtnAtrasComponent,
     CardComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
+  providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
   formularioItem: FormGroup;
@@ -67,8 +71,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(50)]),
       ],
-      precio: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
-      costo: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      precio: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      costo: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       producto: [false],
       servicio: [false],
       inventario: [false],

@@ -101,14 +101,14 @@
           translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.telefono }}</p>
+        <p class="fw-bold text-gray-800 fs-6">{{ contacto.telefono | mask: '000-0000' }}</p>
       </div>
       <div class="col-md-6 col-sm-12">
         <label
           translate="FORMULARIOS.CAMPOS.COMUNES.CELULAR"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.celular }}</p>
+        <p class="fw-bold text-gray-800 fs-6">{{ contacto.celular | mask: '000-000-0000' }}</p>
       </div>
     </div>
     <div class="row mb-5">

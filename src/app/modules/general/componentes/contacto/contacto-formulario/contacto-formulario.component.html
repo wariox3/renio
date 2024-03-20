@@ -415,6 +415,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            mask="000-00-00"
             [ngClass]="{
               'is-invalid':
                 formularioContacto.controls['telefono'].touched &&
@@ -451,8 +452,8 @@
           <input
             formControlName="celular"
             class="form-control bg-transparent"
-            type="text"
             autocomplete="off"
+            mask="000-000-0000"
             [ngClass]="{
               'is-invalid':
                 formularioContacto.controls['celular'].touched &&
@@ -461,7 +462,6 @@
                 formularioContacto.controls['celular'].touched &&
                 formularioContacto.controls['celular'].valid
             }"
-            appSoloNumeros
           />
           <ng-container
             [ngTemplateOutlet]="formError"
