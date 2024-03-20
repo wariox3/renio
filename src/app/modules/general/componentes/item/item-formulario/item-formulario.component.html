@@ -140,13 +140,14 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
-            class="form-label required"
+            class="form-label"
           ></label>
           <input
             formControlName="referencia"
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            (blur)="modificarCampoFormulario('referencia', null)"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['referencia'].touched &&
@@ -156,14 +157,6 @@
                 formularioItem.controls['referencia'].valid
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['referencia']
-            }"
-          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

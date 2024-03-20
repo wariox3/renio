@@ -459,7 +459,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(campo, dato);
 
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();

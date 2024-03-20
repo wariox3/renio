@@ -16,7 +16,7 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 import { tap } from 'rxjs';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-item-formulario',
@@ -67,10 +67,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
-      referencia: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
+      referencia: [null, Validators.compose([Validators.maxLength(50)])],
       precio: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       costo: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       producto: [false],
@@ -222,5 +219,15 @@ export default class ItemFormularioComponent extends General implements OnInit {
         // this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
+  }
+  modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioItem?.markAsDirty();
+    this.formularioItem?.markAsTouched();
+    if (campo === 'referencia') {
+      if (this.formularioItem.get(campo)?.value === '') {
+        this.formularioItem.get(campo)?.setValue(null);
+      }
+    }
+    this.changeDetectorRef.detectChanges();
   }
 }
