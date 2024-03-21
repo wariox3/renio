@@ -354,7 +354,7 @@ export const locale = {
         CONTACTO: 'Contacto',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',
-        NOMBRE_CORTO: 'Nombre',
+        CONTACTO_NOMBRE_CORTO: 'Nombre',
       },
       ITEM: {
         ID: 'ID',

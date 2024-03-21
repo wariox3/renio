@@ -354,7 +354,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         ordenable: true,
       },
       {
-        nombre: 'NOMBRE_CORTO',
+        nombre: 'CONTACTO_NOMBRE_CORTO',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
