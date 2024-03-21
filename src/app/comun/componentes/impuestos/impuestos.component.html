@@ -1,9 +1,9 @@
-<div class="form-control">
+<div class="form-control form-control-sm">
   <div class="row justify-content-between">
-    <div class="col-8 d-flex flex-wrap align-items-start ">
+    <div class="col-8 d-flex flex-wrap align-items-start gap-1">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
         <span
-          class="badge badge-primary badge-sm mb-1 me-2"
+          class="badge badge-primary badge-sm"
           title="{{ impuesto.impuesto_nombre_extendido }}"
         >
           {{ impuesto.impuesto_nombre }}

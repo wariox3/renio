@@ -14,7 +14,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { Item } from '@interfaces/general/item';
 import { tap, throttleTime } from 'rxjs';
 
 @Component({

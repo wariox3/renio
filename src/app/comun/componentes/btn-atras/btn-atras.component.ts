@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
       <a
         [routerLink]="['../lista']"
         [queryParams]="{modulo, modelo, tipo}"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary fw-bold"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary"
       >
         <i class="bi bi-arrow-left fs-6 text-muted"
           ><span class="path1"></span><span class="path2"></span

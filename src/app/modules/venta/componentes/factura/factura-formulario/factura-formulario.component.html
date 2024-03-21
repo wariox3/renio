@@ -11,12 +11,16 @@
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
-        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase}}
-        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
       </ng-container>
       <ng-template #tituloDetalle>
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
-        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
         {{ detalle }}
       </ng-template>
     </section>
@@ -249,29 +253,29 @@
                   >
                     <thead>
                       <tr>
-                        <th>Id</th>
+                        <th class="w-40px">Id</th>
                         <th
                           translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
                         ></th>
-                        <th
+                        <th class="w-50px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
                         ></th>
-                        <th
+                        <th class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
                         ></th>
-                        <th
+                        <th  class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
                         ></th>
-                        <th
+                        <th class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                         ></th>
-                        <th
+                        <th class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
                         ></th>
-                        <th
+                        <th class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
                         ></th>
-                        <th class="text-center" *ngIf="!estado_aprobado">
+                        <th class="w-100px text-center" *ngIf="!estado_aprobado">
                           <button
                             (click)="agregarProductos()"
                             class="btn btn-sm btn-primary"
@@ -287,7 +291,7 @@
                         [formGroupName]="i"
                       >
                         <tr>
-                          <td>{{ detalle.value.id }}</td>
+                          <td class="w-40px">{{ detalle.value.id }}</td>
                           <td>
                             <app-comun-productos
                               [itemNombre]="detalle.value.item_nombre"
@@ -304,7 +308,7 @@
                               "
                             ></app-comun-productos>
                           </td>
-                          <td>
+                          <td >
                             <input
                               type="text"
                               [value]="detalle.value.cantidad"

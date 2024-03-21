@@ -1,3 +1,4 @@
+import { provideNgxMask, NgxMaskPipe, NgxMaskDirective } from 'ngx-mask';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContenedorListaComponent } from './componentes/contenedor-lista/contenedor-lista.component';
@@ -50,7 +51,9 @@ import { ContadorComponent } from '@comun/componentes/contador/contador.componen
     CargarImagenComponent,
     NgbAccordionModule,
     ContadorComponent,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
-  providers: [NgbActiveModal],
+  providers: [NgbActiveModal, provideNgxMask()],
 })
 export class ContenedorModule {}

@@ -18,9 +18,13 @@
     ></i>
   </div>
   <div class="col-4 d-flex justify-content-end">
-    <div class="btn-group">
+    <div class="btn-group contenedor-btn-group">
       <div class="btn-group" ngbDropdown role="group">
-        <button type="button" class="btn btn-info btn-sm" ngbDropdownToggle>
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          ngbDropdownToggle
+        >
           {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
         </button>
         <div class="dropdown-menu p-2" ngbDropdownMenu>
@@ -30,12 +34,15 @@
       </div>
       <a
         (click)="navegarNuevo()"
-        class="btn btn-sm btn-primary"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
       ></a>
       <div class="btn-group" ngbDropdown role="group">
-        <button type="button" class="btn btn-info btn-sm" ngbDropdownToggle>
-          <i class="fas fa-table-columns text-white"></i>
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          ngbDropdownToggle
+        >
           {{ "FORMULARIOS.TITULOS.COMUNES.COLUMNAS" | translate }}
         </button>
         <div class="dropdown-menu p-2" ngbDropdownMenu>
@@ -89,7 +96,7 @@
       <button
         type="button"
         (click)="eliminarRegistros()"
-        class="btn btn-sm btn-danger"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-danger btn-text-danger"
         translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
       ></button>
     </div>
@@ -156,14 +163,14 @@
               "
             ></i>
             <input
-            class="d-none"
-            type="checkbox"
-            #checkboxSelectAll
-            [id]="selectAll"
-            [checked]="selectAll"
-            [value]="selectAll"
-            (change)="toggleSelectAll()"
-          />
+              class="d-none"
+              type="checkbox"
+              #checkboxSelectAll
+              [id]="selectAll"
+              [checked]="selectAll"
+              [value]="selectAll"
+              (change)="toggleSelectAll()"
+            />
           </label>
         </th>
       </tr>
@@ -175,18 +182,12 @@
           {{ getTipoDato(item[key], key) }}
         </td>
         <td class="w-45px">
-          <label
-            (click)="navegarEditar(item.id)"
-            class="cursor-pointer"
-          >
+          <label (click)="navegarEditar(item.id)" class="cursor-pointer">
             <i class="fa-regular hover-primary fa-pen-to-square fs-2x"></i>
           </label>
         </td>
         <td class="w-45px">
-          <label
-            (click)="navegarDetalle(item.id)"
-            class="cursor-pointer"
-          >
+          <label (click)="navegarDetalle(item.id)" class="cursor-pointer">
             <i class="fa-regular hover-primary fa-eye text-gray-500 fs-2x"></i>
           </label>
         </td>

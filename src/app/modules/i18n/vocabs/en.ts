@@ -49,7 +49,7 @@ export const locale = {
           IMPORTAR: 'Import',
           DETALLE: 'Detail',
           EXCEL: 'Excel',
-          PDF: 'Pdf',
+          PDF: 'Print',
           INFORMACION: 'Information',
           APROBAR: 'Approve',
           GENERANDO: 'Generating',

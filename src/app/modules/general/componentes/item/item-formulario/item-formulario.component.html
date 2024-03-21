@@ -326,10 +326,11 @@
         <div class="form-check form-check-custom form-check-solid">
           <input
             class="form-check-input"
-            type="checkbox"
-            value="1"
+            type="radio"
+            value="producto"
             id="producto"
-            formControlName="producto"
+            (change)="modificarCampoFormulario('producto', true)"
+            formControlName="productoServicio"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['producto'].touched &&
@@ -346,10 +347,11 @@
         <div class="form-check form-check-custom form-check-solid">
           <input
             class="form-check-input"
-            type="checkbox"
-            value="1"
+            type="radio"
+            value="servicio"
             id="servicio"
-            formControlName="servicio"
+            formControlName="productoServicio"
+            (change)="modificarCampoFormulario('servicio', true)"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['servicio'].touched &&

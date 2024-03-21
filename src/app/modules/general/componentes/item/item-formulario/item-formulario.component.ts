@@ -68,8 +68,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
       referencia: [null, Validators.compose([Validators.maxLength(50)])],
-      precio: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
-      costo: [null, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      precio: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      costo: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
+      productoServicio: ['producto'],
       producto: [false],
       servicio: [false],
       inventario: [false],
@@ -202,6 +203,10 @@ export default class ItemFormularioComponent extends General implements OnInit {
           referencia: respuesta.item.referencia,
           precio: respuesta.item.precio,
           costo: respuesta.item.costo,
+          productoServicio: respuesta.item.producto ? 'producto': 'servicio',
+          inventario: respuesta.item.inventario,
+          producto:  respuesta.item.producto,
+          servicio:  respuesta.item.servicio
         });
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
@@ -227,6 +232,13 @@ export default class ItemFormularioComponent extends General implements OnInit {
       if (this.formularioItem.get(campo)?.value === '') {
         this.formularioItem.get(campo)?.setValue(null);
       }
+    }
+    if (campo === 'producto') {
+      this.formularioItem.get(campo)?.setValue(true);
+    }
+
+    if (campo === 'servicio') {
+      this.formularioItem.get(campo)?.setValue(true);
     }
     this.changeDetectorRef.detectChanges();
   }
