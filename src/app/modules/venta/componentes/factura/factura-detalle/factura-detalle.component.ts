@@ -13,7 +13,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { CardComponent } from "@comun/componentes/card/card.component";
-import { BotoneraDetalleComponent } from "@comun/componentes/botonera-detalle/botonera-detalle.component";
+import { BotoneraDetalleComponent } from "@comun/componentes/botonera-detalle-movimiento/botonera-detalle.component";
 
 @Component({
     selector: 'app-factura-detalle',
