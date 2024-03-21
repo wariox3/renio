@@ -1,9 +1,9 @@
 <app-botonera-detalle [estados]="arrEstados"></app-botonera-detalle>
 <app-card>
   <section card-titulo>
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-      {{ detalle }}
+    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+    {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+    {{ detalle }}
   </section>
   <section card-body>
     <div class="row mb-5">
@@ -114,14 +114,14 @@
                           {{ detalle.subtotal }}
                         </td>
                         <td>
-                          <ng-container
+                          <ul
                             *ngFor="
                               let impuesto of detalle.impuestos;
                               let i = index
                             "
                           >
-                            {{ impuesto.impuesto_nombre_extendido }}
-                          </ng-container>
+                            <li>{{ impuesto.impuesto_nombre_extendido }}</li>
+                          </ul>
                         </td>
                         <td>
                           {{ detalle.total }}
