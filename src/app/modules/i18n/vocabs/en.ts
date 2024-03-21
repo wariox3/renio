@@ -350,6 +350,7 @@ export const locale = {
         CONTACTO: 'contact',
         DOCUMENTO_TIPO: 'document type',
         METODO_PAGO: 'payment method',
+        NOMBRE_CORTO: 'Name',
       },
       ITEM: {
         ID: 'ID',
