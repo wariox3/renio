@@ -235,10 +235,14 @@ export default class ItemFormularioComponent extends General implements OnInit {
     }
     if (campo === 'producto') {
       this.formularioItem.get(campo)?.setValue(true);
+      this.formularioItem.get('servicio')?.setValue(false);
+
     }
 
     if (campo === 'servicio') {
       this.formularioItem.get(campo)?.setValue(true);
+      this.formularioItem.get('producto')?.setValue(false);
+
     }
     this.changeDetectorRef.detectChanges();
   }
