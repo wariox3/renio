@@ -37,13 +37,13 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
+    private empresaService: EmpresaService, 
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
   }
-  
+
   ngOnInit() {
     this.initForm();
     this.consultarInformacion();
@@ -54,7 +54,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
       this.contenedorService.listaTipoIdentificacion(),
       this.empresaService.consultarDetalle(this.empresa_id),
       this.contenedorService.listaRegimen(),
-      this.contenedorService.listaTipoPersona(),
+      this.contenedorService.listaTipoPersona()
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.formularioEmpresa.patchValue({
@@ -73,7 +73,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
       this.arrRegimen = respuesta[2].registros;
       this.arrTipoPersona = respuesta[3].registros;
       this.changeDetectorRef.detectChanges();
-
     });
   }
 
@@ -117,7 +116,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
       telefono: [
         '',
         Validators.compose([
-          Validators.minLength(3),
+          Validators.minLength(7),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
         ]),
@@ -199,8 +198,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
     });
   }
 
-
-  activarEmpresa(){
-    this.empresaService.activarEmpresa(this.empresa_id).subscribe()
+  activarEmpresa() {
+    this.empresaService.activarEmpresa(this.empresa_id).subscribe();
   }
 }

@@ -12,10 +12,10 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from "../../_metronic/shared/shared.module";
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
     declarations: [EmpresaDetalleComponent, EmpresaEditarComponent],
-    providers: [NgbActiveModal],
     imports: [
         CommonModule,
         EmpresaRoutingModule,
@@ -28,7 +28,11 @@ import { SharedModule } from "../../_metronic/shared/shared.module";
         ReactiveFormsModule,
         NgbModalModule,
         NgbDropdownModule,
-        SharedModule
-    ]
+        SharedModule,
+        NgxMaskDirective,
+        NgxMaskPipe,
+    ],
+    providers: [NgbActiveModal, provideNgxMask()],
+
 })
 export class EmpresaModule {}

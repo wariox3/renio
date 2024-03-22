@@ -359,6 +359,16 @@
             }"
           ></ng-container>
           <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message:
+              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+            cantidadCaracteres: '7',
+            control: formularioEmpresa.controls['telefono']
+          }"
+        ></ng-container>
+          <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'maxlength',
