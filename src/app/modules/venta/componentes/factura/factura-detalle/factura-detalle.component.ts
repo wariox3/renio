@@ -60,7 +60,9 @@ export default class FacturaDetalleComponent extends General {
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   arrEstados = {
-    estado_aprobado: false
+    estado_aprobado: false,
+    estado_anulado: false,
+    estado_electronico: false
   };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
@@ -78,6 +80,8 @@ export default class FacturaDetalleComponent extends General {
         this.documento = respuesta.documento;
         this.arrEstados = {
           estado_aprobado: respuesta.documento.estado_aprobado,
+          estado_anulado: respuesta.documento.estado_anulado,
+          estado_electronico: respuesta.documento.estado_electronico,
         }
         this.changeDetectorRef.detectChanges();
       });

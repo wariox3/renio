@@ -1,29 +1,16 @@
 .container-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px 0px;
+  gap: 5px 0px;
   grid-auto-flow: row;
   grid-template-areas:
     "filtros filtros"
-    "ayuda acciones"
     "tabla tabla";
 }
 
 .filtros {
   grid-area: filtros;
 }
-
-.ayuda {
-  grid-area: ayuda;
-}
-
-.acciones {
-  grid-area: acciones;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
- }
 
 .tabla {
   grid-area: tabla;

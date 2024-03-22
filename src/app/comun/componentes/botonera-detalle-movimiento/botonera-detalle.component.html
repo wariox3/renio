@@ -38,9 +38,15 @@
       </button>
     </div>
   </div>
-  <div class="justify-content-end">
+  <div class="d-flex justify-content-end gap-2">
     <ng-container *ngIf="estados.estado_aprobado">
       <span class="badge badge-success">Aprobado</span>
+    </ng-container>
+    <ng-container *ngIf="estados.estado_anulado">
+      <span class="badge badge-danger">Anulado</span>
+    </ng-container>
+    <ng-container *ngIf="estados.estado_electronico">
+      <span class="badge badge-secondary">lectrónico</span>
     </ng-container>
   </div>
 </div>
