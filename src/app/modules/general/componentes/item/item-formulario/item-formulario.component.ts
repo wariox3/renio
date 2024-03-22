@@ -71,7 +71,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
       precio: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       costo: [0, Validators.compose([Validators.pattern(/^[0-9]+$/)])],
       productoServicio: ['producto'],
-      producto: [false],
+      producto: [true],
       servicio: [false],
       inventario: [false],
       impuestos: this.formBuilder.array([]),
