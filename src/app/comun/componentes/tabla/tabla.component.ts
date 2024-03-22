@@ -119,8 +119,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
               this.datosFiltrados[key] = {};
             }
             // Agrega la propiedad y el valor correspondientes al objeto "datosFiltrados"
-            this.datosFiltrados[key][buscarClave] =
-              this.datos[key][buscarClave];
+            this.datosFiltrados[key][buscarClave] = {
+              valor: this.datos[key][buscarClave],
+              campoTipo: this.camposVisibles[clave].campoTipo,
+              aplicaFormatoNumerico: this.camposVisibles[clave]
+                .aplicaFormatoNumerico
+                ? true
+                : false,
+            };
           }
         }
       }
@@ -298,28 +304,33 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
-  getTipoDato(valor: any, key: string) {
-    let campo = this.camposVisibles.find((campoVisible: any) => {
-      if (
-        campoVisible.nombre == key.toUpperCase() &&
-        campoVisible.visibleTabla === true
-      ) {
-        return campoVisible;
-      }
-    });
+  // Función para determinar el tipo de dato y aplicar formato si es necesario
+  getTipoDato(valor: any, campo: any) {
+    // Verifica si se proporciona un campo
     if (campo) {
+      // Switch para manejar diferentes tipos de campo
       switch (campo.campoTipo) {
+        // Si el campo es FloatField o IntegerField
+        case 'FloatField':
         case 'IntegerField':
+          // Verifica si se debe aplicar formato numérico
           if (campo.aplicaFormatoNumerico) {
+            // Formatea el valor con dos decimales y comas para separar miles
             return valor.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
           }
-          return valor
+          // Si no se aplica formato numérico, devuelve el valor sin modificar
+          return valor;
+        // Si el campo es de tipo booleano
         case 'Booleano':
+          // Convierte el valor booleano a 'Si' si es verdadero y a 'No' si es falso
           return valor ? 'Si' : 'No';
+        // En caso de que el tipo de campo no sea ninguno de los anteriores
         default:
+          // Devuelve el valor sin modificar
           return valor;
       }
     }
+    // Si no se proporciona un campo, no se realiza ninguna acción y se devuelve undefined
   }
 
   // Esta función establece que todas las columnas en la copia de "encabezadoTest" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.

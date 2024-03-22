@@ -261,6 +261,8 @@ export const locale = {
           URLANEXO: 'Url for Attachments?',
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
+          SOPORTE: 'Support',
+          COMENTARIO: 'Comment'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Subscriber',
@@ -347,6 +349,7 @@ export const locale = {
         IMPUESTO: 'Tax',
         TOTAL: 'Total',
         ESTADO_APROBADO: 'Approved',
+        ESTADO_ANULADO: 'Canceled',
         CONTACTO: 'contact',
         DOCUMENTO_TIPO: 'document type',
         METODO_PAGO: 'payment method',

@@ -263,6 +263,8 @@ export const locale = {
           URLANEXO: 'Url para anexo?',
           TIPOOPERACION: 'Operación tipo',
           METODOPAGO: 'Método de pago',
+          SOPORTE: 'Soporte',
+          COMENTARIO: 'Comentario'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -351,6 +353,7 @@ export const locale = {
         IMPUESTO: 'Impuesto',
         TOTAL: 'Total',
         ESTADO_APROBADO: 'Apr',
+        ESTADO_ANULADO: 'Anu',
         CONTACTO: 'Contacto',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',

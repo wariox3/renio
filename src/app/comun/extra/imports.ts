@@ -354,15 +354,15 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         ordenable: true,
       },
       {
-        nombre: 'CONTACTO_NOMBRE_CORTO',
-        campoTipo: 'CharField',
+        nombre: 'FECHA',
+        campoTipo: 'DateField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
       },
       {
-        nombre: 'FECHA',
-        campoTipo: 'DateField',
+        nombre: 'CONTACTO_NOMBRE_CORTO',
+        campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
@@ -381,6 +381,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
+        aplicaFormatoNumerico: true,
       },
       {
         nombre: 'TOTAL',
@@ -394,7 +395,14 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         nombre: 'ESTADO_APROBADO',
         campoTipo: 'Booleano',
         visibleTabla: true,
-        visibleFiltro: false,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+      {
+        nombre: 'ESTADO_ANULADO',
+        campoTipo: 'Booleano',
+        visibleTabla: true,
+        visibleFiltro: true,
         ordenable: false,
       }
     ],

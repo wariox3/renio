@@ -1,3 +1,4 @@
+import { Documento } from './../../../../../interfaces/comunes/documento';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -136,6 +137,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
+        soporte: [
+          null,
+          Validators.compose([
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-zA-Z-0-9]*$/),
+          ]),
+        ],
+        comentario: [null, Validators.compose([Validators.maxLength(500)])],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -201,8 +210,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioFactura.valid) {
       if (this.detalle == undefined) {
-        console.log(this.validarCamposDetalles() );
-        
         if (this.validarCamposDetalles() === false) {
           this.facturaService
             .guardarFactura({
@@ -761,6 +768,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           fecha_vence: respuesta.documento.fecha_vence,
           metodo_pago: respuesta.documento.metodo_pago_id,
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
+          soporte: respuesta.documento.soporte,
+          comentario: respuesta.documento.comentario,
         });
         this.detalles.clear();
         respuesta.documento.detalles.forEach(
