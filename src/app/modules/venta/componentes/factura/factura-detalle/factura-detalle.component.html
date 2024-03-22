@@ -45,12 +45,12 @@
       </div>
       <div class="col-md-6 col-sm-12">
         <label
-        class="fw-semibold text-gray-600 fs-7"
-        translate="FORMULARIOS.CAMPOS.FACTURA.SOPORTE"
-      ></label>
-      <p class="fw-bold text-gray-800 fs-6">
-        {{ documento.soporte }}
-      </p>
+          class="fw-semibold text-gray-600 fs-7"
+          translate="FORMULARIOS.CAMPOS.FACTURA.SOPORTE"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ documento.soporte }}
+        </p>
       </div>
     </div>
     <div class="row mb-5">
@@ -87,7 +87,7 @@
                 >
                   <thead>
                     <tr>
-                      <th>Id</th>
+                      <th  style="width: 50px">Id</th>
                       <th
                         translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
                       ></th>
@@ -116,24 +116,24 @@
                       *ngFor="let detalle of documento.detalles; let i = index"
                     >
                       <tr>
-                        <td>{{ detalle.id }}</td>
-                        <td>
+                        <td style="width: 50px">{{ detalle.id }}</td>
+                        <td class="w-50 text-start">
                           {{ detalle.item_nombre }}
                         </td>
-                        <td>
+                        <td style="width: 10rem">
                           {{ detalle.cantidad }}
                         </td>
-                        <td>
-                          {{ detalle.precio }}
+                        <td  class="text-end">
+                          {{ detalle.precio | currency : "$" }}
                         </td>
-                        <td class="containerDescuento">
+                        <td class="text-end" style="width: 10rem">
                           {{ detalle.descuento }}
                           <i class="bi bi-percent"></i>
                         </td>
-                        <td>
-                          {{ detalle.subtotal }}
+                        <td class="text-end">
+                          {{ detalle.subtotal  | currency : "$" }}
                         </td>
-                        <td>
+                        <td  class="text-center">
                           <ul
                             *ngFor="
                               let impuesto of detalle.impuestos;
@@ -143,8 +143,8 @@
                             <li>{{ impuesto.impuesto_nombre_extendido }}</li>
                           </ul>
                         </td>
-                        <td>
-                          {{ detalle.total }}
+                        <td  class="text-end">
+                          {{ detalle.total | currency : "$" }}
                         </td>
                       </tr>
                     </ng-container>
