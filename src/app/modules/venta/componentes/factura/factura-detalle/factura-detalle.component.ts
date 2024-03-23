@@ -54,6 +54,12 @@ export default class FacturaDetalleComponent extends General {
     detalles: [],
     impuestos: []
   };
+  totalCantidad: number = 0;
+  totalDescuento: number = 0;
+  totalImpuestos: number = 0;
+  totalGeneral: number = 0;
+  subtotalGeneral: number = 0;
+  totalNetoGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
@@ -78,6 +84,31 @@ export default class FacturaDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
+
+        respuesta.documento.detalles.map((item: any)=>{
+          const cantidad = item.cantidad;
+          const precio = item.precio;
+          const porcentajeDescuento = item.descuento;
+          const total = item.total;
+          let subtotal = cantidad * precio;
+          let descuento = (porcentajeDescuento * subtotal) / 100;
+          let subtotalFinal = subtotal - descuento;
+
+          const impuestos = item.impuestos;
+          impuestos.forEach((impuesto: any) => {
+            this.totalImpuestos += impuesto.total;
+          });
+          
+          let neto = item.neto || 0;
+    
+          this.totalCantidad += parseInt(item.cantidad);
+          this.totalDescuento += descuento;
+          this.subtotalGeneral += subtotalFinal;
+          this.totalNetoGeneral += neto;
+          this.totalGeneral += total
+          this.changeDetectorRef.detectChanges()
+        })
+        
         this.arrEstados = {
           estado_aprobado: respuesta.documento.estado_aprobado,
           estado_anulado: respuesta.documento.estado_anulado,
