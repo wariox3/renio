@@ -22,10 +22,10 @@
         <!--begin::Header-->
         <div
           class="landing-header"
-          [ngClass]="{ 
-            'menufijo': menufijo === true,
+          [ngClass]="{
+            menufijo: menufijo === true,
             'fade-down': animateFadeDown
-           }"
+          }"
           [attr.data-kt-sticky]="true"
           [attr.data-kt-sticky-name]="'landing-header'"
           [attr.data-kt-sticky-offset]="{ default: '200px', lg: '300px' }"
@@ -103,8 +103,8 @@
                         href="#kt_body"
                         data-kt-scroll-toggle="true"
                         data-kt-drawer-dismiss="true"
-                        >Home</a
-                      >
+                        translate="LANGINGPAGE.INICIO"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -116,8 +116,8 @@
                         routerLink="/inicio"
                         fragment="how-it-works"
                         (click)="navegacionID('how-it-works')"
-                        >How it Works</a
-                      >
+                        translate="LANGINGPAGE.COMOFUNCIONA"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -127,8 +127,8 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('achievements')"
-                        >Achievements</a
-                      >
+                        translate="LANGINGPAGE.ARCHIVOS"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -140,8 +140,8 @@
                         (click)="navegacionID('team')"
                         data-kt-scroll-toggle="true"
                         data-kt-drawer-dismiss="true"
-                        >Team</a
-                      >
+                        translate="LANGINGPAGE.EQUIPO"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -151,8 +151,8 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('portfolio')"
-                        >Portfolio</a
-                      >
+                        translate="LANGINGPAGE.PORTAFOLIO"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -162,8 +162,8 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('pricing')"
-                        >Pricing</a
-                      >
+                        translate="LANGINGPAGE.PRECIO"
+                      ></a>
                       <!--end::Menu link-->
                     </div>
                     <!--end::Menu item-->
@@ -173,9 +173,51 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('contacto')"
-                        >Contacto</a
-                      >
+                        translate="LANGINGPAGE.CONTACTO"
+                      ></a>
                       <!--end::Menu link-->
+                    </div>
+                    <div ngbDropdown class="menu-item">
+                      <button
+                        ngbDropdownToggle
+                        class="menu-link nav-link py-3 px-4 px-xxl-6"
+                        data-kt-menu-trigger="click"
+                        data-kt-menu-placement="bottom-start"
+                        data-kt-menu-offset="0px, 0px"
+                      >
+                        <img
+                          class="w-15px h-15px rounded-1 ms-2"
+                          [src]="language.flag"
+                          alt="metronic"
+                        />
+                      </button>
+                      <div
+                        ngbDropdownMenu
+                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-4 fs-7"
+                        data-kt-menu="true"
+                        id="kt_auth_lang_menu"
+                      >
+                        <div
+                          *ngFor="let l of langs"
+                          class="menu-item px-3 cursor-pointer"
+                          (click)="selectLanguage(l.lang)"
+                          ngbDropdownItem
+                        >
+                          <a
+                            class="menu-item d-flex px-5"
+                            [ngClass]="l.lang === language.lang ? 'active' : ''"
+                          >
+                            <span class="symbol symbol-20px me-4">
+                              <img
+                                class="rounded-1"
+                                [src]="l.flag"
+                                alt="metronic"
+                              />
+                            </span>
+                            {{ l.name }}
+                          </a>
+                        </div>
+                      </div>
                     </div>
                     <!--end::Menu item-->
                   </div>
@@ -185,7 +227,11 @@
               <!--end::Menu wrapper-->
               <!--begin::Toolbar-->
               <div class="flex-equal text-end ms-1">
-                <a routerLink="/auth/login" class="btn btn-success">Sign In</a>
+                <a
+                  routerLink="/auth/login"
+                  class="btn btn-success"
+                  translate="LANGINGPAGE.LOGIN"
+                ></a>
               </div>
               <!--end::Toolbar-->
             </div>
@@ -219,9 +265,11 @@
             </h1>
             <!--end::Title-->
             <!--begin::Action-->
-            <a href="../../demo1/dist/index.html" class="btn btn-primary"
-              >Try Metronic</a
-            >
+            <a
+              href="../../demo1/dist/index.html"
+              class="btn btn-primary"
+              translate="LANGINGPAGE.PRUEBAREDDOC"
+            ></a>
             <!--end::Action-->
           </div>
           <!--end::Heading-->
@@ -364,14 +412,15 @@
             class="fs-2hx text-dark mb-5"
             id="how-it-works"
             data-kt-scroll-offset="{default: 100, lg: 150}"
-          >
-            How it Works
-          </h3>
+            translate="LANGINGPAGE.COMOFUNCIONA"
+          ></h3>
           <!--end::Title-->
           <!--begin::Text-->
           <div class="fs-5 text-muted fw-bold">
-            Save thousands to millions of bucks by using single tool <br />for
-            different amazing and great useful admin
+            {{ "LANGINGPAGE.AHORRO1" }}
+            Save thousands to millions of bucks by using single tool <br />
+            {{ "LANGINGPAGE.AHORRO2" }}
+            for different amazing and great useful admin
           </div>
           <!--end::Text-->
         </div>

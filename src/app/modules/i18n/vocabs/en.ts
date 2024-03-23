@@ -424,5 +424,19 @@ export const locale = {
       DOCUMENTACIONTEXTO:
         'From guides and video tutorials, to live demos and examples to get you started.',
     },
+    LANGINGPAGE: {
+      INICIO: 'Home',
+      COMOFUNCIONA: 'How it Works',
+      ARCHIVOS: 'Achievements',
+      EQUIPO: 'Team',
+      PORTAFOLIO: 'Portfolio',
+      PRECIO: 'Pricing',
+      CONTACTO:'Contac',
+      LOGIN: 'Login',
+      Mensaje1: 'Build An Outstanding Solutions',
+      PRUEBAREDDOC: 'Prueba REDDOC',
+      AHORRO1: 'Ahorra miles de  millones de dolares usando  una  sola herramienta',
+      AHORRO2: 'Para diferentes addministradores incribles y muy  utiles',
+    }
   },
 };

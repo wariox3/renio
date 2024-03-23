@@ -429,5 +429,18 @@ export const locale = {
       DOCUMENTACIONTEXTO:
         'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.',
     },
+    LANGINGPAGE: {
+      INICIO: 'Inicio',
+      COMOFUNCIONA: 'Cómo funciona',
+      ARCHIVOS: 'Archivos',
+      EQUIPO: 'Equipo',
+      PORTAFOLIO: 'Portfolio',
+      PRECIO: 'Precio',
+      CONTACTO:'Contacto',
+      LOGIN: 'Iniciar sesión',
+      PRUEBAREDDOC: 'Prueba REDDOC',
+      AHORRO1: 'Ahorra miles de  millones de dolares usando  una  sola herramienta',
+      AHORRO2: 'Para diferentes addministradores incribles y muy  utiles',
+    }
   },
 };
