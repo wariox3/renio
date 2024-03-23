@@ -47,29 +47,35 @@ export class BotoneraDetalleComponent extends General {
 
   imprimir() {
     this.generarPDF = true;
-    this.httpService
-      .descargarArchivo('general/documento/imprimir/', {
-        filtros: [],
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: '',
-        tipo: '',
-        documento_tipo_id: 1,
-        documento_id: this.detalle,
-      })
-      .subscribe((data) => {
-        this.generarPDF = false;
-        this.changeDetectorRef.detectChanges();
-        const blob = new Blob([data], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      });
+    try {
+      this.httpService
+        .descargarArchivo('general/documento/imprimir/', {
+          filtros: [],
+          limite: 50,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: '',
+          tipo: '',
+          documento_tipo_id: 1,
+          documento_id: this.detalle,
+        })
+        .subscribe((data) => {
+          this.generarPDF = false;
+          this.changeDetectorRef.detectChanges();
+          const blob = new Blob([data], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
+   } finally {
+    this.generarPDF = false;
+  }
+
+
   }
 }
