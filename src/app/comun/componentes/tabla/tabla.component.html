@@ -22,24 +22,27 @@
       class="btn-group contenedor-btn-group btn-toolbar"
       data-toggle="buttons"
     >
+      <app-importar modelo="{{ modelo }}"></app-importar>
+
       <div class="btn-group" ngbDropdown role="group">
         <button
           type="button"
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
           ngbDropdownToggle
         >
-          {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+          {{ "FORMULARIOS.BOTONES.COMUNES.EXPORTAR" | translate }}
         </button>
         <div class="dropdown-menu p-2" ngbDropdownMenu>
-          <app-importar modelo="{{ modelo }}" ngbDropdownItem></app-importar>
-          <button ngbDropdownItem>Exportar</button>
+          <button ngbDropdownItem>
+            {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+          </button>
         </div>
       </div>
-      <a
+      <button
         (click)="navegarNuevo()"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-      ></a>
+      ></button>
       <div class="btn-group" ngbDropdown role="group">
         <button
           type="button"
@@ -182,17 +185,25 @@
       <tr *ngFor="let item of datosFiltrados">
         <td
           *ngFor="let key of item | keys"
-          [ngClass]="item[key].aplicaFormatoNumerico ? 'text-end' : 'text-start' "
+          [ngClass]="
+            item[key].aplicaFormatoNumerico ? 'text-end' : 'text-start'
+          "
         >
           {{ getTipoDato(item[key].valor, item[key]) }}
         </td>
         <td class="w-45px">
-          <label (click)="navegarEditar(item['id'].valor)" class="cursor-pointer">
+          <label
+            (click)="navegarEditar(item['id'].valor)"
+            class="cursor-pointer"
+          >
             <i class="fa-regular hover-primary fa-pen-to-square fs-2x"></i>
           </label>
         </td>
         <td class="w-45px">
-          <label (click)="navegarDetalle(item['id'].valor)" class="cursor-pointer">
+          <label
+            (click)="navegarDetalle(item['id'].valor)"
+            class="cursor-pointer"
+          >
             <i class="fa-regular hover-primary fa-eye text-gray-500 fs-2x"></i>
           </label>
         </td>
