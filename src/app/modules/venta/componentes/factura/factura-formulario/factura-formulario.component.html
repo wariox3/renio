@@ -256,13 +256,13 @@
             }"
           />
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'pattern',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-            control: formularioFactura.controls['soporte']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioFactura.controls['soporte']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -286,14 +286,15 @@
             }"
           ></textarea>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '500',
-            control: formularioFactura.controls['comentario']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '500',
+              control: formularioFactura.controls['comentario']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">

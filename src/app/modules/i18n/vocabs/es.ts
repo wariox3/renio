@@ -102,6 +102,7 @@ export const locale = {
             EMPRESA: 'Mi empresa',
             CONTENEDORES: 'Mis contenedores',
           },
+          VERMAS: 'Ver más',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',

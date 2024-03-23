@@ -101,6 +101,7 @@ export const locale = {
             EMPRESA: 'Mi company',
             CONTENEDORES: 'My containers',
           },
+          VERMAS:'See more'
         },
         CONTENEDOR: {
           TITULO: 'Companies',
@@ -173,7 +174,7 @@ export const locale = {
           TOTALDESCUENTO: 'Total discount:',
           TOTALIMPUESTOS: 'Total taxes:',
           TOTALGENERAL: 'Grand Total:',
-          TOTALNETO: 'Net',
+          TOTALNETO: 'Net:',
           SUBTOTAL: 'Subtotal',
         },
         GENERAL: {

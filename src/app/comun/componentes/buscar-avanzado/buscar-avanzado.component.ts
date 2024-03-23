@@ -7,42 +7,57 @@ import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
+import { TranslationModule } from '@modulos/i18n';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
   standalone: true,
-  imports: [CommonModule, NgbDatepickerModule, TablaComponent, KeysPipe, BaseFiltroComponent],
+  imports: [
+    CommonModule,
+    NgbDatepickerModule,
+    TablaComponent,
+    KeysPipe,
+    BaseFiltroComponent,
+    TranslateModule,
+    TranslationModule,
+  ],
   templateUrl: './buscar-avanzado.component.html',
-  styleUrls: ['./buscar-avanzado.component.scss']
+  styleUrls: ['./buscar-avanzado.component.scss'],
 })
 export class BuscarAvanzadoComponent extends General {
-	closeResult = '';
+  closeResult = '';
   arrPropiedades: Listafiltros[];
   ordenadoTabla: string = '';
   arrItems: any[];
-  @Input() consultarModelo = ""
+  @Input() consultarModelo = '';
   @Input() consultarTipo: 'Administrador' | 'Documento';
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
 
   arrParametrosConsulta = {
-    "filtros":[],
-    "limite":50,
-    "desplazar":0,
-    "ordenamientos":[],
-    "limite_conteo":10000,
-    "modelo": "",
-    "tipo":"",
-    "documento_tipo_id":1
+    filtros: [],
+    limite: 50,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 10000,
+    modelo: '',
+    tipo: '',
+    documento_tipo_id: 1,
+  };
+
+  constructor(
+    private modalService: NgbModal,
+    private httpService: HttpService
+  ) {
+    super();
   }
 
-  constructor(private modalService: NgbModal, private httpService: HttpService) {
-    super()
-  }
-
-
-  abirModal(content:any){
-    this.consultarLista()
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+  abirModal(content: any) {
+    this.consultarLista();
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
     this.changeDetectorRef.detectChanges();
   }
 
@@ -51,9 +66,9 @@ export class BuscarAvanzadoComponent extends General {
     this.consultarLista();
   }
 
-  consultarLista(){
-    this.arrParametrosConsulta.modelo = this.consultarModelo
-    this.arrParametrosConsulta.tipo = this.consultarTipo
+  consultarLista() {
+    this.arrParametrosConsulta.modelo = this.consultarModelo;
+    this.arrParametrosConsulta.tipo = this.consultarTipo;
     let baseUrl = 'general/';
     switch (this.consultarTipo) {
       case 'Administrador':
@@ -83,9 +98,8 @@ export class BuscarAvanzadoComponent extends General {
     }
   }
 
-  seleccionar(item:any){
+  seleccionar(item: any) {
     this.modalService.dismissAll();
-    this.emitirRegistroSeleccionado.emit(item)
+    this.emitirRegistroSeleccionado.emit(item);
   }
-
 }

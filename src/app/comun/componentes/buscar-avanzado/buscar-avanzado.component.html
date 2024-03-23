@@ -1,77 +1,90 @@
-<span (click)="abirModal(content)" >Ver Todos</span>
-
-
+<span (click)="abirModal(content)">{{ "FORMULARIOS.TITULOS.COMUNES.VERMAS" | translate }}</span>
 <ng-template #content let-modal>
-	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Buscar {{consultarModelo | lowercase}}</h4>
-		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-	</div>
-	<div class="modal-body">
-
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Buscar {{ consultarModelo | lowercase }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
     <app-base-filtro
-    [propiedades]="arrPropiedades"
-    (emitirFiltros)="obtenerFiltros($event)"
-  ></app-base-filtro>
+      [propiedades]="arrPropiedades"
+      (emitirFiltros)="obtenerFiltros($event)"
+    ></app-base-filtro>
 
-      <div class="table-responsive table-loading mt-5">
-        <table
-          class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
-        >
-          <thead>
-            <tr class="fw-bold fs-6 text-gray-800">
-              <th
-                (click)="orderPor(item.nombre, i)"
-                *ngFor="let item of arrPropiedades; let i = index"
-                class="cursor-pointer user-select-none"
-              >
-                <div class="d-flex justify-content-between">
-                  <span>
-                    {{ item.etiqueta }}
-                  </span>
-                  <div class="d-flex">
-                    <ng-container
+    <div class="table-responsive table-loading mt-5">
+      <table
+        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr class="fw-bold fs-6 text-gray-800">
+            <th
+              (click)="orderPor(item.nombre, i)"
+              *ngFor="let item of arrPropiedades; let i = index"
+              class="cursor-pointer user-select-none"
+            >
+              <div class="d-flex justify-content-between">
+                <span>
+                  {{ item.etiqueta }}
+                </span>
+                <div class="d-flex">
+                  <ng-container
+                    *ngIf="
+                      this.ordenadoTabla === item.nombre.toLowerCase() ||
+                        this.ordenadoTabla === '-' + item.nombre.toLowerCase();
+                      else iconopordefecto
+                    "
+                  >
+                    <i
+                      class="ki-outline ki-arrow-up fs-2x"
+                      *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
+                    ></i>
+                    <i
+                      class="ki-outline ki-arrow-down fs-2x"
                       *ngIf="
-                        this.ordenadoTabla === item.nombre.toLowerCase() ||
-                          this.ordenadoTabla === '-' + item.nombre.toLowerCase();
-                        else iconopordefecto
+                        this.ordenadoTabla === '-' + item.nombre.toLowerCase()
                       "
-                    >
-                      <i
-                        class="ki-outline ki-arrow-up fs-2x"
-                        *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
-                      ></i>
-                      <i
-                        class="ki-outline ki-arrow-down fs-2x"
-                        *ngIf="this.ordenadoTabla === '-' + item.nombre.toLowerCase()"
-                      ></i>
-                    </ng-container>
-                    <ng-template #iconopordefecto>
-                      <i class="ki-outline ki-arrow-up-down fs-2x"></i>
-                    </ng-template>
-                  </div>
+                    ></i>
+                  </ng-container>
+                  <ng-template #iconopordefecto>
+                    <i class="ki-outline ki-arrow-up-down fs-2x"></i>
+                  </ng-template>
                 </div>
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of arrItems">
-              <td *ngFor="let key of item | keys">
-                {{ item[key] }}
-              </td>
-              <td class="w-45px">
-                <button (click)="seleccionar(item)" class="btn btn-primary btn-sm p-1">
-                  seleccionar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-	</div>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of arrItems">
+            <td *ngFor="let key of item | keys">
+              {{ item[key] }}
+            </td>
+            <td class="w-45px">
+              <button
+                (click)="seleccionar(item)"
+                class="btn btn-primary btn-sm p-1"
+              >
+                seleccionar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Save
+    </button>
+  </div>
 </ng-template>
