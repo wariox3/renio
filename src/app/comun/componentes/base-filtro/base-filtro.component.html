@@ -1,7 +1,7 @@
 <form [formGroup]="formularioItem">
   <div formArrayName="filtros">
     <div
-      class="row mb-3"
+      class="row mb-3 animate__animated animate__fadeInUp"
       *ngFor="let filtro of filtros.controls; let i = index"
     >
       <div class="col-5" [formGroupName]="i">

@@ -190,6 +190,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad: propiedad.campo,
       tipo: propiedad.tipo,
     });
+    if(propiedad.tipo === 'Booleano'){
+      filtroPorActualizar.patchValue({
+        valor1: ''
+      });
+    }
   }
 
   actualizarOperador(operador: string, index: number) {
