@@ -33,7 +33,6 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: Listafiltros[] = [];
   modelo: any = this.modelo;
-  campoTipo = 'CharField';
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
@@ -185,14 +184,13 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   actualizarPropiedad(propiedad: any, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    this.campoTipo = propiedad.tipo;
     filtroPorActualizar.patchValue({
       propiedad: propiedad.campo,
       tipo: propiedad.tipo,
     });
     if(propiedad.tipo === 'Booleano'){
       filtroPorActualizar.patchValue({
-        valor1: ''
+        valor1: null
       });
     }
   }

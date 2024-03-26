@@ -16,12 +16,12 @@
           <input
             class="form-control form-control-sm"
             [ngClass]="{
-              'animate__animated animate__fadeOut': campoTipo === 'Booleano',
+              'animate__animated animate__fadeOut': filtro.value.tipo  === 'Booleano',
             }"
             [type]="
-              campoTipo === 'IntegerField'
+              filtro.value.tipo === 'IntegerField'
                 ? 'number'
-                : campoTipo === 'DateField'
+                : filtro.value.tipo === 'DateField'
                 ? 'date'
                 : 'text'
             "
@@ -33,13 +33,13 @@
           </div>
           <ng-container
             *ngIf="
-              (campoTipo === 'DateField' || campoTipo === 'IntegerField') &&
+              (filtro.value.tipo === 'DateField' || filtro.value.tipo === 'IntegerField') &&
               this.formularioItem.value['filtros'][i].operador === 'entre'
             "
           >
             <input
               class="form-control form-control-sm"
-              [type]="campoTipo === 'IntegerField' ? 'number' : 'date'"
+              [type]="filtro.value.tipo === 'IntegerField' ? 'number' : 'date'"
               placeholder="entre"
               formControlName="valor2"
             />
