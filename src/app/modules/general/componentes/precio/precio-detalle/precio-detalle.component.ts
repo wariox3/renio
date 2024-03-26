@@ -75,8 +75,6 @@ export default class PrecioDetalleComponent extends General implements OnInit {
   }
 
   enviarFormulario() {
-    console.log(this.formularioPrecio.value);
-    
     this.precioService
     .guardarPrecioDetalle(this.detalle, this.formularioPrecio.value).subscribe()
   }

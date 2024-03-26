@@ -21,6 +21,8 @@ import { TranslationModule } from '@modulos/i18n';
 export class BaseFiltroFormularioComponent extends General implements OnInit, OnChanges {
   claveLocalStore: string;
   camposVisibles: any;
+  filtroCampoNombre = ''
+  filtroCampoCriterio = ''
   //@Input() propiedades: any[];
   modelo: string;
   @Input() datosSeleccionados: any | null;
@@ -132,14 +134,11 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.propiedades && changes.propiedades.currentValue) {
-      let dato = changes.propiedades.currentValue.find(
-        (item: any) => item.nombre === this.datosSeleccionados?.propiedad
-      );
-      if (dato) {
-        this.criteriosBusqueda = this.datosCriteriosBusqueda[dato?.campoTipo];
-      }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.datosSeleccionados && changes.datosSeleccionados.currentValue) {
+      this.filtroCampoNombre = changes.datosSeleccionados.currentValue.propiedad
+      this.filtroCampoCriterio = changes.datosSeleccionados.currentValue.operador
+      this.criteriosBusqueda = this.datosCriteriosBusqueda[changes.datosSeleccionados.currentValue.tipo];
     }
   }
 

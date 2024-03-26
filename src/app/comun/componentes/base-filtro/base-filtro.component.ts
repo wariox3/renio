@@ -33,7 +33,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: Listafiltros[] = [];
   modelo: any = this.modelo;
-  campoTipo = 'CharField'
+  campoTipo = 'CharField';
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
@@ -87,18 +87,20 @@ export class BaseFiltroComponent extends General implements OnInit {
     let valor2 = '';
     let propiedad = '';
     let operador = '';
+    let tipo = '';
     if (propiedades) {
       valor1 = propiedades.valor1;
       valor2 = propiedades.valor2;
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
+      tipo = propiedades.tipo;
     }
-
     return this.formBuilder.group({
       propiedad: [propiedad],
       operador: [operador],
       valor1: [valor1, [Validators.required]],
       valor2: [valor2],
+      tipo: [tipo],
     });
   }
 
@@ -152,7 +154,7 @@ export class BaseFiltroComponent extends General implements OnInit {
           ...filtro,
           id: this.generarIdUnico(),
           ...{
-            propiedad:
+            campo:
               filtro.propiedad + filtro.operador !== null
                 ? filtro.propiedad + filtro.operador
                 : '',
@@ -183,8 +185,11 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   actualizarPropiedad(propiedad: any, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    this.campoTipo = propiedad.tipo
-    filtroPorActualizar.patchValue({ propiedad: propiedad.campo });
+    this.campoTipo = propiedad.tipo;
+    filtroPorActualizar.patchValue({
+      propiedad: propiedad.campo,
+      tipo: propiedad.tipo,
+    });
   }
 
   actualizarOperador(operador: string, index: number) {
@@ -198,7 +203,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.filtros.clear();
     this.agregarNuevoFiltro();
     this.emitirFiltros.emit([]);
-
   }
 
   generarIdUnico() {

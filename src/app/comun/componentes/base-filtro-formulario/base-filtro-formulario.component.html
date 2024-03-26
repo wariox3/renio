@@ -10,7 +10,9 @@
       <ng-container *ngFor="let propiedad of camposVisibles">
         <option
           [value]="propiedad.campoTipo"
-          [selected]="propiedad.nombre === datosSeleccionados?.nombre"
+          [selected]="
+            propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
+          "
           [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
         >
           {{
@@ -34,7 +36,7 @@
       <option
         *ngFor="let criterioBusqueda of criteriosBusqueda"
         [value]="criterioBusqueda.valor"
-        [selected]="criterioBusqueda === datosSeleccionados?.operador"
+        [selected]="criterioBusqueda.valor === filtroCampoCriterio"
       >
         {{
           "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +

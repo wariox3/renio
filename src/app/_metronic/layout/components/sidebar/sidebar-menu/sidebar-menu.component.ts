@@ -50,7 +50,6 @@ export class SidebarMenuComponent implements OnInit {
       .pipe(
         withLatestFrom(this.store.select(obtenerMenuInformacion)),
         tap(([nombreSeleccion, menuInformacion]) => {
-          console.log(nombreSeleccion);
           this.MenuSeleccion = nombreSeleccion;
           let componenteMenu = menuInformacion.filter(
             (item) => item.nombre == nombreSeleccion.toLowerCase()

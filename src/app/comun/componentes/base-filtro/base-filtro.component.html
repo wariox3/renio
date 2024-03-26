@@ -2,7 +2,7 @@
   <div formArrayName="filtros">
     <div
       class="row mb-3"
-      *ngFor="let impuestoControl of filtros.controls; let i = index"
+      *ngFor="let filtro of filtros.controls; let i = index"
     >
       <div class="col-5" [formGroupName]="i">
         <app-base-filtro-formulario
@@ -14,9 +14,9 @@
       <div class="col-5" [formGroupName]="i">
         <div class="d-flex justify-content-between">
           <input
-            class="form-control form-control-sm animate__animated animate__fadeIn"
+            class="form-control form-control-sm"
             [ngClass]="{
-              'animate__animated animate__fadeOut': campoTipo === 'Booleano'
+              'animate__animated animate__fadeOut': campoTipo === 'Booleano',
             }"
             [type]="
               campoTipo === 'IntegerField'
