@@ -13,43 +13,33 @@
       </div>
       <div class="col-5" [formGroupName]="i">
         <div class="d-flex justify-content-between">
-          <ng-container
-            *ngIf="
-              this.formularioItem.value['filtros'][i].propiedad !== 'Booleano'
+          <input
+            class="form-control form-control-sm animate__animated animate__fadeIn"
+            [ngClass]="{
+              'animate__animated animate__fadeOut': campoTipo === 'Booleano'
+            }"
+            [type]="
+              campoTipo === 'IntegerField'
+                ? 'number'
+                : campoTipo === 'DateField'
+                ? 'date'
+                : 'text'
             "
-          >
-            <input
-              class="form-control form-control-sm"
-              [type]="
-                this.formularioItem.value['filtros'][i].propiedad === 'Numero'
-                  ? 'number'
-                  : this.formularioItem.value['filtros'][i].propiedad ===
-                    'Fecha'
-                  ? 'date'
-                  : 'text'
-              "
-              placeholder="Buscar..."
-              formControlName="valor1"
-            />
-            <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
-              El campo es obligatorio
-            </div>
-          </ng-container>
+            placeholder="Buscar..."
+            formControlName="valor1"
+          />
+          <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
+            El campo es obligatorio
+          </div>
           <ng-container
             *ngIf="
-              (this.formularioItem.value['filtros'][i].propiedad === 'Fecha' ||
-                this.formularioItem.value['filtros'][i].propiedad ===
-                  'Numero') &&
+              (campoTipo === 'DateField' || campoTipo === 'IntegerField') &&
               this.formularioItem.value['filtros'][i].operador === 'entre'
             "
           >
             <input
               class="form-control form-control-sm"
-              [type]="
-                this.formularioItem.value['filtros'][i].propiedad === 'Numero'
-                  ? 'number'
-                  : 'date'
-              "
+              [type]="campoTipo === 'IntegerField' ? 'number' : 'date'"
               placeholder="entre"
               formControlName="valor2"
             />
@@ -78,8 +68,7 @@
       (click)="limpiarFormulario()"
       *ngIf="filtros.length >= 1"
       translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"
-    >
-    </button>
+    ></button>
     <button
       translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
       type="submit"

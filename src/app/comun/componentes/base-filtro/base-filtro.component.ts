@@ -33,6 +33,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioItem: FormGroup;
   listaFiltros: Listafiltros[] = [];
   modelo: any = this.modelo;
+  campoTipo = 'CharField'
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
@@ -180,9 +181,10 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
   }
 
-  actualizarPropiedad(propiedad: string, index: number) {
+  actualizarPropiedad(propiedad: any, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ propiedad });
+    this.campoTipo = propiedad.tipo
+    filtroPorActualizar.patchValue({ propiedad: propiedad.campo });
   }
 
   actualizarOperador(operador: string, index: number) {

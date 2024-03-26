@@ -74,7 +74,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
       },
       {
         valor: '__lte',
-        texto: 'Menor o IGUAL que',
+        texto: 'MENORIGUALQUE',
       },
     ],
     CharField: [
@@ -106,7 +106,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
       },
       {
         valor: '__lte',
-        texto: 'Menor o IGUAL que',
+        texto: 'MENORIGUALQUE',
       },
     ],
     Booleano: [
@@ -157,7 +157,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
     const selectedValue = event.target.value; // Valor seleccionado en el select
     const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
     this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
-    this.dataPropiedad.emit(selectedOption.getAttribute('data-value') ?? '');
+    this.dataPropiedad.emit({'campo':selectedOption.getAttribute('data-value') ?? '', tipo: selectedValue});
   }
 
   onCriterioSeleccionado(event: Event): void {
