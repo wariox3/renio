@@ -193,6 +193,8 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Edit company',
+          FACTURAELECTRONICA: 'Electronic invoicing'
+
         },
       },
       CAMPOS: {
@@ -277,6 +279,7 @@ export const locale = {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
           TIPOPERSONA: 'Type of person',
+          FACTURAELECTRONICAID: 'ID'
         },
         FILTROS: {
           OPERADORES: {
@@ -489,6 +492,8 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Unlimited Projects',
       PRECIOSSELECCIONAR: 'Select',
       OPINIONCLIENTESTITULO: 'What Our Clients Say',
+      OPINIONCLIENTE1: 'This is by far the cleanest INVOICING and the most well structured',
+      OPINIONCLIENTE2: 'The most well thought out design theme I have ever used. The codes are up to tandard. The css styles are very clean. In fact the cleanest and the most up to standard I have ever seen.',
       ANIMO1: 'Start with today',
       ANIMO2: 'and accelerate business',
       ANIMO3: 'Join over 100,000 Professionals Community to Stay Ahead',

@@ -4,6 +4,15 @@
   [formGroup]="formularioEmpresa"
   (ngSubmit)="formSubmit()"
 >
+    <div class="fv-row d-flex  mb-5">
+        <button
+          translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+          type="submit"
+          class="btn btn-primary"
+          type="submit"
+          #btnGuardar
+        ></button>
+      </div>
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.EDITAR'">
     <section card-body>
       <div class="row mb-10">
@@ -456,16 +465,21 @@
           translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
           type="submit"
           class="btn btn-primary"
+          *ngIf="rededoc_id === null"
         ></button>
       </div>
-      <div class="fv-row d-flex justify-content-end">
-        <button
-          translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-          type="submit"
-          class="btn btn-primary"
-          type="submit"
-          #btnGuardar
-        ></button>
+    </section>
+  </app-card>
+  <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICA'">
+    <section card-body>
+      <div class="row mb-10">
+        <div class="col-md-12 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.EMPRESA.FACTURAELECTRONICAID"
+            class="fw-semibold text-gray-600 fs-7"
+          ></label>
+          <p class="fw-bold text-gray-800 fs-6">{{ rededoc_id }}</p>
+        </div>
       </div>
     </section>
   </app-card>

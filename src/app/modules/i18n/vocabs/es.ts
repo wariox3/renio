@@ -195,6 +195,7 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Editar empresa',
+          FACTURAELECTRONICA: 'Facturación electronica'
         },
       },
       CAMPOS: {
@@ -279,6 +280,7 @@ export const locale = {
           SUSCRIPTOR: 'Suscriptor',
           REGIMEN: 'Régimen',
           TIPOPERSONA: 'Tipo persona',
+          FACTURAELECTRONICAID: 'ID'
         },
         FILTROS: {
           OPERADORES: {
@@ -491,6 +493,8 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Proyectos ilimitados',
       PRECIOSSELECCIONAR: 'Seleccionar',
       OPINIONCLIENTESTITULO: 'Lo que dicen nuestros clientes',
+      OPINIONCLIENTE1: 'Esta es, con diferencia, FACTURACIÓN más limpia y mejor estructurada.',
+      OPINIONCLIENTE2: 'El tema de diseño mejor pensado que jamás haya usado. Los códigos están a la altura. Los estilos CSS son muy limpios. De hecho, es el más limpio y de mayor calidad que he visto jamás.',
       ANIMO1: 'Empieza por hoy',
       ANIMO2: 'y acelerar los negocios',
       ANIMO3: 'Únase a la comunidad de más de 100.000 profesionales para mantenerse a la vanguardia',
