@@ -73,8 +73,8 @@ export const locale = {
           CREARCUENTA: 'Create an account',
         },
         EMPRESA: {
-          ACTIVAR: 'Activate'
-        }
+          ACTIVAR: 'Activate',
+        },
       },
       TITULOS: {
         COMUNES: {
@@ -101,7 +101,7 @@ export const locale = {
             EMPRESA: 'Mi company',
             CONTENEDORES: 'My containers',
           },
-          VERMAS:'See more'
+          VERMAS: 'See more',
         },
         CONTENEDOR: {
           TITULO: 'Companies',
@@ -251,8 +251,8 @@ export const locale = {
           },
           PRECIO: {
             TIPO: 'Type',
-            FECHAVENCE: 'Date expires'
-          }
+            FECHAVENCE: 'Date expires',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
@@ -263,7 +263,7 @@ export const locale = {
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
           SOPORTE: 'Support',
-          COMENTARIO: 'Comment'
+          COMENTARIO: 'Comment',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Subscriber',
@@ -280,7 +280,7 @@ export const locale = {
             CONTIENE: 'Contains',
             ES: 'Is',
             NO: 'Not',
-          }
+          },
         },
       },
       VALIDACIONES: {
@@ -338,7 +338,7 @@ export const locale = {
     },
     LISTAS: {
       COMUNES: {
-        CARGANDOTABLA: "Loading"
+        CARGANDOTABLA: 'Loading',
       },
       FACTURA: {
         ID: 'ID',
@@ -394,9 +394,9 @@ export const locale = {
         ID: 'ID',
         PREFIJO: 'Prefix',
         NUMERO: 'Number',
-        'CONSECUTIVO_DESDE': 'Consecutive from',
-        'CONSECUTIVO_HASTA': 'Consecutive to',
-        'FECHA_DESDE': 'Date from',
+        CONSECUTIVO_DESDE: 'Consecutive from',
+        CONSECUTIVO_HASTA: 'Consecutive to',
+        FECHA_DESDE: 'Date from',
         'FECHA:HASTA': 'Date to',
       },
       ASESOR: {
@@ -409,7 +409,7 @@ export const locale = {
         ID: 'ID',
         TIPO: 'Type',
         NOMBRE: 'Name',
-        FECHA_VENCE: 'Date expires'
+        FECHA_VENCE: 'Date expires',
       },
     },
     TEMA: {
@@ -431,12 +431,83 @@ export const locale = {
       EQUIPO: 'Team',
       PORTAFOLIO: 'Portfolio',
       PRECIO: 'Pricing',
-      CONTACTO:'Contac',
+      CONTACTO: 'Contac',
       LOGIN: 'Login',
       Mensaje1: 'Build An Outstanding Solutions',
       PRUEBAREDDOC: 'Prueba REDDOC',
-      AHORRO1: 'Ahorra miles de  millones de dolares usando  una  sola herramienta',
-      AHORRO2: 'Para diferentes addministradores incribles y muy  utiles',
-    }
+      AHORRO1: 'Save thousands to millions of bucks by using single tool',
+      AHORRO2: 'for different amazing and great useful admin',
+      MENSAJE1: 'Build an exceptional solution with',
+      MENSAJE2: 'the best tool in the world',
+      EMPRESARIO: 'businessman',
+      MENSAJE3: 'Save thousands to millions of bucks',
+      MENSAJE4: 'by using single tool for different',
+      MENSAJE5: 'amazing and great',
+      CONFIGURAAPP: 'Setup Your App',
+      APPAUTENTICA: 'Enjoy Nautica App',
+      MEJORAMOS: 'We Make Things Better',
+      EMPRESACONOCIDAS: 'Known Companies',
+      INFORMES: 'Statistic Reports',
+      PAGOSEGURO: 'Secure Payments',
+      PALABRASCEO1:
+        'When you care about your topic, you’ll write about it in a',
+      PALABRASCEO2: 'more powerful',
+      PALABRASCEO3: 'emotionally expressive way',
+      NUESTROEQUIPO: 'Our Great Team',
+      NUESTROEQUIPOFRESE1:
+        'It’s no doubt that when a development takes longer to complete, additional costs to ',
+      NUESTROEQUIPOFRESE2:
+        'integrate and test each extra feature creeps up and haunts most of us.',
+      NUESTROSPROYECTOS: 'Our projects',
+      NUESTROSPROYECTOS1: 'Latest',
+      NUESTROSPROYECTOS2: 'Web desing',
+      NUESTROSPROYECTOS3: 'Mobile apps',
+      NUESTROSPROYECTOS4: 'Development',
+      PRECIOSTITULO: 'Clear Pricing Makes it Easy',
+      PRECIOSMENSAJE1:
+        'Save thousands to millions of bucks by using single tool different',
+      PRECIOMES: 'Monthly',
+      PRECIOANUAL: 'Annual',
+      PRECIOINICIO: 'Startup',
+      PRECIONEGOCIOS: 'Business',
+      PRECIOEMPRESARIO: 'Enterprise',
+      PRECIOINICIOMENSAJE: 'Best Settings for Startups',
+      PRECIONEGOCIOSMENSAJE: 'Best Settings for Business',
+      PRECIOEMPRESARIOMENSAJE: 'Best Settings for Enterprise',
+      PRECIO10USUARIOS: 'Up to 10 Active Users',
+      PRECIO30INTEGRANTES: 'Up to 30 Project Integrations',
+      PRECIOPLATAFORMAANALISIS: 'Keen Analytics Platform',
+      PRECIOOBJETIVOS: 'Targets Timelines & Files',
+      PRECIOLIMITEPROJECTS: 'Unlimited Projects',
+      PRECIOSSELECCIONAR: 'Select',
+      OPINIONCLIENTESTITULO: 'What Our Clients Say',
+      ANIMO1: 'Start with today',
+      ANIMO2: 'and accelerate business',
+      ANIMO3: 'Join over 100,000 Professionals Community to Stay Ahead',
+      COMPRARREDDOC: 'Purchase on Themeforest',
+      LICENCIAPERSONALIZADA1: 'Would you need a Custom License?',
+      LICENCIAPERSONALIZADA2: 'Email us to',
+      PROYECTOPERSONALIZADO1: 'How About a Custom Project?',
+      PROYECTOPERSONALIZADO2: 'Use Our Custom Development Service.',
+      PROYECTOPERSONALIZADO3: 'Click to Get a Quote',
+      MAS: 'More for Metronic',
+      FAQ: 'FAQ',
+      DOCUMENTACION: 'Documentaions',
+      VIDEOS: 'Video Tuts',
+      CAMBIOS: 'Changelog',
+      FORO: 'Support Forum',
+      BLOG: 'Blog',
+      MEDIOSCONTACTO: 'Stay Connected',
+      ACERCADE: 'About',
+      SOPORTE: 'Support',
+      COMPRAR: 'Purchase',
+      DIRECCION: 'Address',
+      TELEFONO: 'Phone',
+      CORREO: 'Email',
+      NOMBRE: 'Name',
+      Empresa: 'Company',
+      PREGUNTA: 'Question ?',
+      GUARDAR: 'Save'
+    },
   },
 };
