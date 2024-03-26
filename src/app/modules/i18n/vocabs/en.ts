@@ -140,6 +140,14 @@ export const locale = {
           VERIFICACIONERRORSUBTITULO: 'Errors with the token?',
           PROCESANDOTOKEN: 'Processing token',
           REGRESARLOGIN: 'Back to home page login',
+          CARACTERISTICAS1: 'Fast, Efficient and Productive',
+          CARACTERISTICAS2: 'In this kind ',
+          CARACTERISTICAS3: 'the blogger',
+          CARACTERISTICAS4: 'introduces a person they’ve interviewed',
+          CARACTERISTICAS5: 'and provides some background information about',
+          CARACTERISTICAS6: 'the interviewee',
+          CARACTERISTICAS7: 'and their ',
+          CARACTERISTICAS8: 'work following this is a transcript of the interview.',
         },
         FACTURACION: {
           TEXTOAYUDA1:
@@ -507,7 +515,7 @@ export const locale = {
       NOMBRE: 'Name',
       Empresa: 'Company',
       PREGUNTA: 'Question ?',
-      GUARDAR: 'Save'
+      GUARDAR: 'Save',
     },
   },
 };

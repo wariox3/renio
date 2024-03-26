@@ -142,6 +142,14 @@ export const locale = {
           VERIFICACIONERRORSUBTITULO: 'Ya puedes empezar a usar redofice',
           PROCESANDOTOKEN: 'Procesando token',
           REGRESARLOGIN: 'Regresar a la página de iniciar sesión',
+          CARACTERISTICAS1: 'Rápido, eficaz y productivo',
+          CARACTERISTICAS2: 'En este tipo ',
+          CARACTERISTICAS3: 'el blogger',
+          CARACTERISTICAS4: 'presenta a una persona que ha entrevistado',
+          CARACTERISTICAS5: 'y proporciona información general sobre sus',
+          CARACTERISTICAS6: 'antecedentes.',
+          CARACTERISTICAS7: 'y su familia. ',
+          CARACTERISTICAS8: 'tras lo cual se transcribe la entrevista.',
         },
         FACTURACION: {
           TEXTOAYUDA1:

@@ -14,6 +14,7 @@ import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
 import { BtnwhatsappComponent } from "../../comun/componentes/btnwhatsapp/btnwhatsapp.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { BtnwhatsappComponent } from "../../comun/componentes/btnwhatsapp/btnwha
     imports: [
         CommonModule,
         TranslationModule,
+        TranslateModule,
         AuthRoutingModule,
         FormsModule,
         ReactiveFormsModule,
