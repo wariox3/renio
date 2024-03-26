@@ -1,0 +1,9 @@
+#menuApps {
+  display: none;
+}
+
+@media only screen and (max-width: 985px) {
+  #menuApps {
+    display: block;
+  }
+}

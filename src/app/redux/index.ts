@@ -2,6 +2,7 @@ import { usuarioReducer } from './reducers/usuario.reducer';
 import { menuReducer } from './reducers/menu.reducer';
 import { contendorReducer } from './reducers/contendor.reducer';
 import { ContenedorEffects } from './efectos/contenedorEffects';
+import { MenuEffects } from './efectos/menuEffecsts';
 import { UsuarioEffects } from './efectos/UsuarioEffects';
 import { empresaReducer } from './reducers/empresa.reducer';
 import { EmpresaEffects } from './efectos/empresaEffects';
@@ -23,4 +24,5 @@ export const EffectsApp = [
   UsuarioEffects,
   EmpresaEffects,
   ConfiguracionEffects,
+  MenuEffects
 ];

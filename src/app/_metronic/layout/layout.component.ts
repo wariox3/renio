@@ -113,6 +113,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     const subscr = this.layout.layoutConfigSubject
       .asObservable()
       .subscribe((config) => {
+        console.log(config);
         this.updateProps(config);
       });
     this.unsubscribe.push(subscr);

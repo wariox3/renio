@@ -248,8 +248,11 @@ export const initialState: Menu = {
 
 export const menuReducer = createReducer(
   initialState,
-  on(selecionModuloAction, (state, { seleccion }) => ({
+  on(selecionModuloAction, (state, { seleccion }) => (
+    
+    {
     ...state,
     seleccion,
-  }))
+    }
+  ))
 );

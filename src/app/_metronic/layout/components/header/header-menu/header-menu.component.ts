@@ -48,13 +48,12 @@ export class HeaderMenuComponent extends General implements OnInit {
   ) {
     const currentConfig = { ...this.layout.layoutConfigSubject.value };
     if (currentConfig && currentConfig.app && currentConfig.app.toolbar) {
-      currentConfig.app.toolbar.layout = toolbarLayout;
+      currentConfig.app.toolbar.layout = 'extended';
       this.layout.saveBaseConfig(currentConfig);
     }
   }
 
   seleccionarMenu(ruta: string) {
-    localStorage.setItem('ruta', ruta);
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
 }
