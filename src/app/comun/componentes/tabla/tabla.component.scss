@@ -12,13 +12,13 @@
   }
 }
 .hover-primary {
+  transition: 1s;
   &:hover {
     color: rgb(0, 158, 247) !important;
+    transition: 1s;
   }
 }
 
 .contenedor-btn-group {
-  border-width: 1px !important;
-  border-style: solid;
-  border-color: var(--bs-border-color);
+  border: 1px solid var(--bs-border-color) !important;
 }

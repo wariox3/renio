@@ -2,19 +2,19 @@
   <div class="col-md-4 col-sm-12 d-flex align-items-center gap-3 animate__animated animate__fadeInUp">
     <i
       (click)="disminuirDesplazamiento()"
-      class="fas fa-arrow-left fs-2x cursor-pointer"
+      class="bi bi-arrow-left fs-2x cursor-pointer"
     ></i>
     <input
       type="text"
-      class="form-control form-control-sm"
+      class="form-control form-control-sm w-100px"
       [value]="lado + 1 + '-' + al"
       (blur)="calcularValorMostrar($event)"
     />
-    de
+    <span>de</span>
     <span>{{ cantidad_registros }}</span>
     <i
       (click)="aumentarDesplazamiento()"
-      class="fas fa-arrow-right fs-2x cursor-pointer"
+      class="bi bi-arrow-right fs-2x cursor-pointer"
     ></i>
   </div>
   <div class="col-md-4 col-sm-12 d-flex justify-content-end">

@@ -27,7 +27,7 @@
           <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
             <thead *ngIf="arrContenedores.length > 0">
-              <tr>
+              <tr class="animate__animated animate__fadeInUp">
                 <th></th>
                 <th class="min-w-120px"></th>
                 <th class="min-w-150px text-center">Plan</th>
@@ -43,6 +43,7 @@
               >
                 <tr
                   *ngFor="let contenedor of arrContenedores"
+                  class="animate__animated animate__fadeInUp"
                   style="height: calc(82px - 0.6rem) !important"
                 >
                   <td style="width: 120px">
