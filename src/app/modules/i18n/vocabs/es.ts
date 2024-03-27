@@ -441,7 +441,8 @@ export const locale = {
       ENLACEDOCUMENTACION: 'Documentación oficial',
       DOCUMENTACION: 'Documentación',
       DOCUMENTACIONTEXTO:
-        'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.',
+        'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.', 
+      WHATSAPPTEXTO: '¿Necesitas ayuda? Escríbenos aquí y te asistiremos.' 
     },
     LANGINGPAGE: {
       INICIO: 'Inicio',

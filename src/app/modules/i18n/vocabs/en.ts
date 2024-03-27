@@ -437,6 +437,7 @@ export const locale = {
       DOCUMENTACION: 'Documentation',
       DOCUMENTACIONTEXTO:
         'From guides and video tutorials, to live demos and examples to get you started.',
+      WHATSAPPTEXTO:"Need help? Write to us here and we'll assist you"
     },
     LANGINGPAGE: {
       INICIO: 'Home',
