@@ -218,7 +218,9 @@ export class EmpresaEditarComponent extends General implements OnInit {
     if(this.formularioDian.valid){
       this.empresaService
       .activarEmpresa(this.empresa_id, this.formularioDian.value)
-      .subscribe();
+      .subscribe(() => {
+        this.consultarInformacion()
+      });
     } else {
       this.formularioDian.markAllAsTouched();
     }
