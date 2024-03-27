@@ -193,8 +193,9 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Edit company',
-          FACTURAELECTRONICA: 'Electronic invoicing'
-
+          FACTURAELECTRONICA: 'Electronic invoicing',
+          FACTURAELECTRONICABUSCARCODIGO: 'Are you looking for the code? ',
+          FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it'
         },
       },
       CAMPOS: {
@@ -279,7 +280,9 @@ export const locale = {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
           TIPOPERSONA: 'Type of person',
-          FACTURAELECTRONICAID: 'ID'
+          FACTURAELECTRONICAID: 'ID',
+          CODIGOTESTID: 'TestID code',
+          CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN'
         },
         FILTROS: {
           OPERADORES: {

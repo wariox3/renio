@@ -35,9 +35,12 @@ export class EmpresaService {
     });
   }
 
-  activarEmpresa(empresa_id: Number | string){
+  activarEmpresa(empresa_id: Number | string,  data: any){
     return this.httpService.post('general/empresa/activar/', {
-      empresa_id
+      empresa_id,
+      webhookEmision: '123',
+      webhookNotificacion: '123',
+      ...data
     })
   }
 }

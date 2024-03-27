@@ -25,12 +25,13 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 })
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
+  formularioDian: FormGroup;
   planSeleccionado: Number = 2;
   arrCiudades: Ciudad[] = [];
   arrIdentificacion: TipoIdentificacion[] = [];
   arrTipoPersona: TipoPersona[] = [];
   arrRegimen: Regimen[] = [];
-  rededoc_id: null | number = null
+  rededoc_id: null | number = null;
   @Input() empresa_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -38,7 +39,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService, 
+    private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
@@ -47,6 +48,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.initFormDian();
     this.consultarInformacion();
   }
 
@@ -71,7 +73,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
         tipo_persona: respuesta[1].tipo_persona,
         regimen: respuesta[1].regimen,
       });
-      this.rededoc_id = respuesta[1].rededoc_id
+      this.rededoc_id = respuesta[1].rededoc_id;
       this.arrRegimen = respuesta[2].registros;
       this.arrTipoPersona = respuesta[3].registros;
       this.changeDetectorRef.detectChanges();
@@ -125,6 +127,18 @@ export class EmpresaEditarComponent extends General implements OnInit {
       ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
+    });
+  }
+
+  initFormDian() {
+    this.formularioDian = this.formBuilder.group({
+      setPruebas: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
+        ]),
+      ],
     });
   }
 
@@ -201,6 +215,13 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   activarEmpresa() {
-    this.empresaService.activarEmpresa(this.empresa_id).subscribe();
+    if(this.formularioDian.valid){
+      this.empresaService
+      .activarEmpresa(this.empresa_id, this.formularioDian.value)
+      .subscribe();
+    } else {
+      this.formularioDian.markAllAsTouched();
+    }
+
   }
 }

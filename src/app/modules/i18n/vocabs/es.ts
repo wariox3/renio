@@ -195,7 +195,9 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Editar empresa',
-          FACTURAELECTRONICA: 'Facturación electronica'
+          FACTURAELECTRONICA: 'Facturación electronica',
+          FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
+          FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo'
         },
       },
       CAMPOS: {
@@ -280,7 +282,9 @@ export const locale = {
           SUSCRIPTOR: 'Suscriptor',
           REGIMEN: 'Régimen',
           TIPOPERSONA: 'Tipo persona',
-          FACTURAELECTRONICAID: 'ID'
+          FACTURAELECTRONICAID: 'ID',
+          CODIGOTESTID: 'Código TestID',
+          CODIGOTESTIDPLACEHOLDER: 'Ingresa el código brindado por la DIAN'
         },
         FILTROS: {
           OPERADORES: {
