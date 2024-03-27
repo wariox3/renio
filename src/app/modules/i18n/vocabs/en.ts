@@ -280,7 +280,7 @@ export const locale = {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
           TIPOPERSONA: 'Type of person',
-          FACTURAELECTRONICAID: 'ID',
+          FACTURAELECTRONICALABEL: 'Active for issuance of electronic invoice DIAN Colombia',
           CODIGOTESTID: 'TestID code',
           CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN'
         },
