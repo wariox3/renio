@@ -61,6 +61,10 @@ export class BaseListaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
       this.titulos = Componetes[posicion].titulos;
+      let filtros = Componetes[posicion].titulos?.filter(
+        (titulo: any) => titulo.visibleFiltro === true
+      );
+      localStorage.setItem('filtros', JSON.stringify(filtros));
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
@@ -85,9 +89,9 @@ export class BaseListaComponent extends General implements OnInit {
         this.arrParametrosConsulta = {
           ...this.arrParametrosConsulta,
           ...{
-            documento_tipo_id: 1
-          }
-        }
+            documento_tipo_id: 1,
+          },
+        };
         break;
     }
     this.httpService
@@ -133,7 +137,6 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   eliminarRegistros(data: Number[]) {
-
     if (data.length > 0) {
       if (this.tipo === 'Documento') {
         this.httpService

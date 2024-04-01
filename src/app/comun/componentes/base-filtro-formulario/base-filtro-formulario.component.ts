@@ -19,7 +19,6 @@ import { TranslationModule } from '@modulos/i18n';
   templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent extends General implements OnInit, OnChanges {
-  claveLocalStore: string;
   camposVisibles: any;
   filtroCampoNombre = ''
   filtroCampoCriterio = ''
@@ -127,7 +126,6 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
       this.modelo = parametro.modelo
       this.construirFiltros();
     });
@@ -145,9 +143,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
   construirFiltros() {
     //se crean los datos que se visualizan en los options del select
     this.camposVisibles = JSON.parse(
-      localStorage.getItem(this.claveLocalStore)!
-    ).filter(
-      (titulo: any) => titulo.visibleFiltro === true
+      localStorage.getItem('filtros')!
     );
     this.changeDetectorRef.detectChanges()
   }
