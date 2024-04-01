@@ -129,6 +129,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         operador: [''],
         valor1: ['', [Validators.required]],
         valor2: [''],
+        tipo: [''],
       })
     );
   }
