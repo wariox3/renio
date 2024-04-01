@@ -44,7 +44,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   ];
   @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
-  nombreFiltro = `${this.modulo}_${this.modelo}_${this.tipo}`;
+  nombreFiltro = "";
 
   constructor(private formBuilder: FormBuilder) {
     super();
@@ -52,6 +52,10 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
+      this.changeDetectorRef.detectChanges();
+    })
     this.cargarCamposAlFormulario();
   }
 
@@ -202,7 +206,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   limpiarFormulario() {
     this.formularioItem.reset();
-    localStorage.removeItem(document.location.pathname);
+    localStorage.removeItem(this.nombreFiltro);
     this.filtros.clear();
     this.agregarNuevoFiltro();
     this.emitirFiltros.emit([]);
