@@ -1,7 +1,7 @@
 <form [formGroup]="formularioItem">
   <div formArrayName="filtros">
     <div
-      class="row mb-3 animate__animated animate__fadeInUp"
+      class="row mb-6 animate__animated animate__fadeInUp"
       *ngFor="let filtro of filtros.controls; let i = index"
     >
       <div class="col-5" [formGroupName]="i">
@@ -13,7 +13,8 @@
       </div>
       <div class="col-5" [formGroupName]="i">
         <div class="d-flex justify-content-between">
-          <input
+          <div class="w-100 me-2">
+            <input
             class="form-control form-control-sm"
             [ngClass]="{
               'animate__animated animate__fadeOut': filtro.value.tipo  === 'Booleano',
@@ -29,8 +30,14 @@
             formControlName="valor1"
           />
           <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
-            El campo es obligatorio
+            <div class="fv-plugins-message-container mx-2">
+              <div class="fv-help-block">
+                <span role="alert"> {{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO"| translate  }} </span>
+              </div>
+            </div>
           </div>
+          </div>
+
           <ng-container
             *ngIf="
               (filtro.value.tipo === 'DateField' || filtro.value.tipo === 'IntegerField') &&
