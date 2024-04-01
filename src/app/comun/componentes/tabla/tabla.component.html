@@ -208,7 +208,7 @@
           </label>
         </td>
         <td class="w-20px">
-          <label [for]="item['id']">
+          <label [for]="item['id'].valor">
             <i
               class="fa-regular fs-2x cursor-pointer"
               [ngClass]="
@@ -221,9 +221,9 @@
               #checked
               class="d-none"
               type="checkbox"
-              [id]="item['id']"
-              [value]="item['id']"
-              (change)="agregarRegistrosEliminar(item['id'])"
+              [id]="item['id'].valor"
+              [value]="item['id'].valor"
+              (change)="agregarRegistrosEliminar(item['id'].valor)"
               [checked]="item.selected"
             />
           </label>
