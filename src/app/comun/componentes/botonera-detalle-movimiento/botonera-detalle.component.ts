@@ -32,7 +32,6 @@ export class BotoneraDetalleComponent extends General {
       .post('general/documento/aprobar/', { id: this.detalle })
       .subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Documento aprobado');
-        window.location.reload();
       });
   }
 

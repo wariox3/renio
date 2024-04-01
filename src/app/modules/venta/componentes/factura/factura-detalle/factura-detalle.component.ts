@@ -11,31 +11,33 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { CardComponent } from "@comun/componentes/card/card.component";
-import { BotoneraDetalleComponent } from "@comun/componentes/botonera-detalle-movimiento/botonera-detalle.component";
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { BotoneraDetalleComponent } from '@comun/componentes/botonera-detalle-movimiento/botonera-detalle.component';
+import { HttpService } from '@comun/services/http.service';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 
 @Component({
-    selector: 'app-factura-detalle',
-    standalone: true,
-    templateUrl: './factura-detalle.component.html',
-    styleUrls: ['./factura-detalle.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        NgbDropdownModule,
-        NgbNavModule,
-        TablaComponent,
-        ImpuestosComponent,
-        ProductosComponent,
-        BuscarAvanzadoComponent,
-        SoloNumerosDirective,
-        CardComponent,
-        BotoneraDetalleComponent
-    ]
+  selector: 'app-factura-detalle',
+  standalone: true,
+  templateUrl: './factura-detalle.component.html',
+  styleUrls: ['./factura-detalle.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    TablaComponent,
+    ImpuestosComponent,
+    ProductosComponent,
+    BuscarAvanzadoComponent,
+    SoloNumerosDirective,
+    CardComponent,
+    BotoneraDetalleComponent,
+    BtnAtrasComponent
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -52,7 +54,7 @@ export default class FacturaDetalleComponent extends General {
     total_bruto: 0,
     metodo_pago: null,
     detalles: [],
-    impuestos: []
+    impuestos: [],
   };
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -68,16 +70,18 @@ export default class FacturaDetalleComponent extends General {
   arrEstados = {
     estado_aprobado: false,
     estado_anulado: false,
-    estado_electronico: false
+    estado_electronico: false,
   };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-  constructor(private facturaService: FacturaService) {
+  constructor(
+    private httpService: HttpService,
+    private facturaService: FacturaService
+  ) {
     super();
     this.consultardetalle();
   }
-
 
   consultardetalle() {
     this.facturaService
@@ -85,7 +89,7 @@ export default class FacturaDetalleComponent extends General {
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
 
-        respuesta.documento.detalles.map((item: any)=>{
+        respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
           const precio = item.precio;
           const porcentajeDescuento = item.descuento;
@@ -98,23 +102,67 @@ export default class FacturaDetalleComponent extends General {
           impuestos.forEach((impuesto: any) => {
             this.totalImpuestos += impuesto.total;
           });
-          
+
           let neto = item.neto || 0;
-    
+
           this.totalCantidad += parseInt(item.cantidad);
           this.totalDescuento += descuento;
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
-          this.totalGeneral += total
-          this.changeDetectorRef.detectChanges()
-        })
-        
+          this.totalGeneral += total;
+          this.changeDetectorRef.detectChanges();
+        });
+
         this.arrEstados = {
           estado_aprobado: respuesta.documento.estado_aprobado,
           estado_anulado: respuesta.documento.estado_anulado,
           estado_electronico: respuesta.documento.estado_electronico,
-        }
+        };
         this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  aprobar() {
+    this.httpService
+      .post('general/documento/aprobar/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.consultardetalle()
+        this.alertaService.mensajaExitoso('Documento aprobado');
+      });
+  }
+
+  emitir() {
+    this.httpService
+      .post('general/documento/emitir/', { documento_id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Documento aprobado');
+        this.consultardetalle()
+      });
+  }
+
+  imprimir() {
+    this.httpService
+      .descargarArchivo('general/documento/imprimir/', {
+        filtros: [],
+        limite: 50,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: '',
+        tipo: '',
+        documento_tipo_id: 1,
+        documento_id: this.detalle,
+      })
+      .subscribe((data) => {
+        this.changeDetectorRef.detectChanges();
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
       });
   }
 }
