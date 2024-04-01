@@ -53,8 +53,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   camposVisibles: any;
   datosFiltrados: any = [];
   claveLocalStore: string;
-  @Input() encabezado: Listafiltros[] = [];
-  @Input() encabezadoTest: any;
+  @Input() encabezado: any;
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
@@ -77,11 +76,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.encabezadoTest) {
+    if (changes.encabezado) {
       if (!localStorage.getItem(this.claveLocalStore)) {
         localStorage.setItem(
           this.claveLocalStore,
-          JSON.stringify(changes.encabezadoTest.currentValue)
+          JSON.stringify(changes.encabezado.currentValue)
         );
       }
     }
@@ -333,16 +332,16 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Si no se proporciona un campo, no se realiza ninguna acción y se devuelve undefined
   }
 
-  // Esta función establece que todas las columnas en la copia de "encabezadoTest" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.
+  // Esta función establece que todas las columnas en la copia de "encabezado" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.
   visualizarColumnas() {
     // Establece todas las columnas como visibles en la copia de "encabezadoTestCopia"
     this.encabezadoTestCopia.map((item: any) => (item.visibleTabla = true));
-    // Establece todas las columnas como visibles en "encabezadoTest"
-    this.encabezadoTest.map((campo: any) => (campo.visibleTabla = true));
+    // Establece todas las columnas como visibles en "encabezado"
+    this.encabezado.map((campo: any) => (campo.visibleTabla = true));
 
     localStorage.setItem(
       this.claveLocalStore,
-      JSON.stringify(this.encabezadoTest)
+      JSON.stringify(this.encabezado)
     );
 
     // Reconstruye la tabla
@@ -351,8 +350,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   // Esta función agrega o quita una columna específica de la tabla según su visibilidad actual y luego reconstruye la tabla.
   agregarColumna(columna: string) {
-    // Busca la columna en "encabezadoTest" y modifica su propiedad "visibleTabla" para alternar su visibilidad
-    this.encabezadoTest.find((campo: any) => {
+    // Busca la columna en "encabezado" y modifica su propiedad "visibleTabla" para alternar su visibilidad
+    this.encabezado.find((campo: any) => {
       if (campo.nombre === columna) {
         campo.visibleTabla = !campo.visibleTabla;
       }
@@ -360,7 +359,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
     localStorage.setItem(
       this.claveLocalStore,
-      JSON.stringify(this.encabezadoTest)
+      JSON.stringify(this.encabezado)
     );
 
     // Reconstruye la tabla
@@ -378,7 +377,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       );
     } else {
       // Si el texto de búsqueda está vacío, muestra todas las columnas de nuevo
-      this.encabezadoTestCopia = this.encabezadoTest;
+      this.encabezadoTestCopia = this.encabezado;
     }
   }
 }
