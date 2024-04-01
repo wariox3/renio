@@ -246,6 +246,7 @@
             class="form-control"
             type="text"
             autocomplete="off"
+            (blur)="modificarCampoFormulario('soporte', null)"
             [ngClass]="{
               'is-invalid':
                 formularioFactura.controls['soporte'].touched &&
@@ -275,6 +276,7 @@
             formControlName="comentario"
             class="form-control"
             id="exampleFormControlTextarea1"
+            (blur)="modificarCampoFormulario('comentario', null)"
             rows="3"
             [ngClass]="{
               'is-invalid':

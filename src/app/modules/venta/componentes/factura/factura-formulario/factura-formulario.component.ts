@@ -700,6 +700,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         .get('metodo_pago_nombre')
         ?.setValue(dato.metodo_pogo_nombre);
     }
+    if (campo === 'comentario') {
+      if (this.formularioFactura.get(campo)?.value === '') {
+        this.formularioFactura.get(campo)?.setValue(null);
+      }
+    }
+    if (campo === 'soporte') {
+      if (this.formularioFactura.get(campo)?.value === '') {
+        this.formularioFactura.get(campo)?.setValue(null);
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 
