@@ -44,7 +44,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   ];
   @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
-  nombreFiltro = "";
+  nombreFiltro = '';
 
   constructor(private formBuilder: FormBuilder) {
     super();
@@ -53,10 +53,25 @@ export class BaseFiltroComponent extends General implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
+      this.nombreFiltro =
+        `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
+
+      if (localStorage.getItem(this.nombreFiltro) !== null) {
+        this.filtrosAplicados = JSON.parse(
+          localStorage.getItem(this.nombreFiltro)!
+        );
+        this.formularioItem.reset();
+        this.filtros.clear();
+        this.filtrosAplicados.map((propiedad) => {
+          this.filtros.push(this.crearControlFiltros(propiedad));
+        });
+      } else {
+        this.formularioItem.reset();
+        this.filtros.clear();
+        this.filtros.push(this.crearControlFiltros(null));
+      }
       this.changeDetectorRef.detectChanges();
-    })
-    this.cargarCamposAlFormulario();
+    });
   }
 
   initForm() {
@@ -192,9 +207,9 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad: propiedad.campo,
       tipo: propiedad.tipo,
     });
-    if(propiedad.tipo === 'Booleano'){
+    if (propiedad.tipo === 'Booleano') {
       filtroPorActualizar.patchValue({
-        valor1: null
+        valor1: null,
       });
     }
   }
@@ -206,6 +221,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   limpiarFormulario() {
     this.formularioItem.reset();
+    this.filtros.clear();
     localStorage.removeItem(this.nombreFiltro);
     this.filtros.clear();
     this.agregarNuevoFiltro();
