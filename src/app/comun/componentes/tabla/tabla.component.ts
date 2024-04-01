@@ -279,6 +279,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     if (this.selectAll) {
       this.toggleSelectAll();
     }
+    this.arrRegistrosEliminar = []
   }
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
