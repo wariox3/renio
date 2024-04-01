@@ -137,6 +137,7 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
       this.filtroCampoNombre = changes.datosSeleccionados.currentValue.propiedad
       this.filtroCampoCriterio = changes.datosSeleccionados.currentValue.operador
       this.criteriosBusqueda = this.datosCriteriosBusqueda[changes.datosSeleccionados.currentValue.tipo];
+      this.changeDetectorRef.detectChanges();
     }
   }
 

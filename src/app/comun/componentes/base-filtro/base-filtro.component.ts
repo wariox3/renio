@@ -221,9 +221,8 @@ export class BaseFiltroComponent extends General implements OnInit {
   }
 
   limpiarFormulario() {
-    this.formularioItem.reset();
-    this.filtros.clear();
     localStorage.removeItem(this.nombreFiltro);
+    this.formularioItem.reset();
     this.filtros.clear();
     this.agregarNuevoFiltro();
     this.emitirFiltros.emit([]);
