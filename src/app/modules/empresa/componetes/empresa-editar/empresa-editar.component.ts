@@ -295,7 +295,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   cerrarModal(): void {
-    this.inputBusquedaResolucion.nativeElement.focus();
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
