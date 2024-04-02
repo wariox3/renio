@@ -287,8 +287,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   abirModal(content: any) {
-    this.inputBusquedaResolucion.nativeElement.focus();
-
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
