@@ -12,7 +12,6 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { BotoneraDetalleComponent } from '@comun/componentes/botonera-detalle-movimiento/botonera-detalle.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 
@@ -35,8 +34,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
     CardComponent,
-    BotoneraDetalleComponent,
-    BtnAtrasComponent
+    BtnAtrasComponent,
   ],
 })
 export default class FacturaDetalleComponent extends General {
@@ -71,6 +69,8 @@ export default class FacturaDetalleComponent extends General {
     estado_aprobado: false,
     estado_anulado: false,
     estado_electronico: false,
+    estado_electronico_enviado: false,
+    estado_electronico_notificado: false,
   };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
@@ -112,11 +112,14 @@ export default class FacturaDetalleComponent extends General {
           this.totalGeneral += total;
           this.changeDetectorRef.detectChanges();
         });
-
         this.arrEstados = {
           estado_aprobado: respuesta.documento.estado_aprobado,
           estado_anulado: respuesta.documento.estado_anulado,
           estado_electronico: respuesta.documento.estado_electronico,
+          estado_electronico_enviado:
+            respuesta.documento.estado_electronico_enviado,
+          estado_electronico_notificado:
+            respuesta.documento.estado_electronico_notificado,
         };
         this.changeDetectorRef.detectChanges();
       });
@@ -126,7 +129,7 @@ export default class FacturaDetalleComponent extends General {
     this.httpService
       .post('general/documento/aprobar/', { id: this.detalle })
       .subscribe((respuesta: any) => {
-        this.consultardetalle()
+        this.consultardetalle();
         this.alertaService.mensajaExitoso('Documento aprobado');
       });
   }
@@ -136,7 +139,7 @@ export default class FacturaDetalleComponent extends General {
       .post('general/documento/emitir/', { documento_id: this.detalle })
       .subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Documento aprobado');
-        this.consultardetalle()
+        this.consultardetalle();
       });
   }
 

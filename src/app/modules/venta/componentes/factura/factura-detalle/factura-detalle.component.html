@@ -27,7 +27,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="emitir()"
-        [disabled]="!arrEstados.estado_aprobado ||  arrEstados.estado_electronico "
+        [disabled]="!arrEstados.estado_aprobado ||  arrEstados.estado_electronico_enviado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
       </button>
@@ -42,6 +42,12 @@
     </ng-container>
     <ng-container *ngIf="arrEstados.estado_electronico">
       <span class="badge badge-secondary">Electrónico</span>
+    </ng-container>
+    <ng-container *ngIf="arrEstados.estado_electronico_enviado">
+      <span class="badge badge-secondary">Enviado</span>
+    </ng-container>
+    <ng-container *ngIf="arrEstados.estado_electronico_notificado">
+      <span class="badge badge-secondary">Notificado</span>
     </ng-container>
   </div>
 </div>
