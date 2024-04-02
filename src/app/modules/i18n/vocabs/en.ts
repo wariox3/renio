@@ -282,7 +282,8 @@ export const locale = {
           TIPOPERSONA: 'Type of person',
           FACTURAELECTRONICALABEL: 'Active for issuance of electronic invoice DIAN Colombia',
           CODIGOTESTID: 'TestID code',
-          CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN'
+          CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN',
+          RESOLUCIONNUMERACION: 'Resolution/Numbering',
         },
         FILTROS: {
           OPERADORES: {

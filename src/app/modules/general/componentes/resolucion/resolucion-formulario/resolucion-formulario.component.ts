@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -41,7 +41,8 @@ export default class ResolucionFormularioComponent
 {
   formularioResolucion: FormGroup;
   @Input() ocultarBtnAtras = false;
-  @Input() ejecutarFuncionExtra: () => void; // Llama al cerrar modal que está en editarEmpresa
+  @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
+
   @Input() tituliFijo: Boolean = false;
   constructor(
     private formBuilder: FormBuilder,
@@ -140,8 +141,8 @@ export default class ResolucionFormularioComponent
           .guardarResolucion(this.formularioResolucion.value)
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizo la información');
-            if (this.ejecutarFuncionExtra) {
-              this.ejecutarFuncionExtra(); // necesario para cerrar el modal que está en editarEmpresa
+            if (this.ocultarBtnAtras) {
+              this.emitirGuardoRegistro.emit(true); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.router.navigate(['/detalle'], {
                 queryParams: {

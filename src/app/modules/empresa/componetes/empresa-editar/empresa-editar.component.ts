@@ -56,7 +56,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.initForm();
     this.initFormDian();
     this.consultarInformacion();
-    console.log(this.inputBusquedaResolucion);
     
   }
 
@@ -275,7 +274,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   abirModal(content: any) {
-    this.modalService.open(content, {
+      this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
@@ -284,8 +283,10 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
 
   cerrarModal(): void {
-    document.getElementById("inputBusquedaResolucion")!.focus()
+    this.inputBusquedaResolucion.nativeElement.focus();
+    this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
   }
+
 }

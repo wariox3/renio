@@ -284,7 +284,8 @@ export const locale = {
           TIPOPERSONA: 'Tipo persona',
           FACTURAELECTRONICALABEL: 'Activo para emisión de factura electrónica DIAN colombia',
           CODIGOTESTID: 'Código TestID',
-          CODIGOTESTIDPLACEHOLDER: 'Ingresa el código brindado por la DIAN'
+          CODIGOTESTIDPLACEHOLDER: 'Ingresa el código brindado por la DIAN',
+          RESOLUCIONNUMERACION: 'Resolución/Numeración',
         },
         FILTROS: {
           OPERADORES: {
