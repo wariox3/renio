@@ -39,7 +39,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
   @Input() empresa_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
-  @ViewChild('inputBusquedaResolucion', {static: true}) inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
+  @ViewChild('inputBusquedaResolucion', { static: true })
+  inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +57,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.initForm();
     this.initFormDian();
     this.consultarInformacion();
-    
   }
 
   consultarInformacion() {
@@ -206,9 +206,11 @@ export class EmpresaEditarComponent extends General implements OnInit {
       this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
       this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato.ciudad_nombre);
     }
-    if(campo === 'resolucion_id'){
+    if (campo === 'resolucion_id') {
       this.formularioDian.get(campo)?.setValue(dato.resolucion_id);
-      this.formularioDian.get('resolucion_numero')?.setValue(dato.resolucion_numero);
+      this.formularioDian
+        .get('resolucion_numero')
+        ?.setValue(dato.resolucion_numero);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -240,7 +242,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   consultarResolucion(event: any) {
-
     let arrFiltros = {
       filtros: [
         {
@@ -274,13 +275,14 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   abirModal(content: any) {
-      this.modalService.open(content, {
+    this.inputBusquedaResolucion.nativeElement.focus();
+
+    this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
     this.changeDetectorRef.detectChanges();
   }
-
 
   cerrarModal(): void {
     this.inputBusquedaResolucion.nativeElement.focus();
@@ -288,5 +290,4 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
   }
-
 }
