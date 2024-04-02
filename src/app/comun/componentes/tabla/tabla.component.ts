@@ -279,7 +279,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     if (this.selectAll) {
       this.toggleSelectAll();
     }
-    this.arrRegistrosEliminar = []
+    this.arrRegistrosEliminar = [];
   }
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
@@ -295,12 +295,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         this.arrRegistrosEliminar.splice(index, 1);
       } else {
         // Si el registro no estaba en el array de registros a eliminar, lo agrega
-        this.arrRegistrosEliminar.push(item.id);
+        this.arrRegistrosEliminar.push(item.id.valor);
       }
     });
     // Alterna el estado de selección de todos los registros
     this.selectAll = !this.selectAll;
-
     this.changeDetectorRef.detectChanges();
   }
 
@@ -340,10 +339,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Establece todas las columnas como visibles en "encabezado"
     this.encabezado.map((campo: any) => (campo.visibleTabla = true));
 
-    localStorage.setItem(
-      this.claveLocalStore,
-      JSON.stringify(this.encabezado)
-    );
+    localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
 
     // Reconstruye la tabla
     this.construirTabla();
@@ -358,10 +354,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       }
     });
 
-    localStorage.setItem(
-      this.claveLocalStore,
-      JSON.stringify(this.encabezado)
-    );
+    localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
 
     // Reconstruye la tabla
     this.construirTabla();
