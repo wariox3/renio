@@ -146,8 +146,20 @@ export class EmpresaEditarComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
         ]),
       ],
-      resolucion_numero: [null],
-      resolucion_id: [''],
+      resolucion_numero: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
+        ]),
+      ],
+      resolucion_id: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
+        ]),
+      ],
     });
   }
 
