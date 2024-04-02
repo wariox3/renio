@@ -1,0 +1,52 @@
+<div class="d-flex mb-5 justify-content-between align-items-center">
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
+    >
+      <app-comun-btn-atras />
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="aprobar()"
+        [disabled]="estados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+      >
+        <ng-container *ngIf="generarPDF; else elseTemplate">
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERANDO" | translate }}
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+        </ng-template>
+      </button>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          (click)="emitir()"
+          [disabled]="!estados.estado_aprobado ||  estados.estado_electronico "
+        >
+          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+      <ng-container *ngIf="estados.estado_aprobado">
+        <span class="badge badge-success">Aprobado</span>
+      </ng-container>
+      <ng-container *ngIf="estados.estado_anulado">
+        <span class="badge badge-danger">Anulado</span>
+      </ng-container>
+      <ng-container *ngIf="estados.estado_electronico">
+        <span class="badge badge-secondary">Electrónico</span>
+      </ng-container>
+    </div>
+  </div>
