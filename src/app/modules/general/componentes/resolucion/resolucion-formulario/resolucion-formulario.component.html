@@ -5,7 +5,7 @@
       role="group"
       aria-label="Basic example"
     >
-      <app-comun-btn-atras />
+      <app-comun-btn-atras *ngIf="!ocultarBtnAtras" />
       <button
         type="submit"
         class="btn btn-primary btn-sm"
@@ -16,18 +16,24 @@
   </div>
   <app-card>
     <section card-titulo>
-      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+      <ng-container *ngIf="tituliFijo; else tituliNoFijo">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
-        {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
-        }}
+        {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
       </ng-container>
-      <ng-template #tituloDetalle>
-        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
-        {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
-        }}
-        {{ detalle }}
+      <ng-template #tituliNoFijo>
+        <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+          {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+          {{
+            "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+          }}
+        </ng-container>
+        <ng-template #tituloDetalle>
+          {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+          {{
+            "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+          }}
+          {{ detalle }}
+        </ng-template>
       </ng-template>
     </section>
     <section card-body>

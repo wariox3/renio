@@ -1,33 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
-import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
-import { CardComponent } from "@comun/componentes/card/card.component";
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import {
+  NgbActiveModal,
+  NgbModal,
+  NgbModalModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-resolucion-nuevo',
-    standalone: true,
-    templateUrl: './resolucion-formulario.component.html',
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        BtnAtrasComponent,
-        CardComponent
-    ]
+  selector: 'app-resolucion-nuevo',
+  standalone: true,
+  templateUrl: './resolucion-formulario.component.html',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TranslationModule,
+    BtnAtrasComponent,
+    CardComponent,
+    NgbModalModule, // necesario para cerrar el modal que está en editarEmpresa
+  ],
+  providers: [NgbActiveModal],
 })
-export default class ResolucionFormularioComponent extends General implements OnInit {
+export default class ResolucionFormularioComponent
+  extends General
+  implements OnInit
+{
   formularioResolucion: FormGroup;
-
+  @Input() ocultarBtnAtras = false;
+  @Input() ejecutarFuncionExtra: () => void; // Llama al cerrar modal que está en editarEmpresa
+  @Input() tituliFijo: Boolean = false;
   constructor(
     private formBuilder: FormBuilder,
-    private resolucionService: ResolucionService
+    private resolucionService: ResolucionService,
+    private modalService: NgbModal // necesario para cerrar el modal que está en editarEmpresa
   ) {
     super();
   }
@@ -48,14 +67,10 @@ export default class ResolucionFormularioComponent extends General implements On
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
-    this.formularioResolucion = this.formBuilder.group(
-      {
+    this.formularioResolucion = this.formBuilder.group({
       prefijo: [
         '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(10),
-        ]),
+        Validators.compose([Validators.required, Validators.maxLength(10)]),
       ],
       numero: [
         '',
@@ -80,93 +95,86 @@ export default class ResolucionFormularioComponent extends General implements On
       ],
       fecha_desde: [
         fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-        ]),
+        Validators.compose([Validators.required]),
       ],
       fecha_hasta: [
         fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-        ]),
+        Validators.compose([Validators.required]),
       ],
-      ambiente: [
-        null,
-        Validators.compose([
-          Validators.required,
-        ]),
-      ]
-    })
-
+      ambiente: [null, Validators.compose([Validators.required])],
+    });
   }
 
   get obtenerFormularioCampos() {
     return this.formularioResolucion.controls;
   }
 
-  enviarFormulario(){
+  enviarFormulario() {
     if (this.formularioResolucion.valid) {
-      if(this.detalle){
-        this.resolucionService.actualizarDatos(this.detalle, this.formularioResolucion.value)
-        .subscribe((respuesta: any)=>{
-          this.formularioResolucion.patchValue({
-            prefijo: respuesta.prefijo,
-            numero: respuesta.numero,
-            consecutivo_desde: respuesta.consecutivo_desde,
-            consecutivo_hasta: respuesta.consecutivo_hasta,
-            fecha_desde: respuesta.fecha_desde,
-            fecha_hasta: respuesta.fecha_hasta,
+      if (this.detalle) {
+        this.resolucionService
+          .actualizarDatos(this.detalle, this.formularioResolucion.value)
+          .subscribe((respuesta: any) => {
+            this.formularioResolucion.patchValue({
+              prefijo: respuesta.prefijo,
+              numero: respuesta.numero,
+              consecutivo_desde: respuesta.consecutivo_desde,
+              consecutivo_hasta: respuesta.consecutivo_hasta,
+              fecha_desde: respuesta.fecha_desde,
+              fecha_hasta: respuesta.fecha_hasta,
+            });
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.router.navigate(['/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                detalle: respuesta.id,
+                accion: 'detalle',
+              },
+            });
           });
-          this.alertaService.mensajaExitoso('Se actualizo la información');
-          this.router.navigate(['/detalle'], {
-            queryParams: {
-              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-              detalle: respuesta.id,
-              accion: 'detalle',
-            },
-          });
-        })
       } else {
-        this.resolucionService.guardarResolucion(this.formularioResolucion.value)
-        .subscribe((respuesta:any) => {
-          this.alertaService.mensajaExitoso('Se actualizo la información');
-          this.router.navigate(['/detalle'], {
-            queryParams: {
-              modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-              modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-              tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-              formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-              detalle: respuesta.id,
-              accion: 'detalle',
-            },
+        this.resolucionService
+          .guardarResolucion(this.formularioResolucion.value)
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Se actualizo la información');
+            if (this.ejecutarFuncionExtra) {
+              this.ejecutarFuncionExtra(); // necesario para cerrar el modal que está en editarEmpresa
+            } else {
+              this.router.navigate(['/detalle'], {
+                queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                  detalle: respuesta.id,
+                  accion: 'detalle',
+                },
+              });
+            }
           });
-        })
-  
       }
     } else {
       this.formularioResolucion.markAllAsTouched();
-
     }
   }
 
-
-  consultardetalle(){
-    this.resolucionService.consultarDetalle(this.detalle)
-    .subscribe((respuesta: any)=>{
-      this.formularioResolucion.patchValue({
-        prefijo: respuesta.prefijo,
-        numero: respuesta.numero,
-        consecutivo_desde: respuesta.consecutivo_desde,
-        consecutivo_hasta: respuesta.consecutivo_hasta,
-        fecha_desde: respuesta.fecha_desde,
-        fecha_hasta: respuesta.fecha_hasta,
-        ambiente: respuesta.ambiente
-      })
-      this.changeDetectorRef.detectChanges();
-
-    })
+  consultardetalle() {
+    this.resolucionService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.formularioResolucion.patchValue({
+          prefijo: respuesta.prefijo,
+          numero: respuesta.numero,
+          consecutivo_desde: respuesta.consecutivo_desde,
+          consecutivo_hasta: respuesta.consecutivo_hasta,
+          fecha_desde: respuesta.fecha_desde,
+          fecha_hasta: respuesta.fecha_hasta,
+          ambiente: respuesta.ambiente,
+        });
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

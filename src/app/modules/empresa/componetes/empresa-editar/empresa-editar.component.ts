@@ -1,6 +1,7 @@
-import { Ciudad } from './../../../../interfaces/general/ciudad';
+import { Ciudad } from '@interfaces/general/ciudad';
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -11,6 +12,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { HttpService } from '@comun/services/http.service';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { TipoPersona } from '@interfaces/general/tipoPersona';
@@ -18,6 +20,7 @@ import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.serv
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -31,17 +34,20 @@ export class EmpresaEditarComponent extends General implements OnInit {
   arrIdentificacion: TipoIdentificacion[] = [];
   arrTipoPersona: TipoPersona[] = [];
   arrRegimen: Regimen[] = [];
+  arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
   @Input() empresa_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
-  modalRef: any;
+  @ViewChild('inputBusquedaResolucion', {static: true}) inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private httpService: HttpService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -50,6 +56,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.initForm();
     this.initFormDian();
     this.consultarInformacion();
+    console.log(this.inputBusquedaResolucion);
+    
   }
 
   consultarInformacion() {
@@ -139,6 +147,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
         ]),
       ],
+      resolucion_numero: [null],
+      resolucion_id: [''],
     });
   }
 
@@ -197,6 +207,10 @@ export class EmpresaEditarComponent extends General implements OnInit {
       this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
       this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato.ciudad_nombre);
     }
+    if(campo === 'resolucion_id'){
+      this.formularioDian.get(campo)?.setValue(dato.resolucion_id);
+      this.formularioDian.get('resolucion_numero')?.setValue(dato.resolucion_numero);
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -215,15 +229,64 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   activarEmpresa() {
-    if(this.formularioDian.valid){
+    if (this.formularioDian.valid) {
       this.empresaService
-      .activarEmpresa(this.empresa_id, this.formularioDian.value)
-      .subscribe(() => {
-        this.consultarInformacion()
-      });
+        .activarEmpresa(this.empresa_id, this.formularioDian.value)
+        .subscribe(() => {
+          this.consultarInformacion();
+        });
     } else {
       this.formularioDian.markAllAsTouched();
     }
+  }
 
+  consultarResolucion(event: any) {
+
+    let arrFiltros = {
+      filtros: [
+        {
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'numero__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Resolucion',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrResoluciones = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  abirModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+
+  cerrarModal(): void {
+    this.modalService.dismissAll();
+    document.getElementById("inputBusquedaResolucion")!.click()
+    document.getElementById("inputBusquedaResolucion")!.focus()
+    this.changeDetectorRef.detectChanges();
   }
 }

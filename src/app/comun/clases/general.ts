@@ -15,7 +15,7 @@ export class General {
   protected modelo = '';
   protected tipo = '';
   protected formulario = '';
-  protected accion = '';
+  protected accion: string | null = null;
   protected detalle = 0;
 
   constructor() {
@@ -25,7 +25,7 @@ export class General {
   consultarParametros() {
     if (this.router.url.includes('nuevo')) {
       this.accion = 'nuevo';
-    } else {
+    } else if(this.router.url.includes('detalle')) {
       this.accion = 'detalle';
     }
 

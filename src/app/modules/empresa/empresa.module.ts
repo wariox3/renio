@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from "../../_metronic/shared/shared.module";
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 
 @NgModule({
     declarations: [EmpresaDetalleComponent, EmpresaEditarComponent],
@@ -31,6 +32,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
         SharedModule,
         NgxMaskDirective,
         NgxMaskPipe,
+        ResolucionFormularioComponent
     ],
     providers: [NgbActiveModal, provideNgxMask()],
 
