@@ -48,17 +48,7 @@ export const empresaReducer = createReducer(
   })),
   on(empresaActualizacionAction, (state, { empresa }) => ({
     ...state,
-    ...{
-      numero_identificacion: empresa.numero_identificacion,
-      digito_verificacion: empresa.digito_verificacion,
-      nombre_corto: empresa.nombre_corto,
-      direccion: empresa.direccion,
-      telefono: empresa.telefono,
-      correo: empresa.correo,
-      imagen: empresa.imagen,
-      ciudad: empresa.ciudad,
-      identificacion: empresa.identificacion,
-    },
+    ...empresa,
   })),
   on(empresaActualizacionImangenAction, (state, { imagen }) => ({
     ...state,
