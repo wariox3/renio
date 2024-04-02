@@ -470,145 +470,158 @@
 >
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICA'">
     <section card-body>
-      <!-- <ng-container *ngIf="rededoc_id; else formularioFacturaElectronica"> -->
-      <div class="row mb-10">
-        <div class="col-md-12 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.FACTURAELECTRONICALABEL"
-            class="fw-semibold text-gray-600 fs-2"
-          ></label>
-          <p class="fw-bold text-gray-800 fs-6">{{ rededoc_id }}</p>
-        </div>
-      </div>
-      <!-- </ng-container>
-      <ng-template #formularioFacturaElectronica> -->
-      <div class="row mb-10">
-        <div class="col-md-12 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.CODIGOTESTID"
-            class="form-label required"
-          ></label>
-          <input
-            formControlName="setPruebas"
-            class="form-control bg-transparent"
-            [placeholder]="
-              'FORMULARIOS.CAMPOS.EMPRESA.CODIGOTESTIDPLACEHOLDER' | translate
-            "
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioDian.controls['setPruebas'].touched &&
-                formularioDian.controls['setPruebas'].invalid,
-              'is-valid':
-                formularioDian.controls['setPruebas'].touched &&
-                formularioDian.controls['setPruebas'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioDian.controls['setPruebas']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioDian.controls['setPruebas']
-            }"
-          ></ng-container>
-          <div class="mt-2">
-            <span>{{
-              "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGO"
-                | translate
-            }}</span>
-            <a href="" target="_blank">{{
-              "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGOURL"
-                | translate
-            }}</a>
+      <ng-container *ngIf="rededoc_id; else formularioFacturaElectronica">
+        <div class="row mb-10">
+          <div class="col-md-12 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.EMPRESA.FACTURAELECTRONICALABEL"
+              class="fw-semibold text-gray-600 fs-2"
+            ></label>
+            <p class="fw-bold text-gray-800 fs-6">{{ rededoc_id }}</p>
           </div>
         </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
-          ></label>
-          <div class="position-relative">
+      </ng-container>
+      <ng-template #formularioFacturaElectronica>
+        <div class="row mb-10">
+          <div class="col-md-12 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.EMPRESA.CODIGOTESTID"
+              class="form-label required"
+            ></label>
             <input
+              formControlName="setPruebas"
+              class="form-control bg-transparent"
+              [placeholder]="
+                'FORMULARIOS.CAMPOS.EMPRESA.CODIGOTESTIDPLACEHOLDER' | translate
+              "
               type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              id="inputBusquedaResolucion"
-              #inputBusquedaResolucion
-              formControlName="resolucion_numero"
-              (focus)="consultarResolucion($event); ClienteDropdown.open()"
-              (keyup)="consultarResolucion($event)"
+              autocomplete="off"
               [ngClass]="{
                 'is-invalid':
-                  formularioDian.controls['resolucion_id'].touched &&
-                  formularioDian.controls['resolucion_id'].invalid,
+                  formularioDian.controls['setPruebas'].touched &&
+                  formularioDian.controls['setPruebas'].invalid,
                 'is-valid':
-                  formularioDian.controls['resolucion_id'].touched &&
-                  formularioDian.controls['resolucion_id'].valid
+                  formularioDian.controls['setPruebas'].touched &&
+                  formularioDian.controls['setPruebas'].valid
               }"
             />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2x"></i>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioDian.controls['setPruebas']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                control: formularioDian.controls['setPruebas']
+              }"
+            ></ng-container>
+            <div class="mt-2">
+              <span>{{
+                "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGO"
+                  | translate
+              }}</span>
+              <a href="" target="_blank">{{
+                "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGOURL"
+                  | translate
+              }}</a>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
-            <ng-container *ngFor="let resolucion of arrResoluciones">
+        </div>
+        <div class="row mb-5">
+          <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+            ></label>
+            <div class="position-relative">
+              <input
+                type="text"
+                class="form-control"
+                ngbDropdownAnchor
+                id="inputBusquedaResolucion"
+                #inputBusquedaResolucion
+                formControlName="resolucion_numero"
+                (focus)="consultarResolucion($event); ClienteDropdown.open()"
+                (keyup)="consultarResolucion($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    formularioDian.controls['resolucion_id'].touched &&
+                    formularioDian.controls['resolucion_id'].invalid,
+                  'is-valid':
+                    formularioDian.controls['resolucion_id'].touched &&
+                    formularioDian.controls['resolucion_id'].valid
+                }"
+              />
+              <div
+                class="position-absolute translate-middle-y top-50 end-0 me-3"
+              >
+                <i class="bi bi-search fs-2x"></i>
+              </div>
+            </div>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="dropdown-menu"
+            >
+              <ng-container *ngFor="let resolucion of arrResoluciones">
+                <button
+                  type="button"
+                  ngbDropdownItem
+                  (click)="
+                    modificarCampoFormulario('resolucion_id', resolucion)
+                  "
+                >
+                  {{ resolucion.resolucion_numero }}
+                </button>
+              </ng-container>
+              <div class="dropdown-divider"></div>
               <button
                 type="button"
                 ngbDropdownItem
-                (click)="modificarCampoFormulario('resolucion_id', resolucion)"
+                (click)="abirModal(content)"
               >
-                {{ resolucion.resolucion_numero }}
+                {{
+                  "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase
+                }}
+                {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
+                <ng-template #content let-modal>
+                  <div class="modal-body">
+                    <app-resolucion-nuevo
+                      [ocultarBtnAtras]="true"
+                      [ejecutarFuncionExtra]="cerrarModal"
+                      [tituliFijo]="true"
+                    />
+                  </div>
+                </ng-template>
               </button>
-            </ng-container>
-            <div class="dropdown-divider"></div>
-            <button type="button" ngbDropdownItem (click)="abirModal(content)">
-              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
-              {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
-              <ng-template #content let-modal>
-                <div class="modal-body">
-                  <app-resolucion-nuevo
-                    [ocultarBtnAtras]="true"
-                    [ejecutarFuncionExtra]="cerrarModal"
-                    [tituliFijo]="true"
-                  />
-                </div>
-              </ng-template>
-            </button>
+            </div>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioDian.controls['resolucion_id']
+              }"
+            ></ng-container>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioDian.controls['resolucion_id']
-            }"
-          ></ng-container>
         </div>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button
-          translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
-          type="submit"
-          class="btn btn-primary"
-        ></button>
-      </div>
-      <!-- </ng-template> -->
+        <div class="d-flex justify-content-end">
+          <button
+            translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
+            type="submit"
+            class="btn btn-primary"
+          ></button>
+        </div>
+      </ng-template>
     </section>
   </app-card>
 </form>
