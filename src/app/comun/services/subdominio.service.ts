@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class SubdominioService {
   }
 
   esSubdominioActual() {
-    let esSubdominio = this.dominioActual.split('.').length > 2;
-    return esSubdominio;
+    return window.location.host.includes(environment.dominioApp);
   }
 
   subdominioNombre() {
