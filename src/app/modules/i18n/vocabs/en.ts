@@ -135,7 +135,7 @@ export const locale = {
           TERMINOS: 'I accept the terms and conditions',
           NOCUENTA: '¿Dont have an account yet? ',
           VERIFICACIONEXITOSA: 'Account successfully verified',
-          VERIFICACIONEXITOSASUBTITULO: 'You can now start using redofice',
+          VERIFICACIONEXITOSASUBTITULO: 'You can now start using reddoc',
           VERIFICACIONERROR: 'An error has occurred',
           VERIFICACIONERRORSUBTITULO: 'Errors with the token?',
           PROCESANDOTOKEN: 'Processing token',
