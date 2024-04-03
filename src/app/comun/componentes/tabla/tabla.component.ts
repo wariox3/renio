@@ -57,6 +57,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
+  @Input() confirmacionRegistrosEliminado: boolean;
 
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
@@ -83,6 +84,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           JSON.stringify(changes.encabezado.currentValue)
         );
       }
+    }
+    if(changes.confirmacionRegistrosEliminado){
+      this.confirmacionRegistrosEliminado = changes.confirmacionRegistrosEliminado.currentValue
     }
     this.construirTabla();
   }
@@ -279,7 +283,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     if (this.selectAll) {
       this.toggleSelectAll();
     }
-    this.arrRegistrosEliminar = [];
+    if(this.confirmacionRegistrosEliminado){
+      this.arrRegistrosEliminar = [];
+    }
   }
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.

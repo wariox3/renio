@@ -46,6 +46,7 @@ export class BaseListaComponent extends General implements OnInit {
   tipo = '';
   modelo = '';
   titulos: any = [];
+  confirmacionRegistrosEliminado = false;
 
   constructor(private httpService: HttpService) {
     super();
@@ -157,6 +158,8 @@ export class BaseListaComponent extends General implements OnInit {
         });
         combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
           this.alertaService.mensajaExitoso('Registro eliminado');
+          this.confirmacionRegistrosEliminado = true
+          this.changeDetectorRef.detectChanges()
           this.consultarLista();
         });
       }
