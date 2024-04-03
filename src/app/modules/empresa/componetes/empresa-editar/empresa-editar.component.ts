@@ -140,7 +140,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   initFormDian() {
     this.formularioDian = this.formBuilder.group({
-      setPruebas: [
+      set_pruebas: [
         '',
         Validators.compose([
           Validators.required,

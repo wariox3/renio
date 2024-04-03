@@ -489,7 +489,7 @@
               class="form-label required"
             ></label>
             <input
-              formControlName="setPruebas"
+              formControlName="set_pruebas"
               class="form-control bg-transparent"
               [placeholder]="
                 'FORMULARIOS.CAMPOS.EMPRESA.CODIGOTESTIDPLACEHOLDER' | translate
@@ -498,11 +498,11 @@
               autocomplete="off"
               [ngClass]="{
                 'is-invalid':
-                  formularioDian.controls['setPruebas'].touched &&
-                  formularioDian.controls['setPruebas'].invalid,
+                  formularioDian.controls['set_pruebas'].touched &&
+                  formularioDian.controls['set_pruebas'].invalid,
                 'is-valid':
-                  formularioDian.controls['setPruebas'].touched &&
-                  formularioDian.controls['setPruebas'].valid
+                  formularioDian.controls['set_pruebas'].touched &&
+                  formularioDian.controls['set_pruebas'].valid
               }"
             />
             <ng-container
@@ -511,7 +511,7 @@
                 validation: 'required',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioDian.controls['setPruebas']
+                control: formularioDian.controls['set_pruebas']
               }"
             ></ng-container>
             <ng-container
@@ -520,7 +520,7 @@
                 validation: 'pattern',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                control: formularioDian.controls['setPruebas']
+                control: formularioDian.controls['set_pruebas']
               }"
             ></ng-container>
             <div class="mt-2">
