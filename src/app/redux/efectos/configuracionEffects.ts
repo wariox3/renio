@@ -20,7 +20,7 @@ export class ConfiguracionEffects {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {
               expires: calcularTresHoras,
               path: '/',
-              domain: `.reddoc.online`,
+              domain: `.reddoc.com.co`,
             });
           } else {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {
