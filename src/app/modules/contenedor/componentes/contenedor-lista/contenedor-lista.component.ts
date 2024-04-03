@@ -83,7 +83,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           })
         );
         if (environment.production) {
-          window.location.href = `http://${respuesta.subdominio}.reddoc.onl/dashboard`;
+          window.location.href = `http://${respuesta.subdominio}.reddoc.com.co/dashboard`;
         } else {
           this.router.navigateByUrl('/dashboard');
         }
