@@ -21,6 +21,10 @@ export class UsuarioEffects {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
           );
+          
+          console.log(environment.production);
+          console.log(environment.dominioApp);
+          
           if (environment.production) {
             setCookie('usuario', JSON.stringify(action.usuario), {
               expires: calcularTresHoras,
