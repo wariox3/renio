@@ -110,7 +110,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmisContenedores() {
     if (this.esSubdominio) {
-      location.href = 'http://reddoc.online/contenedor/lista';
+      location.href = 'http://reddoc.com.co/contenedor/lista';
     } else {
       this.router.navigate([`/contenedor/lista`]);
     }
