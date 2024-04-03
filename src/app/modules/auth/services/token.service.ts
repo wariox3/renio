@@ -31,7 +31,7 @@ export class TokenService {
 
   guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {
     if(environment.production){
-      setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/', domain: '.reddoc.onl' })
+      setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/', domain: '.reddoc.com.co' })
     }else {
       setCookie('RefreshToken', RefreshToken, { expires: calcularTresHoras, path: '/'})
     }
