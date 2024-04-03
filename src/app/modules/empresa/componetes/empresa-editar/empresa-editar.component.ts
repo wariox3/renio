@@ -21,6 +21,7 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Resolucion } from '@interfaces/general/resolucion';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -294,7 +295,12 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  cerrarModal(): void {
+  cerrarModal(resolucion: Resolucion): void {
+    console.log(resolucion);
+    this.modificarCampoFormulario('resolucion_id', {
+      resolucion_id: resolucion.id,
+      resolucion_numero: resolucion.numero
+    })
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();

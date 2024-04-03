@@ -1,4 +1,5 @@
 export interface Resolucion {
+    readonly id?: number;
     prefijo: string;
     numero: string;
     consecutivo_desde: number;

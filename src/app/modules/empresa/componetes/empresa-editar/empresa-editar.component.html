@@ -470,7 +470,7 @@
 >
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICA'">
     <section card-body>
-      <ng-container *ngIf="rededoc_id; else formularioFacturaElectronica">
+      <!-- <ng-container *ngIf="rededoc_id; else formularioFacturaElectronica"> -->
         <div class="row mb-10">
           <div class="col-md-12 col-sm-12">
             <label
@@ -480,8 +480,8 @@
             <p class="fw-bold text-gray-800 fs-6">{{ rededoc_id }}</p>
           </div>
         </div>
-      </ng-container>
-      <ng-template #formularioFacturaElectronica>
+      <!-- </ng-container>
+      <ng-template #formularioFacturaElectronica> -->
         <div class="row mb-10">
           <div class="col-md-12 col-sm-12">
             <label
@@ -597,7 +597,7 @@
                   <div class="modal-body">
                     <app-resolucion-nuevo
                       [ocultarBtnAtras]="true"
-                      (emitirGuardoRegistro)="cerrarModal()"
+                      (emitirGuardoRegistro)="cerrarModal($event)"
                       [tituliFijo]="true"
                     />
                   </div>
@@ -631,7 +631,7 @@
             class="btn btn-primary"
           ></button>
         </div>
-      </ng-template>
+      <!-- </ng-template> -->
     </section>
   </app-card>
 </form>

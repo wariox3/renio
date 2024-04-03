@@ -141,7 +141,7 @@ export default class ResolucionFormularioComponent
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizo la información');
             if (this.ocultarBtnAtras) {
-              this.emitirGuardoRegistro.emit(true); // necesario para cerrar el modal que está en editarEmpresa
+              this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.router.navigate(['/detalle'], {
                 queryParams: {
