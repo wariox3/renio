@@ -47,9 +47,9 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private translationService: TranslationService,
-    private subdominioService: SubdominioService,
+    private subdominioService: SubdominioService
   ) {
-    super()
+    super();
   }
 
   ngOnInit(): void {
@@ -61,10 +61,9 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
     ).subscribe(([idioma, VisualizarApp]) => {
       this.selectLanguage(idioma);
       this.visualizarMenuApps = VisualizarApp;
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges();
     });
-    this.changeDetectorRef.detectChanges()
-
+    this.changeDetectorRef.detectChanges();
   }
 
   logout() {
@@ -110,7 +109,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmisContenedores() {
     if (this.esSubdominio) {
-      location.href = 'http://reddoc.com.co/contenedor/lista';
+      location.href = `http://${environment.dominioApp}/contenedor/lista`;
     } else {
       this.router.navigate([`/contenedor/lista`]);
     }

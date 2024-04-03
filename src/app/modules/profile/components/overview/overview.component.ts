@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   obtenerUsuarioId,
@@ -19,6 +20,8 @@ export class OverviewComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
+  dominioApp = environment.dominioApp
+
   constructor(private contenedorService: ContenedorService) {
     super();
   }

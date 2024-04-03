@@ -17,7 +17,7 @@ import { configuracionVisualizarAction } from '@redux/actions/configuracion.acti
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
-
+  dominioApp = environment.dominioApp
   constructor(
     private contenedorService: ContenedorService,
     private subdominioService: SubdominioService
@@ -83,7 +83,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           })
         );
         if (environment.production) {
-          window.location.href = `http://${respuesta.subdominio}.reddoc.com.co/dashboard`;
+          window.location.href = `http://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
         } else {
           this.router.navigateByUrl('/dashboard');
         }

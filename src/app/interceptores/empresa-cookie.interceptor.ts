@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { getCookie } from 'typescript-cookie';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class EmpresaCookieInterceptor implements HttpInterceptor {
@@ -22,7 +23,7 @@ export class EmpresaCookieInterceptor implements HttpInterceptor {
 
         if((this.subdominioService.subdominioNombre() !== empresa.subdominio)){
           //alert("Cambio la empresa ir")
-          //window.location.href = `http://${empresa.subdominio}.reddoc.online/dashboard`;
+          window.location.href = `http://${empresa.subdominio}${environment.dominioApp}/dashboard`;
         }
       }
     }

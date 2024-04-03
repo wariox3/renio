@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
-import { map, catchError, switchMap, finalize, tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { AuthModel } from '../models/auth.model';
 import { environment } from 'src/environments/environment';
@@ -73,7 +73,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.authLocalStorageToken);
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
-    removeCookie('usuario', { path: '/', domain: '.reddoc.com.co' });
+    removeCookie('usuario', { path: '/', domain: environment.dominioApp });
     removeCookie('usuario', { path: '/' });
     const empresaPatron = 'empresa-';
     document.cookie.split(';').forEach(function (cookie) {

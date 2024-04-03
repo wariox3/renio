@@ -23,7 +23,7 @@ export class ContenedorEffects {
               {
                 expires: calcularTresHoras,
                 path: '/',
-                domain: `.reddoc.com.co`,
+                domain: environment.dominioApp,
               }
             );
           } else {

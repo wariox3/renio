@@ -7,6 +7,7 @@ export const environment = {
   URL_API_MUUP: 'http://reddocapi.online',
   URL_API_SUBDOMINIO: 'http://subdominio.reddocapi.online',
   EMPRESA_LOCALHOST: 'demo',
+  dominioApp: '.reddoc.com.co',
   appVersion: 'v8.1.8',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
@@ -19,6 +20,5 @@ export const environment = {
     'https://preview.keenthemes.com/metronic8/angular/demo1',
   appPreviewDocsUrl: 'https://preview.keenthemes.com/metronic8/angular/docs',
   appPreviewChangelogUrl:
-    'https://preview.keenthemes.com/metronic8/angular/docs/changelog'
+    'https://preview.keenthemes.com/metronic8/angular/docs/changelog',
 };
-

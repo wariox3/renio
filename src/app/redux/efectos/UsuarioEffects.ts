@@ -25,7 +25,7 @@ export class UsuarioEffects {
             setCookie('usuario', JSON.stringify(action.usuario), {
               expires: calcularTresHoras,
               path: '/',
-              domain: '.reddoc.com.co',
+              domain: environment.dominioApp,
             });
           } else {
             setCookie('usuario', JSON.stringify(action.usuario), {
@@ -54,7 +54,7 @@ export class UsuarioEffects {
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
                 path: '/',
-                domain: '.reddoc.com.co',
+                domain: environment.dominioApp,
               });
             } else {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
@@ -77,7 +77,7 @@ export class UsuarioEffects {
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
                 path: '/',
-                domain: '.reddoc.com.co',
+                domain: environment.dominioApp,
               });
             } else {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
@@ -100,7 +100,7 @@ export class UsuarioEffects {
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
                 path: '/',
-                domain: '.reddoc.com.co',
+                domain: environment.dominioApp,
               });
             } else {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
