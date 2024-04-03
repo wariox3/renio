@@ -296,7 +296,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   cerrarModal(resolucion: Resolucion): void {
-    console.log(resolucion);
     this.modificarCampoFormulario('resolucion_id', {
       resolucion_id: resolucion.id,
       resolucion_numero: resolucion.numero

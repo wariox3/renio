@@ -56,7 +56,6 @@
   <section card-titulo>
     {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
     {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-    {{ detalle }}
   </section>
   <section card-body >
     <div class="row mb-5">
@@ -103,6 +102,17 @@
         ></label>
         <p class="fw-bold text-gray-800 fs-6">
           {{ documento.soporte }}
+        </p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-6 col-sm-12" ngbDropdown #MetodoDropdown="ngbDropdown">
+        <label
+          class="fw-semibold text-gray-600 fs-7"
+          translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ documento.numero }}
         </p>
       </div>
     </div>

@@ -275,6 +275,7 @@ export const locale = {
           TIPOOPERACION: 'Operación tipo',
           METODOPAGO: 'Método de pago',
           SOPORTE: 'Soporte',
+          NUMERO: 'Número',
           COMENTARIO: 'Comentario'
         },
         EMPRESA: {
