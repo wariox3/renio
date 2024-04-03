@@ -14,6 +14,7 @@ import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-login',
@@ -131,9 +132,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                 },
               })
             );
-            let dominioActual = window.location.host;
-            let esSubdominio = dominioActual.split('.').length > 2;
-            if (esSubdominio) {
+            if (window.location.host.includes(environment.dominioApp)) {
               this.store.dispatch(
                 configuracionVisualizarAction({
                   configuracion: {
