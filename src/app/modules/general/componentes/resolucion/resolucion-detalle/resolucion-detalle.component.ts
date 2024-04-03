@@ -41,7 +41,6 @@ export default class ResolucionNuevoComponent
     consecutivo_hasta: 0,
     fecha_desde: undefined,
     fecha_hasta: undefined,
-    ambiente: ''
   };
 
   constructor(private resolucionService: ResolucionService) {

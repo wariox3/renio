@@ -256,7 +256,6 @@ export const locale = {
             PREFIJO: 'Prefix',
             CONSECUTIVODESDE: 'Consecutive from',
             CONSECUTIVOHASTA: 'Consecutive until',
-            AMBIENTE: 'environment',
             PRODUCCION: 'Production',
             PRUEBA: 'Test',
           },

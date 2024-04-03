@@ -309,13 +309,6 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         ordenable: false,
       },
       {
-        nombre: 'AMBIENTE',
-        campoTipo: 'IntegerField',
-        visibleTabla: true,
-        visibleFiltro: false,
-        ordenable: false,
-      },
-      {
         nombre: 'CLAVE_TECNICA',
         campoTipo: 'CharField',
         visibleTabla: false,

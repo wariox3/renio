@@ -101,8 +101,7 @@ export default class ResolucionFormularioComponent
       fecha_hasta: [
         fechaVencimientoInicial,
         Validators.compose([Validators.required]),
-      ],
-      ambiente: [null, Validators.compose([Validators.required])],
+      ]
     });
   }
 
@@ -173,7 +172,6 @@ export default class ResolucionFormularioComponent
           consecutivo_hasta: respuesta.consecutivo_hasta,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
-          ambiente: respuesta.ambiente,
         });
         this.changeDetectorRef.detectChanges();
       });

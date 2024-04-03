@@ -68,20 +68,6 @@
         ></label>
         <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
       </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.AMBIENTE"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-
-        <p class="fw-bold text-gray-800 fs-6">
-          {{
-            resolucion.ambiente === "2"
-              ? ("FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRUEBA" | translate)
-              : ("FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRODUCCION" | translate)
-          }}
-        </p>
-      </div>
     </div>
   </section>
 </app-card>

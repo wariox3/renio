@@ -302,52 +302,6 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.AMBIENTE"
-            class="form-label required"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="ambiente"
-            [ngClass]="{
-              'is-invalid':
-                formularioResolucion.controls['ambiente'].touched &&
-                formularioResolucion.controls['ambiente'].invalid,
-              'is-valid':
-                formularioResolucion.controls['ambiente'].touched &&
-                formularioResolucion.controls['ambiente'].valid
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              value="2"
-              [selected]="2 === formularioResolucion.value.plazo_pago_id"
-            >
-              {{ "FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRUEBA" | translate }}
-            </option>
-            <option
-              value="1"
-              [selected]="1 === formularioResolucion.value.plazo_pago_id"
-            >
-              {{
-                "FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PRODUCCION" | translate
-              }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['ambiente']
-            }"
-          ></ng-container>
-        </div>
-      </div>
     </section>
   </app-card>
 </form>
