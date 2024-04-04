@@ -47,6 +47,7 @@ export class BaseListaComponent extends General implements OnInit {
   modelo = '';
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
+  urlEliminar = ''
 
   constructor(private httpService: HttpService) {
     super();
@@ -61,6 +62,8 @@ export class BaseListaComponent extends General implements OnInit {
       this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
+      console.log(Componetes[posicion]);
+      this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[posicion].modelo?.toLowerCase()}`,
       this.titulos = Componetes[posicion].titulos;
       let filtros = Componetes[posicion].titulos?.filter(
         (titulo: any) => titulo.visibleFiltro === true
@@ -147,12 +150,9 @@ export class BaseListaComponent extends General implements OnInit {
             this.consultarLista();
           });
       } else {
-        let modelo = this.activatedRoute.snapshot.queryParams['modelo'];
-        let modulo = this.activatedRoute.snapshot.queryParams['modulo'];
-
         const eliminarSolicitudes = data.map((registro) => {
           return this.httpService.delete(
-            `${modulo}/${modelo.toLowerCase()}/${registro}/`,
+            `${this.urlEliminar}/${registro}/`,
             {}
           );
         });

@@ -1,5 +1,14 @@
 type FormulariosYDetallesAsíncronos = {
   [key: string]: {
+    modulo?:
+      | 'compra'
+      | 'venta'
+      | 'contabilidad'
+      | 'cartera'
+      | 'humano'
+      | 'general';
+    modelo?: string;
+    tipo?: string;
     detalle: Promise<{ default: any }>;
     formulario: Promise<{ default: any }>;
     titulos?: {
@@ -20,6 +29,8 @@ type FormulariosYDetallesAsíncronos = {
 
 export const Componetes: FormulariosYDetallesAsíncronos = {
   Contacto: {
+    modulo: 'general',
+    modelo: 'contacto',
     detalle: import(
       '../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
     ),
@@ -163,6 +174,8 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     ],
   },
   Item: {
+    modulo: 'general',
+    modelo: 'item',
     detalle: import(
       '../../modules/general/componentes/item/item-detalle/item-detalle.component'
     ),
@@ -204,7 +217,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
-        aplicaFormatoNumerico: true
+        aplicaFormatoNumerico: true,
       },
       {
         nombre: 'COSTO',
@@ -212,7 +225,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,
-        aplicaFormatoNumerico: true
+        aplicaFormatoNumerico: true,
       },
       {
         nombre: 'PRODUCTO',
@@ -252,6 +265,9 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     ],
   },
   Resolucion: {
+    modulo: 'general',
+    modelo: 'resolucion',
+    tipo: 'Administrador',
     detalle: import(
       '../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
     ),
@@ -321,7 +337,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: false,
         visibleFiltro: false,
         ordenable: false,
-      }
+      },
     ],
   },
   Factura: {
@@ -397,10 +413,12 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: false,
-      }
+      },
     ],
   },
   Precio: {
+    modulo: 'general',
+    modelo: 'precio',
     detalle: import(
       '../../modules/general/componentes/precio/precio-detalle/precio-detalle.component'
     ),
@@ -436,9 +454,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         visibleFiltro: true,
         ordenable: false,
       },
-    ]
+    ],
   },
   Asesor: {
+    modulo: 'general',
+    modelo: 'asesor',
     detalle: import(
       '../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
     ),
@@ -475,5 +495,5 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         ordenable: false,
       },
     ],
-  }
+  },
 };
