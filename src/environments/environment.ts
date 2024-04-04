@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  URL_API_MUUP: 'https://reddocapi.co',
-  URL_API_SUBDOMINIO: 'https://subdominio.reddocapi.co',
+  URL_API_MUUP: 'http://reddocapi.online',
+  URL_API_SUBDOMINIO: 'http://subdominio.reddocapi.online',
   EMPRESA_LOCALHOST: 'demo',
-  dominioApp: '',
+  dominioApp: 'reddocapi.online',
   appVersion: 'v8.1.8',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
