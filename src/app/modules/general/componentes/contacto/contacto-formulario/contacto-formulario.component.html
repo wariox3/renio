@@ -505,6 +505,7 @@
               class="form-control"
               ngbDropdownAnchor
               formControlName="ciudad_nombre"
+
               [ngClass]="{
                 'is-invalid':
                   formularioContacto.controls['ciudad'].touched &&
@@ -513,7 +514,9 @@
                   formularioContacto.controls['ciudad'].touched &&
                   formularioContacto.controls['ciudad'].valid
               }"
-              (focus)="consultarCiudad($event); CiudadDropdown.open()"
+              (focus)="consultarCiudad($event); CiudadDropdown.open();"
+              (keydown.arrowdown)="selectNext($event)"
+              (keydown.arrowup)="selectPrevious($event)"
               (keydown)="consultarCiudad($event)"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -533,10 +536,11 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
-            <ng-container *ngFor="let ciudad of arrCiudades">
+            <ng-container *ngFor="let ciudad of arrCiudades; index as i">
               <button
                 type="button"
                 ngbDropdownItem
+                [ngClass]="{ item: selectedDateIndex === i }"
                 (click)="
                   modificarCampoFormulario('ciudad', ciudad);
                   CiudadDropdown.close()

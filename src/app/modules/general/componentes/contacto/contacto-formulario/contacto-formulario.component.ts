@@ -70,6 +70,47 @@ export default class ContactDetalleComponent extends General implements OnInit {
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
 
+  selectedDateIndex: number = -1;
+
+  trackByFn(index: number, item: any) {
+    return index; // or unique identifier of your item
+  }
+
+  selectNext(event: any) {
+    event.preventDefault();
+    this.selectedDateIndex =
+      (this.selectedDateIndex + 1) % this.arrCiudades.length;
+    if (isNaN(this.selectedDateIndex)) {
+      this.selectedDateIndex = -1;
+    } else {
+      if (this.arrCiudades[this.selectedDateIndex]) {
+        this.modificarCampoFormulario(
+          'ciudad',
+          this.arrCiudades[this.selectedDateIndex]
+        );
+      }
+    }
+    this.ciudadDropdown.open();
+  }
+
+  selectPrevious(event: any) {
+    event.preventDefault();
+    this.selectedDateIndex =
+      (this.selectedDateIndex - 1 + this.arrCiudades.length) %
+      this.arrCiudades.length;
+    if (isNaN(this.selectedDateIndex)) {
+      this.selectedDateIndex = -1;
+    } else {
+      if (this.arrCiudades[this.selectedDateIndex]) {
+        this.modificarCampoFormulario(
+          'ciudad',
+          this.arrCiudades[this.selectedDateIndex]
+        );
+      }
+    }
+    this.ciudadDropdown.open();
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -298,37 +339,46 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.ciudadDropdown.close();
       }
     }
+    if (event.key !== 'ArrowUp' || event.key !== 'ArrowDown' || event.key !== 'Backspace') {
+      let valor1 = event?.target.value;
+      if (valor1 !== '') {
+        if (valor1.includes('-')) {
+          let arrValor = valor1.split('-');
+          valor1 = arrValor[0].trim();
+        }
+      }
 
-    let arrFiltros = {
-      filtros: [
-        {
-          id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre__contains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'Ciudad',
-    };
+      let arrFiltros = {
+        filtros: [
+          {
+            id: '1692284537644-1688',
+            operador: '__contains',
+            propiedad: 'nombre__contains',
+            valor1,
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'Ciudad',
+      };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrCiudades = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
+      this.httpService
+        .post<{ cantidad_registros: number; registros: any[] }>(
+          'general/funcionalidad/lista-autocompletar/',
+          arrFiltros
+        )
+        .pipe(
+          throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+          tap((respuesta) => {
+            this.arrCiudades = respuesta.registros;
+            this.changeDetectorRef.detectChanges();
+          })
+        )
+        .subscribe();
+    }
   }
 
   consultarInformacion() {
@@ -459,7 +509,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
