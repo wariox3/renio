@@ -12,13 +12,13 @@ import {
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 import { interval, take } from 'rxjs';
+import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -34,6 +34,7 @@ import { interval, take } from 'rxjs';
     TranslateModule,
     TranslationModule,
     ImportarComponent,
+    AnimationFadeinUpDirective,
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
