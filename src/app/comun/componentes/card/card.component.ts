@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ContentChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -14,4 +14,9 @@ export class CardComponent {
 
   @Input() titulo?: string = '';
 
+  @ContentChild('panel-footer') footer: any;
+
+  hasFooterContent(): boolean {
+    return !!this.footer;
+  }
 }

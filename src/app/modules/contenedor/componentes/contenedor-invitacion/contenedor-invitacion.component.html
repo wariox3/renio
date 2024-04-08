@@ -3,16 +3,12 @@
   [formGroup]="formularioEmpresaInvitacion"
   (ngSubmit)="formSubmit()"
 >
-  <div class="card shadow-sm">
-    <div class="card-header">
-      <h3
-        translate="FORMULARIOS.TITULOS.CONTENEDOR.NUEVAINVITACION"
-        class="card-title"
-      >
-        <span class="mx-1"> {{ contenedorNombre }} </span>
-      </h3>
-    </div>
-    <div class="card-body">
+  <app-card>
+    <section card-titulo>
+      {{ "FORMULARIOS.TITULOS.CONTENEDOR.NUEVAINVITACION" | translate }}
+      <span class="mx-1"> {{ contenedorNombre }} </span>
+    </section>
+    <section card-body>
       <div class="row">
         <div class="col-md-12 col-sm-12">
           <label
@@ -73,45 +69,48 @@
           ></ng-container>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-      <div class="d-flex justify-content-between">
-        <a
-          translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
-          class="btn btn-secondary"
-          ng-reflect-router-link="/crafted/account/settings"
-          [routerLink]="['/contenedor/lista']"
-        >
-        </a>
-        <button
-          translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITAR"
-          type="submit"
-          class="btn btn-primary"
-          #btnGuardar
-        ></button>
+    </section>
+    <section card-footer>
+      <div appAnimationFadeinUp class="card-footer">
+        <div class="d-flex justify-content-between">
+          <a
+            translate="FORMULARIOS.BOTONES.COMUNES.ATRAS"
+            class="btn btn-secondary"
+            ng-reflect-router-link="/crafted/account/settings"
+            [routerLink]="['/contenedor/lista']"
+          >
+          </a>
+          <button
+            translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITAR"
+            type="submit"
+            class="btn btn-primary"
+            #btnGuardar
+          ></button>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </app-card>
 </form>
-<div class="card shadow-sm">
-  <div class="card-header">
-    <h3
-      translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
-      class="card-title"
-    ></h3>
-  </div>
-  <div class="card-body">
+<app-card>
+  <section card-titulo>
+    {{ "FORMULARIOS.TITULOS.COMUNES.USUARIOS" | translate }}
+  </section>
+  <section card-body>
     <div class="table-responsive">
       <!--begin::Table-->
       <table class="table table-row-dashed table-row-gray-300">
         <thead>
-          <tr>
+          <tr appAnimationFadeinUp>
             <th translate="FORMULARIOS.CAMPOS.COMUNES.USUARIO"></th>
             <th translate="FORMULARIOS.CAMPOS.COMUNES.ROL"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let invitacion of arrInvitaciones">
+          <tr
+            *ngFor="let invitacion of arrInvitaciones; let i = index"
+            appAnimationFadeinUp
+            [animacionDelay]="i + 1"
+          >
             <td>
               {{ invitacion.username }}
             </td>
@@ -133,9 +132,8 @@
         </tbody>
       </table>
     </div>
-  </div>
-</div>
-
+  </section>
+</app-card>
 <ng-template
   #formError
   let-control="control"

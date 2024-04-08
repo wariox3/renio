@@ -26,6 +26,7 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
 import { ContadorComponent } from '@comun/componentes/contador/contador.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { NgOptimizedImage } from '@angular/common';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { NgOptimizedImage } from '@angular/common';
     NgxMaskDirective,
     NgxMaskPipe,
     AnimationFadeinUpDirective,
-    NgOptimizedImage
+    NgOptimizedImage,
+    CardComponent
   ],
   providers: [NgbActiveModal, provideNgxMask()],
 })
