@@ -1,7 +1,7 @@
 <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
-  <div class="card-header">
+  <div class="card-header" appAnimationFadeinUp>
     <div class="card-title m-0">
-      <h3 class="card-title animate__animated animate__fadeInRight">
+      <h3 class="card-title ">
         <ng-container *ngIf="titulo">
           {{titulo | translate}}
         </ng-container>
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="card-body animate__animated animate__fadeInUp">
+  <div appAnimationFadeinUp class="card-body">
     <ng-content select="[card-body]"></ng-content>
   </div>
 </div>

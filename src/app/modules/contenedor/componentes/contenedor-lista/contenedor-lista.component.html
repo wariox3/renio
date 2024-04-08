@@ -4,8 +4,8 @@
     <!--begin::Tables Widget 9-->
     <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
       <!--begin::Header-->
-      <div class="card-header">
-        <div class="card-title m-0 animate__animated animate__fadeInRight">
+      <div class="card-header" appAnimationFadeinUp>
+        <div class="card-title m-0" >
           <h3
             translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO"
             class="fw-bolder m-0"
@@ -13,7 +13,7 @@
         </div>
         <a
           translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-          class="btn btn-primary align-self-center animate__animated animate__fadeInLeft"
+          class="btn btn-primary align-self-center"
           [routerLink]="['../nuevo']"
         >
         </a>
@@ -25,7 +25,7 @@
           <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
             <thead *ngIf="arrContenedores.length > 0">
-              <tr class="animate__animated animate__fadeInUp">
+              <tr appAnimationFadeinUp>
                 <th></th>
                 <th class="min-w-120px"></th>
                 <th class="min-w-150px text-center">Plan</th>
@@ -40,8 +40,9 @@
                 *ngIf="arrContenedores.length > 0; else sinContenedores"
               >
                 <tr
-                  *ngFor="let contenedor of arrContenedores"
-                  class="animate__animated animate__fadeInUp"
+                  *ngFor="let contenedor of arrContenedores; let i = index"
+                  appAnimationFadeinUp
+                  [animacionDelay]="i + 1"
                   style="height: calc(82px - 0.6rem) !important"
                 >
                   <td style="width: 120px">
@@ -66,7 +67,7 @@
                       </p>
 
                       <span class="text-muted fw-bold text-muted d-block fs-7"
-                        >{{ contenedor.subdominio }}{{dominioApp}}</span
+                        >{{ contenedor.subdominio }}{{ dominioApp }}</span
                       >
                     </div>
                   </td>

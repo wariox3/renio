@@ -40,7 +40,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
           opacity: 0,
         })
       ),
-      transition(':enter, :leave', [animate(800)]),
+      transition(':enter, :leave', [animate(600)]),
     ]),
   ],
   imports: [

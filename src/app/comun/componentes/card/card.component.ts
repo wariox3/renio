@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
+import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule],
+  imports: [CommonModule, TranslateModule, TranslationModule, AnimationFadeinUpDirective],
   templateUrl: './card.component.html'
 })
 export class CardComponent {

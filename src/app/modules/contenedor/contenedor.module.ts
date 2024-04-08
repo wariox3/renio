@@ -24,6 +24,7 @@ import { TranslationModule } from '../i18n';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { ContadorComponent } from '@comun/componentes/contador/contador.component';
+import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ContadorComponent } from '@comun/componentes/contador/contador.componen
     ContadorComponent,
     NgxMaskDirective,
     NgxMaskPipe,
+    AnimationFadeinUpDirective
   ],
   providers: [NgbActiveModal, provideNgxMask()],
 })

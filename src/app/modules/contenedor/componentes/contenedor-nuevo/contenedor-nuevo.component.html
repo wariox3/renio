@@ -4,7 +4,7 @@
     <!--begin::Tables Widget 9-->
     <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
       <!--begin::Header-->
-      <div class="card-header">
+      <div class="card-header" appAnimationFadeinUp>
         <div class="card-title m-0">
           <h3
             translate="FORMULARIOS.TITULOS.CONTENEDOR.NUEVO"
@@ -12,7 +12,7 @@
           ></h3>
         </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" appAnimationFadeinUp>
         <app-contenedor-formulario
           [informacionContenedor]="informacionContenedor"
           (dataFormulario)="enviarFormulario($event)"
