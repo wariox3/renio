@@ -5,7 +5,7 @@
     <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
       <!--begin::Header-->
       <div class="card-header" appAnimationFadeinUp>
-        <div class="card-title m-0" >
+        <div class="card-title m-0">
           <h3
             translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO"
             class="fw-bolder m-0"
@@ -48,8 +48,9 @@
                   <td style="width: 120px">
                     <ng-container *ngIf="contenedor.imagen">
                       <img
-                        src="{{ contenedor.imagen }}"
-                        alt="LOGO"
+                        [ngSrc]="contenedor.imagen"
+                        [alt]="'Error al caragar logo'"
+                        width="120" height="120"
                         style="min-width: 120px"
                         class="img-thumbnail"
                       />

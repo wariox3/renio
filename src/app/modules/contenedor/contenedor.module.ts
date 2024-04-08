@@ -25,6 +25,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { ContadorComponent } from '@comun/componentes/contador/contador.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
     ContadorComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-    AnimationFadeinUpDirective
+    AnimationFadeinUpDirective,
+    NgOptimizedImage
   ],
   providers: [NgbActiveModal, provideNgxMask()],
 })

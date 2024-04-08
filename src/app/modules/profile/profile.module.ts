@@ -23,6 +23,7 @@ import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/car
     ModalsModule,
     NgbAccordionModule,
     CargarImagenComponent,
+    NgOptimizedImage
   ],
 })
 export class ProfileModule {}

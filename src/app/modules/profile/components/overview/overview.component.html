@@ -1,6 +1,9 @@
 <div class="card shadow-sm">
   <div class="card-header">
-    <h3 translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO" class="card-title"></h3>
+    <h3
+      translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO"
+      class="card-title"
+    ></h3>
   </div>
   <div class="table-responsive-sm p-5">
     <table class="table table-row-dashed table-row-gray-300">
@@ -13,9 +16,10 @@
             <td style="width: 120px">
               <ng-container *ngIf="contenedor.imagen">
                 <img
-                  src="{{ contenedor.imagen }}"
-                  alt="LOGO"
-                  style="min-width: 120px"
+                  [ngSrc]="contenedor.imagen"
+                  [alt]="'Error al caragar logo'"
+                  width="120"
+                  height="120"
                   class="img-thumbnail"
                 />
               </ng-container>
@@ -28,7 +32,7 @@
                 }}</small>
               </p>
               <span class="text-muted fw-bold text-muted d-block fs-7">
-                {{ contenedor.subdominio }}.{{dominioApp}}
+                {{ contenedor.subdominio }}.{{ dominioApp }}
               </span>
             </td>
             <td class="w-50px">
@@ -38,7 +42,7 @@
                 *ngIf="contenedor.rol === 'propietario'"
               ></div>
             </td>
-            <td>{{ contenedor.usuarios }} / {{contenedor.usuarios_base}}</td>
+            <td>{{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}</td>
           </tr>
         </ng-container>
         <ng-template #sinContenedores>
