@@ -7,11 +7,15 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule, AnimationFadeinUpDirective],
-  templateUrl: './card.component.html'
+  imports: [
+    CommonModule,
+    TranslateModule,
+    TranslationModule,
+    AnimationFadeinUpDirective,
+  ],
+  templateUrl: './card.component.html',
 })
 export class CardComponent {
-
   @Input() titulo?: string = '';
 
   @ContentChild('panel-footer') footer: any;

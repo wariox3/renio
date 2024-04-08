@@ -1,28 +1,17 @@
 <div class="row">
-  <!--begin::Col-->
   <div class="col-xl-12">
-    <!--begin::Tables Widget 9-->
-    <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
-      <!--begin::Header-->
-      <div class="card-header" appAnimationFadeinUp>
-        <div class="card-title m-0">
-          <h3
-            translate="FORMULARIOS.TITULOS.CONTENEDOR.NUEVO"
-            class="fw-bolder m-0"
-          ></h3>
-        </div>
-      </div>
-      <div class="card-body" appAnimationFadeinUp>
+    <app-card>
+      <section card-titulo>
+        {{ "FORMULARIOS.TITULOS.CONTENEDOR.NUEVO" | translate }}
+      </section>
+      <section card-body>
         <app-contenedor-formulario
           [informacionContenedor]="informacionContenedor"
           (dataFormulario)="enviarFormulario($event)"
         ></app-contenedor-formulario>
-      </div>
-      <!--begin::Body-->
-    </div>
-    <!--end::Tables Widget 9-->
+      </section>
+    </app-card>
   </div>
-  <!--end::Col-->
 </div>
 <div *ngIf="procesando" class="fake-loading">
   <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.CREARCONTENEDOR"></span>
