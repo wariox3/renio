@@ -1,15 +1,30 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { AuthService } from '@modulos/auth';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/_metronic/shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
 
 @Component({
   selector: 'app-seguridad-cambio-clave',
   templateUrl: './cambio-clave.component.html',
-  styleUrls: ['./cambio-clave.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgbModalModule,
+    TranslateModule,
+    TranslationModule,
+  ]
 })
 
 export class CambioClaveComponent extends General implements OnInit {

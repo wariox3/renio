@@ -8,7 +8,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { SeguridadModule } from '../seguridad/seguridad.module';
+import { CambioClaveComponent } from '../seguridad/componentes/cambio-clave/cambio-clave.component';
 import {
   CardsModule,
   DropdownMenusModule,
@@ -47,7 +47,7 @@ import { NgOptimizedImage } from '@angular/common';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    SeguridadModule,
+    CambioClaveComponent,
     TranslateModule,
     TranslationModule,
     ModalsModule,

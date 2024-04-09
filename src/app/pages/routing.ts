@@ -97,9 +97,7 @@ const Routing: Routes = [
   {
     path: 'seguridad',
     loadChildren: () =>
-      import('../modules/seguridad/seguridad.module').then(
-        (m) => m.SeguridadModule
-      ),
+      import('../modules/seguridad/seguridad-routing').then((r) => r.routes),
     data: { layout: 'dark-header' },
   },
   {
