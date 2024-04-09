@@ -35,7 +35,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { Resolucion } from '@interfaces/general/resolucion';
 import ResolucionFormularioComponent from '../../../general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
-import { NgxMaskDirective } from 'ngx-mask';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {
   NgClass,
   NgTemplateOutlet,
@@ -44,8 +44,8 @@ import {
   LowerCasePipe,
   TitleCasePipe,
 } from '@angular/common';
-import { CardComponent } from '../../../../comun/componentes/card/card.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -69,6 +69,7 @@ import { TranslateModule } from '@ngx-translate/core';
     LowerCasePipe,
     TitleCasePipe,
   ],
+  providers: [provideNgxMask()],
 })
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
