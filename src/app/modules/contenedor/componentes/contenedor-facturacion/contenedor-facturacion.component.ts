@@ -5,7 +5,9 @@ import { ContadorComponent } from '@comun/componentes/contador/contador.componen
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslationModule } from '@modulos/i18n';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contenedor-facturacion',
@@ -15,7 +17,9 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     ContadorComponent,
     CommonModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    TranslateModule,
+    TranslationModule,
   ]
 })
 export class ContenedorFacturacionComponent extends General implements OnInit {

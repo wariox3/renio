@@ -85,17 +85,13 @@ const Routing: Routes = [
   {
     path: 'contenedor',
     loadChildren: () =>
-      import('../modules/contenedor/contenedor.module').then(
-        (m) => m.ContenedorModule
-      ),
+      import('../modules/contenedor/contenedor-routing').then((r) => r.routes),
     data: { layout: 'dark-header' },
   },
   {
     path: 'empresa',
     loadChildren: () =>
-      import('../modules/empresa/empresa-routing').then(
-        (r) => r.routes
-      ),
+      import('../modules/empresa/empresa-routing').then((r) => r.routes),
     data: { layout: 'dark-header' },
   },
   {

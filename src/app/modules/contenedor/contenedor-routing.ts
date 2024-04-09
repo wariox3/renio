@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route } from '@angular/router';
 import { ContenedorListaComponent } from './componentes/contenedor-lista/contenedor-lista.component';
 import { ContenedorNuevoComponent } from './componentes/contenedor-nuevo/contenedor-nuevo.component';
 import { ContenedorDetalleComponent } from './componentes/contenedor-detalle/contenedor-detalle.component';
@@ -7,7 +6,7 @@ import { ContenedorDetalleComponent } from './componentes/contenedor-detalle/con
 import { ContenedorInvitacionComponent } from './componentes/contenedor-invitacion/contenedor-invitacion.component';
 import { ContenedorFacturacionComponent } from './componentes/contenedor-facturacion/contenedor-facturacion.component';
 
-const routes: Routes = [
+export const routes: Route[] = [
   {
     path: '',
     redirectTo: 'lista',
@@ -43,9 +42,3 @@ const routes: Routes = [
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class EmpresaRoutingModule {}
