@@ -1,14 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { ContadorComponent } from '@comun/componentes/contador/contador.component';
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-contenedor-facturacion',
   templateUrl: './contenedor-facturacion.component.html',
   styleUrls: ['./contenedor-facturacion.component.scss'],
+  standalone: true,
+  imports: [
+    ContadorComponent,
+    CommonModule,
+    NgbAccordionModule
+  ]
 })
 export class ContenedorFacturacionComponent extends General implements OnInit {
   resumenMes: string;

@@ -55,7 +55,7 @@ export const locale = {
           GENERANDO: 'Generating',
           EMITIR: 'Issue',
         },
-        CONTENEDORES: {
+        CONTENEDOR: {
           CONECTAR: 'Connect',
           INVITACION: 'Invitations',
           INVITAR: 'Invite',

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -7,18 +8,32 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { Plan } from '@interfaces/contenedor/plan';
-import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslationModule } from '@modulos/i18n';
+import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-contenedor-editar',
   templateUrl: './contenedor-editar.component.html',
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    NgbModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule
+  ]
 })
 export class ContenedorEditarComponent extends General implements OnInit {
   formularioContenedor: FormGroup;

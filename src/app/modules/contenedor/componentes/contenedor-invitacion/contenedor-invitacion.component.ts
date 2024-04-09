@@ -1,14 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContenedorUsuariosInvicionAceptada } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslationModule } from '@modulos/i18n';
+import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-contenedor-invitacion',
   templateUrl: './contenedor-invitacion.component.html',
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    AnimationFadeinUpDirective,
+  ]
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
   arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];

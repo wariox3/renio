@@ -5,23 +5,38 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { General } from '@comun/clases/general';
-import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
 import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-contenedor-lista',
   templateUrl: './contenedor-lista.component.html',
   styleUrls: ['./contenedor-lista.component.scss'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    AnimationFadeinUpDirective,
+    NgOptimizedImage,
+    NgIf,
+    NgFor,
+    NgbDropdownModule
+  ]
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
-  dominioApp = environment.dominioApp
-  constructor(
-    private contenedorService: ContenedorService,
-    private subdominioService: SubdominioService
-  ) {
+  dominioApp = environment.dominioApp;
+  constructor(private contenedorService: ContenedorService) {
     super();
   }
 

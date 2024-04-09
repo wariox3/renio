@@ -441,8 +441,8 @@ export const locale = {
       ENLACEDOCUMENTACION: 'Documentación oficial',
       DOCUMENTACION: 'Documentación',
       DOCUMENTACIONTEXTO:
-        'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.', 
-      WHATSAPPTEXTO: '¿Necesitas ayuda? Escríbenos aquí y te asistiremos.' 
+        'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.',
+      WHATSAPPTEXTO: '¿Necesitas ayuda? Escríbenos aquí y te asistiremos.'
     },
     LANGINGPAGE: {
       INICIO: 'Inicio',
@@ -483,11 +483,11 @@ export const locale = {
       NUESTROSPROYECTOS4: 'Desarrollo',
       PRECIOSTITULO: 'Precios claros que facilitan las cosas',
       PRECIOSMENSAJE1: 'Ahorre entre miles y millones de dólares utilizando una única herramienta diferente',
-      PRECIOMES: 'Mensualmente', 
-      PRECIOANUAL: 'Anual', 
-      PRECIOINICIO: 'Startup', 
-      PRECIONEGOCIOS: 'Business', 
-      PRECIOEMPRESARIO: 'Enterprise', 
+      PRECIOMES: 'Mensualmente',
+      PRECIOANUAL: 'Anual',
+      PRECIOINICIO: 'Startup',
+      PRECIONEGOCIOS: 'Business',
+      PRECIOEMPRESARIO: 'Enterprise',
       PRECIOINICIOMENSAJE: 'Los mejores ajustes para Startups',
       PRECIONEGOCIOSMENSAJE: 'Los mejores ajustes para  Business',
       PRECIOEMPRESARIOMENSAJE: 'Los mejores ajustes para  Enterprise',

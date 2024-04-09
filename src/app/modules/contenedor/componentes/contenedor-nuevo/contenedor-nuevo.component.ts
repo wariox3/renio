@@ -4,11 +4,29 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { of, switchMap, tap, zip } from 'rxjs';
 import { General } from '@comun/clases/general';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationModule } from '@modulos/i18n';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { ContenedorFormularioComponent } from '../contenedor-formulario/contenedor-formulario.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-contenedor-nuevo',
   templateUrl: './contenedor-nuevo.component.html',
   styleUrls: ['./contenedor-nuevo.component.scss'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    ContenedorFormularioComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+  ],
 })
 export class ContenedorNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -51,38 +69,38 @@ export class ContenedorNuevoComponent extends General implements OnInit {
     this.visualizarBtnAtras = false;
     this.procesando = true;
     this.contenedorService
-    .consultarNombre(dataFormularioLogin.subdominio)
-    .pipe(
-      switchMap(({ validar }) => {
-        if (!validar) {
+      .consultarNombre(dataFormularioLogin.subdominio)
+      .pipe(
+        switchMap(({ validar }) => {
+          if (!validar) {
+            this.procesando = false;
+            this.changeDetectorRef.detectChanges();
+            this.alertaService.mensajeError('Error', 'Nombre en uso');
+          } else {
+            return this.contenedorService.nuevo(
+              dataFormularioLogin,
+              this.codigoUsuario
+            );
+          }
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (respuesta: any) => {
+          if (respuesta.contenedor) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.CONTENEDOR.NUEVOCONTENEDOR'
+              )
+            );
+            this.router.navigate(['/contenedor/lista']);
+            this.procesando = false;
+          }
+        },
+        error: () => {
           this.procesando = false;
           this.changeDetectorRef.detectChanges();
-          this.alertaService.mensajeError('Error', 'Nombre en uso');
-        } else {
-          return this.contenedorService.nuevo(
-            dataFormularioLogin,
-            this.codigoUsuario
-          );
-        }
-        return of(null);
-      })
-    )
-    .subscribe({
-      next: (respuesta: any) => {
-        if (respuesta.contenedor) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.CONTENEDOR.NUEVOCONTENEDOR'
-            )
-          );
-          this.router.navigate(['/contenedor/lista']);
-          this.procesando = false;
-        }
-      },
-      error: () => {
-        this.procesando = false;
-        this.changeDetectorRef.detectChanges();
-      },
-    });
+        },
+      });
   }
 }

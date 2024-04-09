@@ -1,18 +1,45 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslationModule } from '@modulos/i18n';
+import { NgbDropdown, NgbDropdownMenu, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 @Component({
   selector: 'app-contenedor-formulario',
   templateUrl: './contenedor-formulario.component.html',
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    CommonModule,
+    NgbDropdownModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [provideNgxMask()],
+
 })
 export class ContenedorFormularioComponent extends General implements OnInit {
-
   formularioContenedor: FormGroup;
   codigoUsuario = '';
   procesando = false;
@@ -34,7 +61,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
     private http: HttpClient
-      ) {
+  ) {
     super();
   }
 
@@ -44,19 +71,18 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         ? this.informacionContenedor.plan_id
         : this.planSeleccionado;
     this.initForm();
-    this.consultarInformacion()
-
+    this.consultarInformacion();
   }
 
-  consultarInformacion(){
+  consultarInformacion() {
     zip(
       this.contenedorService.listaTipoIdentificacion(),
-      this.contenedorService.listaPlanes(),
-    ).subscribe((respuesta: any)=>{
+      this.contenedorService.listaPlanes()
+    ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrPlanes = respuesta[1];
-      this.changeDetectorRef.detectChanges()
-    })
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   consultarCiudad(event: any) {
@@ -75,10 +101,11 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       limite_conteo: 10000,
       modelo: 'ContenedorCiudad',
     };
-    this.contenedorService.listaCiudades(arrFiltros)
+    this.contenedorService
+      .listaCiudades(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta:any) => {
+        tap((respuesta: any) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
@@ -87,7 +114,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   }
 
   initForm() {
-     this.formularioContenedor = this.formBuilder.group({
+    this.formularioContenedor = this.formBuilder.group({
       subdominio: [
         this.informacionContenedor.subdominio,
         Validators.compose([
@@ -201,7 +228,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  calcularDigitoVerificacion(){
+  calcularDigitoVerificacion() {
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
       this.formularioContenedor.get('numero_identificacion')?.value
     );

@@ -1,13 +1,39 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { Contenedor  } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslationModule } from '@modulos/i18n';
+import { TranslateModule } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
+import { ExtrasModule } from 'src/app/_metronic/partials';
+import { SharedModule } from 'src/app/_metronic/shared/shared.module';
+import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-contenedor-detalle',
   templateUrl: './contenedor-detalle.component.html',
   styleUrls: ['./contenedor-detalle.component.scss'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    TranslateModule,
+    TranslationModule,
+    CardComponent,
+    CargarImagenComponent,
+    ExtrasModule,
+    SharedModule,
+    ContenedorEditarComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModalModule
+  ],
+  providers: [NgbActiveModal],
+
 })
 export class ContenedorDetalleComponent extends General implements OnInit {
   contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
