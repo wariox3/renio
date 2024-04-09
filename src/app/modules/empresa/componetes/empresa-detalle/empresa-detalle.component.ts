@@ -10,11 +10,24 @@ import {
   obtenerEmpresaTelefono,
 } from '@redux/selectors/empresa.selectors';
 import { of, switchMap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { EmpresaEditarComponent } from '../empresa-editar/empresa-editar.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../../../../_metronic/shared/shared.module';
+import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 
 @Component({
   selector: 'app-empresa-detalle',
   templateUrl: './empresa-detalle.component.html',
   styleUrls: ['./empresa-detalle.component.scss'],
+  standalone: true,
+  imports: [
+    CargarImagenComponent,
+    SharedModule,
+    TranslateModule,
+    EmpresaEditarComponent,
+    AsyncPipe,
+  ],
 })
 export class EmpresaDetalleComponent extends General {
   empresa_id = this.activatedRoute.snapshot.paramMap.get('empresacodigo')!;

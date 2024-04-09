@@ -9,7 +9,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
@@ -20,12 +26,49 @@ import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.serv
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbDropdown,
+  NgbDropdownAnchor,
+  NgbDropdownMenu,
+  NgbDropdownItem,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Resolucion } from '@interfaces/general/resolucion';
+import ResolucionFormularioComponent from '../../../general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
+import { NgxMaskDirective } from 'ngx-mask';
+import {
+  NgClass,
+  NgTemplateOutlet,
+  NgFor,
+  NgIf,
+  LowerCasePipe,
+  TitleCasePipe,
+} from '@angular/common';
+import { CardComponent } from '../../../../comun/componentes/card/card.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-empresa-editar',
   templateUrl: './empresa-editar.component.html',
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    CardComponent,
+    NgClass,
+    NgTemplateOutlet,
+    NgFor,
+    NgbDropdown,
+    NgbDropdownAnchor,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    NgxMaskDirective,
+    NgIf,
+    ResolucionFormularioComponent,
+    LowerCasePipe,
+    TitleCasePipe,
+  ],
 })
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
@@ -298,8 +341,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
   cerrarModal(resolucion: Resolucion): void {
     this.modificarCampoFormulario('resolucion_id', {
       resolucion_id: resolucion.id,
-      resolucion_numero: resolucion.numero
-    })
+      resolucion_numero: resolucion.numero,
+    });
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
