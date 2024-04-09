@@ -93,8 +93,8 @@ const Routing: Routes = [
   {
     path: 'empresa',
     loadChildren: () =>
-      import('../modules/empresa/empresa.module').then(
-        (m) => m.EmpresaModule
+      import('../modules/empresa/empresa-routing').then(
+        (r) => r.routes
       ),
     data: { layout: 'dark-header' },
   },
