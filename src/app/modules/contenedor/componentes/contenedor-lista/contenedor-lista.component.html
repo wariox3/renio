@@ -25,7 +25,7 @@
           <table class="table table-row-dashed table-row-gray-300">
             <!--begin::Table head-->
             <thead *ngIf="arrContenedores.length > 0">
-              <tr appAnimationFadeinUp>
+              <tr>
                 <th></th>
                 <th class="min-w-120px"></th>
                 <th class="min-w-150px text-center">Plan</th>
@@ -36,6 +36,7 @@
               </tr>
             </thead>
             <tbody>
+              <div></div>
               <ng-container
                 *ngIf="arrContenedores.length > 0; else sinContenedores"
               >
@@ -50,7 +51,8 @@
                       <img
                         [ngSrc]="contenedor.imagen"
                         [alt]="'Error al cargar logo'"
-                        width="120" height="120"
+                        width="120"
+                        height="120"
                         style="min-width: 120px"
                         class="img-thumbnail"
                       />
@@ -169,12 +171,33 @@
                 </tr>
               </ng-container>
               <ng-template #sinContenedores>
-                <tr>
-                  <td
-                    colspan="4"
-                    translate="FORMULARIOS.MENSAJES.CONTENEDOR.SINCONTENEDORES"
-                  ></td>
-                </tr>
+                <ng-container *ngIf="cargandoContederes; else mensaje">
+                  <tr>
+                    <td style="width: 120px">
+                      <app-comun-skeleton-loading
+                        [height]="120"
+                        [width]="120"
+                      />
+                    </td>
+                    <td>
+                      <app-comun-skeleton-loading [height]="20" [width]="200" />
+                    </td>
+                    <td class="w-150px">
+                      <app-comun-skeleton-loading [height]="20" [width]="150" />
+                    </td>
+                    <td class="w-150px">
+                      <app-comun-skeleton-loading [height]="20" [width]="150" />
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #mensaje>
+                  <tr>
+                    <td
+                      colspan="4"
+                      translate="FORMULARIOS.MENSAJES.CONTENEDOR.SINCONTENEDORES"
+                    ></td>
+                  </tr>
+                </ng-template>
               </ng-template>
             </tbody>
           </table>

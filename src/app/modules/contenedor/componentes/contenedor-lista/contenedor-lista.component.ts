@@ -15,6 +15,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -30,12 +31,14 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     NgOptimizedImage,
     NgIf,
     NgFor,
-    NgbDropdownModule
+    NgbDropdownModule,
+    SkeletonLoadingComponent
   ]
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
   dominioApp = environment.dominioApp;
+  cargandoContederes = false;
   constructor(private contenedorService: ContenedorService) {
     super();
   }
@@ -46,12 +49,15 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    let suscripcion = this.store
+    this.cargandoContederes = true;
+    this.changeDetectorRef.detectChanges()
+    this.store
       .select(obtenerUsuarioId)
       .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
           this.arrContenedores = respuesta.contenedores;
+          this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {
@@ -64,7 +70,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
-    const consultaEmpresa = this.contenedorService
+    this.contenedorService
       .detalle(`${empresaSeleccionada}`)
       .subscribe((respuesta) => {
         const contenedor: Contenedor = {
