@@ -13,5 +13,5 @@ import { Component, Input } from '@angular/core';
 export class SkeletonLoadingComponent  {
   @Input() width!: number; // Ancho del componente
   @Input() height!: number; // Alto del componente
-
+  @Input() circulo: boolean = false; // Booleano para determinar si se debe aplicar el estilo de círculo
 }

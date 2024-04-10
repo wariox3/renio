@@ -1,4 +1,8 @@
 <span
-  [ngStyle]="{ 'width.px': width, 'height.px': height }"
+  [ngStyle]="{
+    'width.px': width,
+    'height.px': height,
+    'border-radius': circulo ? '50%' : '0'
+  }"
   class="skeleton-box"
 ></span>
