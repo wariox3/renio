@@ -19,7 +19,7 @@ import { CountUpModule } from 'ngx-countup';
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
-    CountUpModule
+    CountUpModule,
   ],
 })
 export class LandingpageComponent implements OnInit {
@@ -59,11 +59,15 @@ export class LandingpageComponent implements OnInit {
   }
 
   navegacionID(id: string) {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'nearest',
-    });
+    // Desplazamiento vertical adicional que se aplicará al resultado del cálculo de la posición
+    const yOffset = -110;
+    // Busca un elemento en el documento HTML con el ID especificado por la variable `id` y lo almacena en la variable `element`
+    const element = document.getElementById(id);
+    // Calcula la posición vertical (en píxeles) del borde superior del elemento respecto a la parte superior del área de contenido del viewport (la ventana del navegador), y le suma el desplazamiento actual de la página y el desplazamiento adicional
+    const y =
+      element!.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    // Utiliza la función `scrollTo` del objeto `window` para desplazar la ventana del navegador hacia una posición específica
+    window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
   selectLanguage(lang: string) {
@@ -71,7 +75,6 @@ export class LandingpageComponent implements OnInit {
     this.setLanguage(lang);
     // document.location.reload();
   }
-
 
   setLanguage(lang: string) {
     this.langs.forEach((language: LanguageFlag) => {
