@@ -8,6 +8,7 @@ export const environment = {
   URL_API_SUBDOMINIO: 'https://subdominio.reddocapi.co',
   EMPRESA_LOCALHOST: '',
   dominioApp: '.reddoc.com.co',
+  dominioHttp: 'https',
   appVersion: 'v8.1.8',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,

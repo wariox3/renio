@@ -104,7 +104,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           })
         );
         if (environment.production) {
-          window.location.href = `http://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
+          window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
         } else {
           this.router.navigateByUrl('/dashboard');
         }

@@ -109,7 +109,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmisContenedores() {
     if (this.esSubdominio) {
-      location.href = `http://${environment.dominioApp.slice(1)}/contenedor/lista`;
+      location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/contenedor/lista`;
     } else {
       this.router.navigate([`/contenedor/lista`]);
     }

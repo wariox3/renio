@@ -23,7 +23,7 @@ export class EmpresaCookieInterceptor implements HttpInterceptor {
 
         if((this.subdominioService.subdominioNombre() !== empresa.subdominio)){
           //alert("Cambio la empresa ir")
-          window.location.href = `http://${empresa.subdominio}${environment.dominioApp}/dashboard`;
+          window.location.href = `${environment.dominioHttp}://${empresa.subdominio}${environment.dominioApp}/dashboard`;
         }
       }
     }
