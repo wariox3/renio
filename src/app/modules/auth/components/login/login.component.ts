@@ -15,6 +15,7 @@ import { SubdominioService } from '@comun/services/subdominio.service';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { environment } from '@env/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -96,6 +97,9 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   submit() {
     const tokenUrl = this.activatedRoute.snapshot.paramMap.get('token');
+    if (Swal.isVisible()) {
+      Swal.close();
+    }
 
     if (this.loginForm.valid) {
       this.renderer2.setAttribute(
