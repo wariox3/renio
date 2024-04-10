@@ -5,6 +5,7 @@ import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule, TranslationService } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountUpModule } from 'ngx-countup';
 
 @Component({
   selector: 'app-landingpage',
@@ -18,6 +19,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
+    CountUpModule
   ],
 })
 export class LandingpageComponent implements OnInit {

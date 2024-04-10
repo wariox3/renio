@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { ContadorComponent } from '@comun/componentes/contador/contador.component';
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { CountUpModule } from 'ngx-countup';
 
 @Component({
   selector: 'app-contenedor-facturacion',
@@ -15,11 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./contenedor-facturacion.component.scss'],
   standalone: true,
   imports: [
-    ContadorComponent,
     CommonModule,
     NgbAccordionModule,
     TranslateModule,
     TranslationModule,
+    CountUpModule
   ]
 })
 export class ContenedorFacturacionComponent extends General implements OnInit {

@@ -690,13 +690,14 @@
                 <div class="mb-0">
                   <!--begin::Value-->
                   <div
-                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-center"
+                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-column align-items-center justify-content-center"
                   >
                     <div
-                      class="min-w-70px"
                       data-kt-countup="true"
                       data-kt-countup-value="700"
                       data-kt-countup-suffix="+"
+                      [countUp]="7700"
+                      [options]="{ enableScrollSpy: true, suffix: '+',}"
                     >
                       0
                     </div>
@@ -713,7 +714,7 @@
               <!--end::Item-->
               <!--begin::Item-->
               <div
-                class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain"
+                class="d-flex flex-column align-items-center justify-content-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain"
                 style="
                   background-image: url('assets/media/svg/misc/octagon.svg');
                 "
@@ -729,13 +730,14 @@
                 <div class="mb-0">
                   <!--begin::Value-->
                   <div
-                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-center"
+                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-column align-items-center justify-content-center"
                   >
                     <div
-                      class="min-w-70px"
                       data-kt-countup="true"
                       data-kt-countup-value="80"
                       data-kt-countup-suffix="K+"
+                      [countUp]="80"
+                      [options]="{ enableScrollSpy: true }"
                     >
                       0
                     </div>
@@ -752,7 +754,7 @@
               <!--end::Item-->
               <!--begin::Item-->
               <div
-                class="d-flex flex-column flex-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain"
+                class="d-flex flex-column align-items-center justify-content-center h-200px w-200px h-lg-250px w-lg-250px m-3 bgi-no-repeat bgi-position-center bgi-size-contain"
                 style="
                   background-image: url('assets/media/svg/misc/octagon.svg');
                 "
@@ -769,15 +771,16 @@
                 <div class="mb-0">
                   <!--begin::Value-->
                   <div
-                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-center"
+                    class="fs-lg-2hx fs-2x fw-bold text-white d-flex flex-column align-items-center justify-content-center"
                   >
                     <div
-                      class="min-w-70px"
                       data-kt-countup="true"
                       data-kt-countup-value="35"
                       data-kt-countup-suffix="M+"
+                      [countUp]="35"
+                      [options]="{ enableScrollSpy: true, suffix: 'M+' }"
                     >
-                      0
+                      10
                     </div>
                   </div>
                   <!--end::Value-->
