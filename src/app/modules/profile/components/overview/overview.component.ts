@@ -21,6 +21,7 @@ export class OverviewComponent extends General implements OnInit {
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
   dominioApp = environment.dominioApp
+  cargandoContederes = false;
 
   constructor(private contenedorService: ContenedorService) {
     super();
@@ -31,12 +32,15 @@ export class OverviewComponent extends General implements OnInit {
   }
 
   consultarLista() {
+    this.cargandoContederes = true;
+    this.changeDetectorRef.detectChanges()
     this.store
       .select(obtenerUsuarioId)
       .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
       .subscribe({
         next: (respuesta) => {
           this.arrContenedores = respuesta.contenedores;
+          this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         },
         error: ({ error }): void => {

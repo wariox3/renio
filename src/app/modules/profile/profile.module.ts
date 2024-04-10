@@ -24,6 +24,7 @@ import { InformacionUsuarioComponent } from './components/informacion-usuario/in
 import { FacturacionComponent } from './facturacion/facturacion.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
+import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { NgOptimizedImage } from '@angular/common';
     ModalsModule,
     NgbAccordionModule,
     CargarImagenComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    SkeletonLoadingComponent
   ],
 })
 export class ProfileModule {}
