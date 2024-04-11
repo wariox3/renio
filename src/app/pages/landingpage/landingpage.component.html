@@ -737,7 +737,7 @@
                       data-kt-countup-value="80"
                       data-kt-countup-suffix="K+"
                       [countUp]="80"
-                      [options]="{ enableScrollSpy: true }"
+                      [options]="{ enableScrollSpy: true, suffix: 'K+' }"
                     >
                       0
                     </div>
@@ -864,24 +864,8 @@
         </div>
         <!--end::Heading-->
         <!--begin::Slider-->
-        <div class="tns tns-default" style="direction: ltr">
           <!--begin::Wrapper-->
-          <div
-            data-tns="true"
-            data-tns-loop="true"
-            data-tns-swipe-angle="false"
-            data-tns-speed="2000"
-            data-tns-autoplay="true"
-            data-tns-autoplay-timeout="18000"
-            data-tns-controls="true"
-            data-tns-nav="false"
-            data-tns-items="1"
-            data-tns-center="false"
-            data-tns-dots="false"
-            data-tns-prev-button="#kt_team_slider_prev"
-            data-tns-next-button="#kt_team_slider_next"
-            data-tns-responsive="{1200: {items: 3}, 992: {items: 2}}"
-          >
+          <div class="d-flex justify-content-center flex-wrap gap-5 ">
             <!--begin::Item-->
             <div class="text-center">
               <!--begin::Photo-->
@@ -1024,47 +1008,7 @@
               <!--end::Person-->
             </div>
             <!--end::Item-->
-            <!--begin::Item-->
-            <div class="text-center">
-              <!--begin::Photo-->
-              <div
-                class="octagon mx-auto mb-5 d-flex w-200px h-200px bgi-no-repeat bgi-size-contain bgi-position-center"
-                style="background-image: url('assets/media/avatars/300-9.jpg')"
-              ></div>
-              <!--end::Photo-->
-              <!--begin::Person-->
-              <div class="mb-0">
-                <!--begin::Name-->
-                <a href="#" class="text-dark fw-bold text-hover-primary fs-3"
-                  >Carles Puyol</a
-                >
-                <!--end::Name-->
-                <!--begin::Position-->
-                <div class="text-muted fs-6 fw-semibold mt-1">QA Managers</div>
-                <!--begin::Position-->
-              </div>
-              <!--end::Person-->
-            </div>
-            <!--end::Item-->
           </div>
-          <!--end::Wrapper-->
-          <!--begin::Button-->
-          <button
-            class="btn btn-icon btn-active-color-primary"
-            id="kt_team_slider_prev"
-          >
-            <i class="ki-duotone ki-left fs-2x"></i>
-          </button>
-          <!--end::Button-->
-          <!--begin::Button-->
-          <button
-            class="btn btn-icon btn-active-color-primary"
-            id="kt_team_slider_next"
-          >
-            <i class="ki-duotone ki-right fs-2x"></i>
-          </button>
-          <!--end::Button-->
-        </div>
         <!--end::Slider-->
       </div>
       <!--end::Container-->
@@ -1784,7 +1728,9 @@
                             class="fs-3x fw-bold text-primary"
                             data-kt-plan-price-month="99"
                             data-kt-plan-price-annual="999"
-                            >99</span
+                            [countUp]="99"
+                            [options]="{ enableScrollSpy: true, }"
+                            >0</span
                           >
                           <span
                             class="fs-7 fw-semibold opacity-50"
@@ -1902,7 +1848,9 @@
                             class="fs-3x fw-bold text-white"
                             data-kt-plan-price-month="199"
                             data-kt-plan-price-annual="1999"
-                            >199</span
+                            [countUp]="199"
+                            [options]="{ enableScrollSpy: true, }"
+                            >0</span
                           >
                           <span
                             class="fs-7 fw-semibold text-white opacity-75"
@@ -2026,6 +1974,8 @@
                             class="fs-3x fw-bold text-primary"
                             data-kt-plan-price-month="999"
                             data-kt-plan-price-annual="9999"
+                            [countUp]="999"
+                            [options]="{ enableScrollSpy: true, }"
                             >999</span
                           >
                           <span
