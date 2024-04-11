@@ -43,6 +43,7 @@ import {
   NgIf,
   LowerCasePipe,
   TitleCasePipe,
+  CommonModule,
 } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -64,7 +65,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
     NgbDropdownMenu,
     NgbDropdownItem,
     NgxMaskDirective,
-    NgIf,
+    CommonModule,
     ResolucionFormularioComponent,
     LowerCasePipe,
     TitleCasePipe,
