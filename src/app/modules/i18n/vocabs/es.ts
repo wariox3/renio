@@ -286,6 +286,7 @@ export const locale = {
           CODIGOTESTID: 'Código TestID',
           CODIGOTESTIDPLACEHOLDER: 'Ingresa el código brindado por la DIAN',
           RESOLUCIONNUMERACION: 'Resolución/Numeración',
+          CORREOFACTURACIONELECTRONICA: 'Correo facturación electronica',
         },
         FILTROS: {
           OPERADORES: {

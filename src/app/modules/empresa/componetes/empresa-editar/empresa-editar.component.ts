@@ -206,6 +206,13 @@ export class EmpresaEditarComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
         ]),
       ],
+      correo_facturacion_electronica: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+        ]),
+      ]
     });
   }
 
