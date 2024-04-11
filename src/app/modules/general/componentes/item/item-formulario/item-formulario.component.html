@@ -211,6 +211,7 @@
             mask="separator"
             [thousandSeparator]="','"
             [decimalMarker]="'.'"
+            (blur)="modificarCampoFormulario('precio', 0)"
             [ngClass]="{
               'is-invalid':
                 formularioItem.controls['precio'].touched &&
@@ -262,7 +263,7 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-            class="form-label required"
+            class="form-label"
           ></label>
           <app-comun-impuestos
             (emitirImpuestoAgregado)="agregarImpuesto($event)"
@@ -283,6 +284,7 @@
             autocomplete="off"
             prefix="$ "
             mask="separator.2"
+            (blur)="modificarCampoFormulario('costo', 0)"
             [thousandSeparator]="','"
             [decimalMarker]="'.'"
             [ngClass]="{
