@@ -172,6 +172,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       telefono: [
         this.informacionContenedor.telefono,
         Validators.compose([
+          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
@@ -181,11 +182,20 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioContenedor?.markAsDirty();
+    this.formularioContenedor?.markAsTouched();
     if (campo === 'ciudad_id') {
-      this.formularioContenedor.get(campo)?.setValue(dato.ciudad_id);
-      this.formularioContenedor
-        .get('ciudad_nombre')
-        ?.setValue(dato.ciudad_nombre);
+      if(dato === null){
+        this.formularioContenedor.get(campo)?.setValue(null);
+        this.formularioContenedor
+          .get('ciudad_nombre')
+          ?.setValue(null);
+      } else {
+        this.formularioContenedor.get(campo)?.setValue(dato.ciudad_id);
+        this.formularioContenedor
+          .get('ciudad_nombre')
+          ?.setValue(dato.ciudad_nombre);
+      }
     }
     this.changeDetectorRef.detectChanges();
   }
