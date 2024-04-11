@@ -25,8 +25,7 @@ export class EmpresaEffects {
           );
 
           if (environment.production) {
-            let nombre_original = action.empresa.nombre_corto;
-            let nombre = nombre_original.replace(/\W+/g, '_');
+            let nombre = window.location.host.split('.')[0];
             setCookie(
               `empresa-${nombre.toLowerCase()}`,
               JSON.stringify(action.empresa),
