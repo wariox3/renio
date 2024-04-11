@@ -9,7 +9,10 @@
     <!--begin::Heading-->
     <div class="text-center mb-11">
       <!--begin::Title-->
-      <h1 translate="FORMULARIOS.TITULOS.SEGURIDAD.REGISTRO" class="text-dark fw-bolder mb-3"></h1>
+      <h1
+        translate="FORMULARIOS.TITULOS.SEGURIDAD.REGISTRO"
+        class="text-dark fw-bolder mb-3"
+      ></h1>
       <!--end::Title-->
 
       <!--begin::Subtitle-->
@@ -178,6 +181,14 @@
           control: formularioRegistro.controls['clave']
         }"
       ></ng-container>
+      <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+        control: formularioRegistro.controls['clave']
+      }"
+    ></ng-container>
     </div>
     <!--end::Form group-->
 
@@ -241,6 +252,14 @@
           control: formularioRegistro.controls['confirmarClave']
         }"
       ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioRegistro.controls['confirmarClave']
+        }"
+      ></ng-container>
       <div
         *ngIf="
           formularioRegistro.controls.confirmarClave?.touched &&
@@ -298,14 +317,20 @@
         id="kt_sign_up_submit"
         class="btn btn-primary"
         #btnCrear
-      >
-      </button>
+      ></button>
     </div>
     <!--end::Form group-->
 
     <!--begin::Sign up-->
-    <div translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA" class="text-gray-500 text-center fw-semibold fs-6">
-      <a routerLink="/auth/login" translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO" class="link-primary fw-semibold">
+    <div
+      translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA"
+      class="text-gray-500 text-center fw-semibold fs-6"
+    >
+      <a
+        routerLink="/auth/login"
+        translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO"
+        class="link-primary fw-semibold"
+      >
       </a>
     </div>
     <!--end::Sign up-->

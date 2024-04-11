@@ -89,7 +89,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern(/^[a-z-A-Z-0-9@.-_]+$/),
+          Validators.pattern(/^[a-z-A-Z-0-9@.-_*]+$/),
         ]),
       ],
     });

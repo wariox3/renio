@@ -71,6 +71,7 @@ export class RegistrationComponent extends General  implements OnInit {
             Validators.required,
             Validators.minLength(8),
             Validators.maxLength(50),
+            Validators.pattern(/^[a-z-A-Z-0-9@.-_*]+$/),
           ]),
         ],
         confirmarClave: [
@@ -79,6 +80,7 @@ export class RegistrationComponent extends General  implements OnInit {
             Validators.required,
             Validators.minLength(8),
             Validators.maxLength(50),
+            Validators.pattern(/^[a-z-A-Z-0-9@.-_*]+$/),
           ]),
         ],
         terminosCondiciones: [false, Validators.compose([Validators.requiredTrue])],
