@@ -60,7 +60,7 @@ export class LandingpageComponent implements OnInit {
 
   navegacionID(id: string) {
     // Desplazamiento vertical adicional que se aplicará al resultado del cálculo de la posición
-    const yOffset = -110;
+    const yOffset = -120;
     // Busca un elemento en el documento HTML con el ID especificado por la variable `id` y lo almacena en la variable `element`
     const element = document.getElementById(id);
     // Calcula la posición vertical (en píxeles) del borde superior del elemento respecto a la parte superior del área de contenido del viewport (la ventana del navegador), y le suma el desplazamiento actual de la página y el desplazamiento adicional
