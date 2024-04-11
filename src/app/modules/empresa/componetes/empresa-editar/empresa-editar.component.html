@@ -221,6 +221,7 @@
                   formularioEmpresa.controls['ciudad'].valid
               }"
               (focus)="consultarCiudad($event); CiudadDropdown.open()"
+              (blur)="modificarCampoFormulario('ciudad', null)"
               (keyup)="consultarCiudad($event)"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">

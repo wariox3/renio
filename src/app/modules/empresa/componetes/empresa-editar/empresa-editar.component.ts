@@ -172,6 +172,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
       telefono: [
         '',
         Validators.compose([
+          Validators.required,
           Validators.minLength(7),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
@@ -209,25 +210,29 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    this.empresaService
-      .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
-      .pipe(
-        tap((respuestaActualizacion: any) => {
-          if (respuestaActualizacion.actualizacion) {
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-              )
-            );
-            this.store.dispatch(
-              empresaActualizacionAction({
-                empresa: respuestaActualizacion.empresa,
-              })
-            );
-          }
-        })
-      )
-      .subscribe();
+    if (this.formularioEmpresa.valid) {
+      this.empresaService
+        .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
+        .pipe(
+          tap((respuestaActualizacion: any) => {
+            if (respuestaActualizacion.actualizacion) {
+              this.alertaService.mensajaExitoso(
+                this.translateService.instant(
+                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+                )
+              );
+              this.store.dispatch(
+                empresaActualizacionAction({
+                  empresa: respuestaActualizacion.empresa,
+                })
+              );
+            }
+          })
+        )
+        .subscribe();
+    } else {
+      this.formularioEmpresa.markAllAsTouched();
+    }
   }
 
   consultarCiudad(event: any) {
@@ -260,8 +265,15 @@ export class EmpresaEditarComponent extends General implements OnInit {
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'ciudad') {
-      this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
-      this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato.ciudad_nombre);
+      if (dato === null) {
+        this.formularioEmpresa.get(campo)?.setValue(null);
+        this.formularioEmpresa.get('ciudad_nombre')?.setValue(null);
+      } else {
+        this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
+        this.formularioEmpresa
+          .get('ciudad_nombre')
+          ?.setValue(dato.ciudad_nombre);
+      }
     }
     if (campo === 'resolucion_id') {
       this.formularioDian.get(campo)?.setValue(dato.resolucion_id);
