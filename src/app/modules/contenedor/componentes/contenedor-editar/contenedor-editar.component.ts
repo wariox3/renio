@@ -112,7 +112,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
 
   formSubmit() {
-    this.store
+    if (this.formularioContenedor.valid) {
+      this.store
       .select(obtenerUsuarioId)
       .pipe(
         switchMap((codigoUsuario) => {
@@ -135,6 +136,10 @@ export class ContenedorEditarComponent extends General implements OnInit {
         })
       )
       .subscribe();
+    } else {
+      this.formularioContenedor.markAllAsTouched();
+    }
+
   }
 
 
