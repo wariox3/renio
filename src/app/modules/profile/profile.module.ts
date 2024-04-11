@@ -25,6 +25,7 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,6 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     InformacionUsuarioComponent,
     FacturacionComponent,
   ],
-  providers: [NgbActiveModal],
   imports: [
     CommonModule,
     ProfileRoutingModule,
@@ -55,7 +55,10 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     NgbAccordionModule,
     CargarImagenComponent,
     NgOptimizedImage,
-    SkeletonLoadingComponent
+    SkeletonLoadingComponent,
+    NgxMaskPipe,
+    NgxMaskDirective,
   ],
+  providers: [NgbActiveModal, provideNgxMask()],
 })
 export class ProfileModule {}
