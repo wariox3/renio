@@ -25,8 +25,10 @@ export class EmpresaEffects {
           );
 
           if (environment.production) {
+            let nombre_original = action.empresa.nombre_corto;
+            let nombre = nombre_original.replace(/\W+/g, '_');
             setCookie(
-              `empresa-${action.empresa.nombre_corto}`,
+              `empresa-${nombre.toLowerCase()}`,
               JSON.stringify(action.empresa),
               {
                 expires: calcularTresHoras,
