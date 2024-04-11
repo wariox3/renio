@@ -203,10 +203,10 @@ export default class ItemFormularioComponent extends General implements OnInit {
           referencia: respuesta.item.referencia,
           precio: respuesta.item.precio,
           costo: respuesta.item.costo,
-          productoServicio: respuesta.item.producto ? 'producto': 'servicio',
+          productoServicio: respuesta.item.producto ? 'producto' : 'servicio',
           inventario: respuesta.item.inventario,
-          producto:  respuesta.item.producto,
-          servicio:  respuesta.item.servicio
+          producto: respuesta.item.producto,
+          servicio: respuesta.item.servicio,
         });
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
@@ -236,14 +236,15 @@ export default class ItemFormularioComponent extends General implements OnInit {
     if (campo === 'producto') {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('servicio')?.setValue(false);
-
     }
     if (campo === 'servicio') {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('producto')?.setValue(false);
     }
     if (campo === 'precio' || campo === 'costo') {
-      this.formularioItem.get(campo)?.setValue(dato);
+      if (this.formularioItem.get(campo)?.value === '') {
+        this.formularioItem.get(campo)?.setValue(dato);
+      }
     }
     this.changeDetectorRef.detectChanges();
   }
