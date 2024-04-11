@@ -515,6 +515,7 @@
                   formularioContacto.controls['ciudad'].valid
               }"
               (focus)="consultarCiudad($event); CiudadDropdown.open();"
+              (blur)="modificarCampoFormulario('ciudad', null)"
               (keydown.arrowdown)="selectNext($event)"
               (keydown.arrowup)="selectPrevious($event)"
               (keydown)="consultarCiudad($event)"

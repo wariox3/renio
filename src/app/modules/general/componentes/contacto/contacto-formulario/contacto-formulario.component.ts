@@ -339,7 +339,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.ciudadDropdown.close();
       }
     }
-    if (event.key !== 'ArrowUp' || event.key !== 'ArrowDown' || event.key !== 'Backspace') {
+    if (
+      event.key !== 'ArrowUp' ||
+      event.key !== 'ArrowDown' ||
+      event.key !== 'Backspace'
+    ) {
       let valor1 = event?.target.value;
       if (valor1 !== '') {
         if (valor1.includes('-')) {
@@ -512,10 +516,17 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.formularioContacto?.markAsDirty();
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
-      this.formularioContacto
-        .get('ciudad_nombre')
-        ?.setValue(dato.ciudad_nombre);
-      this.formularioContacto.get('ciudad')?.setValue(dato.ciudad_id);
+      if (dato === null) {
+        this.formularioContacto
+          .get('ciudad_nombre')
+          ?.setValue(null);
+        this.formularioContacto.get('ciudad')?.setValue(null);
+      } else {
+        this.formularioContacto
+          .get('ciudad_nombre')
+          ?.setValue(dato.ciudad_nombre);
+        this.formularioContacto.get('ciudad')?.setValue(dato.ciudad_id);
+      }
     }
     if (campo === 'barrio') {
       if (this.formularioContacto.get(campo)?.value === '') {
