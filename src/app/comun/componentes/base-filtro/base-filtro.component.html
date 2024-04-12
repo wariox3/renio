@@ -4,16 +4,16 @@
       class="row mb-6"
       *ngFor="let filtro of filtros.controls; let i = index"
     >
-      <div class="col-5" [formGroupName]="i">
+      <div class="col-12 col-md-5 mb-2" [formGroupName]="i">
         <app-base-filtro-formulario
           [datosSeleccionados]="filtrosAplicados[i]"
           (dataPropiedad)="actualizarPropiedad($event, i)"
           (dataOperador)="actualizarOperador($event, i)"
         ></app-base-filtro-formulario>
       </div>
-      <div class="col-5" [formGroupName]="i">
+      <div class="col-12 col-md-5 mb-2" [formGroupName]="i">
         <div class="d-flex justify-content-between">
-          <div class="w-100 me-2">
+          <div class="w-100">
             <input
             class="form-control form-control-sm"
             [ngClass]="{
@@ -53,10 +53,10 @@
           </ng-container>
         </div>
       </div>
-      <div class="col-2" [formGroupName]="i">
+      <div class="col-12 col-md-2" [formGroupName]="i">
         <div class="d-flex justify-content-end">
           <i
-            class="bi bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
+            class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
             (click)="agregarNuevoFiltro()"
           ></i>
           <i
