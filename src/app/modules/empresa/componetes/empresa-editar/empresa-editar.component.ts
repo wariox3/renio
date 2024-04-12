@@ -25,7 +25,7 @@ import { TipoPersona } from '@interfaces/general/tipoPersona';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, switchMap, tap, throttleTime, zip } from 'rxjs';
 import {
   NgbModal,
   NgbDropdown,
@@ -47,6 +47,7 @@ import {
 } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { Empresa } from '@interfaces/contenedor/empresa';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -108,27 +109,27 @@ export class EmpresaEditarComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.contenedorService.listaTipoIdentificacion(),
-      this.empresaService.consultarDetalle(this.empresa_id),
       this.contenedorService.listaRegimen(),
-      this.contenedorService.listaTipoPersona()
+      this.contenedorService.listaTipoPersona(),
+      this.empresaService.consultarDetalle(this.empresa_id)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
+      this.arrRegimen = respuesta[1].registros;
+      this.arrTipoPersona = respuesta[2].registros;
+      this.rededoc_id = respuesta[3].rededoc_id;
       this.formularioEmpresa.patchValue({
-        nombre_corto: respuesta[1].nombre_corto,
-        correo: respuesta[1].correo,
-        digito_verificacion: respuesta[1].digito_verificacion,
+        nombre_corto: respuesta[3].nombre_corto,
+        correo: respuesta[3].correo,
+        digito_verificacion: respuesta[3].digito_verificacion,
         direccion: respuesta[1].direccion,
-        numero_identificacion: respuesta[1].numero_identificacion,
-        telefono: respuesta[1].telefono,
-        identificacion: respuesta[1].identificacion_id,
-        ciudad_nombre: respuesta[1].ciudad_nombre,
-        ciudad: respuesta[1].ciudad_id,
-        tipo_persona: respuesta[1].tipo_persona,
-        regimen: respuesta[1].regimen,
+        numero_identificacion: respuesta[3].numero_identificacion,
+        telefono: respuesta[3].telefono,
+        identificacion: respuesta[3].identificacion_id,
+        ciudad_nombre: respuesta[3].ciudad_nombre,
+        ciudad: respuesta[3].ciudad_id,
+        tipo_persona: respuesta[3].tipo_persona,
+        regimen: respuesta[3].regimen,
       });
-      this.rededoc_id = respuesta[1].rededoc_id;
-      this.arrRegimen = respuesta[2].registros;
-      this.arrTipoPersona = respuesta[3].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -209,11 +210,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
       ],
       correo_facturacion_electronica: [
         null,
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ]),
-      ]
+        Validators.compose([Validators.required, Validators.email]),
+      ],
     });
   }
 
@@ -310,9 +308,16 @@ export class EmpresaEditarComponent extends General implements OnInit {
     if (this.formularioDian.valid) {
       this.empresaService
         .activarEmpresa(this.empresa_id, this.formularioDian.value)
-        .subscribe(() => {
-          this.consultarInformacion();
-        });
+        .pipe(
+          switchMap(() =>
+            this.empresaService.consultarDetalle(this.empresa_id)
+          ),
+          tap((respuestaConsultaEmpresa: any) => {
+            this.rededoc_id = respuestaConsultaEmpresa.rededoc_id;
+            this.changeDetectorRef.detectChanges();
+          })
+        )
+        .subscribe(() => {});
     } else {
       this.formularioDian.markAllAsTouched();
     }
