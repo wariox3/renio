@@ -113,9 +113,7 @@
     class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
   >
     <thead>
-      <tr
-        class="fw-bold fs-6 text-gray-800 animate__animated animate__fadeInUp"
-      >
+      <tr class="fw-bold fs-6 text-gray-800">
         <ng-container *ngFor="let item of camposVisibles; let i = index">
           <th
             (click)="item.ordenable && orderPor(item.nombre, i)"
@@ -182,10 +180,8 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let item of datosFiltrados; let i=index"
+        *ngFor="let item of datosFiltrados; let i = index"
         appAnimationFadeinUp
-        [animacionDelay]="i + 1"
-        class="animate__animated animate__fadeInUp"
       >
         <td
           *ngFor="let key of item | keys"
