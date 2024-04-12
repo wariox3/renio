@@ -72,11 +72,7 @@ export class ContenedorNuevoComponent extends General implements OnInit {
       .consultarNombre(dataFormularioLogin.subdominio)
       .pipe(
         switchMap(({ validar }) => {
-          if (!validar) {
-            this.procesando = false;
-            this.changeDetectorRef.detectChanges();
-            this.alertaService.mensajeError('Error', 'Nombre en uso');
-          } else {
+          if ( validar) {
             return this.contenedorService.nuevo(
               dataFormularioLogin,
               this.codigoUsuario
