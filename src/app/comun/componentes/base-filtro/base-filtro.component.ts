@@ -55,7 +55,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.nombreFiltro =
         `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
-
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!
@@ -68,6 +67,13 @@ export class BaseFiltroComponent extends General implements OnInit {
       } else {
         this.formularioItem.reset();
         this.filtros.clear();
+        this.filtrosAplicados = [{
+          propiedad: '',
+          operador: '',
+          valor1: '',
+          valor2: '',
+          visualizarBtnAgregarFiltro: true,
+        }]
         this.filtros.push(this.crearControlFiltros(null));
       }
       this.changeDetectorRef.detectChanges();

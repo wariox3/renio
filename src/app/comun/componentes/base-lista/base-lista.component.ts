@@ -62,7 +62,6 @@ export class BaseListaComponent extends General implements OnInit {
       this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
-      console.log(Componetes[posicion]);
       this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[posicion].modelo?.toLowerCase()}`,
       this.titulos = Componetes[posicion].titulos;
       let filtros = Componetes[posicion].titulos?.filter(

@@ -22,7 +22,6 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
   camposVisibles: any;
   filtroCampoNombre = ''
   filtroCampoCriterio = ''
-  //@Input() propiedades: any[];
   modelo: string;
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
