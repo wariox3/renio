@@ -340,8 +340,8 @@ export const locale = {
           CREARCONTENEDOR:
             'Estamos creando su contenedor, espere un momento...',
           ELIMINARCONTENEDORTITULO: 'Eliminar contenedor',
-          ELIMINARCONTENEDORSUBTITULO: 'Este proceso no tiene reversa',
-          ELIMINARCONTENEDORAYUDA: `Para confirmar, escriba en el cuadro de abajo:`,
+          ELIMINARCONTENEDORSUBTITULO: 'Este proceso es irreversible.',
+          ELIMINARCONTENEDORAYUDA: `Para confirmar, escriba: `,
           SINCONTENEDORES: 'No cuenta con contenedores creados',
           INVITACIONACEPTADA: 'Invitacion aceptada',
           NUEVOCONTENEDOR: 'El nuevo contenedor fue creado',
