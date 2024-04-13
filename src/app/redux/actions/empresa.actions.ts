@@ -19,3 +19,8 @@ export const empresaActualizacionImangenAction = createAction(
 export const empresaLimpiarAction = createAction(
   '[Empresa] limpiar informacion'
 );
+
+export const empresaActualizacionRededocIdAction = createAction(
+  '[Empresa] actualizar rededoc_id',
+  props<{ rededoc_id: string }>()
+);

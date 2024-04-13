@@ -194,6 +194,9 @@ export const locale = {
         EMPRESA: {
           EDITAR: 'Edit company',
           FACTURAELECTRONICA: 'Electronic invoicing',
+          GENERAL: 'General',
+          CONFIGURACION: 'Configuration',
+          CONFIGURACIONEMPRESA: 'Configuration company',
           FACTURAELECTRONICABUSCARCODIGO: 'Are you looking for the code? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it'
         },
@@ -285,6 +288,7 @@ export const locale = {
           CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN',
           RESOLUCIONNUMERACION: 'Resolution/Numbering',
           CORREOFACTURACIONELECTRONICA: 'Electronic invoicing mail',
+          FORMATOFACTURA: 'Invoice format',
         },
         FILTROS: {
           OPERADORES: {

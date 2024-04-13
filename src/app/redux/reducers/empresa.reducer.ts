@@ -6,6 +6,7 @@ import {
   empresaActualizacionAction,
   empresaActualizacionImangenAction,
   empresaLimpiarAction,
+  empresaActualizacionRededocIdAction
 } from '@redux/actions/empresa.actions';
 import { getCookie } from 'typescript-cookie';
 
@@ -33,7 +34,9 @@ let estadoInicializado: Empresa = {
   tipo_persona: 0,
   suscriptor: 0,
   ciudad_id: 0,
-  identificacion_id: 0
+  identificacion_id: 0,
+  rededoc_id: '',
+  ciudad_nombre: ''
 };
 
 const initialState: Empresa = ContenedorDatos
@@ -59,5 +62,11 @@ export const empresaReducer = createReducer(
   on(empresaLimpiarAction, (state) => ({
     ...state,
     ...estadoInicializado,
+  })),
+  on(empresaActualizacionRededocIdAction, (state, {rededoc_id}) => ({
+    ...state,
+    ...{
+      rededoc_id,
+    },
   }))
 );

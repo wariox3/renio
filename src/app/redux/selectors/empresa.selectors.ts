@@ -32,3 +32,8 @@ export const obtenerEmpresaDireccion = createSelector(
   Empresa,
   (Empresa) => `${Empresa.direccion}`
 );
+
+export const obtenerEmpresRededoc_id = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.rededoc_id}`
+);

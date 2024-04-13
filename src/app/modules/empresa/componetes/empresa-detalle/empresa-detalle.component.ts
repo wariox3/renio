@@ -15,11 +15,11 @@ import { EmpresaEditarComponent } from '../empresa-editar/empresa-editar.compone
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../../_metronic/shared/shared.module';
 import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-empresa-detalle',
   templateUrl: './empresa-detalle.component.html',
-  styleUrls: ['./empresa-detalle.component.scss'],
   standalone: true,
   imports: [
     CargarImagenComponent,
@@ -27,6 +27,7 @@ import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imag
     TranslateModule,
     EmpresaEditarComponent,
     AsyncPipe,
+    RouterModule,
   ],
 })
 export class EmpresaDetalleComponent extends General {

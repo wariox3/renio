@@ -16,5 +16,6 @@ export interface Empresa {
   tipo_persona: number,
   suscriptor: number,
   ciudad_id: number,
-  identificacion_id: number
+  identificacion_id: number,
+  rededoc_id: string
 }

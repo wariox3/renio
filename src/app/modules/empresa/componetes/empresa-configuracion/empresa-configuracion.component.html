@@ -1,0 +1,69 @@
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  [formGroup]="formularioEmpresa"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="fv-row d-flex mb-5">
+    <button
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      type="submit"
+      class="btn btn-primary"
+      type="submit"
+      #btnGuardar
+    ></button>
+  </div>
+  <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.CONFIGURACIONEMPRESA'">
+    <section card-body>
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.EMPRESA.FORMATOFACTURA"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="formata_factura"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpresa.controls['formata_factura'].touched &&
+                formularioEmpresa.controls['formata_factura'].invalid,
+              'is-valid':
+                formularioEmpresa.controls['formata_factura'].touched &&
+                formularioEmpresa.controls['formata_factura'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <option value="F">Factura</option>
+            <option value="C">Cuenta de cobro</option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpresa.controls['formata_factura']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

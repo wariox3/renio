@@ -47,7 +47,7 @@ import {
 } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-empresa-editar',
@@ -67,7 +67,6 @@ import { Empresa } from '@interfaces/contenedor/empresa';
     NgbDropdownItem,
     NgxMaskDirective,
     CommonModule,
-    ResolucionFormularioComponent,
     LowerCasePipe,
     TitleCasePipe,
   ],
@@ -75,7 +74,6 @@ import { Empresa } from '@interfaces/contenedor/empresa';
 })
 export class EmpresaEditarComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
-  formularioDian: FormGroup;
   planSeleccionado: Number = 2;
   arrCiudades: Ciudad[] = [];
   arrIdentificacion: TipoIdentificacion[] = [];
@@ -94,15 +92,15 @@ export class EmpresaEditarComponent extends General implements OnInit {
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private httpService: HttpService,
-    private modalService: NgbModal
   ) {
     super();
   }
 
   ngOnInit() {
+    this.store
+    .select(obtenerEmpresaId)
+    .subscribe((id) => (this.empresa_id = id));
     this.initForm();
-    this.initFormDian();
     this.consultarInformacion();
   }
 
@@ -121,7 +119,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
         nombre_corto: respuesta[3].nombre_corto,
         correo: respuesta[3].correo,
         digito_verificacion: respuesta[3].digito_verificacion,
-        direccion: respuesta[1].direccion,
+        direccion: respuesta[3].direccion,
         numero_identificacion: respuesta[3].numero_identificacion,
         telefono: respuesta[3].telefono,
         identificacion: respuesta[3].identificacion_id,
@@ -182,36 +180,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
       ],
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
-    });
-  }
-
-  initFormDian() {
-    this.formularioDian = this.formBuilder.group({
-      set_pruebas: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-        ]),
-      ],
-      resolucion_numero: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-        ]),
-      ],
-      resolucion_id: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-        ]),
-      ],
-      correo_facturacion_electronica: [
-        null,
-        Validators.compose([Validators.required, Validators.email]),
-      ],
     });
   }
 
@@ -281,12 +249,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
           ?.setValue(dato.ciudad_nombre);
       }
     }
-    if (campo === 'resolucion_id') {
-      this.formularioDian.get(campo)?.setValue(dato.resolucion_id);
-      this.formularioDian
-        .get('resolucion_numero')
-        ?.setValue(dato.resolucion_numero);
-    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -302,75 +264,5 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.formularioEmpresa.patchValue({
       digito_verificacion: digito,
     });
-  }
-
-  activarEmpresa() {
-    if (this.formularioDian.valid) {
-      this.empresaService
-        .activarEmpresa(this.empresa_id, this.formularioDian.value)
-        .pipe(
-          switchMap(() =>
-            this.empresaService.consultarDetalle(this.empresa_id)
-          ),
-          tap((respuestaConsultaEmpresa: any) => {
-            this.rededoc_id = respuestaConsultaEmpresa.rededoc_id;
-            this.changeDetectorRef.detectChanges();
-          })
-        )
-        .subscribe(() => {});
-    } else {
-      this.formularioDian.markAllAsTouched();
-    }
-  }
-
-  consultarResolucion(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'numero__contains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'Resolucion',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrResoluciones = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
-  abirModal(content: any) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
-  cerrarModal(resolucion: Resolucion): void {
-    this.modificarCampoFormulario('resolucion_id', {
-      resolucion_id: resolucion.id,
-      resolucion_numero: resolucion.numero,
-    });
-    this.changeDetectorRef.detectChanges();
-    this.modalService.dismissAll();
-    this.changeDetectorRef.detectChanges();
   }
 }
