@@ -15,14 +15,17 @@ import { tap, withLatestFrom } from 'rxjs';
 })
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;
-  MenuSeleccion$ = this.store.select(obtenerMenuSeleccion);
+  modulo: string;
   arrMenu: any = [];
-  arrMenuApps = [ 'COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO'];
+  arrMenuApps = ['COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO'];
 
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
-    this.cambiarMenu()
+    this.store
+      .select(obtenerMenuSeleccion)
+      .subscribe((menu) => (this.modulo = menu));
+    this.cambiarMenu();
   }
 
   obtenerIcono(nombre: string) {
@@ -44,7 +47,7 @@ export class SidebarMenuComponent implements OnInit {
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
 
-  cambiarMenu(){
+  cambiarMenu() {
     this.store
       .select(obtenerMenuSeleccion)
       .pipe(
@@ -60,5 +63,16 @@ export class SidebarMenuComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  navegar(item: any) {
+    this.router.navigate([item.url], {
+      queryParams: {
+        modulo: this.modulo,
+        modelo: item.modelo,
+        tipo: item.tipo,
+        data: JSON.stringify(item.data),
+      },
+    });
   }
 }

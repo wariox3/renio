@@ -80,6 +80,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
+  dataUrl = JSON.parse(this.data)
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -94,6 +95,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.consultarInformacion();
     this.initForm();
     this.active = 1;
+
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
@@ -217,6 +219,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...this.formularioFactura.value,
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
+                numero: null,
+                documento_tipo: this.dataUrl.documento_tipo
               },
             })
             .pipe(
@@ -754,7 +758,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   actualizarDatos(event: any, campo: string) {
     let data: any = {
-      documento_tipo: 1,
+      documento_tipo: this.dataUrl.documento_tipo,
     };
 
     data[campo] = event.target.innerText;

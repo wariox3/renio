@@ -70,7 +70,7 @@
       <div class="menu-content pt-8 pb-2">
         <span
           class="menu-heading fw-bold text-uppercase fs-7"
-          [translate]="'MENU.TITULOS.' + (MenuSeleccion$ | async)"
+          [translate]="'MENU.TITULOS.' + (modulo)"
         >
         </span>
       </div>
@@ -105,11 +105,7 @@
           <a
             class="menu-link without-sub"
             routerLink="{{ item.url }}"
-            [queryParams]="{
-              modulo: (MenuSeleccion$ | async | lowercase),
-              modelo: item.modelo,
-              tipo: item.tipo
-            }"
+            (click)="navegar(item)"
           >
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>

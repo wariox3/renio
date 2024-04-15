@@ -25,6 +25,8 @@ export const locale = {
       FUNCIONALIDAD: {
         FACTURA: 'Sales',
         FACTURAVENTA: 'Sales Invoice',
+        NOTACREDITO: 'Credit note',
+        NOTADEBITO: 'Debit memo',
         FACTURACOMPRA: 'Invoice of purchase',
         ITEM: 'Item',
         CONTACTO: 'Contact',

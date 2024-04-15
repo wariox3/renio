@@ -9,8 +9,6 @@ export class FacturaService {
   constructor(private httpService: HttpService) {}
 
   guardarFactura(data: any) {
-    data['documento_tipo'] = 1;
-    data['numero'] = null;
     return this.httpService.post<any>('general/documento/', data);
   }
 

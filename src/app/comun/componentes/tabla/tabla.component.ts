@@ -72,6 +72,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+
       this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
       this.changeDetectorRef.detectChanges();
     });
@@ -154,6 +155,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           modulo: parametro.modulo,
           modelo: parametro.modelo,
           tipo: parametro.tipo,
+          data: parametro.data
         },
       });
     });

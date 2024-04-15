@@ -48,25 +48,30 @@ export class BaseListaComponent extends General implements OnInit {
   modelo = '';
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
-  urlEliminar = ''
-
+  urlEliminar = '';
+  documento_tipo_id: string;
   constructor(private httpService: HttpService) {
     super();
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      let data = JSON.parse(parametro.data);
+      this.documento_tipo_id = data.documento_tipo;
       this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.tipo = parametro.tipo;
       this.modelo = parametro.modelo;
-      this.nombreFiltro = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
+      this.nombreFiltro =
+        `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
-      this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[posicion].modelo?.toLowerCase()}`,
-      this.titulos = mapeo[posicion].datos.filter(
-        (titulo: any) => titulo.visibleTabla === true
-      );
+      (this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[
+        posicion
+      ].modelo?.toLowerCase()}`),
+        (this.titulos = mapeo[posicion].datos.filter(
+          (titulo: any) => titulo.visibleTabla === true
+        ));
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
@@ -91,7 +96,7 @@ export class BaseListaComponent extends General implements OnInit {
         this.arrParametrosConsulta = {
           ...this.arrParametrosConsulta,
           ...{
-            documento_tipo_id: 1,
+            'documento_tipo_id': this.documento_tipo_id,
           },
         };
         break;
@@ -156,8 +161,8 @@ export class BaseListaComponent extends General implements OnInit {
         });
         combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
           this.alertaService.mensajaExitoso('Registro eliminado');
-          this.confirmacionRegistrosEliminado = true
-          this.changeDetectorRef.detectChanges()
+          this.confirmacionRegistrosEliminado = true;
+          this.changeDetectorRef.detectChanges();
           this.consultarLista();
         });
       }

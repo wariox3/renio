@@ -47,7 +47,7 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'movimiento',
-          children:[
+          children: [
             {
               nombre: 'FACTURACOMPRA',
               url: 'lista',
@@ -55,7 +55,7 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
             },
-          ]
+          ],
         },
         {
           nombre: 'administracion',
@@ -138,7 +138,21 @@ export const initialState: Menu = {
               url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
-              data: { formulario: 'FacturaNuevo' },
+              data: { documento_tipo: 1 },
+            },
+            {
+              nombre: 'NOTACREDITO',
+              url: 'lista',
+              modelo: 'Factura',
+              tipo: 'Documento',
+              data: { documento_tipo: 2 },
+            },
+            {
+              nombre: 'NOTADEBITO',
+              url: 'lista',
+              modelo: 'Factura',
+              tipo: 'Documento',
+              data: { documento_tipo: 3 },
             },
           ],
         },
@@ -248,11 +262,8 @@ export const initialState: Menu = {
 
 export const menuReducer = createReducer(
   initialState,
-  on(selecionModuloAction, (state, { seleccion }) => (
-    
-    {
+  on(selecionModuloAction, (state, { seleccion }) => ({
     ...state,
     seleccion,
-    }
-  ))
+  }))
 );

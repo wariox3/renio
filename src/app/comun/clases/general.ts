@@ -17,6 +17,7 @@ export class General {
   protected formulario = '';
   protected accion: string | null = null;
   protected detalle = 0;
+  protected data: any = {};
 
   constructor() {
     this.consultarParametros();
@@ -35,6 +36,7 @@ export class General {
         this.modelo = queryParam['modelo'];
         this.tipo = queryParam['tipo'];
         this.detalle = queryParam['detalle'];
+        this.data = queryParam['data'];
         this.changeDetectorRef.detectChanges
       }
     );
