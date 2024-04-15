@@ -56,8 +56,10 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      let data = JSON.parse(parametro.data);
-      this.documento_clase_id = data.documento_clase;
+      if(parametro.data){
+        let data = JSON.parse(parametro.data);
+        this.documento_clase_id = data.documento_clase;
+      }
       this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.tipo = parametro.tipo;
