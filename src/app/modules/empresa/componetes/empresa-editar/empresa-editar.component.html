@@ -343,14 +343,14 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
-            class="form-label required"
+            class="form-label"
           ></label>
           <input
             formControlName="telefono"
             class="form-control bg-transparent"
             type="text"
-            mask="000-00-00"
             autocomplete="off"
+            (blur)="modificarCampoFormulario('telefono', null)"
             [ngClass]="{
               'is-invalid':
                 formularioEmpresa.controls['telefono'].touched &&
@@ -360,14 +360,6 @@
                 formularioEmpresa.controls['telefono'].valid
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpresa.controls['telefono']
-            }"
-          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

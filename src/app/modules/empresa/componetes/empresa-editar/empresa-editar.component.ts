@@ -172,7 +172,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
       telefono: [
         '',
         Validators.compose([
-          Validators.required,
           Validators.minLength(7),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
@@ -247,6 +246,11 @@ export class EmpresaEditarComponent extends General implements OnInit {
         this.formularioEmpresa
           .get('ciudad_nombre')
           ?.setValue(dato.ciudad_nombre);
+      }
+    }
+    if(campo === 'telefono'){
+      if(this.formularioEmpresa.get(campo)?.value === ''){
+        this.formularioEmpresa.get(campo)?.setValue(dato);
       }
     }
     this.changeDetectorRef.detectChanges();
