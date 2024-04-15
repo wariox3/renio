@@ -236,10 +236,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                     modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                     tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                    formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                    data: JSON.stringify(this.data),
                     detalle: respuesta.documento.id,
                     accion: 'detalle',
+                    data: JSON.stringify(JSON.parse(this.data)),
                   },
                 });
               })
@@ -296,10 +295,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                   tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                  data: JSON.stringify(this.data),
                   detalle: respuesta.documento.id,
                   accion: 'detalle',
+                  data: JSON.stringify(JSON.parse(this.data)),
                 },
               });
               // this.detalle = respuesta.documento.id;
