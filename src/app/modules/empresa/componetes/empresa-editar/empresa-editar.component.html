@@ -380,6 +380,14 @@
               control: formularioEmpresa.controls['telefono']
             }"
           ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioEmpresa.controls['telefono']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-10">
@@ -438,7 +446,7 @@
             <option
               *ngFor="let tipoPersona of arrTipoPersona"
               [value]="tipoPersona.tipo_persona_id"
-              >
+            >
               {{ tipoPersona.tipo_persona_nombre }}
             </option>
           </select>
