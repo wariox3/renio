@@ -11,17 +11,20 @@ import {
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-
+import { mapeo } from '@comun/extra/mapeoEntidades';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
   imports: [CommonModule, TranslateModule, TranslationModule],
   templateUrl: './base-filtro-formulario.component.html',
 })
-export class BaseFiltroFormularioComponent extends General implements OnInit, OnChanges {
+export class BaseFiltroFormularioComponent
+  extends General
+  implements OnInit, OnChanges
+{
   camposVisibles: any;
-  filtroCampoNombre = ''
-  filtroCampoCriterio = ''
+  filtroCampoNombre = '';
+  filtroCampoCriterio = '';
   modelo: string;
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
@@ -125,34 +128,40 @@ export class BaseFiltroFormularioComponent extends General implements OnInit, On
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = parametro.modelo
-      this.construirFiltros();
+      this.modelo = parametro.modelo;
+      this.construirFiltros(parametro.modelo);
     });
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.datosSeleccionados && changes.datosSeleccionados.currentValue) {
-      this.filtroCampoNombre = changes.datosSeleccionados.currentValue.propiedad
-      this.filtroCampoCriterio = changes.datosSeleccionados.currentValue.operador
-      this.criteriosBusqueda = this.datosCriteriosBusqueda[changes.datosSeleccionados.currentValue.tipo];
+      this.filtroCampoNombre =
+        changes.datosSeleccionados.currentValue.propiedad;
+      this.filtroCampoCriterio =
+        changes.datosSeleccionados.currentValue.operador;
+      this.criteriosBusqueda =
+        this.datosCriteriosBusqueda[
+          changes.datosSeleccionados.currentValue.tipo
+        ];
       this.changeDetectorRef.detectChanges();
     }
   }
 
-  construirFiltros() {
-    //se crean los datos que se visualizan en los options del select
-    this.camposVisibles = JSON.parse(
-      localStorage.getItem('filtros')!
+  construirFiltros(modelo: string) {
+    this.camposVisibles = mapeo[modelo].datos.filter(
+      (titulo: any) => titulo.visibleFiltro === true
     );
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   propiedadSeleccionada(event: any): void {
     const selectedValue = event.target.value; // Valor seleccionado en el select
     const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
     this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
-    this.dataPropiedad.emit({'campo':selectedOption.getAttribute('data-value') ?? '', tipo: selectedValue});
+    this.dataPropiedad.emit({
+      campo: selectedOption.getAttribute('data-value') ?? '',
+      tipo: selectedValue,
+    });
   }
 
   onCriterioSeleccionado(event: Event): void {

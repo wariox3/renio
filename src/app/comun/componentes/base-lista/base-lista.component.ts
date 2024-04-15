@@ -12,6 +12,7 @@ import { TablaComponent } from '../tabla/tabla.component';
 import { combineLatest } from 'rxjs';
 import { ImportarComponent } from '../importar/importar.component';
 import { Componetes } from '@comun/extra/imports';
+import { mapeo } from '@comun/extra/mapeoEntidades';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -63,11 +64,9 @@ export class BaseListaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       let posicion: keyof typeof Componetes = `${parametro.modelo}`;
       this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[posicion].modelo?.toLowerCase()}`,
-      this.titulos = Componetes[posicion].titulos;
-      let filtros = Componetes[posicion].titulos?.filter(
-        (titulo: any) => titulo.visibleFiltro === true
+      this.titulos = mapeo[posicion].datos.filter(
+        (titulo: any) => titulo.visibleTabla === true
       );
-      localStorage.setItem('filtros', JSON.stringify(filtros));
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
