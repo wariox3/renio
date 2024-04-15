@@ -18,23 +18,19 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { HttpService } from '@comun/services/http.service';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { TipoPersona } from '@interfaces/general/tipoPersona';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, switchMap, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import {
-  NgbModal,
   NgbDropdown,
   NgbDropdownAnchor,
   NgbDropdownMenu,
   NgbDropdownItem,
 } from '@ng-bootstrap/ng-bootstrap';
-import { Resolucion } from '@interfaces/general/resolucion';
-import ResolucionFormularioComponent from '../../../general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {
   NgClass,
@@ -91,15 +87,15 @@ export class EmpresaEditarComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
   }
 
   ngOnInit() {
     this.store
-    .select(obtenerEmpresaId)
-    .subscribe((id) => (this.empresa_id = id));
+      .select(obtenerEmpresaId)
+      .subscribe((id) => (this.empresa_id = id));
     this.initForm();
     this.consultarInformacion();
   }
@@ -248,8 +244,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
           ?.setValue(dato.ciudad_nombre);
       }
     }
-    if(campo === 'telefono'){
-      if(this.formularioEmpresa.get(campo)?.value === ''){
+    if (campo === 'telefono') {
+      if (this.formularioEmpresa.get(campo)?.value === '') {
         this.formularioEmpresa.get(campo)?.setValue(dato);
       }
     }
