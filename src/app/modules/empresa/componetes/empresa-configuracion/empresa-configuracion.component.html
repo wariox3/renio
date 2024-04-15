@@ -23,14 +23,14 @@
           ></label>
           <select
             class="form-select"
-            formControlName="formata_factura"
+            formControlName="formato_factura"
             [ngClass]="{
               'is-invalid':
-                formularioEmpresa.controls['formata_factura'].touched &&
-                formularioEmpresa.controls['formata_factura'].invalid,
+                formularioEmpresa.controls['formato_factura'].touched &&
+                formularioEmpresa.controls['formato_factura'].invalid,
               'is-valid':
-                formularioEmpresa.controls['formata_factura'].touched &&
-                formularioEmpresa.controls['formata_factura'].valid
+                formularioEmpresa.controls['formato_factura'].touched &&
+                formularioEmpresa.controls['formato_factura'].valid
             }"
           >
             <option value="">Seleccionar...</option>
@@ -42,7 +42,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpresa.controls['formata_factura']
+              control: formularioEmpresa.controls['formato_factura']
             }"
           ></ng-container>
         </div>

@@ -38,9 +38,17 @@ export class EmpresaService {
   activarEmpresa(empresa_id: Number | string,  data: any){
     return this.httpService.post('general/empresa/activar/', {
       empresa_id,
-      webhookEmision: '123',
-      webhookNotificacion: '123',
       ...data
+    })
+  }
+
+  obtenerConfiguracionEmpresa(empresa_id: Number | string){
+    return this.httpService.get(`general/configuracion/${empresa_id}/`)
+  }
+
+  configuracionEmpresa(empresa_id: Number | string,  data: any){
+    return this.httpService.put(`general/configuracion/${empresa_id}/`, {
+      ...data,
     })
   }
 }
