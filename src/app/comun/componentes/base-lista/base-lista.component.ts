@@ -49,7 +49,7 @@ export class BaseListaComponent extends General implements OnInit {
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
-  documento_tipo_id: string;
+  documento_clase_id: string;
   constructor(private httpService: HttpService) {
     super();
   }
@@ -57,7 +57,7 @@ export class BaseListaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       let data = JSON.parse(parametro.data);
-      this.documento_tipo_id = data.documento_tipo;
+      this.documento_clase_id = data.documento_clase;
       this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.tipo = parametro.tipo;
@@ -96,7 +96,7 @@ export class BaseListaComponent extends General implements OnInit {
         this.arrParametrosConsulta = {
           ...this.arrParametrosConsulta,
           ...{
-            'documento_tipo_id': this.documento_tipo_id,
+            'documento_clase_id': this.documento_clase_id,
           },
         };
         break;
