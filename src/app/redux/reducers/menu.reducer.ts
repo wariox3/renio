@@ -234,7 +234,7 @@ export const initialState: Menu = {
               url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
-              data: { formulario: 'FacturaNuevo' },
+              data: { documento_clase: 1 },
             },
           ],
         },
