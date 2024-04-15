@@ -145,6 +145,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ]),
         ],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
+        orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -710,6 +711,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.formularioFactura.get(campo)?.setValue(null);
       }
     }
+    if (campo === 'orden_compra') {
+      if (this.formularioFactura.get(campo)?.value === '') {
+        this.formularioFactura.get(campo)?.setValue(null);
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -779,6 +785,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           metodo_pago: respuesta.documento.metodo_pago_id,
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
           soporte: respuesta.documento.soporte,
+          orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
         });
         this.detalles.clear();

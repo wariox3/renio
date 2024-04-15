@@ -277,6 +277,7 @@ export const locale = {
           METODOPAGO: 'Payment Method',
           NUMERO: 'Number',
           SOPORTE: 'Support',
+          ORDENCOMPRA: 'Purchase order',
           COMENTARIO: 'Comment',
         },
         EMPRESA: {

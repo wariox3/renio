@@ -267,6 +267,39 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
+          ></label>
+          <input
+            formControlName="orden_compra"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            (blur)="modificarCampoFormulario('orden_compra', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['orden_compra'].touched &&
+                formularioFactura.controls['orden_compra'].invalid,
+              'is-valid':
+                formularioFactura.controls['orden_compra'].touched &&
+                formularioFactura.controls['orden_compra'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioFactura.controls['orden_compra']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
             class="form-label"
