@@ -298,6 +298,41 @@
             }"
           ></ng-container>
         </div>
+        <div
+          class="col-md-6 col-sm-12"
+          *ngIf="visualizarCampoDocumentoReferencia"
+          appAnimacionFadeInOut
+        >
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
+          ></label>
+          <input
+            formControlName="documento_referencia"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            (blur)="modificarCampoFormulario('documento_referencia', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['documento_referencia'].touched &&
+                formularioFactura.controls['documento_referencia'].invalid,
+              'is-valid':
+                formularioFactura.controls['documento_referencia'].touched &&
+                formularioFactura.controls['documento_referencia'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioFactura.controls['documento_referencia']
+            }"
+          ></ng-container>
+        </div>
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">

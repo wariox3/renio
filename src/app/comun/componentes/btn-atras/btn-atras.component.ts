@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
     <div class="ayuda">
       <a
         [routerLink]="['../lista']"
-        [queryParams]="{modulo, modelo, tipo}"
+        [queryParams]="{modulo, modelo, tipo, data}"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary"
       >
         <i class="bi bi-arrow-left fs-6 text-muted"

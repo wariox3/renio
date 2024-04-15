@@ -1,4 +1,3 @@
-import { Documento } from './../../../../../interfaces/comunes/documento';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -26,6 +25,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -47,6 +47,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
     SoloNumerosDirective,
     BtnAtrasComponent,
     CardComponent,
+    AnimacionFadeInOutDirective,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -80,7 +81,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
-  dataUrl = JSON.parse(this.data)
+  dataUrl: any;
+  visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -91,11 +93,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ) {
     super();
   }
+
   ngOnInit() {
     this.consultarInformacion();
     this.initForm();
     this.active = 1;
-
+    if(this.data) {
+      this.dataUrl = JSON.parse(this.data)
+    }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
@@ -148,6 +153,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         ],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
+        documento_referencia: [null],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -220,7 +226,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: this.dataUrl.documento_tipo
+                documento_tipo: 1,
               },
             })
             .pipe(
@@ -698,6 +704,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      if (
+        this.dataUrl.documento_clase === 2 ||
+        this.dataUrl.documento_clase === 3
+      ) {
+        this.visualizarCampoDocumentoReferencia = true;
+        this.changeDetectorRef.detectChanges()
+      }
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
