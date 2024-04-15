@@ -169,6 +169,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           modelo: parametro.modelo,
           tipo: parametro.tipo,
           detalle: id,
+          data: parametro.data
         },
       });
     });
@@ -182,6 +183,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           modelo: parametro.modelo,
           tipo: parametro.tipo,
           detalle: id,
+          data: parametro.data
         },
       });
     });
