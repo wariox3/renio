@@ -98,8 +98,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.consultarInformacion();
     this.initForm();
     this.active = 1;
-    if(this.data) {
-      this.dataUrl = JSON.parse(this.data)
+    if (this.data) {
+      this.dataUrl = JSON.parse(this.data);
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
@@ -226,7 +226,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: 1,
+                documento_tipo: this.dataUrl.documento_tipo,
               },
             })
             .pipe(
@@ -708,7 +708,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.dataUrl.documento_clase === 3
       ) {
         this.visualizarCampoDocumentoReferencia = true;
-        this.changeDetectorRef.detectChanges()
+        this.changeDetectorRef.detectChanges();
       }
     }
     if (campo === 'metodo_pago') {
