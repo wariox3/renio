@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
@@ -34,7 +34,7 @@ export class BuscarAvanzadoComponent extends General {
   @Input() consultarTipo: 'Administrador' | 'Documento';
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
 
-  arrParametrosConsulta = {
+  arrParametrosConsulta: any = {
     filtros: [],
     limite: 50,
     desplazar: 0,
@@ -42,7 +42,6 @@ export class BuscarAvanzadoComponent extends General {
     limite_conteo: 10000,
     modelo: '',
     tipo: '',
-    documento_tipo_id: 1,
   };
 
   constructor(
@@ -76,6 +75,9 @@ export class BuscarAvanzadoComponent extends General {
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';
+        let dataUrl = JSON.parse(this.data);
+        this.arrParametrosConsulta['documento_tipo_id'] = dataUrl.documento_tipo
+        this.arrParametrosConsulta['documento_clase_id'] = dataUrl.documento_clase
         break;
     }
 

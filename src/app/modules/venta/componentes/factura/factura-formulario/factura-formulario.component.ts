@@ -373,6 +373,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
+    if(campo === 'documento_referencia'){
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+    }
 
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -760,6 +763,39 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrMovimientosClientes = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  consultarDocumentoReferencia(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          id: '1692284537644-1688',
+          operador: '__contains',
+          propiedad: 'numero__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 5,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Documento',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();

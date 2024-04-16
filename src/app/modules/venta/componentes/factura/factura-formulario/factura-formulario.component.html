@@ -302,17 +302,20 @@
           class="col-md-6 col-sm-12"
           *ngIf="visualizarCampoDocumentoReferencia"
           appAnimacionFadeInOut
+          ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown"
         >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
-          ></label>
+        <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
+      ></label>
+        <div class="position-relative">
           <input
-            formControlName="documento_referencia"
-            class="form-control"
             type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('documento_referencia', null)"
+            class="form-control"
+            ngbDropdownAnchor
+            formControlName="documento_referencia"
+            (focus)="consultarDocumentoReferencia($event); DocumentoReferenciaDropdown.open()"
+            (keyup)="consultarDocumentoReferencia($event)"
             [ngClass]="{
               'is-invalid':
                 formularioFactura.controls['documento_referencia'].touched &&
@@ -322,6 +325,38 @@
                 formularioFactura.controls['documento_referencia'].valid
             }"
           />
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <i class="bi bi-search fs-2x"></i>
+          </div>
+        </div>
+        <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        <ng-container *ngFor="let contacto of arrMovimientosClientes">
+          <button
+            type="button"
+            ngbDropdownItem
+            (click)="modificarCampoFormulario('contacto', contacto)"
+          >
+            {{ contacto.contacto_nombre_corto }}
+          </button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+        <button type="button" ngbDropdownItem>
+          <app-comun-buscar-avanzado
+            [consultarModelo]="'Documento'"
+            [consultarTipo]="'Documento'"
+            (emitirRegistroSeleccionado)="
+              actualizarFormulario($event, 'documento_referencia')
+            "
+          >
+          </app-comun-buscar-avanzado>
+        </button>
+      </div>
+
+
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

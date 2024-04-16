@@ -280,6 +280,7 @@ export const locale = {
           NUMERO: 'Number',
           SOPORTE: 'Support',
           ORDENCOMPRA: 'Purchase order',
+          DOCUMENTOREFERENCIA: 'Reference document',
           COMENTARIO: 'Comment',
         },
         EMPRESA: {

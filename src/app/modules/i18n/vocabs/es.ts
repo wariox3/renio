@@ -282,6 +282,7 @@ export const locale = {
           SOPORTE: 'Soporte',
           NUMERO: 'Número',
           ORDENCOMPRA: 'Orden compra',
+          DOCUMENTOREFERENCIA: 'Documento referencia',
           COMENTARIO: 'Comentario'
         },
         EMPRESA: {
