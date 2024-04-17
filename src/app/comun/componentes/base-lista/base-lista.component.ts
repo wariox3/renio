@@ -37,8 +37,6 @@ export class BaseListaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    modelo: '',
-    tipo: '',
   };
   arrPropiedades: Listafiltros[];
   arrItems: any[];
@@ -50,17 +48,17 @@ export class BaseListaComponent extends General implements OnInit {
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
   documento_clase_id: string;
+
   constructor(private httpService: HttpService) {
     super();
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if(parametro.data){
+      if (parametro.data) {
         let data = JSON.parse(parametro.data);
         this.documento_clase_id = data.documento_clase;
       }
-      this.arrParametrosConsulta.modelo = parametro.modelo;
       this.arrParametrosConsulta.tipo = parametro.tipo;
       this.tipo = parametro.tipo;
       this.modelo = parametro.modelo;
@@ -79,7 +77,7 @@ export class BaseListaComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista(): void {
+  consultarLista() {
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
 
     if (filtroGuardado) {
@@ -92,13 +90,19 @@ export class BaseListaComponent extends General implements OnInit {
     switch (this.arrParametrosConsulta.tipo) {
       case 'Administrador':
         baseUrl += 'funcionalidad/lista-administrador/';
+        this.arrParametrosConsulta = {
+          ...this.arrParametrosConsulta,
+          ...{
+            modelo: this.modelo,
+          },
+        };
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';
         this.arrParametrosConsulta = {
           ...this.arrParametrosConsulta,
           ...{
-            'documento_clase_id': this.documento_clase_id,
+            documento_clase_id: this.documento_clase_id,
           },
         };
         break;
