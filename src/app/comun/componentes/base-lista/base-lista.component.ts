@@ -11,7 +11,6 @@ import { Listafiltros } from '@interfaces/comunes/filtros';
 import { TablaComponent } from '../tabla/tabla.component';
 import { combineLatest } from 'rxjs';
 import { ImportarComponent } from '../importar/importar.component';
-import { Componetes } from '@comun/extra/imports';
 import { mapeo } from '@comun/extra/mapeoEntidades';
 
 @Component({
@@ -65,13 +64,10 @@ export class BaseListaComponent extends General implements OnInit {
       this.nombreFiltro =
         `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
       this.changeDetectorRef.detectChanges();
-      let posicion: keyof typeof Componetes = `${parametro.modelo}`;
-      (this.urlEliminar = `${Componetes[posicion].modulo}/${Componetes[
-        posicion
-      ].modelo?.toLowerCase()}`),
-        (this.titulos = mapeo[posicion].datos.filter(
-          (titulo: any) => titulo.visibleTabla === true
-        ));
+      let posicion: keyof typeof mapeo = `${parametro.modelo}`;
+      this.titulos = mapeo[posicion].datos.filter(
+        (titulo: any) => titulo.visibleTabla === true
+      );
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
