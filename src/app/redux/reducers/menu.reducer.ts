@@ -1,20 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
 import { selecionModuloAction } from '../actions/menu.actions';
 
-interface informacionItem {
+export interface informacionMenuItem {
   nombre: string;
   modelo?: string;
   tipo?: string;
   data?: {
     [key: string]: {};
   };
-  url?: string;
-  children?: informacionItem[];
+  children?: informacionMenuItem[];
 }
 
 export interface Menu {
   seleccion: string;
-  informacion: informacionItem[];
+  informacion: informacionMenuItem[];
 }
 
 let nombreSeleccion = localStorage.getItem('ruta');
@@ -26,7 +25,7 @@ export const initialState: Menu = {
       nombre: 'cartera',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
         },
         {
           nombre: 'administracion',
@@ -46,11 +45,10 @@ export const initialState: Menu = {
       nombre: 'compra',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
           children: [
             {
               nombre: 'FACTURACOMPRA',
-              url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
@@ -62,14 +60,12 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'Item',
-              url: 'lista',
               modelo: 'Item',
               tipo: 'Administrador',
               data: { formulario: 'ItemNuevo' },
             },
             {
               nombre: 'Contacto',
-              url: 'lista',
               modelo: 'Contacto',
               tipo: 'Administrador',
               data: { formulario: 'ContactoNuevo' },
@@ -91,7 +87,7 @@ export const initialState: Menu = {
       nombre: 'contabilidad',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
         },
         {
           nombre: 'administracion',
@@ -111,7 +107,7 @@ export const initialState: Menu = {
       nombre: 'humano',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
         },
         {
           nombre: 'administracion',
@@ -131,25 +127,22 @@ export const initialState: Menu = {
       nombre: 'venta',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
           children: [
             {
               nombre: 'FACTURAVENTA',
-              url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { documento_clase: 1, documento_tipo: 1 },
             },
             {
               nombre: 'NOTACREDITO',
-              url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { documento_clase: 2, documento_tipo: 2 },
             },
             {
               nombre: 'NOTADEBITO',
-              url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { documento_clase: 3, documento_tipo: 3 },
@@ -161,31 +154,26 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'Contacto',
-              url: 'lista',
               modelo: 'Contacto',
               tipo: 'Administrador',
             },
             {
               nombre: 'Item',
-              url: 'lista',
               modelo: 'Item',
               tipo: 'Administrador',
             },
             {
               nombre: 'Precio',
-              url: 'lista',
               modelo: 'Precio',
               tipo: 'Administrador',
             },
             {
               nombre: 'Asesor',
-              url: 'lista',
               modelo: 'Asesor',
               tipo: 'Administrador',
             },
             {
               nombre: 'Resolucion',
-              url: 'lista',
               modelo: 'Resolucion',
               tipo: 'Administrador',
             },
@@ -206,7 +194,7 @@ export const initialState: Menu = {
       nombre: 'contabilidad',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
         },
         {
           nombre: 'administracion',
@@ -226,12 +214,11 @@ export const initialState: Menu = {
       nombre: 'general',
       children: [
         {
-          nombre: 'movimiento',
+          nombre: 'documento',
 
           children: [
             {
               nombre: 'FACTURAVENTA',
-              url: 'lista',
               modelo: 'Factura',
               tipo: 'Documento',
               data: { documento_clase: 1, documento_tipo: 1 },
@@ -243,13 +230,11 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'Contacto',
-              url: 'lista',
               modelo: 'Contacto',
               tipo: 'Administrador',
             },
             {
               nombre: 'Item',
-              url: 'lista',
               modelo: 'Item',
               tipo: 'Administrador',
             },

@@ -33,7 +33,7 @@
           {{ "FORMULARIOS.BOTONES.COMUNES.EXPORTAR" | translate }}
         </button>
         <div class="dropdown-menu p-2" ngbDropdownMenu>
-          <button ngbDropdownItem>
+          <button ngbDropdownItem (click)="exportarExcel()">
             {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
           </button>
         </div>

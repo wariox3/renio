@@ -59,7 +59,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
   @Input() confirmacionRegistrosEliminado: boolean;
-
+  @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
@@ -72,7 +72,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-
       this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
       this.changeDetectorRef.detectChanges();
     });
@@ -87,8 +86,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         );
       }
     }
-    if(changes.confirmacionRegistrosEliminado){
-      this.confirmacionRegistrosEliminado = changes.confirmacionRegistrosEliminado.currentValue
+    if (changes.confirmacionRegistrosEliminado) {
+      this.confirmacionRegistrosEliminado =
+        changes.confirmacionRegistrosEliminado.currentValue;
     }
     this.construirTabla();
   }
@@ -150,42 +150,51 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   navegarNuevo() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(['/nuevo'], {
-        queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
-          data: parametro.data
-        },
-      });
+      this.router.navigate(
+        [`/${parametro.tipo.toLocaleLowerCase()}`, 'nuevo'],
+        {
+          queryParams: {
+            modulo: parametro.modulo,
+            modelo: parametro.modelo,
+            tipo: parametro.tipo,
+            data: parametro.data,
+          },
+        }
+      );
     });
   }
 
   navegarEditar(id: number) {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(['/editar'], {
-        queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
-          detalle: id,
-          data: parametro.data
-        },
-      });
+      this.router.navigate(
+        [`/${parametro.tipo.toLocaleLowerCase()}`, 'editar'],
+        {
+          queryParams: {
+            modulo: parametro.modulo,
+            modelo: parametro.modelo,
+            tipo: parametro.tipo,
+            detalle: id,
+            data: parametro.data,
+          },
+        }
+      );
     });
   }
 
   navegarDetalle(id: number) {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(['/detalle'], {
-        queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
-          detalle: id,
-          data: parametro.data
-        },
-      });
+      this.router.navigate(
+        [`/${parametro.tipo.toLocaleLowerCase()}`, 'detalle'],
+        {
+          queryParams: {
+            modulo: parametro.modulo,
+            modelo: parametro.modelo,
+            tipo: parametro.tipo,
+            detalle: id,
+            data: parametro.data,
+          },
+        }
+      );
     });
   }
 
@@ -288,7 +297,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     if (this.selectAll) {
       this.toggleSelectAll();
     }
-    if(this.confirmacionRegistrosEliminado){
+    if (this.confirmacionRegistrosEliminado) {
       this.arrRegistrosEliminar = [];
     }
   }
@@ -384,5 +393,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       // Si el texto de búsqueda está vacío, muestra todas las columnas de nuevo
       this.encabezadoTestCopia = this.encabezado;
     }
+  }
+
+  exportarExcel() {
+    this.emitirExportarExcel.emit(true);
   }
 }

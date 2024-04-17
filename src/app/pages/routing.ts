@@ -101,34 +101,71 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
-    path: 'lista',
-    loadComponent: () =>
-      import('../comun/componentes/base-lista/base-lista.component').then(
-        (c) => c.BaseListaComponent
-      ),
+    path: 'administrador',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import('../comun/componentes/base-lista/base-lista.component').then(
+            (c) => c.BaseListaComponent
+          ),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+            (c) => c.BaseNuevoComponent
+          ),
+      },
+      {
+        path: 'editar',
+        loadComponent: () =>
+          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+            (c) => c.BaseNuevoComponent
+          ),
+      },
+      {
+        path: 'detalle',
+        loadComponent: () =>
+          import(
+            '../comun/componentes/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
+      },
+    ],
   },
   {
-    path: 'nuevo',
-    loadComponent: () =>
-      import('../comun/componentes/base-nuevo/base-nuevo.component').then(
-        (c) => c.BaseNuevoComponent
-      ),
+    path: 'documento',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import('../comun/componentes/base-lista/base-lista.component').then(
+            (c) => c.BaseListaComponent
+          ),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+            (c) => c.BaseNuevoComponent
+          ),
+      },
+      {
+        path: 'editar',
+        loadComponent: () =>
+          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+            (c) => c.BaseNuevoComponent
+          ),
+      },
+      {
+        path: 'detalle',
+        loadComponent: () =>
+          import(
+            '../comun/componentes/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
+      },
+    ],
   },
-  {
-    path: 'editar',
-    loadComponent: () =>
-      import('../comun/componentes/base-nuevo/base-nuevo.component').then(
-        (c) => c.BaseNuevoComponent
-      ),
-  },
-  {
-    path: 'detalle',
-    loadComponent: () =>
-      import('../comun/componentes/base-detalle/base-detalle.component').then(
-        (c) => c.BaseDetalleComponent
-      ),
-  },
-
   {
     path: '',
     redirectTo: getRedirectTo(),

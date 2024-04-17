@@ -33,6 +33,10 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
               errorCodigo = 404;
               errorMensaje = 'El recurso solicitado no se encontró.';
               break;
+            case 405:
+              errorCodigo = 405;
+              errorMensaje = 'Servidor fuera de linea, intente más tarde';
+              break;
             case 500:
               errorCodigo = 500;
               errorMensaje = 'Se produjo un error interno en el servidor.';

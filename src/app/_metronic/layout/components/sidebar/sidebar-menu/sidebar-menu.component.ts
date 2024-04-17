@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { informacionMenuItem } from '@redux/reducers/menu.reducer';
 import {
   obtenerMenuInformacion,
   obtenerMenuSeleccion,
@@ -30,7 +31,7 @@ export class SidebarMenuComponent implements OnInit {
 
   obtenerIcono(nombre: string) {
     switch (nombre) {
-      case 'movimiento':
+      case 'documento':
         return 'element-7';
       case 'administracion':
         return 'folder';
@@ -65,8 +66,8 @@ export class SidebarMenuComponent implements OnInit {
       .subscribe();
   }
 
-  navegar(item: any) {
-    this.router.navigate([item.url], {
+  navegar(item: informacionMenuItem) {
+    this.router.navigate([item.tipo?.toLocaleLowerCase(), 'lista'], {
       queryParams: {
         modulo: this.modulo,
         modelo: item.modelo,
