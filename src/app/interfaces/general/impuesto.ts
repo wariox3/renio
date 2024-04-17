@@ -4,4 +4,3 @@ export interface Impuesto {
   nombre_extendido: string;
   porcentaje: number;
 }
-

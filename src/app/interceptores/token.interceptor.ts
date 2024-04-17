@@ -30,7 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     if (request.context.get(requiereToken)) {
       //validar vigencia
-      const tokenValido  = this.tokenService.validarToken();
+      const tokenValido = this.tokenService.validarToken();
       if (tokenValido) {
         return this.adicionarToken(request, next);
       } else {
@@ -53,9 +53,12 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 
-  private actualizarTokenPorVencimiento(request: HttpRequest<unknown>,  next: HttpHandler) {
+  private actualizarTokenPorVencimiento(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ) {
     const refreshToken = this.tokenService.obtenerRefreshToken();
-    const validarRefreshToken = this.tokenService.validarRefreshToken()
+    const validarRefreshToken = this.tokenService.validarRefreshToken();
     if (refreshToken && validarRefreshToken) {
       this.loginService
         .refreshToken(refreshToken)

@@ -20,7 +20,6 @@ export interface Contenedor {
   usuarios_base: number | null;
 }
 
-
 export interface ContenedorLista {
   contenedores: Contenedor[];
 }
@@ -31,22 +30,23 @@ export interface ContenedorInvitacion {
   invitado: string;
 }
 
-export interface ContenedorUsuariosInvicionAceptada extends Omit<Contenedor, 'subdominio' | 'imagen' | 'seleccion'>{
-  username: string
+export interface ContenedorUsuariosInvicionAceptada
+  extends Omit<Contenedor, 'subdominio' | 'imagen' | 'seleccion'> {
+  username: string;
 }
 
 export interface ContenedorFormulario {
   nombre: string;
   subdominio: string;
-  plan_id: Number ,
-  imagen: string | null,
-  numero_identificacion: string,
-  nombre_corto: string,
-  direccion: string,
-  telefono: string,
-  correo: string,
-  identificacion: string,
-  ciudad: string,
-  ciudad_nombre: string,
-  digito_verificacion: string,
+  plan_id: Number;
+  imagen: string | null;
+  numero_identificacion: string;
+  nombre_corto: string;
+  direccion: string;
+  telefono: string;
+  correo: string;
+  identificacion: string;
+  ciudad: string;
+  ciudad_nombre: string;
+  digito_verificacion: string;
 }

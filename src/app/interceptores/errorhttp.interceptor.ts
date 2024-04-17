@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
-  HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorCodigo: Number;
-        let errorMensaje: string = "";
+        let errorMensaje: string = '';
 
         if (error.error instanceof ErrorEvent) {
           // Error de cliente
@@ -25,6 +24,11 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
         } else {
           // Error del servidor
           switch (error.status) {
+            case 401:
+              errorCodigo = 401;
+              errorMensaje =
+                'Su sesión de usuario ha finalizado. Por favor, inicie sesión nuevamente.';
+              break;
             case 404:
               errorCodigo = 404;
               errorMensaje = 'El recurso solicitado no se encontró.';

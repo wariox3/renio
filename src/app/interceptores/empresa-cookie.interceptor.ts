@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SubdominioService } from '@comun/services/subdominio.service';
@@ -12,16 +12,18 @@ import { environment } from '@env/environment';
 
 @Injectable()
 export class EmpresaCookieInterceptor implements HttpInterceptor {
-
   constructor(private subdominioService: SubdominioService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     const cookie = getCookie('empresa'); // Reemplaza 'nombre_de_tu_cookie' con el nombre de tu cookie
     if (this.subdominioService.esSubdominioActual()) {
-      if(cookie){
-        let empresa = JSON.parse(cookie)
+      if (cookie) {
+        let empresa = JSON.parse(cookie);
 
-        if((this.subdominioService.subdominioNombre() !== empresa.subdominio)){
+        if (this.subdominioService.subdominioNombre() !== empresa.subdominio) {
           //alert("Cambio la empresa ir")
           window.location.href = `${environment.dominioHttp}://${empresa.subdominio}${environment.dominioApp}/dashboard`;
         }
@@ -30,7 +32,4 @@ export class EmpresaCookieInterceptor implements HttpInterceptor {
 
     return next.handle(request);
   }
-
 }
-
-

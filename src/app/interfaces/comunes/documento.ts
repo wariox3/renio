@@ -1,6 +1,6 @@
 export interface Documento {
-    estados: {
-      estado_aprobado?: boolean;
-      estado_emitido?: boolean;
-    };
-  }
+  estados: {
+    estado_aprobado?: boolean;
+    estado_emitido?: boolean;
+  };
+}
