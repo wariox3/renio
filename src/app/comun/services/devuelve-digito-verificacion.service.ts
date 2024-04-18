@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class DevuelveDigitoVerificacionService {
-  digitoVerificacion(nit: number): number | boolean {
+  digitoVerificacion(nit: number): string {
 
     if (isNaN(nit) ) {
-      return 0;
+      return '';
     }
 
     const arr: { [key: number]: number } = {
@@ -42,10 +42,10 @@ export class DevuelveDigitoVerificacionService {
 
     if (y > 1) {
       dv = 11 - y;
-      return dv;
+      return `${dv}`;
     } else {
       dv = y;
-      return dv;
+      return `${dv}`;
     }
   }
 }
