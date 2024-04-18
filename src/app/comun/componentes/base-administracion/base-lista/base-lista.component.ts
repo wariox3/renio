@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { combineLatest } from 'rxjs';
-import { mapeo } from '@comun/extra/mapeoEntidades';
+import { mapeo } from '@comun/extra/mapeoEntidades/administradores';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -55,19 +55,24 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if (parametro.data) {
-        let data = JSON.parse(parametro.data);
-        this.documento_clase_id = data.documento_clase;
-      }
-      this.arrParametrosConsulta.tipo = parametro.tipo;
-      this.tipo = parametro.tipo;
-      this.modelo = parametro.modelo;
-      this.nombreFiltro =
-        `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
-      this.changeDetectorRef.detectChanges();
-      let posicion: keyof typeof mapeo = `${parametro.modelo}`;
-      this.titulos = mapeo[posicion].datos.filter(
-        (titulo: any) => titulo.visibleTabla === true
+      // if (parametro.data) {
+      //   let data = JSON.parse(parametro.data);
+      //   this.documento_clase_id = data.documento_clase;
+      // }
+      // this.arrParametrosConsulta.tipo = parametro.tipo;
+      // this.tipo = parametro.tipo;
+      // this.modelo = parametro.modelo;
+      // this.nombreFiltro =
+      //   `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
+      // this.changeDetectorRef.detectChanges();
+      // let posicion: keyof typeof mapeo = `${parametro.modelo}`;
+      // this.titulos = mapeo[posicion].datos.filter(
+      //   (titulo: any) => titulo.visibleTabla === true
+      // );
+      this.modelo = localStorage.getItem('itemNombre')!;
+      let posicion: keyof typeof mapeo = this.modelo;
+      this.store.dispatch(
+        ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
       this.consultarLista();
     });
@@ -162,6 +167,50 @@ export class BaseListaComponent extends General implements OnInit {
         'No se han seleccionado registros para eliminar'
       );
     }
+  }
+
+  navegarNuevo() {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate(
+        [`/administrador/nuevo`],
+        {
+          queryParams: {
+            modulo: parametro.modulo,
+            modelo: parametro.modelo,
+            tipo: parametro.tipo,
+            data: parametro.data,
+          },
+        }
+      );
+    });
+  }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/administrador/editar`], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+          data: parametro.data,
+        },
+      });
+    });
+  }
+
+  navegarDetalle(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/administrador/detalle`], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+          data: parametro.data,
+        },
+      });
+    });
   }
 
   descargarExcel() {

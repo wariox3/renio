@@ -13,3 +13,13 @@ export const obtenerMenuInformacion = createSelector(
   Menu,
   (Menu) => Menu.informacion
 );
+
+export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
+  Menu,
+  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleTabla === true)
+);
+
+export const obtenerMenuDataMapeoColumnasVisibleTabla = createSelector(
+  Menu,
+  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleColumna === true)
+);

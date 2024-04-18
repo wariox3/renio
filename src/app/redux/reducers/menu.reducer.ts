@@ -1,12 +1,15 @@
 import { createReducer, on } from '@ngrx/store';
-import { selecionModuloAction } from '../actions/menu.actions';
+import {
+  ActualizarCampoMapeo,
+  ActualizarMapeo,
+  selecionModuloAction,
+} from '../actions/menu.actions';
 
 export interface informacionMenuItem {
   nombre: string;
-  modelo?: string;
   tipo?: string;
   data?: {
-    [key: string]: {};
+    [key: string]: any;
   };
   children?: informacionMenuItem[];
 }
@@ -14,6 +17,7 @@ export interface informacionMenuItem {
 export interface Menu {
   seleccion: string;
   informacion: informacionMenuItem[];
+  dataMapeo: any[];
 }
 
 let nombreSeleccion = localStorage.getItem('ruta');
@@ -49,7 +53,6 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'FACTURACOMPRA',
-              modelo: 'Factura',
               tipo: 'Documento',
               data: { formulario: 'FacturaNuevo' },
             },
@@ -60,13 +63,11 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'Item',
-              modelo: 'Item',
               tipo: 'Administrador',
               data: { formulario: 'ItemNuevo' },
             },
             {
               nombre: 'Contacto',
-              modelo: 'Contacto',
               tipo: 'Administrador',
               data: { formulario: 'ContactoNuevo' },
             },
@@ -131,21 +132,18 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'FACTURAVENTA',
-              modelo: 'Factura',
               tipo: 'Documento',
-              data: { documento_clase: 1, documento_tipo: 1 },
+              data: { documento_clase: 1 },
             },
             {
               nombre: 'NOTACREDITO',
-              modelo: 'Factura',
               tipo: 'Documento',
-              data: { documento_clase: 2, documento_tipo: 2 },
+              data: { documento_clase: 2 },
             },
             {
               nombre: 'NOTADEBITO',
-              modelo: 'Factura',
               tipo: 'Documento',
-              data: { documento_clase: 3, documento_tipo: 3 },
+              data: { documento_clase: 3 },
             },
           ],
         },
@@ -153,29 +151,29 @@ export const initialState: Menu = {
           nombre: 'administracion',
           children: [
             {
-              nombre: 'Contacto',
-              modelo: 'Contacto',
+              nombre: 'CONTACTO',
               tipo: 'Administrador',
+              data: { modelo: 'Contacto' },
             },
             {
-              nombre: 'Item',
-              modelo: 'Item',
+              nombre: 'ITEM',
               tipo: 'Administrador',
+              data: { modelo: 'Item' },
             },
             {
-              nombre: 'Precio',
-              modelo: 'Precio',
+              nombre: 'PRECIO',
               tipo: 'Administrador',
+              data: { modelo: 'Precio' },
             },
             {
-              nombre: 'Asesor',
-              modelo: 'Asesor',
+              nombre: 'ASESOR',
               tipo: 'Administrador',
+              data: { modelo: 'Asesor' },
             },
             {
-              nombre: 'Resolucion',
-              modelo: 'Resolucion',
+              nombre: 'RESOLUCION',
               tipo: 'Administrador',
+              data: { modelo: 'Resolucion' },
             },
           ],
         },
@@ -215,13 +213,11 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
-
           children: [
             {
               nombre: 'FACTURAVENTA',
-              modelo: 'Factura',
               tipo: 'Documento',
-              data: { documento_clase: 1, documento_tipo: 1 },
+              data: { documento_clase: 1 },
             },
           ],
         },
@@ -230,12 +226,10 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'Contacto',
-              modelo: 'Contacto',
               tipo: 'Administrador',
             },
             {
               nombre: 'Item',
-              modelo: 'Item',
               tipo: 'Administrador',
             },
           ],
@@ -243,6 +237,7 @@ export const initialState: Menu = {
       ],
     },
   ],
+  dataMapeo: [],
 };
 
 export const menuReducer = createReducer(
@@ -250,5 +245,19 @@ export const menuReducer = createReducer(
   on(selecionModuloAction, (state, { seleccion }) => ({
     ...state,
     seleccion,
-  }))
+  })),
+  on(ActualizarMapeo, (state, { dataMapeo }) => ({
+    ...state,
+    dataMapeo,
+  })),
+  on(ActualizarCampoMapeo, (state, { campo }) => {
+    return state.dataMapeo.find(columna => {
+      if (columna.nombre === campo) {
+        return {
+          ...campo,
+          visibleTabla: !columna.visibleTabla
+        };
+      }
+    });
+  })
 );

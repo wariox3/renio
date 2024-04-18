@@ -19,6 +19,8 @@ import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 import { interval, take } from 'rxjs';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { obtenerMenuDataMapeoCamposVisibleTabla } from '@redux/selectors/menu.selectors';
+import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -50,10 +52,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   arrRegistrosEliminar: number[] = [];
   selectAll = false;
   cargandoTabla = false;
-  encabezadoTestCopia: any;
-  camposVisibles: any;
+  columnasVibles: any = [];
   datosFiltrados: any = [];
   claveLocalStore: string;
+  tipo: string;
   @Input() encabezado: any;
   @Input() modelo: string;
   @Input() datos: any[] = [];
@@ -65,6 +67,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
   @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
+  @Output() emitirNavegarNuevo: EventEmitter<any> = new EventEmitter();
+  @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
+  @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
 
   constructor(private currencyPipe: CurrencyPipe) {
     super();
@@ -72,7 +77,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.claveLocalStore = `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_tabla`;
+      this.claveLocalStore = `itemNombre_tabla`;
+      this.tipo= localStorage.getItem('itemTipo')!
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -97,21 +103,17 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.cargandoTabla = true;
     // se reinicia la tabla
     this.datosFiltrados = [];
-    //se usa para listar las columnas
-    this.encabezadoTestCopia = JSON.parse(
-      localStorage.getItem(this.claveLocalStore)!
-    );
-
-    //se crean los datos que se visualizan en la thead de la tabla
-    this.camposVisibles = this.encabezadoTestCopia.filter(
-      (titulo: any) => titulo.visibleTabla === true
-    );
-
+    //se cargan los datos que se visualizan en la thead
+    this.store
+      .select(obtenerMenuDataMapeoCamposVisibleTabla)
+      .subscribe((campos: any) => {
+        this.columnasVibles = campos;
+      });
     //se  construye el tbody de la tabla
     // Recorre todas las claves en el objeto "camposVisibles"
-    for (let clave in this.camposVisibles) {
+    for (let clave in this.columnasVibles) {
       // Obtiene el nombre de la clave actual y lo convierte a minúsculas
-      let buscarClave = this.camposVisibles[clave].nombre.toLowerCase();
+      let buscarClave = this.columnasVibles[clave].nombre.toLowerCase();
 
       // Recorre todas las claves en el objeto "datos"
       for (const key in this.datos) {
@@ -126,8 +128,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
             // Agrega la propiedad y el valor correspondientes al objeto "datosFiltrados"
             this.datosFiltrados[key][buscarClave] = {
               valor: this.datos[key][buscarClave],
-              campoTipo: this.camposVisibles[clave].campoTipo,
-              aplicaFormatoNumerico: this.camposVisibles[clave]
+              campoTipo: this.columnasVibles[clave].campoTipo,
+              aplicaFormatoNumerico: this.columnasVibles[clave]
                 .aplicaFormatoNumerico
                 ? true
                 : false,
@@ -149,22 +151,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   navegarNuevo() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(
-        [`/${parametro.tipo.toLocaleLowerCase()}`, 'nuevo'],
-        {
-          queryParams: {
-            modulo: parametro.modulo,
-            modelo: parametro.modelo,
-            tipo: parametro.tipo,
-            data: parametro.data,
-          },
-        }
-      );
-    });
+    this.emitirNavegarNuevo.emit();
   }
 
   navegarEditar(id: number) {
+    this.emitirNavegarEditar.emit(id);
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate(
         [`/${parametro.tipo.toLocaleLowerCase()}`, 'editar'],
@@ -182,6 +173,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   navegarDetalle(id: number) {
+    this.emitirNavegarDetalle.emit(id);
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate(
         [`/${parametro.tipo.toLocaleLowerCase()}`, 'detalle'],
@@ -352,14 +344,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Si no se proporciona un campo, no se realiza ninguna acción y se devuelve undefined
   }
 
-  // Esta función establece que todas las columnas en la copia de "encabezado" y "encabezadoTestCopia" sean visibles, y luego reconstruye la tabla.
+  // Esta función establece que todas las columnas en la copia de "encabezado" y "columnasVibles" sean visibles, y luego reconstruye la tabla.
   visualizarColumnas() {
-    // Establece todas las columnas como visibles en la copia de "encabezadoTestCopia"
-    this.encabezadoTestCopia.map((item: any) => (item.visibleTabla = true));
+    // Establece todas las columnas como visibles en la copia de "columnasVibles"
+    this.columnasVibles.map((item: any) => (item.visibleTabla = true));
     // Establece todas las columnas como visibles en "encabezado"
-    this.encabezado.map((campo: any) => (campo.visibleTabla = true));
+    //this.encabezado.map((campo: any) => (campo.visibleTabla = true));
 
-    localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
+    //localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
 
     // Reconstruye la tabla
     this.construirTabla();
@@ -368,13 +360,16 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   // Esta función agrega o quita una columna específica de la tabla según su visibilidad actual y luego reconstruye la tabla.
   agregarColumna(columna: string) {
     // Busca la columna en "encabezado" y modifica su propiedad "visibleTabla" para alternar su visibilidad
-    this.encabezado.find((campo: any) => {
-      if (campo.nombre === columna) {
-        campo.visibleTabla = !campo.visibleTabla;
-      }
-    });
+    // this.columnasVibles.find((campo: any) => {
+    //   if (campo.nombre === columna) {
+    //     console.log(campo.visibleTabla);
+    //    campo.visibleTabla = !campo.visibleTabla;
+    //   }
+    // });
 
-    localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
+    //this.store.dispatch(ActualizarCampoMapeo({campo: columna}))
+
+    //localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
 
     // Reconstruye la tabla
     this.construirTabla();
@@ -384,14 +379,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   filterCampos(event: any) {
     // Obtiene el texto de búsqueda en minúsculas
     const searchText = event.target.value.toLowerCase();
-    // Filtra las columnas en "encabezadoTestCopia" basándose en el texto de búsqueda
+    // Filtra las columnas en "columnasVibles" basándose en el texto de búsqueda
     if (searchText !== '') {
-      this.encabezadoTestCopia = this.encabezadoTestCopia.filter((item: any) =>
+      this.columnasVibles = this.columnasVibles.filter((item: any) =>
         item.nombre.toLowerCase().includes(searchText)
       );
     } else {
       // Si el texto de búsqueda está vacío, muestra todas las columnas de nuevo
-      this.encabezadoTestCopia = this.encabezado;
+      this.columnasVibles = this.encabezado;
     }
   }
 

@@ -364,7 +364,7 @@ export const locale = {
       COMUNES: {
         CARGANDOTABLA: 'Loading',
       },
-      FACTURA: {
+      DOCUMENTO: {
         ID: 'ID',
         NUMERO: 'Number',
         FECHA: 'Date',

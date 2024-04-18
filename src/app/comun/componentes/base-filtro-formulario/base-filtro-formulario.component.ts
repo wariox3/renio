@@ -11,7 +11,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { mapeo } from '@comun/extra/mapeoEntidades';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
@@ -127,10 +126,10 @@ export class BaseFiltroFormularioComponent
   criteriosBusqueda: { valor: string; texto: string }[] = [];
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = parametro.modelo;
-      this.construirFiltros(parametro.modelo);
-    });
+    // this.activatedRoute.queryParams.subscribe((parametro) => {
+    //   this.modelo = parametro.modelo;
+    //   this.construirFiltros(parametro.modelo);
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -148,10 +147,10 @@ export class BaseFiltroFormularioComponent
   }
 
   construirFiltros(modelo: string) {
-    this.camposVisibles = mapeo[modelo].datos.filter(
-      (titulo: any) => titulo.visibleFiltro === true
-    );
-    this.changeDetectorRef.detectChanges();
+    // this.camposVisibles = mapeo[modelo].datos.filter(
+    //   (titulo: any) => titulo.visibleFiltro === true
+    // );
+    // this.changeDetectorRef.detectChanges();
   }
 
   propiedadSeleccionada(event: any): void {

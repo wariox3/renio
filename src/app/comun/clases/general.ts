@@ -17,7 +17,7 @@ export class General {
   protected formulario = '';
   protected accion: string | null = null;
   protected detalle = 0;
-  protected data: any = {};
+  protected parametrosUrl: any = {};
 
   constructor() {
     this.consultarParametros();
@@ -26,21 +26,22 @@ export class General {
   consultarParametros() {
     if (this.router.url.includes('nuevo')) {
       this.accion = 'nuevo';
-    } else if(this.router.url.includes('detalle')) {
+    } else if (this.router.url.includes('detalle')) {
       this.accion = 'detalle';
     }
 
     const cambiosQueryParams = this.activatedRoute.queryParams.subscribe(
-      (queryParam) => {
-        this.modulo = queryParam['modulo'];
-        this.modelo = queryParam['modelo'];
-        this.tipo = queryParam['tipo'];
-        this.detalle = queryParam['detalle'];
-        this.data = queryParam['data'];
-        this.changeDetectorRef.detectChanges
+      (parametros) => {
+        this.parametrosUrl = parametros;
+        // this.modulo = queryParam['modulo'];
+        // this.modelo = queryParam['modelo'];
+        // this.tipo = queryParam['tipo'];
+        // this.detalle = queryParam['detalle'];
+        // this.data = queryParam['data'];
+        this.changeDetectorRef.detectChanges;
       }
     );
-
-    cambiosQueryParams.unsubscribe();
+    this.changeDetectorRef.detectChanges;
+    //cambiosQueryParams.unsubscribe();
   }
 }

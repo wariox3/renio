@@ -75,9 +75,9 @@ export class BuscarAvanzadoComponent extends General {
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';
-        let dataUrl = JSON.parse(this.data);
-        this.arrParametrosConsulta['documento_tipo_id'] = dataUrl.documento_tipo
-        this.arrParametrosConsulta['documento_clase_id'] = dataUrl.documento_clase
+        let dataUrl = "JSON.parse(this.data);"
+        //this.arrParametrosConsulta['documento_tipo_id'] = dataUrl.documento_tipo
+        //this.arrParametrosConsulta['documento_clase_id'] = dataUrl.documento_clase
         break;
     }
 

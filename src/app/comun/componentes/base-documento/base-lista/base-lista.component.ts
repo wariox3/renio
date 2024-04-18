@@ -8,11 +8,12 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { combineLatest } from 'rxjs';
-import { mapeo } from '@comun/extra/mapeoEntidades';
+import { documentos } from '@comun/extra/mapeoEntidades/documentos';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -58,53 +59,38 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if (parametro.data) {
-        let data = JSON.parse(parametro.data);
-        this.documento_clase_id = data.documento_clase;
-      }
-      this.arrParametrosConsulta.tipo = parametro.tipo;
-      this.tipo = parametro.tipo;
-      this.modelo = parametro.modelo;
-      this.nombreFiltro =
-        `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
-      this.changeDetectorRef.detectChanges();
-      let posicion: keyof typeof mapeo = `${parametro.modelo}`;
-      this.titulos = mapeo[posicion].datos.filter(
-        (titulo: any) => titulo.visibleTabla === true
+      this.modelo = localStorage.getItem('itemNombre')!;
+      let posicion: keyof typeof documentos = parseInt(
+        parametro.documento_clase
       );
+      this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
-    const filtroGuardado = localStorage.getItem(this.nombreFiltro);
+    const { documento_clase: documento_clase_id } = this.parametrosUrl;
 
-    if (filtroGuardado) {
-      this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
-    } else if (this.arrParametrosConsulta.filtros.length > 0) {
-      this.arrParametrosConsulta.filtros = [];
-    }
+    //const filtroGuardado = localStorage.getItem(this.nombreFiltro);
 
-    let baseUrl = 'general/documento/lista/';
-    this.arrParametrosConsulta = {
-      ...this.arrParametrosConsulta,
-      ...{
-        documento_clase_id: this.documento_clase_id,
-      },
-    };
-
+    // if (filtroGuardado) {
+    //   this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
+    // } else if (this.arrParametrosConsulta.filtros.length > 0) {
+    //   this.arrParametrosConsulta.filtros = [];
+    // }
     this.httpService
       .post<{
         cantidad_registros: number;
         registros: any[];
         propiedades: any[];
-      }>(baseUrl, this.arrParametrosConsulta)
+      }>('general/documento/lista/', {
+        documento_clase_id,
+      })
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
         this.arrPropiedades = respuesta.propiedades;
-
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -166,6 +152,51 @@ export class BaseListaComponent extends General implements OnInit {
       );
     }
   }
+
+  navegarNuevo() {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate(
+        [`/documento/nuevo`],
+        {
+          queryParams: {
+            modulo: parametro.modulo,
+            modelo: parametro.modelo,
+            tipo: parametro.tipo,
+            data: parametro.data,
+          },
+        }
+      );
+    });
+  }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/editar`], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+          data: parametro.data,
+        },
+      });
+    });
+  }
+
+  navegarDetalle(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/detalle`], {
+        queryParams: {
+          modulo: parametro.modulo,
+          modelo: parametro.modelo,
+          tipo: parametro.tipo,
+          detalle: id,
+          data: parametro.data,
+        },
+      });
+    });
+  }
+
 
   descargarExcel() {
     this.descargarArchivosService.descargarExcelDocumentos(

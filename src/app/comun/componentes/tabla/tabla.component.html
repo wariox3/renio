@@ -75,7 +75,7 @@
             </div>
           </div>
           <div class="dropdown-divider my-2"></div>
-          <ng-container *ngFor="let item of encabezadoTestCopia; let i = index">
+          <ng-container *ngFor="let item of columnasVibles; let i = index">
             <div class="mb-2">
               <div class="form-check">
                 <input
@@ -88,10 +88,7 @@
                 />
                 <label class="form-check-label" [for]="item.nombre">
                   {{
-                    "LISTAS." +
-                      (modelo | uppercase) +
-                      "." +
-                      (item.nombre | uppercase) | translate
+                    "LISTAS.DOCUMENTO." + (item.nombre | uppercase) | translate
                   }}
                 </label>
               </div>
@@ -114,7 +111,7 @@
   >
     <thead>
       <tr class="fw-bold fs-6 text-gray-800">
-        <ng-container *ngFor="let item of camposVisibles; let i = index">
+        <ng-container *ngFor="let item of columnasVibles; let i = index">
           <th
             (click)="item.ordenable && orderPor(item.nombre, i)"
             [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
@@ -123,7 +120,7 @@
               <span>
                 {{
                   "LISTAS." +
-                    (modelo | uppercase) +
+                    (tipo | uppercase) +
                     "." +
                     (item.nombre | uppercase) | translate
                 }}

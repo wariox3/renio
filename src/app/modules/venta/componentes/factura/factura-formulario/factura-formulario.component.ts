@@ -98,9 +98,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.consultarInformacion();
     this.initForm();
     this.active = 1;
-    if (this.data) {
-      this.dataUrl = JSON.parse(this.data);
-    }
+    //if (this.data) {
+      //this.dataUrl = JSON.parse(this.data);
+    //}
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
@@ -238,7 +238,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                     detalle: respuesta.documento.id,
                     accion: 'detalle',
-                    data: JSON.stringify(JSON.parse(this.data)),
+                    //data: JSON.stringify(JSON.parse(this.data)),
                   },
                 });
               })
@@ -297,7 +297,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                   detalle: respuesta.documento.id,
                   accion: 'detalle',
-                  data: JSON.stringify(JSON.parse(this.data)),
+                  //data: JSON.stringify(JSON.parse(this.data)),
                 },
               });
               // this.detalle = respuesta.documento.id;

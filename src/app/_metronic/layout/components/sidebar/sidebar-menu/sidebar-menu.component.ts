@@ -67,12 +67,20 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
+    if(item.tipo === "Administrador"){
+      if(item.data){
+        localStorage.setItem('itemNombre', item.data.modelo);
+        localStorage.setItem('itemTipo', item.nombre);
+      }
+    } else {
+      localStorage.setItem('itemNombre', item.nombre);
+      localStorage.setItem('itemTipo', "DOCUMENTO");
+    }
+    localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
+    localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     this.router.navigate([item.tipo?.toLocaleLowerCase(), 'lista'], {
       queryParams: {
-        modulo: this.modulo,
-        modelo: item.modelo,
-        tipo: item.tipo,
-        data: JSON.stringify(item.data),
+        ...item.data,
       },
     });
   }
