@@ -231,7 +231,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['/detalle'], {
+                this.router.navigate(['documento/detalle'], {
                   queryParams: {
                     modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                     modelo: this.activatedRoute.snapshot.queryParams['modelo'],
@@ -290,7 +290,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   });
                 }
               );
-              this.router.navigate(['/detalle'], {
+              this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
