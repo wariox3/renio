@@ -30,13 +30,13 @@ export class General {
       this.accion = 'detalle';
     }
 
-    const cambiosQueryParams = this.activatedRoute.queryParams.subscribe(
+    this.activatedRoute.queryParams.subscribe(
       (parametros) => {
         this.parametrosUrl = parametros;
         // this.modulo = queryParam['modulo'];
         // this.modelo = queryParam['modelo'];
         // this.tipo = queryParam['tipo'];
-        // this.detalle = queryParam['detalle'];
+        this.detalle = parametros.detalle;
         // this.data = queryParam['data'];
         this.changeDetectorRef.detectChanges;
       }
