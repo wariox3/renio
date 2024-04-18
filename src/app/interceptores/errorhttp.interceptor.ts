@@ -17,6 +17,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorCodigo: Number;
         let errorMensaje: string = '';
+        console.log(error.error instanceof ErrorEvent);
 
         if (error.error instanceof ErrorEvent) {
           // Error de cliente
@@ -41,7 +42,12 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
               errorCodigo = 500;
               errorMensaje = 'Se produjo un error interno en el servidor.';
               break;
-            // Agrega más casos según tus necesidades
+            case 0:
+              // el error axios lo retorna como status 502
+              errorCodigo = 502;
+              errorMensaje = 'Estamos experimentando dificultades temporales en el servidor. Por favor, reintente acceder más tarde.';
+              break;
+              // Agrega más casos según tus necesidades
             default:
               let objError = error.error;
               if (objError.hasOwnProperty('error')) {

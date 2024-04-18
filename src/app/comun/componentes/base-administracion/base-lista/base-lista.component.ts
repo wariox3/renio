@@ -3,15 +3,16 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { CardComponent } from '../card/card.component';
-import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
+
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
-import { TablaComponent } from '../tabla/tabla.component';
 import { combineLatest } from 'rxjs';
-import { ImportarComponent } from '../importar/importar.component';
 import { mapeo } from '@comun/extra/mapeoEntidades';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -82,27 +83,14 @@ export class BaseListaComponent extends General implements OnInit {
       this.arrParametrosConsulta.filtros = [];
     }
 
-    let baseUrl = 'general/';
-    switch (this.arrParametrosConsulta.tipo) {
-      case 'Administrador':
-        baseUrl += 'funcionalidad/lista-administrador/';
-        this.arrParametrosConsulta = {
-          ...this.arrParametrosConsulta,
-          ...{
-            modelo: this.modelo,
-          },
-        };
-        break;
-      case 'Documento':
-        baseUrl += 'documento/lista/';
-        this.arrParametrosConsulta = {
-          ...this.arrParametrosConsulta,
-          ...{
-            documento_clase_id: this.documento_clase_id,
-          },
-        };
-        break;
-    }
+    let baseUrl = 'general/funcionalidad/lista-administrador/';
+    this.arrParametrosConsulta = {
+      ...this.arrParametrosConsulta,
+      ...{
+        modelo: this.modelo,
+      },
+    };
+
     this.httpService
       .post<{
         cantidad_registros: number;

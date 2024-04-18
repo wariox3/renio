@@ -1,0 +1,31 @@
+<div class="container-grid">
+  <div class="filtros">
+    <ng-content select="[base-filtros]"></ng-content>
+    <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+      <section card-body>
+        <app-base-filtro
+          (emitirFiltros)="obtenerFiltros($event)"
+        ></app-base-filtro>
+      </section>
+    </app-card>
+  </div>
+  <div class="tabla">
+    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+      <section card-body>
+        <app-comun-tabla
+          [modelo]="modelo"
+          [datos]="arrItems"
+          [encabezado]="titulos"
+          [cantidad_registros]="cantidad_registros"
+          [confirmacionRegistrosEliminado]="confirmacionRegistrosEliminado"
+          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+          (emitirOrdenamiento)="cambiarOrdemiento($event)"
+          (emitirPaginacion)="cambiarPaginacion($event)"
+          (emitirRegistraEliminar)="eliminarRegistros($event)"
+          (emitirExportarExcel)="descargarExcel()"
+        >
+        </app-comun-tabla>
+      </section>
+    </app-card>
+  </div>
+</div>

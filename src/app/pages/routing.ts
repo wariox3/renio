@@ -106,21 +106,21 @@ const Routing: Routes = [
       {
         path: 'lista',
         loadComponent: () =>
-          import('../comun/componentes/base-lista/base-lista.component').then(
+          import('../comun/componentes/base-administracion/base-lista/base-lista.component').then(
             (c) => c.BaseListaComponent
           ),
       },
       {
         path: 'nuevo',
         loadComponent: () =>
-          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+          import('../comun/componentes/base-administracion/base-nuevo/base-nuevo.component').then(
             (c) => c.BaseNuevoComponent
           ),
       },
       {
         path: 'editar',
         loadComponent: () =>
-          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+          import('../comun/componentes/base-administracion/base-nuevo/base-nuevo.component').then(
             (c) => c.BaseNuevoComponent
           ),
       },
@@ -128,7 +128,7 @@ const Routing: Routes = [
         path: 'detalle',
         loadComponent: () =>
           import(
-            '../comun/componentes/base-detalle/base-detalle.component'
+            '../comun/componentes/base-administracion/base-detalle/base-detalle.component'
           ).then((c) => c.BaseDetalleComponent),
       },
     ],
@@ -139,21 +139,21 @@ const Routing: Routes = [
       {
         path: 'lista',
         loadComponent: () =>
-          import('../comun/componentes/base-lista/base-lista.component').then(
+          import('../comun/componentes/base-documento/base-lista/base-lista.component').then(
             (c) => c.BaseListaComponent
           ),
       },
       {
         path: 'nuevo',
         loadComponent: () =>
-          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+          import('../comun/componentes/base-documento/base-nuevo/base-nuevo.component').then(
             (c) => c.BaseNuevoComponent
           ),
       },
       {
         path: 'editar',
         loadComponent: () =>
-          import('../comun/componentes/base-nuevo/base-nuevo.component').then(
+          import('../comun/componentes/base-documento/base-nuevo/base-nuevo.component').then(
             (c) => c.BaseNuevoComponent
           ),
       },
@@ -161,7 +161,7 @@ const Routing: Routes = [
         path: 'detalle',
         loadComponent: () =>
           import(
-            '../comun/componentes/base-detalle/base-detalle.component'
+            '../comun/componentes/base-documento/base-detalle/base-detalle.component'
           ).then((c) => c.BaseDetalleComponent),
       },
     ],

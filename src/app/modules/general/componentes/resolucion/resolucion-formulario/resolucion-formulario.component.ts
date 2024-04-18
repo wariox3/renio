@@ -124,7 +124,7 @@ export default class ResolucionFormularioComponent
               fecha_hasta: respuesta.fecha_hasta,
             });
             this.alertaService.mensajaExitoso('Se actualizo la información');
-            this.router.navigate(['/detalle'], {
+            this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
@@ -143,7 +143,7 @@ export default class ResolucionFormularioComponent
             if (this.ocultarBtnAtras) {
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
-              this.router.navigate(['/detalle'], {
+              this.router.navigate(['/administrador/detalle'], {
                 queryParams: {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
