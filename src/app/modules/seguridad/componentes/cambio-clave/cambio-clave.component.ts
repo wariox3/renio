@@ -111,7 +111,7 @@ export class CambioClaveComponent extends General implements OnInit {
   submit() {
     if (this.formularioCambioClave.valid) {
       this.authService
-        .reiniciarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
+        .cambiarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
           this.alertaService.mensajaExitoso(
             this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.INGRESARCLAVE")

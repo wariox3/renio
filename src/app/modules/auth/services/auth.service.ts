@@ -151,6 +151,15 @@ export class AuthService implements OnDestroy {
     );
   }
 
+  cambiarClave(usuario_id: string, password: string) {
+    return this.http.post<ConfimarcionClaveReinicio>(
+      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave/`,
+      {  usuario_id, password },
+      { context: chackRequiereToken() }
+    );
+  }
+
+
   confirmarInivitacion(token: string){
     return this.http.post(`${environment.URL_API_MUUP}/contenedor/usuariocontenedor/confirmar/`,{
       token
