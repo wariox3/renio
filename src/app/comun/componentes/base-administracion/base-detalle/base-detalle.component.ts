@@ -11,7 +11,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports';
-import { HttpService } from '@comun/services/http.service';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 
@@ -33,7 +32,7 @@ export class BaseDetalleComponent extends General implements OnInit {
   componenteDinamico: ViewContainerRef;
   documentoEstados$: any = {};
 
-  constructor(private httpService: HttpService) {
+  constructor() {
     super();
   }
 

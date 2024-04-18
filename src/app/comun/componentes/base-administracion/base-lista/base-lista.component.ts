@@ -171,17 +171,11 @@ export class BaseListaComponent extends General implements OnInit {
 
   navegarNuevo() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(
-        [`/administrador/nuevo`],
-        {
-          queryParams: {
-            modulo: parametro.modulo,
-            modelo: parametro.modelo,
-            tipo: parametro.tipo,
-            data: parametro.data,
-          },
-        }
-      );
+      this.router.navigate([`/administrador/nuevo`], {
+        queryParams: {
+          ...parametro,
+        },
+      });
     });
   }
 
@@ -189,11 +183,8 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate([`/administrador/editar`], {
         queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
+          ...parametro,
           detalle: id,
-          data: parametro.data,
         },
       });
     });
@@ -203,11 +194,8 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate([`/administrador/detalle`], {
         queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
+          ...parametro,
           detalle: id,
-          data: parametro.data,
         },
       });
     });

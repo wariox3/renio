@@ -159,10 +159,7 @@ export class BaseListaComponent extends General implements OnInit {
         [`/documento/nuevo`],
         {
           queryParams: {
-            modulo: parametro.modulo,
-            modelo: parametro.modelo,
-            tipo: parametro.tipo,
-            data: parametro.data,
+            ...parametro,
           },
         }
       );
@@ -173,11 +170,8 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate([`/documento/editar`], {
         queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
+          ...parametro,
           detalle: id,
-          data: parametro.data,
         },
       });
     });
@@ -187,11 +181,8 @@ export class BaseListaComponent extends General implements OnInit {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate([`/documento/detalle`], {
         queryParams: {
-          modulo: parametro.modulo,
-          modelo: parametro.modelo,
-          tipo: parametro.tipo,
+          ...parametro,
           detalle: id,
-          data: parametro.data,
         },
       });
     });
