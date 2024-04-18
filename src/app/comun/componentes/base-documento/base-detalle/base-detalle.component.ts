@@ -42,8 +42,7 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    let posicion: keyof typeof Componetes = `${this.modelo}`;
-    let componete = await (await Componetes[posicion].detalle()).default;
+    let componete = await (await Componetes['Documento'].detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
     this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {

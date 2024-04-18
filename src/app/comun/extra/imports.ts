@@ -52,7 +52,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
       ),
   },
-  Factura: {
+  Documento: {
     detalle: async () =>
       await import(
         '../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
