@@ -113,9 +113,7 @@ export class CambioClaveComponent extends General implements OnInit {
       this.authService
         .cambiarClave(this.codigoUsuario, this.formFields.nuevaClave.value)
         .subscribe((respuesta) => {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant("FORMULARIOS.MENSAJES.COMUNES.INGRESARCLAVE")
-          );
+          this.alertaService.mensajaExitoso('Se actualizo la información');
           this.modalService.dismissAll();
         });
     } else {
