@@ -41,7 +41,7 @@ export class BaseListaComponent extends General implements OnInit {
   arrPropiedades: Listafiltros[];
   arrItems: any[];
   cantidad_registros!: number;
-  nombreFiltro = '';
+  nombreFiltro = ``;
   tipo = '';
   modelo = '';
   modulo = '';
@@ -56,14 +56,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      // if (parametro.data) {
-      //   let data = JSON.parse(parametro.data);
-      //   this.documento_clase_id = data.documento_clase;
-      // }
-      // this.arrParametrosConsulta.tipo = parametro.tipo;
-      // this.nombreFiltro =
-      //   `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
-      // this.changeDetectorRef.detectChanges();
+      this.nombreFiltro = `administrador_${localStorage.getItem('itemNombre')?.toLowerCase()}`;     
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof mapeo = this.modelo;
       this.modulo = mapeo[posicion].modulo;

@@ -44,7 +44,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   ];
   @Input() propiedades: Listafiltros[];
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
-  nombreFiltro = '';
+  nombreFiltro = ``;
 
   constructor(private formBuilder: FormBuilder) {
     super();
@@ -53,6 +53,8 @@ export class BaseFiltroComponent extends General implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      let tipo = window.location.pathname.split('/')[1];
+      this.nombreFiltro = `${tipo}_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!
@@ -199,7 +201,6 @@ export class BaseFiltroComponent extends General implements OnInit {
       );
     } else {
       this.listaFiltros = listaFiltros;
-
       localStorage.setItem(
         this.nombreFiltro,
         JSON.stringify(this.listaFiltros)

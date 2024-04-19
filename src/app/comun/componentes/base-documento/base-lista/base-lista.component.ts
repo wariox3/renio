@@ -42,7 +42,7 @@ export class BaseListaComponent extends General implements OnInit {
   arrPropiedades: Listafiltros[];
   arrItems: any;
   cantidad_registros!: number;
-  nombreFiltro = '';
+  nombreFiltro = `${localStorage.getItem('itemTipo')}_${localStorage.getItem('itemNombre')}`;
   tipo = '';
   modelo = '';
   titulos: any = [];
@@ -59,6 +59,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.nombreFiltro = `documento_${localStorage.getItem('itemNombre')?.toLowerCase()}`;      
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof documentos = parseInt(
         parametro.documento_clase
@@ -83,12 +84,12 @@ export class BaseListaComponent extends General implements OnInit {
       .post<{
         registros: any;
       }>('general/documento/lista/', {
-        documento_clase_id,
+        ...this.arrParametrosConsulta,
+        ...{
+          documento_clase_id,
+        },
       })
       .subscribe((respuesta) => {
-        console.log(respuesta);
-
-        //.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta;
         //this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
