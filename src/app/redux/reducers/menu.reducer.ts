@@ -64,12 +64,12 @@ export const initialState: Menu = {
             {
               nombre: 'Item',
               tipo: 'Administrador',
-              data: { formulario: 'ItemNuevo' },
+              data: { modelo: 'Item' },
             },
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { formulario: 'ContactoNuevo' },
+              data: { modelo: 'Contacto' },
             },
           ],
         },
@@ -227,10 +227,12 @@ export const initialState: Menu = {
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
+              data: { modelo: 'Contacto' },
             },
             {
               nombre: 'Item',
               tipo: 'Administrador',
+              data: { modelo: 'Item' },
             },
           ],
         },

@@ -233,12 +233,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               tap((respuesta) => {
                 this.router.navigate(['documento/detalle'], {
                   queryParams: {
-                    modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                    tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                    documento_clase: this.dataUrl.documento_clase,
                     detalle: respuesta.documento.id,
-                    accion: 'detalle',
-                    //data: JSON.stringify(JSON.parse(this.data)),
                   },
                 });
               })
