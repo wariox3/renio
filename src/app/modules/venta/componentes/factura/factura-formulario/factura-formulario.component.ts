@@ -97,10 +97,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.consultarInformacion();
     this.initForm();
-    this.active = 1;
-    //if (this.data) {
-      //this.dataUrl = JSON.parse(this.data);
-    //}
+    this.active = 1;    
+    if (this.parametrosUrl) {
+      this.dataUrl = this.parametrosUrl;
+    }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
@@ -226,7 +226,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: this.dataUrl.documento_tipo,
+                documento_tipo: this.dataUrl.documento_clase,
               },
             })
             .pipe(
