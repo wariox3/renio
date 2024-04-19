@@ -87,7 +87,7 @@ export class BaseListaComponent extends General implements OnInit {
       })
       .subscribe((respuesta) => {
         console.log(respuesta);
-        
+
         //.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta;
         //this.arrPropiedades = respuesta.propiedades;
@@ -124,27 +124,12 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      if (this.tipo === 'Documento') {
-        this.httpService
-          .post('general/documento/eliminar/', { documentos: data })
-          .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso(respuesta.mensaje);
-            this.consultarLista();
-          });
-      } else {
-        const eliminarSolicitudes = data.map((registro) => {
-          return this.httpService.delete(
-            `${this.urlEliminar}/${registro}/`,
-            {}
-          );
-        });
-        combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
-          this.alertaService.mensajaExitoso('Registro eliminado');
-          this.confirmacionRegistrosEliminado = true;
-          this.changeDetectorRef.detectChanges();
+      this.httpService
+        .post('general/documento/eliminar/', { documentos: data })
+        .subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso(respuesta.mensaje);
           this.consultarLista();
         });
-      }
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -155,14 +140,11 @@ export class BaseListaComponent extends General implements OnInit {
 
   navegarNuevo() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(
-        [`/documento/nuevo`],
-        {
-          queryParams: {
-            ...parametro,
-          },
-        }
-      );
+      this.router.navigate([`/documento/nuevo`], {
+        queryParams: {
+          ...parametro,
+        },
+      });
     });
   }
 
@@ -187,7 +169,6 @@ export class BaseListaComponent extends General implements OnInit {
       });
     });
   }
-
 
   descargarExcel() {
     this.descargarArchivosService.descargarExcelDocumentos(
