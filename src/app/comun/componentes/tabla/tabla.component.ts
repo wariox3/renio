@@ -78,7 +78,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.claveLocalStore = `itemNombre_tabla`;
-      this.tipo= localStorage.getItem('itemTipo')!      this.changeDetectorRef.detectChanges();
+      this.tipo = localStorage.getItem('itemTipo')!;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -112,7 +113,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Recorre todas las claves en el objeto "camposVisibles"
     for (let clave in this.columnasVibles) {
       // Obtiene el nombre de la clave actual y lo convierte a minúsculas
-      let buscarClave = this.columnasVibles[clave].nombre.toLowerCase();      
+      let buscarClave = this.columnasVibles[clave].nombre.toLowerCase();
       // Recorre todas las claves en el objeto "datos"
       for (const key in this.datos) {
         // Verifica si la clave pertenece al objeto "datos"
