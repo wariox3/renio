@@ -313,16 +313,16 @@
             type="text"
             class="form-control"
             ngbDropdownAnchor
-            formControlName="documento_referencia"
+            formControlName="documento_referencia_numero"
             (focus)="consultarDocumentoReferencia($event); DocumentoReferenciaDropdown.open()"
             (keyup)="consultarDocumentoReferencia($event)"
             [ngClass]="{
               'is-invalid':
-                formularioFactura.controls['documento_referencia'].touched &&
-                formularioFactura.controls['documento_referencia'].invalid,
+                formularioFactura.controls['documento_referencia_numero'].touched &&
+                formularioFactura.controls['documento_referencia_numero'].invalid,
               'is-valid':
-                formularioFactura.controls['documento_referencia'].touched &&
-                formularioFactura.controls['documento_referencia'].valid
+                formularioFactura.controls['documento_referencia_numero'].touched &&
+                formularioFactura.controls['documento_referencia_numero'].valid
             }"
           />
           <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -334,13 +334,13 @@
         aria-labelledby="dropdownBasic1"
         class="dropdown-menu"
       >
-        <ng-container *ngFor="let contacto of arrMovimientosClientes">
+        <ng-container *ngFor="let referencia of arrMovimientosClientes">
           <button
             type="button"
             ngbDropdownItem
-            (click)="modificarCampoFormulario('documento_referencia', contacto.numero)"
+            (click)="modificarCampoFormulario('documento_referencia', referencia)"
           >
-            {{ contacto.numero }}
+            {{ referencia.numero }}
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>

@@ -154,6 +154,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
+        documento_referencia_numero: [null],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -729,7 +730,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
     }
     if( campo === 'documento_referencia'){
-      this.formularioFactura.get(campo)?.setValue(dato);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura
+      .get('documento_referencia_numero')
+      ?.setValue(dato.numero);
     }
     this.changeDetectorRef.detectChanges();
   }
