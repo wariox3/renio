@@ -33,9 +33,10 @@ export class General {
     this.activatedRoute.queryParams.subscribe(
       (parametros) => {
         this.parametrosUrl = parametros;
-        // this.modulo = queryParam['modulo'];
-        // this.modelo = queryParam['modelo'];
+        // this.modulo = queryParam['modulo']
+        this.modelo = localStorage.getItem('itemNombre')!
         // this.tipo = queryParam['tipo'];
+        
         this.detalle = parametros.detalle;
         // this.data = queryParam['data'];
         this.changeDetectorRef.detectChanges;
