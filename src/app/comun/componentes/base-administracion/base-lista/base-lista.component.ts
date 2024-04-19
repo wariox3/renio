@@ -44,6 +44,7 @@ export class BaseListaComponent extends General implements OnInit {
   nombreFiltro = '';
   tipo = '';
   modelo = '';
+  modulo = '';
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
@@ -60,17 +61,12 @@ export class BaseListaComponent extends General implements OnInit {
       //   this.documento_clase_id = data.documento_clase;
       // }
       // this.arrParametrosConsulta.tipo = parametro.tipo;
-      // this.tipo = parametro.tipo;
-      // this.modelo = parametro.modelo;
       // this.nombreFiltro =
       //   `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
       // this.changeDetectorRef.detectChanges();
-      // let posicion: keyof typeof mapeo = `${parametro.modelo}`;
-      // this.titulos = mapeo[posicion].datos.filter(
-      //   (titulo: any) => titulo.visibleTabla === true
-      // );
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof mapeo = this.modelo;
+      this.modulo = mapeo[posicion].modulo;
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
@@ -140,27 +136,15 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      if (this.tipo === 'Documento') {
-        this.httpService
-          .post('general/documento/eliminar/', { documentos: data })
-          .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso(respuesta.mensaje);
-            this.consultarLista();
-          });
-      } else {
-        const eliminarSolicitudes = data.map((registro) => {
-          return this.httpService.delete(
-            `${this.urlEliminar}/${registro}/`,
-            {}
-          );
-        });
-        combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
-          this.alertaService.mensajaExitoso('Registro eliminado');
-          this.confirmacionRegistrosEliminado = true;
-          this.changeDetectorRef.detectChanges();
-          this.consultarLista();
-        });
-      }
+      const eliminarSolicitudes = data.map((id) => {
+        return this.httpService.delete(`${this.modulo}/${this.modelo.toLowerCase()}/${id}/`, {});
+      });
+      combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Registro eliminado');
+        this.confirmacionRegistrosEliminado = true;
+        this.changeDetectorRef.detectChanges();
+        this.consultarLista();
+      });
     } else {
       this.alertaService.mensajeError(
         'Error',
