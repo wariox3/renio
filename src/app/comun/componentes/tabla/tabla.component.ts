@@ -78,8 +78,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.claveLocalStore = `itemNombre_tabla`;
-      this.tipo= localStorage.getItem('itemTipo')!
-      this.changeDetectorRef.detectChanges();
+      this.tipo= localStorage.getItem('itemTipo')!      this.changeDetectorRef.detectChanges();
     });
   }
 

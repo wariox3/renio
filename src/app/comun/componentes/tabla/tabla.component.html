@@ -88,7 +88,10 @@
                 />
                 <label class="form-check-label" [for]="item.nombre">
                   {{
-                    "LISTAS.DOCUMENTO." + (item.nombre | uppercase) | translate
+                    "LISTAS." +
+                      (tipo | uppercase) +
+                      "." +
+                      (item.nombre | uppercase) | translate
                   }}
                 </label>
               </div>
