@@ -288,12 +288,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               );
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  documento_clase: this.dataUrl.documento_clase,
                   detalle: respuesta.documento.id,
-                  accion: 'detalle',
-                  //data: JSON.stringify(JSON.parse(this.data)),
                 },
               });
               // this.detalle = respuesta.documento.id;
@@ -787,8 +783,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
+        'general/documento/referencia/',
+         {
+          contacto_id: 2,
+          documento_clase_id: 1
+         }
       )
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
