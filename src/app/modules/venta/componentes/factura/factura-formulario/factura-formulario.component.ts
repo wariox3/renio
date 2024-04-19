@@ -698,9 +698,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      
       if (
-        this.dataUrl.documento_clase === 2 ||
-        this.dataUrl.documento_clase === 3
+        this.parametrosUrl.documento_clase == 2 ||
+        this.parametrosUrl.documento_clase == 3
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();
@@ -726,6 +727,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (this.formularioFactura.get(campo)?.value === '') {
         this.formularioFactura.get(campo)?.setValue(null);
       }
+    }
+    if( campo === 'documento_referencia'){
+      this.formularioFactura.get(campo)?.setValue(dato);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -780,19 +784,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       limite_conteo: 10000,
       modelo: 'Documento',
     };
-
+    
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<any>(
         'general/documento/referencia/',
          {
-          contacto_id: 2,
+          ...arrFiltros,
+          contacto_id: this.formularioFactura.get('contacto')?.value,
           documento_clase_id: 1
          }
       )
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -814,7 +819,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
-
+        
         this.store.dispatch(
           documentosEstadosAction({
             estados: {
@@ -835,6 +840,19 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
         });
+
+        if (
+          this.parametrosUrl.documento_clase == 2 ||
+          this.parametrosUrl.documento_clase == 3
+        ) {
+          this.visualizarCampoDocumentoReferencia = true;
+          this.formularioFactura.patchValue({
+            documento_referencia: respuesta.documento.documento_referencia,
+          });
+  
+        }
+
+
         this.detalles.clear();
         respuesta.documento.detalles.forEach(
           (detalle: any, indexDetalle: number) => {

@@ -538,6 +538,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.formularioContacto.get(campo)?.setValue(null);
       }
     }
+    if (campo === 'nombre2') {
+      if (this.formularioContacto.get(campo)?.value === '') {
+        this.formularioContacto.get(campo)?.setValue(null);
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 

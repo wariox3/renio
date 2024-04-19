@@ -338,9 +338,9 @@
           <button
             type="button"
             ngbDropdownItem
-            (click)="modificarCampoFormulario('contacto', contacto)"
+            (click)="modificarCampoFormulario('documento_referencia', contacto.numero)"
           >
-            {{ contacto.contacto_nombre_corto }}
+            {{ contacto.numero }}
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>

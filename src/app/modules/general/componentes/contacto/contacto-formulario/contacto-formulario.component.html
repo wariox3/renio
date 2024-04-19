@@ -165,6 +165,7 @@
                 class="form-control bg-transparent"
                 type="text"
                 autocomplete="off"
+                (blur)="modificarCampoFormulario('nombre2', null)"
                 [ngClass]="{
                   'is-invalid':
                     formularioContacto.controls['nombre2'].touched &&
