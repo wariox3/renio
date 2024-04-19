@@ -185,6 +185,8 @@ export const locale = {
           TOTALIMPUESTOS: 'Total taxes:',
           TOTALGENERAL: 'Grand Total:',
           TOTALNETO: 'Net:',
+          NETO: 'Net ',
+          SUBTOTAL1: 'Subtotal',
           SUBTOTAL: 'Subtotal',
         },
         GENERAL: {
