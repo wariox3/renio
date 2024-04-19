@@ -284,6 +284,7 @@ export const locale = {
           ORDENCOMPRA: 'Purchase order',
           DOCUMENTOREFERENCIA: 'Reference document',
           COMENTARIO: 'Comment',
+          PLAZOPAGO: 'payment place',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Subscriber',

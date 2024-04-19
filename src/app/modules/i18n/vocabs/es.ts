@@ -189,7 +189,7 @@ export const locale = {
           NETO: 'Neto ',
           TOTALNETO: 'Neto',
           SUBTOTAL1: 'Subtotal',
-          SUBTOTAL: 'Subtotal: ',
+          SUBTOTAL: 'Subtotal:',
         },
         GENERAL: {
           ITEM: {
@@ -285,7 +285,8 @@ export const locale = {
           NUMERO: 'Número',
           ORDENCOMPRA: 'Orden compra',
           DOCUMENTOREFERENCIA: 'Documento referencia',
-          COMENTARIO: 'Comentario'
+          COMENTARIO: 'Comentario',
+          PLAZOPAGO: 'Plazo pago'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

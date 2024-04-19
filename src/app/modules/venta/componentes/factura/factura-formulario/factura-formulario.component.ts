@@ -78,10 +78,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
+  arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
   dataUrl: any;
+  plazo_pago_dias: any;
   visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
@@ -97,7 +99,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.consultarInformacion();
     this.initForm();
-    this.active = 1;    
+    this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
     }
@@ -155,6 +157,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
+        plazo_pago: ['', Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -170,7 +173,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__contains',
               propiedad: 'nombre__contains',
               valor1: '',
@@ -183,9 +185,21 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           limite_conteo: 10000,
           modelo: 'MetodoPago',
         }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'PlazoPago',
+        }
       )
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0].registros;
+      this.arrPlazoPago = respuesta[1].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -366,7 +380,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
-    if(campo === 'documento_referencia'){
+    if (campo === 'documento_referencia') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
     }
 
@@ -699,7 +713,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
-      
+      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+      this.plazo_pago_dias = dato.plazo_pago_dias;
+      const fechaActual = new Date(); // Obtener la fecha actual
+      fechaActual.setDate(fechaActual.getDate() + dato.plazo_pago_dias)
+      const fechaVencimiento = `${fechaActual.getFullYear()}-${(
+        fechaActual.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+      // Suma los días a la fecha actual
+      this.formularioFactura
+        .get('fecha_vence')
+        ?.setValue(fechaVencimiento);
+
       if (
         this.parametrosUrl.documento_clase == 2 ||
         this.parametrosUrl.documento_clase == 3
@@ -729,11 +756,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.formularioFactura.get(campo)?.setValue(null);
       }
     }
-    if( campo === 'documento_referencia'){
+    if (campo === 'documento_referencia') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura
-      .get('documento_referencia_numero')
-      ?.setValue(dato.numero);
+        .get('documento_referencia_numero')
+        ?.setValue(dato.numero);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -788,16 +815,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       limite_conteo: 10000,
       modelo: 'Documento',
     };
-    
+
     this.httpService
-      .post<any>(
-        'general/documento/referencia/',
-         {
-          ...arrFiltros,
-          contacto_id: this.formularioFactura.get('contacto')?.value,
-          documento_clase_id: 1
-         }
-      )
+      .post<any>('general/documento/referencia/', {
+        ...arrFiltros,
+        contacto_id: this.formularioFactura.get('contacto')?.value,
+        documento_clase_id: 1,
+      })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -823,7 +847,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
-        
+
         this.store.dispatch(
           documentosEstadosAction({
             estados: {
@@ -853,9 +877,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia,
           });
-  
         }
-
 
         this.detalles.clear();
         respuesta.documento.detalles.forEach(
@@ -891,5 +913,44 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  cambiarFechaVence(event: any){
+    const fechaFactura = new Date(event.target.value); // Crear objeto Date a partir del string
+    this.formularioFactura.get('plazo_pago')?.value;
+    const diasNumero = parseInt(this.plazo_pago_dias, 10);
+
+    // Sumar los días a la fechde la factura
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero+1));
+    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
+      fechaFactura.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
+    // Suma los días a la fecha actual
+    this.formularioFactura
+      .get('fecha_vence')
+      ?.setValue(fechaVencimiento);
+  }
+
+  capturarDias(event: any) {
+    // Obtener el valor del atributo data-dias del option seleccionado
+    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
+    this.plazo_pago_dias = event.target.selectedOptions[0].getAttribute('data-dias');
+
+    const diasNumero = parseInt(this.plazo_pago_dias, 10);
+
+    // Sumar los días a la fechde la factura
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero+1));
+
+    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
+      fechaFactura.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
+    // Suma los días a la fecha actual
+    this.formularioFactura
+      .get('fecha_vence')
+      ?.setValue(fechaVencimiento);
   }
 }
