@@ -52,32 +52,33 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    // this.activatedRoute.queryParams.subscribe((parametro) => {
-    //   this.nombreFiltro =
-    //     `${parametro.modulo}_${parametro.modelo}_${parametro.tipo}_filtros`.toLocaleLowerCase();
-    //   if (localStorage.getItem(this.nombreFiltro) !== null) {
-    //     this.filtrosAplicados = JSON.parse(
-    //       localStorage.getItem(this.nombreFiltro)!
-    //     );
-    //     this.formularioItem.reset();
-    //     this.filtros.clear();
-    //     this.filtrosAplicados.map((propiedad) => {
-    //       this.filtros.push(this.crearControlFiltros(propiedad));
-    //     });
-    //   } else {
-    //     this.formularioItem.reset();
-    //     this.filtros.clear();
-    //     this.filtrosAplicados = [{
-    //       propiedad: '',
-    //       operador: '',
-    //       valor1: '',
-    //       valor2: '',
-    //       visualizarBtnAgregarFiltro: true,
-    //     }]
-    //     this.filtros.push(this.crearControlFiltros(null));
-    //   }
-    //   this.changeDetectorRef.detectChanges();
-    // });
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      if (localStorage.getItem(this.nombreFiltro) !== null) {
+        this.filtrosAplicados = JSON.parse(
+          localStorage.getItem(this.nombreFiltro)!
+        );
+        this.formularioItem.reset();
+        this.filtros.clear();
+        this.filtrosAplicados.map((propiedad) => {
+          this.filtros.push(this.crearControlFiltros(propiedad));
+        });
+      } else {
+        this.formularioItem.reset();
+        this.filtros.clear();
+        this.filtrosAplicados = [
+          {
+            propiedad: '',
+            operador: '',
+            valor1: '',
+            valor2: '',
+            visualizarBtnAgregarFiltro: true,
+          },
+        ];
+        this.filtros.push(this.crearControlFiltros(null));
+        //}
+        this.changeDetectorRef.detectChanges();
+      }
+    });
   }
 
   initForm() {
