@@ -72,13 +72,13 @@ export class BaseListaComponent extends General implements OnInit {
   consultarLista() {
     const { documento_clase: documento_clase_id } = this.parametrosUrl;
 
-    //const filtroGuardado = localStorage.getItem(this.nombreFiltro);
+    const filtroGuardado = localStorage.getItem(this.nombreFiltro);
 
-    // if (filtroGuardado) {
-    //   this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
-    // } else if (this.arrParametrosConsulta.filtros.length > 0) {
-    //   this.arrParametrosConsulta.filtros = [];
-    // }
+    if (filtroGuardado) {
+      this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
+    } else if (this.arrParametrosConsulta.filtros.length > 0) {
+      this.arrParametrosConsulta.filtros = [];
+    }
     this.httpService
       .post<{
         registros: any;
