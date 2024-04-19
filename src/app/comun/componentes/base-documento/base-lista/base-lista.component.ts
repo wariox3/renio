@@ -40,7 +40,7 @@ export class BaseListaComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
   arrPropiedades: Listafiltros[];
-  arrItems: any[];
+  arrItems: any;
   cantidad_registros!: number;
   nombreFiltro = '';
   tipo = '';
@@ -81,16 +81,16 @@ export class BaseListaComponent extends General implements OnInit {
     // }
     this.httpService
       .post<{
-        cantidad_registros: number;
-        registros: any[];
-        propiedades: any[];
+        registros: any;
       }>('general/documento/lista/', {
         documento_clase_id,
       })
       .subscribe((respuesta) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrItems = respuesta.registros;
-        this.arrPropiedades = respuesta.propiedades;
+        console.log(respuesta);
+        
+        //.cantidad_registros = respuesta.cantidad_registros;
+        this.arrItems = respuesta;
+        //this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
       });
   }
