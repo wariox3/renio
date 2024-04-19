@@ -19,7 +19,12 @@ import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 import { interval, take } from 'rxjs';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
-import { obtenerMenuDataMapeoCamposVisibleTabla } from '@redux/selectors/menu.selectors';
+import {
+  obtenerMenuDataMapeo,
+  obtenerMenuDataMapeoBuscarCampo,
+  obtenerMenuDataMapeoCamposVisibleTabla,
+  obtenerMenuDataMapeoVisualizarTodo,
+} from '@redux/selectors/menu.selectors';
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 
 @Component({
@@ -52,8 +57,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   arrRegistrosEliminar: number[] = [];
   selectAll = false;
   cargandoTabla = false;
-  columnasVibles: any = [];
-  datosFiltrados: any = [];
+  columnas: any[];
+  columnasVibles: any[] = [];
+  datosFiltrados: any[] = [];
   claveLocalStore: string;
   tipo: string;
   @Input() encabezado: any;
@@ -104,6 +110,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // se reinicia la tabla
     this.datosFiltrados = [];
     //se cargan los datos que se visualizan en la thead
+    this.store.select(obtenerMenuDataMapeo).subscribe((campos: any) => {
+      this.columnas = campos;
+    });
     this.store
       .select(obtenerMenuDataMapeoCamposVisibleTabla)
       .subscribe((campos: any) => {
@@ -345,12 +354,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   // Esta función establece que todas las columnas en la copia de "encabezado" y "columnasVibles" sean visibles, y luego reconstruye la tabla.
   visualizarColumnas() {
-    // Establece todas las columnas como visibles en la copia de "columnasVibles"
-    this.columnasVibles.map((item: any) => (item.visibleTabla = true));
-    // Establece todas las columnas como visibles en "encabezado"
-    //this.encabezado.map((campo: any) => (campo.visibleTabla = true));
-
-    //localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
+    let nuevasColumnasVisibles = JSON.parse(JSON.stringify(this.columnas));
+    nuevasColumnasVisibles.map((campo: any) => {
+      campo.visibleTabla = true;
+    });
+    this.store.dispatch(
+      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles })
+    );
 
     // Reconstruye la tabla
     this.construirTabla();
@@ -359,17 +369,15 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   // Esta función agrega o quita una columna específica de la tabla según su visibilidad actual y luego reconstruye la tabla.
   agregarColumna(columna: string) {
     // Busca la columna en "encabezado" y modifica su propiedad "visibleTabla" para alternar su visibilidad
-    // this.columnasVibles.find((campo: any) => {
-    //   if (campo.nombre === columna) {
-    //     console.log(campo.visibleTabla);
-    //    campo.visibleTabla = !campo.visibleTabla;
-    //   }
-    // });
-
-    //this.store.dispatch(ActualizarCampoMapeo({campo: columna}))
-
-    //localStorage.setItem(this.claveLocalStore, JSON.stringify(this.encabezado));
-
+    let nuevasColumnasVisibles = JSON.parse(JSON.stringify(this.columnas));
+    nuevasColumnasVisibles.find((campo: any) => {
+      if (campo.nombre === columna) {
+        campo.visibleTabla = !campo.visibleTabla;
+      }
+    });
+    this.store.dispatch(
+      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles })
+    );
     // Reconstruye la tabla
     this.construirTabla();
   }
@@ -377,15 +385,16 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   // Esta función filtra las columnas en base al texto ingresado y actualiza la lista de columnas visibles.
   filterCampos(event: any) {
     // Obtiene el texto de búsqueda en minúsculas
-    const searchText = event.target.value.toLowerCase();
+    const buacarCompo = event.target.value.toLowerCase();
     // Filtra las columnas en "columnasVibles" basándose en el texto de búsqueda
-    if (searchText !== '') {
-      this.columnasVibles = this.columnasVibles.filter((item: any) =>
-        item.nombre.toLowerCase().includes(searchText)
-      );
+    if (buacarCompo !== '') {
+      this.store
+        .select(obtenerMenuDataMapeoBuscarCampo(buacarCompo))
+        .subscribe((resultado) => (this.columnas = resultado));
     } else {
-      // Si el texto de búsqueda está vacío, muestra todas las columnas de nuevo
-      this.columnasVibles = this.encabezado;
+      this.store.select(obtenerMenuDataMapeo).subscribe((campos: any) => {
+        this.columnas = campos;
+      });
     }
   }
 

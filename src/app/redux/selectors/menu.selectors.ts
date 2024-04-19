@@ -14,17 +14,28 @@ export const obtenerMenuInformacion = createSelector(
   (Menu) => Menu.informacion
 );
 
+export const obtenerMenuDataMapeo = createSelector(
+  Menu,
+  (Menu) => Menu.dataMapeo
+);
+
+
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,
   (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleTabla === true)
 );
 
-export const obtenerMenuDataMapeoColumnasVisibleTabla = createSelector(
+export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(
   Menu,
-  (Menu) => Menu.dataMapeo
+  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
 );
 
-export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(
+export const obtenerMenuDataMapeoBuscarCampo = (valorBusqueda: string) => createSelector(
+  Menu,
+  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.nombre.toLowerCase().includes(valorBusqueda))
+);
+
+export const obtenerMenuDataMapeoVisualizarTodo = createSelector(
   Menu,
   (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
 );

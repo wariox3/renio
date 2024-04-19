@@ -250,14 +250,8 @@ export const menuReducer = createReducer(
     ...state,
     dataMapeo,
   })),
-  on(ActualizarCampoMapeo, (state, { campo }) => {
-    return state.dataMapeo.find(columna => {
-      if (columna.nombre === campo) {
-        return {
-          ...campo,
-          visibleTabla: !columna.visibleTabla
-        };
-      }
-    });
-  })
+  on(ActualizarCampoMapeo, (state, { dataMapeo }) => ({
+    ...state,
+    dataMapeo
+  }))
 );
