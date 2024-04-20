@@ -868,6 +868,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           soporte: respuesta.documento.soporte,
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
+          plazo_pago: respuesta.documento.plazo_pago_id
         });
 
         if (
