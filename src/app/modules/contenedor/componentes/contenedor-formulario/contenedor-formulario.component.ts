@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
@@ -16,9 +15,8 @@ import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbDropdown, NgbDropdownMenu, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 @Component({
   selector: 'app-contenedor-formulario',
@@ -32,12 +30,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     CommonModule,
     NgbDropdownModule,
     FormsModule,
-    ReactiveFormsModule,
-    NgxMaskDirective,
-    NgxMaskPipe,
+    ReactiveFormsModule
   ],
-  providers: [provideNgxMask()],
-
 })
 export class ContenedorFormularioComponent extends General implements OnInit {
   formularioContenedor: FormGroup;
@@ -60,7 +54,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private http: HttpClient
   ) {
     super();
   }
@@ -172,7 +165,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       telefono: [
         this.informacionContenedor.telefono,
         Validators.compose([
-          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
