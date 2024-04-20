@@ -875,9 +875,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.parametrosUrl.documento_clase == 2 ||
           this.parametrosUrl.documento_clase == 3
         ) {
-          this.visualizarCampoDocumentoReferencia = true;
+          this.visualizarCampoDocumentoReferencia = true;          
           this.formularioFactura.patchValue({
-            documento_referencia: respuesta.documento.documento_referencia,
+            documento_referencia: respuesta.documento.documento_referencia_id,
+            documento_referencia_numero: respuesta.documento.documento_referencia_numero
           });
         }
 
