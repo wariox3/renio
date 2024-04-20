@@ -201,7 +201,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
       barrio: [null, Validators.compose([Validators.maxLength(200)])],
       precio: [null],
-      plazo_pago: [null],
+      plazo_pago: [null, Validators.compose([Validators.required])],
       asesor: [null],
     });
   }

@@ -506,7 +506,6 @@
               class="form-control"
               ngbDropdownAnchor
               formControlName="ciudad_nombre"
-
               [ngClass]="{
                 'is-invalid':
                   formularioContacto.controls['ciudad'].touched &&
@@ -515,7 +514,7 @@
                   formularioContacto.controls['ciudad'].touched &&
                   formularioContacto.controls['ciudad'].valid
               }"
-              (focus)="consultarCiudad($event); CiudadDropdown.open();"
+              (focus)="consultarCiudad($event); CiudadDropdown.open()"
               (blur)="modificarCampoFormulario('ciudad', null)"
               (keydown.arrowdown)="selectNext($event)"
               (keydown.arrowup)="selectPrevious($event)"
@@ -761,7 +760,7 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
-            class="form-label"
+            class="form-label required"
           ></label>
           <select
             class="form-select"
@@ -786,6 +785,14 @@
               {{ pago.plazo_pago_nombre }}
             </option>
           </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['plazo_pago']
+            }"
+          ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
