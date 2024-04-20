@@ -62,7 +62,10 @@ export class ProductosComponent extends General implements AfterViewInit {
     }
 
     this.httpService
-      .get<any>(`general/item/${item.item_id}/`)
+      .post<any>(`general/item/detalle/`, {
+        'id':item.item_id,
+        'venta': true
+      })
       .subscribe((respuesta: any) => {
         this.emitirArrItems.emit(respuesta.item);
       });
