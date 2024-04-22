@@ -244,6 +244,7 @@
         >
           <label
             class="form-label required"
+            [ngClass]="{'required': dataUrl.documento_clase === '1'}"
             translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
           ></label>
           <select
@@ -285,6 +286,7 @@
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
+            [ngClass]="{'required': dataUrl.documento_clase === '1'}"
           ></label>
           <input
             formControlName="orden_compra"
@@ -301,6 +303,14 @@
                 formularioFactura.controls['orden_compra'].valid
             }"
           />
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioFactura.controls['orden_compra']
+          }"
+        ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
