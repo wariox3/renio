@@ -69,27 +69,20 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    // localStorage.clear();
-    // localStorage.removeItem(this.authLocalStorageToken);
-    // this.tokenService.eliminarToken();
-    // this.tokenService.eliminarRefreshToken();
-    // removeCookie('usuario', { path: '/', domain: environment.dominioApp });
-    // removeCookie('usuario', { path: '/' });
-    // const empresaPatron = 'empresa-';
-    // document.cookie.split(';').forEach(function (cookie) {
-    //   const cookieNombre = cookie.split('=')[0].trim();
-    //   if (cookieNombre.startsWith(empresaPatron)) {
-    //     removeCookie(cookieNombre);
-    //   }
-    // });
-
-    console.log(`${environment.dominioHttp}://${environment.dominioApp}/inicio`);
-
-    //window.location.href = `${environment.dominioHttp}://${environment.dominioApp}/inicio`;
-
-    // this.router.navigate(['/inicio'], {
-    //   queryParams: {},
-    // });
+    localStorage.clear();
+    localStorage.removeItem(this.authLocalStorageToken);
+    this.tokenService.eliminarToken();
+    this.tokenService.eliminarRefreshToken();
+    removeCookie('usuario', { path: '/', domain: environment.dominioApp });
+    removeCookie('usuario', { path: '/' });
+    const empresaPatron = 'empresa-';
+    document.cookie.split(';').forEach(function (cookie) {
+      const cookieNombre = cookie.split('=')[0].trim();
+      if (cookieNombre.startsWith(empresaPatron)) {
+        removeCookie(cookieNombre);
+      }
+    });
+    window.location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/inicio`;
   }
 
   registration(data: any) {
