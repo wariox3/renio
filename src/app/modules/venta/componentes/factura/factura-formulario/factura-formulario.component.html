@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col">
+        <div class="col-12 col-md-3">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
@@ -143,51 +143,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="plazo_pago"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['plazo_pago'].touched &&
-                formularioFactura.controls['plazo_pago'].invalid,
-              'is-valid':
-                formularioFactura.controls['plazo_pago'].touched &&
-                formularioFactura.controls['plazo_pago'].valid
-            }"
-            (change)="capturarDias($event)"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let plazoPago of arrPlazoPago"
-              [value]="plazoPago.plazo_pago_id"
-              [selected]="
-                plazoPago.plazo_pago_id ===
-                formularioFactura.controls.plazo_pago_id
-              "
-              [attr.data-dias]="plazoPago.plazo_dias"
-            >
-              {{ plazoPago.plazo_pago_nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['plazo_pago']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-6 ">
+        <div class="col-12 col-md-3">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
@@ -235,6 +191,51 @@
             </div>
           </div>
         </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="plazo_pago"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['plazo_pago'].touched &&
+                formularioFactura.controls['plazo_pago'].invalid,
+              'is-valid':
+                formularioFactura.controls['plazo_pago'].touched &&
+                formularioFactura.controls['plazo_pago'].valid
+            }"
+            (change)="capturarDias($event)"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let plazoPago of arrPlazoPago"
+              [value]="plazoPago.plazo_pago_id"
+              [selected]="
+                plazoPago.plazo_pago_id ===
+                formularioFactura.controls.plazo_pago_id
+              "
+              [attr.data-dias]="plazoPago.plazo_dias"
+            >
+              {{ plazoPago.plazo_pago_nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['plazo_pago']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+
       </div>
       <div class="row mb-5">
         <div
