@@ -56,7 +56,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `administrador_${localStorage.getItem('itemNombre')?.toLowerCase()}`;     
+      this.nombreFiltro = `administrador_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof mapeo = this.modelo;
       this.modulo = mapeo[posicion].modulo;
@@ -181,16 +181,6 @@ export class BaseListaComponent extends General implements OnInit {
   descargarExcel() {
     this.httpService
       .descargarArchivo('general/documento/excel/', this.arrParametrosConsulta)
-      .subscribe((data) => {
-        const blob = new Blob([data], { type: 'application/ms-excel' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.xlsx`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      });
   }
 
   // imprimir() {

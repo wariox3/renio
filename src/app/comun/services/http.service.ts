@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subdomino } from '@comun/clases/subdomino';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class HttpService extends Subdomino  {
-
+export class HttpService extends Subdomino {
   constructor(private http: HttpClient) {
     super();
   }
 
-
-   // Método GET detalle
-   public getDetalle<T>(endpoint: string): Observable<T> {
+  // Método GET detalle
+  public getDetalle<T>(endpoint: string): Observable<T> {
     const url = `${this.urlSubDominio}/${endpoint}`;
     return this.http.get<T>(url);
   }
 
-   // Método GET para listas
-   public get<T>(endpoint: string): Observable<T[]> {
+  // Método GET para listas
+  public get<T>(endpoint: string): Observable<T[]> {
     const url = `${this.urlSubDominio}/${endpoint}`;
     return this.http.get<T[]>(url);
   }
@@ -39,14 +36,49 @@ export class HttpService extends Subdomino  {
   }
 
   // Método DELETE
-  public delete(endpoint: string, data:any): Observable<any> {
+  public delete(endpoint: string, data: any): Observable<any> {
     const url = `${this.urlSubDominio}/${endpoint}`;
     return this.http.delete(url, data);
   }
 
-  public descargarArchivo(endpoint: string, data:any): Observable<Blob> {
+  public descargarArchivo(endpoint: string, data: any): void {
     const url = `${this.urlSubDominio}/${endpoint}`;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(url, data, { headers: headers, responseType: 'blob' });
+
+    this.http
+      .post<HttpResponse<Blob>>(url, data, {
+        observe: 'response',
+        responseType: 'blob' as 'json',
+      })
+      .subscribe((response) => {
+        if (response !== null) {
+          const headers = response.headers as HttpHeaders;
+
+          let nombreArchivo = headers
+            .get('Content-Disposition')!
+            .split(';')[1]
+            .trim()
+            .split('=')[1];
+          nombreArchivo = decodeURI(nombreArchivo.replace(/"/g, ''));
+
+          if (!nombreArchivo) {
+            console.log('fileName error');
+            return;
+          }
+          const data: any = response.body;
+
+          if (data !== null) {
+            const blob = new Blob([data], {
+              type: data?.type,
+            });
+            const objectUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('style', 'display:none');
+            a.setAttribute('href', objectUrl);
+            a.setAttribute('download', nombreArchivo);
+            a.click();
+            URL.revokeObjectURL(objectUrl);
+          }
+        }
+      });
   }
 }
