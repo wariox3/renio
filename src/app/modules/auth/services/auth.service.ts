@@ -83,9 +83,11 @@ export class AuthService implements OnDestroy {
       }
     });
 
-    this.router.navigate(['/inicio'], {
-      queryParams: {},
-    });
+    window.location.href = `${environment.dominioHttp}://${environment.dominioApp}/inicio`;
+
+    // this.router.navigate(['/inicio'], {
+    //   queryParams: {},
+    // });
   }
 
   registration(data: any) {
