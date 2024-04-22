@@ -49,3 +49,8 @@ table#tableDetalles {
     cursor: not-allowed;
   }
 }
+
+#fecha_vence{
+  cursor: not-allowed;
+  user-select: none;
+}

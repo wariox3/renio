@@ -33,7 +33,7 @@
     </section>
     <section card-body>
       <div class="row mb-5">
-        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+        <div class="col-16" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
@@ -103,7 +103,6 @@
           ></label>
           <input
             formControlName="fecha"
-            #fecha
             class="form-control"
             type="date"
             autocomplete="off"
@@ -188,7 +187,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col">
+        <div class="col-6 ">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
@@ -197,7 +196,7 @@
             formControlName="fecha_vence"
             class="form-control"
             type="date"
-            [min]="fecha.value"
+            id="fecha_vence"
             autocomplete="off"
             readonly
             [ngClass]="{

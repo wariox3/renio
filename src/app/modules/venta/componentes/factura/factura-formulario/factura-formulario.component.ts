@@ -707,19 +707,22 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
-      this.plazo_pago_dias = dato.plazo_pago_dias;
-      const diasNumero = parseInt(this.plazo_pago_dias, 10);
-      const fechaActual = new Date(); // Obtener la fecha actual
-      fechaActual.setDate(fechaActual.getDate() + (diasNumero+1))
-      const fechaVencimiento = `${fechaActual.getFullYear()}-${(
-        fechaActual.getMonth() + 1
-      )
-        .toString()
-        .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
-      // Suma los días a la fecha actual
-      this.formularioFactura
-        .get('fecha_vence')
-        ?.setValue(fechaVencimiento);
+      if (dato.plazo_pago_dias > 0) {
+        this.plazo_pago_dias = dato.plazo_pago_dias;
+        const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
+        const fechaActual = new Date(); // Obtener la fecha actual
+        fechaActual.setDate(fechaActual.getDate() + diasNumero);
+        const fechaVencimiento = `${fechaActual.getFullYear()}-${(
+          fechaActual.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, '0')}-${fechaActual
+          .getDate()
+          .toString()
+          .padStart(2, '0')}`;
+        // Suma los días a la fecha actual
+        this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      }
 
       if (
         this.parametrosUrl.documento_clase == 2 ||
@@ -855,7 +858,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
-          plazo_pago: respuesta.documento.plazo_pago_id
+          plazo_pago: respuesta.documento.plazo_pago_id,
         });
 
         if (
@@ -865,7 +868,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,
-            documento_referencia_numero: respuesta.documento.documento_referencia_numero
+            documento_referencia_numero:
+              respuesta.documento.documento_referencia_numero,
           });
         }
 
@@ -905,33 +909,32 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       });
   }
 
-  cambiarFechaVence(event: any){
+  cambiarFechaVence(event: any) {
     const fechaFactura = new Date(event.target.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
 
     // Sumar los días a la fechde la factura
-    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero+1));
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
     const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
       fechaFactura.getMonth() + 1
     )
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
-    this.formularioFactura
-      .get('fecha_vence')
-      ?.setValue(fechaVencimiento);
+    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
   capturarDias(event: any) {
     // Obtener el valor del atributo data-dias del option seleccionado
     const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
-    this.plazo_pago_dias = event.target.selectedOptions[0].getAttribute('data-dias');
+    this.plazo_pago_dias =
+      event.target.selectedOptions[0].getAttribute('data-dias');
 
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
 
     // Sumar los días a la fechde la factura
-    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero+1));
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
 
     const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
       fechaFactura.getMonth() + 1
@@ -939,8 +942,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
-    this.formularioFactura
-      .get('fecha_vence')
-      ?.setValue(fechaVencimiento);
+    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 }
