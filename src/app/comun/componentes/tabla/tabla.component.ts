@@ -164,38 +164,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   navegarEditar(id: number) {
     this.emitirNavegarEditar.emit(id);
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(
-        [`/${parametro.tipo.toLocaleLowerCase()}`, 'editar'],
-        {
-          queryParams: {
-            modulo: parametro.modulo,
-            modelo: parametro.modelo,
-            tipo: parametro.tipo,
-            detalle: id,
-            data: parametro.data,
-          },
-        }
-      );
-    });
   }
 
   navegarDetalle(id: number) {
     this.emitirNavegarDetalle.emit(id);
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate(
-        [`/${parametro.tipo.toLocaleLowerCase()}`, 'detalle'],
-        {
-          queryParams: {
-            modulo: parametro.modulo,
-            modelo: parametro.modelo,
-            tipo: parametro.tipo,
-            detalle: id,
-            data: parametro.data,
-          },
-        }
-      );
-    });
   }
 
   cambiarCantidadRegistros() {
