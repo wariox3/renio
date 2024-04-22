@@ -83,7 +83,7 @@ export class AuthService implements OnDestroy {
       }
     });
 
-    this.router.navigate(['/auth/login'], {
+    this.router.navigate(['/inicio'], {
       queryParams: {},
     });
   }
