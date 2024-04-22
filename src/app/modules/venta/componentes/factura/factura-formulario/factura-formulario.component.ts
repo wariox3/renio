@@ -146,13 +146,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
-        soporte: [
-          null,
-          Validators.compose([
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-zA-Z-0-9]*$/),
-          ]),
-        ],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
@@ -747,11 +740,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.formularioFactura.get(campo)?.setValue(null);
       }
     }
-    if (campo === 'soporte') {
-      if (this.formularioFactura.get(campo)?.value === '') {
-        this.formularioFactura.get(campo)?.setValue(null);
-      }
-    }
     if (campo === 'orden_compra') {
       if (this.formularioFactura.get(campo)?.value === '') {
         this.formularioFactura.get(campo)?.setValue(null);
@@ -865,7 +853,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           fecha_vence: respuesta.documento.fecha_vence,
           metodo_pago: respuesta.documento.metodo_pago_id,
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
-          soporte: respuesta.documento.soporte,
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
           plazo_pago: respuesta.documento.plazo_pago_id
@@ -875,7 +862,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.parametrosUrl.documento_clase == 2 ||
           this.parametrosUrl.documento_clase == 3
         ) {
-          this.visualizarCampoDocumentoReferencia = true;          
+          this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,
             documento_referencia_numero: respuesta.documento.documento_referencia_numero

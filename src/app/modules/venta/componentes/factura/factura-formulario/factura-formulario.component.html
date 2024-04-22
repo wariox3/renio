@@ -285,37 +285,6 @@
         <div class="col-md-6 col-sm-12">
           <label
             class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.SOPORTE"
-          ></label>
-          <input
-            formControlName="soporte"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('soporte', null)"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['soporte'].touched &&
-                formularioFactura.controls['soporte'].invalid,
-              'is-valid':
-                formularioFactura.controls['soporte'].touched &&
-                formularioFactura.controls['soporte'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioFactura.controls['soporte']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
           ></label>
           <input
@@ -344,6 +313,8 @@
             }"
           ></ng-container>
         </div>
+      </div>
+      <div class="row mb-5">
         <div
           class="col-md-6 col-sm-12"
           *ngIf="visualizarCampoDocumentoReferencia"

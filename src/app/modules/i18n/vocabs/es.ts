@@ -281,7 +281,6 @@ export const locale = {
           URLANEXO: 'Url para anexo?',
           TIPOOPERACION: 'Operación tipo',
           METODOPAGO: 'Método de pago',
-          SOPORTE: 'Soporte',
           NUMERO: 'Número',
           ORDENCOMPRA: 'Orden compra',
           DOCUMENTOREFERENCIA: 'Documento referencia',

@@ -280,7 +280,6 @@ export const locale = {
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
           NUMERO: 'Number',
-          SOPORTE: 'Support',
           ORDENCOMPRA: 'Purchase order',
           DOCUMENTOREFERENCIA: 'Reference document',
           COMENTARIO: 'Comment',
