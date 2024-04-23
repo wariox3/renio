@@ -3,9 +3,9 @@
 </div>
 <app-card>
   <section card-titulo>
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-      {{ detalle }}
+    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+    {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+    {{ detalle }}
   </section>
   <section card-body>
     <div class="row mb-5">
@@ -88,7 +88,7 @@
       <div class="col-md-6 col-sm-12">
         <label
           translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
-          class="form-label required"
+          class="fw-semibold text-gray-600 fs-7"
         ></label>
         <p class="fw-bold text-gray-800 fs-6">
           {{ contacto.identificacion_abreviatura }}
@@ -101,14 +101,18 @@
           translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.telefono | mask: '000-0000' }}</p>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ contacto.telefono | mask : "000-0000" }}
+        </p>
       </div>
       <div class="col-md-6 col-sm-12">
         <label
           translate="FORMULARIOS.CAMPOS.COMUNES.CELULAR"
           class="fw-semibold text-gray-600 fs-7"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.celular | mask: '000-000-0000' }}</p>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ contacto.celular | mask : "000-000-0000" }}
+        </p>
       </div>
     </div>
     <div class="row mb-5">
