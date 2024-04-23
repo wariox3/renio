@@ -206,6 +206,9 @@ export const locale = {
           FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo'
         },
+        CONTACTO: {
+          INFORMACIONCOMERCIAL: 'Información comercial'
+        }
       },
       CAMPOS: {
         COMUNES: {
