@@ -116,7 +116,7 @@
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid
             }"
-            (blur)="cambiarFechaVence($event)"
+            (change)="cambiarFechaVence($event)"
           />
           <ng-container
             [ngTemplateOutlet]="formError"

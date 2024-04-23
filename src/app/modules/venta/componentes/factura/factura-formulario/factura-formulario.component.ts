@@ -83,7 +83,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
   dataUrl: any;
-  plazo_pago_dias: any;
+  plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
@@ -165,7 +165,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
-        plazo_pago: ['', Validators.compose([Validators.required])],
+        plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
       },
       {
@@ -925,10 +925,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cambiarFechaVence(event: any) {
-    const fechaFactura = new Date(event.target.value); // Crear objeto Date a partir del string
+    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
-
     // Sumar los días a la fechde la factura
     fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
     const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
@@ -936,7 +935,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     )
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
-    // Suma los días a la fecha actual
+
+      // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
