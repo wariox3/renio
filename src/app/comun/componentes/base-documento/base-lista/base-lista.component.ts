@@ -7,7 +7,6 @@ import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
-import { combineLatest } from 'rxjs';
 import { documentos } from '@comun/extra/mapeoEntidades/documentos';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -59,7 +58,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `documento_${localStorage.getItem('itemNombre')?.toLowerCase()}`;      
+      this.nombreFiltro = `documento_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof documentos = parseInt(
         parametro.documento_clase

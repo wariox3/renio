@@ -20,11 +20,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'contacto',
     detalle: async () =>
       await import(
-        '../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
+        '../../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
+        '../../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
       ),
   },
   Item: {
@@ -32,11 +32,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'item',
     detalle: async () =>
       await import(
-        '../../modules/general/componentes/item/item-detalle/item-detalle.component'
+        '../../../modules/general/componentes/item/item-detalle/item-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/general/componentes/item/item-formulario/item-formulario.component'
+        '../../../modules/general/componentes/item/item-formulario/item-formulario.component'
       ),
   },
   Resolucion: {
@@ -45,21 +45,21 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     tipo: 'Administrador',
     detalle: async () =>
       await import(
-        '../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
+        '../../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
+        '../../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
       ),
   },
   Documento: {
     detalle: async () =>
       await import(
-        '../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
+        '../../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/venta/componentes/factura/factura-formulario/factura-formulario.component'
+        '../../../modules/venta/componentes/factura/factura-formulario/factura-formulario.component'
       ),
   },
   Precio: {
@@ -67,11 +67,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'precio',
     detalle: async () =>
       await import(
-        '../../modules/general/componentes/precio/precio-detalle/precio-detalle.component'
+        '../../../modules/general/componentes/precio/precio-detalle/precio-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/general/componentes/precio/precio-formulario/precio-formulario.component'
+        '../../../modules/general/componentes/precio/precio-formulario/precio-formulario.component'
       ),
   },
   Asesor: {
@@ -79,11 +79,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'asesor',
     detalle: async () =>
       await import(
-        '../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
+        '../../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
+        '../../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
       ),
   },
 };

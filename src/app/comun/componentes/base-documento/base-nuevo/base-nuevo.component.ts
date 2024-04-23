@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports';
+import { Componetes } from '@comun/extra/imports/documentos';
 import { HttpService } from '@comun/services/http.service';
 
 @Component({

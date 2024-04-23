@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -10,10 +9,8 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports';
+import { Componetes } from '@comun/extra/imports/administradores';
 import { HttpService } from '@comun/services/http.service';
-import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
 
 @Component({
   selector: 'app-comun-base-nuevo',
