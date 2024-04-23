@@ -18,6 +18,7 @@ export interface Menu {
   seleccion: string;
   informacion: informacionMenuItem[];
   dataMapeo: any[];
+  modulos: string[]
 }
 
 let nombreSeleccion = localStorage.getItem('ruta');
@@ -30,6 +31,13 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          children: [
+            {
+              nombre: 'PAGO',
+              tipo: 'Documento',
+              data: { documento_clase: 200 },
+            },
+          ],
         },
         {
           nombre: 'administracion',
@@ -54,7 +62,17 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURACOMPRA',
               tipo: 'Documento',
-              data: { formulario: 'FacturaNuevo' },
+              data: { documento_clase: 300 },
+            },
+            {
+              nombre: 'NOTACREDITO',
+              tipo: 'Documento',
+              data: { documento_clase: 301 },
+            },
+            {
+              nombre: 'NOTADEBITO',
+              tipo: 'Documento',
+              data: { documento_clase: 302 },
             },
           ],
         },
@@ -133,17 +151,17 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 1 },
+              data: { documento_clase: 100 },
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
-              data: { documento_clase: 2 },
+              data: { documento_clase: 101 },
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
-              data: { documento_clase: 3 },
+              data: { documento_clase: 102 },
             },
           ],
         },
@@ -217,7 +235,7 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 1 },
+              data: { documento_clase: 100 },
             },
           ],
         },
@@ -238,7 +256,71 @@ export const initialState: Menu = {
         },
       ],
     },
+    {
+      nombre: 'inventario',
+      children: [
+        {
+          nombre: 'documento',
+          children: [
+            {
+              nombre: 'ENTREDA',
+              tipo: 'Documento',
+              data: { documento_clase: 500 },
+            },
+            {
+              nombre: 'SALIDA',
+              tipo: 'Documento',
+              data: { documento_clase: 501 },
+            },
+          ],
+        },
+        {
+          nombre: 'administracion',
+          children: [
+          ],
+        },
+        {
+          nombre: 'utilidad',
+        },
+        {
+          nombre: 'proceso',
+        },
+        {
+          nombre: 'informe',
+        },
+      ],
+    },
+    {
+      nombre: 'tesoreria',
+      children: [
+        {
+          nombre: 'documento',
+          children: [
+            {
+              nombre: 'EGRESO',
+              tipo: 'Documento',
+              data: { documento_clase: 400 },
+            }
+          ],
+        },
+        {
+          nombre: 'administracion',
+          children: [
+          ],
+        },
+        {
+          nombre: 'utilidad',
+        },
+        {
+          nombre: 'proceso',
+        },
+        {
+          nombre: 'informe',
+        },
+      ],
+    },
   ],
+  modulos: ['COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO', 'INVENTARIO', 'TESORERIA'],
   dataMapeo: [],
 };
 

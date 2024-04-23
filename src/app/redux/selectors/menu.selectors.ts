@@ -19,6 +19,10 @@ export const obtenerMenuDataMapeo = createSelector(
   (Menu) => Menu.dataMapeo
 );
 
+export const obtenerMenuModulos = createSelector(
+  Menu,
+  (Menu) => Menu.modulos
+);
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,

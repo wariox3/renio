@@ -14,6 +14,8 @@ export const locale = {
         CONTABILIDAD: 'Contabilidad',
         HUMANO: 'Humano',
         VENTA: 'Venta',
+        INVENTARIO: 'Inventario',
+        TESORERIA: 'Tesorería'
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
@@ -33,6 +35,13 @@ export const locale = {
         RESOLUCION: 'Resolución',
         PRECIO: 'Lista de precios',
         ASESOR: 'Asesor',
+        PAGO: 'Pago',
+        COMPRA: 'Compra',
+        NOTACREDITOCOMPRA: 'Nota crédito',
+        NOTADEBITOCOMPRA: 'Nota débito',
+        ENTREDA: 'Entreda',
+        SALIDA: 'Salida',
+        EGRESO: 'Egreso',
       },
     },
     FORMULARIOS: {

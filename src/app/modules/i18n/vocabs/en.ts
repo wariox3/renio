@@ -14,6 +14,8 @@ export const locale = {
         CONTABILIDAD: 'Accounting',
         HUMANO: 'Human',
         VENTA: 'Sale',
+        INVENTARIO: 'Inventory',
+        TESORERIA: 'Treasury'
       },
       COMUNES: {
         DOCUMENTO: 'Document',
@@ -33,6 +35,13 @@ export const locale = {
         RESOLUCION: 'Resolution',
         PRECIO: 'Price list',
         ASESOR: 'Consultant',
+        PAGO: 'Payment',
+        COMPRA: 'Purchase',
+        NOTACREDITOCOMPRA: 'Purchase credit note',
+        NOTADEBITOCOMPRA: 'Purchase debit note',
+        ENTREDA: 'Input',
+        SALIDA: 'Output',
+        EGRESO: 'Outgoing',
       },
     },
     FORMULARIOS: {

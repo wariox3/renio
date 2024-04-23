@@ -5,9 +5,10 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { informacionMenuItem } from '@redux/reducers/menu.reducer';
 import {
   obtenerMenuInformacion,
+  obtenerMenuModulos,
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
-import { tap, withLatestFrom } from 'rxjs';
+import { combineLatest, forkJoin, tap, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -18,14 +19,18 @@ export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;
   modulo: string;
   arrMenu: any = [];
-  arrMenuApps = ['COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO'];
+  arrMenuApps: string[];
 
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
-    this.store
-      .select(obtenerMenuSeleccion)
-      .subscribe((menu) => (this.modulo = menu));
+    combineLatest([
+      this.store.select(obtenerMenuSeleccion),
+      this.store.select(obtenerMenuModulos),
+    ]).subscribe((respuesta) => {
+      this.modulo = respuesta[0];
+      this.arrMenuApps = respuesta[1];
+    });
     this.cambiarMenu();
   }
 
@@ -67,14 +72,14 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-    if(item.tipo === "Administrador"){
-      if(item.data){
+    if (item.tipo === 'Administrador') {
+      if (item.data) {
         localStorage.setItem('itemNombre', item.data.modelo);
         localStorage.setItem('itemTipo', item.nombre);
       }
     } else {
       localStorage.setItem('itemNombre', item.nombre);
-      localStorage.setItem('itemTipo', "DOCUMENTO");
+      localStorage.setItem('itemTipo', 'DOCUMENTO');
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
