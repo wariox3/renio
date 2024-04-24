@@ -70,7 +70,7 @@
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
-              >
+                >
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
@@ -97,7 +97,8 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-3"
+        [ngClass]="dataUrl.documento_clase === '1'? 'col-12 col-3': 'col-12 col-md-6'">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
@@ -144,7 +145,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div *ngIf="dataUrl.documento_clase === '1'" class="col-12 col-md-3">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
@@ -192,7 +193,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div *ngIf="dataUrl.documento_clase === '1'" class="col-12 col-md-6">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
@@ -235,7 +236,7 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-5">
+      <div class="row mb-5" *ngIf="dataUrl.documento_clase === '1'">
         <div
           class="col-md-6 col-sm-12"
           ngbDropdown
@@ -243,6 +244,7 @@
         >
           <label
             class="form-label required"
+            [ngClass]="{ required: dataUrl.documento_clase === '1' }"
             translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
           ></label>
           <select

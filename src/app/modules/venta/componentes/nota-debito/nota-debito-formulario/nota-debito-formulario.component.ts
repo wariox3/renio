@@ -28,10 +28,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 
 @Component({
-  selector: 'app-factura-formulario',
+  selector: 'app-nota-debito-formulario',
   standalone: true,
-  templateUrl: './factura-formulario.component.html',
-  styleUrls: ['./factura-formulario.component.scss'],
+  templateUrl: './nota-debito-formulario.component.html',
+  styleUrls: ['./nota-debito-formulario.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -102,21 +102,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '2' ||
-        this.dataUrl.documento_clase === '3'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([
-          Validators.maxLength(50),
-        ]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
@@ -157,7 +142,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        metodo_pago: ['', Validators.compose([Validators.required])],
+        metodo_pago: [''],
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
@@ -249,7 +234,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: 1,
+                documento_tipo: 3,
               },
             })
             .pipe(

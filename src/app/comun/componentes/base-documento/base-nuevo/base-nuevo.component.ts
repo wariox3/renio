@@ -33,7 +33,9 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    let componete = await (await Componetes['Documento'].formulario()).default;
+    let componete = await (
+      await Componetes[this.parametrosUrl.documento_clase].formulario()
+    ).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
   }
@@ -58,17 +60,16 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   imprimir() {
     this.generarPDF = true;
-    this.httpService
-      .descargarArchivo('general/documento/imprimir/', {
-        filtros: [],
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: '',
-        tipo: '',
-        documento_tipo_id: 1,
-        documento_id: this.detalle,
-      })
+    this.httpService.descargarArchivo('general/documento/imprimir/', {
+      filtros: [],
+      limite: 50,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: '',
+      tipo: '',
+      documento_tipo_id: 1,
+      documento_id: this.detalle,
+    });
   }
 }

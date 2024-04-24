@@ -41,7 +41,9 @@ export class BaseListaComponent extends General implements OnInit {
   arrPropiedades: Listafiltros[];
   arrItems: any;
   cantidad_registros!: number;
-  nombreFiltro = `${localStorage.getItem('itemTipo')}_${localStorage.getItem('itemNombre')}`;
+  nombreFiltro = `${localStorage.getItem('itemTipo')}_${localStorage.getItem(
+    'itemNombre'
+  )}`;
   tipo = '';
   modelo = '';
   titulos: any = [];
@@ -58,7 +60,9 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `documento_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
+      this.nombreFiltro = `documento_${localStorage
+        .getItem('itemNombre')
+        ?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof documentos = parseInt(
         parametro.documento_clase
@@ -172,14 +176,12 @@ export class BaseListaComponent extends General implements OnInit {
 
   descargarExcel() {
     const { documento_clase: documento_clase_id } = this.parametrosUrl;
-    this.descargarArchivosService.descargarExcelDocumentos(
-      {
-        ...this.arrParametrosConsulta,
-        ...{
-          documento_clase_id,
-        },
-      }
-    );
+    this.descargarArchivosService.descargarExcelDocumentos({
+      ...this.arrParametrosConsulta,
+      ...{
+        documento_clase_id,
+      },
+    });
   }
 
   // imprimir() {

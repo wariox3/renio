@@ -28,10 +28,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 
 @Component({
-  selector: 'app-factura-formulario',
+  selector: 'app-nota-debito-formulario',
   standalone: true,
-  templateUrl: './factura-formulario.component.html',
-  styleUrls: ['./factura-formulario.component.scss'],
+  templateUrl: './nota-debito-formulario.component.html',
+  styleUrls: ['./nota-debito-formulario.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -249,7 +249,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: 1,
+                documento_tipo: 3,
               },
             })
             .pipe(
