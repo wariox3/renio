@@ -71,65 +71,25 @@
       </div>
     </div>
     <div class="row mb-5">
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-md-6">
         <label
           class="fw-semibold text-gray-600 fs-7"
           translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
         ></label>
         <p class="fw-bold text-gray-800 fs-6">{{ documento.fecha }}</p>
       </div>
-      <div class="col-12 col-md-3">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ documento.fecha_vence }}</p>
-      </div>
-      <div class="col-12 col-md-3">
+      <div class="col-12 col-md-6">
         <label
           class="fw-semibold text-gray-600 fs-7"
           translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
         ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ documento.plazo_pago_nombre }}</p>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ documento.plazo_pago_nombre }}
+        </p>
       </div>
     </div>
     <div class="row mb-5">
       <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.metodo_pago_nombre }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.numero }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5"  *ngIf="parametrosUrl.documento_clase === '1'">
-      <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.orden_compra }}
-        </p>
-      </div>
-      <div
-        class="col-md-6 col-sm-12"
-        *ngIf="
-          this.parametrosUrl.documento_clase === '2' ||
-          this.parametrosUrl.documento_clase === '3'
-        "
-      >
         <label
           class="fw-semibold text-gray-600 fs-7"
           translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
