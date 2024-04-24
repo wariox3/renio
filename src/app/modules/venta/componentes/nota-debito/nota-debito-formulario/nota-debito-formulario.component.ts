@@ -723,14 +723,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       }
-
-      if (
-        this.parametrosUrl.documento_clase == 2 ||
-        this.parametrosUrl.documento_clase == 3
-      ) {
-        this.visualizarCampoDocumentoReferencia = true;
-        this.changeDetectorRef.detectChanges();
-      }
+      this.visualizarCampoDocumentoReferencia = true;
+      this.changeDetectorRef.detectChanges();
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
@@ -812,7 +806,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .post<any>('general/documento/referencia/', {
         ...arrFiltros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 1,
+        documento_clase_id: 101,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),

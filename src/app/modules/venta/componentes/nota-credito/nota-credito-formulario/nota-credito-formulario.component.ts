@@ -84,7 +84,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
-  visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -723,14 +722,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       }
-
-      if (
-        this.parametrosUrl.documento_clase == 2 ||
-        this.parametrosUrl.documento_clase == 3
-      ) {
-        this.visualizarCampoDocumentoReferencia = true;
-        this.changeDetectorRef.detectChanges();
-      }
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
@@ -812,7 +803,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .post<any>('general/documento/referencia/', {
         ...arrFiltros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 1,
+        documento_clase_id: 100,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
@@ -865,7 +856,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.parametrosUrl.documento_clase == 2 ||
           this.parametrosUrl.documento_clase == 3
         ) {
-          this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,
             documento_referencia_numero:
