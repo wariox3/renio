@@ -165,6 +165,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       telefono: [
         this.informacionContenedor.telefono,
         Validators.compose([
+          Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
           Validators.pattern(/^[0-9]+$/),
