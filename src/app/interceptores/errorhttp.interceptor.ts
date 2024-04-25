@@ -17,7 +17,6 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorCodigo: Number;
         let errorMensaje: string = '';
-        console.log(error.error instanceof ErrorEvent);
 
         if (error.error instanceof ErrorEvent) {
           // Error de cliente

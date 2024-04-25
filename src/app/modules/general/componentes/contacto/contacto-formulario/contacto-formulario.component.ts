@@ -8,6 +8,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  FormControl,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -26,6 +27,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { MultiplesEmailValidator } from '@comun/validaciones/MultiplesEmailValidator';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -181,9 +183,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         null,
         Validators.compose([
           Validators.required,
-          Validators.email,
           Validators.maxLength(255),
-          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
       ],
       ciudad_nombre: [''],
@@ -203,12 +203,16 @@ export default class ContactDetalleComponent extends General implements OnInit {
       precio: [null],
       plazo_pago: [1, Validators.compose([Validators.required])],
       asesor: [null],
+    },
+    {
+      validator: MultiplesEmailValidator.validarCorreos,
     });
   }
 
   get obtenerFormularioCampos() {
     return this.formularioContacto.controls;
   }
+
 
   actualizarNombreCorto() {
     let nombreCorto = '';

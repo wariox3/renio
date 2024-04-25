@@ -651,6 +651,24 @@
                 formularioContacto.controls['correo'].valid
             }"
           />
+          <div
+          *ngIf="
+            formularioContacto.controls.confirmarClave?.touched &&
+            formularioContacto.controls.confirmarClave?.hasError(
+              'clavesDiferentes'
+            )
+          "
+        >
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span
+                translate="FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDENNUEVO"
+                role="alert"
+              >
+              </span>
+            </div>
+          </div>
+        </div>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
