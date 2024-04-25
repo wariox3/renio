@@ -516,9 +516,7 @@
               }"
               (focus)="consultarCiudad($event); CiudadDropdown.open()"
               (blur)="modificarCampoFormulario('ciudad', null)"
-              (keydown.arrowdown)="selectNext($event)"
-              (keydown.arrowup)="selectPrevious($event)"
-              (keydown)="consultarCiudad($event)"
+              (keyup)="consultarCiudad($event)"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2x"></i>
@@ -535,22 +533,20 @@
           <div
             ngbDropdownMenu
             aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
           >
-            <ng-container *ngFor="let ciudad of arrCiudades; index as i">
               <button
                 type="button"
                 ngbDropdownItem
+                *ngFor="let ciudad of arrCiudades; index as i"
                 [ngClass]="{ item: selectedDateIndex === i }"
                 (click)="
                   modificarCampoFormulario('ciudad', ciudad);
                   CiudadDropdown.close()
                 "
+                (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
               >
                 {{ ciudad.ciudad_nombre }}
               </button>
-            </ng-container>
-            <div class="dropdown-divider"></div>
           </div>
         </div>
         <div class="col-md-6 col-sm-12">
