@@ -80,7 +80,7 @@ export default class PrecioFormularioComponent
         this.precioService
           .actualizarDatos(this.detalle, this.formularioPrecio.value)
           .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],
@@ -96,7 +96,7 @@ export default class PrecioFormularioComponent
         this.precioService
           .guardarPrecio(this.formularioPrecio.value)
           .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],

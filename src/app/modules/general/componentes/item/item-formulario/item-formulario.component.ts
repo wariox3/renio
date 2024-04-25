@@ -115,7 +115,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
             });
             this.arrImpuestos = respuesta.item.impuestos;
             this.arrImpuestosEliminado = [];
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],

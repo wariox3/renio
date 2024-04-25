@@ -296,7 +296,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
               codigo_ciuu: respuesta.codigo_ciuu,
               barrio: respuesta.barrio,
             });
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],

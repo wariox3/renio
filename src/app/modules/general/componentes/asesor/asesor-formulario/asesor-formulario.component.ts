@@ -85,7 +85,7 @@ export default class AsesorFormularioComponent
               celular: respuesta.celular,
               correo: respuesta.correo,
             });
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],
@@ -101,7 +101,7 @@ export default class AsesorFormularioComponent
         this.asesorService
           .guardarAsesor(this.formularioAsesor.value)
           .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso('Se actualizo la información');
+            this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],
