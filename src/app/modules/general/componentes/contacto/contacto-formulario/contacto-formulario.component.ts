@@ -131,88 +131,86 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   iniciarFormulario() {
-    this.formularioContacto = this.formBuilder.group({
-      numero_identificacion: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(20),
-          Validators.pattern(/^[0-9]+$/),
-        ]),
-      ],
-      digito_verificacion: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(1)]),
-      ],
-      identificacion: ['', Validators.compose([Validators.required])],
-      nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
-      nombre1: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z]+$/),
-        ]),
-      ],
-      nombre2: [
-        null,
-        Validators.compose([
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z]+$/),
-        ]),
-      ],
-      apellido1: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z]+$/),
-        ]),
-      ],
-      apellido2: [
-        null,
-        Validators.compose([
-          Validators.maxLength(50),
-          Validators.pattern(/^[a-zA-Z]+$/),
-        ]),
-      ],
-      direccion: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
-      correo: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(255),
-        ]),
-      ],
-      ciudad_nombre: [''],
-      ciudad: ['', Validators.compose([Validators.required])],
-      telefono: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
-      celular: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
-      tipo_persona: ['', Validators.compose([Validators.required])],
-      regimen: ['', Validators.compose([Validators.required])],
-      codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
-      barrio: [null, Validators.compose([Validators.maxLength(200)])],
-      precio: [null],
-      plazo_pago: [1, Validators.compose([Validators.required])],
-      asesor: [null],
-    },
-    {
-      validator: MultiplesEmailValidator.validarCorreos,
-    });
+    this.formularioContacto = this.formBuilder.group(
+      {
+        numero_identificacion: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(20),
+            Validators.pattern(/^[0-9]+$/),
+          ]),
+        ],
+        digito_verificacion: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(1)]),
+        ],
+        identificacion: ['', Validators.compose([Validators.required])],
+        nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
+        nombre1: [
+          null,
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[a-zA-Z]+$/),
+          ]),
+        ],
+        nombre2: [
+          null,
+          Validators.compose([
+            Validators.maxLength(50),
+            Validators.pattern(/^[a-zA-Z]+$/),
+          ]),
+        ],
+        apellido1: [
+          null,
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(50),
+            Validators.pattern(/^[a-zA-Z]+$/),
+          ]),
+        ],
+        apellido2: [
+          null,
+          Validators.compose([
+            Validators.maxLength(50),
+            Validators.pattern(/^[a-zA-Z]+$/),
+          ]),
+        ],
+        direccion: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(50)]),
+        ],
+        correo: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(255)]),
+        ],
+        ciudad_nombre: [''],
+        ciudad: ['', Validators.compose([Validators.required])],
+        telefono: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(50)]),
+        ],
+        celular: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(50)]),
+        ],
+        tipo_persona: ['', Validators.compose([Validators.required])],
+        regimen: ['', Validators.compose([Validators.required])],
+        codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
+        barrio: [null, Validators.compose([Validators.maxLength(200)])],
+        precio: [null],
+        plazo_pago: [1, Validators.compose([Validators.required])],
+        asesor: [null],
+      },
+      {
+        validator: MultiplesEmailValidator.validarCorreos,
+      }
+    );
   }
 
   get obtenerFormularioCampos() {
     return this.formularioContacto.controls;
   }
-
 
   actualizarNombreCorto() {
     let nombreCorto = '';
@@ -337,56 +335,35 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    if (event.key === 'Tab') {
-      // Realiza la lógica que deseas cuando se presiona la tecla Tab en el input
-      if (this.ciudadDropdown.isOpen()) {
-        this.ciudadDropdown.close();
-      }
-    }
-    if (
-      event.key !== 'ArrowUp' ||
-      event.key !== 'ArrowDown' ||
-      event.key !== 'Backspace'
-    ) {
-      let valor1 = event?.target.value;
-      if (valor1 !== '') {
-        if (valor1.includes('-')) {
-          let arrValor = valor1.split('-');
-          valor1 = arrValor[0].trim();
-        }
-      }
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__contains',
+          propiedad: 'nombre__contains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Ciudad',
+    };
 
-      let arrFiltros = {
-        filtros: [
-          {
-            id: '1692284537644-1688',
-            operador: '__contains',
-            propiedad: 'nombre__contains',
-            valor1,
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'Ciudad',
-      };
-
-      this.httpService
-        .post<{ cantidad_registros: number; registros: any[] }>(
-          'general/funcionalidad/lista-autocompletar/',
-          arrFiltros
-        )
-        .pipe(
-          throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-          tap((respuesta) => {
-            this.arrCiudades = respuesta.registros;
-            this.changeDetectorRef.detectChanges();
-          })
-        )
-        .subscribe();
-    }
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrCiudades = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 
   consultarInformacion() {
@@ -521,9 +498,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.formularioContacto?.markAsTouched();
     if (campo === 'ciudad') {
       if (dato === null) {
-        this.formularioContacto
-          .get('ciudad_nombre')
-          ?.setValue(null);
+        this.formularioContacto.get('ciudad_nombre')?.setValue(null);
         this.formularioContacto.get('ciudad')?.setValue(null);
       } else {
         this.formularioContacto
