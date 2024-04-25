@@ -78,15 +78,6 @@
         ></label>
         <p class="fw-bold text-gray-800 fs-6">{{ documento.fecha }}</p>
       </div>
-      <div class="col-12 col-md-6">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.plazo_pago_nombre }}
-        </p>
-      </div>
     </div>
     <div class="row mb-5">
       <div class="col-md-6 col-sm-12">
@@ -96,6 +87,15 @@
         ></label>
         <p class="fw-bold text-gray-800 fs-6">
           {{ documento.documento_referencia_numero }}
+        </p>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          class="fw-semibold text-gray-600 fs-7"
+          translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
+        ></label>
+        <p class="fw-bold text-gray-800 fs-6">
+          {{ documento.numero }}
         </p>
       </div>
     </div>
