@@ -23,7 +23,6 @@ import {
   obtenerMenuDataMapeo,
   obtenerMenuDataMapeoBuscarCampo,
   obtenerMenuDataMapeoCamposVisibleTabla,
-  obtenerMenuDataMapeoVisualizarTodo,
 } from '@redux/selectors/menu.selectors';
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 
@@ -77,7 +76,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
 
-  constructor(private currencyPipe: CurrencyPipe) {
+  constructor() {
     super();
   }
 

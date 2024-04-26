@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { VerificacionCuentaComponent } from './verificacion-cuenta.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Store, StoreModule } from '@ngrx/store'; // Importa el StoreModule
+import { provideMockStore } from '@ngrx/store/testing'; // Importa provideMockStore para proporcionar un Store mock
+
 describe('VerificacionCuentaComponent', () => {
   let component: VerificacionCuentaComponent;
   let fixture: ComponentFixture<VerificacionCuentaComponent>;
@@ -18,7 +20,12 @@ describe('VerificacionCuentaComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        StoreModule.forRoot({}), // Esto es un ejemplo; proporciona tus reducers reales aquí
+      ],
+      providers: [
+        // Proporciona un Store mock para las pruebas
+        provideMockStore(),
       ]
     }).compileComponents();
 

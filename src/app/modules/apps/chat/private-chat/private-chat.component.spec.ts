@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PrivateChatComponent } from './private-chat.component';
+import { SharedModule } from 'src/app/_metronic/shared/shared.module';
+import {
+  CardsModule,
+  ChatInnerModule,
+  DropdownMenusModule,
+} from 'src/app/_metronic/partials';
 
 describe('PrivateChatComponent', () => {
   let component: PrivateChatComponent;
@@ -8,9 +14,14 @@ describe('PrivateChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PrivateChatComponent ]
-    })
-    .compileComponents();
+      declarations: [PrivateChatComponent],
+      imports: [
+        SharedModule,
+        DropdownMenusModule,
+        ChatInnerModule,
+        CardsModule,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

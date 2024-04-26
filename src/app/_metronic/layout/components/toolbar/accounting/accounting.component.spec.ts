@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountingComponent } from './accounting.component';
+import { SharedModule } from 'src/app/_metronic/shared/shared.module';
 
 describe('AccountingComponent', () => {
   let component: AccountingComponent;
@@ -8,7 +9,8 @@ describe('AccountingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountingComponent ]
+      declarations: [ AccountingComponent ],
+      imports: [SharedModule]
     })
     .compileComponents();
 

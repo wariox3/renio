@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseNuevoComponent } from './BaseNuevoComponent';
+import { BaseNuevoComponent } from './base-nuevo.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 describe('BaseNuevoComponent', () => {
   let component: BaseNuevoComponent;
@@ -8,7 +11,12 @@ describe('BaseNuevoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BaseNuevoComponent],
+      imports: [
+        BaseNuevoComponent,
+        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        BrowserDynamicTestingModule
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BaseNuevoComponent);

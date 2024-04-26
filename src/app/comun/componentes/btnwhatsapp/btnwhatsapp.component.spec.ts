@@ -8,7 +8,7 @@ describe('BtnwhatsappComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BtnwhatsappComponent ]
+      imports: [ BtnwhatsappComponent ]
     })
     .compileComponents();
 

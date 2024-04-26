@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChatComponent } from './chat.component';
+import { RouterModule } from '@angular/router';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -8,7 +9,10 @@ describe('ChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatComponent ]
+      declarations: [ ChatComponent ],
+      imports: [
+        RouterModule.forRoot([]),
+      ]
     })
     .compileComponents();
   });

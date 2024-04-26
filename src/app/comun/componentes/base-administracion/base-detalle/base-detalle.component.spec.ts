@@ -1,17 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseNuevoComponent } from './BaseNuevoComponent';
+import { BaseDetalleComponent } from './base-detalle.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store'; // Importa el StoreModule
+import { provideMockStore } from '@ngrx/store/testing';
+import { AlertaService } from '@comun/services/alerta.service';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
-describe('BaseNuevoComponent', () => {
-  let component: BaseNuevoComponent;
-  let fixture: ComponentFixture<BaseNuevoComponent>;
+describe('BaseDetalleComponent', () => {
+  let component: BaseDetalleComponent;
+  let fixture: ComponentFixture<BaseDetalleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BaseNuevoComponent],
+      imports: [
+        BaseDetalleComponent,
+        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
+        AlertaService,
+        BrowserDynamicTestingModule
+      ],
+      providers: [
+        provideMockStore(),
+      ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BaseNuevoComponent);
+    fixture = TestBed.createComponent(BaseDetalleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

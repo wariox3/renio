@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetsExamplesComponent } from './widgets-examples.component';
+import { RouterModule } from '@angular/router';
 
 describe('WidgetsExamplesComponent', () => {
   let component: WidgetsExamplesComponent;
@@ -8,7 +9,10 @@ describe('WidgetsExamplesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WidgetsExamplesComponent ]
+      declarations: [ WidgetsExamplesComponent ],
+      imports: [
+        RouterModule.forRoot([]),
+      ]
     })
     .compileComponents();
   });
