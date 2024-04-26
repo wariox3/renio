@@ -179,8 +179,14 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
+    const { documento_clase: documento_clase_id } = this.parametrosUrl;
     this.httpService
-      .descargarArchivo('general/documento/excel/', this.arrParametrosConsulta)
+      .descargarArchivo('general/documento/excel/', {
+        ...this.arrParametrosConsulta,
+        ...{
+          documento_clase_id,
+        },
+      })
   }
 
   // imprimir() {
