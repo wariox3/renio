@@ -8,7 +8,6 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -27,7 +26,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { MultiplesEmailValidator } from '@comun/validaciones/MultiplesEmailValidator';
+import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
 
 @Component({
   selector: 'app-contacto-formulario',
