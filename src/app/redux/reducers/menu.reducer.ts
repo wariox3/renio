@@ -237,6 +237,11 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 100 },
             },
+            {
+              nombre: 'NOTACREDITO',
+              tipo: 'Documento',
+              data: { documento_clase: 101 },
+            },
           ],
         },
         {
