@@ -8,7 +8,7 @@ export class PrecioFormatPipe implements PipeTransform {
 
   transform(value: number): string {
     // Formatea el valor numérico con separador de miles y separador decimal personalizado
-    return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    return value.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   }
 
 }
