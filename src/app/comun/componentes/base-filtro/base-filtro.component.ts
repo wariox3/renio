@@ -54,7 +54,9 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       let tipo = window.location.pathname.split('/')[1];
-      this.nombreFiltro = `${tipo}_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
+      this.nombreFiltro = `${tipo}_${localStorage
+        .getItem('itemNombre')
+        ?.toLowerCase()}`;
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!
@@ -173,40 +175,46 @@ export class BaseFiltroComponent extends General implements OnInit {
 
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
+    let emitirValores = true;
 
     filtros.forEach((filtro: any) => {
-      if (filtro.propiedad === '' || filtro.valor1 === '') {
-        hayFiltrosSinValores = true;
+
+      if(filtro.propiedad !== ''){
+        if (filtro.valor1 === '') {
+          hayFiltrosSinValores = true;
+        } else {
+          const nuevoFiltro = {
+            ...filtro,
+            id: this.generarIdUnico(),
+            ...{
+              campo:
+                filtro.propiedad + filtro.operador !== null
+                  ? filtro.propiedad + filtro.operador
+                  : '',
+            },
+          };
+          listaFiltros.push(nuevoFiltro);
+        }
       } else {
-        const nuevoFiltro = {
-          ...filtro,
-          id: this.generarIdUnico(),
-          ...{
-            campo:
-              filtro.propiedad + filtro.operador !== null
-                ? filtro.propiedad + filtro.operador
-                : '',
-          },
-        };
-        listaFiltros.push(nuevoFiltro);
+        emitirValores = false
       }
     });
-
-    if (hayFiltrosSinValores) {
-      hayFiltrosSinValores = false;
-
-      this.alertaService.mensajeError(
-        'Error en formulario filtros',
-        'contiene campos vacios'
-      );
-    } else {
+    console.log(hayFiltrosSinValores);
+    
+    if (hayFiltrosSinValores === false) {
       this.listaFiltros = listaFiltros;
       localStorage.setItem(
         this.nombreFiltro,
         JSON.stringify(this.listaFiltros)
       );
-
-      this.emitirFiltros.emit(this.listaFiltros);
+      if(emitirValores){
+        this.emitirFiltros.emit(this.listaFiltros);
+      }
+    } else {
+      this.alertaService.mensajeError(
+        'Error en formulario filtros',
+        'contiene campos vacios'
+      );
     }
   }
 
