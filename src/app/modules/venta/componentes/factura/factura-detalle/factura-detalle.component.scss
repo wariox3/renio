@@ -1,26 +1,4 @@
 table#tableDetalles {
-  border-collapse: collapse;
-  border: 1px dashed #a1a5b7; /* Gris muy claro */
-  width: 100%;
-
-  tr {
-    height: 64.063px;
-  }
-  td {
-    width: 200px;
-    padding: 0px, 2px !important;
-    vertical-align: middle; /* Centra el contenido verticalmente */
-    text-align: center;
-  }
-
-  th {
-    width: 200px;
-    padding: 0px !important;
-    text-align: center;
-    font-size: 1.05rem;
-    font-weight: 500;
-  }
-
   .textarea-container {
     display: flex;
     align-items: center; /* Esto centra verticalmente el contenido */
@@ -47,15 +25,6 @@ table#tableDetalles {
   .disabled-cursor {
     cursor: not-allowed;
   }
-
-  td.containerDescuento {
-    display: grid;
-    grid-template-columns: 98% 2%;
-    justify-content: center;
-    align-items: center;
-    border:0
-  }
-
 }
 
 

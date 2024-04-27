@@ -199,8 +199,6 @@ export class BaseFiltroComponent extends General implements OnInit {
         emitirValores = false
       }
     });
-    console.log(hayFiltrosSinValores);
-    
     if (hayFiltrosSinValores === false) {
       this.listaFiltros = listaFiltros;
       localStorage.setItem(

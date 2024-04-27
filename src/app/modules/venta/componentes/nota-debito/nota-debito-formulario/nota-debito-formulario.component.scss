@@ -1,7 +1,6 @@
 table#tableDetalles {
   user-select: none;
   border-collapse: collapse;
-  border: 1px dashed #a1a5b7; /* Gris muy claro */
   width: 100%;
 
   tr {
@@ -17,8 +16,6 @@ table#tableDetalles {
 
     td {
       padding: 10px !important;
-      vertical-align: middle; /* Centra el contenido verticalmente */
-      text-align: center;
 
       input {
         border-width: 0px;
