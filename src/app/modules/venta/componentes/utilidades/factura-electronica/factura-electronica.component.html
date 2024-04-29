@@ -1,25 +1,84 @@
-
 <div class="tabla">
-    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
-      <section card-body>
-        <app-comun-tabla
-          [modelo]="modelo"
-          [datos]="arrItems"
-
+  <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+    <section card-body>
+      <div class="d-flex justify-content-end">
+        <div ngbDropdown class="d-inline-block">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            acción
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="emitir()">Emitir</button>
+            <button ngbDropdownItem>Notificar</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive-sm table-loading">
+        <table
+          class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
         >
-        </app-comun-tabla>
-      </section>
-    </app-card>
-  </div>
-  <!-- 
-              [cantidad_registros]="cantidad_registros"
-          [confirmacionRegistrosEliminado]="confirmacionRegistrosEliminado"
-          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-          (emitirOrdenamiento)="cambiarOrdemiento($event)"
-          (emitirPaginacion)="cambiarPaginacion($event)"
-          (emitirRegistraEliminar)="eliminarRegistros($event)"
-          (emitirExportarExcel)="descargarExcel()"
-          (emitirNavegarNuevo)="navegarNuevo()"
-          (emitirNavegarDetalle)="navegarDetalle($event)"
-          (emitirNavegarEditar)="navegarEditar($event)"
-   -->
+          <thead>
+            <tr class="fw-bold fs-6 text-gray-800">
+              <th>{{ "LISTAS.DOCUMENTO.ID" | translate }}</th>
+              <th>{{ "LISTAS.DOCUMENTO.NUMERO" | translate }}</th>
+              <th>{{ "LISTAS.DOCUMENTO.DOCUMENTOREFERENCIA" | translate }}</th>
+              <th class="text-center">
+                <label [for]="selectAll">
+                  <i
+                    class="fa-regular fs-2x cursor-pointer"
+                    [ngClass]="
+                      checkboxSelectAll.checked
+                        ? 'fa-square-check text-danger'
+                        : 'fa-square text-gray-500'
+                    "
+                  ></i>
+                  <input
+                    class="d-none"
+                    type="checkbox"
+                    #checkboxSelectAll
+                    [id]="selectAll"
+                    [checked]="selectAll"
+                    [value]="selectAll"
+                    (change)="toggleSelectAll()"
+                  />
+                </label>
+              </th>
+            </tr>
+          </thead>
+          <Tbody>
+            <tr *ngFor="let item of arrItems">
+              <td>{{ item.id }}</td>
+              <td>{{ item.numero }}</td>
+              <td>{{ item.documento_referencia }}</td>
+              <td class="w-20px">
+                <label [for]="item.id">
+                  <i
+                    class="fa-regular fs-2x cursor-pointer"
+                    [ngClass]="
+                      checked.checked
+                        ? 'fa-square-check text-danger'
+                        : 'fa-square text-gray-500'
+                    "
+                  ></i>
+                  <input
+                    #checked
+                    class="d-none"
+                    type="checkbox"
+                    [id]="item.id"
+                    [value]="item.id"
+                    [checked]="item.selected"
+                    (change)="agregarRegistrosEliminar(item.id)"
+                  />
+                </label>
+              </td>
+            </tr>
+          </Tbody>
+        </table>
+      </div>
+    </section>
+  </app-card>
+</div>
