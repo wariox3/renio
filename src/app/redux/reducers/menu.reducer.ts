@@ -201,7 +201,6 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAELECTRONICA',
               tipo: 'utilidad',
-              data: { documento_clase: 100 },
             },
           ]
         },
