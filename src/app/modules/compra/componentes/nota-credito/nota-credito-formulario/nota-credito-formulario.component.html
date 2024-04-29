@@ -661,7 +661,7 @@
                       ></td>
                       <td class="text-end">
                         {{
-                          subtotalGeneral | currency : "$" : "symbol" : "1.0-0"
+                          subtotalGeneral | number
                         }}
                       </td>
                     </tr>
@@ -670,7 +670,7 @@
                       <td class="text-end">
                         {{
                           impuesto.value.total
-                            | currency : "$" : "symbol" : "1.0-0"
+                            | number
                         }}
                       </td>
                     </tr>
@@ -681,7 +681,7 @@
                       ></td>
                       <td class="text-end">
                         {{
-                          totalDescuento | currency : "$" : "symbol" : "1.0-0"
+                          totalDescuento | number
                         }}
                       </td>
                     </tr>
@@ -692,7 +692,7 @@
                       ></td>
                       <td class="text-end">
                         {{
-                          totalImpuestos | currency : "$" : "symbol" : "1.0-0"
+                          totalImpuestos | number
                         }}
                       </td>
                     </tr>
@@ -702,7 +702,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                       ></td>
                       <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | currency : "$" : "symbol" : "1.0-0" }}
+                        {{ totalGeneral | number }}
                       </td>
                     </tr>
                   </table>
