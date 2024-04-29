@@ -1,0 +1,25 @@
+
+<div class="tabla">
+    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+      <section card-body>
+        <app-comun-tabla
+          [modelo]="modelo"
+          [datos]="arrItems"
+
+        >
+        </app-comun-tabla>
+      </section>
+    </app-card>
+  </div>
+  <!-- 
+              [cantidad_registros]="cantidad_registros"
+          [confirmacionRegistrosEliminado]="confirmacionRegistrosEliminado"
+          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+          (emitirOrdenamiento)="cambiarOrdemiento($event)"
+          (emitirPaginacion)="cambiarPaginacion($event)"
+          (emitirRegistraEliminar)="eliminarRegistros($event)"
+          (emitirExportarExcel)="descargarExcel()"
+          (emitirNavegarNuevo)="navegarNuevo()"
+          (emitirNavegarDetalle)="navegarDetalle($event)"
+          (emitirNavegarEditar)="navegarEditar($event)"
+   -->

@@ -42,6 +42,7 @@ export const locale = {
         ENTREDA: 'Input',
         SALIDA: 'Output',
         EGRESO: 'Outgoing',
+        FACTURAELECTRONICA: 'Electronic Invoice'
       },
     },
     FORMULARIOS: {

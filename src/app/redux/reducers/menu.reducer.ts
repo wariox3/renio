@@ -197,6 +197,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'utilidad',
+          children: [
+            {
+              nombre: 'FACTURAELECTRONICA',
+              tipo: 'utilidad',
+              data: { documento_clase: 100 },
+            },
+          ]
         },
         {
           nombre: 'proceso',

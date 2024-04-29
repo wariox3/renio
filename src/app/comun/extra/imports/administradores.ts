@@ -52,16 +52,6 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
       ),
   },
-  Documento: {
-    detalle: async () =>
-      await import(
-        '../../../modules/venta/componentes/factura/factura-detalle/factura-detalle.component'
-      ),
-    formulario: async () =>
-      await import(
-        '../../../modules/venta/componentes/factura/factura-formulario/factura-formulario.component'
-      ),
-  },
   Precio: {
     modulo: 'general',
     modelo: 'precio',

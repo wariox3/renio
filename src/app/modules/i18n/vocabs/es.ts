@@ -42,6 +42,7 @@ export const locale = {
         ENTREDA: 'Entreda',
         SALIDA: 'Salida',
         EGRESO: 'Egreso',
+        FACTURAELECTRONICA: 'Factura electrónica'
       },
     },
     FORMULARIOS: {
