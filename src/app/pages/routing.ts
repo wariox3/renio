@@ -80,7 +80,7 @@ const Routing: Routes = [
   {
     path: 'venta',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/venta/venta-routing').then((r) => r.routes),
   },
   {
     path: 'inventario',

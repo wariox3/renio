@@ -8,6 +8,7 @@ import {
 export interface informacionMenuItem {
   nombre: string;
   tipo?: string;
+  url?: string;
   data?: {
     [key: string]: any;
   };
@@ -201,6 +202,7 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAELECTRONICA',
               tipo: 'utilidad',
+              url: 'venta/utilidad/factura_electronica'
             },
           ]
         },

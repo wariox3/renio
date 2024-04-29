@@ -35,14 +35,14 @@ export class BaseUtilidadComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    this.modelo = localStorage.getItem('itemNombre')!;
-    let posicion: keyof typeof Componetes = this.modelo;
-    let componete = await (await Componetes[posicion].utilidad()).default;
-    let componeteCargado = this.componenteDinamico.createComponent(componete);
-    componeteCargado.changeDetectorRef.detectChanges();
-    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
-      this.documentoEstados$ = estadosDocumento;
-      this.changeDetectorRef.detectChanges();
-    });
+    // this.modelo = localStorage.getItem('itemNombre')!;
+    // let posicion: keyof typeof Componetes = this.modelo;
+    // let componete = await (await Componetes[posicion].utilidad()).default;
+    // let componeteCargado = this.componenteDinamico.createComponent(componete);
+    // componeteCargado.changeDetectorRef.detectChanges();
+    // this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
+    //   this.documentoEstados$ = estadosDocumento;
+    //   this.changeDetectorRef.detectChanges();
+    // });
   }
 }

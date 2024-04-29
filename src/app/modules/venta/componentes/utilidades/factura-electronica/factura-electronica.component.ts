@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     NgbDropdownModule,
   ],
 })
-export default class FacturaElectronicaComponent
+export class FacturaElectronicaComponent
   extends General
   implements OnInit
 {
