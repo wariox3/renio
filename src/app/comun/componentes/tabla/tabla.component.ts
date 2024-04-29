@@ -306,7 +306,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           // Verifica si se debe aplicar formato numérico
           if (campo.aplicaFormatoNumerico) {
             // Formatea el valor con dos decimales y comas para separar miles
-            return valor.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            //return valor.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            
+            // let formattedValue = showDecimal ? value.toFixed(2) : value.toFixed(0);
+            let formattedValue = valor.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+           return `$${formattedValue}`;
+
           }
           // Si no se aplica formato numérico, devuelve el valor sin modificar
           return valor;

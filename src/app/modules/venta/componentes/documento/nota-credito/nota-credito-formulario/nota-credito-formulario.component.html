@@ -484,13 +484,13 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                       ></td>
                       <td class="text-end">
-                        {{ subtotalGeneral | currency : "$" }}
+                        {{ subtotalGeneral | currency : "$" : 'symbol' : '1.0-0' }}
                       </td>
                     </tr>
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                       <td class="text-end">{{ impuesto.key }}</td>
                       <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
+                        {{ impuesto.value.total | currency : "$" : 'symbol' : '1.0-0' }}
                       </td>
                     </tr>
                     <tr *ngIf="totalDescuento > 0">
@@ -499,7 +499,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
                       ></td>
                       <td class="text-end">
-                        {{ totalDescuento | currency : "$" }}
+                        {{ totalDescuento | currency : "$" : 'symbol' : '1.0-0' }}
                       </td>
                     </tr>
                     <tr *ngIf="totalImpuestos > 0">
@@ -508,7 +508,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                       ></td>
                       <td class="text-end">
-                        {{ totalImpuestos | currency : "$" }}
+                        {{ totalImpuestos | currency : "$" : 'symbol' : '1.0-0' }}
                       </td>
                     </tr>
                     <tr class="border-top">
@@ -517,7 +517,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                       ></td>
                       <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | currency : "$" }}
+                        {{ totalGeneral | currency : "$" : 'symbol' : '1.0-0' }}
                       </td>
                     </tr>
                   </table>

@@ -180,7 +180,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
                       ></th>
                       <th
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
                       ></th>
                       <th
                         translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
@@ -203,14 +203,14 @@
                           {{ detalle.cantidad }}
                         </td>
                         <td class="text-end">
-                          {{ detalle.precio | currency : "$" }}
+                          {{ detalle.precio | currency : "$" : 'symbol' : '1.0-0'  }}
                         </td>
                         <td class="text-end" style="width: 10rem">
                           {{ detalle.descuento }}
                           <i class="bi bi-percent"></i>
                         </td>
                         <td class="text-end">
-                          {{ detalle.subtotal | currency : "$" }}
+                          {{ detalle.subtotal | currency : "$" : 'symbol' : '1.0-0'  }}
                         </td>
                         <td class="text-center">
                           <ul
@@ -223,7 +223,7 @@
                           </ul>
                         </td>
                         <td class="text-end">
-                          {{ detalle.total | currency : "$" }}
+                          {{ detalle.total | currency : "$" : 'symbol' : '1.0-0'  }}
                         </td>
                       </tr>
                     </ng-container>
@@ -261,13 +261,13 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
             ></td>
             <td class="text-end">
-              {{ subtotalGeneral | currency : "$" }}
+              {{ subtotalGeneral | currency : "$" : 'symbol' : '1.0-0'  }}
             </td>
           </tr>
           <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
             <td class="text-end">{{ impuesto.key }}</td>
             <td class="text-end">
-              {{ impuesto.value.total | currency : "$" }}
+              {{ impuesto.value.total | currency : "$" : 'symbol' : '1.0-0'  }}
             </td>
           </tr>
           <tr *ngIf="totalDescuento > 0">
@@ -276,7 +276,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
             ></td>
             <td class="text-end">
-              {{ totalDescuento | currency : "$" }}
+              {{ totalDescuento | currency : "$" : 'symbol' : '1.0-0'  }}
             </td>
           </tr>
           <tr *ngIf="totalImpuestos > 0">
@@ -285,7 +285,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
             ></td>
             <td class="text-end">
-              {{ totalImpuestos | currency : "$" }}
+              {{ totalImpuestos | currency : "$" : 'symbol' : '1.0-0'  }}
             </td>
           </tr>
           <tr class="border-top">
@@ -294,7 +294,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
             ></td>
             <td class="text-end" style="padding-left: 24px">
-              {{ totalGeneral | currency : "$" }}
+              {{ totalGeneral | currency : "$" : 'symbol' : '1.0-0'  }}
             </td>
           </tr>
         </table>

@@ -8,7 +8,6 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { PrecioFormatPipe } from '@pipe/PrecioFormat.pipe';
 
 @Component({
   selector: 'app-item-detalle',
@@ -23,7 +22,6 @@ import { PrecioFormatPipe } from '@pipe/PrecioFormat.pipe';
     ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-    PrecioFormatPipe
   ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
