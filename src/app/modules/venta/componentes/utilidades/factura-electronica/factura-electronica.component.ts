@@ -36,7 +36,7 @@ export class FacturaElectronicaComponent
       },
       {
         propiedad: 'estado_electronico',
-        valor1: true,
+        valor1: false,
       },
     ],
     limite: 50,
