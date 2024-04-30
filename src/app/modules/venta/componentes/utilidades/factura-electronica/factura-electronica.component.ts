@@ -35,8 +35,7 @@ export class FacturaElectronicaComponent
         valor1: true,
       },
       {
-        propiedad: 'estado_electronico_notificado',
-        operador: '__no_is',
+        propiedad: 'estado_electronico',
         valor1: true,
       },
     ],
