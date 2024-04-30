@@ -46,7 +46,9 @@
       <span class="badge badge-success">Electrónico</span>
     </ng-container>
     <ng-container *ngIf="arrEstados.estado_electronico_enviado">
-      <span class="badge badge-success">Enviado DIAN (Esperando respuesta)</span>
+      <span class="badge badge-success"
+        >Enviado DIAN (Esperando respuesta)</span
+      >
     </ng-container>
     <ng-container *ngIf="arrEstados.estado_electronico_notificado">
       <span class="badge badge-success">Notificado</span>
@@ -59,82 +61,53 @@
     {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
   </section>
   <section card-body>
-    <div class="row mb-5">
-      <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.contacto_nombre_corto }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-12 col-md-3">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ documento.fecha }}</p>
-      </div>
-      <div class="col-12 col-md-3">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ documento.fecha_vence }}</p>
-      </div>
-      <div class="col-12 col-md-3">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ documento.plazo_pago_nombre }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.metodo_pago_nombre }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.numero }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5"  *ngIf="parametrosUrl.documento_clase === '1'">
-      <div class="col-md-6 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.orden_compra }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-12 col-sm-12">
-        <label
-          class="fw-semibold text-gray-600 fs-7"
-          translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ documento.comentario }}
-        </p>
-      </div>
-    </div>
+    <table class="table table-bordered table-sm">
+      <tbody>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+          ></td>
+          <td colspan="5">{{ documento.contacto_nombre_corto }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
+          ></td>
+          <td>{{ documento.fecha }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
+          ></td>
+          <td>{{ documento.fecha_vence }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.PLAZOPAGO"
+          ></td>
+          <td>{{ documento.plazo_pago_nombre }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
+          ></td>
+          <td>{{ documento.metodo_pago_nombre }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
+          ></td>
+          <td colspan="3">{{ documento.numero }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></td>
+          <td colspan="5">{{ documento.comentario }}</td>
+        </tr>
+      </tbody>
+    </table>
     <div class="row mb-5">
       <div class="col-12">
         <ul
@@ -195,7 +168,7 @@
                           {{ detalle.cantidad }}
                         </td>
                         <td class="text-end">
-                          {{ detalle.precio | number  }}
+                          {{ detalle.precio | number }}
                         </td>
                         <td class="text-end" style="width: 10rem">
                           {{ detalle.descuento }}
@@ -215,7 +188,7 @@
                           </ul>
                         </td>
                         <td class="text-end">
-                          {{ detalle.total | number  }}
+                          {{ detalle.total | number }}
                         </td>
                       </tr>
                     </ng-container>
@@ -253,13 +226,13 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
             ></td>
             <td class="text-end">
-              {{ subtotalGeneral | number  }}
+              {{ subtotalGeneral | number }}
             </td>
           </tr>
           <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
             <td class="text-end">{{ impuesto.key }}</td>
             <td class="text-end">
-              {{ impuesto.value.total | number  }}
+              {{ impuesto.value.total | number }}
             </td>
           </tr>
           <tr *ngIf="totalDescuento > 0">
@@ -268,7 +241,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
             ></td>
             <td class="text-end">
-              {{ totalDescuento | number  }}
+              {{ totalDescuento | number }}
             </td>
           </tr>
           <tr *ngIf="totalImpuestos > 0">
@@ -277,7 +250,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
             ></td>
             <td class="text-end">
-              {{ totalImpuestos | number  }}
+              {{ totalImpuestos | number }}
             </td>
           </tr>
           <tr class="border-top">
@@ -286,7 +259,7 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
             ></td>
             <td class="text-end" style="padding-left: 24px">
-              {{ totalGeneral | number  }}
+              {{ totalGeneral | number }}
             </td>
           </tr>
         </table>
