@@ -306,13 +306,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           // Verifica si se debe aplicar formato numérico
           if (campo.aplicaFormatoNumerico) {
             // Formatea el valor con dos decimales y comas para separar miles
-            //return valor.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-            
-            // let formattedValue = showDecimal ? value.toFixed(2) : value.toFixed(0);
-            let formattedValue = valor.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            let formattedValue = valor
+              .toFixed()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-           return `$${formattedValue}`;
-
+            return `${formattedValue}`;
           }
           // Si no se aplica formato numérico, devuelve el valor sin modificar
           return valor;
@@ -379,12 +377,12 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.emitirExportarExcel.emit(true);
   }
 
-  visualizarBtnEstado(item: any){
+  visualizarBtnEstado(item: any) {
     // Verificar si item tiene la propiedad estado_aprobado
     if (item.hasOwnProperty('estado_aprobado')) {
-      return !item['estado_aprobado'].valor
+      return !item['estado_aprobado'].valor;
     } else {
-      return true
+      return true;
     }
   }
 }
