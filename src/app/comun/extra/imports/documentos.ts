@@ -39,41 +39,41 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   200: {
     detalle: async () =>
       await import(
-        '../../../modules/cartera/componentes/pago/pago-detalle/pago-detalle.component'
+        '../../../modules/cartera/componentes/documento/pago/pago-detalle/pago-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/cartera/componentes/pago/pago-formulario/pago-formulario.component'
+        '../../../modules/cartera/componentes/documento/pago/pago-formulario/pago-formulario.component'
       ),
   },
   300: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/factura/factura-detalle/factura-detalle.component'
+        '../../../modules/compra/componentes/documento/factura/factura-detalle/factura-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/factura/factura-formulario/factura-formulario.component'
+        '../../../modules/compra/componentes/documento/factura/factura-formulario/factura-formulario.component'
       ),
   },
   301: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
+        '../../../modules/compra/componentes/documento/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
+        '../../../modules/compra/componentes/documento/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
       ),
   },
   302: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
+        '../../../modules/compra/componentes/documento/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
+        '../../../modules/compra/componentes/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
       ),
   },
   400: {
