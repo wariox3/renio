@@ -68,7 +68,6 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   logout() {
     this.auth.logout();
-    //document.location.reload();
   }
 
   selectLanguage(lang: string) {
@@ -79,7 +78,6 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
         idioma: lang,
       })
     );
-    // document.location.reload();
   }
 
   setLanguage(lang: string) {

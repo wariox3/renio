@@ -7,10 +7,11 @@ import {
 } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { AlertaService } from '@comun/services/alerta.service';
+import { AuthService } from '@modulos/auth';
 
 @Injectable()
 export class ErrorhttpInterceptor implements HttpInterceptor {
-  constructor(private alertService: AlertaService) {}
+  constructor(private alertService: AlertaService,     private auth: AuthService  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request).pipe(
@@ -25,9 +26,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
           // Error del servidor
           switch (error.status) {
             case 401:
-              errorCodigo = 401;
-              errorMensaje =
-                'Su sesión de usuario ha finalizado. Por favor, inicie sesión nuevamente.';
+              this.auth.logout();
               break;
             case 404:
               errorCodigo = 404;

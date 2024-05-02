@@ -83,7 +83,6 @@ export class SidebarMenuComponent implements OnInit {
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
-    console.log(item);
     let url = [item.tipo?.toLocaleLowerCase(), 'lista'];
     if (item.url !== undefined) {
       if (typeof item.url === 'string') {
