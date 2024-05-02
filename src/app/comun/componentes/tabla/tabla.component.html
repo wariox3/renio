@@ -110,7 +110,7 @@
 </div>
 <div class="table-responsive table-loading">
   <table
-    class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
   >
     <thead>
       <tr class="fw-bold fs-6 text-gray-800">
@@ -119,16 +119,16 @@
             (click)="item.ordenable && orderPor(item.nombre, i)"
             [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
           >
-            <div class="d-flex justify-content-between align-items-end">
-              <span>
+            <div class="d-flex justify-content-between">
+              <div style="flex: 1; text-align: center">
                 {{
                   "LISTAS." +
                     (tipo | uppercase) +
                     "." +
                     (item.nombre | uppercase) | translate
                 }}
-              </span>
-              <div class="d-flex" *ngIf="item.ordenable">
+              </div>
+              <div *ngIf="item.ordenable">
                 <ng-container
                   *ngIf="
                     this.ordenadoTabla === item.nombre.toLowerCase() ||
@@ -157,18 +157,17 @@
         <th colspan="2"></th>
         <th class="text-center">
           <label [for]="selectAll">
-
-          <i
-          class="cursor-pointer"
-          [ngClass]="
-            checkboxSelectAll.checked
-              ? 'ki-duotone ki-check-square text-danger'
-              : 'fa-regular fa-square text-gray-500'
-          "
-        >
-        <span class="path1"></span>
-        <span class="path2"></span>
-      </i>
+            <i
+              class="cursor-pointer"
+              [ngClass]="
+                checkboxSelectAll.checked
+                  ? 'ki-duotone ki-check-square text-danger'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
 
             <input
               class="d-none"
@@ -201,7 +200,7 @@
             (click)="navegarEditar(item['id'].valor)"
             class="cursor-pointer"
             *ngIf="visualizarBtnEstado(item)"
-            >
+          >
             <i class="ki-duotone ki-notepad-edit hover-primary">
               <span class="path1"></span>
               <span class="path2"></span>
@@ -213,11 +212,11 @@
             (click)="navegarDetalle(item['id'].valor)"
             class="cursor-pointer"
           >
-          <i class="ki-duotone ki-document  hover-primary">
-            <span class="path1"></span>
-            <span class="path2"></span>
-          </i>
-        </label>
+            <i class="ki-duotone ki-document hover-primary">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+          </label>
         </td>
         <td class="w-20px">
           <label [for]="item['id'].valor">
@@ -229,9 +228,9 @@
                   : 'fa-regular fa-square text-gray-500'
               "
             >
-            <span class="path1"></span>
-            <span class="path2"></span>
-          </i>
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
             <input
               #checked
               class="d-none"
