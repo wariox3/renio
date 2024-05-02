@@ -190,7 +190,10 @@
         <td
           *ngFor="let key of item | keys"
           [ngClass]="
-            item[key].aplicaFormatoNumerico ? 'text-end' : 'text-start'
+            {
+              'text-end': item[key].aplicaFormatoNumerico,
+              'text-center': item[key].campoTipo === 'Booleano'
+            }
           "
         >
           {{ getTipoDato(item[key].valor, item[key]) }}
