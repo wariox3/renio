@@ -56,13 +56,16 @@ table{
   thead {
     font-weight: bold;
   }
+  .bg-gray-100 {
+    background-color: var(--bs-gray-100) !important;
+  }
 }
 
 .position-relative input[type='text'].form-control.is-invalid {
   background-position: right calc(0.375em + 2.5rem) center;
 }
 
-
 .position-relative input[type='text'].form-control.is-valid {
   background-position: right calc(0.375em + 2.5rem) center;
 }
+
