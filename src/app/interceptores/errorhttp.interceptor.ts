@@ -34,7 +34,7 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
               break;
             case 405:
               errorCodigo = 405;
-              errorMensaje = 'Servidor fuera de linea, intente más tarde';
+              errorMensaje = 'Servidor fuera de línea, intente más tarde.';
               break;
             case 500:
               errorCodigo = 500;

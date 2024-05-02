@@ -97,7 +97,7 @@ export const locale = {
           USUARIOS: 'Usuarios',
           IDIOMA: 'Idioma',
           CERRARSESION: 'Cerrar sesión',
-          TERMINOS: 'Terminos',
+          TERMINOS: 'Términos',
           PLAN: 'Planes',
           CONTACTO: 'Contacto',
           IMAGEN: 'Cargar imagen',
@@ -350,7 +350,7 @@ export const locale = {
       },
       MENSAJES: {
         COMUNES: {
-          EXITOSO: 'Proceso exitoso',
+          EXITOSO: 'Guardado con éxito.',
           PROCESANDOACTUALIZACION: 'actualización completa',
           PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
           ACTUALIZACION: 'Actualización de los datos exitosa',
