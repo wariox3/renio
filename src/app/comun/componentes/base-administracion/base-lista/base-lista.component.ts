@@ -185,6 +185,7 @@ export class BaseListaComponent extends General implements OnInit {
         ...this.arrParametrosConsulta,
         ...{
           documento_clase_id,
+          limite: 5000
         },
       })
   }

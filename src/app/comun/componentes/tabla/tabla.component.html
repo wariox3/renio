@@ -157,14 +157,19 @@
         <th colspan="2"></th>
         <th class="text-center">
           <label [for]="selectAll">
-            <i
-              class="fa-regular fs-2x cursor-pointer"
-              [ngClass]="
-                checkboxSelectAll.checked
-                  ? 'fa-square-check text-danger'
-                  : 'fa-square text-gray-500'
-              "
-            ></i>
+
+          <i
+          class="cursor-pointer"
+          [ngClass]="
+            checkboxSelectAll.checked
+              ? 'ki-duotone ki-check-square text-danger'
+              : 'fa-regular fa-square text-gray-500'
+          "
+        >
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+
             <input
               class="d-none"
               type="checkbox"
@@ -197,7 +202,10 @@
             class="cursor-pointer"
             *ngIf="visualizarBtnEstado(item)"
             >
-            <i class="fa-regular hover-primary fa-pen-to-square fs-2x"></i>
+            <i class="ki-duotone ki-notepad-edit hover-primary">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
           </label>
         </td>
         <td class="w-45px">
@@ -205,19 +213,25 @@
             (click)="navegarDetalle(item['id'].valor)"
             class="cursor-pointer"
           >
-            <i class="fa-regular hover-primary fa-eye text-gray-500 fs-2x"></i>
-          </label>
+          <i class="ki-duotone ki-document  hover-primary">
+            <span class="path1"></span>
+            <span class="path2"></span>
+          </i>
+        </label>
         </td>
         <td class="w-20px">
           <label [for]="item['id'].valor">
             <i
-              class="fa-regular fs-2x cursor-pointer"
+              class="cursor-pointer"
               [ngClass]="
                 checked.checked
-                  ? 'fa-square-check text-danger'
-                  : 'fa-square text-gray-500'
+                  ? 'ki-duotone ki-check-square text-danger'
+                  : 'fa-regular fa-square text-gray-500'
               "
-            ></i>
+            >
+            <span class="path1"></span>
+            <span class="path2"></span>
+          </i>
             <input
               #checked
               class="d-none"
