@@ -117,7 +117,9 @@
                 >
                   <thead>
                     <tr>
-                      <th style="width: 50px">Id</th>
+                      <th   .bg-gray-100 {
+                        background-color: var(--bs-gray-100) !important;
+                      } style="width: 50px">Id</th>
                       <th
                         translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
                       ></th>
@@ -146,8 +148,8 @@
                       *ngFor="let detalle of documento.detalles; let i = index"
                     >
                       <tr>
-                        <td style="width: 50px">{{ detalle.id }}</td>
-                        <td class="w-50 text-start">
+                        <td class="bg-gray-100" style="width: 50px">{{ detalle.id }}</td>
+                        <td  class="w-50 bg-gray-100 text-start">
                           {{ detalle.item_nombre }}
                         </td>
                         <td class="text-end" style="width: 10rem">
