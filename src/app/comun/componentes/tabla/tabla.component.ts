@@ -264,12 +264,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   eliminarRegistros() {
     // Emite un evento con los registros a eliminar
     this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar);
+    this.arrRegistrosEliminar = [];
     // Si todos los registros están seleccionados, deselecciona todos
     if (this.selectAll) {
       this.toggleSelectAll();
-    }
-    if (this.confirmacionRegistrosEliminado) {
-      this.arrRegistrosEliminar = [];
     }
   }
 
