@@ -6,6 +6,10 @@ table#tableDetalles {
     vertical-align: middle;
   }
 
+  th{
+    text-align: center;
+  }
+
   .textarea-container {
     display: flex;
     align-items: center; /* Esto centra verticalmente el contenido */
