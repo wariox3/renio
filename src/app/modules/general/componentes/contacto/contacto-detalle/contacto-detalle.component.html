@@ -8,196 +8,137 @@
     {{ detalle }}
   </section>
   <section card-body>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.tipo_persona }}</p>
-      </div>
-    </div>
-    <div [ngSwitch]="contacto.tipo_persona_id">
-      <div *ngSwitchCase="1">
-        <div class="row mb-5">
-          <div class="col-md-12 col-sm-12">
-            <label
+    <table class="table table-bordered table-sm">
+      <tbody>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PERSONATIPO"
+          ></td>
+          <td colspan="7">{{ contacto.tipo_persona }}</td>
+        </tr>
+        <ng-container [ngSwitch]="contacto.tipo_persona_id">
+          <tr *ngSwitchCase="1">
+            <td
+              class="fw-bold text-gray-800 fs-6"
               translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
-              class="fw-semibold text-gray-600 fs-7"
-            ></label>
-            <p class="fw-bold text-gray-800 fs-6">
-              {{ contacto.nombre_corto }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div *ngSwitchCase="2">
-        <div class="row mb-5">
-          <div class="col-md-6 col-sm-12">
-            <label
+            ></td>
+            <td colspan="7">{{ contacto.nombre_corto }}</td>
+          </tr>
+          <tr *ngSwitchCase="2">
+            <td
+              class="fw-bold text-gray-800 fs-6"
               translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE1"
-              class="fw-semibold text-gray-600 fs-7"
-            ></label>
-            <p class="fw-bold text-gray-800 fs-6">{{ contacto.nombre1 }}</p>
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <label
+            ></td>
+            <td>{{ contacto.nombre1 }}</td>
+            <td
+              class="fw-bold text-gray-800 fs-6"
               translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE2"
-              class="fw-semibold text-gray-600 fs-7"
-            ></label>
-            <p class="fw-bold text-gray-800 fs-6">{{ contacto.nombre2 }}</p>
-          </div>
-        </div>
-        <div class="row mb-5">
-          <div class="col-md-6 col-sm-12">
-            <label
+            ></td>
+            <td>{{ contacto.nombre2 }}</td>
+            <td
+              class="fw-bold text-gray-800 fs-6"
               translate="FORMULARIOS.CAMPOS.COMUNES.APELLIDO1"
-              class="fw-semibold text-gray-600 fs-7"
-            ></label>
-            <p class="fw-bold text-gray-800 fs-6">{{ contacto.apellido1 }}</p>
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <label
+            ></td>
+            <td>{{ contacto.apellido1 }}</td>
+            <td
+              class="fw-bold text-gray-800 fs-6"
               translate="FORMULARIOS.CAMPOS.COMUNES.APELLIDO2"
-              class="fw-semibold text-gray-600 fs-7"
-            ></label>
-            <p class="fw-bold text-gray-800 fs-6">{{ contacto.apellido2 }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-4 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.numero_identificacion }}
-        </p>
-      </div>
-      <div class="col-md-2 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.DIGITOVERIFICACION"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.digito_verificacion }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.identificacion_abreviatura }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.telefono | mask : "000-0000" }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.CELULAR"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.celular | mask : "000-000-0000" }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.ciudad_nombre }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.DIRECCION"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.direccion }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.BARRIO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.barrio }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.correo }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.regimen_nombre }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.CODIGOCIUU"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.codigo_ciuu }}</p>
-      </div>
-    </div>
+            ></td>
+            <td>{{ contacto.apellido2 }}</td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
+          ></td>
+          <td>{{ contacto.numero_identificacion }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.DIGITOVERIFICACION"
+          ></td>
+          <td>{{ contacto.digito_verificacion }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
+          ></td>
+          <td colspan="4">{{ contacto.identificacion_abreviatura }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
+          ></td>
+          <td>{{ contacto.telefono | mask : "000-0000" }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CELULAR"
+          ></td>
+          <td colspan="5">{{ contacto.celular | mask : "000-000-0000" }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
+          ></td>
+          <td>{{ contacto.ciudad_nombre }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.DIRECCION"
+          ></td>
+          <td colspan="5">{{ contacto.direccion }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.BARRIO"
+          ></td>
+          <td colspan="7">{{ contacto.barrio }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.REGIMEN"
+          ></td>
+          <td colspan="7">{{ contacto.regimen_nombre }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.CODIGOCIUU"
+          ></td>
+          <td colspan="7">{{ contacto.codigo_ciuu }}</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </app-card>
 
 <app-card [titulo]="'FORMULARIOS.TITULOS.CONTACTO.INFORMACIONCOMERCIAL'">
   <section card-body>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.plazo_pago_nombre }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.LISTAPRECIO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ contacto.precio_nombre }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.ASESOR"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ contacto.asesor_nombre_corto }}
-        </p>
-      </div>
-    </div>
+    <table class="table table-bordered table-sm">
+      <tbody>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
+          ></td>
+          <td>{{ contacto.plazo_pago_nombre }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.LISTAPRECIO"
+          ></td>
+          <td>{{ contacto.precio_nombre }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.ASESOR"
+          ></td>
+          <td colspan="4">{{ contacto.asesor_nombre_corto }}</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </app-card>

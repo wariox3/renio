@@ -23,8 +23,15 @@
   border: 1px solid var(--bs-border-color) !important;
 }
 
-.ki-duotone, .ki-outline, .ki-solid, .fa-regular {
+.ki-duotone,
+.ki-outline,
+.ki-solid,
+.fa-regular {
   font-size: 1.8rem;
   width: 20.484px;
   height: 23.406px;
+}
+
+td {
+  vertical-align: middle;
 }

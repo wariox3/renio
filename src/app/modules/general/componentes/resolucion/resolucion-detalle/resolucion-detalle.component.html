@@ -3,71 +3,52 @@
 </div>
 <app-card>
   <section card-titulo>
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-      {{ detalle }}
+    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+    {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+    {{ detalle }}
   </section>
   <section card-body>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.prefijo }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.numero }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ resolucion.consecutivo_desde }}
-        </p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ resolucion.consecutivo_hasta }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_hasta }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ resolucion.fecha_desde }}</p>
-      </div>
-    </div>
+    <table class="table table-bordered table-sm">
+      <tbody>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.PREFIJO"
+          ></td>
+          <td colspan="5">{{ resolucion.prefijo }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
+          ></td>
+          <td colspan="5">{{ resolucion.numero }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVODESDE"
+          ></td>
+          <td>{{ resolucion.consecutivo_desde }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.RESOLUCION.CONSECUTIVOHASTA"
+          ></td>
+          <td>{{ resolucion.consecutivo_hasta }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+          ></td>
+          <td >{{ resolucion.fecha_desde }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+          ></td>
+          <td colspan="5">{{ resolucion.fecha_hasta }}</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </app-card>

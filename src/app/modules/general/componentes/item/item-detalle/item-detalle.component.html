@@ -8,89 +8,67 @@
     {{ detalle }}
   </section>
   <section card-body>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ item.nombre }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
-          class="fw-semibold text-gray-600 fs-7"
-        >
-        </label>
-        <p class="fw-bold text-gray-800 fs-6">{{ item.codigo }}</p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">{{ item.referencia }}</p>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ item.precio | number }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <li *ngFor="let impuesto of item.impuestos">
-          <span class="fw-bold text-gray-800 fs-6">{{
-            impuesto.impuesto_nombre_extendido
-          }}</span>
-        </li>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <p class="fw-bold text-gray-800 fs-6">
-          {{ item.costo | number }}
-        </p>
-      </div>
-    </div>
-    <div class="row mb-5">
-      <div class="col-md-6 col-sm-12 d-flex flex-column gap-3">
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.INVENTARIO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-
-        <span class="fw-bold text-gray-800 fs-6">{{
-          item.inventario ? "Si" : "No"
-        }}</span>
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRODUCTO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-
-        <span class="fw-bold text-gray-800 fs-6">{{
-          item.producto ? "Si" : "No"
-        }}</span>
-        <label
-          translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.SERVICIO"
-          class="fw-semibold text-gray-600 fs-7"
-        ></label>
-        <span class="fw-bold text-gray-800 fs-6">{{
-          item.servicio ? "Si" : "No"
-        }}</span>
-      </div>
-    </div>
+    <table class="table table-bordered table-sm">
+      <tbody>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+          ></td>
+          <td colspan="5">{{ item.nombre }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
+          ></td>
+          <td colspan="5">{{ item.referencia }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
+          ></td>
+          <td colspan="5">{{ item.precio | number }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
+          ></td>
+          <td colspan="5">{{ item.costo | number }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.INVENTARIO"
+          ></td>
+          <td>{{ item.inventario ? "Si" : "No" }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRODUCTO"
+          ></td>
+          <td>{{ item.producto ? "Si" : "No" }}</td>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.SERVICIO"
+          ></td>
+          <td>{{ item.servicio ? "Si" : "No" }}</td>
+        </tr>
+        <tr>
+          <td
+            class="fw-bold text-gray-800 fs-6"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
+          ></td>
+          <td colspan="5">
+            <li *ngFor="let impuesto of item.impuestos">
+              <span class="fw-bold text-gray-800 fs-6">{{
+                impuesto.impuesto_nombre_extendido
+              }}</span>
+            </li>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </app-card>

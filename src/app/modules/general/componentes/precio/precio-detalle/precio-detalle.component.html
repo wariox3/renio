@@ -14,38 +14,38 @@
   </div>
   <app-card>
     <section card-titulo>
-        {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-        {{ detalle }}
+      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+      {{ detalle }}
     </section>
     <section card-body>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
-            class="fw-semibold text-gray-600 fs-7"
-          ></label>
-          <p class="fw-bold text-gray-800 fs-6">
-            {{ precio.nombre }}
-          </p>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
+      <table class="table table-bordered table-sm">
+        <tbody>
+          <tr>
+            <td
+              class="fw-bold text-gray-800 fs-6"
+              translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+              ></td>
+            <td colspan="5">{{ precio.nombre }}</td>
+          </tr>
+          <tr>
+            <td
+            class="fw-bold text-gray-800 fs-6"
             translate="FORMULARIOS.CAMPOS.GENERAL.PRECIO.TIPO"
-            class="fw-semibold text-gray-600 fs-7"
-          ></label>
-          <p class="fw-bold text-gray-800 fs-6">{{ precio.tipo }}</p>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
+            ></td>
+            <td>
+              {{ precio.tipo }}
+            </td>
+            <td
+            class="fw-bold text-gray-800 fs-6"
             translate="FORMULARIOS.CAMPOS.GENERAL.PRECIO.FECHAVENCE"
-            class="fw-semibold text-gray-600 fs-7"
-          ></label>
-          <p class="fw-bold text-gray-800 fs-6">{{ precio.fecha_vence }}</p>
-        </div>
-      </div>
+            ></td>
+            <td>
+              {{ precio.fecha_vence }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div class="row mb-5">
         <div class="col-12">
           <ul
