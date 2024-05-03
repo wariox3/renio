@@ -123,9 +123,11 @@
               <div style="flex: 1; text-align: center">
                 {{
                   "LISTAS." +
-                    (tipo | uppercase) +
-                    "." +
-                    (item.nombre | uppercase) | translate
+                  (tipo | uppercase) +
+                  "." +
+                  (
+                    item.nombreAbreviado ? (item.nombreAbreviado | uppercase) : (item.nombre | uppercase)
+                  ) | translate
                 }}
               </div>
               <div *ngIf="item.ordenable">
@@ -189,12 +191,10 @@
       >
         <td
           *ngFor="let key of item | keys"
-          [ngClass]="
-            {
-              'text-end': item[key].aplicaFormatoNumerico,
-              'text-center': item[key].campoTipo === 'Booleano'
-            }
-          "
+          [ngClass]="{
+            'text-end': item[key].aplicaFormatoNumerico,
+            'text-center': item[key].campoTipo === 'Booleano'
+          }"
         >
           {{ getTipoDato(item[key].valor, item[key]) }}
         </td>

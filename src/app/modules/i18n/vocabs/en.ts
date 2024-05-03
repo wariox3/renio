@@ -390,6 +390,8 @@ export const locale = {
         TOTAL: 'Total',
         ESTADO_APROBADO: 'Approved',
         ESTADO_ANULADO: 'Canceled',
+        ESTADO_APROBADO_ABREVIATURA: 'Apr',
+        ESTADO_ANULADO_ABREVIATURA: 'Anu',
         CONTACTO: 'contact',
         DOCUMENTO_TIPO: 'document type',
         METODO_PAGO: 'payment method',

@@ -1,6 +1,7 @@
 type Mapeo = {
   [key: number]: {
     nombre: string;
+    nombreAbreviado?: string;
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
@@ -70,6 +71,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -77,6 +79,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -138,6 +141,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -145,6 +149,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -206,6 +211,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -213,6 +219,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -274,6 +281,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -281,6 +289,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -342,6 +351,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -349,6 +359,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -410,6 +421,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -417,6 +429,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -478,6 +491,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -485,6 +499,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -546,6 +561,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -553,6 +569,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -614,6 +631,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -621,6 +639,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -682,6 +701,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -689,6 +709,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
