@@ -5,6 +5,7 @@ type Mapeo = {
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
+    esFk?: boolean;
     aplicaFormatoNumerico?: boolean;
     campoTipo:
       | 'IntegerField'
@@ -44,6 +45,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -114,6 +116,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -184,6 +187,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -254,6 +258,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -324,6 +329,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -394,6 +400,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -464,6 +471,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -534,6 +542,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -604,6 +613,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -674,6 +684,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
+      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
