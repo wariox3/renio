@@ -384,7 +384,7 @@ export const locale = {
         CARGANDOTABLA: "Cargando"
       },
       DOCUMENTO: {
-        ID: 'ID',
+        ID: 'Id',
         NUMERO: 'Número',
         FECHA: 'Fecha',
         VENCE: 'Vence',

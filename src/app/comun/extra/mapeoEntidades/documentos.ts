@@ -42,7 +42,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -110,7 +110,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -178,7 +178,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -246,7 +246,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -314,7 +314,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -382,7 +382,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -450,7 +450,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -518,7 +518,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -586,7 +586,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -654,7 +654,7 @@ export const documentos: Mapeo = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',

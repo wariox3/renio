@@ -380,7 +380,7 @@ export const locale = {
         CARGANDOTABLA: 'Loading',
       },
       DOCUMENTO: {
-        ID: 'ID',
+        ID: 'Id',
         NUMERO: 'Number',
         FECHA: 'Date',
         VENCE: 'Expires',
