@@ -172,6 +172,7 @@ export class BaseFiltroFormularioComponent
   }
 
   propiedadSeleccionada(event: any): void {
+    this.filtroCampoValor1 = ''
     const selectedValue = event.target.value;
     this.filtroTipo = event.target.value
     const selectedOption = event.target.selectedOptions[0];

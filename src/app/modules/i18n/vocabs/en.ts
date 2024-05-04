@@ -292,6 +292,7 @@ export const locale = {
           URLANEXO: 'Url for Attachments?',
           TIPOOPERACION: 'Transaction Type',
           METODOPAGO: 'Payment Method',
+          CUE: 'Cue',
           NUMERO: 'Number',
           ORDENCOMPRA: 'Purchase order',
           DOCUMENTOREFERENCIA: 'Reference document',
