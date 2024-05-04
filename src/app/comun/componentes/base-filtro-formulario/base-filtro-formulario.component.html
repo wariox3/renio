@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12 col-md-6 mb-2">
+  <div class="col-12 col-md-4 mb-2">
     <select
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
@@ -13,19 +13,32 @@
           [selected]="
             propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
           "
-          [attr.data-value]="propiedad.nombre.toLocaleLowerCase()"
+          [attr.data-value]="
+            propiedad.esFk
+              ? (propiedad.modeloFk.toLocaleLowerCase()+'_id')
+              : propiedad.nombre.toLocaleLowerCase()
+          "
+          [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
+          [attr.data-modelo-busqueda-avanzada]="
+            propiedad.modeloFk ? propiedad.modeloFk : ''
+          "
         >
           {{
-            "LISTAS." +
-              (tipo | uppercase) +
-              "." +
-              (propiedad.nombre | uppercase) | translate
+            propiedad.esFk
+              ? ("LISTAS." +
+                  (tipo | uppercase) +
+                  "." +
+                  (propiedad.modeloFk | uppercase) | translate)
+              : ("LISTAS." +
+                  (tipo | uppercase) +
+                  "." +
+                  (propiedad.nombre | uppercase) | translate)
           }}
         </option>
       </ng-container>
     </select>
   </div>
-  <div class="col-12 col-md-6 mb-2">
+  <div class="col-12 col-md-4 mb-2">
     <select
       class="form-control form-control-sm"
       (change)="onCriterioSeleccionado($event)"
@@ -45,4 +58,87 @@
       </option>
     </select>
   </div>
+  <div class="col-12 col-md-4 mb-2">
+    <div class="input-group input-group-sm">
+      <input
+        class="form-control form-control-sm"
+        [placeholder]="busquedaAvanzada !== '' ? 'Código' : 'Buscar...'"
+        [value]="filtroCampoValor1"
+        [ngClass]="{
+          'animate__animated animate__fadeOut': filtroTipo  === 'Booleano',
+        }"
+        [type]="
+          filtroTipo === 'IntegerField'
+            ? 'number'
+            : filtroTipo === 'DateField'
+            ? 'date'
+            : 'text'
+        "
+        (change)="actualizarCampoValor1($event)"
+      />
+      <!-- <input
+        class="form-control form-control-sm"
+        readonly
+        disabled="disabled"
+        placeholder="nombre"
+        [value]="filtroCampoNombreFk"
+        *ngIf="busquedaAvanzada !== ''"
+      /> -->
+      <div class="input-group-append" *ngIf="busquedaAvanzada !== ''">
+        <button
+          style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+          class="btn btn-primary btn-sm rounded-left-0"
+          (click)="abirModal(content)"
+          type="button"
+        >
+          Busqueda
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Buscar {{ modeloBusquedaAvanzada | lowercase }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive table-loading mt-5">
+      <table
+        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr>
+            <th *ngFor="let key of arrRegistros[0] | keys">
+              {{ key }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of arrRegistros">
+            <ng-container *ngFor="let key of item | keys; let last = last">
+              <td>
+                {{ item[key] }}
+              </td>
+              <ng-container *ngIf="last">
+                <button
+                  (click)="seleccionar(item)"
+                  class="btn btn-primary btn-sm p-1"
+                >
+                  seleccionar
+                </button>
+              </ng-container>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

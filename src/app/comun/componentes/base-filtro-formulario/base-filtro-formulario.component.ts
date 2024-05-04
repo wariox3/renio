@@ -12,10 +12,13 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
+import { KeysPipe } from '@pipe/keys.pipe';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpService } from '@comun/services/http.service';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule],
+  imports: [CommonModule, TranslateModule, TranslationModule, KeysPipe],
   templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent
@@ -25,10 +28,16 @@ export class BaseFiltroFormularioComponent
   camposVisibles: any;
   filtroCampoNombre = '';
   filtroCampoCriterio = '';
-  modelo: string;
+  filtroCampoValor1: any = '';
+  filtroCampoNombreFk: any = '';
+  filtroTipo: any = '';
+  busquedaAvanzada = '';
+  modeloBusquedaAvanzada = '';
+  arrRegistros: any = []
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
+  @Output() dataValor1: EventEmitter<any> = new EventEmitter();
 
   datosCriteriosBusqueda: {
     [key: string]: {
@@ -126,10 +135,16 @@ export class BaseFiltroFormularioComponent
 
   criteriosBusqueda: { valor: string; texto: string }[] = [];
 
+  constructor(
+    private modalService: NgbModal,
+    private httpService: HttpService
+  ) {
+    super();
+  }
+
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      //   this.modelo = parametro.modelo;
-      this.tipo= localStorage.getItem('itemTipo')!
+      this.tipo = localStorage.getItem('itemTipo')!;
       this.construirFiltros(parametro.modelo);
     });
   }
@@ -144,6 +159,7 @@ export class BaseFiltroFormularioComponent
         this.datosCriteriosBusqueda[
           changes.datosSeleccionados.currentValue.tipo
         ];
+      this.filtroCampoValor1 = changes.datosSeleccionados.currentValue.valor1;
       this.changeDetectorRef.detectChanges();
     }
   }
@@ -156,9 +172,23 @@ export class BaseFiltroFormularioComponent
   }
 
   propiedadSeleccionada(event: any): void {
-    const selectedValue = event.target.value; // Valor seleccionado en el select
-    const selectedOption = event.target.selectedOptions[0]; // Opción seleccionada
+    const selectedValue = event.target.value;
+    this.filtroTipo = event.target.value
+    const selectedOption = event.target.selectedOptions[0];
     this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
+
+    this.busquedaAvanzada = selectedOption.getAttribute(
+      'data-modelo-busqueda-avanzada'
+    );
+    this.modeloBusquedaAvanzada = selectedOption.getAttribute(
+      'data-modelo-busqueda-avanzada'
+    );
+
+    console.log({
+      campo: selectedOption.getAttribute('data-value') ?? '',
+      tipo: selectedValue,
+    });
+    
     this.dataPropiedad.emit({
       campo: selectedOption.getAttribute('data-value') ?? '',
       tipo: selectedValue,
@@ -169,4 +199,43 @@ export class BaseFiltroFormularioComponent
     const target = event.target as HTMLSelectElement;
     this.dataOperador.emit(target.value);
   }
+
+  abirModal(content: any) {
+    this.consultarLista();
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  consultarLista() {
+    this.httpService
+      .post<{
+        cantidad_registros: number;
+        registros: any[];
+        propiedades: any[];
+      }>('general/funcionalidad/lista-buscar/', {
+        modelo: this.modeloBusquedaAvanzada,
+      })
+      .subscribe((respuesta) => {
+        this.arrRegistros = respuesta.registros;
+
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  seleccionar(item: any) {
+    this.modalService.dismissAll();
+    this.filtroCampoValor1 = Object.values(item)[0]
+    this.filtroCampoNombreFk = Object.values(item)[2]
+    this.dataValor1.emit(Object.values(item)[0]);
+  }
+
+  actualizarCampoValor1(event: Event){
+    const target = event.target as HTMLSelectElement;
+    this.dataValor1.emit(target.value);
+
+  }
+
 }

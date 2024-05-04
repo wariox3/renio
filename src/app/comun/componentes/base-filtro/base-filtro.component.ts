@@ -14,6 +14,9 @@ import {
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 import { General } from '@comun/clases/general';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpService } from '@comun/services/http.service';
+import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
   selector: 'app-base-filtro',
@@ -117,12 +120,16 @@ export class BaseFiltroComponent extends General implements OnInit {
     let propiedad = '';
     let operador = '';
     let tipo = '';
+    let busquedaAvanzada = 'false';
+    let modeloBusquedaAvanzada = '';
     if (propiedades) {
       valor1 = propiedades.valor1;
       valor2 = propiedades.valor2;
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
+      busquedaAvanzada: propiedades.busquedaAvanzada;
+      modeloBusquedaAvanzada: propiedades.modeloBusquedaAvanzada;
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
@@ -130,6 +137,8 @@ export class BaseFiltroComponent extends General implements OnInit {
       valor1: [valor1, [Validators.required]],
       valor2: [valor2],
       tipo: [tipo],
+      busquedaAvanzada: [busquedaAvanzada],
+      modeloBusquedaAvanzada: [modeloBusquedaAvanzada],
     });
   }
 
@@ -141,6 +150,8 @@ export class BaseFiltroComponent extends General implements OnInit {
         valor1: ['', [Validators.required]],
         valor2: [''],
         tipo: [''],
+        busquedaAvanzada: ['false'],
+        modeloBusquedaAvanzada: [''],
       })
     );
   }
@@ -178,8 +189,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     let emitirValores = true;
 
     filtros.forEach((filtro: any) => {
-
-      if(filtro.propiedad !== ''){
+      if (filtro.propiedad !== '') {
         if (filtro.valor1 === '') {
           hayFiltrosSinValores = true;
         } else {
@@ -196,7 +206,7 @@ export class BaseFiltroComponent extends General implements OnInit {
           listaFiltros.push(nuevoFiltro);
         }
       } else {
-        emitirValores = false
+        emitirValores = false;
       }
     });
     if (hayFiltrosSinValores === false) {
@@ -205,7 +215,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         this.nombreFiltro,
         JSON.stringify(this.listaFiltros)
       );
-      if(emitirValores){
+      if (emitirValores) {
         this.emitirFiltros.emit(this.listaFiltros);
       }
     } else {
@@ -232,6 +242,11 @@ export class BaseFiltroComponent extends General implements OnInit {
   actualizarOperador(operador: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ operador });
+  }
+
+  actualizarValor1(valor1: string, index: number) {
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    filtroPorActualizar.patchValue({ valor1 });
   }
 
   limpiarFormulario() {

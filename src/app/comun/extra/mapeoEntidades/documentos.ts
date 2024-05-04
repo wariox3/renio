@@ -6,6 +6,7 @@ type Mapeo = {
     visibleFiltro: boolean;
     ordenable: boolean;
     esFk?: boolean;
+    modeloFk?: string;
     aplicaFormatoNumerico?: boolean;
     campoTipo:
       | 'IntegerField'
@@ -43,9 +44,10 @@ export const documentos: Mapeo = {
       nombre: 'CONTACTO_NOMBRE_CORTO',
       campoTipo: 'CharField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
       esFk: true,
+      modeloFk: 'Contacto'
     },
     {
       nombre: 'SUBTOTAL',

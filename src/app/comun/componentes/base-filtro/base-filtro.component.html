@@ -4,56 +4,15 @@
       class="row mb-6"
       *ngFor="let filtro of filtros.controls; let i = index"
     >
-      <div class="col-12 col-md-5 mb-2" [formGroupName]="i">
+      <div class="col-12 col-md-11 mb-2" [formGroupName]="i">
         <app-base-filtro-formulario
           [datosSeleccionados]="filtrosAplicados[i]"
           (dataPropiedad)="actualizarPropiedad($event, i)"
           (dataOperador)="actualizarOperador($event, i)"
+          (dataValor1)="actualizarValor1($event, i)"
         ></app-base-filtro-formulario>
       </div>
-      <div class="col-12 col-md-5 mb-2" [formGroupName]="i">
-        <div class="d-flex justify-content-between">
-          <div class="w-100">
-            <input
-            class="form-control form-control-sm"
-            [ngClass]="{
-              'animate__animated animate__fadeOut': filtro.value.tipo  === 'Booleano',
-            }"
-            [type]="
-              filtro.value.tipo === 'IntegerField'
-                ? 'number'
-                : filtro.value.tipo === 'DateField'
-                ? 'date'
-                : 'text'
-            "
-            placeholder="Buscar..."
-            formControlName="valor1"
-          />
-          <div *ngIf="esCampoInvalido(i, 'valor1')" class="error-message">
-            <div class="fv-plugins-message-container mx-2">
-              <div class="fv-help-block">
-                <span role="alert"> {{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO"| translate  }} </span>
-              </div>
-            </div>
-          </div>
-          </div>
-
-          <ng-container
-            *ngIf="
-              (filtro.value.tipo === 'DateField' || filtro.value.tipo === 'IntegerField') &&
-              this.formularioItem.value['filtros'][i].operador === 'entre'
-            "
-          >
-            <input
-              class="form-control form-control-sm"
-              [type]="filtro.value.tipo === 'IntegerField' ? 'number' : 'date'"
-              placeholder="entre"
-              formControlName="valor2"
-            />
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-12 col-md-2" [formGroupName]="i">
+      <div class="col-12 col-md-1" [formGroupName]="i">
         <div class="d-flex justify-content-end">
           <i
             class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
