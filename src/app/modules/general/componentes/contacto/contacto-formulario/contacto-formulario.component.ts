@@ -313,7 +313,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           .guardarContacto(this.formularioContacto.value)
           .pipe(
             tap((respuesta: any) => {
-              this.alertaService.mensajaExitoso('Guardado con exito');
+              this.alertaService.mensajaExitoso('Se guardo la información');
               this.router.navigate(['/administrador/detalle'], {
                 queryParams: {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
