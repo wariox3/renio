@@ -163,6 +163,7 @@ export class BaseFiltroFormularioComponent
   }
 
   ngOnInit(): void {
+    this.initFormulularioModal();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.tipo = localStorage.getItem('itemTipo')!;
       this.construirFiltros(parametro.modelo);
@@ -221,8 +222,7 @@ export class BaseFiltroFormularioComponent
     this.propiedadBusquedaAvanzada = mapeo[posicion].filter(
       (propiedad) => propiedad.visibleFiltro === true
     );
-    this.initFormulularioModal();
-
+    this.agregarNuevoFiltro()
     this.consultarLista([]);
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -263,14 +263,7 @@ export class BaseFiltroFormularioComponent
 
   initFormulularioModal() {
     this.formularioFiltrosModal = this.formBuilder.group({
-      filtros: this.formBuilder.array([
-        this.formBuilder.group({
-          propiedad: [''],
-          operador: [''],
-          valor1: ['', [Validators.required]],
-          valor2: [''],
-        }),
-      ]),
+      filtros: this.formBuilder.array([]),
     });
   }
 
@@ -318,12 +311,6 @@ export class BaseFiltroFormularioComponent
     console.log();
 
     filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${selectedOption.value}`});
-  }
-
-  actualizarCampoValor1Modal(event: Event, index: number) {
-    const target = event.target as HTMLSelectElement;
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ valor1:  target.value});
   }
 
 
