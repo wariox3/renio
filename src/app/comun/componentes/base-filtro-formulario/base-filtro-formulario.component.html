@@ -235,7 +235,7 @@
       >
         <thead>
           <tr>
-            <th *ngFor="let key of arrRegistros[0] | keys">
+            <th class="bg-gray-100" *ngFor="let key of arrRegistros[0] | keys">
               {{
                 "LISTAS." +
                   (modeloBusquedaAvanzada | uppercase) +
@@ -243,6 +243,8 @@
                   (key | uppercase) | translate
               }}
             </th>
+            <td class="bg-gray-100">
+            </td>
           </tr>
         </thead>
         <tbody>
