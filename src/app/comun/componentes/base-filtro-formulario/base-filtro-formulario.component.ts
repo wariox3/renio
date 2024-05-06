@@ -15,10 +15,26 @@ import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.
 import { KeysPipe } from '@pipe/keys.pipe';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
+import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule, KeysPipe],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    TranslationModule,
+    KeysPipe,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   templateUrl: './base-filtro-formulario.component.html',
 })
 export class BaseFiltroFormularioComponent
@@ -33,7 +49,10 @@ export class BaseFiltroFormularioComponent
   filtroTipo: any = '';
   busquedaAvanzada = '';
   modeloBusquedaAvanzada = '';
-  arrRegistros: any = []
+  arrRegistros: any = [];
+  propiedadBusquedaAvanzada: any = [];
+  formularioFiltrosModal: FormGroup;
+
   @Input() datosSeleccionados: any | null;
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
@@ -95,7 +114,7 @@ export class BaseFiltroFormularioComponent
         texto: 'IGUAL',
       },
       {
-        valor: '__contains',
+        valor: '__icontains',
         texto: 'CONTIENE',
       },
     ],
@@ -137,7 +156,8 @@ export class BaseFiltroFormularioComponent
 
   constructor(
     private modalService: NgbModal,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private formBuilder: FormBuilder
   ) {
     super();
   }
@@ -172,9 +192,9 @@ export class BaseFiltroFormularioComponent
   }
 
   propiedadSeleccionada(event: any): void {
-    this.filtroCampoValor1 = ''
+    this.filtroCampoValor1 = '';
     const selectedValue = event.target.value;
-    this.filtroTipo = event.target.value
+    this.filtroTipo = event.target.value;
     const selectedOption = event.target.selectedOptions[0];
     this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
 
@@ -185,11 +205,6 @@ export class BaseFiltroFormularioComponent
       'data-modelo-busqueda-avanzada'
     );
 
-    console.log({
-      campo: selectedOption.getAttribute('data-value') ?? '',
-      tipo: selectedValue,
-    });
-    
     this.dataPropiedad.emit({
       campo: selectedOption.getAttribute('data-value') ?? '',
       tipo: selectedValue,
@@ -202,7 +217,13 @@ export class BaseFiltroFormularioComponent
   }
 
   abirModal(content: any) {
-    this.consultarLista();
+    let posicion: keyof typeof mapeo = this.modeloBusquedaAvanzada;
+    this.propiedadBusquedaAvanzada = mapeo[posicion].filter(
+      (propiedad) => propiedad.visibleFiltro === true
+    );
+    this.initFormulularioModal();
+
+    this.consultarLista([]);
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -210,7 +231,7 @@ export class BaseFiltroFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista() {
+  consultarLista(listaFiltros: any) {
     this.httpService
       .post<{
         cantidad_registros: number;
@@ -218,6 +239,7 @@ export class BaseFiltroFormularioComponent
         propiedades: any[];
       }>('general/funcionalidad/lista-buscar/', {
         modelo: this.modeloBusquedaAvanzada,
+        filtros: listaFiltros
       })
       .subscribe((respuesta) => {
         this.arrRegistros = respuesta.registros;
@@ -228,15 +250,115 @@ export class BaseFiltroFormularioComponent
 
   seleccionar(item: any) {
     this.modalService.dismissAll();
-    this.filtroCampoValor1 = Object.values(item)[0]
-    this.filtroCampoNombreFk = Object.values(item)[2]
+    this.filtroCampoValor1 = Object.values(item)[0];
+    this.filtroCampoNombreFk = Object.values(item)[2];
     this.dataValor1.emit(Object.values(item)[0]);
   }
 
-  actualizarCampoValor1(event: Event){
+  actualizarCampoValor1(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.dataValor1.emit(target.value);
-
   }
 
+
+  initFormulularioModal() {
+    this.formularioFiltrosModal = this.formBuilder.group({
+      filtros: this.formBuilder.array([
+        this.formBuilder.group({
+          propiedad: [''],
+          operador: [''],
+          valor1: ['', [Validators.required]],
+          valor2: [''],
+        }),
+      ]),
+    });
+  }
+
+  get filtros() {
+    return this.formularioFiltrosModal.get('filtros') as FormArray;
+  }
+
+  agregarNuevoFiltro() {
+    this.filtros.push(
+      this.formBuilder.group({
+        propiedad: [''],
+        operador: [''],
+        valor1: ['', [Validators.required]],
+        valor2: [''],
+      })
+    );
+  }
+
+  eliminarFiltro(index: number) {
+    if (this.filtros.length > 1) {
+      this.filtros.removeAt(index);
+    }
+  }
+
+  limpiarFormulario() {
+    this.formularioFiltrosModal.reset();
+    this.filtros.clear();
+    this.agregarNuevoFiltro();
+    this.consultarLista([]);
+  }
+
+  propiedadSeleccionadaModal(event: any, index: number): void {
+    this.filtroCampoValor1 = '';
+    const selectedValue = event.target.value;
+    this.filtroTipo = event.target.value;
+    const selectedOption = event.target.selectedOptions[0];
+    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    filtroPorActualizar.patchValue({ propiedad:  selectedOption.getAttribute('data-value')});
+  }
+
+  criterioSeleccionadoModal(event: any, index: number){
+    const selectedOption = event.target.selectedOptions[0];
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    console.log();
+
+    filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${selectedOption.value}`});
+  }
+
+  actualizarCampoValor1Modal(event: Event, index: number) {
+    const target = event.target as HTMLSelectElement;
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    filtroPorActualizar.patchValue({ valor1:  target.value});
+  }
+
+
+  aplicarFiltro() {
+    const filtros = this.formularioFiltrosModal.value['filtros'];
+    const listaFiltros: any[] = [];
+    let hayFiltrosSinValores = false;
+    let emitirValores = true;
+    filtros.forEach((filtro: any) => {
+      if (filtro.propiedad !== '') {
+        if (filtro.valor1 === '') {
+          hayFiltrosSinValores = true;
+        } else {
+          const nuevoFiltro = {
+            ...filtro,
+            ...{
+              campo:
+                filtro.propiedad + filtro.operador !== null
+                  ? filtro.propiedad + filtro.operador
+                  : '',
+            },
+          };
+          listaFiltros.push(nuevoFiltro);
+        }
+      } else {
+        emitirValores = false;
+      }
+    });
+    if (hayFiltrosSinValores === false) {
+      this.consultarLista(listaFiltros);
+    } else {
+      this.alertaService.mensajeError(
+        'Error en formulario filtros',
+        'contiene campos vacios'
+      );
+    }
+  }
 }

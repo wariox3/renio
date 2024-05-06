@@ -14,9 +14,6 @@ import {
 import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 import { General } from '@comun/clases/general';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpService } from '@comun/services/http.service';
-import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
   selector: 'app-base-filtro',
