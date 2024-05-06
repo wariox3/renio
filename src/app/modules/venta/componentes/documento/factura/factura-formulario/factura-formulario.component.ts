@@ -57,6 +57,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   totalCantidad: number = 0;
   totalDescuento: number = 0;
   totalImpuestos: number = 0;
+  totalBase: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
@@ -432,6 +433,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.totalCantidad = 0;
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
+    this.totalBase = 0;
     this.totalGeneral = 0;
     this.subtotalGeneral = 0;
     this.totalNetoGeneral = 0;
@@ -449,6 +451,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       const impuestos = detalleControl.get('impuestos')?.value || [];
       impuestos.forEach((impuesto: any) => {
         this.totalImpuestos += impuesto.total;
+        this.totalBase += impuesto.base
       });
 
       let neto = detalleControl.get('neto')?.value || 0;
@@ -460,7 +463,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
       detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
-      this.formularioFactura.get('base_impuesto')?.setValue(this.subtotalGeneral)
+      this.formularioFactura.get('base_impuesto')?.setValue(this.totalBase)
       this.formularioFactura.get('impuesto')?.setValue(this.totalImpuestos)
       this.changeDetectorRef.detectChanges();
     });
@@ -672,14 +675,30 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       'impuestos_eliminados'
     ) as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
+    const baseImpuesto = detalleFormGroup.get('base_impuesto') as FormControl;
+    const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
 
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
       (item: any) => item.impuesto_id !== impuesto.impuesto_id
     );
 
     let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
+    console.log(impuesto);
+    
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
+    if (nuevosImpuestos.length > 1){
+      detalleFormGroup.patchValue({
+        base_impuesto: baseImpuesto.value - impuesto.base,
+        impuesto: impuestoDetalle.value - impuesto.total
+      })
+    } else {
+      detalleFormGroup.patchValue({
+        base_impuesto: 0,
+        impuesto: 0
+      })
+      
+    }
     // Agregar los impuestos filtrados de nuevo al FormArray
     nuevosImpuestos.forEach((nuevoImpuesto: any) => {
       const nuevoDetalle = this.formBuilder.group({
