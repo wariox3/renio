@@ -163,7 +163,6 @@ export class BaseFiltroFormularioComponent
   }
 
   ngOnInit(): void {
-    this.initFormulularioModal();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.tipo = localStorage.getItem('itemTipo')!;
       this.construirFiltros(parametro.modelo);
@@ -218,6 +217,7 @@ export class BaseFiltroFormularioComponent
   }
 
   abirModal(content: any) {
+    this.initFormulularioModal();
     let posicion: keyof typeof mapeo = this.modeloBusquedaAvanzada;
     this.propiedadBusquedaAvanzada = mapeo[posicion].filter(
       (propiedad) => propiedad.visibleFiltro === true
