@@ -121,12 +121,11 @@ export class FacturaElectronicaComponent
   emitir() {
     if (this.arrRegistrosSeleccionados.length >= 1) {
       this.arrRegistrosSeleccionados.map((documento_id) => {
-        // this.httpService
-        // .post('general/documento/emitir/', { documento_id: this.detalle })
-        // .subscribe((respuesta: any) => {
-        //   this.alertaService.mensajaExitoso('Documento aprobado');
-        //   this.consultarLista();
-        // });
+         this.httpService
+         .post('general/documento/emitir/', { documento_id: this.detalle })
+         .subscribe((respuesta: any) => {
+           this.consultarLista();
+        });
       })
     } else {
       this.alertaService.mensajeError(

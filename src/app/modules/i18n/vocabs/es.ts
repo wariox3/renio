@@ -398,6 +398,8 @@ export const locale = {
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
         CONTACTO: 'Contacto',
+        CLIENTE: 'Cliente',
+        ESTADO: 'Estado',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Nombre',

@@ -1,7 +1,7 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
     <section card-body>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end mb-2">
         <div ngbDropdown class="d-inline-block">
           <button
             type="button"
@@ -9,28 +9,36 @@
             id="dropdownBasic1"
             ngbDropdownToggle
           >
-            acción
+            Acción
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button ngbDropdownItem (click)="emitir()">Emitir</button>
-            <button ngbDropdownItem>Notificar</button>
           </div>
         </div>
       </div>
       <div class="table-responsive-sm table-loading">
         <table
-          class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
         >
           <thead>
             <tr class="fw-bold fs-6 text-gray-800">
-              <th class="bg-gray-100">
+              <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.ID" | translate }}
               </th>
-              <th class="bg-gray-100">
+              <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
               </th>
-              <th class="bg-gray-100">
-                {{ "LISTAS.DOCUMENTO.DOCUMENTOREFERENCIA" | translate }}
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.CLIENTE" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.ESTADO" | translate }}
               </th>
               <th class="text-center bg-gray-100">
                 <label [for]="selectAll">
@@ -59,9 +67,21 @@
             <tr *ngFor="let item of arrItems">
               <td>{{ item.id }}</td>
               <td>{{ item.numero }}</td>
-              <td>{{ item.documento_referencia }}</td>
+              <td>{{ item.fecha }}</td>
+              <td>{{ item.contacto_nombre_corto }}</td>
+              <td class="text-end">
+                {{ item.total | number }}
+              </td>
+              <td>
+                <ng-container *ngIf="item.estado_electronico_enviado === true; else esperando">
+                  <span class="badge badge-success">Esperando respuesta</span>
+                </ng-container>
+                <ng-template #esperando>
+                  <span class="badge badge-danger">Pendiente</span>
+                </ng-template>
+              </td>
               <td class="w-20px">
-                <label [for]="item.id">
+                <label [for]="item.id" *ngIf="item.estado_electronico_enviado === false">
                   <i
                     class="fa-regular fs-2x cursor-pointer"
                     [ngClass]="
