@@ -490,7 +490,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody formArrayName="detalles"><pre>{{formularioFactura.value | json}}</pre>
+                    <tbody formArrayName="detalles">
                       <ng-container
                         *ngFor="let detalle of detalles.controls; let i = index"
                         [formGroupName]="i"
@@ -557,10 +557,10 @@
                           <td>
                             <div class="position-relative">
                               <input
-                                formControlName="descuento"
-                                [value]="detalle.value.descuento"
+                                formControlName="porcentaje_descuento"
+                                [value]="detalle.value.porcentaje_descuento"
                                 (change)="
-                                  actualizarDetalle(i, 'descuento', $event)
+                                  actualizarDetalle(i, 'porcentjae_descuento', $event)
                                 "
                                 [attr.disabled]="estado_aprobado"
                                 [readonly]="estado_aprobado"

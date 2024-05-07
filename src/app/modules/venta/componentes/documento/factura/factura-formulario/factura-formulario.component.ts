@@ -63,6 +63,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   totalNetoGeneral: number = 0;
   informacionDetalle: any = {
     contacto_id: '',
+    porcetanje_descuento: '',
     descuento: '',
     documento_tipo_id: '',
     fecha: '',
@@ -443,7 +444,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
 
       const precio = detalleControl.get('precio')?.value || 0;
-      const porcentajeDescuento = detalleControl.get('descuento')?.value || 0;
+      const porcentajeDescuento = detalleControl.get('porcentaje_descuento')?.value || 0;
       let subtotal = cantidad * precio;
       let descuento = (porcentajeDescuento * subtotal) / 100;
       let subtotalFinal = subtotal - descuento;
@@ -463,6 +464,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
       detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
+      detalleControl.get('descuento')?.patchValue(descuento);
       this.formularioFactura.get('base_impuesto')?.setValue(this.totalBase)
       this.formularioFactura.get('impuesto')?.setValue(this.totalImpuestos)
       this.changeDetectorRef.detectChanges();
@@ -472,6 +474,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura.patchValue({
       total: this.totalGeneral,
       subtotal: this.subtotalGeneral,
+      base_impuesto: this.totalBase,
+      impuesto: this.totalImpuestos
     });
   }
 
