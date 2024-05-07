@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-12 col-md-4 mb-2">
+
     <select
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
@@ -11,7 +12,10 @@
         <option
           [value]="propiedad.campoTipo"
           [selected]="
-            propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
+            propiedad.esFk
+              ? propiedad.modeloFk.toLocaleLowerCase() + '_id' ===
+                filtroCampoNombre
+              : propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
           "
           [attr.data-value]="
             propiedad.esFk
@@ -76,14 +80,6 @@
         "
         (change)="actualizarCampoValor1($event)"
       />
-      <!-- <input
-        class="form-control form-control-sm"
-        readonly
-        disabled="disabled"
-        placeholder="nombre"
-        [value]="filtroCampoNombreFk"
-        *ngIf="busquedaAvanzada !== ''"
-      /> -->
       <div class="input-group-append" *ngIf="busquedaAvanzada !== ''">
         <button
           style="border-top-left-radius: 0; border-bottom-left-radius: 0"
@@ -113,103 +109,109 @@
     <form [formGroup]="formularioFiltrosModal">
       <div formArrayName="filtros">
         <ng-container
-        *ngFor="let filtro of filtros.controls; let i = index"
-        [formGroupName]="i"
-      >
-        <div class="row">
-          <div class="col-12 col-md-4 mb-2">
-            <select
-              class="form-control form-control-sm"
-              (change)="propiedadSeleccionadaModal($event, i)"
-            >
-              <option value="">
-                {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-              </option>
-              <ng-container *ngFor="let propiedad of propiedadBusquedaAvanzada">
+          *ngFor="let filtro of filtros.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="row">
+            <div class="col-12 col-md-4 mb-2">
+              <select
+                class="form-control form-control-sm"
+                (change)="propiedadSeleccionadaModal($event, i)"
+              >
+                <option value="">
+                  {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+                </option>
+                <ng-container
+                  *ngFor="let propiedad of propiedadBusquedaAvanzada"
+                >
+                  <option
+                    [value]="propiedad.campoTipo"
+                    [selected]="
+                      propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
+                    "
+                    [attr.data-value]="
+                      propiedad.esFk
+                        ? propiedad.modeloFk.toLocaleLowerCase() + '_id'
+                        : propiedad.nombre.toLocaleLowerCase()
+                    "
+                    [attr.data-busqueda-avanzada]="
+                      propiedad.esFk ? true : false
+                    "
+                    [attr.data-modelo-busqueda-avanzada]="
+                      propiedad.modeloFk ? propiedad.modeloFk : ''
+                    "
+                  >
+                    {{
+                      propiedad.esFk
+                        ? ("LISTAS." +
+                            (modeloBusquedaAvanzada | uppercase) +
+                            "." +
+                            (propiedad.modeloFk | uppercase) | translate)
+                        : ("LISTAS." +
+                            (modeloBusquedaAvanzada | uppercase) +
+                            "." +
+                            (propiedad.nombre | uppercase) | translate)
+                    }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="col-12 col-md-4 mb-2">
+              <select
+                class="form-control form-control-sm"
+                (change)="criterioSeleccionadoModal($event, i)"
+              >
+                <option value="">
+                  {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+                </option>
                 <option
-                  [value]="propiedad.campoTipo"
-                  [selected]="
-                    propiedad.nombre === filtroCampoNombre.toLocaleUpperCase()
-                  "
-                  [attr.data-value]="
-                    propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase() + '_id'
-                      : propiedad.nombre.toLocaleLowerCase()
-                  "
-                  [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
-                  [attr.data-modelo-busqueda-avanzada]="
-                    propiedad.modeloFk ? propiedad.modeloFk : ''
-                  "
+                  *ngFor="let criterioBusqueda of criteriosBusquedaModal"
+                  [value]="criterioBusqueda.valor"
+                  [selected]="criterioBusqueda.defecto === true"
                 >
                   {{
-                    propiedad.esFk
-                      ? ("LISTAS." +
-                          (modeloBusquedaAvanzada | uppercase) +
-                          "." +
-                          (propiedad.modeloFk | uppercase) | translate)
-                      : ("LISTAS." +
-                          (modeloBusquedaAvanzada | uppercase) +
-                          "." +
-                          (propiedad.nombre | uppercase) | translate)
+                    "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+                      (criterioBusqueda.texto | uppercase) | translate
                   }}
                 </option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="col-12 col-md-4 mb-2">
-            <select
-              class="form-control form-control-sm"
-              (change)="criterioSeleccionadoModal($event, i)"
-            >
-              <option value="">
-                {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-              </option>
-              <option
-                *ngFor="let criterioBusqueda of criteriosBusquedaModal"
-                [value]="criterioBusqueda.valor"
-                [selected]="criterioBusqueda.defecto === true"
-              >
-                {{
-                  "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
-                    (criterioBusqueda.texto | uppercase) | translate
-                }}
-              </option>
-            </select>
-          </div>
-          <div class="col-12 col-md-3 mb-2">
-            <div class="input-group input-group-sm">
-              <input
-                formControlName="valor1"
-                class="form-control form-control-sm"
-                [placeholder]="busquedaAvanzada !== '' ? 'Código' : 'Buscar...'"
-                [ngClass]="{
+              </select>
+            </div>
+            <div class="col-12 col-md-3 mb-2">
+              <div class="input-group input-group-sm">
+                <input
+                  formControlName="valor1"
+                  class="form-control form-control-sm"
+                  [placeholder]="
+                    busquedaAvanzada !== '' ? 'Código' : 'Buscar...'
+                  "
+                  [ngClass]="{
                 'animate__animated animate__fadeOut': filtroTipo  === 'Booleano',
               }"
-                [type]="
-                  filtroTipo === 'IntegerField'
-                    ? 'number'
-                    : filtroTipo === 'DateField'
-                    ? 'date'
-                    : 'text'
-                "
-              />
+                  [type]="
+                    filtroTipo === 'IntegerField'
+                      ? 'number'
+                      : filtroTipo === 'DateField'
+                      ? 'date'
+                      : 'text'
+                  "
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-1">
+              <div class="d-flex justify-content-end">
+                <i
+                  (click)="agregarNuevoFiltro()"
+                  class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
+                ></i>
+                <i
+                  (click)="eliminarFiltro(i)"
+                  *ngIf="filtros.length > 1"
+                  class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                ></i>
+              </div>
             </div>
           </div>
-          <div class="col-12 col-md-1">
-            <div class="d-flex justify-content-end">
-              <i
-                (click)="agregarNuevoFiltro()"
-                class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
-              ></i>
-              <i
-                (click)="eliminarFiltro(i)"
-                *ngIf="filtros.length > 1"
-                class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-              ></i>
-            </div>
-          </div>
-        </div>
-      </ng-container>
+        </ng-container>
       </div>
     </form>
     <div class="d-flex justify-content-end gap-2">
@@ -232,7 +234,7 @@
         class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
-          <tr  *ngIf="arrRegistros && arrRegistros.length > 0">
+          <tr *ngIf="arrRegistros && arrRegistros.length > 0">
             <th class="bg-gray-100" *ngFor="let key of arrRegistros[0] | keys">
               {{
                 "LISTAS." +
@@ -241,8 +243,7 @@
                   (key | uppercase) | translate
               }}
             </th>
-            <td class="bg-gray-100">
-            </td>
+            <td class="bg-gray-100"></td>
           </tr>
         </thead>
         <tbody>
