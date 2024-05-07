@@ -48,7 +48,7 @@ export class BaseFiltroFormularioComponent
   filtroCampoValor1: any = '';
   filtroCampoNombreFk: any = '';
   filtroTipo: any = '';
-  filtroTipoModal: string[] = []
+  filtroTipoModal: string[] = [];
   busquedaAvanzada = '';
   modeloBusquedaAvanzada = '';
   arrRegistros: any = [];
@@ -59,105 +59,6 @@ export class BaseFiltroFormularioComponent
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
   @Output() dataValor1: EventEmitter<any> = new EventEmitter();
-
-  datosCriteriosBusqueda: {
-    [key: string]: {
-      valor: string;
-      texto: string;
-      defecto?: boolean;
-    }[];
-  } = {
-    IntegerField: [
-      {
-        valor: '',
-        texto: 'IGUAL',
-        defecto: true,
-      },
-      {
-        valor: '__gt',
-        texto: 'MAYORQUE',
-      },
-      {
-        valor: '__gte',
-        texto: 'MAYORIGUALQUE',
-      },
-      {
-        valor: '__lt',
-        texto: 'MENORQUE',
-      },
-      {
-        valor: '__lte',
-        texto: 'MENORIGUALQUE',
-      },
-    ],
-    FloatField: [
-      {
-        valor: '',
-        texto: 'IGUAL',
-        defecto: true,
-      },
-      {
-        valor: '__gt',
-        texto: 'MAYORQUE',
-      },
-      {
-        valor: '__gte',
-        texto: 'MAYORIGUALQUE',
-      },
-      {
-        valor: '__lt',
-        texto: 'MENORQUE',
-      },
-      {
-        valor: '__lte',
-        texto: 'MENORIGUALQUE',
-      },
-    ],
-    CharField: [
-      {
-        valor: '',
-        texto: 'IGUAL',
-      },
-      {
-        valor: '__icontains',
-        texto: 'CONTIENE',
-        defecto: true,
-      },
-    ],
-    DateField: [
-      {
-        valor: '',
-        texto: 'IGUAL',
-        defecto: true,
-      },
-      {
-        valor: '__gt',
-        texto: 'MAYORQUE',
-      },
-      {
-        valor: '__gte',
-        texto: 'MAYORIGUALQUE',
-      },
-      {
-        valor: '__lt',
-        texto: 'MENORQUE',
-      },
-      {
-        valor: '__lte',
-        texto: 'MENORIGUALQUE',
-      },
-    ],
-    Booleano: [
-      {
-        valor: '__is',
-        texto: 'ES',
-      },
-      {
-        valor: '__no_is',
-        texto: 'NO',
-      },
-    ],
-  };
 
   criteriosBusqueda: { valor: string; texto: string; defecto?: boolean }[] = [];
   criteriosBusquedaModal: {
@@ -187,10 +88,13 @@ export class BaseFiltroFormularioComponent
         changes.datosSeleccionados.currentValue.propiedad;
       this.filtroCampoCriterio =
         changes.datosSeleccionados.currentValue.operador;
-      this.criteriosBusqueda =
-        this.datosCriteriosBusqueda[
-          changes.datosSeleccionados.currentValue.tipo
-        ];
+      this.store
+        .select(
+          obtenerCriteriosFiltro(changes.datosSeleccionados.currentValue.tipo)
+        )
+        .subscribe((resultado) => {
+          this.criteriosBusqueda = resultado;
+        });
       this.filtroCampoValor1 = changes.datosSeleccionados.currentValue.valor1;
       this.changeDetectorRef.detectChanges();
     }
@@ -208,7 +112,11 @@ export class BaseFiltroFormularioComponent
     const selectedValue = event.target.value;
     this.filtroTipo = event.target.value;
     const selectedOption = event.target.selectedOptions[0];
-    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
+    this.store
+      .select(obtenerCriteriosFiltro(selectedValue))
+      .subscribe((resultado) => {
+        this.criteriosBusqueda = resultado;
+      });
 
     this.busquedaAvanzada = selectedOption.getAttribute(
       'data-modelo-busqueda-avanzada'
