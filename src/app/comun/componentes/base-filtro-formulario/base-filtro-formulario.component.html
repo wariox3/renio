@@ -161,17 +161,19 @@
                 class="form-control form-control-sm"
                 (change)="criterioSeleccionadoModal($event, i)"
               >
-                <option *ngIf="!criteriosBusquedaModal.length" value="" selected hidden>Seleccionar</option>
-                <option
-                  *ngFor="let criterioBusqueda of criteriosBusquedaModal"
-                  [value]="criterioBusqueda.valor"
-                  [selected]="criterioBusqueda.defecto === true"
-                >
-                  {{
-                    "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
-                      (criterioBusqueda.texto | uppercase) | translate
-                  }}
-                </option>
+                <option value="" selected hidden>Seleccionar</option>
+                <ng-container *ngIf="criteriosBusquedaModal[i]">
+                  <option
+                    *ngFor="let criterioBusqueda of criteriosBusquedaModal[i]"
+                    [value]="criterioBusqueda.valor"
+                    [selected]="criterioBusqueda.defecto === true"
+                  >
+                    {{
+                      "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+                        (criterioBusqueda.texto | uppercase) | translate
+                    }}
+                  </option>
+                </ng-container>
               </select>
             </div>
             <div class="col-12 col-md-3 mb-2">
@@ -183,12 +185,12 @@
                     busquedaAvanzada !== '' ? 'Código' : 'Buscar...'
                   "
                   [ngClass]="{
-                'animate__animated animate__fadeOut': filtroTipo  === 'Booleano',
+                'animate__animated animate__fadeOut': filtroTipoModal[i]  === 'Booleano',
               }"
                   [type]="
-                    filtroTipo === 'IntegerField'
+                    filtroTipoModal[i] === 'IntegerField'
                       ? 'number'
-                      : filtroTipo === 'DateField'
+                      : filtroTipoModal[i] === 'DateField'
                       ? 'date'
                       : 'text'
                   "

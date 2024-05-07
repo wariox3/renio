@@ -48,6 +48,7 @@ export class BaseFiltroFormularioComponent
   filtroCampoValor1: any = '';
   filtroCampoNombreFk: any = '';
   filtroTipo: any = '';
+  filtroTipoModal: string[] = []
   busquedaAvanzada = '';
   modeloBusquedaAvanzada = '';
   arrRegistros: any = [];
@@ -163,7 +164,7 @@ export class BaseFiltroFormularioComponent
     valor: string;
     texto: string;
     defecto?: boolean;
-  }[] = [];
+  }[][] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -234,6 +235,7 @@ export class BaseFiltroFormularioComponent
       (propiedad) => propiedad.visibleFiltro === true
     );
     this.agregarNuevoFiltro();
+    this.criteriosBusquedaModal = [];
     this.consultarLista([]);
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -308,12 +310,12 @@ export class BaseFiltroFormularioComponent
 
   propiedadSeleccionadaModal(event: any, index: number): void {
     this.filtroCampoValor1 = '';
-    this.filtroTipo = event.target.value;
+    this.filtroTipoModal[index] = event.target.value;
     const selectedOption = event.target.selectedOptions[0];
     this.store
       .select(obtenerCriteriosFiltro(event.target.value))
       .subscribe((resultado) => {
-        this.criteriosBusquedaModal = resultado;
+        this.criteriosBusquedaModal[index] = resultado;
         resultado.find((item) => {
           if (item.defecto) {
             const filtroPorActualizar = this.filtros.controls[
