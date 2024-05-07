@@ -439,8 +439,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.totalGeneral = 0;
     this.subtotalGeneral = 0;
     this.totalNetoGeneral = 0;
+    this.totalCantidad = 0;
+    let totalBaseImpuesto = 0;
 
-    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;  
     detallesArray.controls.forEach((detalleControl) => {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
 
@@ -452,14 +454,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
       const impuestos = detalleControl.get('impuestos')?.value || [];
       impuestos.forEach((impuesto: any) => {
-        this.totalImpuestos += impuesto.total;
-        if (impuestos.length >= 1){
-          this.totalBase = impuesto.base
-        } else {
-          this.totalBase += impuesto.base
-        }
+          this.totalImpuestos += impuesto.total;
       });
 
+      totalBaseImpuesto += detalleControl.get('base_impuesto')?.value
+      
       let neto = detalleControl.get('neto')?.value || 0;
 
       this.totalCantidad += parseInt(cantidad);
@@ -470,17 +469,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
       detalleControl.get('descuento')?.patchValue(descuento);
-      this.formularioFactura.get('base_impuesto')?.setValue(this.totalBase)
-      this.formularioFactura.get('impuesto')?.setValue(this.totalImpuestos)
       this.changeDetectorRef.detectChanges();
     });
 
+
+    this.formularioFactura.get('base_impuesto')?.setValue(totalBaseImpuesto)
+    this.formularioFactura.get('impuesto')?.setValue(this.totalImpuestos)
     this.totalGeneral = this.subtotalGeneral + this.totalImpuestos;
     this.formularioFactura.patchValue({
       total: this.totalGeneral,
       subtotal: this.subtotalGeneral,
-      base_impuesto: this.totalBase,
-      impuesto: this.totalImpuestos
     });
   }
 
