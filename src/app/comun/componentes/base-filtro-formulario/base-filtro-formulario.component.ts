@@ -24,6 +24,7 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
+import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
@@ -69,7 +70,7 @@ export class BaseFiltroFormularioComponent
       {
         valor: '',
         texto: 'IGUAL',
-        defecto: true
+        defecto: true,
       },
       {
         valor: '__gt',
@@ -92,7 +93,7 @@ export class BaseFiltroFormularioComponent
       {
         valor: '',
         texto: 'IGUAL',
-        defecto: true
+        defecto: true,
       },
       {
         valor: '__gt',
@@ -119,14 +120,14 @@ export class BaseFiltroFormularioComponent
       {
         valor: '__icontains',
         texto: 'CONTIENE',
-        defecto: true
+        defecto: true,
       },
     ],
     DateField: [
       {
         valor: '',
         texto: 'IGUAL',
-        defecto: true
+        defecto: true,
       },
       {
         valor: '__gt',
@@ -157,8 +158,12 @@ export class BaseFiltroFormularioComponent
     ],
   };
 
-  criteriosBusqueda: { valor: string; texto: string, defecto?: boolean; }[] = [];
-  criteriosBusquedaModal: { valor: string; texto: string, defecto?: boolean; }[] = [];
+  criteriosBusqueda: { valor: string; texto: string; defecto?: boolean }[] = [];
+  criteriosBusquedaModal: {
+    valor: string;
+    texto: string;
+    defecto?: boolean;
+  }[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -228,7 +233,7 @@ export class BaseFiltroFormularioComponent
     this.propiedadBusquedaAvanzada = mapeo[posicion].filter(
       (propiedad) => propiedad.visibleFiltro === true
     );
-    this.agregarNuevoFiltro()
+    this.agregarNuevoFiltro();
     this.consultarLista([]);
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -245,7 +250,7 @@ export class BaseFiltroFormularioComponent
         propiedades: any[];
       }>('general/funcionalidad/lista-buscar/', {
         modelo: this.modeloBusquedaAvanzada,
-        filtros: listaFiltros
+        filtros: listaFiltros,
       })
       .subscribe((respuesta) => {
         this.arrRegistros = respuesta.registros;
@@ -265,7 +270,6 @@ export class BaseFiltroFormularioComponent
     const target = event.target as HTMLSelectElement;
     this.dataValor1.emit(target.value);
   }
-
 
   initFormulularioModal() {
     this.formularioFiltrosModal = this.formBuilder.group({
@@ -298,25 +302,39 @@ export class BaseFiltroFormularioComponent
     this.formularioFiltrosModal.reset();
     this.filtros.clear();
     this.agregarNuevoFiltro();
+    this.criteriosBusquedaModal = [];
     this.consultarLista([]);
   }
 
   propiedadSeleccionadaModal(event: any, index: number): void {
     this.filtroCampoValor1 = '';
-    const selectedValue = event.target.value;
     this.filtroTipo = event.target.value;
     const selectedOption = event.target.selectedOptions[0];
-    this.criteriosBusquedaModal = this.datosCriteriosBusqueda[selectedValue];
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ propiedad:  selectedOption.getAttribute('data-value')});
+    this.store
+      .select(obtenerCriteriosFiltro(event.target.value))
+      .subscribe((resultado) => {
+        this.criteriosBusquedaModal = resultado;
+        resultado.find((item) => {
+          if (item.defecto) {
+            const filtroPorActualizar = this.filtros.controls[
+              index
+            ] as FormGroup;
+            filtroPorActualizar.patchValue({
+              propiedad: selectedOption.getAttribute('data-value'),
+              operador: item.valor,
+            });
+          }
+        });
+      });
   }
 
-  criterioSeleccionadoModal(event: any, index: number){
+  criterioSeleccionadoModal(event: any, index: number) {
     const selectedOption = event.target.selectedOptions[0];
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${selectedOption.value}`});
+    filtroPorActualizar.patchValue({
+      operador: selectedOption.value,
+    });
   }
-
 
   aplicarFiltro() {
     const filtros = this.formularioFiltrosModal.value['filtros'];
@@ -331,7 +349,7 @@ export class BaseFiltroFormularioComponent
           const nuevoFiltro = {
             ...filtro,
             ...{
-              campo:
+              propiedad:
                 filtro.propiedad + filtro.operador !== null
                   ? filtro.propiedad + filtro.operador
                   : '',

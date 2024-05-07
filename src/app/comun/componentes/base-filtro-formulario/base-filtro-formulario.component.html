@@ -1,6 +1,5 @@
 <div class="row">
   <div class="col-12 col-md-4 mb-2">
-
     <select
       class="form-control form-control-sm"
       (change)="propiedadSeleccionada($event)"
@@ -158,12 +157,11 @@
             </div>
             <div class="col-12 col-md-4 mb-2">
               <select
+                formControlName="operador"
                 class="form-control form-control-sm"
                 (change)="criterioSeleccionadoModal($event, i)"
               >
-                <option value="">
-                  {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-                </option>
+                <option *ngIf="!criteriosBusquedaModal.length" value="" selected hidden>Seleccionar</option>
                 <option
                   *ngFor="let criterioBusqueda of criteriosBusquedaModal"
                   [value]="criterioBusqueda.valor"

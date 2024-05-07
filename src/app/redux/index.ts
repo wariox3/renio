@@ -9,6 +9,7 @@ import { EmpresaEffects } from './efectos/empresaEffects';
 import { configuracionReducer } from './reducers/configuracion.reducer';
 import { ConfiguracionEffects } from './efectos/configuracionEffects';
 import { documentoReducer } from './reducers/documento.reducer';
+import { criteriosFiltroReducer } from './reducers/criteriosfiltros.reducer';
 
 export const StoreApp = {
   usuario: usuarioReducer,
@@ -17,6 +18,7 @@ export const StoreApp = {
   empresa: empresaReducer,
   configuracion: configuracionReducer,
   documento: documentoReducer,
+  criteriosFiltro: criteriosFiltroReducer,
 };
 
 export const EffectsApp = [
