@@ -70,6 +70,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     fecha_vence: '',
     id: null,
     impuesto: 0,
+    base_impuesto: 0,
     numero: null,
     subtotal: 0,
     total: 0,
@@ -251,7 +252,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             .guardarFactura({
               ...this.formularioFactura.value,
               ...{
-                base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
                 documento_tipo: 1,
               },
@@ -289,6 +289,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     total_bruto: [detalle.total_bruto],
                     total: [detalle.total],
                     neto: [detalle.total],
+                    base_impuesto: [detalle.base_impuesto],
+                    impuesto: [detalle.impuesto],
                     item_nombre: [detalle.item_nombre],
                     impuestos: this.formBuilder.array([]),
                     impuestos_eliminados: this.formBuilder.array([]),
@@ -687,7 +689,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     );
 
     let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
-    console.log(impuesto);
     
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
