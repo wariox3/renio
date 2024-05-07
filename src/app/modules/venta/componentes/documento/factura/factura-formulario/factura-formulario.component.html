@@ -490,7 +490,7 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody formArrayName="detalles">
+                    <tbody formArrayName="detalles"><pre>{{ formularioFactura.value | json}}</pre>
                       <ng-container
                         *ngFor="let detalle of detalles.controls; let i = index"
                         [formGroupName]="i"

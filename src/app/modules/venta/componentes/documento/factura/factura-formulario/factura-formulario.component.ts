@@ -433,7 +433,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   calcularTotales() {
-    this.totalCantidad = 0;
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
     this.totalBase = 0;
@@ -454,7 +453,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       const impuestos = detalleControl.get('impuestos')?.value || [];
       impuestos.forEach((impuesto: any) => {
         this.totalImpuestos += impuesto.total;
-        this.totalBase += impuesto.base
+        if (impuestos.length >= 1){
+          this.totalBase = impuesto.base
+        } else {
+          this.totalBase += impuesto.base
+        }
       });
 
       let neto = detalleControl.get('neto')?.value || 0;
@@ -615,8 +618,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
     });
+    let impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto
     baseImpuesto.setValue(subtotal.value === null ? 0 : subtotal.value)
-    impuestoDetalle.setValue(totalImpuesto)
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
 
@@ -663,7 +666,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.calcularTotales();
     detalleFormGroup.patchValue({
       base_impuesto: baseImpuesto.value,
-      impuesto: impuestoDetalle.value
+      impuesto: impuestoAcumuladoDetalle
     })
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
@@ -681,7 +684,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       'impuestos_eliminados'
     ) as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
-    const baseImpuesto = detalleFormGroup.get('base_impuesto') as FormControl;
     const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
 
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
@@ -692,9 +694,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
-    if (nuevosImpuestos.length > 1){
+    if (nuevosImpuestos.length >= 1){
       detalleFormGroup.patchValue({
-        base_impuesto: baseImpuesto.value - impuesto.base,
         impuesto: impuestoDetalle.value - impuesto.total
       })
     } else {
@@ -709,7 +710,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       const nuevoDetalle = this.formBuilder.group({
         id: [nuevoImpuesto.id], //id tabla intermedia entre documento y impuesto
         impuesto: [nuevoImpuesto.impuesto], //id
-        base: [neto.value === null ? 0 : neto.value],
+        base: [subtotal.value === null ? 0 : subtotal.value],
         porcentaje: [nuevoImpuesto.porcentaje],
         total: [(subtotal.value * nuevoImpuesto.porcentaje) / 100],
         nombre: [nuevoImpuesto.nombre],
