@@ -62,12 +62,14 @@ export class BaseFiltroFormularioComponent
     [key: string]: {
       valor: string;
       texto: string;
+      defecto?: boolean;
     }[];
   } = {
     IntegerField: [
       {
         valor: '',
         texto: 'IGUAL',
+        defecto: true
       },
       {
         valor: '__gt',
@@ -90,6 +92,7 @@ export class BaseFiltroFormularioComponent
       {
         valor: '',
         texto: 'IGUAL',
+        defecto: true
       },
       {
         valor: '__gt',
@@ -116,12 +119,14 @@ export class BaseFiltroFormularioComponent
       {
         valor: '__icontains',
         texto: 'CONTIENE',
+        defecto: true
       },
     ],
     DateField: [
       {
         valor: '',
         texto: 'IGUAL',
+        defecto: true
       },
       {
         valor: '__gt',
@@ -152,7 +157,8 @@ export class BaseFiltroFormularioComponent
     ],
   };
 
-  criteriosBusqueda: { valor: string; texto: string }[] = [];
+  criteriosBusqueda: { valor: string; texto: string, defecto?: boolean; }[] = [];
+  criteriosBusquedaModal: { valor: string; texto: string, defecto?: boolean; }[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -300,7 +306,7 @@ export class BaseFiltroFormularioComponent
     const selectedValue = event.target.value;
     this.filtroTipo = event.target.value;
     const selectedOption = event.target.selectedOptions[0];
-    this.criteriosBusqueda = this.datosCriteriosBusqueda[selectedValue];
+    this.criteriosBusquedaModal = this.datosCriteriosBusqueda[selectedValue];
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ propiedad:  selectedOption.getAttribute('data-value')});
   }
@@ -308,8 +314,6 @@ export class BaseFiltroFormularioComponent
   criterioSeleccionadoModal(event: any, index: number){
     const selectedOption = event.target.selectedOptions[0];
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    console.log();
-
     filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${selectedOption.value}`});
   }
 

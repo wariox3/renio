@@ -165,9 +165,9 @@
                 {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
               </option>
               <option
-                *ngFor="let criterioBusqueda of criteriosBusqueda"
+                *ngFor="let criterioBusqueda of criteriosBusquedaModal"
                 [value]="criterioBusqueda.valor"
-                [selected]="criterioBusqueda.valor === filtroCampoCriterio"
+                [selected]="criterioBusqueda.defecto === true"
               >
                 {{
                   "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
@@ -227,7 +227,6 @@
         (click)="aplicarFiltro()"
       ></button>
     </div>
-
     <div class="table-responsive table-loading mt-5">
       <table
         class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
