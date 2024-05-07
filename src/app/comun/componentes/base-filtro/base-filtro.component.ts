@@ -238,7 +238,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   actualizarOperador(operador: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ operador });
+    filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${operador}` });
   }
 
   actualizarValor1(valor1: string, index: number) {
