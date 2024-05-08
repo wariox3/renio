@@ -456,9 +456,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuestos.forEach((impuesto: any) => {
           this.totalImpuestos += impuesto.total;
       });
-
-      totalBaseImpuesto += detalleControl.get('base_impuesto')?.value
-      
+  
       let neto = detalleControl.get('neto')?.value || 0;
 
       this.totalCantidad += parseInt(cantidad);
@@ -469,6 +467,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
       detalleControl.get('descuento')?.patchValue(descuento);
+      totalBaseImpuesto += detalleControl.get('base_impuesto')?.value
       this.changeDetectorRef.detectChanges();
     });
 
@@ -568,8 +567,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
     neto.patchValue(subtotal.value + impuestoTotal);
     total.patchValue(subtotal.value + impuestoTotal);
-    this.calcularTotales();
     base_impuesto.setValue(subtotal.value)
+    this.calcularTotales();
     detalleImpuesto.setValue(impuestoTotal);
     this.changeDetectorRef.detectChanges();
   }
