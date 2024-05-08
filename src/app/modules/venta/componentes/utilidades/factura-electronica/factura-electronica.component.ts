@@ -24,10 +24,7 @@ import { FormsModule } from '@angular/forms';
     NgbDropdownModule,
   ],
 })
-export class FacturaElectronicaComponent
-  extends General
-  implements OnInit
-{
+export class FacturaElectronicaComponent extends General implements OnInit {
   arrParametrosConsulta: any = {
     filtros: [
       {
@@ -121,12 +118,12 @@ export class FacturaElectronicaComponent
   emitir() {
     if (this.arrRegistrosSeleccionados.length >= 1) {
       this.arrRegistrosSeleccionados.map((documento_id) => {
-         this.httpService
-         .post('general/documento/emitir/', { documento_id: this.detalle })
-         .subscribe((respuesta: any) => {
-           this.consultarLista();
-        });
-      })
+        this.httpService
+          .post('general/documento/emitir/', { documento_id })
+          .subscribe((respuesta: any) => {
+            this.consultarLista();
+          });
+      });
     } else {
       this.alertaService.mensajeError(
         'Error',
