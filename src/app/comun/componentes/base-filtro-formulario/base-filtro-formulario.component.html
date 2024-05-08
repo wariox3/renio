@@ -180,7 +180,7 @@
             <div class="col-12 col-md-3 mb-2">
               <div class="input-group input-group-sm">
                 <input
-                  [id]="'inputValor1Modal'+i"
+                  [id]="'inputValor1Modal' + i"
                   formControlName="valor1"
                   class="form-control form-control-sm"
                   [placeholder]="
@@ -256,12 +256,9 @@
               </td>
               <ng-container *ngIf="last">
                 <td>
-                  <button
-                    (click)="seleccionar(item)"
-                    class="btn btn-primary btn-sm p-1"
-                  >
-                    seleccionar
-                  </button>
+                  <a (click)="seleccionar(item)" class="btn btn-sm btn-primary">
+                    <i class="ki-solid ki-check fs-2x"></i>
+                  </a>
                 </td>
               </ng-container>
             </ng-container>
