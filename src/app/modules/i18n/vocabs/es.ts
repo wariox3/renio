@@ -402,7 +402,7 @@ export const locale = {
         ESTADO: 'Estado',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',
-        CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTACTO_NOMBRE_CORTO: 'Contacto',
         DOCUMENTOREFERENCIA: 'Documento referencia',
       },
       ITEM: {
