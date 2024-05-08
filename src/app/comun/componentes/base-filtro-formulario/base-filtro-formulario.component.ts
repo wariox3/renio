@@ -7,6 +7,8 @@ import {
   OnChanges,
   SimpleChanges,
   OnInit,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -59,6 +61,7 @@ export class BaseFiltroFormularioComponent
   @Output() dataPropiedad: EventEmitter<any> = new EventEmitter();
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
   @Output() dataValor1: EventEmitter<any> = new EventEmitter();
+  @ViewChild('inputValor1') inputValor1: ElementRef;
 
   criteriosBusqueda: { valor: string; texto: string; defecto?: boolean }[] = [];
   criteriosBusquedaModal: {
@@ -124,7 +127,7 @@ export class BaseFiltroFormularioComponent
     this.modeloBusquedaAvanzada = selectedOption.getAttribute(
       'data-modelo-busqueda-avanzada'
     );
-
+    this.inputValor1.nativeElement.focus();
     this.dataPropiedad.emit({
       campo: selectedOption.getAttribute('data-value') ?? '',
       tipo: selectedValue,
@@ -236,6 +239,8 @@ export class BaseFiltroFormularioComponent
           }
         });
       });
+      let inputValor1Modal: HTMLInputElement | null = document.querySelector("#inputValor1Modal"+index)
+      inputValor1Modal!.focus();
   }
 
   criterioSeleccionadoModal(event: any, index: number) {
