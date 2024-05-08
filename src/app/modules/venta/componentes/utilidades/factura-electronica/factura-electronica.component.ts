@@ -124,6 +124,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
             this.consultarLista();
           });
       });
+      this.arrRegistrosSeleccionados = []
     } else {
       this.alertaService.mensajeError(
         'Error',
