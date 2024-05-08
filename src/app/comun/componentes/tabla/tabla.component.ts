@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
@@ -61,6 +62,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   datosFiltrados: any[] = [];
   claveLocalStore: string;
   tipo: string;
+  btnGrupoResponsive = false
   @Input() encabezado: any;
   @Input() modelo: string;
   @Input() datos: any[] = [];
@@ -102,6 +104,12 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         changes.confirmacionRegistrosEliminado.currentValue;
     }
     this.construirTabla();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    // Verifica el ancho de la pantalla y actualiza el estado de btnGrupoResponsive
+    this.btnGrupoResponsive = window.innerWidth < 481;
   }
 
   construirTabla() {
