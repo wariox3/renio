@@ -13,6 +13,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 
 @Component({
   selector: 'app-comun-base-lista',
@@ -50,13 +51,18 @@ export class BaseListaComponent extends General implements OnInit {
   urlEliminar = '';
   documento_clase_id: string;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private httpService: HttpService,
+    private descargarArchivosService: DescargarArchivosService
+  ) {
     super();
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `administrador_${localStorage.getItem('itemNombre')?.toLowerCase()}`;
+      this.nombreFiltro = `administrador_${localStorage
+        .getItem('itemNombre')
+        ?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
       let posicion: keyof typeof mapeo = this.modelo;
       this.modulo = mapeo[posicion].modulo;
@@ -130,7 +136,10 @@ export class BaseListaComponent extends General implements OnInit {
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       const eliminarSolicitudes = data.map((id) => {
-        return this.httpService.delete(`${this.modulo}/${this.modelo.toLowerCase()}/${id}/`, {});
+        return this.httpService.delete(
+          `${this.modulo}/${this.modelo.toLowerCase()}/${id}/`,
+          {}
+        );
       });
       combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Registro eliminado');
@@ -179,15 +188,16 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    const { documento_clase: documento_clase_id } = this.parametrosUrl;
-    this.httpService
-      .descargarArchivo('general/documento/excel/', {
+    let modelo = localStorage.getItem('itemTipo')!
+    this.descargarArchivosService.descargarExcelAdminsitrador(
+      modelo,
+      {
         ...this.arrParametrosConsulta,
         ...{
-          documento_clase_id,
-          limite: 5000
+          limite: 5000,
         },
-      })
+      }
+    );
   }
 
   // imprimir() {
