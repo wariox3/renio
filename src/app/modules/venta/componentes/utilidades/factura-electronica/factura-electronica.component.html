@@ -1,110 +1,243 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
     <section card-body>
-      <div class="d-flex justify-content-end mb-2">
-        <div ngbDropdown class="d-inline-block">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            id="dropdownBasic1"
-            ngbDropdownToggle
-          >
-            Acción
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="emitir()">Emitir</button>
-          </div>
-        </div>
-      </div>
-      <div class="table-responsive-sm table-loading">
-        <table
-          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-        >
-          <thead>
-            <tr class="fw-bold fs-6 text-gray-800">
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.ID" | translate }}
-              </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
-              </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
-              </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.CLIENTE" | translate }}
-              </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
-              </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.ESTADO" | translate }}
-              </th>
-              <th class="text-center bg-gray-100">
-                <label [for]="selectAll">
-                  <i
-                    class="fa-regular fs-2x cursor-pointer"
-                    [ngClass]="
-                      checkboxSelectAll.checked
-                        ? 'fa-square-check text-danger'
-                        : 'fa-square text-gray-500'
-                    "
-                  ></i>
-                  <input
-                    class="d-none"
-                    type="checkbox"
-                    #checkboxSelectAll
-                    [id]="selectAll"
-                    [checked]="selectAll"
-                    [value]="selectAll"
-                    (change)="toggleSelectAll()"
-                  />
-                </label>
-              </th>
-            </tr>
-          </thead>
-          <Tbody>
-            <tr *ngFor="let item of arrItems">
-              <td>{{ item.id }}</td>
-              <td>{{ item.numero }}</td>
-              <td>{{ item.fecha }}</td>
-              <td>{{ item.contacto_nombre_corto }}</td>
-              <td class="text-end">
-                {{ item.total | number }}
-              </td>
-              <td>
-                <ng-container *ngIf="item.estado_electronico_enviado === true; else esperando">
-                  <span class="badge badge-success">Esperando respuesta</span>
-                </ng-container>
-                <ng-template #esperando>
-                  <span class="badge badge-danger">Pendiente</span>
-                </ng-template>
-              </td>
-              <td class="w-20px">
-                <label [for]="item.id" *ngIf="item.estado_electronico_enviado === false">
-                  <i
-                    class="fa-regular fs-2x cursor-pointer"
-                    [ngClass]="
-                      checked.checked
-                        ? 'fa-square-check text-danger'
-                        : 'fa-square text-gray-500'
-                    "
-                  ></i>
-                  <input
-                    #checked
-                    class="d-none"
-                    type="checkbox"
-                    [id]="item.id"
-                    [value]="item.id"
-                    [checked]="item.selected"
-                    (change)="agregarRegistrosEliminar(item.id)"
-                  />
-                </label>
-              </td>
-            </tr>
-          </Tbody>
-        </table>
-      </div>
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="tabActive"
+        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+      >
+        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            ngbNavLink
+            data-bs-toggle="tab"
+            translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
+          ></a>
+          <ng-template ngbNavContent>
+            <div class="d-flex justify-content-end mb-2">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                id="dropdownBasic1"
+                (click)="emitir()"
+                translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
+              >
+              </button>
+            </div>
+            <div class="table-responsive-sm table-loading">
+              <table
+                class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+              >
+                <thead>
+                  <tr class="fw-bold fs-6 text-gray-800">
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.ID" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.CLIENTE" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.ESTADO" | translate }}
+                    </th>
+                    <th class="text-center bg-gray-100">
+                      <label [for]="emitirSelectTodo">
+                        <i
+                          class="fa-regular fs-2x cursor-pointer"
+                          [ngClass]="
+                            checkboxSelectAll.checked
+                              ? 'fa-square-check text-danger'
+                              : 'fa-square text-gray-500'
+                          "
+                        ></i>
+                        <input
+                          class="d-none"
+                          type="checkbox"
+                          #checkboxSelectAll
+                          [id]="emitirSelectTodo"
+                          [checked]="emitirSelectTodo"
+                          [value]="emitirSelectTodo"
+                          (change)="emitirToggleSelectAll()"
+                        />
+                      </label>
+                    </th>
+                  </tr>
+                </thead>
+                <Tbody>
+                  <tr *ngFor="let documentoEmitir of arrDocumentosEmitir">
+                    <td>{{ documentoEmitir.id }}</td>
+                    <td>{{ documentoEmitir.numero }}</td>
+                    <td>{{ documentoEmitir.fecha }}</td>
+                    <td>{{ documentoEmitir.contacto_nombre_corto }}</td>
+                    <td class="text-end">
+                      {{ documentoEmitir.total | number }}
+                    </td>
+                    <td>
+                      <ng-container
+                        *ngIf="
+                          documentoEmitir.estado_electronico_enviado === true;
+                          else esperando
+                        "
+                      >
+                        <span class="badge badge-success"
+                          >Esperando respuesta</span
+                        >
+                      </ng-container>
+                      <ng-template #esperando>
+                        <span class="badge badge-danger">Pendiente</span>
+                      </ng-template>
+                    </td>
+                    <td class="w-20px">
+                      <label
+                        [for]="documentoEmitir.id"
+                        *ngIf="
+                          documentoEmitir.estado_electronico_enviado === false
+                        "
+                      >
+                        <i
+                          class="fa-regular fs-2x cursor-pointer"
+                          [ngClass]="
+                            checked.checked
+                              ? 'fa-square-check text-danger'
+                              : 'fa-square text-gray-500'
+                          "
+                        ></i>
+                        <input
+                          #checked
+                          class="d-none"
+                          type="checkbox"
+                          [id]="documentoEmitir.id"
+                          [value]="documentoEmitir.id"
+                          [checked]="documentoEmitir.selected"
+                          (change)="
+                            agregarRegistrosEmitir(documentoEmitir.id)
+                          "
+                        />
+                      </label>
+                    </td>
+                  </tr>
+                </Tbody>
+              </table>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            ngbNavLink
+            data-bs-toggle="tab"
+            translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
+          ></a>
+          <ng-template ngbNavContent>
+            <div class="d-flex justify-content-end mb-2">
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                id="dropdownBasic1"
+                (click)="notificar()"
+                translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
+
+                >
+              </button>
+            </div>
+            <div class="table-responsive-sm table-loading">
+              <table
+                class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+              >
+                <thead>
+                  <tr class="fw-bold fs-6 text-gray-800">
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.ID" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.CLIENTE" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
+                    </th>
+                    <th class="text-center bg-gray-100">
+                      <label [for]="notificarSelectTodo">
+                        <i
+                          class="fa-regular fs-2x cursor-pointer"
+                          [ngClass]="
+                            checkboxSelectAll.checked
+                              ? 'fa-square-check text-danger'
+                              : 'fa-square text-gray-500'
+                          "
+                        ></i>
+                        <input
+                          class="d-none"
+                          type="checkbox"
+                          #checkboxSelectAll
+                          [id]="notificarSelectTodo"
+                          [checked]="notificarSelectTodo"
+                          [value]="notificarSelectTodo"
+                          (change)="notificarToggleSelectAll()"
+                        />
+                      </label>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let documentoNotificar of arrDocumentosNotificar">
+                    <td>{{ documentoNotificar.id }}</td>
+                    <td>{{ documentoNotificar.numero }}</td>
+                    <td>{{ documentoNotificar.fecha }}</td>
+                    <td>{{ documentoNotificar.contacto_nombre_corto }}</td>
+                    <td class="text-end">
+                      {{ documentoNotificar.total | number }}
+                    </td>
+                    <td class="w-20px">
+                      <label
+                        [for]="documentoNotificar.id"
+                        *ngIf="
+                          documentoNotificar.estado_electronico_enviado === false
+                        "
+                      >
+                        <i
+                          class="fa-regular fs-2x cursor-pointer"
+                          [ngClass]="
+                            checked.checked
+                              ? 'fa-square-check text-danger'
+                              : 'fa-square text-gray-500'
+                          "
+                        ></i>
+                        <input
+                          #checked
+                          class="d-none"
+                          type="checkbox"
+                          [id]="documentoNotificar.id"
+                          [value]="documentoNotificar.id"
+                          [checked]="documentoNotificar.selected"
+                          (change)="
+                            agregarRegistrosNotificar(documentoNotificar.id)
+                          "
+                        />
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </section>
   </app-card>
 </div>

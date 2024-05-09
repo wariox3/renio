@@ -199,6 +199,8 @@ export const locale = {
           NETO: 'Net ',
           SUBTOTAL1: 'Subtotal',
           SUBTOTAL: 'Subtotal',
+          EMITIR: 'To issue',
+          NOFITICAR: 'To notify'
         },
         GENERAL: {
           ITEM: {

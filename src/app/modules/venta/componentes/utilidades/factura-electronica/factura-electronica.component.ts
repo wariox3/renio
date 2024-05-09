@@ -8,8 +8,9 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -22,10 +23,11 @@ import { FormsModule } from '@angular/forms';
     TranslateModule,
     TranslationModule,
     NgbDropdownModule,
+    NgbNavModule,
   ],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
-  arrParametrosConsulta: any = {
+  arrParametrosConsultaEmitir: any = {
     filtros: [
       {
         propiedad: 'estado_aprobado',
@@ -40,11 +42,32 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: '100',
+    documento_clase_id: 100,
   };
-  arrItems: any;
-  arrRegistrosSeleccionados: number[] = [];
-  selectAll = false;
+  arrParametrosConsultaNotificar: any = {
+    filtros: [
+      {
+        propiedad: 'estado_electronico_notificado',
+        valor1: false,
+      },
+      {
+        propiedad: 'estado_electronico',
+        valor1: true,
+      },
+    ],
+    limite: 50,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 10000,
+    documento_clase_id: 100,
+  };
+  arrDocumentosEmitir: any = [];
+  arrDocumentosNotificar: any = [];
+  arrRegistrosSeleccionadosNotificar: number[] = [];
+  arrRegistrosSeleccionadosEmitir: number[] = [];
+  emitirSelectTodo = false;
+  notificarSelectTodo = false;
+  tabActive = 1;
 
   constructor(private httpService: HttpService) {
     super();
@@ -63,68 +86,94 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post('general/documento/lista/', {
-        ...this.arrParametrosConsulta,
+    zip(
+      this.httpService.post(
+        'general/documento/lista/',
+        this.arrParametrosConsultaEmitir
+      ),
+      this.httpService.post(
+        'general/documento/lista/',
+        this.arrParametrosConsultaNotificar
+      )
+    ).subscribe((respuesta: any) => {
+      this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
+        ...documento,
         ...{
-          documento_clase_id: 100,
+          selected: false,
         },
-      })
-      .subscribe((respuesta: any) => {
-        this.arrItems = respuesta.map((item: any) => ({
-          ...item,
-          ...{
-            selected: false,
-          },
-        }));
-        this.changeDetectorRef.detectChanges();
-      });
+      }));
+      this.arrDocumentosNotificar = respuesta[1].map((documento: any) => ({
+        ...documento,
+        ...{
+          selected: false,
+        },
+      }));
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
-  // Esta función agrega o elimina un registro del array de registros a eliminar según su presencia actual en el array.
-  agregarRegistrosEliminar(id: number) {
+  agregarRegistrosNotificar(id: number) {
     // Busca el índice del registro en el array de registros a eliminar
-    const index = this.arrRegistrosSeleccionados.indexOf(id);
+    const index = this.arrRegistrosSeleccionadosNotificar.indexOf(id);
     // Si el registro ya está en el array, lo elimina
     if (index !== -1) {
-      this.arrRegistrosSeleccionados.splice(index, 1);
+      this.arrRegistrosSeleccionadosNotificar.splice(index, 1);
     } else {
       // Si el registro no está en el array, lo agrega
-      this.arrRegistrosSeleccionados.push(id);
+      this.arrRegistrosSeleccionadosNotificar.push(id);
     }
   }
 
-  // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
-  toggleSelectAll() {
-    // Itera sobre todos los datos
-    this.arrItems.forEach((item: any) => {
-      // Establece el estado de selección de cada registro
+  agregarRegistrosEmitir(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const index = this.arrRegistrosSeleccionadosEmitir.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
+    if (index !== -1) {
+      this.arrRegistrosSeleccionadosEmitir.splice(index, 1);
+    } else {
+      // Si el registro no está en el array, lo agrega
+      this.arrRegistrosSeleccionadosEmitir.push(id);
+    }
+  }
+
+  emitirToggleSelectAll() {
+    this.arrDocumentosEmitir.forEach((item: any) => {
       item.selected = !item.selected;
-      // Busca el índice del registro en el array de registros a eliminar
-      const index = this.arrRegistrosSeleccionados.indexOf(item.id);
-      // Si el registro ya estaba en el array de registros a eliminar, lo elimina
+      const index = this.arrRegistrosSeleccionadosEmitir.indexOf(item.id);
       if (index !== -1) {
-        this.arrRegistrosSeleccionados.splice(index, 1);
+        this.arrRegistrosSeleccionadosEmitir.splice(index, 1);
       } else {
-        // Si el registro no estaba en el array de registros a eliminar, lo agrega
-        this.arrRegistrosSeleccionados.push(item.id);
+        this.arrRegistrosSeleccionadosEmitir.push(item.id);
       }
     });
-    // Alterna el estado de selección de todos los registros
-    this.selectAll = !this.selectAll;
+    this.emitirSelectTodo = !this.emitirSelectTodo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  notificarToggleSelectAll() {
+    this.arrDocumentosNotificar.forEach((item: any) => {
+      item.selected = !item.selected;
+      const index = this.arrRegistrosSeleccionadosNotificar.indexOf(item.id);
+      if (index !== -1) {
+        this.arrRegistrosSeleccionadosNotificar.splice(index, 1);
+      } else {
+        this.arrRegistrosSeleccionadosNotificar.push(item.id);
+      }
+    });
+    this.notificarSelectTodo = !this.notificarSelectTodo;
     this.changeDetectorRef.detectChanges();
   }
 
   emitir() {
-    if (this.arrRegistrosSeleccionados.length >= 1) {
-      this.arrRegistrosSeleccionados.map((documento_id) => {
+    if (this.arrRegistrosSeleccionadosEmitir.length >= 1) {
+      this.arrRegistrosSeleccionadosEmitir.map((documento_id) => {
         this.httpService
           .post('general/documento/emitir/', { documento_id })
           .subscribe((respuesta: any) => {
             this.consultarLista();
           });
       });
-      this.arrRegistrosSeleccionados = []
+      this.arrRegistrosSeleccionadosEmitir = [];
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -133,5 +182,21 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     }
   }
 
-  notificar() {}
+  notificar() {
+    if (this.arrRegistrosSeleccionadosNotificar.length >= 1) {
+      this.arrRegistrosSeleccionadosNotificar.map((documento_id) => {
+        this.httpService
+          .post('general/documento/notificar/', { documento_id })
+          .subscribe((respuesta: any) => {
+            this.consultarLista();
+          });
+      });
+      this.arrRegistrosSeleccionadosNotificar = [];
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'No tiene registros seleccionados'
+      );
+    }
+  }
 }
