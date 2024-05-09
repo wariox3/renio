@@ -192,6 +192,7 @@ export const locale = {
           IMPUESTO: 'Impuesto',
           IMPINCLUIDOS: 'Imp Incluidos',
           AGREGARITEM: 'Agregar ítem',
+          AGREGARDOCUMENTO: 'Agregar documento',
           TOTALCANTIDAD: 'Total cantidad:',
           TOTALDESCUENTO: 'Total descuento:',
           TOTALIMPUESTOS: 'Total impuestos:',

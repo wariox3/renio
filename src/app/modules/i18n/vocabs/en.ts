@@ -190,6 +190,7 @@ export const locale = {
           IMPUESTO: 'Tax',
           IMPINCLUIDOS: 'Tax Included',
           AGREGARITEM: 'Add item',
+          AGREGARDOCUMENTO: 'Add document',
           TOTALCANTIDAD: 'Total quantity:',
           TOTALDESCUENTO: 'Total discount:',
           TOTALIMPUESTOS: 'Total taxes:',
