@@ -338,7 +338,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       filtros: [
         {
           operador: '__contains',
-          propiedad: 'nombre__contains',
+          propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
