@@ -210,8 +210,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          operador: '__contains',
-          propiedad: 'nombre_corto__contains',
+          operador: '__icontains',
+          propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },

@@ -132,8 +132,8 @@ export class EmpresaFacturacionElectronicaComponent
       filtros: [
         {
           id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'numero__contains',
+          operador: '__icontains',
+          propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },

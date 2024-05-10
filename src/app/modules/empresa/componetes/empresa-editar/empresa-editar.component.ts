@@ -208,8 +208,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          operador: '__contains',
-          propiedad: 'nombre__contains',
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },

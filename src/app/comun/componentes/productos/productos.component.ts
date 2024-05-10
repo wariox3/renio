@@ -76,8 +76,8 @@ export class ProductosComponent extends General implements AfterViewInit {
       filtros: [
         {
           id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre__contains',
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
@@ -105,8 +105,8 @@ export class ProductosComponent extends General implements AfterViewInit {
       filtros: [
         {
           id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre__contains',
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },

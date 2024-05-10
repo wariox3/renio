@@ -90,8 +90,8 @@ export class ImpuestosComponent extends General implements OnChanges {
           filtros: [
             {
               id: '1692284537644-1688',
-              operador: '__contains',
-              propiedad: 'nombre__contains',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
               valor1: '',
               valor2: '',
             },

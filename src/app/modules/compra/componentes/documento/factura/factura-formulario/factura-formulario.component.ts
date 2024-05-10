@@ -181,8 +181,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              operador: '__contains',
-              propiedad: 'nombre__contains',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
               valor1: '',
               valor2: '',
             },
@@ -777,8 +777,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       filtros: [
         {
           id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'nombre_corto__contains',
+          operador: '__icontains',
+          propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
@@ -810,8 +810,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       filtros: [
         {
           id: '1692284537644-1688',
-          operador: '__contains',
-          propiedad: 'numero__contains',
+          operador: '__icontains',
+          propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
