@@ -321,63 +321,75 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-card>
-      <section card-titulo>
-        {{ "LISTAS.COMUNES.CORREOS" | translate | titlecase }}
-      </section>
-      <section card-body>
-        <div class="table-responsive tabl+e-loading mt-5">
-          <table
-            class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
-          >
-            <thead>
-              <tr *ngIf="arrCorreos && arrCorreos.length > 0">
-                <th class="bg-gray-100" *ngFor="let key of arrCorreos[0] | keys">
-                  {{ "LISTAS.LOG.CORREOS." + (key | uppercase) | translate }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let correo of arrCorreos">
-                <ng-container *ngFor="let key of correo | keys; let last = last">
-                  <td>
-                    {{ correo[key] }}
-                  </td>
-                </ng-container>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </app-card>
-    <app-card>
-      <section card-titulo>
-        {{ "LISTAS.COMUNES.EVENTOS" | translate | titlecase }}
-      </section>
-      <section card-body>
-        <div class="table-responsive table-sm table-loading mt-5">
-          <table
-            class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
-          >
-            <thead>
-              <tr *ngIf="arrEventos && arrEventos.length > 0">
-                <th class="bg-gray-100" *ngFor="let key of arrEventos[0] | keys">
-                  {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let evento of arrEventos">
-                <ng-container *ngFor="let key of evento | keys; let last = last">
-                  <td>
-                    {{ evento[key] }}
-                  </td>
-                </ng-container>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </app-card>
+    <h2
+      class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+    >
+      {{ "LISTAS.COMUNES.CORREOS" | translate | titlecase }}
+    </h2>
+    <div class="table-responsive table-loading mt-5">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr *ngIf="arrCorreos && arrCorreos.length > 0">
+            <th class="bg-gray-100" *ngFor="let key of arrCorreos[0] | keys">
+              {{ "LISTAS.LOG.CORREOS." + (key | uppercase) | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let correo of arrCorreos">
+            <td>
+              {{ correo.codigoCorreoPk }}
+            </td>
+            <td>
+              {{ correo.enviado | date : "yyyy-MM-dd h:mm" }}
+            </td>
+            <td>
+              {{ correo.numeroDocumento }}
+            </td>
+            <td>
+              {{ correo.fecha | date : "yyyy-MM-dd h:mm" }}
+            </td>
+            <td>
+              {{ correo.correo }}
+            </td>
+            <td>
+              {{ correo.correoCopia }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h2
+      class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+    >
+      {{ "LISTAS.COMUNES.EVENTOS" | translate | titlecase }}
+    </h2>
+    <div class="table-responsive table-sm table-loading mt-5">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr *ngIf="arrEventos && arrEventos.length > 0">
+            <th class="bg-gray-100" *ngFor="let key of arrEventos[0] | keys">
+              {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let evento of arrEventos">
+            <td>
+              {{ evento.codigoEventoPk }}
+            </td>
+            <td>{{ evento.evento }}</td>
+            <td>{{ evento.correo }}</td>
+            <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
+            <td>{{ evento.ipEnvio }}</td>
+            <td>{{ evento.idmensaje }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </ng-template>

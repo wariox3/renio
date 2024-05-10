@@ -469,12 +469,12 @@ export const locale = {
       },
       LOG: {
         EVENTO:{
-          CODIGOEVENTOPK: 'Evento',
-          EVENTO: "Entregado",
+          CODIGOEVENTOPK: 'Id',
+          CODIGOCO: 'Correo',
+          EVENTO: "Evento",
           CORREO: "Correo",
-          ID: "Id",
           FECHA: "Fecha",
-          IDMENSAJE: "Mensaje",
+          IDMENSAJE: "Correo",
           ASUNTO: "Asunto",
           MOTIVO: "Motivo",
           IPENVIO: "Ip",
@@ -492,7 +492,8 @@ export const locale = {
           CODIGODOCUMENTO: "Documento",
           CORREO: "Correo",
           CORREOCOPIA: 'Copia',
-          FECHADOCUMENTO: "Fecha documento"
+          FECHADOCUMENTO: "Fecha documento",
+          ENVIADO: 'Enviado'
         }
       }
     },

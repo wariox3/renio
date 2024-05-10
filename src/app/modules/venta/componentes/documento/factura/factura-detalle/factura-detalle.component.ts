@@ -182,8 +182,23 @@ export default class FacturaDetalleComponent extends General {
         documento_id: this.detalle,
       })
       .subscribe((respuesta: any) => {
-        this.arrCorreos = respuesta.correos;
-        this.arrEventos =  respuesta.eventos;
+        console.log(respuesta.correo);
+        this.arrCorreos = respuesta.correos.map((correo: any)=>({
+          codigoCorreoPk: correo.codigoCorreoPk,
+          enviado: correo.fecha,
+          numeroDocumento: correo.numeroDocumento,
+          fecha: correo.fecha,
+          correo: correo.correo,
+          correoCopia: correo.copia
+        }));
+        this.arrEventos =  respuesta.eventos.map((evento: any)=>({
+          codigoEventoPk: evento.codigoEventoPk,
+          evento: evento.evento,
+          correo: evento.correo,
+          fecha: evento.fecha,
+          ipEnvio: evento.ipEnvio,
+          idmensaje: evento.idMensaje
+        }));
       });
 
     this.modalService.open(content, {

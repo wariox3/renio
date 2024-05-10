@@ -461,6 +461,34 @@ export const locale = {
         NOMBRE: 'Name',
         FECHA_VENCE: 'Date expires',
       },
+      LOG: {
+        EVENTO:{
+          CODIGOEVENTOPK: 'Id',
+          EVENTO: "Event",
+          CORREO: "Email",
+          FECHA: "Date",
+          IDMENSAJE: "Send",
+          ASUNTO: "Subject",
+          MOTIVO: "Motive",
+          IPENVIO: "Ip",
+          EPOCA: "Epoch",
+          CORREOFECHA: "Date",
+          CORREOCODIGODOCUMENTO: "Document",
+          CORREONUMERODOCUMENTO: "Number",
+          CORREOFECHADOCUMENTO: "Date document"
+        },
+        CORREOS:{
+          CODIGOCORREOPK: "Id",
+          CODIGOMODELOFK: 'Model',
+          FECHA: "Date",
+          NUMERODOCUMENTO: "Number",
+          CODIGODOCUMENTO: "Document",
+          CORREO: "Email",
+          CORREOCOPIA: 'Copy',
+          FECHADOCUMENTO: "Date document",
+          ENVIADO: 'Sent to'
+        }
+      }
     },
     TEMA: {
       CLARO: 'Light',
