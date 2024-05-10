@@ -302,7 +302,8 @@ export const locale = {
           ORDENCOMPRA: 'Orden compra',
           DOCUMENTOREFERENCIA: 'Documento referencia',
           COMENTARIO: 'Comentario',
-          PLAZOPAGO: 'Plazo pago'
+          PLAZOPAGO: 'Plazo pago',
+          FECHA: 'Fecha',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

@@ -250,6 +250,7 @@ export const locale = {
           FECHAHASTA: 'Date to',
           BARRIO: 'Neighborhood',
           SELECCIONAR: 'Select',
+          FECHA: 'Date',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',

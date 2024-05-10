@@ -194,6 +194,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             ...filtro,
             id: this.generarIdUnico(),
             ...{
+              propiedad: `${filtro.propiedad}${filtro.operador}`,
               campo:
                 filtro.propiedad + filtro.operador !== null
                   ? filtro.propiedad + filtro.operador
@@ -238,7 +239,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   actualizarOperador(operador: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ propiedad: `${filtroPorActualizar.get('propiedad')?.value}${operador}` });
+    filtroPorActualizar.patchValue({ operador: operador });
   }
 
   actualizarValor1(valor1: string, index: number) {

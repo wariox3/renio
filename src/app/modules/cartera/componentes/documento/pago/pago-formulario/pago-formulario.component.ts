@@ -196,7 +196,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumento(content: any) {
     this.consultarDocumentos();
     this.arrDocumentosSeleccionados = [];
-    this.selectAll = false
+    this.selectAll = false;
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -256,11 +256,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
         documento_clase_id: '100',
       })
       .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta.map((item: any)=> ({
+        this.arrDocumentos = respuesta.map((item: any) => ({
           ...item,
           ...{
-            selected: false
-          }
+            selected: false,
+          },
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -298,23 +298,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.detalles.removeAt(index);
   }
 
-  // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
   toggleSelectAll() {
-     // Itera sobre todos los datos
-     this.arrDocumentos.forEach((item: any) => {
-    //   // Establece el estado de selección de cada registro
+    this.arrDocumentos.forEach((item: any) => {
       item.selected = !item.selected;
-      // Busca el índice del registro en el array de registros a eliminar
       const index = this.arrDocumentosSeleccionados.indexOf(item.id);
-      // Si el registro ya estaba en el array de registros a eliminar, lo elimina
       if (index !== -1) {
         this.arrDocumentosSeleccionados.splice(index, 1);
       } else {
-        // Si el registro no estaba en el array de registros a eliminar, lo agrega
         this.arrDocumentosSeleccionados.push(item);
       }
     });
-    // Alterna el estado de selección de todos los registros
     this.selectAll = !this.selectAll;
     this.changeDetectorRef.detectChanges();
   }
