@@ -133,7 +133,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
           .guardarItem(this.formularioItem.value)
           .pipe(
             tap((respuesta: any) => {
-              this.alertaService.mensajaExitoso('Se guardo la información');
+              this.alertaService.mensajaExitoso('Se guardó la información');
               this.router.navigate(['/administrador/detalle'], {
                 queryParams: {
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
