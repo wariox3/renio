@@ -67,6 +67,7 @@ export const locale = {
           APROBAR: 'Aprobar',
           GENERANDO: 'Generando',
           EMITIR: 'Emitir',
+          ELECTRONICO: 'Electrónico'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -386,7 +387,9 @@ export const locale = {
     },
     LISTAS: {
       COMUNES: {
-        CARGANDOTABLA: "Cargando"
+        CARGANDOTABLA: "Cargando",
+        EVENTOS: 'Eventos',
+        CORREOS: 'Correos'
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -464,6 +467,34 @@ export const locale = {
         NOMBRE: 'Nombre',
         FECHA_VENCE: 'Fecha vence'
       },
+      LOG: {
+        EVENTO:{
+          CODIGOEVENTOPK: 'Evento',
+          EVENTO: "Entregado",
+          CORREO: "Correo",
+          ID: "Id",
+          FECHA: "Fecha",
+          IDMENSAJE: "Mensaje",
+          ASUNTO: "Asunto",
+          MOTIVO: "Motivo",
+          IPENVIO: "Ip",
+          EPOCA: "Epoca",
+          CORREOFECHA: "Fecha",
+          CORREOCODIGODOCUMENTO: "Documento",
+          CORREONUMERODOCUMENTO: "Número",
+          CORREOFECHADOCUMENTO: "Fecha documento"
+        },
+        CORREOS:{
+          CODIGOCORREOPK: "Id",
+          CODIGOMODELOFK: 'Modelo',
+          FECHA: "Fecha",
+          NUMERODOCUMENTO: "Número",
+          CODIGODOCUMENTO: "Documento",
+          CORREO: "Correo",
+          CORREOCOPIA: 'Copia',
+          FECHADOCUMENTO: "Fecha documento"
+        }
+      }
     },
     TEMA: {
       CLARO: 'Claro',

@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
@@ -14,6 +18,8 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { zip } from 'rxjs';
+import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -35,6 +41,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
+    KeysPipe
   ],
 })
 export default class FacturaDetalleComponent extends General {
@@ -63,6 +70,8 @@ export default class FacturaDetalleComponent extends General {
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
+  arrEventos: any[] = [];
+  arrCorreos: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   arrEstados = {
@@ -77,7 +86,8 @@ export default class FacturaDetalleComponent extends General {
 
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private modalService: NgbModal
   ) {
     super();
     this.consultardetalle();
@@ -155,5 +165,31 @@ export default class FacturaDetalleComponent extends General {
       documento_tipo_id: 1,
       documento_id: this.detalle,
     });
+  }
+
+  reNotifica(){
+    this.httpService
+    .post('general/documento/renotificar/', { documento_id: this.detalle })
+    .subscribe((respuesta: any) => {
+      this.alertaService.mensajaExitoso('Documento re notificado');
+      this.consultardetalle();
+    });
+  }
+
+  verLog(content: any) {
+    this.httpService
+      .post('general/documento/electronico_log/', {
+        documento_id: this.detalle,
+      })
+      .subscribe((respuesta: any) => {
+        this.arrCorreos = respuesta.correos;
+        this.arrEventos =  respuesta.eventos;
+      });
+
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+    this.changeDetectorRef.detectChanges();
   }
 }

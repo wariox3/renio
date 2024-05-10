@@ -66,6 +66,7 @@ export const locale = {
           APROBAR: 'Approve',
           GENERANDO: 'Generating',
           EMITIR: 'Issue',
+          ELECTRONICO: 'electronic'
         },
         CONTENEDOR: {
           CONECTAR: 'Connect',
@@ -383,6 +384,8 @@ export const locale = {
     LISTAS: {
       COMUNES: {
         CARGANDOTABLA: 'Loading',
+        EVENTOS: 'Events',
+        CORREOS: 'Emails'
       },
       DOCUMENTO: {
         ID: 'Id',

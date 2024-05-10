@@ -1,38 +1,62 @@
 <div class="d-flex mb-5 justify-content-between align-items-center">
-  <div
-    class="btn-group btn-sm shadow-sm"
-    role="group"
-    aria-label="Basic example"
-  >
+  <div class="d-flex gap-2">
     <app-comun-btn-atras />
-    <button
-      type="button"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      (click)="aprobar()"
-      [disabled]="arrEstados.estado_aprobado"
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
     >
-      {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
-    </button>
-    <button
-      type="submit"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      #btnGuardar
-      translate=""
-      (click)="imprimir()"
-    >
-      {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
-    </button>
-    <div class="btn-group">
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="emitir()"
-        [disabled]="
-          !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
-        "
+        (click)="aprobar()"
+        [disabled]="arrEstados.estado_aprobado"
       >
-        {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+      </button>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          (click)="emitir()"
+          [disabled]="
+            !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
+          "
+        >
+          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="btn-group ml-2">
+      <div
+        ngbDropdown
+        class="d-inline-block"
+        *ngIf="arrEstados.estado_electronico_notificado"
+      >
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          {{ "FORMULARIOS.BOTONES.COMUNES.ELECTRONICO" | translate }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="reNotifica()">Re-Notificar</button>
+          <button ngbDropdownItem (click)="verLog(content)">
+            Log notificar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="d-flex justify-content-end gap-2">
@@ -286,3 +310,74 @@
     </div>
   </section>
 </app-card>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Log</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-card>
+      <section card-titulo>
+        {{ "LISTAS.COMUNES.CORREOS" | translate | titlecase }}
+      </section>
+      <section card-body>
+        <div class="table-responsive tabl+e-loading mt-5">
+          <table
+            class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+          >
+            <thead>
+              <tr *ngIf="arrCorreos && arrCorreos.length > 0">
+                <th class="bg-gray-100" *ngFor="let key of arrCorreos[0] | keys">
+                  {{ "LISTAS.LOG.CORREOS." + (key | uppercase) | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let correo of arrCorreos">
+                <ng-container *ngFor="let key of correo | keys; let last = last">
+                  <td>
+                    {{ correo[key] }}
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </app-card>
+    <app-card>
+      <section card-titulo>
+        {{ "LISTAS.COMUNES.EVENTOS" | translate | titlecase }}
+      </section>
+      <section card-body>
+        <div class="table-responsive table-sm table-loading mt-5">
+          <table
+            class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+          >
+            <thead>
+              <tr *ngIf="arrEventos && arrEventos.length > 0">
+                <th class="bg-gray-100" *ngFor="let key of arrEventos[0] | keys">
+                  {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let evento of arrEventos">
+                <ng-container *ngFor="let key of evento | keys; let last = last">
+                  <td>
+                    {{ evento[key] }}
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </app-card>
+  </div>
+</ng-template>
