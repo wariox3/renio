@@ -295,6 +295,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     impuestos: this.formBuilder.array([]),
                     impuestos_eliminados: this.formBuilder.array([]),
                     id: [detalle.id],
+                  },{
+                    validator: this.validatePrecio
                   });
 
                   if (detalle.impuestos.length === 0) {
@@ -361,7 +363,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       item: [null, Validators.compose([Validators.required])],
       item_nombre: [null],
       cantidad: [0],
-      precio: [0],
+      precio: [0, Validators.compose([ this.validatePrecio ])],
       porcentaje_descuento: [0],
       descuento: [0],
       subtotal: [0],
@@ -456,9 +458,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuestos.forEach((impuesto: any) => {
           this.totalImpuestos += impuesto.total;
       });
-  
       let neto = detalleControl.get('neto')?.value || 0;
-
       this.totalCantidad += parseInt(cantidad);
       this.totalDescuento += descuento;
       this.subtotalGeneral += subtotalFinal;
@@ -688,7 +688,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     );
 
     let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
-    
     // Limpiar el FormArray actual
     arrDetalleImpuestos.clear();
     if (nuevosImpuestos.length >= 1){
@@ -700,7 +699,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         base_impuesto: 0,
         impuesto: 0
       })
-      
     }
     // Agregar los impuestos filtrados de nuevo al FormArray
     nuevosImpuestos.forEach((nuevoImpuesto: any) => {
@@ -999,5 +997,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+  }
+
+  validatePrecio(control: any){
+    if (control.value === 0) {
+      return { valorCero: true };
+    }
+    return null
   }
 }

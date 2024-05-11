@@ -547,12 +547,29 @@
                                 'disabled-cursor bg-transparent':
                                   estado_aprobado,
                                 'text-white':
-                                  theme_value === 'dark' && estado_aprobado
+                                  theme_value === 'dark' && estado_aprobado,
+                                'is-invalid':
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.getError('zero')
                               }"
                               rows="1"
                               spellcheck="true"
                               appSoloNumeros
                             />
+                            <div
+                              *ngIf="
+                                detalle.get('precio')?.touched &&
+                                detalle.get('precio')?.getError('valorCero')
+                              "
+                            >
+                              <div class="fv-plugins-message-container">
+                                <div class="fv-help-block">
+                                  <span role="alert">
+                                    Valor no permitido.
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </td>
                           <td>
                             <div class="position-relative">
@@ -560,7 +577,11 @@
                                 formControlName="porcentaje_descuento"
                                 [value]="detalle.value.porcentaje_descuento"
                                 (change)="
-                                  actualizarDetalle(i, 'porcentjae_descuento', $event)
+                                  actualizarDetalle(
+                                    i,
+                                    'porcentjae_descuento',
+                                    $event
+                                  )
                                 "
                                 [attr.disabled]="estado_aprobado"
                                 [readonly]="estado_aprobado"
