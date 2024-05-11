@@ -1,11 +1,17 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
-      class="btn-group btn-sm shadow-sm"
+      class="d-flex gap-2"
       role="group"
       aria-label="Basic example"
     >
       <app-comun-btn-atras />
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex btn-primary"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
     </div>
   </div>
   <app-card>
@@ -92,7 +98,7 @@
       <div class="row mb-5">
         <div class="col-12 col-md-3">
           <label
-            class="form-label required"
+            class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
           ></label>
           <input
@@ -206,19 +212,21 @@
                     </thead>
                     <tbody formArrayName="detalles">
                       <ng-container
-                      *ngFor="let detalle of detalles.controls; let i = index"
-                      [formGroupName]="i"
-                    >
-                    <tr>
-                      <td class="w-40px">{{ detalle.value.id }}</td>
-                      <td class="text-center">
-                        <i
-                          class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                          (click)="eliminarDocumentoPago(i, detalle.value.id)"
-                        ></i>
-                      </td>
-                    </tr>
-                  </ng-container>
+                        *ngFor="let detalle of detalles.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <tr>
+                          <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td class="text-center">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="
+                                eliminarDocumentoPago(i, detalle.value.id)
+                              "
+                            ></i>
+                          </td>
+                        </tr>
+                      </ng-container>
                     </tbody>
                   </table>
                 </div>
@@ -260,9 +268,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      Buscar documento
-    </h4>
+    <h4 class="modal-title" id="modal-basic-title">Buscar documento</h4>
     <button
       type="button"
       class="btn-close"
@@ -271,48 +277,49 @@
     ></button>
   </div>
   <div class="modal-body">
+    <app-base-filtro
+    (emitirFiltros)="obtenerFiltrosModal($event)"
+  ></app-base-filtro>
     <div class="table-responsive table-loading mt-5">
       <table
         class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
       >
-      <thead>
-        <tr *ngIf="arrDocumentos && arrDocumentos.length > 0">
-          <th class="bg-gray-100" *ngFor="let key of arrDocumentos[0] | keys">
-            {{
-              "LISTAS.DOCUMENTO." +
-                (key | uppercase) | translate
-            }}
-          </th>
-          <th class="text-center">
-            <label [for]="selectAll">
-              <i
-                class="cursor-pointer"
-                [ngClass]="
-                  checkboxSelectAll.checked
-                    ? 'ki-duotone ki-check-square text-danger'
-                    : 'fa-regular fa-square text-gray-500'
-                "
-              >
-                <span class="path1"></span>
-                <span class="path2"></span>
-              </i>
-              <input
-                class="d-none"
-                type="checkbox"
-                #checkboxSelectAll
-                [id]="selectAll"
-                [checked]="selectAll"
-                [value]="selectAll"
-                (change)="toggleSelectAll()"
-              />
-            </label>
-          </th>
-        </tr>
-      </thead>
+        <thead>
+          <tr class="bg-gray-100">
+            <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.FECHA'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+            <th class="text-center">
+              <label [for]="selectAll">
+                <i
+                  class="cursor-pointer"
+                  [ngClass]="
+                    checkboxSelectAll.checked
+                      ? 'ki-duotone ki-check-square text-danger'
+                      : 'fa-regular fa-square text-gray-500'
+                  "
+                >
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+                <input
+                  class="d-none"
+                  type="checkbox"
+                  #checkboxSelectAll
+                  [id]="selectAll"
+                  [checked]="selectAll"
+                  [value]="selectAll"
+                  (change)="toggleSelectAll()"
+                />
+              </label>
+            </th>
+          </tr>
+        </thead>
         <tbody>
           <tr *ngFor="let item of arrDocumentos">
             <ng-container *ngFor="let key of item | keys; let last = last">
-              <td>
+              <td *ngIf="key !== 'selected'">
                 {{ item[key] }}
               </td>
               <ng-container *ngIf="last">
@@ -349,10 +356,10 @@
   </div>
   <div class="modal-footer">
     <button
-    (click)="agregarDocumentosPago()"
-    class="btn btn-outline-dark"
-    type="button"
-    translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
-  ></button>
+      (click)="agregarDocumentosPago()"
+      class="btn btn-outline-dark"
+      type="button"
+      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+    ></button>
   </div>
 </ng-template>
