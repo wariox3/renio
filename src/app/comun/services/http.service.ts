@@ -1,12 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subdomino } from '@comun/clases/subdomino';
+import { AlertaService } from './alerta.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService extends Subdomino {
+
+  private alertaService = inject(AlertaService)
+
   constructor(private http: HttpClient) {
     super();
   }
@@ -43,13 +47,15 @@ export class HttpService extends Subdomino {
 
   public descargarArchivo(endpoint: string, data: any): void {
     const url = `${this.urlSubDominio}/${endpoint}`;
-
+    this.alertaService.mensajaEspera('Cargando')
     this.http
       .post<HttpResponse<Blob>>(url, data, {
         observe: 'response',
         responseType: 'blob' as 'json',
       })
       .subscribe((response) => {
+        setTimeout(() => this.alertaService.cerrarMensajes(), 1000)
+
         if (response !== null) {
           const headers = response.headers as HttpHeaders;
 
@@ -77,6 +83,7 @@ export class HttpService extends Subdomino {
             a.setAttribute('download', nombreArchivo);
             a.click();
             URL.revokeObjectURL(objectUrl);
+
           }
         }
       });

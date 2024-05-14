@@ -167,7 +167,11 @@
                       </tr>
                     </thead>
                     <tbody>
-
+                      <tr *ngFor="let documento of pago.detalle">
+                        <td>
+                          {{documento.id}}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

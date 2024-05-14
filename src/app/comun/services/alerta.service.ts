@@ -18,7 +18,7 @@ export class AlertaService {
       timer: 20000,
       showConfirmButton: true,
       timerProgressBar: true,
-      confirmButtonText: "Cerrar",
+      confirmButtonText: 'Cerrar',
       confirmButtonColor: '#d9214e',
       showClass: {
         popup: 'animate__animated animate__fadeInDown',
@@ -50,6 +50,22 @@ export class AlertaService {
     });
   }
 
+  async mensajaEspera(text: string) {
+    return await (Swal.fire({
+      html: text,
+      icon: 'info',
+      timerProgressBar: true,
+      showConfirmButton: false,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    }),
+    Swal.showLoading());
+  }
+
   mensajeValidacion(
     title: string,
     html: string,
@@ -78,7 +94,6 @@ export class AlertaService {
     confirmButtonText: string,
     cancelButtonText: string
   ) {
-
     const mensaje = await Swal.fire({
       title,
       icon: 'warning',
@@ -109,5 +124,13 @@ export class AlertaService {
       },
     });
     return mensaje;
+  }
+
+  cerrarMensajes() {
+    return Swal.close();
+  }
+
+  mensajeVisible() {
+    return Swal.isVisible();
   }
 }

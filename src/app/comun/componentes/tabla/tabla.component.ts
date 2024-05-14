@@ -62,7 +62,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   datosFiltrados: any[] = [];
   claveLocalStore: string;
   tipo: string;
-  btnGrupoResponsive = false
+  btnGrupoResponsive = false;
   @Input() encabezado: any;
   @Input() modelo: string;
   @Input() datos: any[] = [];
@@ -330,10 +330,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           return valor;
       }
     }
-    // Si no se proporciona un campo, no se realiza ninguna acción y se devuelve undefined
   }
 
-  // Esta función establece que todas las columnas en la copia de "encabezado" y "columnasVibles" sean visibles, y luego reconstruye la tabla.
+  // Esta función establece que todas las columnas  sean visibles, y luego reconstruye la tabla.
   visualizarColumnas() {
     let nuevasColumnasVisibles = JSON.parse(JSON.stringify(this.columnas));
     nuevasColumnasVisibles.map((campo: any) => {
