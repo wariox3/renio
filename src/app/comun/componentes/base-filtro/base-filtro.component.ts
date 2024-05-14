@@ -43,6 +43,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     },
   ];
   @Input() propiedades: Listafiltros[];
+  @Input() persistirFiltros: boolean = true;
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
   nombreFiltro = ``;
 
@@ -93,10 +94,8 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   esCampoInvalido(index: number, campo: string) {
     const filtro = this.filtros.at(index);
-
     if (filtro) {
       const campoControl = filtro.get(campo);
-
       if (campoControl) {
         return (
           campoControl.invalid && (campoControl.touched || campoControl.dirty)
@@ -125,8 +124,6 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
-      busquedaAvanzada: propiedades.busquedaAvanzada;
-      modeloBusquedaAvanzada: propiedades.modeloBusquedaAvanzada;
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
@@ -209,10 +206,12 @@ export class BaseFiltroComponent extends General implements OnInit {
     });
     if (hayFiltrosSinValores === false) {
       this.listaFiltros = listaFiltros;
-      localStorage.setItem(
-        this.nombreFiltro,
-        JSON.stringify(this.listaFiltros)
-      );
+      if (this.persistirFiltros) {
+        localStorage.setItem(
+          this.nombreFiltro,
+          JSON.stringify(this.listaFiltros)
+        );
+      }
       if (emitirValores) {
         this.emitirFiltros.emit(this.listaFiltros);
       }

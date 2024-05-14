@@ -279,6 +279,7 @@
   <div class="modal-body">
     <app-base-filtro
     (emitirFiltros)="obtenerFiltrosModal($event)"
+    [persistirFiltros]="false"
   ></app-base-filtro>
     <div class="table-responsive table-loading mt-5">
       <table

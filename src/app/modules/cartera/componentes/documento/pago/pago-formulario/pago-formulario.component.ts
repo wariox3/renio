@@ -153,7 +153,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   agregarDocumento(content: any) {
     if (this.formularioFactura.get('contacto')?.value !== '') {
-      this.consultarDocumentos();
+      this.consultarDocumentos(null);
       this.arrDocumentosSeleccionados = [];
       this.selectAll = false;
       this.modalService.open(content, {
@@ -203,17 +203,21 @@ export default class PagoFormularioComponent extends General implements OnInit {
       .subscribe();
   }
 
-  consultarDocumentos() {
+  consultarDocumentos(filtrosExtra: any) {
+    let filtros = [
+      {
+        propiedad: 'contacto_id',
+        valor1: this.formularioFactura.get('contacto')?.value,
+        tipo: 'CharField',
+      },
+    ];
+    console.log(filtrosExtra);
+    if (filtrosExtra !== null) {
+      filtros = [...filtros, ...filtrosExtra];
+    }
     this.httpService
       .post('general/documento/lista/', {
-        filtros: [
-          {
-            propiedad: 'contacto_id',
-            valor1: this.formularioFactura.get('contacto')?.value,
-            tipo: 'CharField',
-          },
-        ],
-
+        filtros,
         limite: 50,
         desplazar: 0,
         ordenamientos: [],
@@ -290,6 +294,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
     //   localStorage.removeItem(this.nombreFiltro);
     // }
     // this.changeDetectorRef.detectChanges();
-    // this.consultarLista();
+    this.consultarDocumentos(arrfiltros);
   }
 }
