@@ -56,8 +56,6 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
     this.empresaService
       .obtenerConfiguracionEmpresa(1)
       .subscribe((respuesta: any) => {
-        console.log(respuesta);
-        
         this.formularioEmpresa.patchValue({
           formato_factura: respuesta.formato_factura,
           informacion_factura: respuesta.informacion_factura
