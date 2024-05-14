@@ -314,6 +314,7 @@ export const locale = {
           RESOLUCIONNUMERACION: 'Resolution/Numbering',
           CORREOFACTURACIONELECTRONICA: 'Electronic invoicing mail',
           FORMATOFACTURA: 'Invoice format',
+          INFORMACIONFACTURA: 'Invoice information'
         },
         FILTROS: {
           OPERADORES: {

@@ -316,6 +316,7 @@ export const locale = {
           RESOLUCIONNUMERACION: 'Resolución/Numeración',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electronica',
           FORMATOFACTURA: 'Formato factura',
+          INFORMACIONFACTURA: 'Información factura'
         },
         FILTROS: {
           OPERADORES: {

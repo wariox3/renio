@@ -6,7 +6,9 @@
 >
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICA'">
     <section card-body>
-      <ng-container *ngIf="rededoc_id !== 'null'; else formularioFacturaElectronica">
+      <ng-container
+        *ngIf="rededoc_id !== 'null'; else formularioFacturaElectronica"
+      >
       <div class="row mb-10">
         <div class="col-md-12 col-sm-12">
           <label
@@ -58,14 +60,15 @@
             }"
           ></ng-container>
           <div class="mt-2">
-            <span>{{
-              "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGO"
-                | translate
-            }}</span>
-            <a href="" target="_blank">{{
-              "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGOURL"
-                | translate
-            }}</a>
+            <span
+              >{{ "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGO" |
+              translate }}</span
+            >
+            <a href="" target="_blank"
+              >{{
+              "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGOURL" |
+              translate }}</a
+            >
           </div>
         </div>
       </div>
@@ -153,8 +156,8 @@
       <div class="row mb-5">
         <div class="col-12">
           <label
-          translate="FORMULARIOS.CAMPOS.EMPRESA.CORREOFACTURACIONELECTRONICA"
-          class="form-label required"
+            translate="FORMULARIOS.CAMPOS.EMPRESA.CORREOFACTURACIONELECTRONICA"
+            class="form-label required"
           ></label>
           <input
             class="form-control bg-transparent"
@@ -188,6 +191,36 @@
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioDian.controls['correo_facturacion_electronica']
             }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
+            class="form-label required"
+          ></label>
+          <textarea
+            formControlName="informacion_factura"
+            class="form-control bg-transparent"
+            [ngClass]="{
+              'is-invalid':
+                formularioDian.controls['informacion_factura'].touched &&
+                formularioDian.controls['informacion_factura'].invalid,
+              'is-valid':
+                formularioDian.controls['informacion_factura'].touched &&
+                formularioDian.controls['informacion_factura'].valid
+            }"
+          >
+          </textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '2000',
+            control: formularioDian.controls['informacion_factura']
+          }"
           ></ng-container>
         </div>
       </div>
