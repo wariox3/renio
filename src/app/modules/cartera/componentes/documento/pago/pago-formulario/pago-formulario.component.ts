@@ -23,6 +23,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { documentos } from '@comun/extra/mapeoEntidades/documentos';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -154,6 +156,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumento(content: any) {
     if (this.formularioFactura.get('contacto')?.value !== '') {
       this.consultarDocumentos(null);
+      this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[100] }));
       this.arrDocumentosSeleccionados = [];
       this.selectAll = false;
       this.modalService.open(content, {
@@ -187,7 +190,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
       limite_conteo: 10000,
       modelo: 'Contacto',
     };
-
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista-autocompletar/',
