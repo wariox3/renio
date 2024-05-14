@@ -22,7 +22,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { BaseFiltroComponent } from '../../../../../../comun/componentes/base-filtro/base-filtro.component';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -48,6 +48,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   arrContactos: any[] = [];
   arrDocumentos: any[] = [];
   arrDocumentosSeleccionados: any[] = [];
+  arrDetallesEliminado: number[] = [];
   selectAll = false;
 
   constructor(
@@ -116,67 +117,21 @@ export default class PagoFormularioComponent extends General implements OnInit {
             })
           )
           .subscribe();
+      } else {
+        this.facturaService
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioFactura.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
+          .subscribe((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                documento_clase: this.parametrosUrl.documento_clase,
+                detalle: respuesta.documento.id,
+              },
+            });
+          });
       }
-
-      // else {
-      //     if (this.validarCamposDetalles() === false) {
-      //       this.facturaService
-      //         .actualizarDatosFactura(this.detalle, {
-      //           ...this.formularioFactura.value,
-      //           ...{ detalles_eliminados: this.arrDetallesEliminado },
-      //         })
-      //         .subscribe((respuesta) => {
-      //           this.detalles.clear();
-      //           respuesta.documento.detalles.forEach(
-      //             (detalle: any, indexDetalle: number) => {
-      //               const detalleFormGroup = this.formBuilder.group({
-      //                 item: [detalle.item],
-      //                 cantidad: [detalle.cantidad],
-      //                 precio: [detalle.precio],
-      //                 porcentaje_descuento: [detalle.porcentaje_descuento],
-      //                 descuento: [detalle.descuento],
-      //                 subtotal: [detalle.subtotal],
-      //                 total_bruto: [detalle.total_bruto],
-      //                 total: [detalle.total],
-      //                 neto: [detalle.total],
-      //                 base_impuesto: [detalle.base_impuesto],
-      //                 impuesto: [detalle.impuesto],
-      //                 item_nombre: [detalle.item_nombre],
-      //                 impuestos: this.formBuilder.array([]),
-      //                 impuestos_eliminados: this.formBuilder.array([]),
-      //                 id: [detalle.id],
-      //               });
-      //               if (detalle.impuestos.length === 0) {
-      //                 const cantidad = detalleFormGroup.get('cantidad')?.value;
-      //                 const precio = detalleFormGroup.get('precio')?.value;
-      //                 const neto = cantidad * precio;
-      //                 detalleFormGroup.get('neto')?.setValue(neto);
-      //               }
-      //               this.detalles.push(detalleFormGroup);
-      //               detalle.impuestos.forEach((impuesto: any, index: number) => {
-      //                 this.agregarImpuesto(
-      //                   impuesto,
-      //                   indexDetalle,
-      //                   'actualizacion'
-      //                 );
-      //               });
-      //             }
-      //           );
-      //           this.router.navigate(['documento/detalle'], {
-      //             queryParams: {
-      //               documento_clase: this.dataUrl.documento_clase,
-      //               detalle: respuesta.documento.id,
-      //             },
-      //           });
-      //           // this.detalle = respuesta.documento.id;
-      //           // this.arrDetallesEliminado = [];
-      //           // this.calcularTotales();
-      //           // this.formularioFactura.markAsPristine();
-      //           // this.formularioFactura.markAsUntouched();
-      //           // this.changeDetectorRef.detectChanges();
-      //         });
-      //     }
-      //   }
     } else {
       this.formularioFactura.markAllAsTouched();
     }
@@ -306,6 +261,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
   eliminarDocumentoPago(index: number, id: number | null) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
+    if (id != null) {
+      this.arrDetallesEliminado.push(id);
+    }
     this.detalles.removeAt(index);
   }
 
