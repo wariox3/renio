@@ -56,6 +56,7 @@ export class AlertaService {
       icon: 'info',
       timerProgressBar: true,
       showConfirmButton: false,
+      allowOutsideClick: false,
       showClass: {
         popup: 'animate__animated animate__fadeInDown',
       },
