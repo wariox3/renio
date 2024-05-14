@@ -5,6 +5,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -44,6 +45,10 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
       formato_factura: [''],
+      informacion_factura: [
+        null,
+        Validators.compose([Validators.maxLength(2000)]),
+      ],
     });
   }
 

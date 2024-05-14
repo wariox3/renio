@@ -15,7 +15,7 @@
   </div>
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.CONFIGURACIONEMPRESA'">
     <section card-body>
-      <div class="row">
+      <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.EMPRESA.FORMATOFACTURA"
@@ -43,6 +43,37 @@
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioEmpresa.controls['formato_factura']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
+            class="form-label"
+          ></label>
+          <textarea
+            formControlName="informacion_factura"
+            class="form-control bg-transparent"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpresa.controls['informacion_factura'].touched &&
+                formularioEmpresa.controls['informacion_factura'].invalid,
+              'is-valid':
+                formularioEmpresa.controls['informacion_factura'].touched &&
+                formularioEmpresa.controls['informacion_factura'].valid
+            }"
+          >
+          </textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '2000',
+              control: formularioEmpresa.controls['informacion_factura']
             }"
           ></ng-container>
         </div>

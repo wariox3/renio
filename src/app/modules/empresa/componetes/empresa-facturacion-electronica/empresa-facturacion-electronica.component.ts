@@ -91,10 +91,6 @@ export class EmpresaFacturacionElectronicaComponent
         null,
         Validators.compose([Validators.required, Validators.email]),
       ],
-      informacion_factura: [
-        null,
-        Validators.compose([Validators.maxLength(2000)]),
-      ],
     });
   }
 

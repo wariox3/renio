@@ -194,36 +194,6 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-5">
-        <div class="col-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
-            class="form-label required"
-          ></label>
-          <textarea
-            formControlName="informacion_factura"
-            class="form-control bg-transparent"
-            [ngClass]="{
-              'is-invalid':
-                formularioDian.controls['informacion_factura'].touched &&
-                formularioDian.controls['informacion_factura'].invalid,
-              'is-valid':
-                formularioDian.controls['informacion_factura'].touched &&
-                formularioDian.controls['informacion_factura'].valid
-            }"
-          >
-          </textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '2000',
-            control: formularioDian.controls['informacion_factura']
-          }"
-          ></ng-container>
-        </div>
-      </div>
       <div class="d-flex justify-content-end">
         <button
           translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
