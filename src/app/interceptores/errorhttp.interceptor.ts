@@ -70,8 +70,11 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
           }
         }
 
-        return throwError(() =>
-          this.alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje)
+        return throwError(
+          () => (
+            this.alertService.cerrarMensajes(),
+            this.alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje)
+          )
         );
       })
     );
