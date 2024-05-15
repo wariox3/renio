@@ -213,7 +213,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
         tipo: 'CharField',
       },
     ];
-    console.log(filtrosExtra);
     if (filtrosExtra !== null) {
       filtros = [...filtros, ...filtrosExtra];
     }
@@ -249,13 +248,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   agregarDocumentosPago() {
     if (this.arrDocumentosSeleccionados.length >= 1) {
-      console.log(this.arrDocumentosSeleccionados);
-
       this.arrDocumentosSeleccionados.map((documento) => {
         const detalleFormGroup = this.formBuilder.group({
           id: [documento.id],
         });
-
         this.detalles.push(detalleFormGroup);
       });
       this.modalService.dismissAll();

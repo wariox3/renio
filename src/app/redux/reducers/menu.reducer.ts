@@ -211,6 +211,28 @@ export const initialState: Menu = {
         },
         {
           nombre: 'informe',
+          children: [
+            // {
+            //   nombre: 'VENTASGENERAL',
+            //   tipo: 'informe',
+            //   url: 'venta/informe/ventas_general'
+            // },
+            {
+              nombre: 'VENTASITEM',
+              tipo: 'informe',
+              url: 'venta/informe/ventas_items'
+            },
+            // {
+            //   nombre: 'VENTASCLIENTE',
+            //   tipo: 'informe',
+            //   url: 'venta/informe/ventas_cliente'
+            // },
+            // {
+            //   nombre: 'VENTASVENDEDOR',
+            //   tipo: 'informe',
+            //   url: 'venta/informe/ventas_vendedores'
+            // },
+          ]
         },
       ],
     },

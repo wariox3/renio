@@ -42,7 +42,11 @@ export const locale = {
         ENTREDA: 'Input',
         SALIDA: 'Output',
         EGRESO: 'Outgoing',
-        FACTURAELECTRONICA: 'Electronic Invoice'
+        FACTURAELECTRONICA: 'Electronic Invoice',
+        VENTASGENERAL: 'General sales',
+        VENTASITEM: 'Sales by item',
+        VENTASCLIENTE: 'Sales by customer',
+        VENTASVENDEDOR: 'Sales by seller',
       },
     },
     FORMULARIOS: {
@@ -406,6 +410,9 @@ export const locale = {
         METODO_PAGO: 'payment method',
         CONTACTO_NOMBRE_CORTO: 'Name',
         DOCUMENTOREFERENCIA: 'Reference document',
+        ITEM: "Item",
+        CANTIDAD: "Quantity",
+        PRECIO: "Price"
       },
       ITEM: {
         ID: 'ID',

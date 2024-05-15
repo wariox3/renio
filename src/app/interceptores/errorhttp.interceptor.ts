@@ -11,9 +11,10 @@ import { AuthService } from '@modulos/auth';
 
 @Injectable()
 export class ErrorhttpInterceptor implements HttpInterceptor {
-  constructor(private alertService: AlertaService,     private auth: AuthService  ) {}
+  constructor(private alertService: AlertaService, private auth: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
+    this.alertService.cerrarMensajes()
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorCodigo: Number;
@@ -43,9 +44,10 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
             case 0:
               // el error axios lo retorna como status 502
               errorCodigo = 502;
-              errorMensaje = 'Estamos experimentando dificultades temporales en el servidor. Por favor, reintente acceder más tarde.';
+              errorMensaje =
+                'Estamos experimentando dificultades temporales en el servidor. Por favor, reintente acceder más tarde.';
               break;
-              // Agrega más casos según tus necesidades
+            // Agrega más casos según tus necesidades
             default:
               let objError = error.error;
               if (objError.hasOwnProperty('error')) {

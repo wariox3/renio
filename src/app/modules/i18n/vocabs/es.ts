@@ -42,7 +42,11 @@ export const locale = {
         ENTREDA: 'Entreda',
         SALIDA: 'Salida',
         EGRESO: 'Egreso',
-        FACTURAELECTRONICA: 'Factura electrónica'
+        FACTURAELECTRONICA: 'Factura electrónica',
+        VENTASGENERAL: 'Ventas generales',
+        VENTASITEM: 'Ventas por ítem',
+        VENTASCLIENTE: 'Ventas por cliente',
+        VENTASVENDEDOR: 'Ventas por vendedor',
       },
     },
     FORMULARIOS: {
@@ -412,6 +416,9 @@ export const locale = {
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
         DOCUMENTOREFERENCIA: 'Documento referencia',
+        ITEM: 'Item',
+        CANTIDAD: 'Cantidad',
+        PRECIO: 'Precio'
       },
       ITEM: {
         ID: 'ID',
