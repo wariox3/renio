@@ -54,8 +54,6 @@ export class HttpService extends Subdomino {
         responseType: 'blob' as 'json',
       })
       .subscribe((response) => {
-        setTimeout(() => this.alertaService.cerrarMensajes(), 1000)
-
         if (response !== null) {
           const headers = response.headers as HttpHeaders;
 
@@ -83,7 +81,7 @@ export class HttpService extends Subdomino {
             a.setAttribute('download', nombreArchivo);
             a.click();
             URL.revokeObjectURL(objectUrl);
-
+            setTimeout(() => this.alertaService.cerrarMensajes(), 1000)
           }
         }
       });
