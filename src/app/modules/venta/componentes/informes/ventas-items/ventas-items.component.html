@@ -9,62 +9,23 @@
 <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
   <section card-body>
     <div class="table-responsive-sm table-loading">
-      <table
-        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      <app-comun-tabla
+        [modelo]="modelo"
+        [datos]="arrDocumentos"
+        [cantidad_registros]="cantidad_registros"
+        [visualizarColumnaEditar]="false"
+        [visualizarColumnaDetalle]="false"
+        [visualizarColumnaSeleccionar]="false"
+        [visualizarBtnImportar]="false"
+        [visualizarBtnExportar]="true"
+        [visualizarBtnNuevo]="false"
+        [visualizarBtnEliminar]="false"
+        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+        (emitirOrdenamiento)="cambiarOrdemiento($event)"
+        (emitirPaginacion)="cambiarPaginacion($event)"
+        (emitirExportarExcel)="descargarExcel()"
       >
-        <thead>
-          <tr class="fw-bold fs-6 text-gray-800">
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.ID" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.DOCUMENTO_TIPO" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.ITEM" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.ITEM.NOMBRE" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.CANTIDAD" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.PRECIO" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.SUBTOTAL" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.IMPUESTO" | translate }}
-            </th>
-            <th class="bg-gray-100 text-center">
-              {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let documento of arrDocumentos">
-            <td>{{ documento.id }}</td>
-            <td>{{ documento.documento_tipo_nombre }}</td>
-            <td>{{ documento.documento_fecha }}</td>
-            <td>{{ documento.documento_numero }}</td>
-            <td>{{ documento.item_id }}</td>
-            <td>{{ documento.item_nombre }}</td>
-            <td class="text-end">{{ documento.cantidad | number }}</td>
-            <td class="text-end">{{ documento.precio | number }}</td>
-            <td class="text-end">{{ documento.subtotal | number }}</td>
-            <td class="text-end">{{ documento.impuesto | number }}</td>
-            <td class="text-end">{{ documento.total | number }}</td>
-          </tr>
-        </tbody>
-      </table>
+      </app-comun-tabla>
     </div>
   </section>
 </app-card>

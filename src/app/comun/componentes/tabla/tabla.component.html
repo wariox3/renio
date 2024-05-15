@@ -21,11 +21,18 @@
     <div
       class="btn-group contenedor-btn-group"
       data-toggle="buttons"
-      [ngClass]="{'btn-toolbar': btnGrupoResponsive}"
+      [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
-      <app-importar modelo="{{ modelo }}"></app-importar>
-
-      <div class="btn-group" ngbDropdown role="group">
+      <app-importar
+        modelo="{{ modelo }}"
+        *ngIf="visualizarBtnImportar"
+      ></app-importar>
+      <div
+        class="btn-group"
+        ngbDropdown
+        role="group"
+        *ngIf="visualizarBtnExportar"
+      >
         <button
           type="button"
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -43,6 +50,7 @@
         (click)="navegarNuevo()"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+        *ngIf="visualizarBtnNuevo"
       ></button>
       <div class="btn-group" ngbDropdown role="group">
         <button
@@ -102,6 +110,7 @@
       </div>
       <button
         type="button"
+        *ngIf="visualizarBtnEliminar"
         (click)="eliminarRegistros()"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-danger btn-text-danger"
         translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
@@ -124,11 +133,11 @@
               <div style="flex: 1; text-align: center">
                 {{
                   "LISTAS." +
-                  (tipo | uppercase) +
-                  "." +
-                  (
-                    item.nombreAbreviado ? (item.nombreAbreviado | uppercase) : (item.nombre | uppercase)
-                  ) | translate
+                    (tipo | uppercase) +
+                    "." +
+                    (item.nombreAbreviado
+                      ? (item.nombreAbreviado | uppercase)
+                      : (item.nombre | uppercase)) | translate
                 }}
               </div>
               <div *ngIf="item.ordenable">
@@ -157,8 +166,9 @@
             </div>
           </th>
         </ng-container>
-        <th colspan="2"></th>
-        <th class="text-center">
+        <th *ngIf="visualizarColumnaEditar"></th>
+        <th *ngIf="visualizarColumnaDetalle"></th>
+        <th class="text-center" *ngIf="visualizarColumnaSeleccionar">
           <label [for]="selectAll">
             <i
               class="cursor-pointer"
@@ -199,7 +209,7 @@
         >
           {{ getTipoDato(item[key].valor, item[key]) }}
         </td>
-        <td class="w-45px">
+        <td class="w-45px" *ngIf="visualizarColumnaEditar">
           <label
             (click)="navegarEditar(item['id'].valor)"
             class="cursor-pointer"
@@ -211,7 +221,7 @@
             </i>
           </label>
         </td>
-        <td class="w-45px">
+        <td class="w-45px" *ngIf="visualizarColumnaDetalle">
           <label
             (click)="navegarDetalle(item['id'].valor)"
             class="cursor-pointer"
@@ -222,7 +232,7 @@
             </i>
           </label>
         </td>
-        <td class="w-20px">
+        <td class="w-20px" *ngIf="visualizarColumnaSeleccionar">
           <label [for]="item['id'].valor">
             <i
               class="cursor-pointer"
