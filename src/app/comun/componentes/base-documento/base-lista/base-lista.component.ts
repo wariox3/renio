@@ -92,9 +92,9 @@ export class BaseListaComponent extends General implements OnInit {
           documento_clase_id,
         },
       })
-      .subscribe((respuesta) => {
+      .subscribe((respuesta: any) => {
+        this.cantidad_registros = respuesta.length
         this.arrItems = respuesta;
-        //this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
       });
   }

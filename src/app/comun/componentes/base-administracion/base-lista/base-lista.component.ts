@@ -97,7 +97,7 @@ export class BaseListaComponent extends General implements OnInit {
         registros: any[];
         propiedades: any[];
       }>(baseUrl, this.arrParametrosConsulta)
-      .subscribe((respuesta) => {
+      .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
         this.arrPropiedades = respuesta.propiedades;

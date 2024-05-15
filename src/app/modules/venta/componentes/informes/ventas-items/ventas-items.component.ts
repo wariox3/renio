@@ -99,7 +99,7 @@ export class VentasItemsComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
+    this.descargarArchivosService.descargarExcelDocumentoDetalle({
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,

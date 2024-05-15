@@ -20,4 +20,9 @@ export class DescargarArchivosService {
     this.httpService
       .descargarArchivo(`general/${modelo.toLocaleLowerCase()}/excel/`, arrParametrosConsulta)
   }
+
+  descargarExcelDocumentoDetalle(arrParametrosConsulta: any) {
+    this.httpService
+      .descargarArchivo('general/documento_detalle/excel/', arrParametrosConsulta)
+  }
 }
