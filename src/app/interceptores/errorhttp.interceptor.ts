@@ -14,7 +14,6 @@ export class ErrorhttpInterceptor implements HttpInterceptor {
   constructor(private alertService: AlertaService, private auth: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    this.alertService.cerrarMensajes()
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorCodigo: Number;
