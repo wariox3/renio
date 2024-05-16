@@ -48,7 +48,7 @@ type Mapeo = {
         ordenable: true
       },
       {
-        nombre: 'ITEM_ID',
+        nombre: 'ITEM',
         campoTipo: 'CharField',
         visibleFiltro: false,
         visibleTabla: true,
@@ -62,8 +62,6 @@ type Mapeo = {
         visibleFiltro: true,
         visibleTabla: true,
         ordenable: false,
-        esFk: true,
-        modeloFk: 'Item'
       },
       {
         nombre: 'CANTIDAD',

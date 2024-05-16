@@ -416,8 +416,8 @@ export const locale = {
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
         DOCUMENTOREFERENCIA: 'Documento referencia',
+        ITEM: "Item",
         ITEM_NOMBRE: 'Nombre',
-        ITEM_ID: 'Item',
         CANTIDAD: 'Cantidad',
         PRECIO: 'Precio'
       },
