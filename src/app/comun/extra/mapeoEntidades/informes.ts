@@ -34,27 +34,25 @@ type Mapeo = {
         ordenable: false
       },
       {
-        nombre: 'FECHA',
+        nombre: 'DOCUMENTO__FECHA',
         campoTipo: 'DateField',
-        visibleFiltro: false,
+        visibleFiltro: true,
         visibleTabla: true,
         ordenable: false
       },
       {
-        nombre: 'NUMERO',
+        nombre: 'DOCUMENTO__NUMERO',
         campoTipo: 'IntegerField',
-        visibleFiltro: false,
+        visibleFiltro: true,
         visibleTabla: true,
         ordenable: true
       },
       {
-        nombre: 'ITEM',
+        nombre: 'ITEM_ID',
         campoTipo: 'CharField',
         visibleFiltro: false,
         visibleTabla: true,
         ordenable: false,
-        esFk: true,
-        modeloFk: 'Contacto'
       },
       {
         nombre: 'ITEM_NOMBRE',
@@ -62,6 +60,8 @@ type Mapeo = {
         visibleFiltro: true,
         visibleTabla: true,
         ordenable: false,
+        esFk: true,
+        modeloFk: 'Item'
       },
       {
         nombre: 'CANTIDAD',

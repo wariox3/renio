@@ -233,7 +233,7 @@
     </div>
     <div class="table-responsive table-loading mt-5">
       <table
-        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
           <tr *ngIf="arrRegistros && arrRegistros.length > 0">
@@ -255,9 +255,14 @@
                 {{ item[key] }}
               </td>
               <ng-container *ngIf="last">
-                <td>
-                  <a (click)="seleccionar(item)" class="btn btn-sm btn-primary">
-                    <i class="ki-solid ki-check fs-2x"></i>
+                <td class="text-center">
+                  <a
+                    (click)="seleccionar(item)"
+                    class="btn btn-primary btn-sm p-0"
+
+                  >
+                    <i class="ki-solid ki-check fs-1"></i>
+
                   </a>
                 </td>
               </ng-container>

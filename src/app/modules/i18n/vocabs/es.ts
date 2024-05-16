@@ -417,7 +417,10 @@ export const locale = {
         CONTACTO_NOMBRE_CORTO: 'Contacto',
         DOCUMENTOREFERENCIA: 'Documento referencia',
         ITEM: "Item",
+        ITEM_ID: "Item",
         ITEM_NOMBRE: 'Nombre',
+        DOCUMENTO__FECHA: 'Fecha',
+        DOCUMENTO__NUMERO: 'Número',
         CANTIDAD: 'Cantidad',
         PRECIO: 'Precio'
       },

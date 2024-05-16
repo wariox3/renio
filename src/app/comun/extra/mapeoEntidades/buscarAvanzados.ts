@@ -157,5 +157,12 @@ export const mapeo: Mapeo = {
       visibleFiltro: true,
       ordenable: true,
     },
+    {
+      nombre: 'NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ],
 };

@@ -61,8 +61,8 @@ export class VentasItemsComponent extends General implements OnInit {
         this.arrDocumentos = respuesta.map((documento: any) => ({
           id: documento.id,
           documento_tipo: documento.documento_tipo_nombre,
-          fecha: documento.documento_fecha,
-          numero: documento.documento_numero,
+          documento__fecha: documento.documento_fecha,
+          documento__numero: documento.documento_numero,
           item_id: documento.item_id,
           item_nombre: documento.item_nombre,
           cantidad: documento.cantidad,
