@@ -43,6 +43,7 @@
   </div>
   <div class="col-12 col-md-4 mb-2">
     <select
+      #inputCritero
       class="form-control form-control-sm"
       (change)="onCriterioSeleccionado($event)"
     >
@@ -259,10 +260,8 @@
                   <a
                     (click)="seleccionar(item)"
                     class="btn btn-primary btn-sm p-0"
-
                   >
                     <i class="ki-solid ki-check fs-1"></i>
-
                   </a>
                 </td>
               </ng-container>

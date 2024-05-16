@@ -80,7 +80,6 @@ export class BaseFiltroComponent extends General implements OnInit {
           },
         ];
         this.filtros.push(this.crearControlFiltros(null));
-        //}
         this.changeDetectorRef.detectChanges();
       }
     });
@@ -102,7 +101,6 @@ export class BaseFiltroComponent extends General implements OnInit {
         );
       }
     }
-
     return false;
   }
 
@@ -177,12 +175,12 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   aplicarFiltro() {
     const filtros = this.formularioItem.value['filtros'];
-
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
     let emitirValores = true;
 
     filtros.forEach((filtro: any) => {
+
       if (filtro.propiedad !== '') {
         if (filtro.valor1 === '') {
           hayFiltrosSinValores = true;
@@ -228,6 +226,8 @@ export class BaseFiltroComponent extends General implements OnInit {
     filtroPorActualizar.patchValue({
       propiedad: propiedad.campo,
       tipo: propiedad.tipo,
+      operador: '',
+      valor1: null,
     });
     if (propiedad.tipo === 'Booleano') {
       filtroPorActualizar.patchValue({

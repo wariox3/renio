@@ -62,6 +62,7 @@ export class BaseFiltroFormularioComponent
   @Output() dataOperador: EventEmitter<any> = new EventEmitter();
   @Output() dataValor1: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputValor1') inputValor1: ElementRef;
+  @ViewChild('inputCritero') inputCritero: ElementRef;
 
   criteriosBusqueda: { valor: string; texto: string; defecto?: boolean }[] = [];
   criteriosBusquedaModal: {
@@ -127,7 +128,9 @@ export class BaseFiltroFormularioComponent
     this.modeloBusquedaAvanzada = selectedOption.getAttribute(
       'data-modelo-busqueda-avanzada'
     );
+    this.inputValor1.nativeElement.value = '';
     this.inputValor1.nativeElement.focus();
+    this.inputCritero.nativeElement.value = '';
     this.dataPropiedad.emit({
       campo: selectedOption.getAttribute('data-value') ?? '',
       tipo: selectedValue,
