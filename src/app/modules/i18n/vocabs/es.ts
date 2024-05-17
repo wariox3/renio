@@ -15,7 +15,7 @@ export const locale = {
         HUMANO: 'Humano',
         VENTA: 'Venta',
         INVENTARIO: 'Inventario',
-        TESORERIA: 'Tesorería'
+        TESORERIA: 'Tesorería',
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
@@ -47,6 +47,7 @@ export const locale = {
         VENTASITEM: 'Ventas por ítem',
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
+        CUENTASCOBRAR: 'Cuentas por cobrar',
       },
     },
     FORMULARIOS: {
@@ -71,7 +72,7 @@ export const locale = {
           APROBAR: 'Aprobar',
           GENERANDO: 'Generando',
           EMITIR: 'Emitir',
-          ELECTRONICO: 'Electrónico'
+          ELECTRONICO: 'Electrónico',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -91,8 +92,8 @@ export const locale = {
           CREARCUENTA: 'Crear cuenta',
         },
         EMPRESA: {
-          ACTIVAR: 'Activar'
-        }
+          ACTIVAR: 'Activar',
+        },
       },
       TITULOS: {
         COMUNES: {
@@ -207,7 +208,7 @@ export const locale = {
           SUBTOTAL1: 'Subtotal',
           SUBTOTAL: 'Subtotal:',
           EMITIR: 'Emitir',
-          NOFITICAR: 'Notificar'
+          NOFITICAR: 'Notificar',
         },
         GENERAL: {
           ITEM: {
@@ -222,11 +223,11 @@ export const locale = {
           CONFIGURACION: 'Configuración',
           CONFIGURACIONEMPRESA: 'Configuración empresa',
           FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
-          FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo'
+          FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
         },
         CONTACTO: {
-          INFORMACIONCOMERCIAL: 'Información comercial'
-        }
+          INFORMACIONCOMERCIAL: 'Información comercial',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -256,7 +257,6 @@ export const locale = {
           FECHAHASTA: 'Fecha hasta',
           BARRIO: 'Barrio',
           SELECCIONAR: 'Seleccionar',
-
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -291,8 +291,8 @@ export const locale = {
           },
           PRECIO: {
             TIPO: 'Tipo',
-            FECHAVENCE: 'Fecha vence'
-          }
+            FECHAVENCE: 'Fecha vence',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',
@@ -314,13 +314,14 @@ export const locale = {
           SUSCRIPTOR: 'Suscriptor',
           REGIMEN: 'Régimen',
           TIPOPERSONA: 'Tipo persona',
-          FACTURAELECTRONICALABEL: 'Activo para emisión de factura electrónica DIAN colombia',
+          FACTURAELECTRONICALABEL:
+            'Activo para emisión de factura electrónica DIAN colombia',
           CODIGOTESTID: 'Código TestID',
           CODIGOTESTIDPLACEHOLDER: 'Ingresa el código brindado por la DIAN',
           RESOLUCIONNUMERACION: 'Resolución/Numeración',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electronica',
           FORMATOFACTURA: 'Formato factura',
-          INFORMACIONFACTURA: 'Información factura'
+          INFORMACIONFACTURA: 'Información factura',
         },
         FILTROS: {
           OPERADORES: {
@@ -332,8 +333,8 @@ export const locale = {
             CONTIENE: 'Contiene',
             ES: 'Si',
             NO: 'No',
-          }
-        }
+          },
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -392,9 +393,9 @@ export const locale = {
     },
     LISTAS: {
       COMUNES: {
-        CARGANDOTABLA: "Cargando",
+        CARGANDOTABLA: 'Cargando',
         EVENTOS: 'Eventos',
-        CORREOS: 'Correos'
+        CORREOS: 'Correos',
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -416,13 +417,29 @@ export const locale = {
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
         DOCUMENTOREFERENCIA: 'Documento referencia',
-        ITEM: "Item",
-        ITEM_ID: "Item",
-        ITEM_NOMBRE: 'Nombre',
+        ITEM: 'Item',
+        ITEM_ID: 'Item id',
+        ITEM_NOMBRE: 'Item nombre',
         DOCUMENTO__FECHA: 'Fecha',
         DOCUMENTO__NUMERO: 'Número',
         CANTIDAD: 'Cantidad',
-        PRECIO: 'Precio'
+        PRECIO: 'Precio',
+        FECHA_VENCE: 'Fecha vence',
+        FECHA_CONTABLE: 'Fecha contable',
+        BASE_IMPUESTO: 'Base impuesto',
+        COBRAR_PENDIENTE: 'Cobrar pendiente',
+        CONTACTO_ID: 'Contacto',
+        COMENTARIO: 'Comentario',
+        ESTADO_ELECTRONICO: 'Estado electronico',
+        ESTADO_ELECTRONICO_ENVIADO: 'Estado electronico enviado',
+        ESTADO_ELECTRONICO_NOTIFICADO: 'Estado electronico notificado',
+        SOPORTE: 'Soporte',
+        ORDEN_COMPRA: 'Orden compra',
+        CUE: 'Cue',
+        EMPRESA: 'Empresa',
+        RESOLUCION: 'Resolución',
+        DOCUMENTO_REFERENCIA: 'Documento referencia',
+        PLAZO_PAGO: 'Plazo pago',
       },
       ITEM: {
         ID: 'ID',
@@ -477,37 +494,37 @@ export const locale = {
         ID: 'ID',
         TIPO: 'Tipo',
         NOMBRE: 'Nombre',
-        FECHA_VENCE: 'Fecha vence'
+        FECHA_VENCE: 'Fecha vence',
       },
       LOG: {
-        EVENTO:{
+        EVENTO: {
           CODIGOEVENTOPK: 'Id',
           CODIGOCO: 'Correo',
-          EVENTO: "Evento",
-          CORREO: "Correo",
-          FECHA: "Fecha",
-          IDMENSAJE: "Correo",
-          ASUNTO: "Asunto",
-          MOTIVO: "Motivo",
-          IPENVIO: "Ip",
-          EPOCA: "Epoca",
-          CORREOFECHA: "Fecha",
-          CORREOCODIGODOCUMENTO: "Documento",
-          CORREONUMERODOCUMENTO: "Número",
-          CORREOFECHADOCUMENTO: "Fecha documento"
+          EVENTO: 'Evento',
+          CORREO: 'Correo',
+          FECHA: 'Fecha',
+          IDMENSAJE: 'Correo',
+          ASUNTO: 'Asunto',
+          MOTIVO: 'Motivo',
+          IPENVIO: 'Ip',
+          EPOCA: 'Epoca',
+          CORREOFECHA: 'Fecha',
+          CORREOCODIGODOCUMENTO: 'Documento',
+          CORREONUMERODOCUMENTO: 'Número',
+          CORREOFECHADOCUMENTO: 'Fecha documento',
         },
-        CORREOS:{
-          CODIGOCORREOPK: "Id",
+        CORREOS: {
+          CODIGOCORREOPK: 'Id',
           CODIGOMODELOFK: 'Modelo',
-          FECHA: "Fecha",
-          NUMERODOCUMENTO: "Número",
-          CODIGODOCUMENTO: "Documento",
-          CORREO: "Correo",
+          FECHA: 'Fecha',
+          NUMERODOCUMENTO: 'Número',
+          CODIGODOCUMENTO: 'Documento',
+          CORREO: 'Correo',
           CORREOCOPIA: 'Copia',
-          FECHADOCUMENTO: "Fecha documento",
-          ENVIADO: 'Enviado'
-        }
-      }
+          FECHADOCUMENTO: 'Fecha documento',
+          ENVIADO: 'Enviado',
+        },
+      },
     },
     TEMA: {
       CLARO: 'Claro',
@@ -520,7 +537,7 @@ export const locale = {
       DOCUMENTACION: 'Documentación',
       DOCUMENTACIONTEXTO:
         'Desde guías y tutoriales en vídeo, hasta demostraciones en directo y ejemplos para empezar.',
-      WHATSAPPTEXTO: '¿Necesitas ayuda? Escríbenos aquí y te asistiremos.'
+      WHATSAPPTEXTO: '¿Necesitas ayuda? Escríbenos aquí y te asistiremos.',
     },
     LANGINGPAGE: {
       INICIO: 'Inicio',
@@ -529,10 +546,11 @@ export const locale = {
       EQUIPO: 'Equipo',
       PORTAFOLIO: 'Portafolio',
       PRECIO: 'Precio',
-      CONTACTO:'Contacto',
+      CONTACTO: 'Contacto',
       LOGIN: 'Iniciar sesión',
       PRUEBAREDDOC: 'Prueba REDDOC',
-      AHORRO1: 'Ahorra miles de  millones de dólares usando una sola herramienta',
+      AHORRO1:
+        'Ahorra miles de  millones de dólares usando una sola herramienta',
       AHORRO2: 'Para diferentes administradores increíbles y muy  útiles',
       MENSAJE1: 'Descubre la revolución en facturación electrónica',
       MENSAJE2: 'con reddoc',
@@ -552,15 +570,18 @@ export const locale = {
       MAXPOTENTE: 'Más potente',
       emocionante: 'de forma emocionalmente expresiva',
       NUESTROEQUIPO: 'Nuestro equipo',
-      NUESTROEQUIPOFRESE1: 'No hay duda de que cuando un desarrollo tarda más en completarse,',
-      NUESTROEQUIPOFRESE2: 'los costos, adicionales para ingresar y probar cada característica adicional se arrastran y nos persiguen a la mayoría de nosotros',
+      NUESTROEQUIPOFRESE1:
+        'No hay duda de que cuando un desarrollo tarda más en completarse,',
+      NUESTROEQUIPOFRESE2:
+        'los costos, adicionales para ingresar y probar cada característica adicional se arrastran y nos persiguen a la mayoría de nosotros',
       NUESTROSPROYECTOS: 'Nuestro proyecto',
       NUESTROSPROYECTOS1: 'Último',
       NUESTROSPROYECTOS2: 'Diseño de páginas web',
       NUESTROSPROYECTOS3: 'Aplicaciones móviles',
       NUESTROSPROYECTOS4: 'Desarrollo',
       PRECIOSTITULO: 'Precios claros que facilitan las cosas',
-      PRECIOSMENSAJE1: 'Ahorre entre miles y millones de dólares utilizando una única herramienta diferente',
+      PRECIOSMENSAJE1:
+        'Ahorre entre miles y millones de dólares utilizando una única herramienta diferente',
       PRECIOMES: 'Mensualmente',
       PRECIOANUAL: 'Anual',
       PRECIOINICIO: 'Startup',
@@ -576,16 +597,20 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Proyectos ilimitados',
       PRECIOSSELECCIONAR: 'Seleccionar',
       OPINIONCLIENTESTITULO: 'Lo que dicen nuestros clientes',
-      OPINIONCLIENTE1: 'Esta es, con diferencia, FACTURACIÓN más limpia y mejor estructurada.',
-      OPINIONCLIENTE2: 'El tema de diseño mejor pensado que jamás haya usado. Los códigos están a la altura. Los estilos CSS son muy limpios. De hecho, es el más limpio y de mayor calidad que he visto jamás.',
+      OPINIONCLIENTE1:
+        'Esta es, con diferencia, FACTURACIÓN más limpia y mejor estructurada.',
+      OPINIONCLIENTE2:
+        'El tema de diseño mejor pensado que jamás haya usado. Los códigos están a la altura. Los estilos CSS son muy limpios. De hecho, es el más limpio y de mayor calidad que he visto jamás.',
       ANIMO1: 'Empieza por hoy',
       ANIMO2: 'y acelerar los negocios',
-      ANIMO3: 'Únase a la comunidad de más de 100.000 profesionales para mantenerse a la vanguardia',
+      ANIMO3:
+        'Únase a la comunidad de más de 100.000 profesionales para mantenerse a la vanguardia',
       COMPRARREDDOC: 'Adquirir en REDDOC',
       LICENCIAPERSONALIZADA1: '¿Necesita una licencia personalizada?',
       LICENCIAPERSONALIZADA2: 'Envíenos un correo electrónico a',
       PROYECTOPERSONALIZADO1: '¿Qué tal un proyecto a medida?',
-      PROYECTOPERSONALIZADO2: 'Utilice nuestro servicio de desarrollo personalizado.',
+      PROYECTOPERSONALIZADO2:
+        'Utilice nuestro servicio de desarrollo personalizado.',
       PROYECTOPERSONALIZADO3: 'Haga clic para obtener un presupuesto',
       MAS: 'Más para REDDOC',
       FAQ: 'FAQ',
@@ -604,7 +629,7 @@ export const locale = {
       NOMBRE: 'Nombre',
       EMPRESA: 'Empresa',
       PREGUNTA: 'Pregunta',
-      GUARDAR: 'Guardar'
-    }
+      GUARDAR: 'Guardar',
+    },
   },
 };

@@ -60,7 +60,7 @@ const Routing: Routes = [
   {
     path: 'cartera',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/cartera/cartera-routing').then((r) => r.routes),
   },
   {
     path: 'compra',

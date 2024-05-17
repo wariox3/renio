@@ -47,6 +47,7 @@ export const locale = {
         VENTASITEM: 'Sales by item',
         VENTASCLIENTE: 'Sales by customer',
         VENTASVENDEDOR: 'Sales by seller',
+        CUENTASCOBRAR: 'Accounts receivable'
       },
     },
     FORMULARIOS: {
@@ -416,7 +417,23 @@ export const locale = {
         DOCUMENTO__FECHA: 'Date',
         DOCUMENTO__NUMERO: 'Number',
         CANTIDAD: 'Quantity',
-        PRECIO: 'Price'
+        PRECIO: 'Price',
+        FECHA_VENCE: 'Due Date',
+        FECHA_CONTABLE: 'Accounting Date',
+        BASE_IMPUESTO: 'Tax Base',
+        COBRAR_PENDIENTE: 'Pending Charge',
+        CONTACTO_ID: 'Contact',
+        COMENTARIO: 'Comment',
+        ESTADO_ELECTRONICO: 'Electronic Status',
+        ESTADO_ELECTRONICO_ENVIADO: 'Electronic Status Sent',
+        ESTADO_ELECTRONICO_NOTIFICADO: 'Electronic Status Notified',
+        SOPORTE: 'Support',
+        ORDEN_COMPRA: 'Purchase Order',
+        CUE: 'Cue',
+        EMPRESA: 'Company',
+        RESOLUCION: 'Resolution',
+        DOCUMENTO_REFERENCIA: 'Reference Document',
+        PLAZO_PAGO: 'Payment Term'
       },
       ITEM: {
         ID: 'ID',

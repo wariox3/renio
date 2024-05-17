@@ -51,6 +51,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'informe',
+          children: [
+            {
+              nombre: 'CUENTASCOBRAR',
+              tipo: 'informe',
+              url: 'cartera/informe/cuentas_cobrar'
+            },
+          ]
         },
       ],
     },
