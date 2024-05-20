@@ -15,7 +15,7 @@ import { ImportarComponent } from '@comun/componentes/importar/importar.componen
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
 @Component({
-  selector: 'app-comun-base-lista',
+  selector: 'app-comun-base-lista-documento',
   standalone: true,
   imports: [
     CommonModule,

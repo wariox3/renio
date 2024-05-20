@@ -16,7 +16,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 
 @Component({
-  selector: 'app-comun-base-lista',
+  selector: 'app-comun-base-lista-administrador',
   standalone: true,
   imports: [
     CommonModule,
