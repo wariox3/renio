@@ -200,7 +200,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioContenedor.valid) {
       this.procesando = true;
-
       return this.dataFormulario.emit(this.formularioContenedor.value);
     } else {
       this.formularioContenedor.markAllAsTouched();
