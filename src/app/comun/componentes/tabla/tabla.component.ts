@@ -100,10 +100,12 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.encabezado) {
       if (!localStorage.getItem(this.claveLocalStore)) {
-        localStorage.setItem(
-          this.claveLocalStore,
-          JSON.stringify(changes.encabezado.currentValue)
-        );
+        if (this.claveLocalStore !== undefined) {
+          localStorage.setItem(
+            this.claveLocalStore,
+            JSON.stringify(changes.encabezado.currentValue)
+          );
+        }
       }
     }
     if (changes.confirmacionRegistrosEliminado) {
