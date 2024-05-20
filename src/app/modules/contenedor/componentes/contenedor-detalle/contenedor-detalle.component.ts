@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
-import { Contenedor  } from '@interfaces/usuario/contenedor';
+import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { TranslationModule } from '@modulos/i18n';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,13 +30,13 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     ContenedorEditarComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgbModalModule
+    NgbModalModule,
   ],
   providers: [NgbActiveModal],
-
 })
 export class ContenedorDetalleComponent extends General implements OnInit {
-  contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
+  contenedor_id =
+    this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
   informacionEmpresa: any = {
     contenedor_id: 0,
     id: 0,
@@ -76,8 +76,9 @@ export class ContenedorDetalleComponent extends General implements OnInit {
   }
 
   recuperarBase64(event: any) {
-    this.contenedorService.cargarLogo(this.contenedor_id, event).subscribe({
-      next: (respuesta) => {
+    this.contenedorService
+      .cargarLogo(this.contenedor_id, event)
+      .subscribe((respuesta) => {
         if (respuesta.cargar) {
           this.alertaService.mensajaExitoso(
             this.translateService.instant(
@@ -86,8 +87,7 @@ export class ContenedorDetalleComponent extends General implements OnInit {
           );
           this.changeDetectorRef.detectChanges();
         }
-      },
-    });
+      });
   }
 
   eliminarLogo(event: boolean) {
