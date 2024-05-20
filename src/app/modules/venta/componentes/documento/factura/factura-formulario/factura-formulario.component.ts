@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -19,7 +19,7 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
@@ -88,7 +88,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   dataUrl: any;
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
-  @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
+  btnGuardarDisabled = false;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(
@@ -245,6 +245,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   formSubmit() {
+    this.btnGuardarDisabled = true;
+    this.changeDetectorRef.detectChanges()
     if (this.formularioFactura.valid) {
       if (this.detalle == undefined) {
         if (this.validarCamposDetalles() === false) {
@@ -264,6 +266,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     detalle: respuesta.documento.id,
                   },
                 });
+              }),
+              catchError(() => {
+                this.btnGuardarDisabled = false;
+                this.changeDetectorRef.detectChanges()
+                return of(null);
               })
             )
             .subscribe();
@@ -334,6 +341,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
     } else {
       this.formularioFactura.markAllAsTouched();
+      setTimeout(() => {
+        this.btnGuardarDisabled = false;
+        this.changeDetectorRef.detectChanges()
+      }, 50 )
       this.validarCamposDetalles();
     }
   }

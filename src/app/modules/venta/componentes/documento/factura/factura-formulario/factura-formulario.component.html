@@ -12,6 +12,7 @@
         #btnGuardar
         translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
         *ngIf="!estado_aprobado"
+        [disabled]="btnGuardarDisabled"
       ></button>
     </div>
   </div>
