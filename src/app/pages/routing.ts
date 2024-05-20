@@ -177,18 +177,6 @@ const Routing: Routes = [
     ],
   },
   {
-    path: 'utilidad',
-    children: [
-      {
-        path: 'lista',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-utilidad/base-utilidad.component'
-          ).then((c) => c.BaseUtilidadComponent),
-      },
-    ],
-  },
-  {
     path: '',
     redirectTo: getRedirectTo(),
     pathMatch: 'full',
