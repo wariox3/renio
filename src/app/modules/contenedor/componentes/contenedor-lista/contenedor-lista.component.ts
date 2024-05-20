@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContenedorService } from '../../servicios/contenedor.service';
-import { switchMap, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
@@ -32,8 +32,8 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     NgIf,
     NgFor,
     NgbDropdownModule,
-    SkeletonLoadingComponent
-  ]
+    SkeletonLoadingComponent,
+  ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
@@ -50,23 +50,27 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargandoContederes = true;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
     this.store
       .select(obtenerUsuarioId)
-      .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
-      .subscribe({
-        next: (respuesta) => {
-          this.arrContenedores = respuesta.contenedores;
+      .pipe(
+        switchMap((respuestaUsuarioId) =>
+          this.contenedorService.lista(respuestaUsuarioId)
+        ),
+        tap((respuestaLista) => {
+          this.arrContenedores = respuestaLista.contenedores;
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
-        },
-        error: ({ error }): void => {
+        }),
+        catchError(({ error }) => {
           this.alertaService.mensajeError(
             'Error consulta',
             `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
           );
-        },
-      });
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   seleccionarEmpresa(empresaSeleccionada: Number) {
