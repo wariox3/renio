@@ -101,7 +101,8 @@ export class CuentasCobrarComponent extends General implements OnInit {
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
         this.arrParametrosConsulta.filtros = [
-          ...this.arrParametrosConsulta.filtros,
+          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
           ...arrFiltrosExtra
         ];
       } else {
