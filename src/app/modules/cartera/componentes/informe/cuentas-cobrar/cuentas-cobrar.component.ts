@@ -100,7 +100,10 @@ export class CuentasCobrarComponent extends General implements OnInit {
   obtenerFiltros(arrFiltrosExtra: any) {
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsulta.filtros = arrFiltrosExtra;
+        this.arrParametrosConsulta.filtros = [
+          ...this.arrParametrosConsulta.filtros,
+          ...arrFiltrosExtra
+        ];
       } else {
         this.arrParametrosConsulta.filtros = [
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
