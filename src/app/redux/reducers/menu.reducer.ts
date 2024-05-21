@@ -300,6 +300,11 @@ export const initialState: Menu = {
           nombre: 'informe',
           children: [
             {
+              nombre: 'VENTASITEM',
+              tipo: 'informe',
+              url: 'venta/informe/ventas_items',
+            },
+            {
               nombre: 'CUENTASCOBRAR',
               tipo: 'informe',
               url: 'cartera/informe/cuentas_cobrar',
