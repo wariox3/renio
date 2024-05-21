@@ -128,7 +128,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentoDetalle({
+    this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,

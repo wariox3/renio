@@ -122,7 +122,7 @@ export const documentos: Mapeo = {
       nombre: 'FECHA_VENCE',
       campoTipo: 'DateField',
       visibleFiltro: false,
-      visibleTabla: false,
+      visibleTabla: true,
       ordenable: false,
     },
     {
@@ -180,11 +180,19 @@ export const documentos: Mapeo = {
       aplicaFormatoNumerico: true,
     },
     {
+      nombre: 'COBRAR_PENDIENTE',
+      campoTipo: 'FloatField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+      aplicaFormatoNumerico: true,
+    },
+    {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleFiltro: false,
-      visibleTabla: true,
+      visibleTabla: false,
       ordenable: true,
     },
     {
@@ -192,7 +200,7 @@ export const documentos: Mapeo = {
       nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleFiltro: false,
-      visibleTabla: true,
+      visibleTabla: false,
       ordenable: true,
     },
     {
@@ -215,14 +223,6 @@ export const documentos: Mapeo = {
       visibleFiltro: false,
       visibleTabla: false,
       ordenable: false,
-    },
-    {
-      nombre: 'COBRAR_PENDIENTE',
-      campoTipo: 'FloatField',
-      visibleFiltro: false,
-      visibleTabla: false,
-      ordenable: false,
-      aplicaFormatoNumerico: true,
     },
     {
       nombre: 'DOCUMENTO_TIPO',
