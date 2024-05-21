@@ -36,7 +36,6 @@ export class CuentasCobrarComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: 100,
   };
 
   constructor(
@@ -100,9 +99,16 @@ export class CuentasCobrarComponent extends General implements OnInit {
 
   obtenerFiltros(arrFiltrosExtra: any) {
     if (arrFiltrosExtra !== null) {
-      this.arrParametrosConsulta.filtros = arrFiltrosExtra;
+      if (arrFiltrosExtra.length >= 1) {
+        this.arrParametrosConsulta.filtros = arrFiltrosExtra;
+      } else {
+        this.arrParametrosConsulta.filtros = [
+          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+        ]
+      }
+      this.consultarLista();
     }
-    this.consultarLista();
   }
 
   cambiarOrdemiento(ordenamiento: string) {
