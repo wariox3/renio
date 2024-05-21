@@ -19,7 +19,7 @@ export interface Menu {
   seleccion: string;
   informacion: informacionMenuItem[];
   dataMapeo: any[];
-  modulos: string[]
+  modulos: string[];
 }
 
 let nombreSeleccion = localStorage.getItem('ruta');
@@ -55,9 +55,9 @@ export const initialState: Menu = {
             {
               nombre: 'CUENTASCOBRAR',
               tipo: 'informe',
-              url: 'cartera/informe/cuentas_cobrar'
+              url: 'cartera/informe/cuentas_cobrar',
             },
-          ]
+          ],
         },
       ],
     },
@@ -209,9 +209,9 @@ export const initialState: Menu = {
             {
               nombre: 'FACTURAELECTRONICA',
               tipo: 'utilidad',
-              url: 'venta/utilidad/factura_electronica'
+              url: 'venta/utilidad/factura_electronica',
             },
-          ]
+          ],
         },
         {
           nombre: 'proceso',
@@ -227,7 +227,7 @@ export const initialState: Menu = {
             {
               nombre: 'VENTASITEM',
               tipo: 'informe',
-              url: 'venta/informe/ventas_items'
+              url: 'venta/informe/ventas_items',
             },
             // {
             //   nombre: 'VENTASCLIENTE',
@@ -239,7 +239,7 @@ export const initialState: Menu = {
             //   tipo: 'informe',
             //   url: 'venta/informe/ventas_vendedores'
             // },
-          ]
+          ],
         },
       ],
     },
@@ -296,6 +296,16 @@ export const initialState: Menu = {
             },
           ],
         },
+        {
+          nombre: 'informe',
+          children: [
+            {
+              nombre: 'CUENTASCOBRAR',
+              tipo: 'informe',
+              url: 'cartera/informe/cuentas_cobrar',
+            },
+          ],
+        },
       ],
     },
     {
@@ -318,8 +328,7 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
-          children: [
-          ],
+          children: [],
         },
         {
           nombre: 'utilidad',
@@ -342,13 +351,12 @@ export const initialState: Menu = {
               nombre: 'EGRESO',
               tipo: 'Documento',
               data: { documento_clase: 400 },
-            }
+            },
           ],
         },
         {
           nombre: 'administracion',
-          children: [
-          ],
+          children: [],
         },
         {
           nombre: 'utilidad',
@@ -362,7 +370,15 @@ export const initialState: Menu = {
       ],
     },
   ],
-  modulos: ['COMPRA', 'VENTA', 'CONTABILIDAD', 'CARTERA', 'HUMANO', 'INVENTARIO', 'TESORERIA'],
+  modulos: [
+    'COMPRA',
+    'VENTA',
+    'CONTABILIDAD',
+    'CARTERA',
+    'HUMANO',
+    'INVENTARIO',
+    'TESORERIA',
+  ],
   dataMapeo: [],
 };
 
@@ -378,6 +394,6 @@ export const menuReducer = createReducer(
   })),
   on(ActualizarCampoMapeo, (state, { dataMapeo }) => ({
     ...state,
-    dataMapeo
+    dataMapeo,
   }))
 );
