@@ -113,82 +113,66 @@
       </tbody>
     </table>
     <div class="row mb-5">
-        <div class="col-12">
-          <ul
-            ngbNav
-            #nav="ngbNav"
-            [(activeId)]="tabActive"
-            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-          >
-            <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-              <a
-                class="nav-link"
-                ngbNavLink
-                data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-              ></a>
-              <ng-template ngbNavContent>
-                <div class="table-responsive-sm">
-                  <table
-                    id="tableDetalles"
-                    class="table table-bordered table-row-gray-500"
-                  >
-                    <thead>
-                      <tr>
-                        <th class="bg-gray-100" style="width: 50px">Id</th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                        ></th>
-                        <th
-                          class="bg-gray-100"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
-                        ></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let documento of pago.detalle">
-                        <td>
-                          {{documento.id}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </ng-template>
-            </li>
-            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-              <a
-                class="nav-link"
-                ngbNavLink
-                data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-              ></a>
-              <ng-template ngbNavContent> </ng-template>
-            </li>
-          </ul>
-          <div [ngbNavOutlet]="nav" class="mt-2"></div>
-        </div>
+      <div class="col-12">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="tabActive"
+          class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+        >
+          <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive-sm">
+                <table
+                  id="tableDetalles"
+                  class="table table-bordered table-row-gray-500"
+                >
+                  <thead>
+                    <tr class="bg-gray-100">
+                      <th [translate]="'LISTAS.DOCUMENTO.ID'" style="width: 50px"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let documento of pago.detalles">
+                      <td>
+                        {{ documento.id }}
+                      </td>
+                      <td>
+                        {{ documento.documento_afectado_id }}
+                      </td>
+                      <td>
+                        {{ documento.documento_afectado_numero }}
+                      </td>
+                      <td class="text-end">
+                        {{ documento.pago | number }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+            ></a>
+            <ng-template ngbNavContent> </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
+    </div>
   </section>
 </app-card>

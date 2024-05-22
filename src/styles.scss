@@ -2,7 +2,7 @@
 @import "./assets/sass/style.scss";
 // Replace above style with this css file to enable RTL styles
 // @import "./assets/css/style.rtl";
-@import './assets/sass/plugins.scss';
+@import "./assets/sass/plugins.scss";
 // @import "./assets/css/style.rtl.css";
 @import "./assets/sass/style.angular.scss";
 
@@ -11,8 +11,7 @@
 @import "./assets/plugins/keenicons/outline/style.css";
 @import "./assets/plugins/keenicons/solid/style.css";
 
-
-.h-100px{
+.h-100px {
   height: 100px;
 }
 
@@ -35,34 +34,53 @@
     user-select: none;
   }
 
-  input[type='password'].form-control.is-invalid {
+  input[type="password"].form-control.is-invalid {
     background-position: right calc(0.375em + 2.5rem) center;
   }
 
-  input[type='password'].form-control.is-valid {
+  input[type="password"].form-control.is-valid {
     background-position: right calc(0.375em + 2.5rem) center;
   }
 
-  input[type='text'].form-control.is-invalid {
+  input[type="text"].form-control.is-invalid {
     background-position: right calc(0.375em + 2.5rem) center;
   }
 
-  input[type='text'].form-control.is-valid {
+  input[type="text"].form-control.is-valid {
     background-position: right calc(0.375em + 2.5rem) center;
   }
 }
 
-table{
+table {
   thead {
     font-weight: bold;
   }
+  tbody {
+    input.sinBorder {
+      border-width: 0px;
+      padding: 0px;
+      resize: none;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      &:focus {
+        outline: none;
+        background-color: #f9f9f9;
+      }
+    }
+  }
 }
 
-.position-relative input[type='text'].form-control.is-invalid {
+.position-relative input[type="text"].form-control.is-invalid {
   background-position: right calc(0.375em + 2.5rem) center;
 }
 
-.position-relative input[type='text'].form-control.is-valid {
+.position-relative input[type="text"].form-control.is-valid {
   background-position: right calc(0.375em + 2.5rem) center;
 }
 

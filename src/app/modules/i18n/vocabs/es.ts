@@ -413,6 +413,7 @@ export const locale = {
         CONTACTO: 'Contacto',
         CLIENTE: 'Cliente',
         ESTADO: 'Estado',
+        DOCUMENTO: 'Documento',
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
@@ -440,6 +441,7 @@ export const locale = {
         RESOLUCION: 'Resolución',
         DOCUMENTO_REFERENCIA: 'Documento referencia',
         PLAZO_PAGO: 'Plazo pago',
+        PAGO: 'Pago',
       },
       ITEM: {
         ID: 'ID',

@@ -407,6 +407,7 @@ export const locale = {
         ESTADO_APROBADO_ABREVIATURA: 'Apr',
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
         CONTACTO: 'contact',
+        DOCUMENTO: 'document',
         DOCUMENTO_TIPO: 'document type',
         METODO_PAGO: 'payment method',
         CONTACTO_NOMBRE_CORTO: 'Name',
@@ -433,7 +434,8 @@ export const locale = {
         EMPRESA: 'Company',
         RESOLUCION: 'Resolution',
         DOCUMENTO_REFERENCIA: 'Reference Document',
-        PLAZO_PAGO: 'Payment Term'
+        PLAZO_PAGO: 'Payment Term',
+        PAGO: 'Pay',
       },
       ITEM: {
         ID: 'ID',
