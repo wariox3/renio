@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -43,7 +51,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
     BuscarAvanzadoComponent,
     KeysPipe,
     BaseFiltroComponent,
-    SoloNumerosDirective
+    SoloNumerosDirective,
   ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
@@ -54,6 +62,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   arrDocumentosSeleccionados: any[] = [];
   arrDetallesEliminado: number[] = [];
   selectAll = false;
+  estado_aprobado: false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,8 +75,12 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   ngOnInit() {
     this.active = 1;
-    this.consultarInformacion();
     this.initForm();
+    if (this.detalle) {
+      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+      this.consultardetalle();
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   initForm() {
@@ -97,7 +110,37 @@ export default class PagoFormularioComponent extends General implements OnInit {
     });
   }
 
-  consultarInformacion() {}
+  consultardetalle() {
+    this.facturaService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.estado_aprobado = respuesta.documento.estado_aprobado;
+        this.formularioFactura.patchValue({
+          contacto: respuesta.documento.contacto_id,
+          contactoNombre: respuesta.documento.contacto_nombre_corto,
+          fecha: respuesta.documento.fecha,
+          comentario: respuesta.documento.comentario,
+        });
+        respuesta.documento.detalles.forEach((detalle: any) => {
+          const detalleFormGroup = this.formBuilder.group({
+            id: [detalle.id],
+            documento_afectado_id: [detalle.id],
+            numero: [detalle.numero],
+            contacto: [detalle.contacto_nombre_corto],
+            pago: [detalle.pago],
+          });
+          this.detalles.push(detalleFormGroup);
+        });
+        if (respuesta.documento.estado_aprobado) {
+          this.formularioFactura.disable();
+        } else {
+          this.formularioFactura.markAsPristine();
+          this.formularioFactura.markAsUntouched();
+        }
+        this.changeDetectorRef.detectChanges();
+
+      });
+  }
 
   formSubmit() {
     if (this.formularioFactura.valid) {
@@ -107,7 +150,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             ...this.formularioFactura.value,
             ...{
               numero: null,
-              documento_tipo: 1,
+              documento_tipo: 4,
             },
           })
           .pipe(
@@ -229,10 +272,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
           },
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
           { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
-          ...arrFiltrosExtra
+          ...arrFiltrosExtra,
         ];
       } else {
-        filtros= [
+        filtros = [
           {
             propiedad: 'contacto_id',
             valor1: this.formularioFactura.get('contacto')?.value,
@@ -240,7 +283,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           },
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
           { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
-        ]
+        ];
       }
     }
     this.httpService
@@ -277,17 +320,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   agregarDocumentosPago() {
-      this.arrDocumentosSeleccionados.map((documento) => {
-        const detalleFormGroup = this.formBuilder.group({
-          id: [null],
-          documento_afectado_id: [documento.id],
-          numero: [documento.numero],
-          contacto: [documento.contacto],
-          pago: [documento.cobrar_pendiente],
-        });
-        this.detalles.push(detalleFormGroup);
+    this.arrDocumentosSeleccionados.map((documento) => {
+      const detalleFormGroup = this.formBuilder.group({
+        id: [null],
+        documento_afectado_id: [documento.id],
+        numero: [documento.numero],
+        contacto: [documento.contacto],
+        pago: [documento.cobrar_pendiente],
       });
-      this.modalService.dismissAll();
+      this.detalles.push(detalleFormGroup);
+    });
+    this.modalService.dismissAll();
   }
 
   eliminarDocumentoPago(index: number, id: number | null) {

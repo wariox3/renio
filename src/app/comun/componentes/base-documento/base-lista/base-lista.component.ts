@@ -49,7 +49,6 @@ export class BaseListaComponent extends General implements OnInit {
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
-  documento_clase_id: string;
 
   constructor(
     private httpService: HttpService,
@@ -74,26 +73,32 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    const { documento_clase: documento_clase_id } = this.parametrosUrl;
-
+    const { documento_clase } = this.parametrosUrl;
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-
-    if (filtroGuardado) {
-      this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
-    } else if (this.arrParametrosConsulta.filtros.length > 0) {
-      this.arrParametrosConsulta.filtros = [];
+    console.log(filtroGuardado);
+    if (filtroGuardado === null) {
+      this.arrParametrosConsulta.filtros = [
+        {
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: documento_clase,
+        },
+      ];
+    } else {
+      this.arrParametrosConsulta.filtros = [
+        {
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: documento_clase,
+        },
+        ...JSON.parse(filtroGuardado),
+      ];
     }
+
     this.httpService
       .post<{
         registros: any;
-      }>('general/documento/lista/', {
-        ...this.arrParametrosConsulta,
-        ...{
-          documento_clase_id,
-        },
-      })
+      }>('general/documento/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length
+        this.cantidad_registros = respuesta.length;
         this.arrItems = respuesta;
         this.changeDetectorRef.detectChanges();
       });
@@ -105,7 +110,6 @@ export class BaseListaComponent extends General implements OnInit {
     } else {
       localStorage.removeItem(this.nombreFiltro);
     }
-
     this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
@@ -175,12 +179,10 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    const { documento_clase: documento_clase_id } = this.parametrosUrl;
     this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
       ...{
-        documento_clase_id,
-        limite: 5000
+        limite: 5000,
       },
     });
   }
