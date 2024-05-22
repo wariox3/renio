@@ -52,7 +52,12 @@
         translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
         *ngIf="visualizarBtnNuevo"
       ></button>
-      <div class="btn-group" ngbDropdown role="group">
+      <div
+        class="btn-group"
+        ngbDropdown
+        role="group"
+        *ngIf="visualizarBtnColumnas"
+      >
         <button
           type="button"
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"

@@ -75,6 +75,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarBtnExportar: boolean = true;
   @Input() visualizarBtnNuevo: boolean = true;
   @Input() visualizarBtnEliminar: boolean = true;
+  @Input() visualizarBtnColumnas: boolean = true;
   @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
