@@ -140,6 +140,17 @@
                   </tbody>
                 </table>
               </div>
+              <div class="d-flex justify-content-end mb-5">
+                <table>
+                  <tr *ngIf="pago.total > 0">
+                    <td
+                      class="text-end"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
+                    ></td>
+                    <td class="text-end">{{ pago.total | currency : "$" }}</td>
+                  </tr>
+                </table>
+              </div>
             </ng-template>
           </li>
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
