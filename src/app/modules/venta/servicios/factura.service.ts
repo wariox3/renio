@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subdomino } from '@comun/clases/subdomino';
+import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 
 @Injectable({

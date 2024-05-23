@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Subdomino } from '@comun/clases/subdomino';
+import { Subdominio } from '@comun/clases/subdomino';
 import { AlertaService } from './alerta.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpService extends Subdomino {
+export class HttpService extends Subdominio {
 
   private alertaService = inject(AlertaService)
 

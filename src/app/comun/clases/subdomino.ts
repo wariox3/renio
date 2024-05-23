@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { SubdominioService } from '@comun/services/subdominio.service';
 
-export class Subdomino {
+export class Subdominio {
   urlSubDominio: string = environment.URL_API_SUBDOMINIO;
   empresaLocalhost: string = environment.EMPRESA_LOCALHOST;
   urlMuup: string = environment.URL_API_MUUP;

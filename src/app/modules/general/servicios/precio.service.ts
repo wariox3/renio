@@ -1,12 +1,12 @@
 import { HttpService } from '@comun/services/http.service';
 import { Injectable } from '@angular/core';
-import { Subdomino } from '@comun/clases/subdomino';
+import { Subdominio } from '@comun/clases/subdomino';
 import { Precio } from '@interfaces/general/Precio';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PrecioService  extends Subdomino {
+export class PrecioService  extends Subdominio {
 
   constructor(private httpService: HttpService) {
     super();
