@@ -138,6 +138,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           this.formularioFactura.markAsPristine();
           this.formularioFactura.markAsUntouched();
         }
+        this.calcularTotales()
         this.changeDetectorRef.detectChanges();
 
       });
@@ -309,6 +310,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         }));
         this.changeDetectorRef.detectChanges();
       });
+      
   }
 
   agregarDocumentoSeleccionado(documento: any) {
@@ -363,6 +365,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   obtenerFiltrosModal(arrfiltros: any[]) {
     this.consultarDocumentos(arrfiltros);
+  }
+
+  actualizarDetalle(index: number, campo: string, evento: any){
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+
+    if (evento.target.value === '') {
+      detalleFormGroup.get(campo)?.patchValue(0);
+    }
+    this.calcularTotales();
+
   }
 
   calcularTotales() {
