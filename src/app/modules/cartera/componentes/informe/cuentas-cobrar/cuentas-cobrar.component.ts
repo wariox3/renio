@@ -27,11 +27,12 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 export class CuentasCobrarComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
+  filtroPermanente = [
+    { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+    { propiedad: 'pendiente__gt', valor1: 0 },
+  ];
   arrParametrosConsulta: any = {
-    filtros: [
-      { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-      { propiedad: 'pendiente__gt', valor1: 0 },
-    ],
+    filtros: this.filtroPermanente,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -81,7 +82,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
           pendiente: documento.pendiente,
           documento_tipo: documento.documento_tipo,
           metodo_pago: documento.metodo_pago,
-          contacto_id:documento.contacto_id,
+          contacto_id: documento.contacto_id,
           contacto_nombre_corto: documento.contacto_nombre_corto,
           soporte: documento.soporte,
           orden_compra: documento.orden_compra,
@@ -91,7 +92,6 @@ export class CuentasCobrarComponent extends General implements OnInit {
           documento_referencia: documento,
           plazo_pago: documento.plazo_pago,
           comentario: documento.comentario,
-
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -101,18 +101,14 @@ export class CuentasCobrarComponent extends General implements OnInit {
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
         this.arrParametrosConsulta.filtros = [
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-          ...arrFiltrosExtra
+          ...this.filtroPermanente,
+          ...arrFiltrosExtra,
         ];
       } else {
-        this.arrParametrosConsulta.filtros = [
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-        ]
+        this.arrParametrosConsulta.filtros = this.filtroPermanente;
       }
-      this.consultarLista();
     }
+    this.consultarLista();
   }
 
   cambiarOrdemiento(ordenamiento: string) {

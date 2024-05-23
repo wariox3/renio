@@ -27,8 +27,14 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
 export class VentasItemsComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
+  filtroPermanente = [
+    {
+      propiedad: 'documento__documento_tipo__documento_clase__grupo',
+      valor1: 1,
+    },
+  ];
   arrParametrosConsulta: any = {
-    filtros: [],
+    filtros: this.filtroPermanente,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -78,7 +84,14 @@ export class VentasItemsComponent extends General implements OnInit {
 
   obtenerFiltros(arrFiltrosExtra: any) {
     if (arrFiltrosExtra !== null) {
-      this.arrParametrosConsulta.filtros = arrFiltrosExtra;
+      if (arrFiltrosExtra.length >= 1) {
+        this.arrParametrosConsulta.filtros = [
+          ...this.filtroPermanente,
+          ...arrFiltrosExtra,
+        ];
+      } else {
+        this.arrParametrosConsulta.filtros = this.filtroPermanente;
+      }
     }
     this.consultarLista();
   }
