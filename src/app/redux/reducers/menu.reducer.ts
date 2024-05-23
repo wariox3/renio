@@ -279,6 +279,11 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 101 },
             },
+            {
+              nombre: 'PAGO',
+              tipo: 'Documento',
+              data: { documento_clase: 200 },
+            },
           ],
         },
         {
