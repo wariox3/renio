@@ -124,12 +124,14 @@ export default class PagoFormularioComponent extends General implements OnInit {
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total
         });
+
         respuesta.documento.detalles.forEach((detalle: any) => {
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
-            documento_afectado_id: [detalle.id],
-            numero: [detalle.numero],
-            contacto: [detalle.contacto_nombre_corto],
+            documento: [detalle.documento_afectado_id],
+            documento_afectado: [detalle.documento_afectado_id],
+            numero: [detalle.documento_afectado_numero],
+            contacto: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
           });
           this.detalles.push(detalleFormGroup);
@@ -327,7 +329,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.arrDocumentosSeleccionados.map((documento) => {
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
-        documento_afectado_id: [documento.id],
+        documento: [documento.id],
+        documento_afectado: [documento.id],
         numero: [documento.numero],
         contacto: [documento.contacto],
         pago: [documento.pendiente],

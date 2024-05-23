@@ -196,6 +196,7 @@
                     <thead>
                       <tr class="bg-gray-100">
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
@@ -216,6 +217,9 @@
                       >
                         <tr>
                           <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td>
+                            {{ detalle.value.documento }}
+                          </td>
                           <td>
                             {{ detalle.value.numero }}
                           </td>
