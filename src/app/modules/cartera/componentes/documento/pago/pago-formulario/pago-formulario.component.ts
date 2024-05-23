@@ -107,6 +107,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         ]),
       ],
       comentario: [null],
+      total: [0],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -121,6 +122,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           contactoNombre: respuesta.documento.contacto_nombre_corto,
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
+          total: respuesta.documento.total
         });
         respuesta.documento.detalles.forEach((detalle: any) => {
           const detalleFormGroup = this.formBuilder.group({
@@ -284,7 +286,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             tipo: 'CharField',
           },
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'cobrpendiente__gt', valor1: 0 },
+          { propiedad: 'pendiente__gt', valor1: 0 },
         ];
       }
     }
@@ -384,6 +386,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.total += parseInt(pago);
       this.changeDetectorRef.detectChanges()
     })
-
+    this.formularioFactura.patchValue({
+      total: this.total,
+    });
   }
 }
