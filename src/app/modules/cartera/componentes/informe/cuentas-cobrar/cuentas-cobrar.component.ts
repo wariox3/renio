@@ -30,7 +30,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
   arrParametrosConsulta: any = {
     filtros: [
       { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-      { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+      { propiedad: 'pendiente__gt', valor1: 0 },
     ],
     limite: 50,
     desplazar: 0,
@@ -78,7 +78,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
           estado_electronico_enviado: documento.estado_electronico_enviado,
           estado_electronico_notificado:
             documento.estado_electronico_notificado,
-          cobrar_pendiente: documento.cobrar_pendiente,
+          pendiente: documento.pendiente,
           documento_tipo: documento.documento_tipo,
           metodo_pago: documento.metodo_pago,
           contacto_id:documento.contacto_id,
@@ -102,13 +102,13 @@ export class CuentasCobrarComponent extends General implements OnInit {
       if (arrFiltrosExtra.length >= 1) {
         this.arrParametrosConsulta.filtros = [
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+          { propiedad: 'pendiente__gt', valor1: 0 },
           ...arrFiltrosExtra
         ];
       } else {
         this.arrParametrosConsulta.filtros = [
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+          { propiedad: 'pendiente__gt', valor1: 0 },
         ]
       }
       this.consultarLista();

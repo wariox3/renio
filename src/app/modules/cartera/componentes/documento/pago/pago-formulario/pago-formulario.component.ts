@@ -262,7 +262,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         tipo: 'CharField',
       },
       { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-      { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+      { propiedad: 'pendiente__gt', valor1: 0 },
     ];
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
@@ -273,7 +273,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             tipo: 'CharField',
           },
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+          { propiedad: 'pendiente__gt', valor1: 0 },
           ...arrFiltrosExtra,
         ];
       } else {
@@ -284,7 +284,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             tipo: 'CharField',
           },
           { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
-          { propiedad: 'cobrar_pendiente__gt', valor1: 0 },
+          { propiedad: 'cobrpendiente__gt', valor1: 0 },
         ];
       }
     }
@@ -306,11 +306,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
-          cobrar_pendiente: documento.cobrar_pendiente,
+          pendiente: documento.pendiente,
         }));
         this.changeDetectorRef.detectChanges();
       });
-      
   }
 
   agregarDocumentoSeleccionado(documento: any) {
@@ -329,7 +328,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         documento_afectado_id: [documento.id],
         numero: [documento.numero],
         contacto: [documento.contacto],
-        pago: [documento.cobrar_pendiente],
+        pago: [documento.pendiente],
       });
       this.detalles.push(detalleFormGroup);
     });
