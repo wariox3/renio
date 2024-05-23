@@ -429,7 +429,7 @@ export const locale = {
         FECHA_VENCE: 'Vence',
         FECHA_CONTABLE: 'Fecha contable',
         BASE_IMPUESTO: 'Base impuesto',
-        COBRAR_PENDIENTE: 'Saldo',
+        PENDIENTE: 'Saldo',
         CONTACTO_ID: 'Contacto',
         COMENTARIO: 'Comentario',
         ESTADO_ELECTRONICO: 'Estado electronico',

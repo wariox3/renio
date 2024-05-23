@@ -195,7 +195,7 @@ export const documentos: Mapeo = {
       aplicaFormatoNumerico: true,
     },
     {
-      nombre: 'COBRAR_PENDIENTE',
+      nombre: 'PENDIENTE',
       campoTipo: 'FloatField',
       visibleFiltro: false,
       visibleTabla: true,
