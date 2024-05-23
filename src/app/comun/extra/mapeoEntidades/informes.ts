@@ -95,6 +95,14 @@ export const documentos: Mapeo = {
       aplicaFormatoNumerico: true,
     },
     {
+      nombre: 'IMPUESTO',
+      campoTipo: 'FloatField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+      aplicaFormatoNumerico: true,
+    },
+    {
       nombre: 'TOTAL',
       campoTipo: 'FloatField',
       visibleFiltro: false,
