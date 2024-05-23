@@ -209,6 +209,7 @@ export const locale = {
           SUBTOTAL: 'Subtotal:',
           EMITIR: 'Emitir',
           NOFITICAR: 'Notificar',
+          TOTAL: 'Total',
         },
         GENERAL: {
           ITEM: {

@@ -34,6 +34,13 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
     {
+      nombre: 'DOCUMENTO__NUMERO',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+    {
       nombre: 'DOCUMENTO__FECHA',
       campoTipo: 'DateField',
       visibleFiltro: true,
@@ -41,11 +48,11 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
     {
-      nombre: 'DOCUMENTO__NUMERO',
-      campoTipo: 'IntegerField',
-      visibleFiltro: true,
+      nombre: 'Contacto',
+      campoTipo: 'CharField',
+      visibleFiltro: false,
       visibleTabla: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'ITEM_ID',

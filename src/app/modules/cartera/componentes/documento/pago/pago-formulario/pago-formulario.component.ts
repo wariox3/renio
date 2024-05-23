@@ -63,6 +63,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   arrDetallesEliminado: number[] = [];
   selectAll = false;
   estado_aprobado: false;
+  total: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -331,6 +332,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.detalles.push(detalleFormGroup);
     });
     this.modalService.dismissAll();
+    this.calcularTotales();
   }
 
   eliminarDocumentoPago(index: number, id: number | null) {
@@ -340,6 +342,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.arrDetallesEliminado.push(id);
     }
     this.detalles.removeAt(index);
+    this.calcularTotales();
   }
 
   toggleSelectAll() {
@@ -359,12 +362,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
-    // if (arrfiltros.length >= 1) {
-    //   this.arrParametrosConsulta.filtros = arrfiltros;
-    // } else {
-    //   localStorage.removeItem(this.nombreFiltro);
-    // }
-    // this.changeDetectorRef.detectChanges();
     this.consultarDocumentos(arrfiltros);
+  }
+
+  calcularTotales() {
+    this.total = 0;
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    detallesArray.controls.forEach((detalleControl) => {
+      const pago = detalleControl.get('pago')?.value || 0;
+      this.total += parseInt(pago);
+      this.changeDetectorRef.detectChanges()
+    })
+
   }
 }
