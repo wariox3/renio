@@ -57,7 +57,12 @@ export default class PagoDetalleComponent extends General {
   }
 
   aprobar() {
-
+    this.httpService
+      .post('general/documento/aprobar/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.consultardetalle();
+        this.alertaService.mensajaExitoso('Documento aprobado');
+      });
   }
 
   imprimir() {
