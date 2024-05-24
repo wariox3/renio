@@ -32,8 +32,25 @@ import { tap, throttleTime } from 'rxjs';
 export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: any[] = [];
   arrImpuestoLista: any[];
+  arrParametrosConsulta: any = {
+    filtros: [
+      {
+        operador: '__icontains',
+        propiedad: 'nombre__icontains',
+        valor1: '',
+        valor2: '',
+      },
+    ],
+    limite: 10,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 10000,
+    modelo: 'Impuesto',
+  };
   @Input() arrLista: any[];
-  @Input() estado_aprobado= false;
+  @Input() estado_aprobado = false;
+  @Input() visualizarImpuestosVenta = false;
+  @Input() visualizarImpuestosCompra = false;
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
 
@@ -46,8 +63,9 @@ export class ImpuestosComponent extends General implements OnChanges {
       this.arrImpuestoSeleccionados = [];
       this.arrLista.map((impuesto: any) => {
         const impuestoExistente = this.arrImpuestoSeleccionados.find(
-          (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
-          );
+          (impuestoSeleccionado: any) =>
+            impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
+        );
         if (!impuestoExistente) {
           this.arrImpuestoSeleccionados.push(impuesto);
         }
@@ -59,7 +77,8 @@ export class ImpuestosComponent extends General implements OnChanges {
   agregarImpuesto(impuesto: any) {
     //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
+      (impuestoSeleccionado: any) =>
+        impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
     );
     if (!impuestoExistente) {
       this.arrImpuestoSeleccionados.push(impuesto);
@@ -74,34 +93,36 @@ export class ImpuestosComponent extends General implements OnChanges {
 
   removerItem(impuesto: any) {
     this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
-      (impuestoSeleccionado: any) => impuestoSeleccionado.impuesto_id !== impuesto.impuesto_id
+      (impuestoSeleccionado: any) =>
+        impuestoSeleccionado.impuesto_id !== impuesto.impuesto_id
     );
     this.changeDetectorRef.detectChanges();
     this.emitirImpuestoElimiando.emit(impuesto);
   }
 
   consultarImpuesto() {
-
-
+    if (this.visualizarImpuestosVenta) {
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        {
+          propiedad: 'venta',
+          valor1: true,
+        },
+      ];
+    }
+    if (this.visualizarImpuestosCompra) {
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        {
+          propiedad: 'compra',
+          valor1: true,
+        },
+      ];
+    }
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista-autocompletar/',
-        {
-          filtros: [
-            {
-              id: '1692284537644-1688',
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'Impuesto',
-        }
+        this.arrParametrosConsulta
       )
       .pipe(
         tap((respuesta) => {
