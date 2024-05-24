@@ -1,13 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -61,7 +53,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
   arrDocumentos: any[] = [];
   arrDocumentosSeleccionados: any[] = [];
   arrDetallesEliminado: number[] = [];
-  selectAll = false;
+  arrRegistrosEliminar: number[] = [];
+  documentoDetalleSeleccionarTodos = false;
+  agregarDocumentoSeleccionarTodos = false;
   estado_aprobado: false;
   total: number = 0;
 
@@ -122,7 +116,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           contactoNombre: respuesta.documento.contacto_nombre_corto,
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
-          total: respuesta.documento.total
+          total: respuesta.documento.total,
         });
 
         respuesta.documento.detalles.forEach((detalle: any) => {
@@ -132,6 +126,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             numero: [detalle.documento_afectado_numero],
             contacto: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
+            seleccionado: [false],
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -141,9 +136,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
           this.formularioFactura.markAsPristine();
           this.formularioFactura.markAsUntouched();
         }
-        this.calcularTotales()
+        this.calcularTotales();
         this.changeDetectorRef.detectChanges();
-
       });
   }
 
@@ -210,7 +204,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
       );
       this.arrDocumentosSeleccionados = [];
-      this.selectAll = false;
+      this.agregarDocumentoSeleccionarTodos = false;
       this.modalService.open(content, {
         ariaLabelledBy: 'modal-basic-title',
         size: 'lg',
@@ -223,8 +217,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
       );
     }
   }
-
-  eliminarDocumento(index: number, id: number | null) {}
 
   consultarCliente(event: any) {
     let arrFiltros = {
@@ -332,6 +324,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         numero: [documento.numero],
         contacto: [documento.contacto],
         pago: [documento.pendiente],
+        seleccionado: [false],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -339,17 +332,33 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  eliminarDocumentoPago(index: number, id: number | null) {
+  eliminarDocumento() {
+    console.log('asd');
+
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    if (id != null) {
-      this.arrDetallesEliminado.push(id);
-    }
-    this.detalles.removeAt(index);
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    detallesArray.controls.forEach((detalleControl, index) => {
+      const seleccionado = detalleControl.get('seleccionado')?.value;
+      if (seleccionado) {
+        const id = detalleControl.get('id')?.value;
+
+        if (id === null) {
+          this.detalles.removeAt(index);
+        } else {
+          this.arrDetallesEliminado.push(id);
+          this.detalles.removeAt(index);
+        }
+      }
+    });
+
     this.calcularTotales();
+    this.agregarDocumentoSeleccionarTodos =
+      !this.agregarDocumentoSeleccionarTodos;
+    this.changeDetectorRef.detectChanges();
   }
 
-  toggleSelectAll() {
+  agregarDocumentosToggleSelectAll() {
     this.arrDocumentos.forEach((item: any) => {
       item.selected = !item.selected;
       const index = this.arrDocumentosSeleccionados.find(
@@ -361,7 +370,23 @@ export default class PagoFormularioComponent extends General implements OnInit {
         this.arrDocumentosSeleccionados.push(item);
       }
     });
-    this.selectAll = !this.selectAll;
+    this.agregarDocumentoSeleccionarTodos =
+      !this.agregarDocumentoSeleccionarTodos;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  detalleToggleSelectAll() {
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    detallesArray.controls.forEach((detalleControl) => {
+      detalleControl
+        .get('seleccionado')
+        ?.setValue(!detalleControl.get('seleccionado')?.value);
+      this.changeDetectorRef.detectChanges();
+    });
+    this.documentoDetalleSeleccionarTodos =
+      !this.documentoDetalleSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -369,14 +394,13 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.consultarDocumentos(arrfiltros);
   }
 
-  actualizarDetalle(index: number, campo: string, evento: any){
+  actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
 
     if (evento.target.value === '') {
       detalleFormGroup.get(campo)?.patchValue(0);
     }
     this.calcularTotales();
-
   }
 
   calcularTotales() {
@@ -385,10 +409,24 @@ export default class PagoFormularioComponent extends General implements OnInit {
     detallesArray.controls.forEach((detalleControl) => {
       const pago = detalleControl.get('pago')?.value || 0;
       this.total += parseInt(pago);
-      this.changeDetectorRef.detectChanges()
-    })
+      this.changeDetectorRef.detectChanges();
+    });
     this.formularioFactura.patchValue({
       total: this.total,
     });
+  }
+
+  agregarRegistrosEliminar(index: number, id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    detalleFormGroup.get('seleccionado')?.patchValue(true);
+    const posicion = this.arrRegistrosEliminar.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
+    if (posicion !== -1) {
+      this.arrRegistrosEliminar.splice(posicion, 1);
+    } else {
+      // Si el registro no está en el array, lo agrega
+      this.arrRegistrosEliminar.push(posicion);
+    }
   }
 }

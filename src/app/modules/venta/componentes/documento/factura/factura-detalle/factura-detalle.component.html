@@ -23,18 +23,6 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
-      <div class="btn-group">
-        <button
-          type="button"
-          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          (click)="emitir()"
-          [disabled]="
-            !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
-          "
-        >
-          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
-        </button>
-      </div>
     </div>
     <div class="btn-group ml-2">
       <div

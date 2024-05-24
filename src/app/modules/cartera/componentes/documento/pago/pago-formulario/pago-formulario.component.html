@@ -188,6 +188,22 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
+                <div class="d-flex justify-content-end my-3">
+                  <div class="btn-group contenedor-btn-group">
+                    <button
+                      (click)="agregarDocumento(content)"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+                    ></button>
+                    <button
+                      (click)="eliminarDocumento()"
+                      class="btn btn-sm btn-danger"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                      ></button>
+                  </div>
+                </div>
                 <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"
@@ -201,12 +217,28 @@
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
                         <th class="w-100px text-center">
-                          <button
-                            (click)="agregarDocumento(content)"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
-                          ></button>
+                          <label [for]="documentoDetalleSeleccionarTodos">
+                            <i
+                              class="cursor-pointer"
+                              [ngClass]="
+                                checkboxDocumentoDetalleSeleccionarTodos.checked
+                                  ? 'ki-duotone ki-check-square text-danger fs-1'
+                                  : 'fa-regular fa-square text-gray-500 fs-1'
+                              "
+                            >
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                            <input
+                              class="d-none"
+                              type="checkbox"
+                              #checkboxDocumentoDetalleSeleccionarTodos
+                              [id]="documentoDetalleSeleccionarTodos"
+                              [checked]="documentoDetalleSeleccionarTodos"
+                              [value]="documentoDetalleSeleccionarTodos"
+                              (change)="detalleToggleSelectAll()"
+                            />
+                          </label>
                         </th>
                       </tr>
                     </thead>
@@ -234,13 +266,31 @@
                               appSoloNumeros
                             />
                           </td>
-                          <td class="text-center">
-                            <i
-                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="
-                                eliminarDocumentoPago(i, detalle.value.id)
-                              "
-                            ></i>
+                          <td class="w-20px text-center">
+                            <label [for]="detalle.value.id">
+                              <i
+                                class="cursor-pointer"
+                                [ngClass]="
+                                  checked.checked
+                                    ? 'ki-duotone ki-check-square text-danger fs-1'
+                                    : 'fa-regular fa-square text-gray-500 fs-1'
+                                "
+                              >
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                              </i>
+                              <input
+                                #checked
+                                class="d-none"
+                                type="checkbox"
+                                [id]="detalle.value.id"
+                                [value]="detalle.value.id"
+                                (change)="
+                                  agregarRegistrosEliminar(i, detalle.value.id)
+                                "
+                                [checked]="detalle.value.seleccionado"
+                              />
+                            </label>
                           </td>
                         </tr>
                       </ng-container>
@@ -309,6 +359,14 @@
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
     ></app-base-filtro>
+    <div class="d-flex justify-content-end my-3">
+      <button
+        (click)="agregarDocumentosPago()"
+        class="btn btn-sm btn-primary"
+        type="button"
+        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+      ></button>
+    </div>
     <div class="table-responsive table-loading mt-5">
       <table
         class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
@@ -325,11 +383,11 @@
             <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.PENDIENTE'"></th>
             <th class="text-center">
-              <label [for]="selectAll">
+              <label for="agregarDocumentoSeleccionarTodos">
                 <i
                   class="cursor-pointer"
                   [ngClass]="
-                    checkboxSelectAll.checked
+                    checkboxAgregarDocumentoSeleccionarTodos.checked
                       ? 'ki-duotone ki-check-square text-danger fs-1'
                       : 'fa-regular fa-square text-gray-500 fs-1'
                   "
@@ -340,11 +398,11 @@
                 <input
                   class="d-none"
                   type="checkbox"
-                  #checkboxSelectAll
-                  [id]="selectAll"
-                  [checked]="selectAll"
-                  [value]="selectAll"
-                  (change)="toggleSelectAll()"
+                  #checkboxAgregarDocumentoSeleccionarTodos
+                  id="agregarDocumentoSeleccionarTodos"
+                  [checked]="agregarDocumentoSeleccionarTodos"
+                  [value]="agregarDocumentoSeleccionarTodos"
+                  (change)="agregarDocumentosToggleSelectAll()"
                 />
               </label>
             </th>
@@ -379,7 +437,7 @@
             <td class="text-end">
               {{ item["pendiente"] | number }}
             </td>
-            <td class="w-20px">
+            <td class="w-20px text-center">
               <label [for]="item['id']">
                 <i
                   class="cursor-pointer"
@@ -407,13 +465,5 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      (click)="agregarDocumentosPago()"
-      class="btn btn-outline-dark"
-      type="button"
-      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
-    ></button>
   </div>
 </ng-template>
