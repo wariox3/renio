@@ -182,7 +182,6 @@ export default class FacturaDetalleComponent extends General {
         documento_id: this.detalle,
       })
       .subscribe((respuesta: any) => {
-        console.log(respuesta.correo);
         this.arrCorreos = respuesta.correos.map((correo: any)=>({
           codigoCorreoPk: correo.codigoCorreoPk,
           enviado: correo.fecha,

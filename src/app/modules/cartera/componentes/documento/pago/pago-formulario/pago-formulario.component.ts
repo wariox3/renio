@@ -333,8 +333,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   eliminarDocumento() {
-    console.log('asd');
-
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;

@@ -75,7 +75,6 @@ export class BaseListaComponent extends General implements OnInit {
   consultarLista() {
     const { documento_clase } = this.parametrosUrl;
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-    console.log(filtroGuardado);
     if (filtroGuardado === null) {
       this.arrParametrosConsulta.filtros = [
         {
