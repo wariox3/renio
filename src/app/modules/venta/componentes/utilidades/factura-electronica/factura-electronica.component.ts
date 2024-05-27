@@ -4,13 +4,14 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
 import { General } from '@comun/clases/general';
 import { documentos } from '@comun/extra/mapeoEntidades/documentos';
+import { utilidades } from '@comun/extra/mapeoEntidades/utilidades';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
 import { zip } from 'rxjs';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -24,20 +25,32 @@ import { zip } from 'rxjs';
     TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
+    BaseFiltroComponent,
   ],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
+  filtroPermanenteEmitir = [
+    {
+      propiedad: 'estado_aprobado',
+      valor1: true,
+    },
+    {
+      propiedad: 'estado_electronico',
+      valor1: false,
+    },
+  ];
+  filtroPermanenteNotificar = [
+    {
+      propiedad: 'estado_electronico_notificado',
+      valor1: false,
+    },
+    {
+      propiedad: 'estado_electronico',
+      valor1: true,
+    },
+  ];
   arrParametrosConsultaEmitir: any = {
-    filtros: [
-      {
-        propiedad: 'estado_aprobado',
-        valor1: true,
-      },
-      {
-        propiedad: 'estado_electronico',
-        valor1: false,
-      },
-    ],
+    filtros: this.filtroPermanenteEmitir,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -45,16 +58,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     documento_clase_id: 100,
   };
   arrParametrosConsultaNotificar: any = {
-    filtros: [
-      {
-        propiedad: 'estado_electronico_notificado',
-        valor1: false,
-      },
-      {
-        propiedad: 'estado_electronico',
-        valor1: true,
-      },
-    ],
+    filtros: this.filtroPermanenteNotificar,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -68,6 +72,11 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   emitirSelectTodo = false;
   notificarSelectTodo = false;
   tabActive = 1;
+  paginacionEmitirDesde: number = 0;
+  paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
+  paginacionNotificarDesde: number = 0;
+  paginacionNotificarHasta: number = this.arrParametrosConsultaNotificar.limite;
+  cantidad_registros: number = 0;
 
   constructor(private httpService: HttpService) {
     super();
@@ -82,6 +91,9 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
     });
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] })
+    );
     this.changeDetectorRef.detectChanges();
   }
 
@@ -199,6 +211,132 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         'Error',
         'No tiene registros seleccionados'
       );
+    }
+  }
+
+  visualizarTap(tap: string){
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: utilidades[tap] })
+    );
+  }
+
+  obtenerFiltrosEmitir(arrFiltrosExtra: any) {
+    if (arrFiltrosExtra !== null) {
+      if (arrFiltrosExtra.length >= 1) {
+        this.arrParametrosConsultaEmitir.filtros = [
+          ...this.filtroPermanenteEmitir,
+          ...arrFiltrosExtra,
+        ];
+      } else {
+        this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
+      }
+    }
+    this.consultarLista();
+  }
+
+  obtenerFiltrosNotificar(arrFiltrosExtra: any) {
+    if (arrFiltrosExtra !== null) {
+      if (arrFiltrosExtra.length >= 1) {
+        this.arrParametrosConsultaNotificar.filtros = [
+          ...this.filtroPermanenteNotificar,
+          ...arrFiltrosExtra,
+        ];
+      } else {
+        this.arrParametrosConsultaNotificar.filtros = this.filtroPermanenteNotificar;
+      }
+    }
+    this.consultarLista();
+  }
+
+  aumentarDesplazamientoEmitir() {
+    this.paginacionEmitirDesde = this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
+    this.paginacionEmitirHasta = this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
+    this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+    this.consultarLista();
+  }
+
+  disminuirDesplazamientoEmitir() {
+    if (this.paginacionEmitirDesde > 0) {
+      let nuevoValor = this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
+      this.paginacionEmitirHasta = this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
+      this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
+      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+      this.consultarLista();
+    }
+  }
+
+  calcularValorMostrarEmitir(evento: any) {
+    if (evento.target.value) {
+      let valorInicial = evento.target.value;
+      if (valorInicial.includes('-')) {
+        let [limite, desplazamiento] = valorInicial.split('-');
+        desplazamiento = desplazamiento - limite + 1;
+        if (limite > 0) {
+          if (desplazamiento > 0 && limite > 0) {
+            this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
+            this.arrParametrosConsultaEmitir.limite = parseInt(limite);
+            this.consultarLista();
+          }
+        }
+        if (desplazamiento < 0) {
+          evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
+        }
+      } else {
+        this.arrParametrosConsultaEmitir.desplazar = parseInt(valorInicial);
+        this.arrParametrosConsultaEmitir.limite = 1;
+        this.consultarLista();
+      }
+    } else {
+      evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
+      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirHasta;
+      this.arrParametrosConsultaEmitir.limite = this.paginacionEmitirDesde;
+      this.consultarLista();
+    }
+  }
+
+  aumentarDesplazamientoNotificar() {
+    this.paginacionNotificarDesde = this.paginacionNotificarDesde + this.arrParametrosConsultaNotificar.limite;
+    this.paginacionNotificarHasta = this.paginacionNotificarHasta + this.arrParametrosConsultaNotificar.limite;
+    this.arrParametrosConsultaNotificar.desplazar = this.paginacionNotificarDesde;
+    this.consultarLista();
+  }
+
+  disminuirDesplazamientoNotificar() {
+    if (this.paginacionNotificarDesde > 0) {
+      let nuevoValor = this.paginacionNotificarDesde - this.arrParametrosConsultaNotificar.limite;
+      this.paginacionNotificarHasta = this.paginacionNotificarHasta - this.arrParametrosConsultaNotificar.limite;
+      this.paginacionNotificarDesde = nuevoValor <= 1 ? 0 : nuevoValor;
+      this.arrParametrosConsultaNotificar.desplazar = this.paginacionNotificarDesde;
+      this.consultarLista();
+    }
+  }
+
+  calcularValorMostrarNotificar(evento: any) {
+    if (evento.target.value) {
+      let valorInicial = evento.target.value;
+      if (valorInicial.includes('-')) {
+        let [limite, desplazamiento] = valorInicial.split('-');
+        desplazamiento = desplazamiento - limite + 1;
+        if (limite > 0) {
+          if (desplazamiento > 0 && limite > 0) {
+            this.arrParametrosConsultaNotificar.desplazar = desplazamiento;
+            this.arrParametrosConsultaNotificar.limite = limite;
+            this.consultarLista();
+          }
+        }
+        if (desplazamiento < 0) {
+          evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
+        }
+      } else {
+        this.arrParametrosConsultaNotificar.desplazar = parseInt(valorInicial);
+        this.arrParametrosConsultaNotificar.limite = 1;
+        this.consultarLista();
+      }
+    } else {
+      evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
+      this.arrParametrosConsultaNotificar.desplazar = this.paginacionNotificarHasta;
+      this.arrParametrosConsultaNotificar.limite = this.paginacionNotificarDesde;
+      this.consultarLista();
     }
   }
 }

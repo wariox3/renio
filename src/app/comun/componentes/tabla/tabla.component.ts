@@ -221,7 +221,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     } else if (this.al <= 0) {
       this.al = this.registrosVisiables;
     }
-
     this.cantidadRegistros.emit(this.al);
   }
 

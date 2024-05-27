@@ -7,7 +7,12 @@
         [(activeId)]="tabActive"
         class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
       >
-        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+        <li
+          [ngbNavItem]="1"
+          [destroyOnHide]="true"
+          class="nav-item"
+          (click)="visualizarTap('factura_electronica_emitir')"
+        >
           <a
             class="nav-link"
             ngbNavLink
@@ -15,15 +20,47 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
           ></a>
           <ng-template ngbNavContent>
-            <div class="d-flex justify-content-end mb-2">
-              <button
-                type="button"
-                class="btn btn-sm btn-primary"
-                id="dropdownBasic1"
-                (click)="emitir()"
-                translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
+            <app-base-filtro
+              (emitirFiltros)="obtenerFiltrosEmitir($event)"
+              [persistirFiltros]="false"
+            ></app-base-filtro>
+            <div class="row mb-4 justify-content-between gap-sm-5">
+              <div
+                class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2"
               >
-              </button>
+                <i
+                  (click)="disminuirDesplazamientoEmitir()"
+                  class="bi bi-arrow-left fs-2x cursor-pointer"
+                ></i>
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-100px"
+                  [value]="
+                    paginacionEmitirDesde + 1 + '-' + paginacionEmitirHasta
+                  "
+                  (blur)="calcularValorMostrarEmitir($event)"
+                />
+                <span>de</span>
+                <span>{{ cantidad_registros }}</span>
+                <i
+                  (click)="aumentarDesplazamientoEmitir()"
+                  class="bi bi-arrow-right fs-2x cursor-pointer"
+                ></i>
+              </div>
+              <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
+                <div
+                  class="btn-group contenedor-btn-group"
+                  data-toggle="buttons"
+                >
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary"
+                    id="dropdownBasic1"
+                    (click)="emitir()"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
+                  ></button>
+                </div>
+              </div>
             </div>
             <div class="table-responsive-sm table-loading">
               <table
@@ -118,9 +155,7 @@
                           [id]="documentoEmitir.id"
                           [value]="documentoEmitir.id"
                           [checked]="documentoEmitir.selected"
-                          (change)="
-                            agregarRegistrosEmitir(documentoEmitir.id)
-                          "
+                          (change)="agregarRegistrosEmitir(documentoEmitir.id)"
                         />
                       </label>
                     </td>
@@ -130,7 +165,12 @@
             </div>
           </ng-template>
         </li>
-        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+        <li
+          [ngbNavItem]="2"
+          [destroyOnHide]="true"
+          class="nav-item"
+          (click)="visualizarTap('factura_electronica_notificar')"
+        >
           <a
             class="nav-link"
             ngbNavLink
@@ -138,16 +178,48 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
           ></a>
           <ng-template ngbNavContent>
-            <div class="d-flex justify-content-end mb-2">
-              <button
-                type="button"
-                class="btn btn-sm btn-primary"
-                id="dropdownBasic1"
-                (click)="notificar()"
-                translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
+            <app-base-filtro
+              (emitirFiltros)="obtenerFiltrosNotificar($event)"
+              [persistirFiltros]="false"
+            ></app-base-filtro>
 
+            <div class="row mb-4 justify-content-between gap-sm-5">
+              <div
+                class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2"
+              >
+                <i
+                  (click)="disminuirDesplazamientoNotificar()"
+                  class="bi bi-arrow-left fs-2x cursor-pointer"
+                ></i>
+                <input
+                  type="text"
+                  class="form-control form-control-sm w-100px"
+                  [value]="
+                    paginacionNotificarDesde + 1 + '-' + paginacionNotificarHasta
+                  "
+                  (blur)="calcularValorMostrarEmitir($event)"
+                />
+                <span>de</span>
+                <span>{{ cantidad_registros }}</span>
+                <i
+                  (click)="aumentarDesplazamientoNotificar()"
+                  class="bi bi-arrow-right fs-2x cursor-pointer"
+                ></i>
+              </div>
+              <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
+                <div
+                  class="btn-group contenedor-btn-group"
+                  data-toggle="buttons"
                 >
-              </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary"
+                    id="dropdownBasic1"
+                    (click)="notificar()"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
+                  ></button>
+                </div>
+              </div>
             </div>
             <div class="table-responsive-sm table-loading">
               <table
@@ -203,9 +275,7 @@
                       {{ documentoNotificar.total | number }}
                     </td>
                     <td class="w-20px">
-                      <label
-                        [for]="documentoNotificar.id"
-                      >
+                      <label [for]="documentoNotificar.id">
                         <i
                           class="fa-regular fs-2x cursor-pointer"
                           [ngClass]="
