@@ -40,6 +40,13 @@ export const utilidades: Mapeo = {
       visibleTabla: false,
       ordenable: true,
     },
+    {
+      nombre: 'ESTADO_ELECTRONICO_ENVIADO',
+      campoTipo: 'Booleano',
+      visibleFiltro: true,
+      visibleTabla: false,
+      ordenable: true,
+    },
   ],
   factura_electronica_notificar: [
     {
