@@ -7,7 +7,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, Observable, switchMap, tap, of } from 'rxjs';
+import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
@@ -31,6 +31,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
+  visalizarLoader: boolean = false
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   @ViewChild('btnContinuar', { read: ElementRef })
   btnContinuar!: ElementRef<HTMLButtonElement>;
@@ -102,16 +103,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      this.renderer2.setAttribute(
-        this.btnContinuar.nativeElement,
-        'disabled',
-        'true'
-      );
-      this.renderer2.setProperty(
-        this.btnContinuar.nativeElement,
-        'innerHTML',
-        'Procesando'
-      );
+      this.visalizarLoader = true
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .pipe(
@@ -174,18 +166,14 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                 );
               }
             }
+          }),
+          catchError(() => {
+            this.visalizarLoader = false;
+            this.changeDetectorRef.detectChanges();
+            return of(null);
           })
         )
         .subscribe();
-      this.renderer2.removeAttribute(
-        this.btnContinuar.nativeElement,
-        'disabled'
-      );
-      this.renderer2.setProperty(
-        this.btnContinuar.nativeElement,
-        'innerHTML',
-        'INGRESAR'
-      );
     } else {
       this.loginForm.markAllAsTouched();
     }

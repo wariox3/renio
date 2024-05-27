@@ -224,8 +224,20 @@
         type="submit"
         id="kt_sign_in_submit"
         class="btn btn-primary"
-        #btnContinuar
+        *ngIf="visalizarLoader === false; else loader"
       ></button>
+      <ng-template #loader>
+        <button
+          type="submit"
+          id="kt_sign_in_submit"
+          class="btn btn-primary spinner spinner-white spinner-right"
+          disabled
+        >
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </ng-template>
     </div>
 
     <div
