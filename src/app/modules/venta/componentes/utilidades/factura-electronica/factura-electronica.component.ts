@@ -138,12 +138,14 @@ export class FacturaElectronicaComponent extends General implements OnInit {
 
   emitirToggleSelectAll() {
     this.arrDocumentosEmitir.forEach((item: any) => {
-      item.selected = !item.selected;
-      const index = this.arrRegistrosSeleccionadosEmitir.indexOf(item.id);
-      if (index !== -1) {
-        this.arrRegistrosSeleccionadosEmitir.splice(index, 1);
-      } else {
-        this.arrRegistrosSeleccionadosEmitir.push(item.id);
+      if(item.estado_electronico_enviado === false){
+        item.selected = !item.selected;
+        const index = this.arrRegistrosSeleccionadosEmitir.indexOf(item.id);
+        if (index !== -1) {
+          this.arrRegistrosSeleccionadosEmitir.splice(index, 1);
+        } else {
+          this.arrRegistrosSeleccionadosEmitir.push(item.id);
+        }
       }
     });
     this.emitirSelectTodo = !this.emitirSelectTodo;
