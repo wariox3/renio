@@ -6,11 +6,39 @@ import { LandingpageComponent } from './pages/landingpage/landingpage.component'
 export const routes: Routes = [
   {
     path: 'inicio',
-    component: LandingpageComponent
+    component: LandingpageComponent,
   },
   {
-    path: 'inicio/terminos',
-    component: LandingpageComponent
+    path: 'faqs',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'docs',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'cambios',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'tutoriales',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'foro',
+    component: LandingpageComponent,
   },
   {
     path: 'auth',
