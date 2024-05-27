@@ -207,7 +207,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.agregarDocumentoSeleccionarTodos = false;
       this.modalService.open(content, {
         ariaLabelledBy: 'modal-basic-title',
-        size: 'lg',
+        size: 'xl',
       });
       this.changeDetectorRef.detectChanges();
     } else {
