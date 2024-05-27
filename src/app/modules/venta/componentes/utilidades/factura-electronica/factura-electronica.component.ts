@@ -218,6 +218,9 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: utilidades[tap] })
     );
+    this.arrParametrosConsultaEmitir.filtros =  this.filtroPermanenteEmitir
+    this.arrParametrosConsultaNotificar.filtros =  this.filtroPermanenteNotificar
+    this.consultarLista()
   }
 
   obtenerFiltrosEmitir(arrFiltrosExtra: any) {
