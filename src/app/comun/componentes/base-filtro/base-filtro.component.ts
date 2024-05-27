@@ -184,8 +184,6 @@ export class BaseFiltroComponent extends General implements OnInit {
           hayFiltrosSinValores = true;
         } else {
           let nuevoFiltro = {}
-          console.log(filtro);
-          
           if(filtro.tipo === "Booleano"){
             nuevoFiltro = {
               ...filtro,
@@ -227,8 +225,6 @@ export class BaseFiltroComponent extends General implements OnInit {
         );
       }
       if (emitirValores) {
-        console.log(this.listaFiltros);
-        
         this.emitirFiltros.emit(this.listaFiltros);
       }
     } else {

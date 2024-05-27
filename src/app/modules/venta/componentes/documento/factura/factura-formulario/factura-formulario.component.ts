@@ -924,18 +924,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           plazo_pago: respuesta.documento.plazo_pago_id,
         });
 
-        if (
-          this.parametrosUrl.documento_clase == 2 ||
-          this.parametrosUrl.documento_clase == 3
-        ) {
-          this.visualizarCampoDocumentoReferencia = true;
-          this.formularioFactura.patchValue({
-            documento_referencia: respuesta.documento.documento_referencia_id,
-            documento_referencia_numero:
-              respuesta.documento.documento_referencia_numero,
-          });
-        }
-
         this.detalles.clear();
         respuesta.documento.detalles.forEach(
           (detalle: any, indexDetalle: number) => {
