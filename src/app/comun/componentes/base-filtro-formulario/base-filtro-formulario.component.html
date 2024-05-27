@@ -79,6 +79,7 @@
             ? 'date'
             : 'text'
         "
+        [readOnly]="busquedaAvanzada !== ''"
         (change)="actualizarCampoValor1($event)"
       />
       <div class="input-group-append" *ngIf="busquedaAvanzada !== ''">
