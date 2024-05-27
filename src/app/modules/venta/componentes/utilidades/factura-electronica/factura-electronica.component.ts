@@ -35,7 +35,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       valor1: true,
     },
     {
-      propiedad: 'estado_electronico',
+      propiedad: 'estado_electronico_enviado',
       valor1: false,
     },
   ];
