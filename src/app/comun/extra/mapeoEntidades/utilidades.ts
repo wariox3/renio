@@ -34,7 +34,7 @@ export const utilidades: Mapeo = {
       ordenable: true,
     },
     {
-      nombre: 'ESTADO_ELECTRONICO',
+      nombre: 'ESTADO_ELECTRONICO_notificado',
       campoTipo: 'Booleano',
       visibleFiltro: true,
       visibleTabla: false,
