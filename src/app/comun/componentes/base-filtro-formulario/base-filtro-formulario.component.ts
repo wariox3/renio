@@ -64,9 +64,13 @@ export class BaseFiltroFormularioComponent
   @ViewChild('inputValor1') inputValor1: ElementRef;
   @ViewChild('inputCritero') inputCritero: ElementRef;
 
-  criteriosBusqueda: { valor: string; texto: string; defecto?: boolean }[] = [];
+  criteriosBusqueda: {
+    valor: string | number | boolean;
+    texto: string;
+    defecto?: boolean;
+  }[] = [];
   criteriosBusquedaModal: {
-    valor: string;
+    valor: string | number | boolean;
     texto: string;
     defecto?: boolean;
   }[][] = [];
@@ -242,8 +246,10 @@ export class BaseFiltroFormularioComponent
           }
         });
       });
-      let inputValor1Modal: HTMLInputElement | null = document.querySelector("#inputValor1Modal"+index)
-      inputValor1Modal!.focus();
+    let inputValor1Modal: HTMLInputElement | null = document.querySelector(
+      '#inputValor1Modal' + index
+    );
+    inputValor1Modal!.focus();
   }
 
   criterioSeleccionadoModal(event: any, index: number) {

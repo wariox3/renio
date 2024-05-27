@@ -2,7 +2,7 @@ import { createReducer } from '@ngrx/store';
 
 export type CriteriosFiltro = {
   [key: string]: {
-    valor: string;
+    valor: string|number|boolean;
     texto: string;
     defecto?: boolean;
   }[];
@@ -91,11 +91,11 @@ export const initialState: CriteriosFiltro = {
   ],
   Booleano: [
     {
-      valor: '__is',
+      valor: true,
       texto: 'ES',
     },
     {
-      valor: '__no_is',
+      valor: false,
       texto: 'NO',
     },
   ],

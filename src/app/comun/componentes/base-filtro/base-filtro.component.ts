@@ -178,24 +178,40 @@ export class BaseFiltroComponent extends General implements OnInit {
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
     let emitirValores = true;
-
     filtros.forEach((filtro: any) => {
-
       if (filtro.propiedad !== '') {
         if (filtro.valor1 === '') {
           hayFiltrosSinValores = true;
         } else {
-          const nuevoFiltro = {
-            ...filtro,
-            id: this.generarIdUnico(),
-            ...{
-              propiedad: `${filtro.propiedad}${filtro.operador}`,
-              campo:
-                filtro.propiedad + filtro.operador !== null
-                  ? filtro.propiedad + filtro.operador
-                  : '',
-            },
-          };
+          let nuevoFiltro = {}
+          console.log(filtro);
+          
+          if(filtro.tipo === "Booleano"){
+            nuevoFiltro = {
+              ...filtro,
+              id: this.generarIdUnico(),
+              ...{
+                propiedad: `${filtro.propiedad}`,
+                campo:
+                  filtro.propiedad + filtro.operador !== null
+                    ? filtro.propiedad + filtro.operador
+                    : '',
+                valor1: filtro.operador === 'true' ? true : false
+              },
+            };
+          } else {
+            nuevoFiltro = {
+              ...filtro,
+              id: this.generarIdUnico(),
+              ...{
+                propiedad: `${filtro.propiedad}${filtro.operador}`,
+                campo:
+                  filtro.propiedad + filtro.operador !== null
+                    ? filtro.propiedad + filtro.operador
+                    : '',
+              },
+            };
+          }
           listaFiltros.push(nuevoFiltro);
         }
       } else {
@@ -211,6 +227,8 @@ export class BaseFiltroComponent extends General implements OnInit {
         );
       }
       if (emitirValores) {
+        console.log(this.listaFiltros);
+        
         this.emitirFiltros.emit(this.listaFiltros);
       }
     } else {

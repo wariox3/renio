@@ -27,14 +27,14 @@ export const utilidades: Mapeo = {
       ordenable: true,
     },
     {
-      nombre: 'DOCUMENTO__NUMERO',
+      nombre: 'NUMERO',
       campoTipo: 'IntegerField',
       visibleFiltro: true,
       visibleTabla: true,
       ordenable: true,
     },
     {
-      nombre: 'ESTADO_ELECTRONICO_notificado',
+      nombre: 'ESTADO_ELECTRONICO_NOTIFICADO',
       campoTipo: 'Booleano',
       visibleFiltro: true,
       visibleTabla: false,
@@ -50,7 +50,7 @@ export const utilidades: Mapeo = {
       ordenable: true,
     },
     {
-      nombre: 'DOCUMENTO__NUMERO',
+      nombre: 'NUMERO',
       campoTipo: 'IntegerField',
       visibleFiltro: true,
       visibleTabla: true,
