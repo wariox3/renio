@@ -412,7 +412,46 @@
         </div>
       </div>
       <div class="row mb-2">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-2 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACION"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="identificador"
+            class="form-control bg-transparent"
+            type="text"
+            autocomplete="off"
+            appSoloNumeros
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['identificador'].touched &&
+                formularioContacto.controls['identificador'].invalid,
+              'is-valid':
+                formularioContacto.controls['identificador'].touched &&
+                formularioContacto.controls['identificador'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['identificador']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '3',
+              control: formularioContacto.controls['identificador']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-4 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
             class="form-label required"

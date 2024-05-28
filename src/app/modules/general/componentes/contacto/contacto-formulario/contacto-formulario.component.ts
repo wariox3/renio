@@ -185,6 +185,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
         ],
         ciudad_nombre: [''],
         ciudad: ['', Validators.compose([Validators.required])],
+        identificador: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(3)]),
+        ],
         telefono: [
           null,
           Validators.compose([Validators.required, Validators.maxLength(50)]),
