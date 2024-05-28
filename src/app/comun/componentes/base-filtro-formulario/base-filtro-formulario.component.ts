@@ -27,6 +27,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 @Component({
   selector: 'app-base-filtro-formulario',
   standalone: true,
@@ -37,6 +38,7 @@ import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selecto
     KeysPipe,
     ReactiveFormsModule,
     FormsModule,
+    SoloNumerosDirective
   ],
   templateUrl: './base-filtro-formulario.component.html',
 })

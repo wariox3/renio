@@ -79,7 +79,7 @@
             ? 'date'
             : 'text'
         "
-        [readOnly]="busquedaAvanzada !== ''"
+        [appSoloNumeros]="busquedaAvanzada !== ''"
         (change)="actualizarCampoValor1($event)"
       />
       <div class="input-group-append" *ngIf="busquedaAvanzada !== ''">
