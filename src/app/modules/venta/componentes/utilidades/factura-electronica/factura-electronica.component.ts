@@ -63,7 +63,6 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: 100,
   };
   arrParametrosConsultaNotificar: any = {
     filtros: this.filtroPermanenteNotificar,
@@ -71,7 +70,6 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: 100,
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -287,7 +285,8 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         let [limite, desplazamiento] = valorInicial.split('-');
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
-          if (desplazamiento > 0 && limite > 0) {
+          limite -= 1
+          if (desplazamiento > 0) {
             this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
             this.arrParametrosConsultaEmitir.limite = parseInt(limite);
             this.consultarLista();
@@ -343,7 +342,8 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         let [limite, desplazamiento] = valorInicial.split('-');
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
-          if (desplazamiento > 0 && limite > 0) {
+          limite -= 1
+          if (desplazamiento > 0) {
             this.arrParametrosConsultaNotificar.desplazar = desplazamiento;
             this.arrParametrosConsultaNotificar.limite = limite;
             this.consultarLista();
