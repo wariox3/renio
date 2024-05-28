@@ -182,13 +182,13 @@
         }"
       ></ng-container>
       <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-        control: formularioRegistro.controls['clave']
-      }"
-    ></ng-container>
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioRegistro.controls['clave']
+        }"
+      ></ng-container>
     </div>
     <!--end::Form group-->
 
@@ -316,8 +316,14 @@
         type="submit"
         id="kt_sign_up_submit"
         class="btn btn-primary"
-        #btnCrear
+        *ngIf="visualizarLoader === false; else loader"
       ></button>
+      <ng-template #loader>
+        <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        </button>
+      </ng-template>
     </div>
     <!--end::Form group-->
 

@@ -394,7 +394,7 @@ export const locale = {
     },
     LISTAS: {
       COMUNES: {
-        CARGANDOTABLA: 'Cargando',
+        CARGANDO: 'Cargando',
         EVENTOS: 'Eventos',
         CORREOS: 'Correos',
       },

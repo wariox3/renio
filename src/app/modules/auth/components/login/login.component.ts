@@ -1,18 +1,10 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Renderer2,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { environment } from '@env/environment';
 import Swal from 'sweetalert2';
@@ -31,10 +23,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
-  visalizarLoader: boolean = false
+  visualizarLoader: boolean = false;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
-  @ViewChild('btnContinuar', { read: ElementRef })
-  btnContinuar!: ElementRef<HTMLButtonElement>;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -42,9 +32,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private renderer2: Renderer2,
-    private subdominioService: SubdominioService,
-    private contenedorService: ContenedorService
+    private subdominioService: SubdominioService
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -103,7 +91,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
 
     if (this.loginForm.valid) {
-      this.visalizarLoader = true
+      this.visualizarLoader = true;
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .pipe(
@@ -168,7 +156,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             }
           }),
           catchError(() => {
-            this.visalizarLoader = false;
+            this.visualizarLoader = false;
             this.changeDetectorRef.detectChanges();
             return of(null);
           })

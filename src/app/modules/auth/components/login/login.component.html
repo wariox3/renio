@@ -224,18 +224,12 @@
         type="submit"
         id="kt_sign_in_submit"
         class="btn btn-primary"
-        *ngIf="visalizarLoader === false; else loader"
+        *ngIf="visualizarLoader === false; else loader"
       ></button>
       <ng-template #loader>
-        <button
-          type="submit"
-          id="kt_sign_in_submit"
-          class="btn btn-primary spinner spinner-white spinner-right"
-          disabled
-        >
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+        <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
         </button>
       </ng-template>
     </div>

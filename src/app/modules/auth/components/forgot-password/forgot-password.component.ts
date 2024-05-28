@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { General } from '@comun/clases/general';
+import { catchError, of, tap } from 'rxjs';
 
 
 @Component({
@@ -13,14 +14,11 @@ export class ForgotPasswordComponent extends General implements OnInit {
 
   ocultarFormularioRestablecerClave = false
   formularioRestablecerClave: FormGroup;
-
-  @ViewChild('btnRestablecer', { read: ElementRef })
-  btnRestablecer!: ElementRef<HTMLButtonElement>;
+  visualizarLoader: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private renderer2: Renderer2,
   ) {
     super()
   }
@@ -49,47 +47,24 @@ export class ForgotPasswordComponent extends General implements OnInit {
   }
 
   submit() {
-    this.renderer2.setAttribute(
-      this.btnRestablecer.nativeElement,
-      'disabled',
-      'true'
-    );
-    this.renderer2.setProperty(
-      this.btnRestablecer.nativeElement,
-      'innerHTML',
-      'Procesando'
-    );
     if (this.formularioRestablecerClave.valid) {
+      this.visualizarLoader = true;
       this.authService
       .recuperarClave(this.formFields.usuario.value)
-      .subscribe({
-        next: () => {
-          this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
-          this.renderer2.setProperty(
-            this.btnRestablecer.nativeElement,
-            'innerHTML',
-            'Restablecer'
-          );
-          this.ocultarFormularioRestablecerClave = true
+      .pipe(
+        tap(() => {
+          this.visualizarLoader = false;
           this.alertaService.mensajaExitoso(this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION'));
           this.changeDetectorRef.detectChanges();
-        },
-        error: () => {
-          this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
-          this.renderer2.setProperty(
-            this.btnRestablecer.nativeElement,
-            'innerHTML',
-            'Restablecer'
-          );
-        },
-      });
+        }),
+        catchError(() => {
+          this.visualizarLoader = false;
+          this.changeDetectorRef.detectChanges();
+          return of(null);
+        })
+      )
+      .subscribe();
     } else {
-      this.renderer2.removeAttribute(this.btnRestablecer.nativeElement, 'disabled');
-      this.renderer2.setProperty(
-        this.btnRestablecer.nativeElement,
-        'innerHTML',
-        'Restablecer'
-      );
       this.formularioRestablecerClave.markAllAsTouched()
     }
 

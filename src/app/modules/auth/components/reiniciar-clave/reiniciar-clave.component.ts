@@ -1,14 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { General } from '@comun/clases/general';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
   templateUrl: './reiniciar-clave.component.html',
@@ -20,13 +15,11 @@ export class ReiniciarClaveComponent extends General implements OnInit {
   formularioReiniciarClave: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';
-  @ViewChild('btnGuardar', { read: ElementRef })
-  btnGuardar!: ElementRef<HTMLButtonElement>;
+  visualizarLoader: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private renderer2: Renderer2
   ) {
     super();
   }
@@ -88,55 +81,26 @@ export class ReiniciarClaveComponent extends General implements OnInit {
 
   submit() {
     if (this.formularioReiniciarClave.valid) {
-      this.renderer2.setAttribute(
-        this.btnGuardar.nativeElement,
-        'disabled',
-        'true'
-      );
-      this.renderer2.setProperty(
-        this.btnGuardar.nativeElement,
-        'innerHTML',
-        'Procesando'
-      );
+      this.visualizarLoader = true;
       const token = this.activatedRoute.snapshot.paramMap.get('token')!;
-
       this.authService
         .reiniciarClave(this.formFields.clave.value, token)
-        .subscribe({
-          next: (respuesta) => {
-            this.renderer2.removeAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled'
-            );
-            this.renderer2.setProperty(
-              this.btnGuardar.nativeElement,
-              'innerHTML',
-              'Guardar'
-            );
+        .pipe(
+          tap(() => {
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
                 'FORMULARIOS.MENSAJES.AUTENTIFICACION.INGRESARCLAVE'
               )
             );
             this.router.navigate(['/auth/login']);
-          },
-          error: (error) => {
-            this.renderer2.removeAttribute(
-              this.btnGuardar.nativeElement,
-              'disabled'
-            );
-            this.renderer2.setProperty(
-              this.btnGuardar.nativeElement,
-              'innerHTML',
-              'Guardar'
-            );
-
-            this.alertaService.mensajeError(
-              'Error consulta',
-              `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
-            );
-          },
-        });
+          }),
+          catchError(() => {
+            this.visualizarLoader = false;
+            this.changeDetectorRef.detectChanges();
+            return of(null);
+          })
+        )
+        .subscribe();
     } else {
       this.formularioReiniciarClave.markAllAsTouched();
     }
