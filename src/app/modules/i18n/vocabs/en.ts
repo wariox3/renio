@@ -539,7 +539,6 @@ export const locale = {
       INICIO: 'Home',
       COMOFUNCIONA: 'How it Works',
       ARCHIVOS: 'Achievements',
-      EQUIPO: 'Team',
       PORTAFOLIO: 'Portfolio',
       PRECIO: 'Pricing',
       CONTACTO: 'Contac',

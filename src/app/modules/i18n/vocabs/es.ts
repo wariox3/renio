@@ -546,7 +546,6 @@ export const locale = {
       INICIO: 'Inicio',
       COMOFUNCIONA: 'Cómo funciona',
       ARCHIVOS: 'Archivos',
-      EQUIPO: 'Equipo',
       PORTAFOLIO: 'Portafolio',
       PRECIO: 'Precio',
       CONTACTO: 'Contacto',
