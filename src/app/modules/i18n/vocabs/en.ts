@@ -15,7 +15,7 @@ export const locale = {
         HUMANO: 'Human',
         VENTA: 'Sale',
         INVENTARIO: 'Inventory',
-        TESORERIA: 'Treasury'
+        TESORERIA: 'Treasury',
       },
       COMUNES: {
         DOCUMENTO: 'Document',
@@ -47,7 +47,7 @@ export const locale = {
         VENTASITEM: 'Sales by item',
         VENTASCLIENTE: 'Sales by customer',
         VENTASVENDEDOR: 'Sales by seller',
-        CUENTASCOBRAR: 'Accounts receivable'
+        CUENTASCOBRAR: 'Accounts receivable',
       },
     },
     FORMULARIOS: {
@@ -71,7 +71,7 @@ export const locale = {
           APROBAR: 'Approve',
           GENERANDO: 'Generating',
           EMITIR: 'Issue',
-          ELECTRONICO: 'electronic'
+          ELECTRONICO: 'electronic',
         },
         CONTENEDOR: {
           CONECTAR: 'Connect',
@@ -165,7 +165,8 @@ export const locale = {
           CARACTERISTICAS5: 'and provides some background information about',
           CARACTERISTICAS6: 'the interviewee',
           CARACTERISTICAS7: 'and their ',
-          CARACTERISTICAS8: 'work following this is a transcript of the interview.',
+          CARACTERISTICAS8:
+            'work following this is a transcript of the interview.',
         },
         FACTURACION: {
           TEXTOAYUDA1:
@@ -207,7 +208,7 @@ export const locale = {
           SUBTOTAL: 'Subtotal',
           EMITIR: 'To issue',
           NOFITICAR: 'To notify',
-          TOTAL: 'Total'
+          TOTAL: 'Total',
         },
         GENERAL: {
           ITEM: {
@@ -222,11 +223,11 @@ export const locale = {
           CONFIGURACION: 'Configuration',
           CONFIGURACIONEMPRESA: 'Configuration company',
           FACTURAELECTRONICABUSCARCODIGO: 'Are you looking for the code? ',
-          FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it'
+          FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it',
         },
         CONTACTO: {
-          INFORMACIONCOMERCIAL: 'Commercial information'
-        }
+          INFORMACIONCOMERCIAL: 'Commercial information',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -314,13 +315,14 @@ export const locale = {
           SUSCRIPTOR: 'Subscriber',
           REGIMEN: 'Regime',
           TIPOPERSONA: 'Type of person',
-          FACTURAELECTRONICALABEL: 'Active for issuance of electronic invoice DIAN Colombia',
+          FACTURAELECTRONICALABEL:
+            'Active for issuance of electronic invoice DIAN Colombia',
           CODIGOTESTID: 'TestID code',
           CODIGOTESTIDPLACEHOLDER: 'Enter the code provided by DIAN',
           RESOLUCIONNUMERACION: 'Resolution/Numbering',
           CORREOFACTURACIONELECTRONICA: 'Electronic invoicing mail',
           FORMATOFACTURA: 'Invoice format',
-          INFORMACIONFACTURA: 'Invoice information'
+          INFORMACIONFACTURA: 'Invoice information',
         },
         FILTROS: {
           OPERADORES: {
@@ -392,7 +394,7 @@ export const locale = {
       COMUNES: {
         CARGANDOTABLA: 'Loading',
         EVENTOS: 'Events',
-        CORREOS: 'Emails'
+        CORREOS: 'Emails',
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -413,8 +415,8 @@ export const locale = {
         METODO_PAGO: 'payment method',
         CONTACTO_NOMBRE_CORTO: 'Name',
         DOCUMENTOREFERENCIA: 'Reference document',
-        ITEM: "Item",
-        ITEM_ID: "Item",
+        ITEM: 'Item',
+        ITEM_ID: 'Item',
         ITEM_NOMBRE: 'Name',
         DOCUMENTO__FECHA: 'Date',
         DOCUMENTO__NUMERO: 'Number',
@@ -494,33 +496,33 @@ export const locale = {
         FECHA_VENCE: 'Date expires',
       },
       LOG: {
-        EVENTO:{
+        EVENTO: {
           CODIGOEVENTOPK: 'Id',
-          EVENTO: "Event",
-          CORREO: "Email",
-          FECHA: "Date",
-          IDMENSAJE: "Send",
-          ASUNTO: "Subject",
-          MOTIVO: "Motive",
-          IPENVIO: "Ip",
-          EPOCA: "Epoch",
-          CORREOFECHA: "Date",
-          CORREOCODIGODOCUMENTO: "Document",
-          CORREONUMERODOCUMENTO: "Number",
-          CORREOFECHADOCUMENTO: "Date document"
+          EVENTO: 'Event',
+          CORREO: 'Email',
+          FECHA: 'Date',
+          IDMENSAJE: 'Send',
+          ASUNTO: 'Subject',
+          MOTIVO: 'Motive',
+          IPENVIO: 'Ip',
+          EPOCA: 'Epoch',
+          CORREOFECHA: 'Date',
+          CORREOCODIGODOCUMENTO: 'Document',
+          CORREONUMERODOCUMENTO: 'Number',
+          CORREOFECHADOCUMENTO: 'Date document',
         },
-        CORREOS:{
-          CODIGOCORREOPK: "Id",
+        CORREOS: {
+          CODIGOCORREOPK: 'Id',
           CODIGOMODELOFK: 'Model',
-          FECHA: "Date",
-          NUMERODOCUMENTO: "Number",
-          CODIGODOCUMENTO: "Document",
-          CORREO: "Email",
+          FECHA: 'Date',
+          NUMERODOCUMENTO: 'Number',
+          CODIGODOCUMENTO: 'Document',
+          CORREO: 'Email',
           CORREOCOPIA: 'Copy',
-          FECHADOCUMENTO: "Date document",
-          ENVIADO: 'Sent to'
-        }
-      }
+          FECHADOCUMENTO: 'Date document',
+          ENVIADO: 'Sent to',
+        },
+      },
     },
     TEMA: {
       CLARO: 'Light',
@@ -533,7 +535,7 @@ export const locale = {
       DOCUMENTACION: 'Documentation',
       DOCUMENTACIONTEXTO:
         'From guides and video tutorials, to live demos and examples to get you started.',
-      WHATSAPPTEXTO:"Need help? Write to us here and we'll assist you"
+      WHATSAPPTEXTO: "Need help? Write to us here and we'll assist you",
     },
     LANGINGPAGE: {
       INICIO: 'Home',
@@ -591,8 +593,12 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Unlimited Projects',
       PRECIOSSELECCIONAR: 'Select',
       OPINIONCLIENTESTITULO: 'What Our Clients Say',
-      OPINIONCLIENTE1: 'This is by far the cleanest INVOICING and the most well structured',
-      OPINIONCLIENTE2: 'The most well thought out design theme I have ever used. The codes are up to tandard. The css styles are very clean. In fact the cleanest and the most up to standard I have ever seen.',
+      OPINIONCLIENTE1:
+        "I am delighted with the ease of use and versatility, having a cloud platform, our reddoc software, allows you to access all your company's information in real time and from any device.",
+      OPINIONCLIENTE2:
+        'Thanks to Reddoc, you can now keep detailed track of your outstanding invoices and customer payments. The combination of invoicing and portfolio management in a single platform will greatly simplify your daily work - a must-have tool for any entrepreneur!',
+      OPINIONCLIENTE3:
+        'Incredible billing system! Easy to use, intuitive and with all the features you need for your business, customizable, efficient and with exceptional customer support Highly recommended!',
       ANIMO1: 'Start with today',
       ANIMO2: 'and accelerate business',
       ANIMO3: 'Join over 100,000 Professionals Community to Stay Ahead',

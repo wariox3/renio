@@ -600,9 +600,11 @@ export const locale = {
       PRECIOSSELECCIONAR: 'Seleccionar',
       OPINIONCLIENTESTITULO: 'Lo que dicen nuestros clientes',
       OPINIONCLIENTE1:
-        'Esta es, con diferencia, FACTURACIÓN más limpia y mejor estructurada.',
+        'Estoy encantada con la facilidad de uso y la versatilidad, al contar con una plataforma en la nube, nuestro software reddoc, te permite acceder a toda la información de tu empresa en tiempo real y desde cualquier dispositivo.',
       OPINIONCLIENTE2:
-        'El tema de diseño mejor pensado que jamás haya usado. Los códigos están a la altura. Los estilos CSS son muy limpios. De hecho, es el más limpio y de mayor calidad que he visto jamás.',
+        'Gracias a Reddoc, ahora puedes llevar un seguimiento detallado de tus facturas pendientes y de los pagos de los clientes. La combinación de facturación y gestión de cartera en una sola plataforma simplificará enormemente tu trabajo diario. ¡Una herramienta imprescindible para cualquier emprendedor!',
+      OPINIONCLIENTE3:
+        '¡Increíble sistema de facturación! Fácil de usar, intuitivo y con todas las funciones que necesitas para tu negocio, personalizable, eficiente y con un soporte al cliente excepcional ¡Altamente recomendado!',
       ANIMO1: 'Empieza por hoy',
       ANIMO2: 'y acelerar los negocios',
       ANIMO3:
