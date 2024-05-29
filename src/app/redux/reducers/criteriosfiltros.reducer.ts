@@ -11,7 +11,7 @@ export type CriteriosFiltro = {
 export const initialState: CriteriosFiltro = {
   IntegerField: [
     {
-      valor: '',
+      valor: 'igual',
       texto: 'IGUAL',
       defecto: true,
     },
@@ -34,7 +34,7 @@ export const initialState: CriteriosFiltro = {
   ],
   FloatField: [
     {
-      valor: '',
+      valor: 'igual',
       texto: 'IGUAL',
       defecto: true,
     },
@@ -57,7 +57,7 @@ export const initialState: CriteriosFiltro = {
   ],
   CharField: [
     {
-      valor: '',
+      valor: 'igual',
       texto: 'IGUAL',
     },
     {
@@ -68,7 +68,7 @@ export const initialState: CriteriosFiltro = {
   ],
   DateField: [
     {
-      valor: '',
+      valor: 'igual',
       texto: 'IGUAL',
       defecto: true,
     },

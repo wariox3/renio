@@ -11,9 +11,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { BaseFiltroFormularioComponent } from '../base-filtro-formulario/base-filtro-formulario.component';
 import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 import { General } from '@comun/clases/general';
+import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
+import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
+import { HttpService } from '@comun/services/http.service';
+import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
   selector: 'app-base-filtro',
@@ -26,13 +32,20 @@ import { General } from '@comun/clases/general';
     TranslationModule,
     FormsModule,
     ReactiveFormsModule,
-    BaseFiltroFormularioComponent,
+    SoloNumerosDirective,
+    KeysPipe,
   ],
 })
 export class BaseFiltroComponent extends General implements OnInit {
-  formularioItem: FormGroup;
+  formularioFiltros: FormGroup;
+  formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
   modelo: any = this.modelo;
+  tituloModal: string;
+  arrPropiedades: any = [];
+  arrPropiedadBusquedaAvanzada: any = [];
+  arrRegistroBusquedaAvanzada: any = [];
+  indexBusquedaAvanzada: number;
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
@@ -42,17 +55,33 @@ export class BaseFiltroComponent extends General implements OnInit {
       visualizarBtnAgregarFiltro: true,
     },
   ];
+  criteriosBusqueda: {
+    valor: string | number | boolean;
+    texto: string;
+    defecto?: boolean;
+  }[] = [];
+  criteriosBusquedaModal: {
+    valor: string | number | boolean;
+    texto: string;
+    defecto?: boolean;
+  }[][] = [];
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
   nombreFiltro = ``;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private httpService: HttpService
+  ) {
     super();
   }
 
   ngOnInit(): void {
+    this.tipo = localStorage.getItem('itemTipo')!;
     this.initForm();
+    this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${localStorage
@@ -62,13 +91,13 @@ export class BaseFiltroComponent extends General implements OnInit {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!
         );
-        this.formularioItem.reset();
+        this.formularioFiltros.reset();
         this.filtros.clear();
         this.filtrosAplicados.map((propiedad) => {
           this.filtros.push(this.crearControlFiltros(propiedad));
         });
       } else {
-        this.formularioItem.reset();
+        this.formularioFiltros.reset();
         this.filtros.clear();
         this.filtrosAplicados = [
           {
@@ -86,9 +115,22 @@ export class BaseFiltroComponent extends General implements OnInit {
   }
 
   initForm() {
-    this.formularioItem = this.formBuilder.group({
+    this.formularioFiltros = this.formBuilder.group({
       filtros: this.formBuilder.array([]),
     });
+  }
+
+  initFormulularioModal() {
+    this.formularioFiltrosModal = this.formBuilder.group({
+      filtros: this.formBuilder.array([]),
+    });
+  }
+
+  construirPropiedades() {
+    this.store
+      .select(obtenerMenuDataMapeoCamposVisibleFiltros)
+      .subscribe((campos) => (this.arrPropiedades = campos));
+    this.changeDetectorRef.detectChanges();
   }
 
   esCampoInvalido(index: number, campo: string) {
@@ -105,10 +147,16 @@ export class BaseFiltroComponent extends General implements OnInit {
   }
 
   get filtros() {
-    return this.formularioItem.get('filtros') as FormArray;
+    return this.formularioFiltros.get('filtros') as FormArray;
+  }
+
+  get filtrosModal() {
+    return this.formularioFiltrosModal.get('filtros') as FormArray;
   }
 
   private crearControlFiltros(propiedades: any | null) {
+    console.log(propiedades);
+
     let valor1 = '';
     let valor2 = '';
     let propiedad = '';
@@ -122,6 +170,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad = propiedades.propiedad;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
+      this.store
+        .select(obtenerCriteriosFiltro(propiedades.tipo))
+        .subscribe((respuesta) => {
+          this.criteriosBusqueda = respuesta;
+        });
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
@@ -148,6 +201,18 @@ export class BaseFiltroComponent extends General implements OnInit {
     );
   }
 
+  agregarNuevoFiltroModal() {
+    this.filtrosModal.push(
+      this.formBuilder.group({
+        propiedad: [''],
+        operador: [''],
+        valor1: ['', [Validators.required]],
+        valor2: [''],
+      })
+    );
+    this.changeDetectorRef.detectChanges();
+  }
+
   cargarCamposAlFormulario() {
     if (localStorage.getItem(this.nombreFiltro)) {
       this.filtrosAplicados = JSON.parse(
@@ -167,14 +232,14 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
   }
 
-  eliminarFiltroLista(index: string) {
-    this.listaFiltros = this.listaFiltros.filter(
-      (filtro: any) => filtro.id !== index
-    );
+  eliminarFiltroModal(index: number) {
+    if (this.filtrosModal.length > 1) {
+      this.filtrosModal.removeAt(index);
+    }
   }
 
   aplicarFiltro() {
-    const filtros = this.formularioItem.value['filtros'];
+    const filtros = this.formularioFiltros.value['filtros'];
     const listaFiltros: any[] = [];
     let hayFiltrosSinValores = false;
     let emitirValores = true;
@@ -183,26 +248,28 @@ export class BaseFiltroComponent extends General implements OnInit {
         if (filtro.valor1 === '') {
           hayFiltrosSinValores = true;
         } else {
-          let nuevoFiltro = {}
-          if(filtro.tipo === "Booleano"){
+          let nuevoFiltro = {};
+          if (filtro.tipo === 'Booleano') {
             nuevoFiltro = {
               ...filtro,
-              id: this.generarIdUnico(),
               ...{
                 propiedad: `${filtro.propiedad}`,
                 campo:
                   filtro.propiedad + filtro.operador !== null
                     ? filtro.propiedad + filtro.operador
                     : '',
-                valor1: filtro.operador === 'true' ? true : false
+                valor1: filtro.operador === 'true' ? true : false,
               },
             };
           } else {
+            let propiedad = filtro.propiedad;
+            if (filtro.operador !== 'igual') {
+              propiedad = `${filtro.propiedad}${filtro.operador}`;
+            }
             nuevoFiltro = {
               ...filtro,
-              id: this.generarIdUnico(),
               ...{
-                propiedad: `${filtro.propiedad}${filtro.operador}`,
+                propiedad,
                 campo:
                   filtro.propiedad + filtro.operador !== null
                     ? filtro.propiedad + filtro.operador
@@ -235,21 +302,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
   }
 
-  actualizarPropiedad(propiedad: any, index: number) {
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({
-      propiedad: propiedad.campo,
-      tipo: propiedad.tipo,
-      operador: '',
-      valor1: null,
-    });
-    if (propiedad.tipo === 'Booleano') {
-      filtroPorActualizar.patchValue({
-        valor1: null,
-      });
-    }
-  }
-
   actualizarOperador(operador: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
     filtroPorActualizar.patchValue({ operador: operador });
@@ -262,16 +314,161 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   limpiarFormulario() {
     localStorage.removeItem(this.nombreFiltro);
-    this.formularioItem.reset();
+    this.formularioFiltros.reset();
     this.filtros.clear();
     this.agregarNuevoFiltro();
     this.emitirFiltros.emit([]);
   }
 
-  generarIdUnico() {
-    const timestamp = Date.now(); // Obtiene la marca de tiempo actual en milisegundos
-    const numeroAleatorio = Math.floor(Math.random() * 10000); // Genera un número aleatorio entre 0 y 9999
-    const idUnico = `${timestamp}-${numeroAleatorio}`; // Combina la marca de tiempo y el número aleatorio
-    return idUnico;
+  limpiarFormularioModal(modal: string) {
+    this.formularioFiltrosModal.reset();
+    this.filtrosModal.clear();
+    this.agregarNuevoFiltroModal();
+    this.criteriosBusquedaModal = [];
+    this.consultarLista([], modal);
+  }
+
+  seleccionarPropiedad(evento: Event, index: number) {
+    const propiedad = evento.target as HTMLSelectElement;
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    const propiedadSeleccionada: any = propiedad.selectedOptions[0];
+    if (propiedadSeleccionada.getAttribute('data-tipo')) {
+      this.store
+        .select(
+          obtenerCriteriosFiltro(
+            propiedadSeleccionada.getAttribute('data-tipo')
+          )
+        )
+        .subscribe((resultado) => {
+          this.criteriosBusqueda = resultado;
+          filtroPorActualizar.patchValue({
+            tipo: propiedadSeleccionada.getAttribute('data-tipo'),
+            busquedaAvanzada: propiedadSeleccionada.getAttribute(
+              'data-busqueda-avanzada'
+            ),
+            modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
+              'data-modelo-busqueda-avanzada'
+            ),
+          });
+          if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
+            filtroPorActualizar.patchValue({
+              valor1: null,
+            });
+          }
+        });
+    }
+  }
+
+  seleccionarCriterio(evento: Event, index: number) {
+    const propiedad = evento.target as HTMLSelectElement;
+    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+    console.log(filtroPorActualizar);
+  }
+
+  abirModal(content: any, index: number) {
+    this.indexBusquedaAvanzada = index;
+    const filtro = this.filtros.controls[index] as FormGroup;
+    this.tituloModal = filtro.get('modeloBusquedaAvanzada')?.value;
+    this.initFormulularioModal();
+    let posicion: keyof typeof mapeo = this.tituloModal;
+    this.arrPropiedadBusquedaAvanzada = mapeo[posicion].filter(
+      (propiedad) => propiedad.visibleFiltro === true
+    );
+    this.agregarNuevoFiltroModal();
+    this.criteriosBusquedaModal = [];
+    this.consultarLista([], this.tituloModal);
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  cerrarModal(item: any) {
+    const filtro = this.filtros.controls[
+      this.indexBusquedaAvanzada
+    ] as FormGroup;
+    filtro.patchValue({
+      valor1: Object.values(item)[0],
+    });
+    this.modalService.dismissAll();
+  }
+
+  consultarLista(listaFiltros: any, modelo: string) {
+    this.httpService
+      .post<{
+        cantidad_registros: number;
+        registros: any[];
+        propiedades: any[];
+      }>('general/funcionalidad/lista-buscar/', {
+        modelo,
+        filtros: listaFiltros,
+      })
+      .subscribe((respuesta) => {
+        this.arrRegistroBusquedaAvanzada = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  propiedadSeleccionadaModal(evento: Event, index: number) {
+    const propiedad = evento.target as HTMLSelectElement;
+    //this.filtroCampoValor1 = '';
+    //this.filtroTipoModal[index] = event.target.value;
+    const selectedOption = propiedad.selectedOptions[0];
+    this.store
+      .select(obtenerCriteriosFiltro(propiedad.value))
+      .subscribe((resultado) => {
+        this.criteriosBusquedaModal[index] = resultado;
+        resultado.find((item) => {
+          if (item.defecto) {
+            const filtroPorActualizar = this.filtrosModal.controls[
+              index
+            ] as FormGroup;
+            filtroPorActualizar.patchValue({
+              propiedad: selectedOption.getAttribute('data-value'),
+              operador: item.valor,
+            });
+          }
+        });
+      });
+    let inputValor1Modal: HTMLInputElement | null = document.querySelector(
+      '#inputValor1Modal' + index
+    );
+    inputValor1Modal!.focus();
+  }
+
+  aplicarFiltroModal(modal: string) {
+    const filtros = this.formularioFiltrosModal.value['filtros'];
+    const listaFiltros: any[] = [];
+    let hayFiltrosSinValores = false;
+    let emitirValores = true;
+    filtros.forEach((filtro: any) => {
+      if (filtro.propiedad !== '') {
+        if (filtro.valor1 === '') {
+          hayFiltrosSinValores = true;
+        } else {
+          const nuevoFiltro = {
+            ...filtro,
+            ...{
+              propiedad:
+                filtro.propiedad + filtro.operador !== null
+                  ? filtro.propiedad + filtro.operador
+                  : '',
+            },
+          };
+          listaFiltros.push(nuevoFiltro);
+        }
+      } else {
+        emitirValores = false;
+      }
+    });
+    if (hayFiltrosSinValores === false) {
+      this.consultarLista(listaFiltros, modal);
+    } else {
+      this.alertaService.mensajeError(
+        'Error en formulario filtros',
+        'contiene campos vacios'
+      );
+    }
   }
 }
