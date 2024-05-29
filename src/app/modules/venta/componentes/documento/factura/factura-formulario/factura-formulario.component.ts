@@ -105,21 +105,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '2' ||
-        this.dataUrl.documento_clase === '3'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([
-          Validators.maxLength(50),
-        ]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
@@ -160,7 +145,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        metodo_pago: ['', Validators.compose([Validators.required])],
+        metodo_pago: [1, Validators.compose([Validators.required])],
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
