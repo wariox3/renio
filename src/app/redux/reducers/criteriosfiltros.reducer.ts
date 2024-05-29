@@ -99,6 +99,13 @@ export const initialState: CriteriosFiltro = {
       texto: 'NO',
     },
   ],
+  Fk: [
+    {
+      valor: 'igual',
+      texto: 'IGUAL',
+      defecto: true,
+    },
+  ]
 };
 
 export const criteriosFiltroReducer = createReducer(initialState);
