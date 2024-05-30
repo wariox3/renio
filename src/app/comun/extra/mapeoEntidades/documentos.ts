@@ -90,6 +90,14 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_ELECTRONICO',
+      nombreAbreviado: 'ESTADO_ELECTRONICO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   101: [
     {
