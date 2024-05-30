@@ -2989,7 +2989,7 @@
             >
               <li class="menu-item">
                 <a
-                  href="https://keenthemes.com"
+                  [routerLink]="'/acerca_de'"
                   target="_blank"
                   class="menu-link px-2"
                   >{{ "LANGINGPAGE.ACERCADE" | translate }}</a
@@ -2997,16 +2997,19 @@
               </li>
               <li class="menu-item mx-5">
                 <a
-                  href="https://devs.keenthemes.com"
+                  [routerLink]="'/soporte'"
                   target="_blank"
                   class="menu-link px-2"
                   >{{ "LANGINGPAGE.SOPORTE" | translate }}</a
                 >
               </li>
               <li class="menu-item">
-                <a href="" target="_blank" class="menu-link px-2">{{
-                  "LANGINGPAGE.COMPRAR" | translate
-                }}</a>
+                <a
+                  [routerLink]="'/comprar'"
+                  target="_blank"
+                  class="menu-link px-2"
+                  >{{ "LANGINGPAGE.COMPRAR" | translate }}</a
+                >
               </li>
             </ul>
             <!--end::Menu-->

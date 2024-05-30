@@ -37,8 +37,33 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ayuda',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'acerca_de',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'comprar',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+
+  {
     path: 'foro',
-    component: LandingpageComponent,
+    loadComponent: () =>
+      import('./pages/landingpage/landingpage.component').then(
+        (c) => c.LandingpageComponent
+      ),
   },
   {
     path: 'auth',
