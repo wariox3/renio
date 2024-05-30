@@ -69,20 +69,13 @@ export class BaseListaComponent extends General implements OnInit {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
+      this.arrParametrosConsulta.filtros = [];
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
-    const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-
-    if (filtroGuardado) {
-      this.arrParametrosConsulta.filtros = JSON.parse(filtroGuardado);
-    } else if (this.arrParametrosConsulta.filtros.length > 0) {
-      this.arrParametrosConsulta.filtros = [];
-    }
-
     let baseUrl = 'general/funcionalidad/lista-administrador/';
     this.arrParametrosConsulta = {
       ...this.arrParametrosConsulta,
@@ -109,8 +102,9 @@ export class BaseListaComponent extends General implements OnInit {
   obtenerFiltros(arrfiltros: any[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
+      this.changeDetectorRef.detectChanges()
     } else {
-      localStorage.removeItem(this.nombreFiltro);
+      this.arrParametrosConsulta.filtros = [];
     }
 
     this.changeDetectorRef.detectChanges();
