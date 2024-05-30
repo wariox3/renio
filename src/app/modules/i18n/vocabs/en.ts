@@ -625,7 +625,7 @@ export const locale = {
       CORREO: 'Email',
       NOMBRE: 'Name',
       Empresa: 'Company',
-      PREGUNTA: 'Question ?',
+      DESCRIPCION: 'Description',
       GUARDAR: 'Save',
     },
   },

@@ -633,7 +633,7 @@ export const locale = {
       CORREO: 'Correo',
       NOMBRE: 'Nombre',
       EMPRESA: 'Empresa',
-      PREGUNTA: 'Pregunta',
+      DESCRIPCION: 'Descripción',
       GUARDAR: 'Guardar',
     },
   },

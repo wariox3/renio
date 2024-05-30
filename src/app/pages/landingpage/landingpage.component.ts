@@ -1,11 +1,40 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule, TranslationService } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { AlertaService } from '@comun/services/alerta.service';
+
+interface LanguageFlag {
+  lang: string;
+  name: string;
+  flag: string;
+  active?: boolean;
+}
+
+const languages = [
+  {
+    lang: 'es',
+    name: 'Español',
+    flag: './assets/media/flags/spain.svg',
+  },
+  {
+    lang: 'en',
+    name: 'English',
+    flag: './assets/media/flags/united-states.svg',
+  },
+];
 
 @Component({
   selector: 'app-landingpage',
@@ -20,6 +49,8 @@ import { CountUpModule } from 'ngx-countup';
     TranslationModule,
     NgbDropdownModule,
     CountUpModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class LandingpageComponent implements OnInit {
@@ -28,15 +59,19 @@ export class LandingpageComponent implements OnInit {
   animateFadeDown = false;
   language: LanguageFlag;
   langs = languages;
+  formularioContacto: FormGroup;
 
   constructor(
-    private scroller: ViewportScroller,
     private activatedRoute: ActivatedRoute,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private alertaService: AlertaService
   ) {}
 
   ngOnInit() {
-    const fragment = this.activatedRoute.fragment.subscribe((fragment) => {
+    this.iniciarFormulario();
+    this.activatedRoute.fragment.subscribe((fragment) => {
       if (fragment) {
         document.getElementById(fragment)?.scrollIntoView({
           behavior: 'smooth',
@@ -46,6 +81,26 @@ export class LandingpageComponent implements OnInit {
       }
     });
     this.setLanguage(this.translationService.getSelectedLanguage());
+  }
+
+  iniciarFormulario() {
+    this.formularioContacto = this.formBuilder.group({
+      nombre: [null, Validators.compose([Validators.maxLength(200)])],
+      correo: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(255),
+          Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+        ]),
+      ],
+      telefono: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(50)]),
+      ],
+      empresa: [null],
+      descripcion: [null],
+    });
   }
 
   abrirMenu() {
@@ -94,24 +149,22 @@ export class LandingpageComponent implements OnInit {
     this.animateFadeDown = scrollOffset >= 200;
     this.menufijo = scrollOffset >= 200;
   }
-}
 
-interface LanguageFlag {
-  lang: string;
-  name: string;
-  flag: string;
-  active?: boolean;
+  enviarFormulario() {
+    if (this.formularioContacto.valid) {
+      // this.http
+      //   .post(
+      //     'https://semantica.com.co/api/contacto/nuevo',
+      //     this.formularioContacto.value
+      //   )
+      //   .subscribe(() => {
+      //     this.formularioContacto.reset();
+      //     this.formularioContacto.markAsUntouched();
+      //     this.formularioContacto.markAsDirty();
+      //     this.alertaService.mensajaExitoso('Se guardó la información');
+      //   });
+    } else {
+      this.formularioContacto.markAllAsTouched();
+    }
+  }
 }
-
-const languages = [
-  {
-    lang: 'es',
-    name: 'Español',
-    flag: './assets/media/flags/spain.svg',
-  },
-  {
-    lang: 'en',
-    name: 'English',
-    flag: './assets/media/flags/united-states.svg',
-  },
-];

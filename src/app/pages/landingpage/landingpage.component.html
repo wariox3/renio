@@ -1,4 +1,4 @@
-<div
+<main
   id="kt_body"
   [attr.data-bs-spy]="'scroll'"
   [attr.data-bs-target]="'#kt_landing_menu'"
@@ -2199,6 +2199,8 @@
                               method="post"
                               class="form"
                               id="form_contacto"
+                              [formGroup]="formularioContacto"
+                              (ngSubmit)="enviarFormulario()"
                             >
                               <div class="row">
                                 <div class="col-lg-6 col-md-12 mb-5">
@@ -2211,8 +2213,32 @@
                                       placeholder="{{
                                         'LANGINGPAGE.NOMBRE' | translate
                                       }}"
+                                      formControlName="nombre"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          formularioContacto.controls['nombre']
+                                            .touched &&
+                                          formularioContacto.controls['nombre']
+                                            .invalid,
+                                        'is-valid':
+                                          formularioContacto.controls['nombre']
+                                            .touched &&
+                                          formularioContacto.controls['nombre']
+                                            .valid
+                                      }"
                                       class="form-control"
                                     />
+                                    <ng-container
+                                      [ngTemplateOutlet]="formError"
+                                      [ngTemplateOutletContext]="{
+                                        validation: 'required',
+                                        message:
+                                          'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                          | translate,
+                                        control:
+                                          formularioContacto.controls['nombre']
+                                      }"
+                                    ></ng-container>
                                   </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 mb-5">
@@ -2227,7 +2253,42 @@
                                         'LANGINGPAGE.CORREO' | translate
                                       }}"
                                       class="form-control"
+                                      formControlName="correo"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          formularioContacto.controls['correo']
+                                            .touched &&
+                                          formularioContacto.controls['correo']
+                                            .invalid,
+                                        'is-valid':
+                                          formularioContacto.controls['correo']
+                                            .touched &&
+                                          formularioContacto.controls['correo']
+                                            .valid
+                                      }"
                                     />
+                                    <ng-container
+                                      [ngTemplateOutlet]="formError"
+                                      [ngTemplateOutletContext]="{
+                                        validation: 'required',
+                                        message:
+                                          'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                          | translate,
+                                        control:
+                                          formularioContacto.controls['correo']
+                                      }"
+                                    ></ng-container>
+                                    <ng-container
+                                      [ngTemplateOutlet]="formError"
+                                      [ngTemplateOutletContext]="{
+                                        validation: 'pattern',
+                                        message:
+                                          'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO'
+                                          | translate,
+                                        control:
+                                          formularioContacto.controls['correo']
+                                      }"
+                                    ></ng-container>
                                   </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 mb-5">
@@ -2241,7 +2302,51 @@
                                         'LANGINGPAGE.TELEFONO' | translate
                                       }}"
                                       class="form-control"
+                                      formControlName="telefono"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ].touched &&
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ].invalid,
+                                        'is-valid':
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ].touched &&
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ].valid
+                                      }"
                                     />
+                                    <ng-container
+                                      [ngTemplateOutlet]="formError"
+                                      [ngTemplateOutletContext]="{
+                                        validation: 'required',
+                                        message:
+                                          'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                          | translate,
+                                        control:
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ]
+                                      }"
+                                    ></ng-container>
+                                    <ng-container
+                                      [ngTemplateOutlet]="formError"
+                                      [ngTemplateOutletContext]="{
+                                        validation: 'maxlength',
+                                        message:
+                                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                                          | translate,
+                                        cantidadCaracteres: '50',
+                                        control:
+                                          formularioContacto.controls[
+                                            'telefono'
+                                          ]
+                                      }"
+                                    ></ng-container>
                                   </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 mb-5">
@@ -2250,11 +2355,23 @@
                                       type="text"
                                       id="contacto_sitio_empresa"
                                       name="contacto_sitio[empresa]"
-                                      required="required"
                                       placeholder="{{
                                         'LANGINGPAGE.EMPRESA' | translate
                                       }}"
                                       class="form-control"
+                                      formControlName="empresa"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          formularioContacto.controls['empresa']
+                                            .touched &&
+                                          formularioContacto.controls['empresa']
+                                            .invalid,
+                                        'is-valid':
+                                          formularioContacto.controls['empresa']
+                                            .touched &&
+                                          formularioContacto.controls['empresa']
+                                            .valid
+                                      }"
                                     />
                                   </div>
                                 </div>
@@ -2263,23 +2380,39 @@
                                     <textarea
                                       id="contacto_sitio_descripcion"
                                       name="contacto_sitio[descripcion]"
-                                      required="required"
                                       placeholder="{{
-                                        'LANGINGPAGE.PREGUNTA' | translate
+                                        'LANGINGPAGE.DESCRIPCION' | translate
                                       }}"
                                       cols="30"
                                       rows="6"
                                       class="form-control"
+                                      formControlName="descripcion"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          formularioContacto.controls[
+                                            'descripcion'
+                                          ].touched &&
+                                          formularioContacto.controls[
+                                            'descripcion'
+                                          ].invalid,
+                                        'is-valid':
+                                          formularioContacto.controls[
+                                            'descripcion'
+                                          ].touched &&
+                                          formularioContacto.controls[
+                                            'descripcion'
+                                          ].valid
+                                      }"
                                     ></textarea>
                                   </div>
                                 </div>
                               </div>
-                              <div class="d-flex align-content-center">
+                              <div class="d-flex align-content-center mt-2">
                                 <button
                                   type="submit"
                                   id="contacto_sitio_guardar"
                                   name="contacto_sitio[guardar]"
-                                  class="btnCustom btn"
+                                  class="btn btn-primary"
                                 >
                                   {{ "LANGINGPAGE.GUARDAR" | translate }}
                                 </button>
@@ -3038,7 +3171,7 @@
       <span class="path2"></span>
     </i>
   </div>
-</div>
+</main>
 <!--begin::Theme mode setup on page load-->
 <script>
   var defaultThemeMode = "light";
@@ -3063,3 +3196,20 @@
 </script>
 <!--end::Theme mode setup on page load-->
 <!--begin::Root-->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
