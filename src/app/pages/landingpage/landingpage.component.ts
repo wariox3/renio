@@ -152,17 +152,17 @@ export class LandingpageComponent implements OnInit {
 
   enviarFormulario() {
     if (this.formularioContacto.valid) {
-      // this.http
-      //   .post(
-      //     'https://semantica.com.co/api/contacto/nuevo',
-      //     this.formularioContacto.value
-      //   )
-      //   .subscribe(() => {
-      //     this.formularioContacto.reset();
-      //     this.formularioContacto.markAsUntouched();
-      //     this.formularioContacto.markAsDirty();
-      //     this.alertaService.mensajaExitoso('Se guardó la información');
-      //   });
+      this.http
+        .post(
+          'https://semantica.com.co/api/contacto/nuevo',
+          this.formularioContacto.value
+        )
+        .subscribe(() => {
+          this.formularioContacto.reset();
+          this.formularioContacto.markAsUntouched();
+          this.formularioContacto.markAsDirty();
+          this.alertaService.mensajaExitoso('Se guardó la información');
+        });
     } else {
       this.formularioContacto.markAllAsTouched();
     }
