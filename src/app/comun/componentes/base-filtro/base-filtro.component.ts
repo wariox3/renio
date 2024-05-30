@@ -167,7 +167,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     if (propiedades) {
       valor1 = propiedades.valor1;
       valor2 = propiedades.valor2;
-      propiedad = propiedades.propiedad;
+      propiedad = propiedades.campo;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
       this.store
@@ -254,10 +254,7 @@ export class BaseFiltroComponent extends General implements OnInit {
               ...filtro,
               ...{
                 propiedad: `${filtro.propiedad}`,
-                campo:
-                  filtro.propiedad + filtro.operador !== null
-                    ? filtro.propiedad + filtro.operador
-                    : '',
+                campo: filtro.propiedad,
                 valor1: filtro.operador === 'true' ? true : false,
               },
             };
@@ -270,10 +267,7 @@ export class BaseFiltroComponent extends General implements OnInit {
               ...filtro,
               ...{
                 propiedad,
-                campo:
-                  filtro.propiedad + filtro.operador !== null
-                    ? filtro.propiedad + filtro.operador
-                    : '',
+                campo: filtro.propiedad ,
               },
             };
           }
