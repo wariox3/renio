@@ -594,12 +594,18 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Unlimited Projects',
       PRECIOSSELECCIONAR: 'Select',
       OPINIONCLIENTESTITULO: 'What Our Clients Say',
-      OPINIONCLIENTE1:
-        "I am delighted with the ease of use and versatility, having a cloud platform, our reddoc software, allows you to access all your company's information in real time and from any device.",
-      OPINIONCLIENTE2:
-        'Thanks to Reddoc, you can now keep detailed track of your outstanding invoices and customer payments. The combination of invoicing and portfolio management in a single platform will greatly simplify your daily work - a must-have tool for any entrepreneur!',
-      OPINIONCLIENTE3:
-        'Incredible billing system! Easy to use, intuitive and with all the features you need for your business, customizable, efficient and with exceptional customer support Highly recommended!',
+      OPINIONCLIENTE1TITULO:
+        'You can save time and effort by automating repetitive tasks',
+      OPINIONCLIENTE1DESCRIPCION:
+        "I am delighted with the ease of use and versatility. By having a cloud platform, our software reddoc allows you to access all your company's information in real-time and from any device.",
+      OPINIONCLIENTE2TITULO:
+        'Now you can keep detailed track of your pending invoices and customer payments.',
+      OPINIONCLIENTE2DESCRIPCION:
+        'The combination of invoicing and portfolio management in a single platform will greatly simplify your daily work. An essential tool for any entrepreneur!',
+      OPINIONCLIENTE3TITULO:
+        'Its advanced features make it a useful tool for any modern business.',
+      OPINIONCLIENTE3DESCRIPCION:
+        'Incredible billing system! Easy to use, intuitive, and with all the functions you need for your business. Customizable, efficient, and with exceptional customer support. Highly recommended!',
       ANIMO1: 'Start with today',
       ANIMO2: 'and accelerate business',
       ANIMO3: 'Join over 100,000 Professionals Community to Stay Ahead',

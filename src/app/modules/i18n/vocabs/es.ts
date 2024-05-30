@@ -600,11 +600,17 @@ export const locale = {
       PRECIOLIMITEPROJECTS: 'Proyectos ilimitados',
       PRECIOSSELECCIONAR: 'Seleccionar',
       OPINIONCLIENTESTITULO: 'Lo que dicen nuestros clientes',
-      OPINIONCLIENTE1:
+      OPINIONCLIENTE1TITULO:
+        'Puedes ahorrarte tiempo y esfuerzo al automatizar tareas repetitivas',
+      OPINIONCLIENTE1DESCRIPCION:
         'Estoy encantada con la facilidad de uso y la versatilidad, al contar con una plataforma en la nube, nuestro software reddoc, te permite acceder a toda la información de tu empresa en tiempo real y desde cualquier dispositivo.',
-      OPINIONCLIENTE2:
-        'Gracias a Reddoc, ahora puedes llevar un seguimiento detallado de tus facturas pendientes y de los pagos de los clientes. La combinación de facturación y gestión de cartera en una sola plataforma simplificará enormemente tu trabajo diario. ¡Una herramienta imprescindible para cualquier emprendedor!',
-      OPINIONCLIENTE3:
+      OPINIONCLIENTE2TITULO:
+        'Ahora puedes llevar un seguimiento detallado de tus facturas pendientes y de los pagos de los clientes. ',
+      OPINIONCLIENTE2DESCRIPCION:
+        'La combinación de facturación y gestión de cartera en una sola plataforma simplificará enormemente tu trabajo diario. ¡Una herramienta imprescindible para cualquier emprendedor!"',
+      OPINIONCLIENTE3TITULO:
+        'Sus funcionalidades avanzadas lo convierten en una herramienta útil para cualquier negocio moderno.',
+      OPINIONCLIENTE3DESCRIPCION:
         '¡Increíble sistema de facturación! Fácil de usar, intuitivo y con todas las funciones que necesitas para tu negocio, personalizable, eficiente y con un soporte al cliente excepcional ¡Altamente recomendado!',
       ANIMO1: 'Empieza por hoy',
       ANIMO2: 'y acelerar los negocios',
