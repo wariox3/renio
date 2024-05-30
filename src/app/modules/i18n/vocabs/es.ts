@@ -615,7 +615,7 @@ export const locale = {
       PROYECTOPERSONALIZADO1: '¿Qué tal un proyecto a medida?',
       PROYECTOPERSONALIZADO2:
         'Utilice nuestro servicio de desarrollo personalizado.',
-      PROYECTOPERSONALIZADO3: 'Haga clic para obtener un presupuesto',
+      PROYECTOPERSONALIZADO3: 'obtener un presupuesto',
       MAS: 'Más para REDDOC',
       FAQ: 'FAQ',
       DOCUMENTACION: 'Documentos',

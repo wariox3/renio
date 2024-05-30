@@ -607,7 +607,7 @@ export const locale = {
       LICENCIAPERSONALIZADA2: 'Email us to',
       PROYECTOPERSONALIZADO1: 'How About a Custom Project?',
       PROYECTOPERSONALIZADO2: 'Use Our Custom Development Service.',
-      PROYECTOPERSONALIZADO3: 'Click to Get a Quote',
+      PROYECTOPERSONALIZADO3: 'a quote',
       MAS: 'More for Metronic',
       FAQ: 'FAQ',
       DOCUMENTACION: 'Documentaions',
