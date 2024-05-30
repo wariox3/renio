@@ -79,10 +79,10 @@ export class BaseFiltroComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tipo = localStorage.getItem('itemTipo')!;
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.tipo = localStorage.getItem('itemTipo')!;
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${localStorage
         .getItem('itemNombre')
@@ -283,6 +283,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         emitirValores = false;
       }
     });
+
     if (hayFiltrosSinValores === false) {
       this.listaFiltros = listaFiltros;
       if (this.persistirFiltros) {
