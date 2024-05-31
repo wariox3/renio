@@ -445,8 +445,6 @@ export const locale = {
         DOCUMENTO_REFERENCIA: 'Documento referencia',
         PLAZO_PAGO: 'Plazo pago',
         PAGO: 'Pago',
-        CUENTA: 'Cuenta',
-        NATURALEZA: 'Naturaleza'
       },
       ITEM: {
         ID: 'ID',
@@ -606,7 +604,7 @@ export const locale = {
       OPINIONCLIENTE1TITULO:
         'Puedes ahorrarte tiempo y esfuerzo al automatizar tareas repetitivas',
       OPINIONCLIENTE1DESCRIPCION:
-        'Estoy encantada con la facilidad de uso y la versatilidad, al contar con una plataforma en la nube, nuestro software reddoc, te permite acceder a toda la información de tu empresa en tiempo real y desde cualquier dispositivo.',
+        'Estoy encantado con la facilidad de uso y la versatilidad, al contar con una plataforma en la nube, nuestro software reddoc, te permite acceder a toda la información de tu empresa en tiempo real y desde cualquier dispositivo.',
       OPINIONCLIENTE2TITULO:
         'Ahora puedes llevar un seguimiento detallado de tus facturas pendientes y de los pagos de los clientes. ',
       OPINIONCLIENTE2DESCRIPCION:
