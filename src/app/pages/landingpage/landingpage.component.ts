@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AlertaService } from '@comun/services/alerta.service';
+import { BaseLandingpageComponent } from '@comun/componentes/base-landingpage/base-landingpage.component';
 
 interface LanguageFlag {
   lang: string;
@@ -42,6 +43,7 @@ const languages = [
   styleUrls: ['./landingpage.component.scss'],
   standalone: true,
   imports: [
+    BaseLandingpageComponent,
     BtnwhatsappComponent,
     CommonModule,
     RouterModule,
@@ -60,6 +62,7 @@ export class LandingpageComponent implements OnInit {
   language: LanguageFlag;
   langs = languages;
   formularioContacto: FormGroup;
+  fechaActual: Date = new Date();
 
   constructor(
     private activatedRoute: ActivatedRoute,
