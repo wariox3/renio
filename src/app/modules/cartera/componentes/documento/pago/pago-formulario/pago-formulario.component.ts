@@ -310,7 +310,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
           total: documento.total,
           pendiente: documento.pendiente,
           cuenta: documento.documento_tipo_cuenta_cobrar_id,
-          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo
+          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
+          naturaleza: "C"
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -336,7 +337,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         seleccionado: [false],
         cuenta:[documento.cuenta],
         cuenta_codigo: [documento.cuenta_codigo],
-        naturaleza: ['C'],
+        naturaleza: [documento.naturaleza],
       });
       this.detalles.push(detalleFormGroup);
     });
