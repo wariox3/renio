@@ -4,7 +4,7 @@ import { BtnwhatsappComponent } from '../btnwhatsapp/btnwhatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule, TranslationService } from '@modulos/i18n';
-import { FormBuilder } from '@angular/forms';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 interface LanguageFlag {
   lang: string;
@@ -22,6 +22,7 @@ interface LanguageFlag {
     RouterModule,
     TranslateModule,
     TranslationModule,
+    NgbDropdownModule
   ],
   templateUrl: './base-landingpage.component.html',
   styleUrls: ['./base-landingpage.component.scss'],
@@ -54,11 +55,7 @@ export class BaseLandingpageComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.fragment.subscribe((fragment) => {
       if (fragment) {
-        document.getElementById(fragment)?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
-        });
+        this.navegacionID(fragment)
       }
     });
     this.setLanguage(this.translationService.getSelectedLanguage());
@@ -85,6 +82,8 @@ export class BaseLandingpageComponent implements OnInit {
   doSomethingOnWindowsScroll($event: Event) {
     let scrollOffset =
       document.documentElement.scrollTop || document.body.scrollTop;
+      console.log(scrollOffset);
+
     this.animateFadeDown = scrollOffset >= 200;
     this.menufijo = scrollOffset >= 200;
   }

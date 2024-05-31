@@ -68,8 +68,8 @@ export const routes: Routes = [
   {
     path: 'foro',
     loadComponent: () =>
-      import('./pages/landingpage/landingpage.component').then(
-        (c) => c.LandingpageComponent
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
       ),
   },
   {

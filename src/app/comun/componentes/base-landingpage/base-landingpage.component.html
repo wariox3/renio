@@ -114,7 +114,6 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         routerLink="/inicio"
-                        fragment="how-it-works"
                         (click)="navegacionID('how-it-works')"
                         translate="LANGINGPAGE.COMOFUNCIONA"
                       ></a>
@@ -127,6 +126,7 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('achievements')"
+                        routerLink="/inicio"
                         translate="LANGINGPAGE.ARCHIVOS"
                       ></a>
                       <!--end::Menu link-->
@@ -138,6 +138,7 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('portfolio')"
+                        routerLink="/inicio"
                         translate="LANGINGPAGE.PORTAFOLIO"
                       ></a>
                       <!--end::Menu link-->
@@ -149,6 +150,7 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('pricing')"
+                        routerLink="/inicio"
                         translate="LANGINGPAGE.PRECIO"
                       ></a>
                       <!--end::Menu link-->
@@ -160,6 +162,7 @@
                       <a
                         class="menu-link nav-link py-3 px-4 px-xxl-6"
                         (click)="navegacionID('contacto')"
+                        routerLink="/inicio"
                         translate="LANGINGPAGE.CONTACTO"
                       ></a>
                       <!--end::Menu link-->
@@ -600,7 +603,6 @@
               <li class="menu-item">
                 <a
                   [routerLink]="'/acerca_de'"
-                  target="_blank"
                   class="menu-link px-2"
                   >{{ "LANGINGPAGE.ACERCADE" | translate }}</a
                 >
@@ -608,7 +610,6 @@
               <li class="menu-item mx-5">
                 <a
                   [routerLink]="'/soporte'"
-                  target="_blank"
                   class="menu-link px-2"
                   >{{ "LANGINGPAGE.SOPORTE" | translate }}</a
                 >
@@ -616,7 +617,6 @@
               <li class="menu-item">
                 <a
                   [routerLink]="'/comprar'"
-                  target="_blank"
                   class="menu-link px-2"
                   >{{ "LANGINGPAGE.COMPRAR" | translate }}</a
                 >
