@@ -221,6 +221,8 @@
                         <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
                         <th class="w-100px text-center">
                           <label [for]="documentoDetalleSeleccionarTodos">
@@ -263,6 +265,28 @@
                           </td>
                           <td>
                             {{ detalle.value.contacto }}
+                          </td>
+                          <td>
+                            <app-comun-cuentas
+                              [cuentaCodigo]="detalle.value.cuenta_codigo"
+                              [estado_aprobado]="estado_aprobado"
+                              [campoInvalido]="
+                                detalle.get('cuenta')?.touched &&
+                                detalle.get('cuenta')?.invalid
+                              "
+                              (emitirArrCuentas)="
+                                agregarCuentaSeleccionado($event, i)
+                              "
+                            ></app-comun-cuentas>
+                          </td>
+                          <td>
+                            <select
+                              formControlName="naturaleza"
+                              class="form-select"
+                            >
+                              <option value="D">Débito</option>
+                              <option value="C">Crédito</option>
+                            </select>
                           </td>
                           <td class="w-100px">
                             <input

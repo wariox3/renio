@@ -26,11 +26,13 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 
 @Component({
   selector: 'app-pago-formulario',
   standalone: true,
   templateUrl: './pago-formulario.component.html',
+  styleUrls: ['./pago-formulario.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -44,6 +46,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
     KeysPipe,
     BaseFiltroComponent,
     SoloNumerosDirective,
+    CuentasComponent
   ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
@@ -58,6 +61,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumentoSeleccionarTodos = false;
   estado_aprobado: false;
   total: number = 0;
+  theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(
     private formBuilder: FormBuilder,
@@ -325,6 +329,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
         contacto: [documento.contacto],
         pago: [documento.pendiente],
         seleccionado: [false],
+        cuenta:[null],
+        cuenta_codigo: [null],
+        naturaleza: [null],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -431,6 +438,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarLinea(){
     const detalleFormGroup = this.formBuilder.group({
       id: [null],
+      cuenta:[null, Validators.compose([Validators.required])],
+      cuenta_codigo: [null],
+      naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
@@ -438,5 +448,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
       seleccionado: [false],
     });
     this.detalles.push(detalleFormGroup);
+  }
+
+  agregarCuentaSeleccionado(cuenta: any, index: number) {
+    this.detalles.controls[index].patchValue({
+      cuenta: cuenta.cuenta_id,
+      cuenta_codigo: cuenta.cuenta_codigo,
+      naturaleza: "D"
+    });
+
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
+    this.changeDetectorRef.detectChanges();
   }
 }
