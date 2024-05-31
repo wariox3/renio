@@ -86,8 +86,12 @@
 </div>
 <app-card>
   <section card-titulo>
-    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-    {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+    <div>
+      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+    </div>
+  </section>
+  <section card-propiedades>
   </section>
   <section card-body>
     <table class="table table-bordered table-sm">
@@ -387,6 +391,37 @@
             <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
             <td>{{ evento.ipEnvio }}</td>
             <td>{{ evento.idmensaje }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h2
+      class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+    >
+      {{ "LISTAS.COMUNES.VALIDACIONES" | translate | titlecase }}
+    </h2>
+    <div class="table-responsive table-sm table-loading mt-5">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.ID" | translate }}
+            </th>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.FECHA" | translate }}
+            </th>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.DESCRIPCION" | translate }}
+            </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let validacion of arrValidaciones" class="bg-light-danger text-danger">
+            <td>
+              {{ validacion.codigoValidacionPk }}
+            </td>
+            <td>{{ validacion.fecha | date : "yyyy-MM-dd h:mm"  }}</td>
+            <td>{{ validacion.descripcion }}</td>
           </tr>
         </tbody>
       </table>

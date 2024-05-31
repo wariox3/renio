@@ -396,6 +396,7 @@ export const locale = {
         CARGANDOTABLA: 'Loading',
         EVENTOS: 'Events',
         CORREOS: 'Emails',
+        VALIDACIONES: 'Validations'
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -526,6 +527,11 @@ export const locale = {
           FECHADOCUMENTO: 'Date document',
           ENVIADO: 'Sent to',
         },
+        VALIDACIONES: {
+          ID: 'Id',
+          FECHA: 'Date',
+          DESCRIPCION: 'Description',
+        }
       },
     },
     TEMA: {

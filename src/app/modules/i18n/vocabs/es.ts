@@ -398,6 +398,7 @@ export const locale = {
         CARGANDO: 'Cargando',
         EVENTOS: 'Eventos',
         CORREOS: 'Correos',
+        VALIDACIONES: 'Validaciones'
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -531,6 +532,11 @@ export const locale = {
           FECHADOCUMENTO: 'Fecha documento',
           ENVIADO: 'Enviado',
         },
+        VALIDACIONES: {
+          ID: 'Id',
+          FECHA: 'Fecha',
+          DESCRIPCION: 'Descripción',
+        }
       },
     },
     TEMA: {

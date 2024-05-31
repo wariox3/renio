@@ -18,7 +18,6 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { zip } from 'rxjs';
 import { KeysPipe } from '@pipe/keys.pipe';
 
 @Component({
@@ -72,6 +71,7 @@ export default class FacturaDetalleComponent extends General {
   arrMetodosPago: any[] = [];
   arrEventos: any[] = [];
   arrCorreos: any[] = [];
+  arrValidaciones: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   arrEstados = {
@@ -182,7 +182,8 @@ export default class FacturaDetalleComponent extends General {
         documento_id: this.detalle,
       })
       .subscribe((respuesta: any) => {
-        this.arrCorreos = respuesta.correos.map((correo: any)=>({
+        const {correos, eventos, validaciones} = respuesta.log
+        this.arrCorreos = correos.map((correo: any)=>({
           codigoCorreoPk: correo.codigoCorreoPk,
           enviado: correo.fecha,
           numeroDocumento: correo.numeroDocumento,
@@ -190,7 +191,7 @@ export default class FacturaDetalleComponent extends General {
           correo: correo.correo,
           correoCopia: correo.copia
         }));
-        this.arrEventos =  respuesta.eventos.map((evento: any)=>({
+        this.arrEventos =  eventos.map((evento: any)=>({
           codigoEventoPk: evento.codigoEventoPk,
           evento: evento.evento,
           correo: evento.correo,
@@ -198,6 +199,7 @@ export default class FacturaDetalleComponent extends General {
           ipEnvio: evento.ipEnvio,
           idmensaje: evento.idMensaje
         }));
+        this.arrValidaciones =  validaciones
       });
 
     this.modalService.open(content, {
