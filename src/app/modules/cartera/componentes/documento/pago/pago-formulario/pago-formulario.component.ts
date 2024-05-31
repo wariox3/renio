@@ -220,7 +220,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se cuenta con un cliente seleccionado'
+        'Debe seleccionar un contacto'
       );
     }
   }
@@ -291,7 +291,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       }
     }
     this.httpService
-      .post('general/documento/informe/', {
+      .post('general/documento/adicionar/', {
         filtros,
         limite: 50,
         desplazar: 0,
@@ -309,6 +309,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
           impuesto: documento.impuesto,
           total: documento.total,
           pendiente: documento.pendiente,
+          cuenta: documento.documento_tipo_cuenta_cobrar_id,
+          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -332,9 +334,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
         contacto: [documento.contacto],
         pago: [documento.pendiente],
         seleccionado: [false],
-        cuenta:[1],
-        cuenta_codigo: ['110500'],
-        naturaleza: ['D'],
+        cuenta:[documento.cuenta],
+        cuenta_codigo: [documento.cuenta_codigo],
+        naturaleza: ['C'],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -447,7 +449,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
-      pago: [null],
+      pago: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
     this.detalles.push(detalleFormGroup);

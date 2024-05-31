@@ -291,10 +291,28 @@
                           <td class="w-100px">
                             <input
                               formControlName="pago"
-                              class="sinBorder disabled-cursor bg-transparent"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
                               (change)="actualizarDetalle(i, 'pago', $event)"
                               appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                detalle.get('pago')?.touched &&
+                                detalle.get('pago')?.invalid,
+                                'is-valid':
+                                detalle.get('pago')?.touched &&
+                                detalle.get('pago')?.invalid
+                              }"
                             />
+                            <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                              validation: 'required',
+                              message:
+                                'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                              control: detalle.get('pago')
+                            }"
+                          ></ng-container>
                           </td>
                           <td class="w-20px text-center">
                             <label [for]="detalle.value.id">
