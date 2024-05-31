@@ -329,9 +329,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
         contacto: [documento.contacto],
         pago: [documento.pendiente],
         seleccionado: [false],
-        cuenta:[null],
-        cuenta_codigo: [null],
-        naturaleza: [null],
+        cuenta:[1],
+        cuenta_codigo: ['110500'],
+        naturaleza: ['D'],
       });
       this.detalles.push(detalleFormGroup);
     });
