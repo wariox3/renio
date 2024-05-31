@@ -441,6 +441,8 @@ export const locale = {
         DOCUMENTO_REFERENCIA: 'Reference Document',
         PLAZO_PAGO: 'Payment Term',
         PAGO: 'Pay',
+        CUENTA: 'Account',
+        NATURALEZA: 'Nature'
       },
       ITEM: {
         ID: 'ID',

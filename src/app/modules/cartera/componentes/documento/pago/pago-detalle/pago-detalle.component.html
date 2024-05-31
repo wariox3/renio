@@ -111,6 +111,8 @@
                       <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
                     </tr>
                   </thead>
@@ -127,6 +129,12 @@
                       </td>
                       <td>
                         {{ documento.documento_afectado_contacto_nombre_corto }}
+                      </td>
+                      <td>
+                        {{ documento.cuenta_codigo }}
+                      </td>
+                      <td>
+                        {{ documento.naturaleza }}
                       </td>
                       <td class="text-end">
                         {{ documento.pago | number }}
