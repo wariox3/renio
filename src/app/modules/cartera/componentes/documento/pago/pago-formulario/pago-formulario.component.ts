@@ -427,4 +427,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.arrRegistrosEliminar.push(posicion);
     }
   }
+
+  agregarLinea(){
+    const detalleFormGroup = this.formBuilder.group({
+      id: [null],
+      documento_afectado: [null],
+      numero: [null],
+      contacto: [null],
+      pago: [null],
+      seleccionado: [false],
+    });
+    this.detalles.push(detalleFormGroup);
+  }
 }

@@ -197,11 +197,17 @@
                       translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
                     ></button>
                     <button
+                      (click)="agregarLinea()"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
+                    ></button>
+                    <button
                       (click)="eliminarDocumento()"
                       class="btn btn-sm btn-danger"
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                      ></button>
+                    ></button>
                   </div>
                 </div>
                 <div class="table-responsive-sm">

@@ -73,6 +73,7 @@ export const locale = {
           GENERANDO: 'Generando',
           EMITIR: 'Emitir',
           ELECTRONICO: 'Electrónico',
+          ADICIONAR: 'Adicionar',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
