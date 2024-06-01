@@ -27,7 +27,7 @@ export class CuentasComponent extends General implements AfterViewInit {
   cuentaSeleccionada: any | null = null;
   arrCuentasLista: any[];
   @Input() cuentaCodigo: string = '';
-  @Input() estado_aprobado: false;
+  @Input() documentoEnlazado: boolean;
   @Input() campoInvalido: any  = false;
   @Output() emitirArrCuentas: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();

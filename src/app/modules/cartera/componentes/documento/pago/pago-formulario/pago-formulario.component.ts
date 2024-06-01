@@ -60,6 +60,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   documentoDetalleSeleccionarTodos = false;
   agregarDocumentoSeleccionarTodos = false;
   estado_aprobado: false;
+  documentoEnlazado: true;
   total: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -327,7 +328,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((documento) => {
+    this.arrDocumentosSeleccionados.map((documento) => {      
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documento.id],
@@ -340,6 +341,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         naturaleza: [documento.naturaleza],
       });
       this.detalles.push(detalleFormGroup);
+
     });
     this.modalService.dismissAll();
     this.calcularTotales();

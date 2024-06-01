@@ -1,3 +1,4 @@
+<pre>{{ formularioFactura.value | json }}</pre>
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div class="d-flex gap-2" role="group" aria-label="Basic example">
@@ -268,8 +269,8 @@
                           </td>
                           <td>
                             <app-comun-cuentas
+                              [documentoEnlazado]="detalle.value.documento_afectado !== null "
                               [cuentaCodigo]="detalle.value.cuenta_codigo"
-                              [estado_aprobado]="estado_aprobado"
                               [campoInvalido]="
                                 detalle.get('cuenta')?.touched &&
                                 detalle.get('cuenta')?.invalid
@@ -280,13 +281,24 @@
                             ></app-comun-cuentas>
                           </td>
                           <td>
-                            <select
+                            <ng-container *ngIf="detalle.value.documento_afectado === null ;else selectDisabled" >
+                              <select
                               formControlName="naturaleza"
                               class="form-select"
                             >
                               <option value="D">Débito</option>
                               <option value="C">Crédito</option>
                             </select>
+                            </ng-container>
+                            <ng-template #selectDisabled>
+                              <select
+                              disabled
+                              class="form-select"
+                            >
+                              <option value="D">Débito</option>
+                              <option value="C">Crédito</option>
+                            </select>
+                            </ng-template>
                           </td>
                           <td class="w-100px">
                             <input

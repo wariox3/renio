@@ -9,9 +9,9 @@
           class="cursor-pointer form-select form-select-sm w-100"
           (focus)="consultarCuentas($event); ItemDropdown.open()"
           (keyup)="aplicarFiltrosCuentas($event); ItemDropdown.open()"
-          [disabled]="estado_aprobado"
-          [readonly]="estado_aprobado"
-          [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+          [disabled]="documentoEnlazado"
+          [readonly]="documentoEnlazado"
+          [ngClass]="{ 'disabled-cursor': documentoEnlazado }"
           [value]="cuentaCodigo"
           [ngClass]="{
             'is-invalid': campoInvalido,
