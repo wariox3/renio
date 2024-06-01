@@ -268,7 +268,9 @@
                           </td>
                           <td>
                             <app-comun-cuentas
-                              [documentoEnlazado]="detalle.value.documento_afectado !== null "
+                              [documentoEnlazado]="
+                                detalle.value.documento_afectado !== null
+                              "
                               [cuentaCodigo]="detalle.value.cuenta_codigo"
                               [campoInvalido]="
                                 detalle.get('cuenta')?.touched &&
@@ -280,23 +282,25 @@
                             ></app-comun-cuentas>
                           </td>
                           <td>
-                            <ng-container *ngIf="detalle.value.documento_afectado === null ;else selectDisabled" >
-                              <select
-                              formControlName="naturaleza"
-                              class="form-select"
+                            <ng-container
+                              *ngIf="
+                                detalle.value.documento_afectado === null;
+                                else selectDisabled
+                              "
                             >
-                              <option value="D">Débito</option>
-                              <option value="C">Crédito</option>
-                            </select>
+                              <select
+                                formControlName="naturaleza"
+                                class="form-select"
+                                (change)="calcularTotales()"
+                              >
+                                <option value="D">Débito</option>
+                                <option value="C">Crédito</option>
+                              </select>
                             </ng-container>
                             <ng-template #selectDisabled>
-                              <select
-                              disabled
-                              class="form-select"
-                            >
-                              <option value="D">Débito</option>
-                              <option value="C">Crédito</option>
-                            </select>
+                              <select disabled class="form-select">
+                                <option value="C">Crédito</option>
+                              </select>
                             </ng-template>
                           </td>
                           <td class="w-100px">
@@ -308,22 +312,23 @@
                               appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
-                                detalle.get('pago')?.touched &&
-                                detalle.get('pago')?.invalid,
+                                  detalle.get('pago')?.touched &&
+                                  detalle.get('pago')?.invalid,
                                 'is-valid':
-                                detalle.get('pago')?.touched &&
-                                detalle.get('pago')?.invalid
+                                  detalle.get('pago')?.touched &&
+                                  detalle.get('pago')?.invalid
                               }"
                             />
                             <ng-container
-                            [ngTemplateOutlet]="formError"
-                            [ngTemplateOutletContext]="{
-                              validation: 'required',
-                              message:
-                                'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                              control: detalle.get('pago')
-                            }"
-                          ></ng-container>
+                              [ngTemplateOutlet]="formError"
+                              [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message:
+                                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                  | translate,
+                                control: detalle.get('pago')
+                              }"
+                            ></ng-container>
                           </td>
                           <td class="w-20px text-center">
                             <label [for]="detalle.value.id">
@@ -358,7 +363,21 @@
                 </div>
                 <div class="d-flex justify-content-end mb-5">
                   <table>
-                    <tr *ngIf="total > 0">
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
+                      ></td>
+                      <td class="text-end">{{ totalCredito | currency : "$" }}</td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
+                      ></td>
+                      <td class="text-end">{{ totalDebito | currency : "$" }}</td>
+                    </tr>
+                    <tr>
                       <td
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"

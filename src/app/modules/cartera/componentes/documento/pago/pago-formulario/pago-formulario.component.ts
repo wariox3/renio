@@ -46,7 +46,7 @@ import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
     KeysPipe,
     BaseFiltroComponent,
     SoloNumerosDirective,
-    CuentasComponent
+    CuentasComponent,
   ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
@@ -62,6 +62,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
   estado_aprobado: false;
   documentoEnlazado: true;
   total: number = 0;
+  totalCredito: number = 0;
+  totalDebito: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(
@@ -134,7 +136,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
-            naturaleza: detalle.naturaleza
+            naturaleza: detalle.naturaleza,
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -151,40 +153,47 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
-        this.facturaService
-          .guardarFactura({
-            ...this.formularioFactura.value,
-            ...{
-              numero: null,
-              documento_tipo: 4,
-            },
-          })
-          .pipe(
-            tap((respuesta) => {
+      if (this.formularioFactura.get('total')?.value >= 0) {
+        if (this.detalle == undefined) {
+          this.facturaService
+            .guardarFactura({
+              ...this.formularioFactura.value,
+              ...{
+                numero: null,
+                documento_tipo: 4,
+              },
+            })
+            .pipe(
+              tap((respuesta) => {
+                this.router.navigate(['documento/detalle'], {
+                  queryParams: {
+                    documento_clase: this.parametrosUrl.documento_clase,
+                    detalle: respuesta.documento.id,
+                  },
+                });
+              })
+            )
+            .subscribe();
+        } else {
+          this.facturaService
+            .actualizarDatosFactura(this.detalle, {
+              ...this.formularioFactura.value,
+              ...{ detalles_eliminados: this.arrDetallesEliminado },
+            })
+            .subscribe((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   documento_clase: this.parametrosUrl.documento_clase,
                   detalle: respuesta.documento.id,
                 },
               });
-            })
-          )
-          .subscribe();
-      } else {
-        this.facturaService
-          .actualizarDatosFactura(this.detalle, {
-            ...this.formularioFactura.value,
-            ...{ detalles_eliminados: this.arrDetallesEliminado },
-          })
-          .subscribe((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                documento_clase: this.parametrosUrl.documento_clase,
-                detalle: respuesta.documento.id,
-              },
             });
-          });
+        }
+      } else {
+        this.alertaService.mensajeError(
+          'Error',
+          'El total no puede ser negativo'
+        );
       }
     } else {
       this.formularioFactura.markAllAsTouched();
@@ -219,10 +228,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       });
       this.changeDetectorRef.detectChanges();
     } else {
-      this.alertaService.mensajeError(
-        'Error',
-        'Debe seleccionar un contacto'
-      );
+      this.alertaService.mensajeError('Error', 'Debe seleccionar un contacto');
     }
   }
 
@@ -312,7 +318,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           pendiente: documento.pendiente,
           cuenta: documento.documento_tipo_cuenta_cobrar_id,
           cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
-          naturaleza: "C"
+          naturaleza: 'C',
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -328,7 +334,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((documento) => {      
+    this.arrDocumentosSeleccionados.map((documento) => {
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documento.id],
@@ -336,12 +342,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
         contacto: [documento.contacto],
         pago: [documento.pendiente],
         seleccionado: [false],
-        cuenta:[documento.cuenta],
+        cuenta: [documento.cuenta],
         cuenta_codigo: [documento.cuenta_codigo],
         naturaleza: [documento.naturaleza],
       });
       this.detalles.push(detalleFormGroup);
-
     });
     this.modalService.dismissAll();
     this.calcularTotales();
@@ -417,13 +422,21 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   calcularTotales() {
+    this.totalCredito = 0;
+    this.totalDebito = 0;
     this.total = 0;
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
       const pago = detalleControl.get('pago')?.value || 0;
-      this.total += parseInt(pago);
+      const naturaleza = detalleControl.get('naturaleza')?.value;
+      if (naturaleza === 'C') {
+        this.totalCredito += parseInt(pago);
+      } else {
+        this.totalDebito += parseInt(pago);
+      }
       this.changeDetectorRef.detectChanges();
     });
+    this.total += this.totalCredito - this.totalDebito;
     this.formularioFactura.patchValue({
       total: this.total,
     });
@@ -443,10 +456,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
     }
   }
 
-  agregarLinea(){
+  agregarLinea() {
     const detalleFormGroup = this.formBuilder.group({
       id: [null],
-      cuenta:[null, Validators.compose([Validators.required])],
+      cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
       naturaleza: [null],
       documento_afectado: [null],
@@ -462,7 +475,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.detalles.controls[index].patchValue({
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
-      naturaleza: "D"
+      naturaleza: 'D',
     });
 
     this.formularioFactura.markAsTouched();

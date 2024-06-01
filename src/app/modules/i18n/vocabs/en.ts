@@ -210,6 +210,8 @@ export const locale = {
           EMITIR: 'To issue',
           NOFITICAR: 'To notify',
           TOTAL: 'Total',
+          CREDITO: 'Credit',
+          DEBITO: 'Debit'
         },
         GENERAL: {
           ITEM: {
