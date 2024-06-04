@@ -199,6 +199,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
+        plazo_pago_proveedor: [1],
         asesor: [null],
       },
       {
@@ -550,6 +551,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           codigo_ciuu: respuesta.codigo_ciuu,
           precio: respuesta.precio_id,
           plazo_pago: respuesta.plazo_pago_id,
+          plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
           asesor: respuesta.asesor_id,
         });
 

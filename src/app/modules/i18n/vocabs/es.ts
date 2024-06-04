@@ -231,6 +231,8 @@ export const locale = {
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Información comercial',
+          INFORMACIONCLIENTE: 'Información cliente',
+          INFORMACIONPROVEEDOR: 'Información proveedor',
         },
       },
       CAMPOS: {

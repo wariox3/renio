@@ -63,6 +63,8 @@ export default class ContactoDetalleComponent
     plazo_pago_nombre: '',
     precio_id: 0,
     precio_nombre: '',
+    plazo_pago_proveedor_id: 0,
+    plazo_pago_proveedor_nombre: '',
     asesor_id: 0,
     asesor_nombre_corto: '',
   };

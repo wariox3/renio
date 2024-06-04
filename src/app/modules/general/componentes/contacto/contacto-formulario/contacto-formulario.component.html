@@ -529,23 +529,20 @@
               control: formularioContacto.controls['ciudad']
             }"
           ></ng-container>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-          >
-              <button
-                type="button"
-                ngbDropdownItem
-                *ngFor="let ciudad of arrCiudades; index as i"
-                [ngClass]="{ item: selectedDateIndex === i }"
-                (click)="
-                  modificarCampoFormulario('ciudad', ciudad);
-                  CiudadDropdown.close()
-                "
-                (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
-              >
-                {{ ciudad.ciudad_nombre }}
-              </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button
+              type="button"
+              ngbDropdownItem
+              *ngFor="let ciudad of arrCiudades; index as i"
+              [ngClass]="{ item: selectedDateIndex === i }"
+              (click)="
+                modificarCampoFormulario('ciudad', ciudad);
+                CiudadDropdown.close()
+              "
+              (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
+            >
+              {{ ciudad.ciudad_nombre }}
+            </button>
           </div>
         </div>
         <div class="col-md-6 col-sm-12">
@@ -647,23 +644,23 @@
             }"
           />
           <div
-          *ngIf="
-            formularioContacto.controls.confirmarClave?.touched &&
-            formularioContacto.controls.confirmarClave?.hasError(
-              'clavesDiferentes'
-            )
-          "
-        >
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span
-                translate="FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDENNUEVO"
-                role="alert"
-              >
-              </span>
+            *ngIf="
+              formularioContacto.controls.confirmarClave?.touched &&
+              formularioContacto.controls.confirmarClave?.hasError(
+                'clavesDiferentes'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDENNUEVO"
+                  role="alert"
+                >
+                </span>
+              </div>
             </div>
           </div>
-        </div>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -767,7 +764,7 @@
       </div>
     </section>
   </app-card>
-  <app-card [titulo]="'información comercial'">
+  <app-card [titulo]="'Información cliente'">
     <section card-body>
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
@@ -864,6 +861,41 @@
               "
             >
               {{ asesor.asesor_nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </section>
+  </app-card>
+  <app-card [titulo]="'FORMULARIOS.TITULOS.CONTACTO.INFORMACIONPROVEEDOR'">
+    <section card-body>
+      <div class="row mb-2">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="plazo_pago_proveedor"
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['plazo_pago_proveedor'].touched &&
+                formularioContacto.controls['plazo_pago_proveedor'].invalid,
+              'is-valid':
+                formularioContacto.controls['plazo_pago_proveedor'].touched &&
+                formularioContacto.controls['plazo_pago_proveedor'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <option
+              *ngFor="let pago of arrPagos"
+              [value]="pago.plazo_pago_id"
+              [selected]="
+                pago.plazo_pago_id === formularioContacto.value.plazo_pago_id
+              "
+            >
+              {{ pago.plazo_pago_nombre }}
             </option>
           </select>
         </div>

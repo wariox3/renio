@@ -27,4 +27,6 @@ export interface Contacto {
   precio_nombre: string;
   asesor_id: number;
   asesor_nombre_corto: string;
+  plazo_pago_proveedor_id: number;
+  plazo_pago_proveedor_nombre: string;
 }
