@@ -1,0 +1,551 @@
+<form [formGroup]="formularioEgreso" (ngSubmit)="enviar()">
+  <div class="d-flex mb-5 justify-content-between align-items-center">
+    <div class="d-flex gap-2" role="group" aria-label="Basic example">
+      <app-comun-btn-atras />
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex btn-primary"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
+    </div>
+  </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()"
+              (keyup)="consultarCliente($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioEgreso.controls['contacto'].touched &&
+                  formularioEgreso.controls['contacto'].invalid,
+                'is-valid':
+                  formularioEgreso.controls['contacto'].touched &&
+                  formularioEgreso.controls['contacto'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2x"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contacto of arrContactos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contacto', contacto)"
+                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
+              >
+                {{ contacto.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'Contacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  modificarCampoFormulario($event, 'contacto')
+                "
+              >
+              </app-comun-buscar-avanzado>
+            </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEgreso.controls['contacto']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-3">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
+          ></label>
+          <input
+            formControlName="fecha"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+              formularioEgreso.controls['fecha'].touched &&
+              formularioEgreso.controls['fecha'].invalid,
+              'is-valid':
+              formularioEgreso.controls['fecha'].touched &&
+              formularioEgreso.controls['fecha'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEgreso.controls['fecha']
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioEgreso.controls.fecha?.touched &&
+              formularioEgreso.controls.fecha?.hasError(
+                'fechaSuperiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></label>
+          <textarea
+            formControlName="comentario"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            (blur)="modificarCampoFormulario('comentario', null)"
+            rows="3"
+            [ngClass]="{
+              'is-invalid':
+              formularioEgreso.controls['comentario'].touched &&
+              formularioEgreso.controls['comentario'].invalid,
+              'is-valid':
+              formularioEgreso.controls['comentario'].touched &&
+              formularioEgreso.controls['comentario'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '500',
+              control: formularioEgreso.controls['comentario']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            [(activeId)]="tapActivo"
+            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+          >
+            <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="d-flex justify-content-end my-3">
+                  <div class="btn-group contenedor-btn-group">
+                    <button
+                      (click)="agregarDocumento(content)"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+                    ></button>
+                    <button
+                      (click)="agregarLinea()"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
+                    ></button>
+                    <button
+                      (click)="eliminarDocumento()"
+                      class="btn btn-sm btn-danger"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                    ></button>
+                  </div>
+                </div>
+                <div class="table-responsive-sm">
+                  <table
+                    id="tableDetalles"
+                    class="table table-bordered table-sm"
+                  >
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
+                        <th class="w-100px text-center">
+                          <label [for]="documentoDetalleSeleccionarTodos">
+                            <i
+                              class="cursor-pointer"
+                              [ngClass]="
+                                checkboxDocumentoDetalleSeleccionarTodos.checked
+                                  ? 'fa-solid fa-square-check text-danger fs-1'
+                                  : 'fa-regular fa-square text-gray-500 fs-1'
+                              "
+                            >
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                            <input
+                              class="d-none"
+                              type="checkbox"
+                              #checkboxDocumentoDetalleSeleccionarTodos
+                              [id]="documentoDetalleSeleccionarTodos"
+                              [checked]="documentoDetalleSeleccionarTodos"
+                              [value]="documentoDetalleSeleccionarTodos"
+                              (change)="detalleToggleSelectAll()"
+                            />
+                          </label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="detalles">
+                      <ng-container
+                        *ngFor="let detalle of detalles.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <tr>
+                          <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td>
+                            {{ detalle.value.documento_afectado }}
+                          </td>
+                          <td>
+                            {{ detalle.value.numero }}
+                          </td>
+                          <td>
+                            {{ detalle.value.contacto }}
+                          </td>
+                          <td>
+                            <app-comun-cuentas
+                              [documentoEnlazado]="
+                                detalle.value.documento_afectado !== null
+                              "
+                              [cuentaCodigo]="detalle.value.cuenta_codigo"
+                              [campoInvalido]="
+                                detalle.get('cuenta')?.touched &&
+                                detalle.get('cuenta')?.invalid
+                              "
+                              (emitirArrCuentas)="
+                                agregarCuentaSeleccionado($event, i)
+                              "
+                            ></app-comun-cuentas>
+                          </td>
+                          <td>
+                            <ng-container
+                              *ngIf="
+                                detalle.value.documento_afectado === null;
+                                else selectDisabled
+                              "
+                            >
+                              <select
+                                formControlName="naturaleza"
+                                class="form-select"
+                                (change)="calcularTotales()"
+                              >
+                                <option value="D">Débito</option>
+                                <option value="C">Crédito</option>
+                              </select>
+                            </ng-container>
+                            <ng-template #selectDisabled>
+                              <select disabled class="form-select">
+                                <option value="C">Crédito</option>
+                              </select>
+                            </ng-template>
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="pago"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'pago', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('pago')?.touched &&
+                                  detalle.get('pago')?.invalid,
+                                'is-valid':
+                                  detalle.get('pago')?.touched &&
+                                  detalle.get('pago')?.invalid
+                              }"
+                            />
+                            <ng-container
+                              [ngTemplateOutlet]="formError"
+                              [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message:
+                                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                  | translate,
+                                control: detalle.get('pago')
+                              }"
+                            ></ng-container>
+                          </td>
+                          <td class="w-20px text-center">
+                            <label [for]="detalle.value.id">
+                              <i
+                                class="cursor-pointer"
+                                [ngClass]="
+                                  checked.checked
+                                    ? 'fa-solid fa-square-check text-danger fs-1'
+                                    : 'fa-regular fa-square text-gray-500 fs-1'
+                                "
+                              >
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                              </i>
+                              <input
+                                #checked
+                                class="d-none"
+                                type="checkbox"
+                                [id]="detalle.value.id"
+                                [value]="detalle.value.id"
+                                (change)="
+                                  agregarRegistrosEliminar(i, detalle.value.id)
+                                "
+                                [checked]="detalle.value.seleccionado"
+                              />
+                            </label>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mb-5">
+                  <table>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalCredito | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalDebito | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
+                      ></td>
+                      <td class="text-end">{{ total | currency : "$" }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+              ></a>
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Buscar documento</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-base-filtro
+      (emitirFiltros)="obtenerFiltrosModal($event)"
+      [persistirFiltros]="false"
+    ></app-base-filtro>
+    <div class="d-flex justify-content-end my-3">
+      <button
+        (click)="agregarDocumentosPago()"
+        class="btn btn-sm btn-primary"
+        type="button"
+        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+      ></button>
+    </div>
+    <div class="table-responsive table-loading mt-5">
+      <table
+        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr class="bg-gray-100">
+            <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.FECHA'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.FECHA_VENCE'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.SUBTOTAL'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.IMPUESTO'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.PENDIENTE'"></th>
+            <th class="text-center">
+              <label for="agregarDocumentoSeleccionarTodos">
+                <i
+                  class="cursor-pointer"
+                  [ngClass]="
+                    checkboxAgregarDocumentoSeleccionarTodos.checked
+                      ? 'fa-solid fa-square-check text-danger fs-1'
+                      : 'fa-regular fa-square text-gray-500 fs-1'
+                  "
+                >
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+                <input
+                  class="d-none"
+                  type="checkbox"
+                  #checkboxAgregarDocumentoSeleccionarTodos
+                  id="agregarDocumentoSeleccionarTodos"
+                  [checked]="agregarDocumentoSeleccionarTodos"
+                  [value]="agregarDocumentoSeleccionarTodos"
+                  (change)="agregarDocumentosToggleSelectAll()"
+                />
+              </label>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of arrDocumentos">
+            <td>
+              {{ item["id"] }}
+            </td>
+            <td>
+              {{ item["numero"] }}
+            </td>
+            <td>
+              {{ item["fecha"] }}
+            </td>
+            <td>
+              {{ item["fecha_vence"] }}
+            </td>
+            <td>
+              {{ item["contacto"] }}
+            </td>
+            <td class="text-end">
+              {{ item["subtotal"] | number }}
+            </td>
+            <td class="text-end">
+              {{ item["impuesto"] | number }}
+            </td>
+            <td class="text-end">
+              {{ item["total"] | number }}
+            </td>
+            <td class="text-end">
+              {{ item["pendiente"] | number }}
+            </td>
+            <td class="w-20px text-center">
+              <label [for]="item['id']">
+                <i
+                  class="cursor-pointer"
+                  [ngClass]="
+                    checked.checked
+                      ? 'fa-solid fa-square-check text-danger fs-1'
+                      : 'fa-regular fa-square text-gray-500 fs-1'
+                  "
+                >
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+                <input
+                  #checked
+                  class="d-none"
+                  type="checkbox"
+                  [id]="item['id']"
+                  [value]="item['id']"
+                  (change)="agregarDocumentoSeleccionado(item)"
+                  [checked]="item.selected"
+                />
+              </label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
