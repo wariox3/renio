@@ -217,4 +217,25 @@ export default class FacturaDetalleComponent extends General {
     });
     this.changeDetectorRef.detectChanges();
   }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/editar`], {
+        queryParams: {
+          ...parametro,
+          detalle: id,
+        },
+      });
+    });
+  }
+
+  navegarNuevo() {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/nuevo`], {
+        queryParams: {
+          documento_clase: parametro.documento_clase,
+        },
+      });
+    });
+  }
 }

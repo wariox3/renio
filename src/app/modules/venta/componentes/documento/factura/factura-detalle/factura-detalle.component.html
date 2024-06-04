@@ -9,6 +9,21 @@
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarNuevo()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarEditar(documento.id)"
+        [disabled]="arrEstados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
         [disabled]="arrEstados.estado_aprobado"
       >
@@ -18,7 +33,7 @@
         type="button"
         class="btn btn-sm btn-danger"
         (click)="anular()"
-        [disabled]="!arrEstados.estado_aprobado"
+        [disabled]="!arrEstados.estado_aprobado || arrEstados.estado_anulado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
       </button>
@@ -37,7 +52,9 @@
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
           (click)="emitir()"
           [disabled]="
-            !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
+            !arrEstados.estado_aprobado ||
+            arrEstados.estado_electronico_enviado ||
+            arrEstados.estado_anulado
           "
         >
           {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
@@ -59,7 +76,15 @@
           {{ "FORMULARIOS.BOTONES.COMUNES.ELECTRONICO" | translate }}
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem (click)="reNotifica()">Re-Notificar</button>
+          <button
+            ngbDropdownItem
+            (click)="reNotifica()"
+            [disabled]="
+              arrEstados.estado_anulado
+            "
+          >
+            Re-Notificar
+          </button>
           <button ngbDropdownItem (click)="verLog(content)">
             Log notificar
           </button>
