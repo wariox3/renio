@@ -249,7 +249,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: 1,
+                documento_tipo: 5,
               },
             })
             .pipe(
