@@ -50,12 +50,15 @@ export class AlertaService {
     });
   }
 
-  async mensajaEspera(text: string) {
+  async mensajaEspera(
+    text: string,
+    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
+  ) {
     return await (Swal.fire({
       html: text,
-      icon: 'info',
+      icon,
       timerProgressBar: true,
-      showConfirmButton: false,
+      showConfirmButton: true,
       allowOutsideClick: false,
       showClass: {
         popup: 'animate__animated animate__fadeInDown',
@@ -133,5 +136,24 @@ export class AlertaService {
 
   mensajeVisible() {
     return Swal.isVisible();
+  }
+
+  async mensajaContactoLandinpage(text: string) {
+    return await Swal.fire({
+      html: text,
+      icon: 'success',
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    }).then(() => {
+      window.location.href= '/'
+    });
   }
 }

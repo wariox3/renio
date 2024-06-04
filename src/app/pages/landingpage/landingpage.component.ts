@@ -1,6 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule, TranslationService } from '@modulos/i18n';
@@ -69,7 +69,7 @@ export class LandingpageComponent implements OnInit {
     private translationService: TranslationService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
   ) {}
 
   ngOnInit() {
@@ -116,18 +116,6 @@ export class LandingpageComponent implements OnInit {
     this.estadoMenu = false;
   }
 
-  navegacionID(id: string) {
-    // Desplazamiento vertical adicional que se aplicará al resultado del cálculo de la posición
-    const yOffset = -120;
-    // Busca un elemento en el documento HTML con el ID especificado por la variable `id` y lo almacena en la variable `element`
-    const element = document.getElementById(id);
-    // Calcula la posición vertical (en píxeles) del borde superior del elemento respecto a la parte superior del área de contenido del viewport (la ventana del navegador), y le suma el desplazamiento actual de la página y el desplazamiento adicional
-    const y =
-      element!.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    // Utiliza la función `scrollTo` del objeto `window` para desplazar la ventana del navegador hacia una posición específica
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-
   selectLanguage(lang: string) {
     this.translationService.setLanguage(lang);
     this.setLanguage(lang);
@@ -145,14 +133,6 @@ export class LandingpageComponent implements OnInit {
     });
   }
 
-  @HostListener('window:scroll', ['$event'])
-  doSomethingOnWindowsScroll($event: Event) {
-    let scrollOffset =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    this.animateFadeDown = scrollOffset >= 200;
-    this.menufijo = scrollOffset >= 200;
-  }
-
   enviarFormulario() {
     if (this.formularioContacto.valid) {
       this.http
@@ -164,7 +144,9 @@ export class LandingpageComponent implements OnInit {
           this.formularioContacto.reset();
           this.formularioContacto.markAsUntouched();
           this.formularioContacto.markAsDirty();
-          this.alertaService.mensajaExitoso('Se guardó la información');
+          this.alertaService.mensajaContactoLandinpage(
+            'Hemos enviado su información, uno de nuestros asesores se estará comunicando'
+          );
         });
     } else {
       this.formularioContacto.markAllAsTouched();

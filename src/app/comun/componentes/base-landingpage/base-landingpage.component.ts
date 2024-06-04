@@ -82,8 +82,6 @@ export class BaseLandingpageComponent implements OnInit {
   doSomethingOnWindowsScroll($event: Event) {
     let scrollOffset =
       document.documentElement.scrollTop || document.body.scrollTop;
-      console.log(scrollOffset);
-
     this.animateFadeDown = scrollOffset >= 200;
     this.menufijo = scrollOffset >= 200;
   }
