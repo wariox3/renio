@@ -356,25 +356,26 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
-    detallesArray.controls.forEach((detalleControl, index) => {
-      const seleccionado = detalleControl.get('seleccionado')?.value;
-      if (seleccionado) {
-        const id = detalleControl.get('id')?.value;
-
-        if (id === null) {
-          this.detalles.removeAt(index);
-        } else {
-          this.arrDetallesEliminado.push(id);
-          this.detalles.removeAt(index);
+    
+    // Iterar de manera inversa
+    for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
+        const detalleControl = detallesArray.controls[index];
+        const seleccionado = detalleControl.get('seleccionado')?.value;
+        if (seleccionado) {
+            const id = detalleControl.get('id')?.value;
+            if (id === null) {
+                this.detalles.removeAt(index);
+            } else {
+                this.arrDetallesEliminado.push(id);
+                this.detalles.removeAt(index);
+            }
         }
-      }
-    });
+    }
 
     this.calcularTotales();
-    this.agregarDocumentoSeleccionarTodos =
-      !this.agregarDocumentoSeleccionarTodos;
+    this.agregarDocumentoSeleccionarTodos = !this.agregarDocumentoSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
-  }
+}
 
   agregarDocumentosToggleSelectAll() {
     this.arrDocumentos.forEach((item: any) => {
