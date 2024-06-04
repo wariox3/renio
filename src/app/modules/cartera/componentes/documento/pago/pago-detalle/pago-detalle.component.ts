@@ -78,4 +78,13 @@ export default class PagoDetalleComponent extends General {
       documento_id: this.detalle,
     });
   }
+
+  anular(){
+    this.httpService
+      .post('general/documento/anular/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.consultardetalle();
+        this.alertaService.mensajaExitoso('Documento anulado');
+      });
+  }
 }

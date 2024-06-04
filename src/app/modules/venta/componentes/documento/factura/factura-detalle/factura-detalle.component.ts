@@ -144,6 +144,15 @@ export default class FacturaDetalleComponent extends General {
       });
   }
 
+  anular(){
+    this.httpService
+    .post('general/documento/anular/', { id: this.detalle })
+    .subscribe((respuesta: any) => {
+      this.consultardetalle();
+      this.alertaService.mensajaExitoso('Documento anulado');
+    });
+  }
+
   emitir() {
     this.httpService
       .post('general/documento/emitir/', { documento_id: this.detalle })

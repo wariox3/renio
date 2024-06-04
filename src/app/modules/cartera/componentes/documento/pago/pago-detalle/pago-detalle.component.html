@@ -15,6 +15,14 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
       <button
+        type="button"
+        class="btn btn-sm btn-danger"
+        (click)="anular()"
+        [disabled]="pago.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
+      </button>
+      <button
         type="submit"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         #btnGuardar

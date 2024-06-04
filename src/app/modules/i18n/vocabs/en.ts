@@ -72,7 +72,8 @@ export const locale = {
           GENERANDO: 'Generating',
           EMITIR: 'Issue',
           ELECTRONICO: 'electronic',
-          ADICIONAR: 'Add'
+          ADICIONAR: 'Add',
+          ANULAR: 'Cancel'
         },
         CONTENEDOR: {
           CONECTAR: 'Connect',

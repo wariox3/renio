@@ -74,6 +74,7 @@ export const locale = {
           EMITIR: 'Emitir',
           ELECTRONICO: 'Electrónico',
           ADICIONAR: 'Adicionar',
+          ANULAR: 'Anular'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
