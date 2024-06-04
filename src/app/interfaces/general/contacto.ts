@@ -29,4 +29,6 @@ export interface Contacto {
   asesor_nombre_corto: string;
   plazo_pago_proveedor_id: number;
   plazo_pago_proveedor_nombre: string;
+  cliente: boolean;
+  proveedor: boolean
 }

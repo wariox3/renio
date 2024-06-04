@@ -287,6 +287,8 @@ export const locale = {
             PLAZOPAGO: 'Plazo de pago',
             LISTAPRECIO: 'Lista de precio',
             ASESOR: 'Asesor',
+            CLIENTE: 'Cliente',
+            PROVEEDOR: 'Proveedor'
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',

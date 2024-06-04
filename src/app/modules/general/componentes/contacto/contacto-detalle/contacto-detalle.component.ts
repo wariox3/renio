@@ -67,6 +67,8 @@ export default class ContactoDetalleComponent
     plazo_pago_proveedor_nombre: '',
     asesor_id: 0,
     asesor_nombre_corto: '',
+    cliente: false,
+    proveedor: false,
   };
 
   constructor(private contactoService: ContactoService) {

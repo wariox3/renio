@@ -201,6 +201,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
         plazo_pago: [1, Validators.compose([Validators.required])],
         plazo_pago_proveedor: [1],
         asesor: [null],
+        cliente: [false],
+        proveedor: [false],
       },
       {
         validator: MultiplesEmailValidator.validarCorreos,
@@ -297,6 +299,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
               regimen: respuesta.regimen_id,
               codigo_ciuu: respuesta.codigo_ciuu,
               barrio: respuesta.barrio,
+              cliente: respuesta.cliente,
+              proveedor: respuesta.proveedor
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
@@ -553,6 +557,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
           plazo_pago: respuesta.plazo_pago_id,
           plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
           asesor: respuesta.asesor_id,
+          cliente: respuesta.cliente,
+          proveedor: respuesta.proveedor
         });
 
         if (respuesta.tipo_persona_id === 1) {
