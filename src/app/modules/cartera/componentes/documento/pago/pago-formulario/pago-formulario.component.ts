@@ -64,6 +64,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   total: number = 0;
   totalCredito: number = 0;
   totalDebito: number = 0;
+  totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor(
@@ -327,8 +328,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumentoSeleccionado(documento: any) {
     const index = this.arrDocumentosSeleccionados.indexOf(documento);
     if (index !== -1) {
+      this.totalSeleccionado -= documento.total
       this.arrDocumentosSeleccionados.splice(index, 1);
     } else {
+      this.totalSeleccionado += documento.total
       this.arrDocumentosSeleccionados.push(documento);
     }
   }
@@ -385,8 +388,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
         (documento) => documento.id === item.id
       );
       if (index) {
+        this.totalSeleccionado -= item.total
         this.arrDocumentosSeleccionados.splice(index, 1);
       } else {
+        this.totalSeleccionado += item.total
         this.arrDocumentosSeleccionados.push(item);
       }
     });
