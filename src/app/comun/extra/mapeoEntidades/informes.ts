@@ -13,7 +13,8 @@ type Mapeo = {
       | 'FloatField'
       | 'CharField'
       | 'DateField'
-      | 'Booleano';
+      | 'Booleano'
+      | 'Fk';
   }[];
 };
 
@@ -63,7 +64,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ITEM_NOMBRE',
-      campoTipo: 'CharField',
+      campoTipo: 'Fk',
       visibleFiltro: true,
       visibleTabla: true,
       ordenable: false,
@@ -271,7 +272,7 @@ export const documentos: Mapeo = {
     },
     {
       nombre: 'ITEM_NOMBRE',
-      campoTipo: 'CharField',
+      campoTipo: 'Fk',
       visibleFiltro: false,
       visibleTabla: false,
       ordenable: false,
