@@ -19,7 +19,7 @@
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (parametrosUrl.parametroUrl | uppercase)
+          "MENU.FUNCIONALIDAD." + (parametrosUrl.parametro | uppercase)
             | translate
             | lowercase
         }}
@@ -27,7 +27,7 @@
       <ng-template #tituloDetalle>
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (parametrosUrl.parametroUrl | uppercase)
+          "MENU.FUNCIONALIDAD." + (parametrosUrl.parametro | uppercase)
             | translate
             | lowercase
         }}

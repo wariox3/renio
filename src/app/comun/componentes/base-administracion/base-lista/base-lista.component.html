@@ -13,9 +13,9 @@
   <div class="tabla">
     <app-card>
       <section card-titulo>
-        <ng-container *ngIf="parametrosUrl.parametroUrl; else tituloDetalle">
+        <ng-container *ngIf="parametrosUrl.parametro; else tituloDetalle">
           {{
-            "MENU.FUNCIONALIDAD." + (parametrosUrl.parametroUrl | uppercase)
+            "MENU.FUNCIONALIDAD." + (parametrosUrl.parametro | uppercase)
               | translate
           }}
         </ng-container>

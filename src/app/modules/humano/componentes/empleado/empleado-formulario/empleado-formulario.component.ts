@@ -184,6 +184,7 @@ export default class EmpleadoFormularioComponent
               queryParams: {
                 modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                parametro: this.activatedRoute.snapshot.queryParams['parametro'],
                 tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                 detalle: respuesta.id,
               },

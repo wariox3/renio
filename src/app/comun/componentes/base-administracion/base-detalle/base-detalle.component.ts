@@ -37,8 +37,8 @@ export class BaseDetalleComponent extends General implements OnInit {
   async loadComponente() {
 
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      if (parametros.parametroUrl) {
-        this.modelo = parametros.parametroUrl;
+      if (parametros.parametro) {
+        this.modelo = parametros.parametro;
       } else {
         this.modelo = localStorage.getItem('itemNombre')!;
       }

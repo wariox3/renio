@@ -34,8 +34,8 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   async loadComponente() {
     this.componenteDinamico.clear();
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      if (parametros.parametroUrl) {
-        this.modelo = parametros.parametroUrl;
+      if (parametros.parametro) {
+        this.modelo = parametros.parametro;
       } else {
         this.modelo = localStorage.getItem('itemNombre')!;
       }

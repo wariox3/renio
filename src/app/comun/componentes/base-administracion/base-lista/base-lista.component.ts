@@ -69,7 +69,7 @@ export class BaseListaComponent extends General implements OnInit {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
-      if (parametro.parametroUrl) {
+      if (parametro.parametro) {
         this.arrParametrosConsulta.filtros = [
           {
             propiedad: 'empleado',
