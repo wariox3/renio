@@ -155,8 +155,6 @@ export class BaseFiltroComponent extends General implements OnInit {
   }
 
   private crearControlFiltros(propiedades: any | null) {
-    console.log(propiedades);
-
     let valor1 = '';
     let valor2 = '';
     let propiedad = '';

@@ -337,9 +337,9 @@ export default class EgresoFormularioComponent
           impuesto: documento.impuesto,
           total: documento.total,
           pendiente: documento.pendiente,
-          cuenta: documento.documento_tipo_cuenta_cobrar_id,
-          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
-          naturaleza: 'C',
+          cuenta: documento.documento_tipo_cuenta_pagar_id,
+          cuenta_codigo: documento.documento_tipo_cuenta_pagar_cuenta_codigo,
+          naturaleza: 'D',
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -364,7 +364,7 @@ export default class EgresoFormularioComponent
     this.detalles.controls[index].patchValue({
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
-      naturaleza: 'D',
+      naturaleza: 'C',
     });
 
     this.formularioEgreso.markAsTouched();

@@ -104,11 +104,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioEgreso.controls['fecha'].touched &&
-              formularioEgreso.controls['fecha'].invalid,
+                formularioEgreso.controls['fecha'].touched &&
+                formularioEgreso.controls['fecha'].invalid,
               'is-valid':
-              formularioEgreso.controls['fecha'].touched &&
-              formularioEgreso.controls['fecha'].valid
+                formularioEgreso.controls['fecha'].touched &&
+                formularioEgreso.controls['fecha'].valid
             }"
           />
           <ng-container
@@ -122,9 +122,7 @@
           <div
             *ngIf="
               formularioEgreso.controls.fecha?.touched &&
-              formularioEgreso.controls.fecha?.hasError(
-                'fechaSuperiorNoValida'
-              )
+              formularioEgreso.controls.fecha?.hasError('fechaSuperiorNoValida')
             "
           >
             <div class="fv-plugins-message-container">
@@ -153,11 +151,11 @@
             rows="3"
             [ngClass]="{
               'is-invalid':
-              formularioEgreso.controls['comentario'].touched &&
-              formularioEgreso.controls['comentario'].invalid,
+                formularioEgreso.controls['comentario'].touched &&
+                formularioEgreso.controls['comentario'].invalid,
               'is-valid':
-              formularioEgreso.controls['comentario'].touched &&
-              formularioEgreso.controls['comentario'].valid
+                formularioEgreso.controls['comentario'].touched &&
+                formularioEgreso.controls['comentario'].valid
             }"
           ></textarea>
           <ng-container
@@ -293,13 +291,13 @@
                                 class="form-select"
                                 (change)="calcularTotales()"
                               >
-                                <option value="D">Débito</option>
                                 <option value="C">Crédito</option>
+                                <option value="D">Débito</option>
                               </select>
                             </ng-container>
                             <ng-template #selectDisabled>
                               <select disabled class="form-select">
-                                <option value="C">Crédito</option>
+                                <option value="D">Débito</option>
                               </select>
                             </ng-template>
                           </td>

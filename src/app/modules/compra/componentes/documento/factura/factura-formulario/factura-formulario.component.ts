@@ -103,8 +103,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
       if (
-        this.dataUrl.documento_clase === '2' ||
-        this.dataUrl.documento_clase === '3'
+        this.dataUrl.documento_clase === '6' ||
+        this.dataUrl.documento_clase === '7'
       ) {
         let orden_compra = this.formularioFactura.get('orden_compra');
         orden_compra?.clearValidators();
@@ -315,12 +315,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   detalle: respuesta.documento.id,
                 },
               });
-              // this.detalle = respuesta.documento.id;
-              // this.arrDetallesEliminado = [];
-              // this.calcularTotales();
-              // this.formularioFactura.markAsPristine();
-              // this.formularioFactura.markAsUntouched();
-              // this.changeDetectorRef.detectChanges();
             });
         }
       }
