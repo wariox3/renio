@@ -69,6 +69,7 @@ export default class ContactoDetalleComponent
     asesor_nombre_corto: '',
     cliente: false,
     proveedor: false,
+    empleado: false,
   };
 
   constructor(private contactoService: ContactoService) {

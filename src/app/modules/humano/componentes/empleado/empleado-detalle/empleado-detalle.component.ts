@@ -55,8 +55,7 @@ export default class EmpleadoDetalleComponent extends General implements OnInit 
     barrio: '',
     tipo_persona: 0,
     ciudad_nombre: 0,
-    asesor_nombre_corto: '',
-    empleado: true
+    asesor_nombre_corto: ''
   };
 
   constructor(private contactoService: ContactoService) {
