@@ -43,12 +43,12 @@
               {{ item[key] }}
             </td>
             <td class="w-45px">
-              <button
-                (click)="seleccionar(item)"
-                class="btn btn-primary btn-sm p-1"
-              >
-                seleccionar
-              </button>
+              <a
+              (click)="seleccionar(item)"
+              class="btn btn-primary btn-sm p-0"
+            >
+              <i class="ki-solid ki-check fs-1 p-0"></i>
+            </a>
             </td>
           </tr>
         </tbody>
