@@ -90,6 +90,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   visualizarCampoDocumentoReferencia = false;
   btnGuardarDisabled = false;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+  camposBuscarAvanzado = ['id', 'identificacion_abreviatura', 'numero_identificacion', 'nombre_corto']
 
   constructor(
     private formBuilder: FormBuilder,
@@ -440,7 +441,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.totalCantidad = 0;
     let totalBaseImpuesto = 0;
 
-    const detallesArray = this.formularioFactura.get('detalles') as FormArray;  
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
 

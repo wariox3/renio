@@ -13,48 +13,25 @@
   </div>
   <div class="modal-body">
     <app-base-filtro
-      [propiedades]="arrPropiedades"
       (emitirFiltros)="obtenerFiltros($event)"
+      [persistirFiltros]="false"
+      [modeloPersonalizado]="consultarModelo"
     ></app-base-filtro>
 
     <div class="table-responsive table-loading mt-5">
       <table
-        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
           <tr class="fw-bold fs-6 text-gray-800">
             <th
-              (click)="orderPor(item.nombre, i)"
-              *ngFor="let item of arrPropiedades; let i = index"
+              *ngFor="let campo of campoLista; let i = index"
               class="cursor-pointer user-select-none"
             >
               <div class="d-flex justify-content-between">
                 <span>
-                  {{ item.etiqueta }}
+                  {{ 'LISTAS'+'.'+consultarModelo+'.'+ campo | uppercase | translate  }}
                 </span>
-                <div class="d-flex">
-                  <ng-container
-                    *ngIf="
-                      this.ordenadoTabla === item.nombre.toLowerCase() ||
-                        this.ordenadoTabla === '-' + item.nombre.toLowerCase();
-                      else iconopordefecto
-                    "
-                  >
-                    <i
-                      class="ki-outline ki-arrow-up fs-2x"
-                      *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
-                    ></i>
-                    <i
-                      class="ki-outline ki-arrow-down fs-2x"
-                      *ngIf="
-                        this.ordenadoTabla === '-' + item.nombre.toLowerCase()
-                      "
-                    ></i>
-                  </ng-container>
-                  <ng-template #iconopordefecto>
-                    <i class="ki-outline ki-arrow-up-down fs-2x"></i>
-                  </ng-template>
-                </div>
               </div>
             </th>
             <th></th>
@@ -77,14 +54,5 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
-    >
-      Save
-    </button>
   </div>
 </ng-template>

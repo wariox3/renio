@@ -65,6 +65,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     texto: string;
     defecto?: boolean;
   }[][] = [];
+  @Input() modeloPersonalizado: string = '';
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
@@ -82,7 +83,12 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.tipo = localStorage.getItem('itemTipo')!;
+
+      if(this.modeloPersonalizado !== ''){
+        this.tipo = this.modeloPersonalizado
+      } else {
+        this.tipo = localStorage.getItem('itemTipo')!;
+      }
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${localStorage
         .getItem('itemNombre')

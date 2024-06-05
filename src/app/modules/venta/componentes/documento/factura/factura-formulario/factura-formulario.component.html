@@ -83,7 +83,9 @@
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
-              >
+                [campoLista]="camposBuscarAvanzado"
+                [campoFiltros]="camposBuscarAvanzado"
+                >
               </app-comun-buscar-avanzado>
             </button>
           </div>

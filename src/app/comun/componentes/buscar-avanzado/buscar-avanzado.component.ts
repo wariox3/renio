@@ -9,6 +9,8 @@ import { KeysPipe } from '@pipe/keys.pipe';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { TranslationModule } from '@modulos/i18n';
 import { TranslateModule } from '@ngx-translate/core';
+import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -27,10 +29,12 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class BuscarAvanzadoComponent extends General {
   closeResult = '';
-  arrPropiedades: Listafiltros[];
+  arrPropiedades: any;
   ordenadoTabla: string = '';
   arrItems: any[];
   @Input() consultarModelo = '';
+  @Input() campoLista: string[] = [];
+  @Input() campoFiltros: string[] = [];
   @Input() consultarTipo: 'Administrador' | 'Documento';
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
 
@@ -53,6 +57,16 @@ export class BuscarAvanzadoComponent extends General {
 
   abirModal(content: any) {
     this.consultarLista();
+    let posicion: keyof typeof mapeo = this.consultarModelo;
+
+    // this.arrPropiedades = mapeo[posicion].filter(
+    //   (propiedad) => propiedad.visibleFiltro === true
+    // );
+
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: mapeo[posicion] })
+    );
+
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -75,9 +89,6 @@ export class BuscarAvanzadoComponent extends General {
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';
-        let dataUrl = "JSON.parse(this.data);"
-        //this.arrParametrosConsulta['documento_tipo_id'] = dataUrl.documento_tipo
-        //this.arrParametrosConsulta['documento_clase_id'] = dataUrl.documento_clase
         break;
     }
 
@@ -88,10 +99,25 @@ export class BuscarAvanzadoComponent extends General {
         propiedades: any[];
       }>(baseUrl, this.arrParametrosConsulta)
       .subscribe((respuesta) => {
-        this.arrItems = respuesta.registros;
-        this.arrPropiedades = respuesta.propiedades;
+        // Mapea cada registro en respuesta.registros para crear un nuevo array this.arrItems
+        this.arrItems = respuesta.registros.map((registro) => {
+          // Inicializa un objeto vacío para almacenar los valores de los campos especificados
+          let valores: any = {};
+          // Itera sobre cada campo en this.campoLista
+          this.campoLista.forEach((campo) => {
+            // Si el campo existe en el registro, agrégalo al objeto valores
+            if (registro[campo] !== undefined) {
+              valores[campo] = registro[campo];
+            }
+          });
+          // Si el objeto valores no está vacío (tiene al menos un campo), devuélvelo
+          if (Object.keys(valores).length > 0) {
+            return valores;
+          }
+        });
       });
   }
+
   orderPor(nombre: string, i: number) {
     if (this.ordenadoTabla.charAt(0) == '-') {
       this.ordenadoTabla = nombre.toLowerCase();
