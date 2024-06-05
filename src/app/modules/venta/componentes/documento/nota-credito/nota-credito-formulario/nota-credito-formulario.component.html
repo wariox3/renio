@@ -70,7 +70,7 @@
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
-                >
+              >
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
@@ -97,8 +97,12 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3"
-        [ngClass]="dataUrl.documento_clase === '1'? 'col-12 col-3': 'col-12 col-md-6'">
+        <div
+          class="col-12 col-md-3"
+          [ngClass]="
+            dataUrl.documento_clase === '1' ? 'col-12 col-3' : 'col-12 col-md-6'
+          "
+        >
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
@@ -146,82 +150,82 @@
           </div>
         </div>
         <div
-        class="col-md-6 col-sm-12"
-        appAnimacionFadeInOut
-        ngbDropdown
-        #DocumentoReferenciaDropdown="ngbDropdown"
-      >
-        <label
-          class="form-label"
-          translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
-        ></label>
-        <div class="position-relative">
-          <input
-            type="text"
-            class="form-control"
-            ngbDropdownAnchor
-            formControlName="documento_referencia_numero"
-            (focus)="
-              consultarDocumentoReferencia($event);
-              DocumentoReferenciaDropdown.open()
-            "
-            (keyup)="consultarDocumentoReferencia($event)"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['documento_referencia_numero']
-                  .touched &&
-                formularioFactura.controls['documento_referencia_numero']
-                  .invalid,
-              'is-valid':
-                formularioFactura.controls['documento_referencia_numero']
-                  .touched &&
-                formularioFactura.controls['documento_referencia_numero']
-                  .valid
-            }"
-          />
-          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-            <i class="bi bi-search fs-2x"></i>
-          </div>
-        </div>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
+          class="col-md-6 col-sm-12"
+          appAnimacionFadeInOut
+          ngbDropdown
+          #DocumentoReferenciaDropdown="ngbDropdown"
         >
-          <ng-container *ngFor="let referencia of arrMovimientosClientes">
-            <button
-              type="button"
-              ngbDropdownItem
-              (click)="
-                modificarCampoFormulario('documento_referencia', referencia)
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="documento_referencia_numero"
+              (focus)="
+                consultarDocumentoReferencia($event);
+                DocumentoReferenciaDropdown.open()
               "
-            >
-              {{ referencia.numero }}
+              (keyup)="consultarDocumentoReferencia($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFactura.controls['documento_referencia_numero']
+                    .touched &&
+                  formularioFactura.controls['documento_referencia_numero']
+                    .invalid,
+                'is-valid':
+                  formularioFactura.controls['documento_referencia_numero']
+                    .touched &&
+                  formularioFactura.controls['documento_referencia_numero']
+                    .valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2x"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let referencia of arrMovimientosClientes">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="
+                  modificarCampoFormulario('documento_referencia', referencia)
+                "
+              >
+                {{ referencia.numero }}
+              </button>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'Documento'"
+                [consultarTipo]="'Documento'"
+                (emitirRegistroSeleccionado)="
+                  actualizarFormulario($event, 'documento_referencia')
+                "
+              >
+              </app-comun-buscar-avanzado>
             </button>
-          </ng-container>
-          <div class="dropdown-divider"></div>
-          <button type="button" ngbDropdownItem>
-            <app-comun-buscar-avanzado
-              [consultarModelo]="'Documento'"
-              [consultarTipo]="'Documento'"
-              (emitirRegistroSeleccionado)="
-                actualizarFormulario($event, 'documento_referencia')
-              "
-            >
-            </app-comun-buscar-avanzado>
-          </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioFactura.controls['documento_referencia']
+            }"
+          ></ng-container>
         </div>
-        <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message:
-              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '50',
-            control: formularioFactura.controls['documento_referencia']
-          }"
-        ></ng-container>
-      </div>
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
@@ -272,13 +276,29 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
+                <div class="d-flex justify-content-end my-3">
+                  <div class="btn-group contenedor-btn-group">
+                    <button
+                      (click)="agregarProductos()"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                    ></button>
+                    <button
+                      (click)="eliminarDocumento()"
+                      class="btn btn-sm btn-danger"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                    ></button>
+                  </div>
+                </div>
                 <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"
-                    class="table table-row-dashed table-row-gray-500"
+                    class="table table-bordered table-sm"
                   >
                     <thead>
-                      <tr>
+                      <tr class="bg-gray-100">
                         <th class="w-40px">Id</th>
                         <th
                           translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
@@ -311,12 +331,28 @@
                           class="w-100px text-center"
                           *ngIf="!estado_aprobado"
                         >
-                          <button
-                            (click)="agregarProductos()"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                          ></button>
+                          <label [for]="documentoDetalleSeleccionarTodos">
+                            <i
+                              class="cursor-pointer"
+                              [ngClass]="
+                                checkboxDocumentoDetalleSeleccionarTodos.checked
+                                  ? 'fa-solid fa-square-check text-danger fs-1'
+                                  : 'fa-regular fa-square text-gray-500 fs-1'
+                              "
+                            >
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                            <input
+                              class="d-none"
+                              type="checkbox"
+                              #checkboxDocumentoDetalleSeleccionarTodos
+                              [id]="documentoDetalleSeleccionarTodos"
+                              [checked]="documentoDetalleSeleccionarTodos"
+                              [value]="documentoDetalleSeleccionarTodos"
+                              (change)="detalleToggleSelectAll()"
+                            />
+                          </label>
                         </th>
                       </tr>
                     </thead>
@@ -459,11 +495,36 @@
                               [value]="detalle.value.total"
                             />
                           </td>
-                          <td class="text-center" *ngIf="!estado_aprobado">
-                            <i
+                          <td
+                            class="w-20px text-center"
+                            *ngIf="!estado_aprobado"
+                          >
+                            <!-- <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="eliminarProducto(i, detalle.value.id)"
-                            ></i>
+                              (click)="(i, detalle.value.id)"
+                            ></i> -->
+                            <label [for]="detalle.value.id">
+                              <i
+                                class="cursor-pointer"
+                                [ngClass]="
+                                  checked.checked
+                                    ? 'fa-solid fa-square-check text-danger fs-1'
+                                    : 'fa-regular fa-square text-gray-500 fs-1'
+                                "
+                              >
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                              </i>
+                              <input
+                                #checked
+                                class="d-none"
+                                type="checkbox"
+                                [id]="detalle.value.id"
+                                [value]="detalle.value.id"
+                                (change)="agregarRegistrosEliminar(i, detalle.value.id)"
+                                [checked]="detalle.value.seleccionado"
+                              />
+                            </label>
                           </td>
                         </tr>
                       </ng-container>

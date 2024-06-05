@@ -84,6 +84,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
+  documentoDetalleSeleccionarTodos = false;
+  arrRegistrosEliminar: number[] = [];
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -349,6 +351,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuestos: this.formBuilder.array([]),
       impuestos_eliminados: this.formBuilder.array([]),
       id: [null],
+      seleccionado: [false],
     });
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -880,6 +883,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               impuestos: this.formBuilder.array([]),
               impuestos_eliminados: this.formBuilder.array([]),
               id: [detalle.id],
+              seleccionado: [false],
             });
             this.detalles.push(detalleFormGroup);
 
@@ -934,4 +938,60 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
+
+  detalleToggleSelectAll() {
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    detallesArray.controls.forEach((detalleControl) => {
+      detalleControl
+        .get('seleccionado')
+        ?.setValue(!detalleControl.get('seleccionado')?.value);
+      this.changeDetectorRef.detectChanges();
+    });
+    this.documentoDetalleSeleccionarTodos =
+      !this.documentoDetalleSeleccionarTodos;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  eliminarDocumento() {
+    this.formularioFactura?.markAsDirty();
+    this.formularioFactura?.markAsTouched();
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+
+    // Iterar de manera inversa
+    for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
+      const detalleControl = detallesArray.controls[index];
+      const seleccionado = detalleControl.get('seleccionado')?.value;
+      if (seleccionado) {
+        const id = detalleControl.get('id')?.value;
+        if (id === null) {
+          this.detalles.removeAt(index);
+        } else {
+          this.arrDetallesEliminado.push(id);
+          this.detalles.removeAt(index);
+        }
+      }
+    }
+
+    this.calcularTotales();
+     this.documentoDetalleSeleccionarTodos =
+       !this.documentoDetalleSeleccionarTodos;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarRegistrosEliminar(index: number, id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    detalleFormGroup.get('seleccionado')?.patchValue(true);
+    const posicion = this.arrRegistrosEliminar.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
+    if (posicion !== -1) {
+      this.arrRegistrosEliminar.splice(posicion, 1);
+    } else {
+      // Si el registro no está en el array, lo agrega
+      this.arrRegistrosEliminar.push(posicion);
+    }
+  }
+
 }
