@@ -721,9 +721,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_proveedor_id);
       if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
+        this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
         const fechaActual = new Date(); // Obtener la fecha actual
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
@@ -740,8 +740,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
 
       if (
-        this.parametrosUrl.documento_clase == 2 ||
-        this.parametrosUrl.documento_clase == 3
+        this.parametrosUrl.documento_clase == 6 ||
+        this.parametrosUrl.documento_clase == 7
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();

@@ -364,7 +364,7 @@ export default class EgresoFormularioComponent
     this.detalles.controls[index].patchValue({
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
-      naturaleza: 'C',
+      naturaleza: 'D',
     });
 
     this.formularioEgreso.markAsTouched();
