@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -202,7 +201,6 @@ export default class EmpleadoFormularioComponent
                   modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                   tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
                   detalle: respuesta.id,
                   accion: 'detalle',
                 },

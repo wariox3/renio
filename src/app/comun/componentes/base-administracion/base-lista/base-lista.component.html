@@ -11,7 +11,21 @@
     </app-card>
   </div>
   <div class="tabla">
-    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+    <app-card>
+      <section card-titulo>
+        <ng-container *ngIf="parametrosUrl.parametroUrl; else tituloDetalle">
+          {{
+            "MENU.FUNCIONALIDAD." + (parametrosUrl.parametroUrl | uppercase)
+              | translate
+          }}
+        </ng-container>
+        <ng-template #tituloDetalle>
+          {{
+            "MENU.FUNCIONALIDAD." + (modelo | uppercase)
+              | translate
+          }}
+        </ng-template>
+      </section>
       <section card-body>
         <app-comun-tabla
           [modelo]="modelo"

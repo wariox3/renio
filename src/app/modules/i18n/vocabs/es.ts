@@ -290,7 +290,8 @@ export const locale = {
             LISTAPRECIO: 'Lista de precio',
             ASESOR: 'Asesor',
             CLIENTE: 'Cliente',
-            PROVEEDOR: 'Proveedor'
+            PROVEEDOR: 'Proveedor',
+            EMPLEADO: 'Empleado'
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',

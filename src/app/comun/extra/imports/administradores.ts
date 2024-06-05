@@ -81,7 +81,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'contacto',
     detalle: async () =>
       await import(
-        '../../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
+        '../../../modules/humano/componentes/empleado/empleado-detalle/empleado-detalle.component'
       ),
     formulario: async () =>
       await import(

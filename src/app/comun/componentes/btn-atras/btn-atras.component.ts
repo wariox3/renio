@@ -30,11 +30,21 @@ export class BtnAtrasComponent extends General {
     switch (tipo) {
       case 'administrador':
         this.activatedRoute.queryParams.subscribe((parametro) => {
-          this.router.navigate([`/administrador/lista`], {
-            queryParams: {
-              modelo: parametro.modelo,
-            },
-          });
+          if(parametro.parametroUrl){
+            this.router.navigate([`/administrador/lista`], {
+              queryParams: {
+                modelo: parametro.modelo,
+                parametroUrl: parametro.parametroUrl
+              },
+            });
+          } else {
+            this.router.navigate([`/administrador/lista`], {
+              queryParams: {
+                modelo: parametro.modelo
+              },
+            });
+          }
+
         });
         break;
       case 'documento':

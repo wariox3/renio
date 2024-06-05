@@ -38,7 +38,7 @@ export class General {
         this.changeDetectorRef.detectChanges;
       }
     );
-    this.changeDetectorRef.detectChanges;
+    this.changeDetectorRef.detectChanges;    
     //cambiosQueryParams.unsubscribe();
   }
 }
