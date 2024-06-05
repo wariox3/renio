@@ -138,6 +138,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
+          children: [
+            {
+              nombre: 'EMPLEADO',
+              tipo: 'Administrador',
+              data: { modelo: 'Contacto', parametroUrl: 'Empleado' },
+            }
+          ],
         },
         {
           nombre: 'utilidad',

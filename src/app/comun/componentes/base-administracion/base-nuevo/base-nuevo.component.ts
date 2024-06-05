@@ -33,7 +33,13 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    this.modelo = localStorage.getItem('itemNombre')!;
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+      if (parametros.parametroUrl) {
+        this.modelo = parametros.parametroUrl;
+      } else {
+        this.modelo = localStorage.getItem('itemNombre')!;
+      }
+    });
     let posicion: keyof typeof Componetes = this.modelo;
     let componete = await (await Componetes[posicion].formulario()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);

@@ -102,7 +102,7 @@ export class BaseListaComponent extends General implements OnInit {
   obtenerFiltros(arrfiltros: any[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges();
     } else {
       this.arrParametrosConsulta.filtros = [];
     }
@@ -150,10 +150,10 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   navegarNuevo() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
+    this.activatedRoute.queryParams.subscribe((parametros) => {
       this.router.navigate([`/administrador/nuevo`], {
         queryParams: {
-          ...parametro,
+          ...parametros,
         },
       });
     });
@@ -182,16 +182,13 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    let modelo = localStorage.getItem('itemTipo')!
-    this.descargarArchivosService.descargarExcelAdminsitrador(
-      modelo,
-      {
-        ...this.arrParametrosConsulta,
-        ...{
-          limite: 5000,
-        },
-      }
-    );
+    let modelo = localStorage.getItem('itemTipo')!;
+    this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
+      ...this.arrParametrosConsulta,
+      ...{
+        limite: 5000,
+      },
+    });
   }
 
   // imprimir() {

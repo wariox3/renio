@@ -76,4 +76,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
       ),
   },
+  Empleado: {
+    modulo: 'general',
+    modelo: 'contacto',
+    detalle: async () =>
+      await import(
+        '../../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
+      ),
+  },
 };

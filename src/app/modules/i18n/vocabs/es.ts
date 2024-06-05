@@ -48,6 +48,7 @@ export const locale = {
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
+        EMPLEADO: 'Empleado'
       },
     },
     FORMULARIOS: {
@@ -544,6 +545,27 @@ export const locale = {
           FECHA: 'Fecha',
           DESCRIPCION: 'Descripción',
         }
+      },
+      EMPLEADO: {
+        ID: 'ID',
+        IDENTIFICACION_ABREVIATURA: 'Tipo',
+        NUMERO_IDENTIFICACION: 'Número de Identificación',
+        DIGITO_VERIFICACION: 'Dígito de Verificación',
+        NOMBRE_CORTO: 'Nombre',
+        NOMBRE1: 'Nombre 1',
+        NOMBRE2: 'Nombre 2',
+        APELLIDO1: 'Apellido 1',
+        APELLIDO2: 'Apellido 2',
+        DIRECCION: 'Dirección',
+        CIUDAD_NOMBRE: 'Ciudad',
+        CODIGO_POSTAL: 'Código Postal',
+        TELEFONO: 'Teléfono',
+        CELULAR: 'Celular',
+        CORREO: 'Correo',
+        TIPO_PERSONA: 'Tipo de Persona',
+        REGIMEN_NOMBRE: 'Régimen',
+        BARRIO: 'Barrio',
+        CODIGO_CIUU: 'CIUU',
       },
     },
     TEMA: {
