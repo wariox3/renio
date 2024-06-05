@@ -170,7 +170,7 @@ export default class EgresoFormularioComponent
       }
       this.changeDetectorRef.detectChanges();
     });
-    this.total += this.totalCredito - this.totalDebito;
+    this.total += this.totalDebito - this.totalCredito;
     this.formularioEgreso.patchValue({
       total: this.total,
     });
