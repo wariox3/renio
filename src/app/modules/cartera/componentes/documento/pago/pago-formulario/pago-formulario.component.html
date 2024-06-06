@@ -368,14 +368,18 @@
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
                       ></td>
-                      <td class="text-end">{{ totalCredito | currency : "$" }}</td>
+                      <td class="text-end">
+                        {{ totalCredito | currency : "$" }}
+                      </td>
                     </tr>
                     <tr>
                       <td
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
                       ></td>
-                      <td class="text-end">{{ totalDebito | currency : "$" }}</td>
+                      <td class="text-end">
+                        {{ totalDebito | currency : "$" }}
+                      </td>
                     </tr>
                     <tr>
                       <td
@@ -437,17 +441,21 @@
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
     ></app-base-filtro>
-    <div class="d-flex justify-content-between my-3">
-      <div class="d-flex align-items-center">
+    <div class="row justify-content-between my-3">
+      <div class="col d-flex align-items-center">
         <p class="text-gray-400 fw-bolder me-1">Recaudo</p>
-        <p class="text-gray-700 fs-1">{{totalSeleccionado | number}}</p>
+        <p class="text-gray-700 fs-1">{{ totalSeleccionado | number }}</p>
       </div>
-      <button
-        (click)="agregarDocumentosPago()"
-        class="btn btn-sm btn-primary"
-        type="button"
-        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
-      ></button>
+      <div class="col offset-md-4">
+        <div class="float-end">
+          <button
+            (click)="agregarDocumentosPago()"
+            class="btn btn-sm btn-primary"
+            type="button"
+            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
+          ></button>
+        </div>
+      </div>
     </div>
     <div class="table-responsive table-loading mt-5">
       <table
