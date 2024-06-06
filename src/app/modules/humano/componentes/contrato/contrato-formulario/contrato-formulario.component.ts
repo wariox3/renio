@@ -12,6 +12,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { TranslationModule } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -50,7 +51,8 @@ export default class ContratoFormularioComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private contratoService: ContratoService
   ) {
     super();
   }
@@ -69,8 +71,8 @@ export default class ContratoFormularioComponent
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
     this.formularioContrato = this.formBuilder.group({
       empleado: ['', Validators.compose([Validators.required])],
-      empleadoNombre: [''],
-      fechaDesde: [
+      empleado_nombre: [''],
+      fecha_desde: [
         fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
@@ -79,7 +81,7 @@ export default class ContratoFormularioComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      fechaHasta: [
+      fecha_hasta: [
         fechaVencimientoInicial,
         Validators.compose([
           Validators.required,
@@ -91,9 +93,52 @@ export default class ContratoFormularioComponent
     });
   }
 
-  enviarFormulario() {}
-
-  consultarInformacion() {}
+  enviarFormulario() {
+    if (this.formularioContrato.valid) {
+      if (this.detalle) {
+        this.contratoService
+          .actualizarDatosContacto(this.detalle, this.formularioContrato.value)
+          .subscribe((respuesta) => {
+            this.formularioContrato.patchValue({
+              empleado: respuesta.contacto_id,
+              empleadoNombre: respuesta.contado_nombre_corto,
+              fecha_desde: respuesta.fecha_desde,
+              fecha_hasta: respuesta.fecha_hasta
+            });
+            this.alertaService.mensajaExitoso('Se actualizó la información');
+            this.router.navigate(['/administrador/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                detalle: respuesta.id,
+              },
+            });
+            this.changeDetectorRef.detectChanges();
+          });
+      } else {
+        this.contratoService
+          .guardarContrato(this.formularioContrato.value)
+          .pipe(
+            tap((respuesta: any) => {
+              this.alertaService.mensajaExitoso('Se guardó la información');
+              this.router.navigate(['/administrador/detalle'], {
+                queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  detalle: respuesta.id,
+                  accion: 'detalle',
+                },
+              });
+            })
+          )
+          .subscribe();
+      }
+    } else {
+      this.formularioContrato.markAllAsTouched();
+    }
+  }
 
   consultarEmpleado(event: any) {
     let arrFiltros = {
@@ -136,7 +181,7 @@ export default class ContratoFormularioComponent
     if (campo === 'empleado') {
       this.formularioContrato.get(campo)?.setValue(dato.id);
       this.formularioContrato
-        .get('empleadoNombre')
+        .get('empleado_nombre')
         ?.setValue(dato.nombre_corto);
     }
 
@@ -151,7 +196,7 @@ export default class ContratoFormularioComponent
     if (campo === 'empleado') {
       this.formularioContrato.get(campo)?.setValue(dato.contacto_id);
       this.formularioContrato
-        .get('empleadoNombre')
+        .get('empleado_nombre')
         ?.setValue(dato.contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();

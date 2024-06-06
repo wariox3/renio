@@ -42,7 +42,7 @@
               type="text"
               class="form-control"
               ngbDropdownAnchor
-              formControlName="empleadoNombre"
+              formControlName="empleado_nombre"
               (focus)="consultarEmpleado($event); ClienteDropdown.open()"
               (keyup)="consultarEmpleado($event)"
               [ngClass]="{
@@ -104,17 +104,17 @@
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHADESDE"
           ></label>
           <input
-            formControlName="fechaDesde"
+            formControlName="fecha_desde"
             class="form-control"
             type="date"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioContrato.controls['fechaDesde'].touched &&
-              formularioContrato.controls['fechaDesde'].invalid,
+              formularioContrato.controls['fecha_desde'].touched &&
+              formularioContrato.controls['fecha_desde'].invalid,
               'is-valid':
-              formularioContrato.controls['fechaDesde'].touched &&
-              formularioContrato.controls['fechaDesde'].valid
+              formularioContrato.controls['fecha_desde'].touched &&
+              formularioContrato.controls['fecha_desde'].valid
             }"
           />
           <ng-container
@@ -122,7 +122,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['fechaDesde']
+              control: formularioContrato.controls['fecha_desde']
             }"
           ></ng-container>
           <div
@@ -150,17 +150,17 @@
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"
           ></label>
           <input
-            formControlName="fechaHasta"
+            formControlName="fecha_hasta"
             class="form-control"
             type="date"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioContrato.controls['fechaHasta'].touched &&
-              formularioContrato.controls['fechaHasta'].invalid,
+              formularioContrato.controls['fecha_hasta'].touched &&
+              formularioContrato.controls['fecha_hasta'].invalid,
               'is-valid':
-              formularioContrato.controls['fechaHasta'].touched &&
-              formularioContrato.controls['fechaHasta'].valid
+              formularioContrato.controls['fecha_hasta'].touched &&
+              formularioContrato.controls['fecha_hasta'].valid
             }"
           />
           <ng-container
@@ -168,7 +168,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['fechaHasta']
+              control: formularioContrato.controls['fecha_hasta']
             }"
           ></ng-container>
           <div

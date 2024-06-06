@@ -93,7 +93,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'HumContrato',
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/empleado/empleado-detalle/empleado-detalle.component'
+        '../../../modules/humano/componentes/contrato/contrato-detalle/contrato-detalle.component'
       ),
     formulario: async () =>
       await import(
