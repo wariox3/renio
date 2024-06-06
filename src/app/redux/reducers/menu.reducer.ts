@@ -143,7 +143,12 @@ export const initialState: Menu = {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
               data: { modelo: 'Contacto', parametro: 'Empleado' },
-            }
+            },
+            {
+              nombre: 'CONTRATO',
+              tipo: 'Administrador',
+              data: { modelo: 'HumContrato' },
+            },
           ],
         },
         {
