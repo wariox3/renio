@@ -221,6 +221,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
       );
+      this.totalSeleccionado = 0;
       this.arrDocumentosSeleccionados = [];
       this.agregarDocumentoSeleccionarTodos = false;
       this.modalService.open(content, {
