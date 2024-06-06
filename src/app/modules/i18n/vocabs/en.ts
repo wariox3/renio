@@ -569,7 +569,7 @@ export const locale = {
       LOGIN: 'Login',
       Mensaje1: 'Build An Outstanding Solutions',
       PRUEBAREDDOC: 'Prueba REDDOC',
-      AHORRO1: 'Save thousands to millions of bucks by using single tool',
+      AHORRO1: 'Uniting every piece of your business, efficiency, precision and growth with our ERP',
       AHORRO2: 'for different amazing and great useful admin',
       MENSAJE1: 'Build an exceptional solution with',
       MENSAJE2: 'the best tool in the world',
