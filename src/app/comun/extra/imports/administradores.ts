@@ -77,7 +77,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
       ),
   },
   Empleado: {
-    modulo: 'general',
+    modulo: 'humano',
     modelo: 'contacto',
     detalle: async () =>
       await import(
@@ -86,6 +86,18 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     formulario: async () =>
       await import(
         '../../../modules/humano/componentes/empleado/empleado-formulario/empleado-formulario.component'
+      ),
+  },
+  HumContrato: {
+    modulo: 'humano',
+    modelo: 'HumContrato',
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/empleado/empleado-detalle/empleado-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/contrato/contrato-formulario/contrato-formulario.component'
       ),
   },
 };

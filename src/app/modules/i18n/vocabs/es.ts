@@ -49,7 +49,8 @@ export const locale = {
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
         EMPLEADO: 'Empleado',
-        CONTRATO: 'Contrato'
+        CONTRATO: 'Contrato',
+        HUMCONTRATO: 'Contrato'
       },
     },
     FORMULARIOS: {
@@ -266,6 +267,7 @@ export const locale = {
           FECHAHASTA: 'Fecha hasta',
           BARRIO: 'Barrio',
           SELECCIONAR: 'Seleccionar',
+          EMPLEADO: 'Empleado'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -305,6 +307,10 @@ export const locale = {
             TIPO: 'Tipo',
             FECHAVENCE: 'Fecha vence',
           },
+          CONTRATO: {
+            FECHADESDE: 'Fecha desde',
+            FECHAHASTA: 'Fecha hasta',
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',

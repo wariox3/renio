@@ -49,7 +49,8 @@ export const locale = {
         VENTASVENDEDOR: 'Sales by seller',
         CUENTASCOBRAR: 'Accounts receivable',
         EMPLEADO: 'Employee',
-        CONTRATO: 'Contract'
+        CONTRATO: 'Contract',
+        HUMCONTRATO: 'Contract'
       },
     },
     FORMULARIOS: {
@@ -265,6 +266,7 @@ export const locale = {
           BARRIO: 'Neighborhood',
           SELECCIONAR: 'Select',
           FECHA: 'Date',
+          EMPLEADO: 'Employee'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -301,6 +303,10 @@ export const locale = {
             TIPO: 'Type',
             FECHAVENCE: 'Date expires',
           },
+          CONTRATO: {
+            FECHADESDE: 'Date from',
+            FECHAHASTA: 'Date to',
+          }
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
