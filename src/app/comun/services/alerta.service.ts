@@ -142,7 +142,7 @@ export class AlertaService {
     return await Swal.fire({
       html: text,
       icon: 'success',
-      timer: 2000,
+      timer: 5000,
       timerProgressBar: true,
       showConfirmButton: false,
       allowOutsideClick: false,
