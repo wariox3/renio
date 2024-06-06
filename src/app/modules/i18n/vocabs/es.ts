@@ -601,7 +601,6 @@ export const locale = {
       PRUEBAREDDOC: 'Prueba REDDOC',
       AHORRO1:
         'Uniendo cada pieza de tu negocio, eficiencia, precisión y crecimiento con nuestro ERP',
-      AHORRO2: 'Para diferentes administradores increíbles y muy  útiles',
       MENSAJE1: 'Descubre la revolución en facturación electrónica',
       MENSAJE2: 'con reddoc',
       EMPRESARIO: 'Empresario',
