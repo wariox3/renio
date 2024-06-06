@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmpresaService {
-
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {}
 
   consultarDetalle(id: string) {
     return this.httpService.get<any>(`general/empresa/${id}/`);
@@ -17,7 +16,7 @@ export class EmpresaService {
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.httpService.post<{ cargar: boolean, imagen: string }>(
+    return this.httpService.post<{ cargar: boolean; imagen: string }>(
       `general/empresa/cargar-logo/`,
       {
         empresa_id,
@@ -35,20 +34,33 @@ export class EmpresaService {
     });
   }
 
-  activarEmpresa(empresa_id: Number | string,  data: any){
-    return this.httpService.post('general/empresa/activar/', {
+  reddocActivar(empresa_id: Number | string, data: any) {
+    return this.httpService.post('general/empresa/rededoc_activar/', {
       empresa_id,
-      ...data
-    })
+      ...data,
+    });
   }
 
-  obtenerConfiguracionEmpresa(empresa_id: Number | string){
-    return this.httpService.get(`general/configuracion/${empresa_id}/`)
+  reddocDetalle(empresa_id: Number | string) {
+    return this.httpService.post('general/empresa/rededoc_detalle/', {
+      empresa_id,
+    });
   }
 
-  configuracionEmpresa(empresa_id: Number | string,  data: any){
+  reddocActualizar(empresa_id: Number | string, data: any) {
+    return this.httpService.post('general/empresa/rededoc_actualizar/', {
+      empresa_id,
+      ...data,
+    });
+  }
+
+  obtenerConfiguracionEmpresa(empresa_id: Number | string) {
+    return this.httpService.get(`general/configuracion/${empresa_id}/`);
+  }
+
+  configuracionEmpresa(empresa_id: Number | string, data: any) {
     return this.httpService.put(`general/configuracion/${empresa_id}/`, {
       ...data,
-    })
+    });
   }
 }

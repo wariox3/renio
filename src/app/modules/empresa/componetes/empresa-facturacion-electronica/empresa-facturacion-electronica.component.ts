@@ -13,7 +13,11 @@ import { HttpService } from '@comun/services/http.service';
 import { Resolucion } from '@interfaces/general/resolucion';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbModalModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { empresaActualizacionRededocIdAction } from '@redux/actions/empresa.actions';
 import {
@@ -32,6 +36,7 @@ import { asyncScheduler, switchMap, tap, throttleTime } from 'rxjs';
     TranslateModule,
     CardComponent,
     NgbDropdownModule,
+    NgbModalModule,
     ResolucionFormularioComponent,
   ],
   templateUrl: './empresa-facturacion-electronica.html',
@@ -41,6 +46,7 @@ export class EmpresaFacturacionElectronicaComponent
   implements OnInit
 {
   formularioDian: FormGroup;
+  formularioDianEditar: FormGroup;
   rededoc_id: string;
   empresa_id: string;
   arrResoluciones: any[] = [];
@@ -91,6 +97,17 @@ export class EmpresaFacturacionElectronicaComponent
         null,
         Validators.compose([Validators.required, Validators.email]),
       ],
+      copia_correo_facturacion_electronica: [false],
+    });
+  }
+
+  inicializFormularioDianEditar() {
+    this.formularioDianEditar = this.formBuilder.group({
+      correo_facturacion_electronica: [
+        null,
+        Validators.compose([Validators.required, Validators.email]),
+      ],
+      copia_correo_facturacion_electronica: [false],
     });
   }
 
@@ -107,7 +124,7 @@ export class EmpresaFacturacionElectronicaComponent
   activarEmpresa() {
     if (this.formularioDian.valid) {
       this.empresaService
-        .activarEmpresa(this.empresa_id, this.formularioDian.value)
+        .reddocActivar(this.empresa_id, this.formularioDian.value)
         .pipe(
           switchMap(() =>
             this.empresaService.consultarDetalle(this.empresa_id)
@@ -176,5 +193,45 @@ export class EmpresaFacturacionElectronicaComponent
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
+  }
+
+  abirModalEditar(content: any) {
+    this.inicializFormularioDianEditar();
+    this.consultarInformacion();
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  consultarInformacion() {
+    this.empresaService
+      .reddocDetalle(this.empresa_id)
+      .subscribe((respuesta: any) => {
+        this.formularioDianEditar.patchValue({
+          correo_facturacion_electronica:
+            respuesta.cuenta.correoFacturacionElectronica,
+          copia_correo_facturacion_electronica:
+            respuesta.cuenta.copiaCorreoFacturacionElectronica,
+        });
+      });
+  }
+
+  editarEmpresa() {
+    if (this.formularioDianEditar.valid) {
+      this.empresaService
+        .reddocActualizar(this.empresa_id, this.formularioDianEditar.value)
+        .subscribe((respuesta) => {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+            )
+          );
+          this.modalService.dismissAll();
+        });
+    } else {
+      this.formularioDianEditar.markAsTouched;
+    }
   }
 }
