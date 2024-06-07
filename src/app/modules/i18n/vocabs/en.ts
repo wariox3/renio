@@ -559,7 +559,7 @@ export const locale = {
         'From guides and video tutorials, to live demos and examples to get you started.',
       WHATSAPPTEXTO: "Need help? Write to us here and we'll assist you",
     },
-    LANGINGPAGE: {
+    LANDINGPAGE: {
       INICIO: 'Home',
       COMOFUNCIONA: 'How it Works',
       ARCHIVOS: 'Achievements',

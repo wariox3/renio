@@ -63,6 +63,7 @@ export class LandingpageComponent implements OnInit {
   langs = languages;
   formularioContacto: FormGroup;
   fechaActual: Date = new Date();
+  selectedPlan: string = 'facturacion';
 
   constructor(
     private activatedRoute: ActivatedRoute,
