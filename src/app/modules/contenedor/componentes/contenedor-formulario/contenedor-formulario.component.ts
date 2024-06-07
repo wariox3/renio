@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
