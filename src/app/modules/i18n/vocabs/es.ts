@@ -709,7 +709,7 @@ export const locale = {
       CONTABILIDAD: 'Contabilidad',
       COMPRA: 'Compras',
       FACTURACION: 'Facturación',
-      NOMINA: 'Nomina',
+      NOMINA: 'Nómina',
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
     },
