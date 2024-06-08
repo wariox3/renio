@@ -406,13 +406,13 @@
         }"
       />
       <ng-container
-      [ngTemplateOutlet]="formError"
-      [ngTemplateOutletContext]="{
-        validation: 'required',
-        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-        control: formularioContenedor.controls['telefono']
-      }"
-    ></ng-container>
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioContenedor.controls['telefono']
+        }"
+      ></ng-container>
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
@@ -428,7 +428,7 @@
     <div class="col-md-12 col-sm-12">
       <label class="form-label required">Planes </label>
       <div
-        class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9"
+        class="row row-cols-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4 g-9"
         data-kt-buttons="true"
         data-kt-buttons-target="[data-kt-button='true']"
         data-kt-initialized="1"
@@ -454,7 +454,38 @@
             </span>
             <span class="ms-5">
               <span class="fs-4 fw-bold text-gray-800 d-block">
-                {{ plan.nombre }} - ${{ plan.precio | number:'1.0-0' }}
+                {{ plan.nombre }}
+              </span>
+              <span class="fs-4 fw-bold text-gray-800 d-block">
+                ${{ plan.precio | number : "1.0-0" }}
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-10">
+    <div class="col-md-12 col-sm-12">
+      <label class="form-label required">Información plan </label>
+      <div
+        class="row row-cols-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4 g-9"
+        data-kt-buttons="true"
+        data-kt-buttons-target="[data-kt-button='true']"
+        data-kt-initialized="1"
+      >
+        <div class="col">
+          <label
+            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
+            data-kt-button="true"
+          >
+            <span
+              class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1"
+            >
+            </span>
+            <span class="ms-5" *ngFor="let item of informacionPlan">
+              <span class="fs-4 fw-bold text-gray-800 d-block">
+                {{ item | translate }}
               </span>
             </span>
           </label>

@@ -40,6 +40,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   planSeleccionado: Number = 2;
+  informacionPlan: any = '';
   arrPlanes: Plan[] = [];
   arrIdentificacion: any[];
   arrTipoPersona: any[];
@@ -74,6 +75,8 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrPlanes = respuesta[1];
+      let posicion: keyof typeof this.contenedorService.informacionPlan = 2;
+      this.informacionPlan = this.contenedorService.informacionPlan[posicion]
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -225,8 +228,10 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     }
   }
 
-  seleccionarPlan(plan_id: Number) {
+  seleccionarPlan(plan_id: any) {
     this.planSeleccionado = plan_id;
+    let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
+    this.informacionPlan = this.contenedorService.informacionPlan[posicion]
     this.changeDetectorRef.detectChanges();
   }
 

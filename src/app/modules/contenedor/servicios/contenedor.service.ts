@@ -35,7 +35,7 @@ export class ContenedorService {
       `${environment.URL_API_MUUP}/contenedor/contenedor/`,
       {
         ...data,
-        usuario_id
+        usuario_id,
       }
     );
   }
@@ -137,7 +137,6 @@ export class ContenedorService {
     );
   }
 
-
   listaRegimen() {
     return this.http.post<Regimen[]>(
       `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
@@ -165,7 +164,6 @@ export class ContenedorService {
       }
     );
   }
-
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post<{ cargar: boolean }>(
@@ -197,5 +195,77 @@ export class ContenedorService {
     );
   }
 
-  
+  informacionPlan: any = {
+    1: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO10",
+      "LANDINGPAGE.PRECIO1USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO10",
+      "LANDINGPAGE.SOPORTETECNICO"
+    ],
+    2: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO10",
+      "LANDINGPAGE.PRECIO1USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO10",
+      "LANDINGPAGE.SOPORTETECNICO",
+      "LANDINGPAGE.CONTABILIDAD",
+      "LANDINGPAGE.COMPRA",
+      "LANDINGPAGE.FACTURACION",
+      "LANDINGPAGE.TESORERIA",
+      "LANDINGPAGE.CARTERA"
+    ],
+    3: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO100",
+      "LANDINGPAGE.PRECIO2USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO50",
+      "LANDINGPAGE.SOPORTETECNICO"
+    ],
+    4: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO100",
+      "LANDINGPAGE.PRECIO2USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO50",
+      "LANDINGPAGE.SOPORTETECNICO",
+      "LANDINGPAGE.CONTABILIDAD",
+      "LANDINGPAGE.COMPRA",
+      "LANDINGPAGE.FACTURACION",
+      "LANDINGPAGE.NOMINA",
+      "LANDINGPAGE.TESORERIA",
+      "LANDINGPAGE.CARTERA"
+    ],
+    5: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO500",
+      "LANDINGPAGE.PRECIO3USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO200",
+      "LANDINGPAGE.SOPORTETECNICO"
+    ],
+    6: [
+      "LANDINGPAGE.CANTIDADDOCUMENTO500",
+      "LANDINGPAGE.PRECIO3USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO200",
+      "LANDINGPAGE.SOPORTETECNICO",
+      "LANDINGPAGE.CONTABILIDAD",
+      "LANDINGPAGE.COMPRA",
+      "LANDINGPAGE.FACTURACION",
+      "LANDINGPAGE.NOMINA",
+      "LANDINGPAGE.TESORERIA",
+      "LANDINGPAGE.CARTERA"
+    ],
+    7: [
+      "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO",
+      "LANDINGPAGE.PRECIO8USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO500",
+      "LANDINGPAGE.SOPORTETECNICO"
+    ],
+    8: [
+      "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO",
+      "LANDINGPAGE.PRECIO8USUARIOS",
+      "LANDINGPAGE.INGRESOMAXIMO500",
+      "LANDINGPAGE.SOPORTETECNICO",
+      "LANDINGPAGE.CONTABILIDAD",
+      "LANDINGPAGE.COMPRA",
+      "LANDINGPAGE.FACTURACION",
+      "LANDINGPAGE.NOMINA",
+      "LANDINGPAGE.TESORERIA",
+      "LANDINGPAGE.CARTERA"
+    ],
+  };
 }
