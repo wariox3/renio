@@ -11,6 +11,17 @@
   animation-duration: 3s;
 }
 
+@media only screen and (max-width: 960px) {
+  .custom-responsive-sm-precio{
+    display: flex;
+    flex-direction: column;
+
+    & > *{
+      width: 100%;
+    }
+  }
+}
+
 @keyframes fadeDownAnimation {
   from {
     opacity: 0;
