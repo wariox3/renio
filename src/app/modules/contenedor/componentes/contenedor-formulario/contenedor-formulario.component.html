@@ -467,28 +467,27 @@
   </div>
   <div class="row mb-10">
     <div class="col-md-12 col-sm-12">
-      <label class="form-label required">Información plan </label>
-      <div
-        class="row row-cols-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4 g-9"
-        data-kt-buttons="true"
-        data-kt-buttons-target="[data-kt-button='true']"
-        data-kt-initialized="1"
-      >
-        <div class="col">
-          <label
-            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-            data-kt-button="true"
-          >
-            <span
-              class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1"
-            >
-            </span>
-            <span class="ms-5" *ngFor="let item of informacionPlan">
-              <span class="fs-4 fw-bold text-gray-800 d-block">
-                {{ item | translate }}
-              </span>
-            </span>
-          </label>
+      <label class="form-label"
+        >Información plan
+        <i class="ki-duotone ki-information-5 fs-3">
+          <span class="path1"></span>
+          <span class="path2"></span>
+          <span class="path3"></span>
+        </i>
+      </label>
+      <div class="w-50 mb-10">
+        <!--begin::Item-->
+        <div
+          class="d-flex flex-stack p-2 border"
+          *ngFor="let item of informacionPlan"
+        >
+          <span class="fw-semibold fs-6 text-gray-500 text-start pe-3">{{
+            item | translate
+          }}</span>
+          <i class="ki-duotone ki-check-circle fs-1 text-success">
+            <span class="path1"></span>
+            <span class="path2"></span>
+          </i>
         </div>
       </div>
     </div>
