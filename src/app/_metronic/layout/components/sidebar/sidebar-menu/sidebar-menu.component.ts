@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { informacionMenuItem } from '@redux/reducers/menu.reducer';
+import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerMenuInformacion,
   obtenerMenuModulos,
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
-import { combineLatest, forkJoin, tap, withLatestFrom } from 'rxjs';
+import { switchMap, tap, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -21,16 +22,27 @@ export class SidebarMenuComponent implements OnInit {
   arrMenu: any = [];
   arrMenuApps: string[];
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(
+    private router: Router,
+    private store: Store,
+  ) {}
 
   ngOnInit(): void {
-    combineLatest([
-      this.store.select(obtenerMenuSeleccion),
-      this.store.select(obtenerMenuModulos),
-    ]).subscribe((respuesta) => {
-      this.modulo = respuesta[0];
-      this.arrMenuApps = respuesta[1];
-    });
+    this.store
+      .select(obtenerMenuSeleccion)
+      .pipe(
+        tap((respuestaMenuSeleccion) => {
+          this.modulo = respuestaMenuSeleccion;
+        }),
+        switchMap(() => this.store.select(obtenerContenedorPlanId)),
+        switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
+        tap((respuestaMenuModulos) => {
+          this.arrMenuApps = respuestaMenuModulos;
+        })
+      )
+      .subscribe();
+    this.cambiarMenu();
+
     this.cambiarMenu();
   }
 

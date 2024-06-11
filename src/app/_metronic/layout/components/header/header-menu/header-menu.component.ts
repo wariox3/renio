@@ -5,8 +5,9 @@ import { LayoutService } from '../../../core/layout.service';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { General } from '@comun/clases/general';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { combineLatest, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { obtenerMenuModulos } from '@redux/selectors/menu.selectors';
+import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 
 @Component({
   selector: 'app-header-menu',
@@ -26,13 +27,19 @@ export class HeaderMenuComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-      combineLatest([
-        this.store.select(obtenerConfiguracionVisualizarApp),
-        this.store.select(obtenerMenuModulos),
-      ]).subscribe((respuesta) => {
-        this.visualizarMenuApps = respuesta[0];
-        this.arrMenuApps = respuesta[1];
-      });
+    this.store
+      .select(obtenerConfiguracionVisualizarApp)
+      .pipe(
+        tap((respuestaVisualizarApp) => {
+          this.visualizarMenuApps = respuestaVisualizarApp;
+        }),
+        switchMap(() => this.store.select(obtenerContenedorPlanId)),
+        switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
+        tap((respuestaMenuModulos) => {
+          this.arrMenuApps = respuestaMenuModulos;
+        })
+      )
+      .subscribe();
   }
 
   calculateMenuItemCssClass(url: string): string {

@@ -9,7 +9,7 @@ export interface Contenedor {
   nombre: string | null;
   nombre_corto: string;
   numero_identificacion: number;
-  plan_id: number | null;
+  plan_id: number;
   plan_nombre: number | null;
   rol: string;
   seleccion?: boolean;

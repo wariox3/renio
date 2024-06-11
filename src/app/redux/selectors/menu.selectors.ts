@@ -19,9 +19,18 @@ export const obtenerMenuDataMapeo = createSelector(
   (Menu) => Menu.dataMapeo
 );
 
-export const obtenerMenuModulos = createSelector(
+export const obtenerMenuModulos = (plan_id: number) => createSelector(
   Menu,
-  (Menu) => Menu.modulos
+  (Menu) =>  {
+    switch (plan_id) {
+      case 8:
+        return Menu.modulos
+      case 2:
+        return Menu.modulos.filter((menu:string)=> menu !== 'HUMANO')
+      default:
+        return Menu.modulos.filter((menu:string)=> menu === 'VENTA')
+    }
+  }
 );
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(

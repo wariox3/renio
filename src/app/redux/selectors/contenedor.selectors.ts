@@ -23,8 +23,12 @@ export const obtenerContenedorId = createSelector(
   (Contenedor) => `${Contenedor.id}`
 );
 
-
 export const obtenerContenedorSubdominio = createSelector(
   Contenedor,
   (Contenedor) => `${Contenedor.subdominio}`
+);
+
+export const obtenerContenedorPlanId = createSelector(
+  Contenedor,
+  (Contenedor) => Contenedor.plan_id
 );

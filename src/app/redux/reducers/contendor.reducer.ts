@@ -26,7 +26,7 @@ let estadoInicializado: Contenedor = {
   usuario_id: 0,
   seleccion: false,
   rol: '',
-  plan_id: null,
+  plan_id: 0,
   plan_nombre: null,
   usuarios: 1,
   usuarios_base: 0,
