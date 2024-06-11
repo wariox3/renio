@@ -1,8 +1,7 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { Menu } from "../reducers/menu.reducer";
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Menu } from '../reducers/menu.reducer';
 
-const Menu = createFeatureSelector<Menu>('menu')
-
+const Menu = createFeatureSelector<Menu>('menu');
 
 export const obtenerMenuSeleccion = createSelector(
   Menu,
@@ -19,21 +18,21 @@ export const obtenerMenuDataMapeo = createSelector(
   (Menu) => Menu.dataMapeo
 );
 
-export const obtenerMenuModulos = (plan_id: number) => createSelector(
-  Menu,
-  (Menu) =>  {
+export const obtenerMenuModulos = (plan_id: number) =>
+  createSelector(Menu, (Menu) => {
     switch (plan_id) {
       case 8:
       case 4:
       case 6:
-          return Menu.modulos
+        return Menu.modulos;
       case 2:
-        return Menu.modulos.filter((menu:string)=> menu !== 'HUMANO')
+        return Menu.modulos.filter((menu: string) => menu !== 'HUMANO');
       default:
-        return Menu.modulos.filter((menu:string)=> menu === 'VENTA')
+        return Menu.modulos.filter(
+          (menu: string) => menu === 'VENTA' || menu === 'CARTERA'
+        );
     }
-  }
-);
+  });
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,
@@ -42,15 +41,17 @@ export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
 
 export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(
   Menu,
-  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
+  (Menu) =>
+    Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
 );
 
-export const obtenerMenuDataMapeoBuscarCampo = (valorBusqueda: string) => createSelector(
-  Menu,
-  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.nombre.toLowerCase().includes(valorBusqueda))
-);
+export const obtenerMenuDataMapeoBuscarCampo = (valorBusqueda: string) =>
+  createSelector(Menu, (Menu) =>
+    Menu.dataMapeo.filter((titulo: any) =>
+      titulo.nombre.toLowerCase().includes(valorBusqueda)
+    )
+  );
 
-export const obtenerMenuDataMapeoVisualizarTodo = createSelector(
-  Menu,
-  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
+export const obtenerMenuDataMapeoVisualizarTodo = createSelector(Menu, (Menu) =>
+  Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
 );

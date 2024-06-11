@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ValidarPlanIdGuard } from '@guardias/validarPlanId.guard';
 
 let redirectToValue: string = '/contenedor/lista';
 
