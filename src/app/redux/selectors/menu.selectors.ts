@@ -24,7 +24,9 @@ export const obtenerMenuModulos = (plan_id: number) => createSelector(
   (Menu) =>  {
     switch (plan_id) {
       case 8:
-        return Menu.modulos
+      case 4:
+      case 6:
+          return Menu.modulos
       case 2:
         return Menu.modulos.filter((menu:string)=> menu !== 'HUMANO')
       default:
