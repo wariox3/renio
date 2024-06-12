@@ -260,6 +260,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               })
             )
             .subscribe();
+        } else {
+          this.btnGuardarDisabled = false;
+          this.changeDetectorRef.detectChanges()
         }
       } else {
         if (this.validarCamposDetalles() === false) {
@@ -346,8 +349,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.detalles.markAsDirty();
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
-          'Error en formulario filtros',
+          'Error en detalles',
           'contiene campos vacios'
+        );
+      }
+      if(control.get('precio').value == 0){
+        control.markAsTouched(); // Marcar el control como 'touched'
+        control.markAsDirty();
+        errores = true;
+        this.detalles.markAllAsTouched();
+        this.detalles.markAsDirty();
+        this.changeDetectorRef.detectChanges();
+        this.alertaService.mensajeError(
+          'Error en detalles',
+          'contiene campos en cero'
         );
       }
     });
