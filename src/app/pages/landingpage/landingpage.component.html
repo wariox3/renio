@@ -11,12 +11,12 @@
             class="fs-2hx text-dark mb-5"
             id="how-it-works"
             data-kt-scroll-offset="{default: 100, lg: 150}"
-            translate="LANDINGPAGE.COMOFUNCIONA"
+            translate="LANDINGPAGE.DESCUBRIR"
           ></h3>
           <!--end::Title-->
           <!--begin::Text-->
           <div class="fs-5 text-muted fw-bold">
-            {{ "LANDINGPAGE.AHORRO1" | translate }}
+            {{ "LANDINGPAGE.MENSAJEDESCURBIR" | translate }}
           </div>
           <!--end::Text-->
         </div>
@@ -45,18 +45,17 @@
                 <!--begin::Title-->
                 <div
                   class="fs-5 fs-lg-3 fw-bold text-dark"
-                  translate="LANDINGPAGE.EMPRESARIO"
+                  translate="LANDINGPAGE.PASO1"
                 ></div>
                 <!--end::Title-->
               </div>
               <!--end::Heading-->
               <!--begin::Description-->
               <div class="fw-semibold fs-6 fs-lg-4 text-muted">
-                {{ "LANDINGPAGE.MENSAJE3" | translate }}
-                <br />
-                {{ "LANDINGPAGE.MENSAJE4" | translate }} <br />{{
+                {{ "LANDINGPAGE.MENSAJEPASO1" | translate }}
+                <!-- {{ "LANDINGPAGE.MENSAJE4" | translate }} <br />{{
                   "LANDINGPAGE.MENSAJE5" | translate
-                }}
+                }} -->
               </div>
               <!--end::Description-->
             </div>
@@ -84,18 +83,14 @@
                 <!--end::Badge-->
                 <!--begin::Title-->
                 <div class="fs-5 fs-lg-3 fw-bold text-dark">
-                  {{ "LANDINGPAGE.CONFIGURAAPP" | translate }}
+                  {{ "LANDINGPAGE.PASO2" | translate }}
                 </div>
                 <!--end::Title-->
               </div>
               <!--end::Heading-->
               <!--begin::Description-->
               <div class="fw-semibold fs-6 fs-lg-4 text-muted">
-                {{ "LANDINGPAGE.MENSAJE3" | translate }}
-                <br />
-                {{ "LANDINGPAGE.MENSAJE4" | translate }} <br />{{
-                  "LANDINGPAGE.MENSAJE5" | translate
-                }}
+                {{ "LANDINGPAGE.MENSAJEPASO2" | translate }}
               </div>
               <!--end::Description-->
             </div>
@@ -123,18 +118,14 @@
                 <!--end::Badge-->
                 <!--begin::Title-->
                 <div class="fs-5 fs-lg-3 fw-bold text-dark">
-                  {{ "LANDINGPAGE.APPAUTENTICA" | translate }}
+                  {{ "LANDINGPAGE.PASO3" | translate }}
                 </div>
                 <!--end::Title-->
               </div>
               <!--end::Heading-->
               <!--begin::Description-->
               <div class="fw-semibold fs-6 fs-lg-4 text-muted">
-                {{ "LANDINGPAGE.MENSAJE3" | translate }}
-                <br />
-                {{ "LANDINGPAGE.MENSAJE4" | translate }} <br />{{
-                  "LANDINGPAGE.MENSAJE5" | translate
-                }}
+                {{ "LANDINGPAGE.MENSAJEPASO3" | translate }}
               </div>
               <!--end::Description-->
             </div>
@@ -254,7 +245,7 @@
             <!--end::Title-->
             <!--begin::Description-->
             <div class="fs-5 text-gray-700 fw-bold">
-              {{ "LANDINGPAGE.AHORRO1" | translate }}
+              {{ "LANDINGPAGE.MEJORAMOSMENSAJE" | translate }}
             </div>
             <!--end::Description-->
           </div>
@@ -407,9 +398,10 @@
           <div class="fs-2 fw-semibold text-muted text-center">
             <a
               class="link-primary fs-4 fw-bold"
-              >MARIO ANDRES ESTRADA ZULUAGA,</a
+              >Mario Andrés Estrada Zuluaga </a
             >
-            <span class="fs-4 fw-bold text-gray-600">REDDOC CEO</span>
+            <br>
+            <span class="fs-4 fw-bold text-gray-600">CEO de Reddoc</span>
           </div>
           <!--end::Author-->
         </div>
@@ -1091,7 +1083,7 @@
                 {{ "LANDINGPAGE.PRECIOSTITULO" | translate }}
               </h1>
               <div class="text-gray-600 fw-semibold fs-5">
-                {{ "LANDINGPAGE.AHORRO1" | translate }} <br />
+                {{ "LANDINGPAGE.MENSAJEPRECIO" | translate }} <br />
               </div>
             </div>
             <!--end::Heading-->
@@ -1872,7 +1864,7 @@
           <!--end::Title-->
           <!--begin::Description-->
           <div class="fs-5 text-muted fw-bold">
-            {{ "LANDINGPAGE.AHORRO1" | translate }} <br />
+            {{ "LANDINGPAGE.MENSAJEOPINION" | translate }} <br />
           </div>
           <!--end::Description-->
         </div>
@@ -2822,7 +2814,7 @@
           <div class="my-2 me-5">
             <!--begin::Title-->
             <div class="fs-1 fs-lg-2qx fw-bold text-white mb-2">
-              {{ "LANDINGPAGE.ANIMO1" | translate }},
+              {{ "LANDINGPAGE.ANIMO1" | translate }}
               <span class="fw-normal">{{
                 "LANDINGPAGE.ANIMO2" | translate
               }}</span>
@@ -2837,7 +2829,7 @@
           <!--end::Content-->
           <!--begin::Link-->
           <a
-            [routerLink]="'/comprar'"
+            routerLink="/auth/login"
             class="btn btn-lg btn-outline border-2 btn-outline-white flex-shrink-0 my-2"
             >{{ "LANDINGPAGE.COMPRAR" | translate }}</a
           >

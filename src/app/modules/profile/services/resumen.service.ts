@@ -27,12 +27,16 @@ export interface Facturas {
 }
 
 export interface Consumo {
-  vr_plan: number;
-  vr_total: number;
+  contenedor_id: number
+  contenedor: string
+  subdominio: string
+  plan_id: number
+  plan__nombre: string
+  vr_total: number
 }
 
 export interface Consumos {
-  consumos: Consumo;
+  consumos: Consumo[];
 }
 
 @Injectable({
@@ -62,20 +66,20 @@ export class ResumenService {
 
   facturacion(usuario_id: string) {
     return this.http.post<Facturas>(
-      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-usuario/`,
+      `${environment.URL_API_MUUP}/contenedor/movimiento/pendiente/`,
       {
         usuario_id,
       }
     );
   }
 
-  facturacionFechas(usuario_id: string) {
+  facturacionFechas(usuario_id: string, fechaHasta: any) {
     return this.http.post<Consumos>(
       `${environment.URL_API_MUUP}/contenedor/consumo/consulta-usuario-fecha/`,
       {
         usuario_id,
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
-        fechaHasta: this.fechaServices.obtenerUltimoDiaDelMes(new Date()),
+        fechaHasta: fechaHasta
       }
     );
   }

@@ -10,11 +10,7 @@
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA1"
       ></div>
     </div>
-    <div class="card-toolbar">
-      <a
-        class="btn btn-light-primary"
-        translate="FORMULARIOS.TITULOS.FACTURACION.REALIZARPAGO"
-      ></a>
+    <div class="card-toolbar" id="wompiWidget">
     </div>
   </div>
   <div class="card-body pt-3">
@@ -27,7 +23,7 @@
         class="text-gray-400"
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></p>
-      <p class="fs-2 mb-10">{{ consumos.vr_total || '0.00' | currency : "$"  }}</p>
+      <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
       <div class="mb-0">
         <div class="row">
           <div class="col">
@@ -41,19 +37,42 @@
             </p>
           </div>
           <div class="col">
-            <b>{{ consumos.vr_total || '0.00' | currency : "$" }}</b>
+            <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
           <div class="col">
-            <b>{{ consumos.vr_plan || '0.00' | currency : "$" }}</b>
+            <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
         </div>
       </div>
+    </div>
+    <div class="mb-10 p-5 border">
+      <table class="table table-hover table-bordered table-rounded border gy-2 gs-2">
+        <thead>
+          <tr class="fw-bold text-gray-800">
+            <th colspan="4">Consumo</th>
+          </tr>
+          <tr class="fw-bold text-gray-800">
+            <th>Subdominio</th>
+            <th>Empresa</th>
+            <th>Plan</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let consumo of consumos">
+            <td>{{ consumo.subdominio }}</td>
+            <td>{{ consumo.contenedor }}</td>
+            <td>{{ consumo.plan__nombre }}</td>
+            <td class="text-end">$ {{ consumo.vr_total }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="mb-10 p-5 border">
       <h5
@@ -75,6 +94,11 @@
               <td>{{ item.fecha | date : "fullDate" }}</td>
               <td>{{ item.tipo }}</td>
               <td>{{ item.vr_total | currency : "$" }}</td>
+              <td>
+                <button (click)="insertScript()">
+                  Pagar
+                </button>
+              </td>
               <td>
                 <a
                   href="#"

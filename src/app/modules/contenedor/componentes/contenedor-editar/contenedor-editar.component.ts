@@ -42,6 +42,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
     plan_id: 0,
   };
   arrPlanes: Plan[] = [];
+  informacionPlan: any = '';
   planSeleccionado: Number = 2;
   @Input() contenedor_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
@@ -73,6 +74,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
           })
 
           this.planSeleccionado = respuesta.plan_id
+          let posicion: keyof typeof this.contenedorService.informacionPlan = respuesta.plan_id;
+          this.informacionPlan = this.contenedorService.informacionPlan[posicion]
 
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
@@ -143,8 +146,10 @@ export class ContenedorEditarComponent extends General implements OnInit {
   }
 
 
-  seleccionarPlan(plan_id: Number) {
+  seleccionarPlan(plan_id: any) {
     this.planSeleccionado = plan_id;
+    let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
+    this.informacionPlan = this.contenedorService.informacionPlan[posicion]
     this.changeDetectorRef.detectChanges();
   }
 }

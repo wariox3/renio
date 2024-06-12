@@ -1,5 +1,5 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EventEmitter, Component, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -55,6 +55,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private renderer: Renderer2
   ) {
     super();
   }
