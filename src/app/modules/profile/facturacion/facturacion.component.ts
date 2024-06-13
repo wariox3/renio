@@ -125,7 +125,7 @@ export class FacturacionComponent extends General implements OnInit {
           'data-amount-in-cents',
           total.toString()
         );
-        this.renderer.setAttribute(script, 'data-reference', '4XMPGKWWPKWQ');
+        this.renderer.setAttribute(script, 'data-reference', '12');
         this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {
           wompiWidget!.removeChild(wompiWidget!.firstChild);
