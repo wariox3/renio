@@ -125,6 +125,7 @@ export class FacturacionComponent extends General implements OnInit {
           'data-amount-in-cents',
           total.toString()
         );
+        // data-redirect-url="https://transaction-redirect.wompi.co/check"
         this.renderer.setAttribute(script, 'data-reference', referencia);
         this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {
