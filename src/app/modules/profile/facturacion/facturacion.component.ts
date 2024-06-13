@@ -98,12 +98,12 @@ export class FacturacionComponent extends General implements OnInit {
           monto: `${this.totalPagar.getValue()}`,
         })
         .subscribe((respuesta) => {
-          this.habitarBtnWompi(respuesta.hash);
+          this.habitarBtnWompi(respuesta.hash, referencia);
         });
     }
   }
 
-  habitarBtnWompi(hash: string) {
+  habitarBtnWompi(hash: string, referencia: string) {
     this.totalPagar.subscribe((total) => {
       const wompiWidget = document.getElementById('wompiWidget');
       if (total > 0) {
@@ -125,7 +125,7 @@ export class FacturacionComponent extends General implements OnInit {
           'data-amount-in-cents',
           total.toString()
         );
-        this.renderer.setAttribute(script, 'data-reference', '12');
+        this.renderer.setAttribute(script, 'data-reference', referencia);
         this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {
           wompiWidget!.removeChild(wompiWidget!.firstChild);
