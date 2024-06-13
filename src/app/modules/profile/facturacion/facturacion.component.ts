@@ -9,9 +9,11 @@ import {
 import { General } from '@comun/clases/general';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { Factura, ResumenService, Consumo } from '../services/resumen.service';
-import { BehaviorSubject, Observable, of, zip } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap, zip } from 'rxjs';
 import { FechasService } from '@comun/services/fechas.service';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { environment } from '@env/environment';
+import { obtenerContenedorSubdominio } from '@redux/selectors/contenedor.selectors';
 
 @Component({
   selector: 'app-facturacion',
@@ -104,6 +106,10 @@ export class FacturacionComponent extends General implements OnInit {
   }
 
   habitarBtnWompi(hash: string, referencia: string) {
+    let url = 'http://localhost:4200/profile/estado'
+    if (environment.production) {
+      url = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/estado`
+    }
     this.totalPagar.subscribe((total) => {
       const wompiWidget = document.getElementById('wompiWidget');
       if (total > 0) {
@@ -125,7 +131,7 @@ export class FacturacionComponent extends General implements OnInit {
           'data-amount-in-cents',
           total.toString()
         );
-        // data-redirect-url="https://transaction-redirect.wompi.co/check"
+        this.renderer.setAttribute(script, 'data-redirect-url', url)
         this.renderer.setAttribute(script, 'data-reference', referencia);
         this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {

@@ -38,6 +38,13 @@ const routes: Routes = [
         path: 'connections',
         component: ConnectionsComponent,
       },
+      {
+        path: 'estado',
+        loadComponent: () =>
+          import('./components/facturacion-estado/facturacion-estado.component').then(
+            (c) => c.FacturacionEstadoComponent
+          ),
+      },
       { path: '', redirectTo: 'resumen', pathMatch: 'full' },
       { path: '**', redirectTo: 'resumen', pathMatch: 'full' },
     ],
