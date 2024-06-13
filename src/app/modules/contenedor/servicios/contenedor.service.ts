@@ -196,7 +196,7 @@ export class ContenedorService {
   }
 
   contenedorGenerarIntegridad(data: any) {
-    return this.http.post(
+    return this.http.post<{hash: string}>(
       `${environment.URL_API_MUUP}/contenedor/movimiento/generar-integridad/`,
       {
         ...data,

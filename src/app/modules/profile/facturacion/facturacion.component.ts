@@ -98,12 +98,12 @@ export class FacturacionComponent extends General implements OnInit {
           monto: `${this.totalPagar.getValue()}`,
         })
         .subscribe((respuesta) => {
-          this.habitarBtnWompi(respuesta);
+          this.habitarBtnWompi(respuesta.hash);
         });
     }
   }
 
-  habitarBtnWompi(respuesta: any) {
+  habitarBtnWompi(hash: string) {
     this.totalPagar.subscribe((total) => {
       const wompiWidget = document.getElementById('wompiWidget');
       if (total > 0) {
