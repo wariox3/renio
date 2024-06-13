@@ -126,11 +126,7 @@ export class FacturacionComponent extends General implements OnInit {
           total.toString()
         );
         this.renderer.setAttribute(script, 'data-reference', '4XMPGKWWPKWQ');
-        this.renderer.setAttribute(
-          script,
-          'data-signature:integrity',
-          respuesta.hash
-        );
+        this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {
           wompiWidget!.removeChild(wompiWidget!.firstChild);
         }
