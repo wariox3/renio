@@ -723,5 +723,9 @@ export const locale = {
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
     },
+    PAGOS:{
+      MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',
+      CONTENEDORES: 'Regresar a mis contenedores'
+    }
   },
 };

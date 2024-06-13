@@ -17,6 +17,7 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
 })
 export class CardComponent {
   @Input() titulo?: string = '';
+  @Input() visualizarTitulo: boolean = true;
 
   @ContentChild('panel-footer') footer: any;
 

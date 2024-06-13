@@ -106,9 +106,9 @@ export class FacturacionComponent extends General implements OnInit {
   }
 
   habitarBtnWompi(hash: string, referencia: string) {
-    let url = 'http://localhost:4200/profile/estado'
+    let url = 'http://localhost:4200/estado'
     if (environment.production) {
-      url = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/profile/estado`
+      url = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/estado`
     }
 
     this.totalPagar.subscribe((total) => {

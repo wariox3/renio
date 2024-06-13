@@ -654,5 +654,9 @@ export const locale = {
       DESCRIPCION: 'Description',
       GUARDAR: 'Save',
     },
+    PAGOS:{
+      MENSAJECONFIRMACION: 'Thank you for paying for your subscription!',
+      CONTENEDORES: 'Return to my containers'
+    }
   },
 };

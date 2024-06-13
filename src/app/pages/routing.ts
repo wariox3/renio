@@ -147,6 +147,14 @@ const Routing: Routes = [
     ],
   },
   {
+    path: 'estado',
+    loadComponent: () =>
+      import('../comun/componentes/facturacion-mensaje-pago/facturacion-mensaje-pago.component').then(
+        (c) => c.FacturacionMensajePagoComponent
+      ),
+    data: { layout: 'dark-header' },
+  },
+  {
     path: '',
     redirectTo: getRedirectTo(),
     pathMatch: 'full',
