@@ -10,8 +10,6 @@
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA1"
       ></div>
     </div>
-    <div class="card-toolbar" id="wompiWidget">
-    </div>
   </div>
   <div class="card-body pt-3">
     <div class="mb-10 p-5 border">
@@ -23,11 +21,14 @@
         class="text-gray-400"
         translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
       ></p>
-      <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
+      <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
       <div class="mb-0">
         <div class="row">
           <div class="col">
-            <b>{{ this.fechaServices.obtenerPrimerDiaDelMesSiguiente() | date : "fullDate" }}</b>
+            <b>{{
+              this.fechaServices.obtenerPrimerDiaDelMesSiguiente()
+                | date : "fullDate"
+            }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO"></p>
           </div>
           <div class="col">
@@ -37,13 +38,13 @@
             </p>
           </div>
           <div class="col">
-            <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
+            <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
           <div class="col">
-            <b>{{ consumoTotal || '0.00' | currency : "$" }}</b>
+            <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
               <i class="ki-outline ki-information-2"></i>
             </p>
@@ -52,7 +53,9 @@
       </div>
     </div>
     <div class="mb-10 p-5 border">
-      <table class="table table-hover table-bordered table-rounded border gy-2 gs-2">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
         <thead>
           <tr class="fw-bold text-gray-800">
             <th colspan="4">Consumo</th>
@@ -75,10 +78,13 @@
       </table>
     </div>
     <div class="mb-10 p-5 border">
-      <h5
-        class="mb-4"
-        translate="FORMULARIOS.TITULOS.FACTURACION.HISTORIALFACTURACION"
-      ></h5>
+      <div class="d-flex align-items-center justify-content-between">
+        <h5
+          class="mb-4"
+          translate="FORMULARIOS.TITULOS.FACTURACION.HISTORIALFACTURACION"
+        ></h5>
+        <div class="card-toolbar" id="wompiWidget"></div>
+      </div>
       <div class="row p-5">
         <table class="table">
           <thead>
@@ -91,26 +97,32 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of facturas">
+              <td>{{ item.id }}</td>
               <td>{{ item.fecha | date : "fullDate" }}</td>
               <td>{{ item.tipo }}</td>
               <td>{{ item.vr_total | currency : "$" }}</td>
-              <td>
-                <button (click)="insertScript()">
-                  Pagar
-                </button>
-              </td>
-              <td>
-                <a
-                  href="#"
-                  class="text-muted text-hover-primary mx-1"
-                  >PDF</a
-                >
-
-                <a
-                  href="#"
-                  class="text-muted text-hover-primary mx-1"
-                  >Excel</a
-                >
+              <td class="w-20px">
+                <label [for]="item.id">
+                  <i
+                    class="cursor-pointer"
+                    [ngClass]="
+                      checked.checked
+                        ? 'fa-solid fa-square-check text-danger'
+                        : 'fa-regular fa-square text-gray-500'
+                    "
+                  >
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </i>
+                  <input
+                    #checked
+                    class="d-none"
+                    type="checkbox"
+                    [id]="item.id"
+                    [value]="item.id"
+                    (change)="agregarRegistrosPagar(item)"
+                  />
+                </label>
               </td>
             </tr>
           </tbody>
