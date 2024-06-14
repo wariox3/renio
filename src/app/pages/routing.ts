@@ -81,6 +81,12 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'facturacion',
+    loadChildren: () =>
+      import('../modules/facturacion/facturacion-routing').then((r) => r.routes),
+    data: { layout: 'dark-header' },
+  },
+  {
     path: 'administrador',
     children: [
       {
