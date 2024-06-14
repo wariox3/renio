@@ -10,7 +10,7 @@ export const obtenerUsuarioTelefono = createSelector(
   (Usuario) => {
     const telefono = Usuario.telefono || '';
     return `${telefono}`
-  } 
+  }
 );
 
 export const obtenerUsuarioNombre = createSelector(
@@ -52,9 +52,14 @@ export const obtenerUsuarioCargo = createSelector(
   (Usuario) => `${Usuario.cargo}`
 );
 
+export const obtenerUsuarioFechaLimitePago = createSelector(
+  Usuario,
+  (Usuario) => `${Usuario.fecha_limite_pago}`
+);
+
 
 export const obtenerUsuarioSuspencion = createSelector(
   Usuario,
-  (Usuario) => Usuario.vr_saldo > 0 && new Date(Usuario.fecha_limite_pago) <=  new Date()
+  (Usuario) => Usuario.vr_saldo > 0
 );
 

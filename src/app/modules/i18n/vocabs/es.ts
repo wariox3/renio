@@ -385,9 +385,9 @@ export const locale = {
           PROCESANDOACTUALIZACION: 'actualización completa',
           PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
           ACTUALIZACION: 'Actualización de los datos exitosa',
-          ALERTASUSPENCIONTITULO: 'Cuenta en peligro',
+          ALERTASUSPENCIONTITULO: '¡Alerta de suscripción!',
           ALERTASUSPENCIONMENSAJE:
-            'Su cuenta esta en riesgo de suspension por pago',
+            'Tiene un saldo pendiente por pagar. Si no realiza el pago pronto, su cuenta será suspendida. Fecha límite: ',
           CARGARIMAGEN: 'Imagen cargada con éxito',
         },
         CONTENEDOR: {
