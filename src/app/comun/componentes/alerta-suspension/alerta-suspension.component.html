@@ -22,7 +22,7 @@
             "FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONMENSAJE" | translate
           }}
           <strong>{{ usuarioFechaLimitePago$ | async | slice:0:10 }}</strong>
-          Saldo: <strong>${{usuarioVrSaldo$ | async}} </strong>
+          Saldo: <strong>${{usuarioVrSaldo$ | async | number }} </strong>
         </span>
         <!--end::Content-->
       </div>
