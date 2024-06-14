@@ -3,11 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { OverviewComponent } from './components/overview/overview.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { DocumentsComponent } from './documents/documents.component';
-import { ProjectsComponent } from './projects/projects.component';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { CambioClaveComponent } from '@modulos/seguridad/componentes/cambio-clave/cambio-clave.component';
-import { FacturacionComponent } from './facturacion/facturacion.component';
 
 const routes: Routes = [
   {
@@ -27,23 +25,12 @@ const routes: Routes = [
         component: CampaignsComponent,
       },
       {
-        path: 'facturacion',
-        component: FacturacionComponent,
-      },
-      {
         path: 'documents',
         component: DocumentsComponent,
       },
       {
         path: 'connections',
         component: ConnectionsComponent,
-      },
-      {
-        path: 'historial',
-        loadComponent: () =>
-          import('./components/historial-facturacion/historial-facturacion.component').then(
-            (c) => c.HistorialFacturacionComponent
-          ),
       },
       { path: '', redirectTo: 'resumen', pathMatch: 'full' },
       { path: '**', redirectTo: 'resumen', pathMatch: 'full' },
