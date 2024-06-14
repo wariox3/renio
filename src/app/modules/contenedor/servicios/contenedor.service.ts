@@ -14,6 +14,7 @@ import { Ciudad } from '@interfaces/general/ciudad';
 import { TipoIdentificacionLista } from '@interfaces/general/tipoIdentificacion';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoPersona } from '@interfaces/general/tipoPersona';
+import { Movimientos } from '@interfaces/facturacion/Facturacion';
 
 @Injectable({
   providedIn: 'root',
@@ -196,10 +197,19 @@ export class ContenedorService {
   }
 
   contenedorGenerarIntegridad(data: any) {
-    return this.http.post<{hash: string}>(
+    return this.http.post<{ hash: string }>(
       `${environment.URL_API_MUUP}/contenedor/movimiento/generar-integridad/`,
       {
         ...data,
+      }
+    );
+  }
+
+  consultaUsuario(usuario_id: string) {
+    return this.http.post<Movimientos>(
+      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-usuario/`,
+      {
+        usuario_id,
       }
     );
   }

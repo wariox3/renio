@@ -188,6 +188,7 @@ export const locale = {
           PAGOSANTICIPADOS: 'Pagos anticipados',
           PLAN: 'Plan',
           HISTORIALFACTURACION: 'Historial de facturación',
+          PENDIENTE: 'Pendiente por pagar',
           FECHA: 'Fecha',
           DESCRIPCION: 'Descripción',
           IMPORTANTE: 'Importe',
