@@ -21,7 +21,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '../../modules/i18n';
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
-import { FacturacionComponent } from './facturacion/facturacion.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -36,7 +35,6 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     DocumentsComponent,
     ConnectionsComponent,
     InformacionUsuarioComponent,
-    FacturacionComponent,
   ],
   imports: [
     CommonModule,
