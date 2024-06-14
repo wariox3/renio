@@ -36,6 +36,6 @@ export interface Movimiento {
   vr_saldo_enmascarado: string
 }
 
-export interface Consumos {
+export interface Movimientos {
   movimientos: Movimiento[]
 }
