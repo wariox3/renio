@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
     this.modeService.init();
     document.addEventListener("load", () => {
       this.cargando = false
+      this.changeDetectorRef.detectChanges();
       // Aquí puedes ejecutar cualquier código que necesites
     });
   }
