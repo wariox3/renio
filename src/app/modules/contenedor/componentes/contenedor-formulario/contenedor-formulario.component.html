@@ -219,7 +219,8 @@
         class="form-label required"
       ></label>
       <select
-        class="form-select"
+        class="form-select mb-2 select2-hidden-accessible"
+        
         formControlName="identificacion_id"
         [ngClass]="{
           'is-invalid':
@@ -273,7 +274,7 @@
           (keyup)="consultarCiudad($event)"
         />
         <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-          <i class="bi bi-search fs-2x"></i>
+          <i class="bi bi-search fs-2"></i>
         </div>
       </div>
       <ng-container
