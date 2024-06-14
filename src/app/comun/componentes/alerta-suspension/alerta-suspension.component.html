@@ -1,5 +1,5 @@
 <!--begin::Alert-->
-<div class="alert alert-danger"   *ngIf="visualerSuspencion === true">
+<div class="alert alert-danger" *ngIf="visualerSuspencion === true">
   <div class="row align-items-center">
     <!--begin::Wrapper-->
     <div class="col-9 d-flex align-items-center">
@@ -21,18 +21,15 @@
           >{{
             "FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONMENSAJE" | translate
           }}
-          <strong>{{
-            usuarioFechaLimitePago$ | async | date : "yyyy-MM-dd"
-          }}</strong>
+          <strong>{{ usuarioFechaLimitePago$ | async }}</strong>
         </span>
         <!--end::Content-->
       </div>
     </div>
     <div class="col-3">
-      <button
-        (click)="navegar()"
-        class="btn btn-danger btn-sm float-end"
-      >Pagar</button>
+      <button (click)="navegar()" class="btn btn-danger btn-sm float-end">
+        Pagar
+      </button>
     </div>
   </div>
   <!--end::Wrapper-->
