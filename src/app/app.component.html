@@ -1,5 +1,9 @@
-<h1>
-  {{cargando}}
-</h1>
-
-<router-outlet></router-outlet>
+<ng-container *ngIf="cargando; else elseTemplate">
+  <div id="splash-screen" class="splash-screen">
+    <img src="../../assets/media/logos/default-small.svg" alt="Metronic logo" />
+    <span>Cargando ...</span>
+  </div>
+</ng-container>
+<ng-template #elseTemplate>
+  <router-outlet></router-outlet>
+</ng-template>

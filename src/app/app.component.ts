@@ -19,7 +19,7 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
 })
 export class AppComponent implements OnInit {
 
-  cargando = "inicio"
+  cargando = true;
 
   constructor(
     private translationService: TranslationService,
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     );
 
     window.addEventListener("load", () => {
-      this.cargando = "termino"
+      this.cargando = false
       this.changeDetectorRef.detectChanges()
       // Aquí puedes ejecutar cualquier código que necesites
     });
