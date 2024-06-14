@@ -4,6 +4,7 @@ import { General } from '@comun/clases/general';
 import {
   obtenerUsuarioFechaLimitePago,
   obtenerUsuarioSuspencion,
+  obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
@@ -19,6 +20,7 @@ export class AlertaSuspensionComponent extends General implements OnInit {
   visualerSuspencion = false;
 
   usuarioFechaLimitePago$ = this.store.select(obtenerUsuarioFechaLimitePago);
+  usuarioVrSaldo$ = this.store.select(obtenerUsuarioVrSaldo);
 
   constructor() {
     super();

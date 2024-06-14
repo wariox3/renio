@@ -57,6 +57,10 @@ export const obtenerUsuarioFechaLimitePago = createSelector(
   (Usuario) => `${Usuario.fecha_limite_pago}`
 );
 
+export const obtenerUsuarioVrSaldo = createSelector(
+  Usuario,
+  (Usuario) => Usuario.vr_saldo
+);
 
 export const obtenerUsuarioSuspencion = createSelector(
   Usuario,
