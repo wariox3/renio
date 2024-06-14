@@ -15,7 +15,6 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
   selector: 'body[root]',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
 
@@ -42,7 +41,6 @@ export class AppComponent implements OnInit {
     this.modeService.init();
     window.addEventListener("load", () => {
       this.cargando = false
-      this.changeDetectorRef.detectChanges()
       // Aquí puedes ejecutar cualquier código que necesites
     });
   }

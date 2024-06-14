@@ -1,25 +1,41 @@
-
 <!--begin::Alert-->
-<div
-  class="alert alert-dismissible bg-light-danger d-flex flex-column flex-sm-row p-5 mb-10"
-  *ngIf="visualerSuspencion === true"
->
-  <!--begin::Icon-->
-  <i class="ki-duotone ki-information-5 fs-2hx text-danger me-4 mb-5 mb-sm-0"
-    ><span class="path1"></span><span class="path2"></span
-    ><span class="path3"></span
-  ></i>
-  <!--end::Icon-->
-  <!--begin::Wrapper-->
-  <div class="d-flex flex-column pe-0 pe-sm-10">
-    <!--begin::Title-->
-    <h4 class="fw-semibold text-danger" translate="FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONTITULO"></h4>
-    <!--end::Title-->
-    <!--begin::Content-->
-    <span class="text-danger" translate="FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONMENSAJE"></span
-    >
-    <!--end::Content-->
+<div class="alert alert-danger"   *ngIf="visualerSuspencion === true">
+  <div class="row align-items-center">
+    <!--begin::Wrapper-->
+    <div class="col-9 d-flex align-items-center">
+      <!--begin::Icon-->
+      <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"
+        ><span class="path1"></span><span class="path2"></span
+        ><span class="path3"></span
+      ></i>
+      <!--end::Icon-->
+      <div class="d-flex flex-column pe-0 pe-sm-10">
+        <!--begin::Title-->
+        <h4
+          class="fw-semibold text-danger"
+          translate="FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONTITULO"
+        ></h4>
+        <!--end::Title-->
+        <!--begin::Content-->
+        <span class="text-danger"
+          >{{
+            "FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONMENSAJE" | translate
+          }}
+          <strong>{{
+            usuarioFechaLimitePago$ | async | date : "yyyy-MM-dd"
+          }}</strong>
+        </span>
+        <!--end::Content-->
+      </div>
+    </div>
+    <div class="col-3">
+      <button
+        (click)="navegar()"
+        class="btn btn-danger btn-sm float-end"
+      >Pagar</button>
+    </div>
   </div>
   <!--end::Wrapper-->
 </div>
+
 <!--end::Alert-->
