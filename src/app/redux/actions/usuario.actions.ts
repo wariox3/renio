@@ -35,3 +35,10 @@ export const usuarioActionActualizarImagen = createAction(
   '[Usuario] actualizar imagen',
   props<{ imagen: string }>()
 );
+
+export const usuarioActionActualizarVrSaldo = createAction(
+  '[Usuario] actualizar vr saldo',
+  props<{ vr_saldo: number }>()
+);
+
+

@@ -9,7 +9,7 @@
                   {{ "PAGOS.MENSAJECONFIRMACION" | translate }}
               </span>
               <br>
-              <span>tu pago puede tardar unos minutos en verse reflejado</span>
+              <span class="text-gray-500 fs-2">Tu pago puede tardar unos minutos en verse reflejado</span>
           </div>
           <!--end::Title-->
 
@@ -28,3 +28,7 @@
   </div>
   </section>
 </app-card>
+<div *ngIf="procesando" class="fake-loading">
+  <!-- <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.CREARCONTENEDOR"></span> -->
+  <span >Estamos actualizando su pago, espere por favor </span>
+</div>

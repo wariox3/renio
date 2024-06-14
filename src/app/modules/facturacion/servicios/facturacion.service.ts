@@ -1,3 +1,4 @@
+import { obtenerUsuarioVrSaldo } from './../../../redux/selectors/usuario.selectors';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Consumos, Facturas } from '@interfaces/facturacion/Facturacion';
@@ -28,6 +29,12 @@ export class FacturacionService {
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
         fechaHasta: fechaHasta
       }
+    );
+  }
+
+  obtenerUsuarioVrSaldo(usuario_id: string) {
+    return this.http.get<{saldo: number}>(
+      `${environment.URL_API_MUUP}/seguridad/usuario/saldo/${usuario_id}/`,
     );
   }
 
