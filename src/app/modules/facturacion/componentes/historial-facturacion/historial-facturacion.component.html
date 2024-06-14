@@ -1,55 +1,47 @@
-<app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FACTURACION'">
-  <section card-body>
-    <div class="table-responsive">
-      <table
-        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-      >
-        <thead>
-          <tr class="fw-bold text-gray-800">
-            <th>id</th>
-            <th>tipo</th>
-            <th>Fecha</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let moviento of movientos">
-            <td>{{ moviento.id }}</td>
-            <td>{{ moviento.tipo }}</td>
-            <td>{{ moviento.fecha | date : "yyyy-MM-dd" }}</td>
-            <td class="text-end">{{ moviento.vr_total | number }}</td>
-            <td class="w-50px">
-              <div
-                class="h-100 d-flex flex-column justify-content-center"
+<div class="table-responsive">
+  <table
+    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+  >
+    <thead>
+      <tr class="fw-bold text-gray-800">
+        <th>id</th>
+        <th>tipo</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let moviento of movientos">
+        <td>{{ moviento.id }}</td>
+        <td>{{ moviento.tipo }}</td>
+        <td>{{ moviento.fecha | date : "yyyy-MM-dd" }}</td>
+        <td class="text-end">{{ moviento.vr_total | number }}</td>
+        <td class="w-50px">
+          <div class="h-100 d-flex flex-column justify-content-center">
+            <div
+              ngbDropdown
+              class="d-inline-block"
+              display="dynamic"
+              placement="end"
+            >
+              <button
+                type="button"
+                class="btn btn-link text-hover-primary"
+                id="dropdownBasic1"
+                ngbDropdownToggle
               >
-                <div
-                  ngbDropdown
-                  class="d-inline-block"
-                  display="dynamic"
-                  placement="end"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-link text-hover-primary"
-                    id="dropdownBasic1"
-                    ngbDropdownToggle
-                  >
-                    <i class="bi bi-three-dots-vertical fs-2x"></i>
-                  </button>
-                  <div
-                    class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
-                    ngbDropdownMenu
-                    aria-labelledby="dropdownBasic1"
-                  >
-
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</app-card>
+                <i class="bi bi-three-dots-vertical fs-2x"></i>
+              </button>
+              <div
+                class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
+                ngbDropdownMenu
+                aria-labelledby="dropdownBasic1"
+              ></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

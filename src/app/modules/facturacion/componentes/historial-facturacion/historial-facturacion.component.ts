@@ -1,7 +1,6 @@
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { General } from '@comun/clases/general';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap, tap } from 'rxjs';
@@ -12,7 +11,7 @@ import { Movimiento } from '@interfaces/facturacion/Facturacion';
   standalone: true,
   templateUrl: './historial-facturacion.component.html',
   styleUrls: ['./historial-facturacion.component.scss'],
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule],
 })
 export class HistorialFacturacionComponent extends General implements OnInit {
   movientos: Movimiento[];
@@ -30,7 +29,7 @@ export class HistorialFacturacionComponent extends General implements OnInit {
         ),
         tap((respuestaConsultaUsuario) => {
           this.movientos = respuestaConsultaUsuario.movimientos;
-          this.changeDetectorRef.detectChanges()
+          this.changeDetectorRef.detectChanges();
         })
       )
       .subscribe();

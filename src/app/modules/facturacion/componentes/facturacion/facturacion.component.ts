@@ -17,7 +17,6 @@ import { HistorialFacturacionComponent } from '../historial-facturacion/historia
     selector: 'app-facturacion',
     standalone: true,
     templateUrl: './facturacion.component.html',
-    styleUrls: ['./facturacion.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CommonModule,
