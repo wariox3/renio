@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.modeService.init();
-    window.addEventListener("load", () => {
+    document.addEventListener("load", () => {
       this.cargando = false
       // Aquí puedes ejecutar cualquier código que necesites
     });
