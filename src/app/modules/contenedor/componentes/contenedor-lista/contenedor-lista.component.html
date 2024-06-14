@@ -1,8 +1,8 @@
 <div class="row">
   <!--begin::Col-->
-  <div class="col-xl-12">
+  <div class="col-12">
     <!--begin::Tables Widget 9-->
-    <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
+    <div class="card shadow-sm">
       <!--begin::Header-->
       <div class="card-header" appAnimationFadeinUp>
         <div class="card-title m-0">
@@ -22,7 +22,7 @@
         <!--begin::Table container-->
         <div class="table-responsive-sm">
           <!--begin::Table-->
-          <table class="table table-row-dashed table-row-gray-300">
+          <table class="table table-hover align-middle">
             <!--begin::Table head-->
             <thead *ngIf="arrContenedores.length > 0">
               <tr>
@@ -46,7 +46,7 @@
                   [animacionDelay]="i + 1"
                   style="height: calc(82px - 0.6rem) !important"
                 >
-                  <td style="width: 120px">
+                  <td style="width: 120px" class="px-2">
                     <ng-container *ngIf="contenedor.imagen">
                       <img
                         [ngSrc]="contenedor.imagen"
@@ -59,19 +59,24 @@
                     </ng-container>
                   </td>
                   <td>
-                    <div
+                    <!-- <div
                       class="h-100 d-flex flex-column justify-content-center"
                     >
                       <p class="text-dark fw-bolder fs-6">
                         {{ contenedor.nombre }}
-                        <small class="badge badge-light-primary fs-8 fw-bold">{{
-                          contenedor.rol
-                        }}</small>
                       </p>
 
                       <span class="text-muted fw-bold text-muted d-block fs-7"
                         >{{ contenedor.subdominio }}{{ dominioApp }}</span
                       >
+                      <small class="badge badge-light-primary fs-8 fw-bold">{{
+                        contenedor.rol
+                      }}</small>
+                    </div> -->
+                    <div>
+                      <p class="text-dark fw-bolder fs-6">{{ contenedor.nombre }}</p>
+                      <p class="text-muted fw-bold text-muted d-block fs-7">{{ contenedor.subdominio }}{{ dominioApp }}</p>
+                      <span class="badge badge-light-primary fs-8 fw-bold">{{ contenedor.rol }}</span>
                     </div>
                   </td>
                   <td class="w-150px">
