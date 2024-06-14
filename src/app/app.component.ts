@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TranslationService } from './modules/i18n';
 // language list
 import { locale as enLang } from './modules/i18n/vocabs/en';
@@ -18,10 +18,15 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+
+  cargando = "inicio"
+
   constructor(
     private translationService: TranslationService,
-    private modeService: ThemeModeService
+    private modeService: ThemeModeService,
+    private changeDetectorRef : ChangeDetectorRef
   ) {
+
     // register translations
     this.translationService.loadTranslations(
       enLang,
@@ -31,6 +36,14 @@ export class AppComponent implements OnInit {
       deLang,
       frLang
     );
+
+    window.addEventListener("load", () => {
+      this.cargando = "termino"
+      this.changeDetectorRef.detectChanges()
+      // Aquí puedes ejecutar cualquier código que necesites
+    });
+
+
   }
 
   ngOnInit() {
