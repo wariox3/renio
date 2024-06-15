@@ -22,4 +22,5 @@ export const environment = {
   appPreviewDocsUrl: 'https://preview.keenthemes.com/metronic8/angular/docs',
   appPreviewChangelogUrl:
     'https://preview.keenthemes.com/metronic8/angular/docs/changelog',
+    llavePublica: ''
 };
