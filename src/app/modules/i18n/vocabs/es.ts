@@ -132,7 +132,7 @@ export const locale = {
           EDITAR: 'Editar contenedor',
           INVITAR: 'Invitaciones',
           NUEVAINVITACION: 'Nueva invitación para',
-          NUEVO: 'Nueva contenedor',
+          NUEVO: 'Nuevo contenedor',
           SUBDOMINIO: 'Subdominio',
           IMAGEN: 'Imagen',
           IMAGENESACEPTADAS: 'Tipos de archivo permitidos: jpg',
