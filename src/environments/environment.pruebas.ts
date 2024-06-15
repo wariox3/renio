@@ -19,5 +19,5 @@ export const environment = {
   appPreviewAngularUrl: 'https://preview.keenthemes.com/metronic8/angular/demo1',
   appPreviewDocsUrl: 'https://preview.keenthemes.com/metronic8/angular/docs',
   appPreviewChangelogUrl: 'https://preview.keenthemes.com/metronic8/angular/docs/changelog',
-  llavePublica: '',
+  llavePublica: 'pub_test_HrxfoMdxFQFlRQ5be2n0jplrqpAViOKb',
 };
