@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Renderer2, type OnInit } from '@angular/core';
-import { CardComponent } from "../../../../comun/componentes/card/card.component";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Renderer2,
+  type OnInit,
+} from '@angular/core';
+import { CardComponent } from '../../../../comun/componentes/card/card.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { Factura, Consumo } from '../../../../interfaces/facturacion/Facturacion';
+import {
+  Factura,
+  Consumo,
+} from '../../../../interfaces/facturacion/Facturacion';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { BehaviorSubject, zip } from 'rxjs';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
@@ -14,25 +22,24 @@ import { FechasService } from '@comun/services/fechas.service';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
 
 @Component({
-    selector: 'app-facturacion',
-    standalone: true,
-    templateUrl: './facturacion.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        CardComponent,
-        NgbNavModule,
-        TranslateModule,
-        HistorialFacturacionComponent
-    ]
+  selector: 'app-facturacion',
+  standalone: true,
+  templateUrl: './facturacion.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    CardComponent,
+    NgbNavModule,
+    TranslateModule,
+    HistorialFacturacionComponent,
+  ],
 })
 export class FacturacionComponent extends General implements OnInit {
-
   constructor(
     private facturacionService: FacturacionService,
     public fechaServices: FechasService,
     private renderer: Renderer2,
-    private contenedorServices: ContenedorService,
+    private contenedorServices: ContenedorService
   ) {
     super();
   }
@@ -40,11 +47,10 @@ export class FacturacionComponent extends General implements OnInit {
   facturas: Factura[] = [];
   consumos: Consumo[] = [];
   active: 1;
-  consumoTotal = 0
+  consumoTotal = 0;
   codigoUsuario = '';
   arrFacturasSeleccionados: any[] = [];
   totalPagar = new BehaviorSubject(0);
-
 
   ngOnInit() {
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
@@ -52,10 +58,9 @@ export class FacturacionComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
     });
     this.consultarInformacion();
+  }
 
-   }
-
-   consultarInformacion() {
+  consultarInformacion() {
     const hoy = new Date();
     const fechaHasta = hoy.toISOString().slice(0, 10);
     zip(
@@ -115,9 +120,11 @@ export class FacturacionComponent extends General implements OnInit {
   }
 
   habitarBtnWompi(hash: string, referencia: string) {
-    let url = 'http://localhost:4200/estado'
+    let url = 'http://localhost:4200/estado';
     if (environment.production) {
-      url = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/estado`
+      url = `${environment.dominioHttp}://${environment.dominioApp.slice(
+        1
+      )}/estado`;
     }
 
     this.totalPagar.subscribe((total) => {
@@ -133,7 +140,7 @@ export class FacturacionComponent extends General implements OnInit {
         this.renderer.setAttribute(
           script,
           'data-public-key',
-          'pub_test_HrxfoMdxFQFlRQ5be2n0jplrqpAViOKb'
+          environment.llavePublica
         );
         this.renderer.setAttribute(script, 'data-currency', 'COP');
         this.renderer.setAttribute(
@@ -141,7 +148,7 @@ export class FacturacionComponent extends General implements OnInit {
           'data-amount-in-cents',
           total.toString()
         );
-        this.renderer.setAttribute(script, 'data-redirect-url', url)
+        this.renderer.setAttribute(script, 'data-redirect-url', url);
         this.renderer.setAttribute(script, 'data-reference', referencia);
         this.renderer.setAttribute(script, 'data-signature:integrity', hash);
         while (wompiWidget?.firstChild) {
@@ -155,5 +162,4 @@ export class FacturacionComponent extends General implements OnInit {
       }
     });
   }
-
 }
