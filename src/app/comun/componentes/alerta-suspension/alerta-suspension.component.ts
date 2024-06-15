@@ -9,6 +9,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { RouterModule } from '@angular/router';
+import { combineLatest, combineLatestAll } from 'rxjs';
 
 @Component({
   selector: 'app-comun-alerta-suspension',
@@ -17,18 +18,27 @@ import { RouterModule } from '@angular/router';
   standalone: true,
 })
 export class AlertaSuspensionComponent extends General implements OnInit {
-  visualerSuspencion = false;
-
-  usuarioFechaLimitePago$ = this.store.select(obtenerUsuarioFechaLimitePago);
-  usuarioVrSaldo$ = this.store.select(obtenerUsuarioVrSaldo);
+  visualizarAlerta = false;
+  usuarioFechaLimitePago: Date;
+  usuarioVrSaldo = '';
 
   constructor() {
     super();
   }
 
   ngOnInit() {
-    this.store.select(obtenerUsuarioSuspencion).subscribe((respuesta) => {
-      this.visualerSuspencion = respuesta;
+    combineLatest([
+      this.store.select(obtenerUsuarioSuspencion),
+      this.store.select(obtenerUsuarioFechaLimitePago),
+      this.store.select(obtenerUsuarioVrSaldo),
+    ]).subscribe((respuesta: any) => {
+
+      this.visualizarAlerta = respuesta[0];
+      this.usuarioFechaLimitePago = new Date(respuesta[1]);
+      this.usuarioVrSaldo = respuesta[2];
+
+      console.log(typeof(respuesta[1]));
+
     });
     this.changeDetectorRef.detectChanges();
   }
