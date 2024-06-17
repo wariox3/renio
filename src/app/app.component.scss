@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   cursor: wait !important;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 .my-overlay i.fa.fa-spinner.fa-spin, .spinner-big {
   font-size: 100px !important;
