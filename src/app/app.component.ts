@@ -23,7 +23,6 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  public showOverlay = false;
 
   constructor(
     private translationService: TranslationService,
@@ -39,19 +38,10 @@ export class AppComponent implements OnInit {
       deLang,
       frLang
     );
-
-    // Detect when the window is fully loaded
-    window.onload = () => this.onWindowLoad();
   }
 
   ngOnInit() {
     this.modeService.init();
   }
 
-  onWindowLoad() {
-    setTimeout(() => {
-      this.showOverlay = false;
-      this.changeDetectorRef.detectChanges;
-    }, 500);
-  }
 }
