@@ -49,6 +49,7 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
         null,
         Validators.compose([Validators.maxLength(2000)]),
       ],
+      venta_asesor: [false],
     });
   }
 
@@ -58,7 +59,8 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.formularioEmpresa.patchValue({
           formato_factura: respuesta.formato_factura,
-          informacion_factura: respuesta.informacion_factura
+          informacion_factura: respuesta.informacion_factura,
+          venta_asesor: respuesta.venta_asesor
         });
       });
   }
