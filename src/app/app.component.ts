@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { TranslationService } from './modules/i18n';
 // language list
 import { locale as enLang } from './modules/i18n/vocabs/en';
@@ -25,7 +30,6 @@ export class AppComponent implements OnInit {
     private modeService: ThemeModeService,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-
     // register translations
     this.translationService.loadTranslations(
       enLang,
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit {
     );
 
     // Detect when the window is fully loaded
-    window.addEventListener('DOMContentLoaded', this.onWindowLoad.bind(this));
+    window.onload = () => this.onWindowLoad();
   }
 
   ngOnInit() {
@@ -47,7 +51,7 @@ export class AppComponent implements OnInit {
   onWindowLoad() {
     setTimeout(() => {
       this.showOverlay = false;
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges;
     }, 500);
   }
 }
