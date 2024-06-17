@@ -50,6 +50,7 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
         Validators.compose([Validators.maxLength(2000)]),
       ],
       venta_asesor: [false],
+      venta_sede: [false],
     });
   }
 

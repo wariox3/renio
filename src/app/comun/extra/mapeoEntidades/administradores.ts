@@ -392,6 +392,27 @@ export const mapeo: Mapeo = {
       },
     ],
   },
+  Sede: {
+    modulo: 'general',
+    modelo: 'sede',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      }
+    ],
+  },
   HumContrato:{
     modulo: 'humano',
     modelo: 'HumContrato',

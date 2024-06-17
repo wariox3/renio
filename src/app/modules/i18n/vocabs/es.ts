@@ -51,7 +51,8 @@ export const locale = {
         EMPLEADO: 'Empleado',
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
-        DOCUMENTOSOPORTE: 'Documento soporte'
+        DOCUMENTOSOPORTE: 'Documento soporte',
+        SEDE: 'Sede'
       },
     },
     FORMULARIOS: {
@@ -329,6 +330,7 @@ export const locale = {
           COMENTARIO: 'Comentario',
           PLAZOPAGO: 'Plazo pago',
           FECHA: 'Fecha',
+          ASESOR: 'Asesor'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -578,6 +580,10 @@ export const locale = {
         BARRIO: 'Barrio',
         CODIGO_CIUU: 'CIUU',
       },
+      SEDE: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+      }
     },
     TEMA: {
       CLARO: 'Claro',

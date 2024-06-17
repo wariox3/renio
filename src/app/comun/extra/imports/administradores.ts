@@ -100,4 +100,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/humano/componentes/contrato/contrato-formulario/contrato-formulario.component'
       ),
   },
+  Sede: {
+    modulo: 'general',
+    modelo: 'sede',
+    detalle: async () =>
+      await import(
+        '../../../modules/general/componentes/sede/sede-detalle/sede-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/general/componentes/sede/sede-formulario/sede-formulario.component'
+      ),
+  },
 };

@@ -26,6 +26,7 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -82,6 +83,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
+  arrAsesor: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
@@ -89,13 +91,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
   btnGuardarDisabled = false;
+  requiereAsesor = false;
   theme_value = localStorage.getItem('kt_theme_mode_value');
   camposBuscarAvanzado = ['id', 'identificacion_abreviatura', 'numero_identificacion', 'nombre_corto']
 
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private empresaService: EmpresaService
   ) {
     super();
   }
@@ -156,6 +160,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
+        asesor: [''],
+        asesor_nombre_corto: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
       },
@@ -195,10 +201,24 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           limite_conteo: 10000,
           modelo: 'PlazoPago',
         }
-      )
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'Asesor',
+        }
+      ),
+      this.empresaService.obtenerConfiguracionEmpresa(1)
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
+      this.arrAsesor = respuesta[2].registros;
+      this.requiereAsesor = respuesta[3].venta_asesor
       this.changeDetectorRef.detectChanges();
     });
   }

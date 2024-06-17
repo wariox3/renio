@@ -316,6 +316,11 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'Item' },
             },
+            {
+              nombre: 'Sede',
+              tipo: 'Administrador',
+              data: { modelo: 'Sede' },
+            }
           ],
         },
         {
