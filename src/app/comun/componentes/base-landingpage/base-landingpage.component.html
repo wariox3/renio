@@ -50,16 +50,24 @@
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <a routerLink="/">
-                  <img
-                    alt="Logo"
-                    src="assets/media/logos/landing.svg"
-                    class="logo-default h-25px h-lg-30px"
-                  />
-                  <img
-                    alt="Logo"
-                    src="assets/media/logos/landing-dark.svg"
-                    class="logo-sticky h-20px h-lg-25px"
-                  />
+                  <ng-container *ngIf="menufijo === false; else elseTemplate">
+                    <img
+                      alt="Logo"
+                      src="assets/media/logos/landing.svg"
+                      class="logo-default img-fluid"
+                      width="200"
+                      height="100"
+                    />
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <img
+                      alt="Logo"
+                      src="../../../../assets/media/logos/landing-dark.svg"
+                      class="img-fluid"
+                      width="200"
+                      height="100"
+                    />
+                  </ng-template>
                 </a>
                 <!--end::Logo image-->
               </div>
@@ -591,7 +599,8 @@
               <span
                 class="mx-5 fs-6 fw-semibold text-gray-600 pt-1"
                 [routerLink]="'/inicio'"
-                >&copy; {{ fechaActual | date:'yyyy' }} Semantica digital SAS</span
+                >&copy; {{ fechaActual | date : "yyyy" }} Semantica digital
+                SAS</span
               >
               <!--end::Logo image-->
             </div>
@@ -601,25 +610,19 @@
               class="menu menu-gray-600 menu-hover-primary fw-semibold fs-6 fs-md-5 order-1 mb-5 mb-md-0"
             >
               <li class="menu-item">
-                <a
-                  [routerLink]="'/acerca_de'"
-                  class="menu-link px-2"
-                  >{{ "LANDINGPAGE.ACERCADE" | translate }}</a
-                >
+                <a [routerLink]="'/acerca_de'" class="menu-link px-2">{{
+                  "LANDINGPAGE.ACERCADE" | translate
+                }}</a>
               </li>
               <li class="menu-item mx-5">
-                <a
-                  [routerLink]="'/soporte'"
-                  class="menu-link px-2"
-                  >{{ "LANDINGPAGE.SOPORTE" | translate }}</a
-                >
+                <a [routerLink]="'/soporte'" class="menu-link px-2">{{
+                  "LANDINGPAGE.SOPORTE" | translate
+                }}</a>
               </li>
               <li class="menu-item">
-                <a
-                  [routerLink]="'/comprar'"
-                  class="menu-link px-2"
-                  >{{ "LANDINGPAGE.COMPRAR" | translate }}</a
-                >
+                <a [routerLink]="'/comprar'" class="menu-link px-2">{{
+                  "LANDINGPAGE.COMPRAR" | translate
+                }}</a>
               </li>
             </ul>
             <!--end::Menu-->
