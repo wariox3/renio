@@ -40,9 +40,9 @@ export class AppComponent implements OnInit {
       deLang,
       frLang
     );
-    window.onload = () => {
+    window.onpageshow = () => {
       this.load = false;
-      this.changeDetectorRef.detectChanges()
+      this.changeDetectorRef.detectChanges();
     };
   }
 
