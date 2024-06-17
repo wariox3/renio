@@ -564,7 +564,7 @@ export const locale = {
     LANDINGPAGE: {
       INICIO: 'Home',
       COMOFUNCIONA: 'How it Works',
-      ARCHIVOS: 'Achievements',
+      ARCHIVOS: 'Data',
       PORTAFOLIO: 'Portfolio',
       PRECIO: 'Pricing',
       CONTACTO: 'Contac',

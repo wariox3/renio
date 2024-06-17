@@ -602,7 +602,7 @@ export const locale = {
       INICIO: 'Inicio',
       DESCUBRIR: 'Descubre la diferencia hoy',
       COMOFUNCIONA: 'Cómo funciona',
-      ARCHIVOS: 'Archivos',
+      ARCHIVOS: 'Datos',
       PORTAFOLIO: 'Portafolio',
       PRECIO: 'Precio',
       CONTACTO: 'Contacto',
