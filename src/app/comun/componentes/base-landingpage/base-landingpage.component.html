@@ -53,19 +53,21 @@
                   <ng-container *ngIf="menufijo === false; else elseTemplate">
                     <img
                       alt="Logo"
-                      src="assets/media/logos/landing.svg"
+                      ngSrc="assets/media/logos/landing.svg"
                       class="logo-default img-fluid"
                       width="200"
                       height="100"
+                      priority
                     />
                   </ng-container>
                   <ng-template #elseTemplate>
                     <img
                       alt="Logo"
-                      src="../../../../assets/media/logos/landing-dark.svg"
+                      ngSrc="../../../../assets/media/logos/landing-dark.svg"
                       class="img-fluid"
                       width="200"
                       height="100"
+                      priority
                     />
                   </ng-template>
                 </a>
@@ -188,6 +190,7 @@
                           class="w-15px h-15px rounded-1 ms-2"
                           [src]="language.flag"
                           alt="metronic"
+                          loading="lazy"
                         />
                       </button>
                       <div

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { BtnwhatsappComponent } from '../btnwhatsapp/btnwhatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -22,7 +22,8 @@ interface LanguageFlag {
     RouterModule,
     TranslateModule,
     TranslationModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    NgOptimizedImage
   ],
   templateUrl: './base-landingpage.component.html',
   styleUrls: ['./base-landingpage.component.scss'],
