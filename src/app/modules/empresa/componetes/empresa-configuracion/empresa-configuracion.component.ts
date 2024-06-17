@@ -61,7 +61,8 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
         this.formularioEmpresa.patchValue({
           formato_factura: respuesta.formato_factura,
           informacion_factura: respuesta.informacion_factura,
-          venta_asesor: respuesta.venta_asesor
+          venta_asesor: respuesta.venta_asesor,
+          venta_sede: respuesta.venta_sede
         });
       });
   }

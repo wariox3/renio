@@ -330,7 +330,8 @@ export const locale = {
           COMENTARIO: 'Comentario',
           PLAZOPAGO: 'Plazo pago',
           FECHA: 'Fecha',
-          ASESOR: 'Asesor'
+          ASESOR: 'Asesor',
+          SEDE: 'Sede'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

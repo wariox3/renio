@@ -361,7 +361,6 @@ export class BaseFiltroComponent extends General implements OnInit {
   seleccionarCriterio(evento: Event, index: number) {
     const propiedad = evento.target as HTMLSelectElement;
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    console.log(filtroPorActualizar);
   }
 
   abirModal(content: any, index: number) {

@@ -84,6 +84,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   arrAsesor: any[] = [];
+  arrSede: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   estado_aprobado: false;
@@ -92,6 +93,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   visualizarCampoDocumentoReferencia = false;
   btnGuardarDisabled = false;
   requiereAsesor = false;
+  requiereSede = false;
   theme_value = localStorage.getItem('kt_theme_mode_value');
   camposBuscarAvanzado = ['id', 'identificacion_abreviatura', 'numero_identificacion', 'nombre_corto']
 
@@ -162,6 +164,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         documento_referencia_numero: [null],
         asesor: [''],
         asesor_nombre_corto: [null],
+        sede: [''],
+        sede_nombre: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
       },
@@ -213,12 +217,25 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           modelo: 'Asesor',
         }
       ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'Sede',
+        }
+      ),
       this.empresaService.obtenerConfiguracionEmpresa(1)
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
       this.arrAsesor = respuesta[2].registros;
-      this.requiereAsesor = respuesta[3].venta_asesor
+      this.arrSede = respuesta[3].registros;
+      this.requiereAsesor = respuesta[4].venta_asesor
+      this.requiereSede = respuesta[4].venta_sede
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -931,8 +948,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               estado_emitido: respuesta.documento.estado_aprobado,
             },
           })
-        );
-
+        );        
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
@@ -943,6 +959,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
           plazo_pago: respuesta.documento.plazo_pago_id,
+          asesor: respuesta.documento.asesor,
+          asesor_nombre_corto: respuesta.documento.asesor_nombre_corto,
+          sede: respuesta.documento.sede,
+          sede_nombre: respuesta.documento.sede_nombre
         });
 
         this.detalles.clear();
