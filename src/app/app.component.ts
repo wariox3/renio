@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
       deLang,
       frLang
     );
+    window.onload = () => alert("asd");
   }
 
   ngOnInit() {
