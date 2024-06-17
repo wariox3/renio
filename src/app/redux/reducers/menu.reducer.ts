@@ -82,6 +82,11 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 302 },
             },
+            {
+              nombre: 'DOCUMENTOSOPORTE',
+              tipo: 'Documento',
+              data: { documento_clase: 303 },
+            },
           ],
         },
         {

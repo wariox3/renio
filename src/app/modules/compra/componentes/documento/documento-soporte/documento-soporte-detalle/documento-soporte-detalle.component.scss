@@ -1,0 +1,64 @@
+table#tableDetalles {
+  border-collapse: collapse;
+  width: 100%;
+
+  td {
+    vertical-align: middle;
+  }
+
+  tr {
+    height: 64.063px;
+  }
+  td {
+    width: 200px;
+    padding: 0px, 2px !important;
+    vertical-align: middle; /* Centra el contenido verticalmente */
+    text-align: center;
+  }
+
+  th {
+    width: 200px;
+    padding: 0px !important;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .textarea-container {
+    display: flex;
+    align-items: center; /* Esto centra verticalmente el contenido */
+  }
+
+  textarea {
+    border-width: 0px;
+    padding: 0px;
+    resize: none;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: #f9f9f9;
+    }
+  }
+
+  .disabled-cursor {
+    cursor: not-allowed;
+  }
+
+  td.containerDescuento {
+    display: grid;
+    grid-template-columns: 98% 2%;
+    justify-content: center;
+    align-items: center;
+    border:0
+  }
+
+}
+
+

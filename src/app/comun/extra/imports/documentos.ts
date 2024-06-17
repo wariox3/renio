@@ -76,6 +76,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/compra/componentes/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
       ),
   },
+  303: {
+    detalle: async () =>
+      await import(
+        '../../../modules/compra/componentes/documento/documento-soporte/documento-soporte-detalle/documento-soporte-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/compra/componentes/documento/documento-soporte/documento-soporte-formulario/documento-soporte-formulario.component'
+      ),
+  },
   400: {
     detalle: async () =>
       await import(

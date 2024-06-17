@@ -50,7 +50,8 @@ export const locale = {
         CUENTASCOBRAR: 'Cuentas por cobrar',
         EMPLEADO: 'Empleado',
         CONTRATO: 'Contrato',
-        HUMCONTRATO: 'Contrato'
+        HUMCONTRATO: 'Contrato',
+        DOCUMENTOSOPORTE: 'Documento soporte'
       },
     },
     FORMULARIOS: {
