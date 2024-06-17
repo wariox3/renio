@@ -24,6 +24,8 @@ import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switche
 })
 export class AppComponent implements OnInit {
 
+  load = true
+
   constructor(
     private translationService: TranslationService,
     private modeService: ThemeModeService,
@@ -38,7 +40,10 @@ export class AppComponent implements OnInit {
       deLang,
       frLang
     );
-    window.onload = () => alert("asd");
+    window.onload = () => {
+      this.load = false;
+      this.changeDetectorRef.detectChanges()
+    };
   }
 
   ngOnInit() {
