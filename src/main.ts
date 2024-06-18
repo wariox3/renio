@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, isDevMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { environment } from './environments/environment';
@@ -20,6 +20,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { errorHttpInterceptor } from '@interceptores/errorhttp.interceptor';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 if (environment.production) {
   enableProdMode();
@@ -35,7 +36,14 @@ bootstrapApplication(AppComponent, {
       TranslateModule.forRoot(),
       InlineSVGModule.forRoot(),
       StoreModule.forRoot(StoreApp),
-      EffectsModule.forRoot(EffectsApp)
+      EffectsModule.forRoot(EffectsApp),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        logOnly: !isDevMode(), // Restrict extension to log-only mode
+        autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+        trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+        traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
+      }),
     ),
     provideHttpClient(withInterceptors([tokenInterceptor, errorHttpInterceptor])),
     provideAnimations(),
