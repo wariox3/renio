@@ -30,15 +30,13 @@ export class General {
       this.accion = 'detalle';
     }
 
-    this.activatedRoute.queryParams.subscribe(
-      (parametros) => {
-        this.parametrosUrl = parametros;
-        this.modelo = localStorage.getItem('itemNombre')!
-        this.detalle = parametros.detalle;
-        this.changeDetectorRef.detectChanges;
-      }
-    );
-    this.changeDetectorRef.detectChanges;    
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+      this.parametrosUrl = parametros;
+      this.modelo = localStorage.getItem('itemNombre')!;
+      this.detalle = parametros.detalle;
+      this.changeDetectorRef.detectChanges;
+    });
+    this.changeDetectorRef.detectChanges;
     //cambiosQueryParams.unsubscribe();
   }
 }

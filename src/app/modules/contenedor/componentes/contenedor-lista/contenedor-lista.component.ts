@@ -33,6 +33,7 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     NgFor,
     NgbDropdownModule,
     SkeletonLoadingComponent,
+    NgOptimizedImage,
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
