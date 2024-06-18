@@ -1,17 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Usuario } from '@interfaces/usuario/usuario';
 
-
 const Usuario = createFeatureSelector<Usuario>('usuario');
 
-
-export const obtenerUsuarioTelefono = createSelector(
-  Usuario,
-  (Usuario) => {
-    const telefono = Usuario.telefono || '';
-    return `${telefono}`
-  }
-);
+export const obtenerUsuarioTelefono = createSelector(Usuario, (Usuario) => {
+  const telefono = Usuario.telefono || '';
+  return `${telefono}`;
+});
 
 export const obtenerUsuarioNombre = createSelector(
   Usuario,
@@ -47,11 +42,6 @@ export const obtenerUsuarioId = createSelector(
   (Usuario) => `${Usuario.id}`
 );
 
-export const obtenerUsuarioCargo = createSelector(
-  Usuario,
-  (Usuario) => `${Usuario.cargo}`
-);
-
 export const obtenerUsuarioFechaLimitePago = createSelector(
   Usuario,
   (Usuario) => Usuario.fecha_limite_pago
@@ -67,7 +57,5 @@ export const obtenerUsuarioSuspencion = createSelector(
   (Usuario) => Usuario.vr_saldo > 0
 );
 
-export const obtenerValidacionSaldo = (saldo: number) => createSelector(
-  Usuario,
-  (Usuario) => Usuario.vr_saldo !== saldo
-);
+export const obtenerValidacionSaldo = (saldo: number) =>
+  createSelector(Usuario, (Usuario) => Usuario.vr_saldo !== saldo);

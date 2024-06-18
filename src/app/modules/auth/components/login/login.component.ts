@@ -102,7 +102,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                 usuario: {
                   id: respuesta.user.id,
                   username: respuesta.user.username,
-                  cargo: 'admin',
                   imagen: respuesta.user.imagen,
                   nombre_corto: respuesta.user.nombre_corto,
                   nombre: respuesta.user.nombre,

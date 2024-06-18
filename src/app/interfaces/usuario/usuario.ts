@@ -1,7 +1,6 @@
 export interface Usuario {
   id: string;
   username: string;
-  cargo: string;
   imagen: string;
   nombre_corto: string;
   nombre: string | null;

@@ -96,11 +96,6 @@ export class RegistrationComponent extends General implements OnInit {
         .registration(this.formularioRegistro.value)
         .pipe(
           tap(() => {
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.AUTENTIFICACION.VERIFICACION'
-              )
-            );
             this.router.navigate(['/auth/login']);
           }),
           catchError(() => {

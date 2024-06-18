@@ -6,17 +6,16 @@ import {
   usuarioActionActualizarInformacionUsuario,
   usuarioActionActualizarIdioma,
   usuarioActionActualizarImagen,
-  usuarioActionActualizarVrSaldo
+  usuarioActionActualizarVrSaldo,
 } from '../actions/usuario.actions';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
 
 let usuarioData = getCookie('usuario');
 
-let parsedState:Usuario =  {
+let parsedState: Usuario = {
   id: '',
   username: '',
-  cargo: '',
   imagen: '',
   nombre_corto: '',
   nombre: '',
@@ -26,11 +25,12 @@ let parsedState:Usuario =  {
   idioma: '',
   dominio: '',
   fecha_limite_pago: new Date(),
-  vr_saldo: 0
+  vr_saldo: 0,
 };
 
-
-export const initialState: Usuario = usuarioData ? JSON.parse(usuarioData) : parsedState;
+export const initialState: Usuario = usuarioData
+  ? JSON.parse(usuarioData)
+  : parsedState;
 
 export const usuarioReducer = createReducer(
   initialState,
@@ -40,22 +40,25 @@ export const usuarioReducer = createReducer(
       ...usuario,
     };
   }),
-  on(usuarioActionActualizarNombreCorto, (state, {nombre_corto})=>{
+  on(usuarioActionActualizarNombreCorto, (state, { nombre_corto }) => {
     return {
       ...state,
       nombre_corto,
     };
   }),
-  on(usuarioActionActualizarInformacionUsuario, (state, {nombre_corto, nombre, apellido, telefono}) => {
-    return {
-      ...state,
-      nombre_corto,
-      nombre,
-      apellido,
-      telefono
+  on(
+    usuarioActionActualizarInformacionUsuario,
+    (state, { nombre_corto, nombre, apellido, telefono }) => {
+      return {
+        ...state,
+        nombre_corto,
+        nombre,
+        apellido,
+        telefono,
+      };
     }
-  }),
-  on(usuarioActionActualizarIdioma, (state, {idioma})=>{
+  ),
+  on(usuarioActionActualizarIdioma, (state, { idioma }) => {
     return {
       ...state,
       idioma,
@@ -70,16 +73,16 @@ export const usuarioReducer = createReducer(
       },
     };
   }),
-  on(usuarioActionActualizarImagen, (state, {imagen})=>{
+  on(usuarioActionActualizarImagen, (state, { imagen }) => {
     return {
       ...state,
       imagen,
     };
   }),
-  on(usuarioActionActualizarVrSaldo, (state, {vr_saldo})=>{
+  on(usuarioActionActualizarVrSaldo, (state, { vr_saldo }) => {
     return {
       ...state,
       vr_saldo,
     };
-  }),
+  })
 );

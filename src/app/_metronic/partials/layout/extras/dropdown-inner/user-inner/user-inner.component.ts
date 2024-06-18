@@ -2,17 +2,14 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, combineLatest, tap, zip } from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
-import { Store } from '@ngrx/store';
 import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
 import {
-  obtenerUsuarioCargo,
   obtenerUsuarioImagen,
   obtenerUsuarioNombreCorto,
   obtenerUsuarioNombre,
   obtenerUsuarioidioma,
 } from '@redux/selectors/usuario.selectors';
 import { SubdominioService } from '@comun/services/subdominio.service';
-import { Router } from '@angular/router';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
 import {
   obtenerEmpresaId,
@@ -36,7 +33,6 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   user$: Observable<UserType>;
   langs = languages;
   usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
-  usuarioCargo$ = this.store.select(obtenerUsuarioCargo);
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
@@ -107,7 +103,9 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmisContenedores() {
     if (this.esSubdominio) {
-      location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/contenedor/lista`;
+      location.href = `${
+        environment.dominioHttp
+      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
     } else {
       this.router.navigate([`/contenedor/lista`]);
     }
