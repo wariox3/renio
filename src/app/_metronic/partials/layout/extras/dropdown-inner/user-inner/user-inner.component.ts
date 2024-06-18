@@ -20,6 +20,7 @@ import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracio
 import { General } from '@comun/clases/general';
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-user-inner',
@@ -32,6 +33,7 @@ import { RouterLink } from '@angular/router';
         NgFor,
         NgClass,
         AsyncPipe,
+        TranslateModule,
     ],
 })
 export class UserInnerComponent extends General implements OnInit, OnDestroy {
