@@ -13,6 +13,10 @@ import { removeCookie } from 'typescript-cookie';
 import { TokenVerificacion } from '../models/token-verificacion';
 import { TokenReenviarValidacion } from '../models/token-reenviar-validacion';
 import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
+import { Usuario } from '@interfaces/usuario/usuario';
+import { Store } from '@ngrx/store';
+import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -39,7 +43,8 @@ export class AuthService implements OnDestroy {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private store: Store,
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
@@ -161,6 +166,39 @@ export class AuthService implements OnDestroy {
     return this.http.post(`${environment.URL_API_MUUP}/contenedor/usuariocontenedor/confirmar/`,{
       token
     })
+  }
+
+  loginExitoso(usuario: Usuario){
+    this.store.dispatch(
+      usuarioActionInit({
+        usuario: {
+          id: usuario.id,
+          username: usuario.username,
+          imagen: usuario.imagen,
+          nombre_corto: usuario.nombre_corto,
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          telefono: usuario.telefono,
+          correo: usuario.correo,
+          idioma: usuario.idioma,
+          dominio: usuario.dominio,
+          fecha_limite_pago: new Date(usuario.fecha_limite_pago),
+          vr_saldo: usuario.vr_saldo,
+        },
+      })
+    );
+    if (window.location.host.includes(environment.dominioApp)) {
+      this.store.dispatch(
+        configuracionVisualizarAction({
+          configuracion: {
+            visualizarApps: true,
+          },
+        })
+      );
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/contenedor/lista']);
+    }
   }
 
   ngOnDestroy() {

@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { General } from '@comun/clases/general';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, of, switchMap, tap } from 'rxjs';
+import { SubdominioService } from '@comun/services/subdominio.service';
 
 @Component({
   selector: 'app-registration',
@@ -18,7 +19,8 @@ export class RegistrationComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private subdominioService: SubdominioService
   ) {
     super();
   }
@@ -95,8 +97,11 @@ export class RegistrationComponent extends General implements OnInit {
       this.authService
         .registration(this.formularioRegistro.value)
         .pipe(
-          tap(() => {
-            this.router.navigate(['/auth/login']);
+          switchMap(() =>
+            this.authService.login(this.formFields.usuario.value, this.formFields.clave.value)
+          ),
+          tap((respuestaLogin) => {
+            this.authService.loginExitoso(respuestaLogin.user)
           }),
           catchError(() => {
             this.visualizarLoader = false;
