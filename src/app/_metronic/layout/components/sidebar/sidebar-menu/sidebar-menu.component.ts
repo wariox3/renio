@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { informacionMenuItem } from '@redux/reducers/menu.reducer';
@@ -10,11 +10,25 @@ import {
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { NgFor, NgClass, UpperCasePipe, LowerCasePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 
 @Component({
-  selector: 'app-sidebar-menu',
-  templateUrl: './sidebar-menu.component.html',
-  styleUrls: ['./sidebar-menu.component.scss'],
+    selector: 'app-sidebar-menu',
+    templateUrl: './sidebar-menu.component.html',
+    styleUrls: ['./sidebar-menu.component.scss'],
+    standalone: true,
+    imports: [
+        RouterLinkActive,
+        KeeniconComponent,
+        RouterLink,
+        TranslateModule,
+        NgFor,
+        NgClass,
+        UpperCasePipe,
+        LowerCasePipe,
+    ],
 })
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;

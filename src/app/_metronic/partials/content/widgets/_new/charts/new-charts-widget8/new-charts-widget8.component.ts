@@ -8,11 +8,22 @@ import {
 } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { getCSSVariableValue } from '../../../../../../kt/_utils';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { KeeniconComponent } from '../../../../../../shared/keenicon/keenicon.component';
+import { NgClass, NgStyle, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-new-charts-widget8',
-  templateUrl: './new-charts-widget8.component.html',
-  styleUrls: ['./new-charts-widget8.component.scss'],
+    selector: 'app-new-charts-widget8',
+    templateUrl: './new-charts-widget8.component.html',
+    styleUrls: ['./new-charts-widget8.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        KeeniconComponent,
+        NgStyle,
+        NgIf,
+        NgApexchartsModule,
+    ],
 })
 export class NewChartsWidget8Component implements OnInit {
   @ViewChild('weekChart') weekChart: ElementRef<HTMLDivElement>;

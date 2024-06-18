@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -49,14 +49,13 @@ import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValid
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     SoloNumerosDirective,
     BtnAtrasComponent,
     CardComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+],
   providers: [provideNgxMask()],
 })
 export default class ContactDetalleComponent extends General implements OnInit {

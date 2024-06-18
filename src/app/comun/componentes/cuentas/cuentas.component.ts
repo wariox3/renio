@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, O
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -14,10 +14,9 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   imports: [
     CommonModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgFor,
-  ],
+],
   templateUrl: './cuentas.component.html',
   styleUrls: ['./cuentas.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -7,7 +7,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContenedorUsuariosInvicionAceptada } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { tap } from 'rxjs';
@@ -19,13 +19,12 @@ import { tap } from 'rxjs';
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     AnimationFadeinUpDirective,
-  ]
+]
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
   arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];

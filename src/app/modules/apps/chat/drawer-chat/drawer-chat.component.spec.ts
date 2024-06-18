@@ -9,9 +9,9 @@ describe('DrawerChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DrawerChatComponent],
-      imports: [CardsModule],
-    }).compileComponents();
+    declarations: [DrawerChatComponent],
+    imports: [CardsModule],
+}).compileComponents();
   });
 
   beforeEach(() => {

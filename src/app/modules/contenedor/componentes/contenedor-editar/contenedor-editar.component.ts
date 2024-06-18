@@ -14,7 +14,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
@@ -27,13 +27,12 @@ import { switchMap, tap } from 'rxjs';
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule
-  ]
+]
 })
 export class ContenedorEditarComponent extends General implements OnInit {
   formularioContenedor: FormGroup;

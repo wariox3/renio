@@ -1,5 +1,9 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { LayoutService } from '../../../../../layout';
+import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
+import { RouterLink } from '@angular/router';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NgClass, NgFor } from '@angular/common';
 
 export type NotificationsTabsType =
   | 'kt_topbar_notifications_1'
@@ -7,8 +11,16 @@ export type NotificationsTabsType =
   | 'kt_topbar_notifications_3';
 
 @Component({
-  selector: 'app-notifications-inner',
-  templateUrl: './notifications-inner.component.html',
+    selector: 'app-notifications-inner',
+    templateUrl: './notifications-inner.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgFor,
+        InlineSVGModule,
+        RouterLink,
+        KeeniconComponent,
+    ],
 })
 export class NotificationsInnerComponent implements OnInit {
   @HostBinding('class') class =

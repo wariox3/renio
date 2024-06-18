@@ -18,7 +18,7 @@ import { SharedModule } from '../../_metronic/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '../../modules/i18n';
+
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
@@ -27,36 +27,33 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
-  declarations: [
-    ProfileComponent,
-    OverviewComponent,
-    ProjectsComponent,
-    CampaignsComponent,
-    DocumentsComponent,
-    ConnectionsComponent,
-    InformacionUsuarioComponent,
-  ],
-  imports: [
-    CommonModule,
-    ProfileRoutingModule,
-    InlineSVGModule,
-    DropdownMenusModule,
-    WidgetsModule,
-    CardsModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CambioClaveComponent,
-    TranslateModule,
-    TranslationModule,
-    ModalsModule,
-    NgbAccordionModule,
-    CargarImagenComponent,
-    NgOptimizedImage,
-    SkeletonLoadingComponent,
-    NgxMaskPipe,
-    NgxMaskDirective,
-  ],
-  providers: [NgbActiveModal, provideNgxMask()],
+    imports: [
+        CommonModule,
+        ProfileRoutingModule,
+        InlineSVGModule,
+        DropdownMenusModule,
+        WidgetsModule,
+        CardsModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CambioClaveComponent,
+        TranslateModule,
+        ModalsModule,
+        NgbAccordionModule,
+        CargarImagenComponent,
+        NgOptimizedImage,
+        SkeletonLoadingComponent,
+        NgxMaskPipe,
+        NgxMaskDirective,
+        ProfileComponent,
+        OverviewComponent,
+        ProjectsComponent,
+        CampaignsComponent,
+        DocumentsComponent,
+        ConnectionsComponent,
+        InformacionUsuarioComponent,
+    ],
+    providers: [NgbActiveModal, provideNgxMask()],
 })
 export class ProfileModule {}

@@ -8,7 +8,7 @@ import { utilidades } from '@comun/extra/mapeoEntidades/utilidades';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -22,11 +22,10 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     CardComponent,
     TablaComponent,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
     BaseFiltroComponent,
-  ],
+],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
   filtroPermanenteEmitir = [

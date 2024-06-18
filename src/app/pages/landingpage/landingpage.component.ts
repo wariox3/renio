@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule, TranslationService } from '@modulos/i18n';
+import { TranslationService } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CountUpModule } from 'ngx-countup';
 import {
@@ -48,12 +48,11 @@ const languages = [
     CommonModule,
     RouterModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     CountUpModule,
     FormsModule,
     ReactiveFormsModule,
-  ],
+],
 })
 export class LandingpageComponent implements OnInit {
   estadoMenu = false;

@@ -7,27 +7,24 @@ import {ExploreMainDrawerComponent} from './explore-main-drawer/explore-main-dra
 import {HelpDrawerComponent} from "./help-drawer/help-drawer.component";
 import {SharedModule} from "../../../shared/shared.module";
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 
 @NgModule({
-  declarations: [
-    ExploreMainDrawerComponent,
-    HelpDrawerComponent,
-    PurchaseToolbarComponent,
-  ],
-  imports: [
-    CommonModule,
-    InlineSVGModule,
-    RouterModule,
-    SharedModule,
-    TranslateModule,
-    TranslationModule
-  ],
-  exports: [
-    ExploreMainDrawerComponent,
-    HelpDrawerComponent,
-    PurchaseToolbarComponent
-  ],
+    imports: [
+        CommonModule,
+        InlineSVGModule,
+        RouterModule,
+        SharedModule,
+        TranslateModule,
+        ExploreMainDrawerComponent,
+        HelpDrawerComponent,
+        PurchaseToolbarComponent
+    ],
+    exports: [
+        ExploreMainDrawerComponent,
+        HelpDrawerComponent,
+        PurchaseToolbarComponent
+    ],
 })
 export class EngagesModule {
 }

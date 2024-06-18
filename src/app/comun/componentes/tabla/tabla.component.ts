@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 import { interval, take } from 'rxjs';
@@ -39,10 +39,9 @@ import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
     NgbDropdownModule,
     KeysPipe,
     TranslateModule,
-    TranslationModule,
     ImportarComponent,
     AnimationFadeinUpDirective,
-  ],
+],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);

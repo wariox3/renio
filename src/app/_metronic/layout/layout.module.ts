@@ -8,7 +8,7 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '../../modules/i18n';
+
 import { LayoutComponent } from './layout.component';
 import { ExtrasModule } from '../partials/layout/extras/extras.module';
 import { Routing } from '../../pages/routing';
@@ -52,48 +52,45 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    AsideComponent,
-    HeaderComponent,
-    ContentComponent,
-    FooterComponent,
-    ScriptsInitComponent,
-    ToolbarComponent,
-    AsideMenuComponent,
-    TopbarComponent,
-    PageTitleComponent,
-    HeaderMenuComponent,
-    EngagesComponent,
-    SidebarComponent,
-    SidebarLogoComponent,
-    SidebarMenuComponent,
-    SidebarFooterComponent,
-    NavbarComponent,
-    AccountingComponent,
-    ClassicComponent,
-    ExtendedComponent,
-    ReportsComponent,
-    SaasComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    TranslationModule,
-    InlineSVGModule,
-    NgbDropdownModule,
-    NgbProgressbarModule,
-    ExtrasModule,
-    ModalsModule,
-    DrawersModule,
-    EngagesModule,
-    DropdownMenusModule,
-    NgbTooltipModule,
-    TranslateModule,
-    ThemeModeModule,
-    SharedModule,
-    AlertaSuspensionComponent
-  ],
-  exports: [RouterModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        InlineSVGModule,
+        NgbDropdownModule,
+        NgbProgressbarModule,
+        ExtrasModule,
+        ModalsModule,
+        DrawersModule,
+        EngagesModule,
+        DropdownMenusModule,
+        NgbTooltipModule,
+        TranslateModule,
+        ThemeModeModule,
+        SharedModule,
+        AlertaSuspensionComponent,
+        LayoutComponent,
+        AsideComponent,
+        HeaderComponent,
+        ContentComponent,
+        FooterComponent,
+        ScriptsInitComponent,
+        ToolbarComponent,
+        AsideMenuComponent,
+        TopbarComponent,
+        PageTitleComponent,
+        HeaderMenuComponent,
+        EngagesComponent,
+        SidebarComponent,
+        SidebarLogoComponent,
+        SidebarMenuComponent,
+        SidebarFooterComponent,
+        NavbarComponent,
+        AccountingComponent,
+        ClassicComponent,
+        ExtendedComponent,
+        ReportsComponent,
+        SaasComponent
+    ],
+    exports: [RouterModule],
 })
 export class LayoutModule {}

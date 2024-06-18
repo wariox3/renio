@@ -10,7 +10,7 @@ import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
@@ -25,7 +25,6 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     AnimationFadeinUpDirective,
     NgOptimizedImage,
@@ -34,7 +33,7 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     NgbDropdownModule,
     SkeletonLoadingComponent,
     NgOptimizedImage,
-  ],
+],
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];

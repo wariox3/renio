@@ -1,15 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { General } from '@comun/clases/general';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { SubdominioService } from '@comun/services/subdominio.service';
+import { RouterLink } from '@angular/router';
+import { NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgClass,
+        NgTemplateOutlet,
+        NgIf,
+        RouterLink,
+    ],
 })
 export class RegistrationComponent extends General implements OnInit {
   formularioRegistro: FormGroup;

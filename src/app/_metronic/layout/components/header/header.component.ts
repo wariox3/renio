@@ -1,15 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationCancel, NavigationEnd, Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../../core/layout.service';
 import { MenuComponent } from '../../../kt/components';
 import { ILayout, LayoutType } from '../../core/configs/config';
 import { SubdominioService } from '@comun/services/subdominio.service';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HeaderMenuComponent } from './header-menu/header-menu.component';
+import { KeeniconComponent } from '../../../shared/keenicon/keenicon.component';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        KeeniconComponent,
+        RouterLink,
+        HeaderMenuComponent,
+        NavbarComponent,
+    ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

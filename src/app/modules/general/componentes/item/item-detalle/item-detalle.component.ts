@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
@@ -18,11 +18,10 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-  ],
+],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];

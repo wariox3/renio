@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'app-tiles-widget10',
-  templateUrl: './tiles-widget10.component.html',
+    selector: 'app-tiles-widget10',
+    templateUrl: './tiles-widget10.component.html',
+    standalone: true,
+    imports: [NgClass, NgStyle],
 })
 export class TilesWidget10Component {
   @Input() cssClass = '';

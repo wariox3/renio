@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Token } from '@interfaces/usuario/token';
 import { TokenService } from './token.service';
-import { chackRequiereToken } from '@interceptores/token.interceptor';
+import { noRequiereToken } from '@interceptores/token.interceptor';
 import { removeCookie } from 'typescript-cookie';
 import { TokenVerificacion } from '../models/token-verificacion';
 import { TokenReenviarValidacion } from '../models/token-reenviar-validacion';
@@ -26,6 +26,10 @@ export class AuthService implements OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
+  private http = inject(HttpClient)
+  private router = inject(Router)
+  private tokenService = inject(TokenService)
+  private store = inject(Store)
 
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -40,12 +44,7 @@ export class AuthService implements OnDestroy {
     this.currentUserSubject.next(user);
   }
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private tokenService: TokenService,
-    private store: Store,
-  ) {
+  constructor() {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
     this.currentUser$ = this.currentUserSubject.asObservable();
@@ -57,7 +56,7 @@ export class AuthService implements OnDestroy {
       .post<Token>(
         `${environment.URL_API_MUUP}/seguridad/login/`,
         { username: email, password: password },
-        { context: chackRequiereToken() }
+        { context: noRequiereToken() }
       )
       .pipe(
         tap((respuesta: Token) => {
@@ -98,7 +97,7 @@ export class AuthService implements OnDestroy {
         password: data.clave,
       },
       {
-        context: chackRequiereToken(),
+        context: noRequiereToken(),
       }
     );
   }
@@ -107,7 +106,7 @@ export class AuthService implements OnDestroy {
     return this.http.post(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-solicitar/`,
       { username: email, accion: 'clave' },
-      { context: chackRequiereToken() }
+      { context: noRequiereToken() }
     );
   }
 
@@ -115,7 +114,7 @@ export class AuthService implements OnDestroy {
     return this.http.post<TokenVerificacion>(
       `${environment.URL_API_MUUP}/seguridad/usuario/verificar/`,
       { token },
-      { context: chackRequiereToken() }
+      { context: noRequiereToken() }
     );
   }
 
@@ -123,7 +122,7 @@ export class AuthService implements OnDestroy {
     return this.http.post<TokenReenviarValidacion>(
       `${environment.URL_API_MUUP}/seguridad/verificacion/`,
       { codigoUsuario },
-      { context: chackRequiereToken() }
+      { context: noRequiereToken() }
     );
   }
 
@@ -149,7 +148,7 @@ export class AuthService implements OnDestroy {
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-verificar/`,
       {  password, token },
-      { context: chackRequiereToken() }
+      { context: noRequiereToken() }
     );
   }
 
@@ -157,7 +156,7 @@ export class AuthService implements OnDestroy {
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave/`,
       {  usuario_id, password },
-      { context: chackRequiereToken() }
+      { context: noRequiereToken() }
     );
   }
 

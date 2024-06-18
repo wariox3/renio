@@ -6,7 +6,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
@@ -19,14 +19,13 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+],
   providers: [provideNgxMask()],
   templateUrl: './empleado-detalle.component.html',
   styleUrls: ['./empleado-detalle.component.css'],

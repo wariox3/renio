@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
+import { NgClass } from '@angular/common';
 
 type Tabs =
   | 'kt_table_widget_7_tab_1'
@@ -6,8 +8,10 @@ type Tabs =
   | 'kt_table_widget_7_tab_3';
 
 @Component({
-  selector: 'app-tables-widget7',
-  templateUrl: './tables-widget7.component.html',
+    selector: 'app-tables-widget7',
+    templateUrl: './tables-widget7.component.html',
+    standalone: true,
+    imports: [NgClass, KeeniconComponent],
 })
 export class TablesWidget7Component implements OnInit {
   constructor() {}

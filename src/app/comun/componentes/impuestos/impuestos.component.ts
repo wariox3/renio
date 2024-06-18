@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
@@ -22,10 +22,9 @@ import { tap, throttleTime } from 'rxjs';
   imports: [
     CommonModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     SoloNumerosDirective,
-  ],
+],
   templateUrl: './impuestos.component.html',
   styleUrls: ['./impuestos.component.scss'],
 })

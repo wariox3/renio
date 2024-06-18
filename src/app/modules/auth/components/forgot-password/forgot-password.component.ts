@@ -1,14 +1,27 @@
 import { Component, OnInit, } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { General } from '@comun/clases/general';
 import { catchError, of, tap } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        TranslateModule,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        NgTemplateOutlet,
+    ],
 })
 export class ForgotPasswordComponent extends General implements OnInit {
 

@@ -9,11 +9,11 @@ describe('WidgetsExamplesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WidgetsExamplesComponent ],
-      imports: [
+    declarations: [WidgetsExamplesComponent],
+    imports: [
         RouterModule.forRoot([]),
-      ]
-    })
+    ]
+})
     .compileComponents();
   });
 

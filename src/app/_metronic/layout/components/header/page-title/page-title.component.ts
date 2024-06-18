@@ -3,8 +3,9 @@ import { Observable, Subscription } from 'rxjs';
 import { PageInfoService, PageLink } from '../../../core/page-info.service';
 
 @Component({
-  selector: 'app-page-title',
-  templateUrl: './page-title.component.html',
+    selector: 'app-page-title',
+    templateUrl: './page-title.component.html',
+    standalone: true,
 })
 export class PageTitleComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

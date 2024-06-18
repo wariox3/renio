@@ -7,14 +7,14 @@ import {
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { RouterModule } from '@angular/router';
 import { combineLatest, combineLatestAll } from 'rxjs';
 
 @Component({
   selector: 'app-comun-alerta-suspension',
   templateUrl: './alerta-suspension.component.html',
-  imports: [CommonModule, TranslateModule, TranslationModule, RouterModule],
+  imports: [CommonModule, TranslateModule, RouterModule],
   standalone: true,
 })
 export class AlertaSuspensionComponent extends General implements OnInit {

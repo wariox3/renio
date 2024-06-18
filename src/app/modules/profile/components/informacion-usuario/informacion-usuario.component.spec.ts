@@ -11,16 +11,16 @@ describe('InformacionUsuarioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InformacionUsuarioComponent],
-      imports: [
+    imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({}), // Esto es un ejemplo; proporciona tus reducers reales aquí
-      ],
-      providers: [
+        StoreModule.forRoot({}),
+        InformacionUsuarioComponent,
+    ],
+    providers: [
         // Proporciona un Store mock para las pruebas
         provideMockStore(),
-      ]
-    }).compileComponents();
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(InformacionUsuarioComponent);
     component = fixture.componentInstance;

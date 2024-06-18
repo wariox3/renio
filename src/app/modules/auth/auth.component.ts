@@ -1,13 +1,32 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslationService } from '../i18n';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgFor, NgClass, NgStyle } from '@angular/common';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { BtnwhatsappComponent } from '../../comun/componentes/btnwhatsapp/btnwhatsapp.component';
 
 // const BODY_CLASSES = ['bgi-size-cover', 'bgi-position-center', 'bgi-no-repeat'];
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '<body[root]>',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: '<body[root]>',
+    templateUrl: './auth.component.html',
+    styleUrls: ['./auth.component.scss'],
+    standalone: true,
+    imports: [
+        BtnwhatsappComponent,
+        RouterOutlet,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgFor,
+        NgbDropdownItem,
+        NgClass,
+        TranslateModule,
+        RouterLink,
+        NgStyle,
+    ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   today: Date = new Date();

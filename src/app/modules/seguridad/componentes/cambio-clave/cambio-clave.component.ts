@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/_metronic/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 
 @Component({
   selector: 'app-seguridad-cambio-clave',
@@ -23,8 +23,7 @@ import { TranslationModule } from '@modulos/i18n';
     HttpClientModule,
     NgbModalModule,
     TranslateModule,
-    TranslationModule,
-  ]
+]
 })
 
 export class CambioClaveComponent extends General implements OnInit {

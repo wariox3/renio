@@ -2,11 +2,20 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ILayout, LayoutType } from '../../core/configs/config';
 import { LayoutService } from '../../core/layout.service';
+import { SidebarFooterComponent } from './sidebar-footer/sidebar-footer.component';
+import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
+import { SidebarLogoComponent } from './sidebar-logo/sidebar-logo.component';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    standalone: true,
+    imports: [
+        SidebarLogoComponent,
+        SidebarMenuComponent,
+        SidebarFooterComponent,
+    ],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

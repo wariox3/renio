@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import {
   FormArray,
   FormBuilder,
@@ -29,12 +29,11 @@ import { KeysPipe } from '@pipe/keys.pipe';
     CommonModule,
     RouterModule,
     TranslateModule,
-    TranslationModule,
     FormsModule,
     ReactiveFormsModule,
     SoloNumerosDirective,
     KeysPipe,
-  ],
+],
 })
 export class BaseFiltroComponent extends General implements OnInit {
   formularioFiltros: FormGroup;

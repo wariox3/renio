@@ -15,8 +15,9 @@ import { PageInfoService } from '../../core/page-info.service';
 import { ILayout } from '../../core/configs/config';
 
 @Component({
-  selector: 'app-scripts-init',
-  templateUrl: './scripts-init.component.html',
+    selector: 'app-scripts-init',
+    templateUrl: './scripts-init.component.html',
+    standalone: true,
 })
 export class ScriptsInitComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

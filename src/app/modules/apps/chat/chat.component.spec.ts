@@ -9,11 +9,11 @@ describe('ChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatComponent ],
-      imports: [
+    declarations: [ChatComponent],
+    imports: [
         RouterModule.forRoot([]),
-      ]
-    })
+    ]
+})
     .compileComponents();
   });
 

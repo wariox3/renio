@@ -1,11 +1,20 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NavigationCancel, NavigationEnd, Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { AlertaSuspensionComponent } from '../../../../comun/componentes/alerta-suspension/alerta-suspension.component';
+import { NgIf, NgClass } from '@angular/common';
 // import { DrawerComponent } from '../../../kt/components';
 @Component({
-  selector: 'app-content',
-  templateUrl: './content.component.html',
-  styleUrls: ['./content.component.scss'],
+    selector: 'app-content',
+    templateUrl: './content.component.html',
+    styleUrls: ['./content.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        AlertaSuspensionComponent,
+        RouterOutlet,
+    ],
 })
 export class ContentComponent implements OnInit, OnDestroy {
   @Input() contentContainerCSSClass: string = '';

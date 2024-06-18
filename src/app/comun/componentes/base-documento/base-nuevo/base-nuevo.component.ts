@@ -7,7 +7,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports/documentos';
 import { HttpService } from '@comun/services/http.service';
@@ -15,7 +15,7 @@ import { HttpService } from '@comun/services/http.service';
 @Component({
   selector: 'app-comun-base-nuevo',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, TranslationModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './base-nuevo.component.html',
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {

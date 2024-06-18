@@ -13,7 +13,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -28,10 +28,9 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     BuscarAvanzadoComponent,
-  ],
+],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

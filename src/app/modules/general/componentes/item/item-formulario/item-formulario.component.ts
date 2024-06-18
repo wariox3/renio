@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
@@ -27,13 +27,12 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     ImpuestosComponent,
     BtnAtrasComponent,
     CardComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {

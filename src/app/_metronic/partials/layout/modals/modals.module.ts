@@ -9,18 +9,15 @@ import { ModalComponent } from './modal/modal.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    InviteUsersModalComponent,
-    MainModalComponent,
-    UpgradePlanModalComponent,
-    ModalComponent,
-  ],
-  imports: [CommonModule, InlineSVGModule, RouterModule, NgbModalModule],
-  exports: [
-    InviteUsersModalComponent,
-    MainModalComponent,
-    UpgradePlanModalComponent,
-    ModalComponent,
-  ],
+    imports: [CommonModule, InlineSVGModule, RouterModule, NgbModalModule, InviteUsersModalComponent,
+        MainModalComponent,
+        UpgradePlanModalComponent,
+        ModalComponent],
+    exports: [
+        InviteUsersModalComponent,
+        MainModalComponent,
+        UpgradePlanModalComponent,
+        ModalComponent,
+    ],
 })
 export class ModalsModule {}

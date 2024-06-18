@@ -3,15 +3,13 @@ import {KeeniconComponent} from './keenicon/keenicon.component';
 import {CommonModule} from "@angular/common";
 
 @NgModule({
-  declarations: [
-    KeeniconComponent
-  ],
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    KeeniconComponent
-  ]
+    imports: [
+        CommonModule,
+        KeeniconComponent,
+    ],
+    exports: [
+        KeeniconComponent
+    ]
 })
 export class SharedModule {
 }

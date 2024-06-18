@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { DropdownMenu1Component } from '../../../dropdown-menus/dropdown-menu1/dropdown-menu1.component';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @Component({
-  selector: 'app-charts-widget1',
-  templateUrl: './charts-widget1.component.html',
+    selector: 'app-charts-widget1',
+    templateUrl: './charts-widget1.component.html',
+    standalone: true,
+    imports: [
+        InlineSVGModule,
+        DropdownMenu1Component,
+        NgApexchartsModule,
+    ],
 })
 export class ChartsWidget1Component implements OnInit {
   chartOptions: any = {};

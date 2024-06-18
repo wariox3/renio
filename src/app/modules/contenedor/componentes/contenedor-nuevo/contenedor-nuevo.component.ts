@@ -6,7 +6,7 @@ import { General } from '@comun/clases/general';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContenedorFormularioComponent } from '../contenedor-formulario/contenedor-formulario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,13 +20,12 @@ import { NgIf } from '@angular/common';
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     ContenedorFormularioComponent,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-  ],
+],
 })
 export class ContenedorNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })

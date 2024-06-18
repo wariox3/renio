@@ -4,8 +4,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { ChatInnerComponent } from './chat-inner.component';
 
 @NgModule({
-  declarations: [ChatInnerComponent],
-  imports: [CommonModule, InlineSVGModule],
-  exports: [ChatInnerComponent],
+    imports: [CommonModule, InlineSVGModule, ChatInnerComponent],
+    exports: [ChatInnerComponent],
 })
 export class ChatInnerModule {}

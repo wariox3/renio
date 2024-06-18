@@ -18,7 +18,7 @@ import {
 } from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { General } from '@comun/clases/general';
 
 @Component({
@@ -30,8 +30,7 @@ import { General } from '@comun/clases/general';
     CommonModule,
     ImageCropperModule,
     TranslateModule,
-    TranslationModule,
-  ],
+],
 })
 export class CargarImagenComponent extends General implements OnChanges {
 

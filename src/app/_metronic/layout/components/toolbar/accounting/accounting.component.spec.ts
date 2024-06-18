@@ -9,9 +9,8 @@ describe('AccountingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountingComponent ],
-      imports: [SharedModule]
-    })
+    imports: [SharedModule, AccountingComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(AccountingComponent);

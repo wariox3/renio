@@ -10,15 +10,15 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavbarComponent ],
-      imports: [
+    imports: [
         StoreModule.forRoot({}),
-      ],
-      providers: [
+        NavbarComponent,
+    ],
+    providers: [
         // Proporciona un Store mock para las pruebas
         provideMockStore(),
-      ]
-    })
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);

@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { Resolucion } from '@interfaces/general/resolucion';
 import { CardComponent } from "@comun/componentes/card/card.component";
@@ -21,14 +21,13 @@ import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.compon
     templateUrl: './resolucion-detalle.component.html',
     styleUrls: ['./resolucion-detalle.component.scss'],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslationModule,
-        CardComponent,
-        BtnAtrasComponent
-    ]
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    CardComponent,
+    BtnAtrasComponent
+]
 })
 export default class ResolucionNuevoComponent
   extends General

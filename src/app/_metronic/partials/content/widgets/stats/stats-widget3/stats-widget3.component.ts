@@ -1,10 +1,13 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ApexOptions } from 'ng-apexcharts';
+import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-stats-widget3',
-  templateUrl: './stats-widget3.component.html',
+    selector: 'app-stats-widget3',
+    templateUrl: './stats-widget3.component.html',
+    standalone: true,
+    imports: [NgClass, NgApexchartsModule],
 })
 export class StatsWidget3Component implements OnInit {
   @Input() title = '';

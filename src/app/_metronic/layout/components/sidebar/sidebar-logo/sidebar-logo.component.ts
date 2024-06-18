@@ -2,11 +2,21 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutType } from '../../../core/configs/config';
 import { LayoutService } from '../../../core/layout.service';
+import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { NgIf, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-sidebar-logo',
-  templateUrl: './sidebar-logo.component.html',
-  styleUrls: ['./sidebar-logo.component.scss'],
+    selector: 'app-sidebar-logo',
+    templateUrl: './sidebar-logo.component.html',
+    styleUrls: ['./sidebar-logo.component.scss'],
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        NgClass,
+        KeeniconComponent,
+    ],
 })
 export class SidebarLogoComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

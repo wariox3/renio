@@ -14,7 +14,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
@@ -25,13 +25,12 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     CommonModule,
     NgbDropdownModule,
     FormsModule,
     ReactiveFormsModule
-  ],
+],
 })
 export class ContenedorFormularioComponent extends General implements OnInit {
   formularioContenedor: FormGroup;

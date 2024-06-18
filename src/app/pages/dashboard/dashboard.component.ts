@@ -4,9 +4,10 @@ import { HttpService } from '@comun/services/http.service';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: true,
 })
 export class DashboardComponent extends General implements OnInit {
   constructor(private httpService: HttpService) {

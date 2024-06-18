@@ -8,11 +8,23 @@ import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracio
 import { switchMap, tap } from 'rxjs';
 import { obtenerMenuModulos } from '@redux/selectors/menu.selectors';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-header-menu',
-  templateUrl: './header-menu.component.html',
-  styleUrls: ['./header-menu.component.scss'],
+    selector: 'app-header-menu',
+    templateUrl: './header-menu.component.html',
+    styleUrls: ['./header-menu.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLinkActive,
+        RouterLink,
+        TranslateModule,
+        NgFor,
+        LowerCasePipe,
+    ],
 })
 export class HeaderMenuComponent extends General implements OnInit {
   arrMenuApps: string[];

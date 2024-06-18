@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -25,7 +25,6 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
     TablaComponent,
@@ -35,7 +34,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
-  ],
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

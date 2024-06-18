@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
@@ -38,7 +38,6 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
     TablaComponent,
@@ -49,7 +48,7 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
     BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
-  ],
+],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;

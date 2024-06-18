@@ -14,20 +14,20 @@ describe('VerificacionCuentaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VerificacionCuentaComponent],
-      imports:[
+    imports: [
         CardComponent,
         ReactiveFormsModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        StoreModule.forRoot({}), // Esto es un ejemplo; proporciona tus reducers reales aquí
-      ],
-      providers: [
+        StoreModule.forRoot({}),
+        VerificacionCuentaComponent,
+    ],
+    providers: [
         // Proporciona un Store mock para las pruebas
         provideMockStore(),
-      ]
-    }).compileComponents();
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(VerificacionCuentaComponent);
     component = fixture.componentInstance;

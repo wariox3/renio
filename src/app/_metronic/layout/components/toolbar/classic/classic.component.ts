@@ -1,11 +1,21 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../../../core/layout.service';
+import { DropdownMenu1Component } from '../../../../partials/content/dropdown-menus/dropdown-menu1/dropdown-menu1.component';
+import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-classic',
-  templateUrl: './classic.component.html',
-  styleUrls: ['./classic.component.scss'],
+    selector: 'app-classic',
+    templateUrl: './classic.component.html',
+    styleUrls: ['./classic.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgClass,
+        KeeniconComponent,
+        DropdownMenu1Component,
+    ],
 })
 export class ClassicComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

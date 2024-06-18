@@ -9,9 +9,8 @@ describe('ErrorsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ErrorsComponent],
-      imports: [RouterModule.forRoot([])],
-    }).compileComponents();
+    imports: [RouterModule.forRoot([]), ErrorsComponent],
+}).compileComponents();
   });
 
   beforeEach(() => {

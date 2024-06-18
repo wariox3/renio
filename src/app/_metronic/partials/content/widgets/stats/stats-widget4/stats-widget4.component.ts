@@ -1,10 +1,18 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ApexOptions } from 'ng-apexcharts';
+import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-stats-widget4',
-  templateUrl: './stats-widget4.component.html',
+    selector: 'app-stats-widget4',
+    templateUrl: './stats-widget4.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        InlineSVGModule,
+        NgApexchartsModule,
+    ],
 })
 export class StatsWidget4Component implements OnInit {
   @Input() svgIcon = '';

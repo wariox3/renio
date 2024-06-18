@@ -4,7 +4,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -15,8 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CardComponent,
     BtnAtrasComponent,
     TranslateModule,
-    TranslationModule,
-  ],
+],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

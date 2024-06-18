@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -9,7 +9,7 @@ import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-importar',
   standalone: true,
-  imports: [CommonModule, TranslateModule, TranslationModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './importar.component.html',
   styleUrls: ['./importar.component.scss'],
 

@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
 import { arrPaises } from '../overview/listaPaises';
 import {
@@ -19,11 +19,25 @@ import {
   obtenerUsuarioNombre,
   obtenerUsuarioId
 } from '@redux/selectors/usuario.selectors';
+import { NgxMaskDirective } from 'ngx-mask';
+import { NgClass, NgTemplateOutlet, NgFor, NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-informacion-usuario',
-  templateUrl: './informacion-usuario.component.html',
-  styleUrls: ['./informacion-usuario.component.scss'],
+    selector: 'app-informacion-usuario',
+    templateUrl: './informacion-usuario.component.html',
+    styleUrls: ['./informacion-usuario.component.scss'],
+    standalone: true,
+    imports: [
+        TranslateModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass,
+        NgTemplateOutlet,
+        NgFor,
+        NgxMaskDirective,
+        NgIf,
+    ],
 })
 export class InformacionUsuarioComponent extends General implements OnInit {
   usuarioInformacion = {

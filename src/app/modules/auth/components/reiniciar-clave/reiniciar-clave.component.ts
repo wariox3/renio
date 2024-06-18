@@ -1,13 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { General } from '@comun/clases/general';
 import { catchError, of, tap } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  templateUrl: './reiniciar-clave.component.html',
-  styleUrls: ['./reiniciar-clave.component.scss'],
+    templateUrl: './reiniciar-clave.component.html',
+    styleUrls: ['./reiniciar-clave.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgClass,
+        NgTemplateOutlet,
+        NgIf,
+        RouterLink,
+    ],
 })
 export class ReiniciarClaveComponent extends General implements OnInit {
   codigo_usuario: string = '';

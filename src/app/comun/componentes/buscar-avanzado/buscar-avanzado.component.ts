@@ -7,7 +7,7 @@ import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
@@ -22,8 +22,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     KeysPipe,
     BaseFiltroComponent,
     TranslateModule,
-    TranslationModule,
-  ],
+],
   templateUrl: './buscar-avanzado.component.html',
   styleUrls: ['./buscar-avanzado.component.scss'],
 })

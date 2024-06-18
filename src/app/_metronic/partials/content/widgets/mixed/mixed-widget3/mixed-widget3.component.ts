@@ -1,8 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { DropdownMenu1Component } from '../../../dropdown-menus/dropdown-menu1/dropdown-menu1.component';
+import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
+import { NgClass } from '@angular/common';
 @Component({
-  selector: 'app-mixed-widget3',
-  templateUrl: './mixed-widget3.component.html',
+    selector: 'app-mixed-widget3',
+    templateUrl: './mixed-widget3.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        KeeniconComponent,
+        DropdownMenu1Component,
+        NgApexchartsModule,
+    ],
 })
 export class MixedWidget3Component implements OnInit {
   @Input() chartColor: string = '';

@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NavigationCancel, NavigationEnd, Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../../core/layout.service';
 import { environment } from './../../../../../environments/environment';
@@ -16,11 +16,23 @@ import {
   ScrollComponent,
 } from '../../../kt/components';
 import { SubdominioService } from '@comun/services/subdominio.service';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { AsideMenuComponent } from './aside-menu/aside-menu.component';
+import { KeeniconComponent } from '../../../shared/keenicon/keenicon.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-aside',
-  templateUrl: './aside.component.html',
-  styleUrls: ['./aside.component.scss'],
+    selector: 'app-aside',
+    templateUrl: './aside.component.html',
+    styleUrls: ['./aside.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        RouterLink,
+        KeeniconComponent,
+        AsideMenuComponent,
+        NgbDropdown,
+    ],
 })
 export class AsideComponent implements OnInit, OnDestroy {
   asideTheme: string = '';

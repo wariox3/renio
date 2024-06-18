@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { IconUserModel } from '../../../_metronic/partials';
+import { Card2Component } from '../../../_metronic/partials/content/cards/card2/card2.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-projects',
-  templateUrl: './projects.component.html',
+    selector: 'app-projects',
+    templateUrl: './projects.component.html',
+    standalone: true,
+    imports: [FormsModule, Card2Component],
 })
 export class ProjectsComponent implements OnInit {
   users1: Array<IconUserModel> = [

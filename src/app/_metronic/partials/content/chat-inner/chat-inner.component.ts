@@ -14,10 +14,18 @@ import {
   MessageModel,
   UserInfoModel,
 } from './dataExample';
+import { NgClass, NgFor, NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-chat-inner',
-  templateUrl: './chat-inner.component.html',
+    selector: 'app-chat-inner',
+    templateUrl: './chat-inner.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgFor,
+        NgIf,
+        AsyncPipe,
+    ],
 })
 export class ChatInnerComponent implements OnInit {
   @Input() isDrawer: boolean = false;

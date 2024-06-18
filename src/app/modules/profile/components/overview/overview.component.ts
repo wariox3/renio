@@ -9,9 +9,20 @@ import { switchMap } from 'rxjs';
 import { ContenedorService } from '../../../contenedor/servicios/contenedor.service';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { General } from '@comun/clases/general';
+import { SkeletonLoadingComponent } from '../../../../comun/componentes/skeleton-loading/skeleton-loading.component';
+import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
+    selector: 'app-overview',
+    templateUrl: './overview.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        NgIf,
+        NgFor,
+        NgOptimizedImage,
+        SkeletonLoadingComponent,
+    ],
 })
 export class OverviewComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];

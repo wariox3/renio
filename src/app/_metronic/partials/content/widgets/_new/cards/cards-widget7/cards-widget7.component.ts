@@ -1,9 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-cards-widget7',
-  templateUrl: './cards-widget7.component.html',
-  styleUrls: ['./cards-widget7.component.scss'],
+    selector: 'app-cards-widget7',
+    templateUrl: './cards-widget7.component.html',
+    styleUrls: ['./cards-widget7.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgFor,
+        NgIf,
+    ],
 })
 export class CardsWidget7Component implements OnInit {
   @Input() cssClass: string = '';

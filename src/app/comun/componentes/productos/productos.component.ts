@@ -12,7 +12,7 @@ import {
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
@@ -23,11 +23,10 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   standalone: true,
   imports: [
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgFor,
     CommonModule,
-  ],
+],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.scss'],
 })

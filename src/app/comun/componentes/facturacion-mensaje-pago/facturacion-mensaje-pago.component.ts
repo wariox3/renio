@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import {
@@ -22,9 +22,8 @@ import { usuarioActionActualizarVrSaldo } from '@redux/actions/usuario.actions';
     CommonModule,
     CardComponent,
     TranslateModule,
-    TranslationModule,
     RouterModule,
-  ],
+],
 })
 export class FacturacionMensajePagoComponent extends General implements OnInit {
   procesando = true;

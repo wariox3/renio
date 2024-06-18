@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -28,11 +28,10 @@ import {
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     BtnAtrasComponent,
     CardComponent,
     NgbModalModule, // necesario para cerrar el modal que está en editarEmpresa
-  ],
+],
   providers: [NgbActiveModal],
 })
 export default class ResolucionFormularioComponent

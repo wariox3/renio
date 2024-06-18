@@ -14,7 +14,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
@@ -29,9 +29,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     ReactiveFormsModule,
     BtnAtrasComponent,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
-  ],
+],
   templateUrl: './empleado-formulario.component.html',
   styleUrls: ['./empleado-formulario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

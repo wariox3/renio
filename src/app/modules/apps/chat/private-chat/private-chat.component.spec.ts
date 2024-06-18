@@ -14,14 +14,14 @@ describe('PrivateChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PrivateChatComponent],
-      imports: [
+    declarations: [PrivateChatComponent],
+    imports: [
         SharedModule,
         DropdownMenusModule,
         ChatInnerModule,
         CardsModule,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

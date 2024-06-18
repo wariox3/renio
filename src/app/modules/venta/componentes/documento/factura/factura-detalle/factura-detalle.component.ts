@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import {
   NgbDropdownModule,
   NgbModal,
@@ -30,7 +30,6 @@ import { KeysPipe } from '@pipe/keys.pipe';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgbNavModule,
     TablaComponent,
@@ -41,7 +40,7 @@ import { KeysPipe } from '@pipe/keys.pipe';
     CardComponent,
     BtnAtrasComponent,
     KeysPipe
-  ],
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

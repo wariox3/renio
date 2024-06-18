@@ -3,7 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { BtnwhatsappComponent } from '../btnwhatsapp/btnwhatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule, TranslationService } from '@modulos/i18n';
+import { TranslationService } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 interface LanguageFlag {
@@ -21,10 +21,9 @@ interface LanguageFlag {
     BtnwhatsappComponent,
     RouterModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     NgOptimizedImage
-  ],
+],
   templateUrl: './base-landingpage.component.html',
   styleUrls: ['./base-landingpage.component.scss'],
 })

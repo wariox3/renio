@@ -12,7 +12,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -37,7 +37,6 @@ import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
     CommonModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     BtnAtrasComponent,
     CardComponent,
@@ -47,7 +46,7 @@ import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
-  ],
+],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
   formularioFactura: FormGroup;

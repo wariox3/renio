@@ -18,11 +18,21 @@ import {
 import { environment } from '@env/environment';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { General } from '@comun/clases/general';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-user-inner',
-  templateUrl: './user-inner.component.html',
-  styleUrls: ['user-inner.scss'],
+    selector: 'app-user-inner',
+    templateUrl: './user-inner.component.html',
+    styleUrls: ['user-inner.scss'],
+    standalone: true,
+    imports: [
+        RouterLink,
+        NgIf,
+        NgFor,
+        NgClass,
+        AsyncPipe,
+    ],
 })
 export class UserInnerComponent extends General implements OnInit, OnDestroy {
   @HostBinding('class')

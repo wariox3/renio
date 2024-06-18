@@ -13,14 +13,17 @@ import { locale as jpLang } from './modules/i18n/vocabs/jp';
 import { locale as deLang } from './modules/i18n/vocabs/de';
 import { locale as frLang } from './modules/i18n/vocabs/fr';
 import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switcher/theme-mode.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'body[root]',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    // tslint:disable-next-line:component-selector
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'body[root]',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit {
 

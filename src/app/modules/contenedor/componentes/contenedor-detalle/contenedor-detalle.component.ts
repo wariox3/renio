@@ -5,7 +5,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
 import { ExtrasModule } from 'src/app/_metronic/partials';
@@ -22,7 +22,6 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     RouterModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     CargarImagenComponent,
     ExtrasModule,
@@ -31,7 +30,7 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     NgbModalModule,
-  ],
+],
   providers: [NgbActiveModal],
 })
 export class ContenedorDetalleComponent extends General implements OnInit {

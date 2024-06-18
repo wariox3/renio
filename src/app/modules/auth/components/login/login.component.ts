@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
@@ -8,11 +8,24 @@ import { SubdominioService } from '@comun/services/subdominio.service';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { environment } from '@env/environment';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
+import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgIf,
+        NgClass,
+        NgTemplateOutlet,
+        RouterLink,
+    ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:

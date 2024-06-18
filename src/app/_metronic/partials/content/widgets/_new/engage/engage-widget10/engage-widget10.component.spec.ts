@@ -8,8 +8,8 @@ describe('EngageWidget10Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EngageWidget10Component ]
-    })
+    imports: [EngageWidget10Component]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(EngageWidget10Component);

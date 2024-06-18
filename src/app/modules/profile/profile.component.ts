@@ -14,10 +14,27 @@ import { ResumenService } from './services/resumen.service';
 import { switchMap, tap } from 'rxjs';
 import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { AsyncPipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
+import { KeeniconComponent } from '../../_metronic/shared/keenicon/keenicon.component';
+import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    standalone: true,
+    imports: [
+        CargarImagenComponent,
+        KeeniconComponent,
+        InformacionUsuarioComponent,
+        RouterLink,
+        RouterLinkActive,
+        TranslateModule,
+        RouterOutlet,
+        AsyncPipe,
+    ],
 })
 export class ProfileComponent extends General {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);

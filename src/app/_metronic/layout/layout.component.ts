@@ -14,11 +14,43 @@ import { TranslateService } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { obtenerUsuarioidioma } from '@redux/selectors/usuario.selectors';
 import { Store } from '@ngrx/store';
+import { UpgradePlanModalComponent } from '../partials/layout/modals/upgrade-plan-modal/upgrade-plan-modal.component';
+import { InviteUsersModalComponent } from '../partials/layout/modals/invite-users-modal/invite-users-modal.component';
+import { MainModalComponent } from '../partials/layout/modals/main-modal/main-modal.component';
+import { EngagesComponent } from '../partials/layout/engages/engages.component';
+import { MessengerDrawerComponent } from '../partials/layout/drawers/messenger-drawer/messenger-drawer.component';
+import { ActivityDrawerComponent } from '../partials/layout/drawers/activity-drawer/activity-drawer.component';
+import { LayoutScrollTopComponent } from '../partials/layout/extras/scroll-top/scroll-top.component';
+import { ScriptsInitComponent } from './components/scripts-init/scripts-init.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ContentComponent } from './components/content/content.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        HeaderComponent,
+        NgClass,
+        SidebarComponent,
+        ToolbarComponent,
+        ContentComponent,
+        FooterComponent,
+        ScriptsInitComponent,
+        LayoutScrollTopComponent,
+        ActivityDrawerComponent,
+        MessengerDrawerComponent,
+        EngagesComponent,
+        MainModalComponent,
+        InviteUsersModalComponent,
+        UpgradePlanModalComponent,
+    ],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

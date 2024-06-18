@@ -7,7 +7,7 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
@@ -19,9 +19,8 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     CardComponent,
     TablaComponent,
     TranslateModule,
-    TranslationModule,
     BaseFiltroComponent,
-  ],
+],
   templateUrl: './cuentas-cobrar.component.html',
 })
 export class CuentasCobrarComponent extends General implements OnInit {

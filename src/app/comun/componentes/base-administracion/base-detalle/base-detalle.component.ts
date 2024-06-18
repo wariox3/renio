@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports/administradores';
 import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
@@ -16,9 +16,8 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     CommonModule,
     RouterModule,
     TranslateModule,
-    TranslationModule,
     BtnAtrasComponent,
-  ],
+],
 })
 export class BaseDetalleComponent extends General implements OnInit {
   generarPDF = false;

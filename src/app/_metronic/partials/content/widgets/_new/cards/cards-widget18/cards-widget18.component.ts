@@ -1,9 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { KeeniconComponent } from '../../../../../../shared/keenicon/keenicon.component';
+import { NgClass, NgStyle, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-cards-widget18',
-  templateUrl: './cards-widget18.component.html',
-  styleUrls: ['./cards-widget18.component.scss'],
+    selector: 'app-cards-widget18',
+    templateUrl: './cards-widget18.component.html',
+    styleUrls: ['./cards-widget18.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgStyle,
+        KeeniconComponent,
+        NgFor,
+        NgIf,
+    ],
 })
 export class CardsWidget18Component implements OnInit {
   @Input() cssClass: string = '';

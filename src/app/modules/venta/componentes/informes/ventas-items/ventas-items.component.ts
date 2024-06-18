@@ -4,7 +4,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { HttpService } from '@comun/services/http.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
@@ -20,9 +20,8 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
     CardComponent,
     TablaComponent,
     TranslateModule,
-    TranslationModule,
     BaseFiltroComponent,
-  ],
+],
 })
 export class VentasItemsComponent extends General implements OnInit {
   arrDocumentos: any = [];

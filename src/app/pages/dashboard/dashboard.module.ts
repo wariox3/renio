@@ -6,18 +6,18 @@ import { ModalsModule, WidgetsModule } from '../../_metronic/partials';
 import {  NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: DashboardComponent,
-      },
-    ]),
-    WidgetsModule,
-    ModalsModule,
-    NgbOffcanvasModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: DashboardComponent,
+            },
+        ]),
+        WidgetsModule,
+        ModalsModule,
+        NgbOffcanvasModule,
+        DashboardComponent
+    ],
 })
 export class DashboardModule {}

@@ -1,9 +1,24 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LayoutService } from '../../../../../layout';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { DropdownMenu3Component } from '../../../dropdown-menus/dropdown-menu3/dropdown-menu3.component';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-tiles-widget1',
-  templateUrl: './tiles-widget1.component.html',
+    selector: 'app-tiles-widget1',
+    templateUrl: './tiles-widget1.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        DropdownMenu3Component,
+        NgApexchartsModule,
+        InlineSVGModule,
+    ],
 })
 export class TilesWidget1Component implements OnInit {
   @Input() cssClass = '';

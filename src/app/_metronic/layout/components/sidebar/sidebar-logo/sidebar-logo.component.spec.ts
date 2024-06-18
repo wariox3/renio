@@ -8,8 +8,8 @@ describe('SidebarLogoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SidebarLogoComponent ]
-    })
+    imports: [SidebarLogoComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(SidebarLogoComponent);

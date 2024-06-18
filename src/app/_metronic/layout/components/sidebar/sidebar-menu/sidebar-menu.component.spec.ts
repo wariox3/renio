@@ -11,16 +11,17 @@ describe('SidebarMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SidebarMenuComponent ],
-      imports: [
-        StoreModule.forRoot({}), 
-        SharedModule// Esto es un ejemplo; proporciona tus reducers reales aquí
-      ],
-      providers: [
+    imports: [
+        StoreModule.forRoot({}),
+        SharedModule // Esto es un ejemplo; proporciona tus reducers reales aquí
+        ,
+        SidebarMenuComponent
+    ],
+    providers: [
         // Proporciona un Store mock para las pruebas
         provideMockStore(),
-      ]
-    })
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(SidebarMenuComponent);

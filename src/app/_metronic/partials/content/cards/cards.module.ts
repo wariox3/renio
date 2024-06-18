@@ -12,28 +12,26 @@ import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
 import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
-  declarations: [
-    Card1Component,
-    Card2Component,
-    Card3Component,
-    Card4Component,
-    Card5Component,
-    UserListComponent,
-  ],
-  imports: [
-    CommonModule,
-    InlineSVGModule,
-    NgbTooltipModule,
-    DropdownMenusModule,
-    SharedModule
-  ],
-  exports: [
-    Card1Component,
-    Card2Component,
-    Card3Component,
-    Card4Component,
-    Card5Component,
-    UserListComponent,
-  ],
+    imports: [
+        CommonModule,
+        InlineSVGModule,
+        NgbTooltipModule,
+        DropdownMenusModule,
+        SharedModule,
+        Card1Component,
+        Card2Component,
+        Card3Component,
+        Card4Component,
+        Card5Component,
+        UserListComponent
+    ],
+    exports: [
+        Card1Component,
+        Card2Component,
+        Card3Component,
+        Card4Component,
+        Card5Component,
+        UserListComponent,
+    ],
 })
 export class CardsModule {}

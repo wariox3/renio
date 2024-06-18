@@ -1,10 +1,14 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ModalConfig } from '../modal.config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
+    selector: 'app-modal',
+    templateUrl: './modal.component.html',
+    standalone: true,
+    imports: [NgIf, InlineSVGModule],
 })
 export class ModalComponent {
   @Input() public modalConfig: ModalConfig;

@@ -1,10 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../../kt/_utils';
+import { KeeniconComponent } from '../../../../../../shared/keenicon/keenicon.component';
+import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'app-cards-widget17',
-  templateUrl: './cards-widget17.component.html',
-  styleUrls: ['./cards-widget17.component.scss'],
+    selector: 'app-cards-widget17',
+    templateUrl: './cards-widget17.component.html',
+    styleUrls: ['./cards-widget17.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        KeeniconComponent,
+        NgStyle,
+    ],
 })
 export class CardsWidget17Component implements OnInit {
   chartOptions: any = {};

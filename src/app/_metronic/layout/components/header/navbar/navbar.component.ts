@@ -1,11 +1,24 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { obtenerUsuarioImagen } from '@redux/selectors/usuario.selectors';
+import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { UserInnerComponent } from '../../../../partials/layout/extras/dropdown-inner/user-inner/user-inner.component';
+import { ThemeModeSwitcherComponent } from '../../../../partials/layout/theme-mode-switcher/theme-mode-switcher.component';
+import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        ThemeModeSwitcherComponent,
+        UserInnerComponent,
+        NgIf,
+        KeeniconComponent,
+        AsyncPipe,
+    ],
 })
 export class NavbarComponent implements OnInit {
   @Input() appHeaderDefaulMenuDisplay: boolean;

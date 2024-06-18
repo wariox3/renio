@@ -4,7 +4,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Precio } from '@interfaces/general/Precio';
 import { PrecioService } from '@modulos/general/servicios/precio.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
@@ -25,14 +25,13 @@ import {
   imports: [
     CommonModule,
     TranslateModule,
-    TranslationModule,
     CardComponent,
     BtnAtrasComponent,
     NgbNavModule,
     ProductosComponent,
     FormsModule,
     ReactiveFormsModule,
-  ],
+],
 })
 export default class PrecioDetalleComponent extends General implements OnInit {
   precio: Precio = {

@@ -9,9 +9,8 @@ describe('ReiniciarClaveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReiniciarClaveComponent ],
-      imports: [HttpClientTestingModule]
-    })
+    imports: [HttpClientTestingModule, ReiniciarClaveComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(ReiniciarClaveComponent);

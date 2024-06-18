@@ -1,8 +1,12 @@
 import { Component, HostBinding } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
 
 @Component({
-  selector: 'app-quick-links-inner',
-  templateUrl: './quick-links-inner.component.html',
+    selector: 'app-quick-links-inner',
+    templateUrl: './quick-links-inner.component.html',
+    standalone: true,
+    imports: [KeeniconComponent, RouterLink],
 })
 export class QuickLinksInnerComponent {
   @HostBinding('class') class =

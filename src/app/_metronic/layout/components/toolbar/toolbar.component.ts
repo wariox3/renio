@@ -2,11 +2,29 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ILayout, LayoutType } from '../../core/configs/config';
 import { LayoutService } from '../../core/layout.service';
+import { SaasComponent } from './saas/saas.component';
+import { ReportsComponent } from './reports/reports.component';
+import { ExtendedComponent } from './extended/extended.component';
+import { AccountingComponent } from './accounting/accounting.component';
+import { ClassicComponent } from './classic/classic.component';
+import { PageTitleComponent } from '../header/page-title/page-title.component';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
+    selector: 'app-toolbar',
+    templateUrl: './toolbar.component.html',
+    styleUrls: ['./toolbar.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        PageTitleComponent,
+        ClassicComponent,
+        AccountingComponent,
+        ExtendedComponent,
+        ReportsComponent,
+        SaasComponent,
+    ],
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];

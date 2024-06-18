@@ -4,7 +4,7 @@ import { General } from '@comun/clases/general';
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { CountUpModule } from 'ngx-countup';
@@ -18,9 +18,8 @@ import { CountUpModule } from 'ngx-countup';
     CommonModule,
     NgbAccordionModule,
     TranslateModule,
-    TranslationModule,
     CountUpModule
-  ]
+]
 })
 export class ContenedorFacturacionComponent extends General implements OnInit {
   resumenMes: string;

@@ -1,8 +1,21 @@
 import {ChangeDetectorRef, Component, HostBinding, OnInit} from '@angular/core';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-result-inner',
-  templateUrl: './search-result-inner.component.html',
+    selector: 'app-search-result-inner',
+    templateUrl: './search-result-inner.component.html',
+    standalone: true,
+    imports: [
+        FormsModule,
+        KeeniconComponent,
+        NgClass,
+        NgFor,
+        NgIf,
+        InlineSVGModule,
+    ],
 })
 export class SearchResultInnerComponent implements OnInit {
   @HostBinding('class') class = 'menu menu-sub menu-sub-dropdown p-7 w-325px w-md-375px';

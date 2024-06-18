@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { BtnwhatsappComponent } from '../../comun/componentes/btnwhatsapp/btnwhatsapp.component';
 import { RouterModule } from '@angular/router';
-import { TranslationModule } from '@modulos/i18n';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseLandingpageComponent } from '@comun/componentes/base-landingpage/base-landingpage.component';
 
@@ -16,8 +16,7 @@ import { BaseLandingpageComponent } from '@comun/componentes/base-landingpage/ba
     BtnwhatsappComponent,
     RouterModule,
     TranslateModule,
-    TranslationModule,
-  ],
+],
 })
 export class ContruccionComponent {
 

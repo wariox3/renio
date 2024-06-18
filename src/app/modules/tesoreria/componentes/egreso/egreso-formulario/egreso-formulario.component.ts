@@ -15,7 +15,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -35,7 +35,6 @@ import { documentos } from '@comun/extra/mapeoEntidades/informes';
     CommonModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     BtnAtrasComponent,
     CardComponent,
@@ -45,7 +44,7 @@ import { documentos } from '@comun/extra/mapeoEntidades/informes';
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
-  ],
+],
   templateUrl: './egreso-formulario.component.html',
   styleUrls: ['./egreso-formulario.component.scss'],
 })

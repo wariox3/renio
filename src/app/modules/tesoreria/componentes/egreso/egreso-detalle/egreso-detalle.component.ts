@@ -4,7 +4,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { TranslationModule } from '@modulos/i18n';
+
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,9 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
     BtnAtrasComponent,
     CardComponent,
     TranslateModule,
-    TranslationModule,
     NgbNavModule,
-  ],
+],
   templateUrl: './egreso-detalle.component.html',
 })
 export default class EgresoDetalleComponent extends General {

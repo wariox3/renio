@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 
 @Component({
   selector: 'app-precio-formulario',
@@ -26,8 +26,7 @@ import { TranslationModule } from '@modulos/i18n';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
-  ],
+],
 })
 export default class PrecioFormularioComponent
   extends General

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
-  selector: 'app-charts-widget6',
-  templateUrl: './charts-widget6.component.html',
+    selector: 'app-charts-widget6',
+    templateUrl: './charts-widget6.component.html',
+    standalone: true,
+    imports: [NgApexchartsModule],
 })
 export class ChartsWidget6Component implements OnInit {
   chartOptions: any = {};

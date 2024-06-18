@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { TranslationModule } from '@modulos/i18n';
+
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
@@ -22,14 +22,13 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TranslationModule,
     NgbDropdownModule,
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+],
   providers: [provideNgxMask()],
 })
 export default class ContactoDetalleComponent

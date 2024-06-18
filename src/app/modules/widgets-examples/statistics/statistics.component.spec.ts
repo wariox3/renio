@@ -9,11 +9,11 @@ describe('StatisticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatisticsComponent ],
-      imports: [
+    declarations: [StatisticsComponent],
+    imports: [
         WidgetsModule
-      ]
-    })
+    ]
+})
     .compileComponents();
   });
 

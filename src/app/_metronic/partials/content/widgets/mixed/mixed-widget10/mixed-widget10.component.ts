@@ -1,8 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgClass } from '@angular/common';
 @Component({
-  selector: 'app-mixed-widget10',
-  templateUrl: './mixed-widget10.component.html',
+    selector: 'app-mixed-widget10',
+    templateUrl: './mixed-widget10.component.html',
+    standalone: true,
+    imports: [NgClass, NgApexchartsModule],
 })
 export class MixedWidget10Component implements OnInit {
   @Input() chartColor: string = '';

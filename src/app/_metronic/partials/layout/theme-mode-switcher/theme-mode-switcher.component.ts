@@ -1,10 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ThemeModeService, ThemeModeType } from './theme-mode.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-theme-mode-switcher',
-  templateUrl: './theme-mode-switcher.component.html',
+    selector: 'app-theme-mode-switcher',
+    templateUrl: './theme-mode-switcher.component.html',
+    standalone: true,
+    imports: [
+        NgClass,
+        NgIf,
+        TranslateModule,
+        AsyncPipe,
+    ],
 })
 export class ThemeModeSwitcherComponent implements OnInit {
   @Input() toggleBtnClass: string = '';

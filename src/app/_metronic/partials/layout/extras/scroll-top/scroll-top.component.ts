@@ -8,10 +8,13 @@ import {
   ToggleComponent,
   DrawerComponent,
 } from '../../../../kt/components';
+import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 
 @Component({
-  selector: 'app-scroll-top',
-  templateUrl: './scroll-top.component.html',
+    selector: 'app-scroll-top',
+    templateUrl: './scroll-top.component.html',
+    standalone: true,
+    imports: [KeeniconComponent],
 })
 export class LayoutScrollTopComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'kt_scrolltop';

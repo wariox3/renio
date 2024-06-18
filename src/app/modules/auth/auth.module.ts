@@ -8,7 +8,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { AuthComponent } from './auth.component';
-import { TranslationModule } from '../i18n/translation.module';
+
 import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
@@ -17,7 +17,15 @@ import { BtnwhatsappComponent } from "../../comun/componentes/btnwhatsapp/btnwha
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-    declarations: [
+    imports: [
+        CommonModule,
+        TranslateModule,
+        AuthRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbDropdownModule,
+        BtnwhatsappComponent,
         LoginComponent,
         RegistrationComponent,
         ForgotPasswordComponent,
@@ -25,17 +33,6 @@ import { TranslateModule } from '@ngx-translate/core';
         AuthComponent,
         ReiniciarClaveComponent,
         VerificacionCuentaComponent
-    ],
-    imports: [
-        CommonModule,
-        TranslationModule,
-        TranslateModule,
-        AuthRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgbDropdownModule,
-        BtnwhatsappComponent
     ]
 })
 export class AuthModule {}

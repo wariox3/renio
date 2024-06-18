@@ -1,10 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from '../../core/layout.service';
+import { UserInnerComponent } from '../../../partials/layout/extras/dropdown-inner/user-inner/user-inner.component';
+import { ThemeModeSwitcherComponent } from '../../../partials/layout/theme-mode-switcher/theme-mode-switcher.component';
+import { QuickLinksInnerComponent } from '../../../partials/layout/extras/dropdown-inner/quick-links-inner/quick-links-inner.component';
+import { NotificationsInnerComponent } from '../../../partials/layout/extras/dropdown-inner/notifications-inner/notifications-inner.component';
+import { SearchResultInnerComponent } from '../../../partials/layout/extras/dropdown-inner/search-result-inner/search-result-inner.component';
+import { KeeniconComponent } from '../../../shared/keenicon/keenicon.component';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-topbar',
-  templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss'],
+    selector: 'app-topbar',
+    templateUrl: './topbar.component.html',
+    styleUrls: ['./topbar.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        KeeniconComponent,
+        SearchResultInnerComponent,
+        NotificationsInnerComponent,
+        QuickLinksInnerComponent,
+        ThemeModeSwitcherComponent,
+        UserInnerComponent,
+        NgIf,
+    ],
 })
 export class TopbarComponent implements OnInit {
   toolbarButtonMarginClass = 'ms-1 ms-lg-3';
