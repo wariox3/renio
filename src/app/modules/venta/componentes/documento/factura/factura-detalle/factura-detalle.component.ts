@@ -19,6 +19,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { KeysPipe } from '@pipe/keys.pipe';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -39,8 +40,8 @@ import { KeysPipe } from '@pipe/keys.pipe';
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
-    KeysPipe
-],
+    KeysPipe,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -137,19 +138,38 @@ export default class FacturaDetalleComponent extends General {
   aprobar() {
     this.httpService
       .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento aprobado');
-      });
+      .pipe(
+        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
+        tap((respuestaConsultaDetalle: any) => {
+          this.documento = respuestaConsultaDetalle.documento;
+          this.arrEstados.estado_aprobado =
+            respuestaConsultaDetalle.documento.estado_aprobado;
+          this.alertaService.mensajaExitoso('Documento aprobado');
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 
-  anular(){
+  anular() {
     this.httpService
-    .post('general/documento/anular/', { id: this.detalle })
-    .subscribe((respuesta: any) => {
-      this.consultardetalle();
-      this.alertaService.mensajaExitoso('Documento anulado');
-    });
+      .post('general/documento/anular/', { id: this.detalle })
+      .pipe(
+        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
+        tap((respuestaConsultaDetalle: any) => {
+          this.documento = respuestaConsultaDetalle.documento;
+          this.totalCantidad = 0;
+          this.subtotalGeneral = 0;
+          this.totalDescuento = 0;
+          this.totalImpuestos = 0;
+          this.totalGeneral = 0;
+          this.arrEstados.estado_anulado =
+            respuestaConsultaDetalle.documento.estado_anulado;
+          this.alertaService.mensajaExitoso('Documento anulado');
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 
   emitir() {
@@ -175,13 +195,13 @@ export default class FacturaDetalleComponent extends General {
     });
   }
 
-  reNotifica(){
+  reNotifica() {
     this.httpService
-    .post('general/documento/renotificar/', { documento_id: this.detalle })
-    .subscribe((respuesta: any) => {
-      this.alertaService.mensajaExitoso('Documento re notificado');
-      this.consultardetalle();
-    });
+      .post('general/documento/renotificar/', { documento_id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Documento re notificado');
+        this.consultardetalle();
+      });
   }
 
   verLog(content: any) {
@@ -190,24 +210,24 @@ export default class FacturaDetalleComponent extends General {
         documento_id: this.detalle,
       })
       .subscribe((respuesta: any) => {
-        const {correos, eventos, validaciones} = respuesta.log
-        this.arrCorreos = correos.map((correo: any)=>({
+        const { correos, eventos, validaciones } = respuesta.log;
+        this.arrCorreos = correos.map((correo: any) => ({
           codigoCorreoPk: correo.codigoCorreoPk,
           enviado: correo.fecha,
           numeroDocumento: correo.numeroDocumento,
           fecha: correo.fecha,
           correo: correo.correo,
-          correoCopia: correo.copia
+          correoCopia: correo.copia,
         }));
-        this.arrEventos =  eventos.map((evento: any)=>({
+        this.arrEventos = eventos.map((evento: any) => ({
           codigoEventoPk: evento.codigoEventoPk,
           evento: evento.evento,
           correo: evento.correo,
           fecha: evento.fecha,
           ipEnvio: evento.ipEnvio,
-          idmensaje: evento.idMensaje
+          idmensaje: evento.idMensaje,
         }));
-        this.arrValidaciones =  validaciones
+        this.arrValidaciones = validaciones;
       });
 
     this.modalService.open(content, {
