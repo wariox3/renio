@@ -45,6 +45,13 @@
 
         document.documentElement.setAttribute("data-bs-theme", themeMode);
       }
+
+      window.addEventListener("load", function () {
+        console.log(
+          "Todos los recursos incluyendo imágenes han sido cargados (addEventListener)"
+        );
+        // Código a ejecutar cuando todo ha sido cargado
+      });
     </script>
     <!--end::Theme mode setup on page load-->
   </body>
