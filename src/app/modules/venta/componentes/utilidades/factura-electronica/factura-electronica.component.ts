@@ -10,7 +10,7 @@ import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { zip } from 'rxjs';
+import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
@@ -25,7 +25,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     NgbDropdownModule,
     NgbNavModule,
     BaseFiltroComponent,
-],
+  ],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
   filtroPermanenteEmitir = [
@@ -188,11 +188,24 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.arrRegistrosSeleccionadosEmitir.map((documento_id) => {
         this.httpService
           .post('general/documento/emitir/', { documento_id })
-          .subscribe((respuesta: any) => {
-            this.consultarLista();
-          });
+          .pipe(
+            tap(() => {
+              this.arrRegistrosSeleccionadosEmitir =
+                this.arrRegistrosSeleccionadosEmitir.filter(
+                  (item) => item !== documento_id
+                );
+              this.consultarLista();
+            }),
+            catchError(() => {
+              this.alertaService.mensajeError(
+                'Error',
+                `No al emitir documento: ${documento_id}`
+              );
+              return of(null);
+            })
+          )
+          .subscribe();
       });
-      this.arrRegistrosSeleccionadosEmitir = [];
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -284,7 +297,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         let [limite, desplazamiento] = valorInicial.split('-');
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
-          limite -= 1
+          limite -= 1;
           if (desplazamiento > 0) {
             this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
             this.arrParametrosConsultaEmitir.limite = parseInt(limite);
@@ -341,7 +354,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         let [limite, desplazamiento] = valorInicial.split('-');
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
-          limite -= 1
+          limite -= 1;
           if (desplazamiento > 0) {
             this.arrParametrosConsultaNotificar.desplazar = desplazamiento;
             this.arrParametrosConsultaNotificar.limite = limite;
