@@ -14,6 +14,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-nota-credito-detalle',
@@ -127,10 +128,17 @@ export default class FacturaDetalleComponent extends General {
   aprobar() {
     this.httpService
       .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento aprobado');
-      });
+      .pipe(
+        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
+        tap((respuestaConsultaDetalle: any) => {
+          this.documento = respuestaConsultaDetalle.documento;
+          this.arrEstados.estado_aprobado =
+            respuestaConsultaDetalle.documento.estado_aprobado;
+          this.alertaService.mensajaExitoso('Documento aprobado');
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 
   emitir() {
