@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -14,19 +15,20 @@ import { locale as deLang } from './modules/i18n/vocabs/de';
 import { locale as frLang } from './modules/i18n/vocabs/fr';
 import { ThemeModeService } from './_metronic/partials/layout/theme-mode-switcher/theme-mode.service';
 import { RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
-    // tslint:disable-next-line:component-selector
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: 'body[root]',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [RouterOutlet],
+  // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'body[root]',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [RouterOutlet, NgIf],
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, AfterViewInit {
+  load = true;
 
   constructor(
     private translationService: TranslationService,
@@ -48,4 +50,8 @@ export class AppComponent implements OnInit {
     this.modeService.init();
   }
 
+  ngAfterViewInit(): void {
+    this.load = false
+    this.changeDetectorRef.detectChanges()
+  }
 }
