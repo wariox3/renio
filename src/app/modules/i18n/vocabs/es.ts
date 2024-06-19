@@ -52,7 +52,8 @@ export const locale = {
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
         DOCUMENTOSOPORTE: 'Documento soporte',
-        SEDE: 'Sede'
+        SEDE: 'Sede',
+        DOCUMENTOELECTRONICO: 'Documento electrónico'
       },
     },
     FORMULARIOS: {

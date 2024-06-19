@@ -106,6 +106,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'utilidad',
+          children: [
+            {
+              nombre: 'DOCUMENTOELECTRONICO',
+              tipo: 'utilidad',
+              url: 'compra/utilidad/documento_electronico',
+            },
+          ],
         },
         {
           nombre: 'proceso',

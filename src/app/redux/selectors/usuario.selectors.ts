@@ -57,5 +57,10 @@ export const obtenerUsuarioSuspencion = createSelector(
   (Usuario) => Usuario.vr_saldo > 0
 );
 
+export const obtenerUsuarioCorreo = createSelector(
+  Usuario,
+  (Usuario) => Usuario.correo
+);
+
 export const obtenerValidacionSaldo = (saldo: number) =>
   createSelector(Usuario, (Usuario) => Usuario.vr_saldo !== saldo);

@@ -51,7 +51,9 @@ export const locale = {
         EMPLEADO: 'Employee',
         CONTRATO: 'Contract',
         HUMCONTRATO: 'Contract',
-        DOCUMENTOSOPORTE: 'Document support'
+        DOCUMENTOSOPORTE: 'Document support',
+        DOCUMENTOELECTRONICO: 'Document electronic'
+
       },
     },
     FORMULARIOS: {

@@ -35,7 +35,7 @@ const Routing: Routes = [
   {
     path: 'compra',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/compra/compra-routing').then((r) => r.routes),
   },
   {
     path: 'contabilidad',

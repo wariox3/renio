@@ -96,7 +96,7 @@ table {
   height: 100% !important;
   position: fixed !important;
   background-color: #f2f3f8 !important;
-  color: #5E6278;
+  color: #5e6278;
   cursor: pointer !important;
   visibility: visible !important;
   transition: visibility 0s, opacity 0.4s linear !important;
@@ -106,6 +106,20 @@ table {
   cursor: wait !important;
   overflow: hidden !important;
 }
-.my-overlay i.fa.fa-spinner.fa-spin, .spinner-big {
+
+.my-overlay i.fa.fa-spinner.fa-spin,
+.spinner-big {
   font-size: 100px !important;
+}
+
+table {
+  .ki-duotone,
+  .ki-outline,
+  .ki-solid,
+  .fa-regular,
+  .fa-solid {
+    font-size: 1.8rem;
+    width: 20.484px;
+    height: 23.406px;
+  }
 }

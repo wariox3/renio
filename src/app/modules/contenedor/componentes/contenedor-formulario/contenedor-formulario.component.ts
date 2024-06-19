@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { EventEmitter, Component, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import {
+  EventEmitter,
+  Component,
+  Input,
+  OnInit,
+  Output,
+  Renderer2,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,12 +18,14 @@ import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { environment } from '@env/environment';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { obtenerUsuarioCorreo } from '@redux/selectors/usuario.selectors';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 @Component({
   selector: 'app-contenedor-formulario',
@@ -29,8 +38,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     CommonModule,
     NgbDropdownModule,
     FormsModule,
-    ReactiveFormsModule
-],
+    ReactiveFormsModule,
+  ],
 })
 export class ContenedorFormularioComponent extends General implements OnInit {
   formularioContenedor: FormGroup;
@@ -45,16 +54,18 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   arrTipoPersona: any[];
   arrCiudades: any[];
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
+  nombreEmpresa = '';
+  dominioApp = environment.dominioApp;
+
   @Input() informacionContenedor!: ContenedorFormulario;
   @Input() visualizarBtnAtras: boolean = true;
-  @Input() visualizarCampoSubdominio: boolean = true;
+  @Input() visualizarCampoSubdominio: boolean = false;
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
     private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private renderer: Renderer2
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
   }
@@ -71,12 +82,14 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.contenedorService.listaTipoIdentificacion(),
-      this.contenedorService.listaPlanes()
+      this.contenedorService.listaPlanes(),
+      this.store.select(obtenerUsuarioCorreo)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrPlanes = respuesta[1];
       let posicion: keyof typeof this.contenedorService.informacionPlan = 2;
-      this.informacionPlan = this.contenedorService.informacionPlan[posicion]
+      this.informacionPlan = this.contenedorService.informacionPlan[posicion];
+      this.formularioContenedor.get('correo')?.setValue(respuesta[2]);
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -116,7 +129,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(100),
+          Validators.maxLength(20),
           Validators.pattern(/^[a-z-0-9]*$/),
         ]),
       ],
@@ -132,10 +145,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         this.planSeleccionado,
         Validators.compose([Validators.required]),
       ],
-      direccion: [
-        this.informacionContenedor.direccion,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
       correo: [
         this.informacionContenedor.correo,
         Validators.compose([
@@ -143,27 +152,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
           Validators.maxLength(255),
           Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
-      ],
-      ciudad_nombre: [this.informacionContenedor.ciudad_nombre],
-      ciudad_id: [
-        this.informacionContenedor.ciudad,
-        Validators.compose([Validators.required]),
-      ],
-      numero_identificacion: [
-        this.informacionContenedor.numero_identificacion,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(20),
-          Validators.pattern(/^[0-9]+$/),
-        ]),
-      ],
-      digito_verificacion: [
-        this.informacionContenedor.digito_verificacion,
-        Validators.compose([Validators.required, Validators.maxLength(1)]),
-      ],
-      identificacion_id: [
-        this.informacionContenedor.identificacion,
-        Validators.compose([Validators.required]),
       ],
       telefono: [
         this.informacionContenedor.telefono,
@@ -180,19 +168,22 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioContenedor?.markAsDirty();
     this.formularioContenedor?.markAsTouched();
-    if (campo === 'ciudad_id') {
-      if(dato === null){
-        this.formularioContenedor.get(campo)?.setValue(null);
-        this.formularioContenedor
-          .get('ciudad_nombre')
-          ?.setValue(null);
-      } else {
-        this.formularioContenedor.get(campo)?.setValue(dato.ciudad_id);
-        this.formularioContenedor
-          .get('ciudad_nombre')
-          ?.setValue(dato.ciudad_nombre);
+    if (campo === 'subdominio') {
+      if (!this.visualizarCampoSubdominio) {
+        this.nombreEmpresa = this.formularioContenedor.get('nombre')!.value;
+        // Reemplazar ñ y Ñ por n
+        this.nombreEmpresa = this.nombreEmpresa.replace(/ñ/gi, 'n');
+        // eliminar caracteres especiales
+        this.nombreEmpresa = this.nombreEmpresa.replace(/[^a-zA-Z0-9]/g, '');
+        if (this.nombreEmpresa.length <= 25) {
+          this.formularioContenedor
+            .get(campo)
+            ?.setValue(this.nombreEmpresa.toLocaleLowerCase());
+        }
+        this.changeDetectorRef.detectChanges();
       }
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -210,9 +201,11 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   }
 
   cambiarTextoAMinusculas() {
-    this.formFields.subdominio.setValue(
-      this.formFields.subdominio.value.toLowerCase()
-    );
+    let subdominio = this.formFields.subdominio.value.toLowerCase();
+    subdominio = subdominio.replace(/ñ/gi, 'n');
+    subdominio = subdominio.replace(/[^a-zA-Z0-9]/g, '');
+
+    this.formFields.subdominio.setValue(subdominio.toLowerCase());
   }
 
   confirmarExistencia() {
@@ -231,7 +224,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   seleccionarPlan(plan_id: any) {
     this.planSeleccionado = plan_id;
     let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
-    this.informacionPlan = this.contenedorService.informacionPlan[posicion]
+    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
     this.changeDetectorRef.detectChanges();
   }
 
@@ -242,5 +235,10 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     this.formularioContenedor.patchValue({
       digito_verificacion: digito,
     });
+  }
+
+  editarSubdominio() {
+    this.visualizarCampoSubdominio = true;
+    this.changeDetectorRef.detectChanges();
   }
 }
