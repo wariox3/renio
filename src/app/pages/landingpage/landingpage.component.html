@@ -32,6 +32,7 @@
                 src="assets/media/illustrations/sketchy-1/2.png"
                 class="mh-125px mb-9"
                 alt=""
+                loading="lazy"
               />
               <!--end::Illustration-->
               <!--begin::Heading-->
@@ -71,6 +72,7 @@
                 src="assets/media/illustrations/sketchy-1/8.png"
                 class="mh-125px mb-9"
                 alt=""
+                loading="lazy"
               />
               <!--end::Illustration-->
               <!--begin::Heading-->
@@ -106,6 +108,7 @@
                 src="assets/media/illustrations/sketchy-1/12.png"
                 class="mh-125px mb-9"
                 alt=""
+                loading="lazy"
               />
               <!--end::Illustration-->
               <!--begin::Heading-->
@@ -322,11 +325,10 @@
           <!--end::Testimonial-->
           <!--begin::Author-->
           <div class="fs-2 fw-semibold text-muted text-center">
-            <a
-              class="link-primary fs-4 fw-bold"
-              >Mario Andrés Estrada Zuluaga </a
-            >
-            <br>
+            <a class="link-primary fs-4 fw-bold"
+              >Mario Andrés Estrada Zuluaga
+            </a>
+            <br />
             <span class="fs-4 fw-bold text-gray-600">CEO de Reddoc</span>
           </div>
           <!--end::Author-->
@@ -1016,27 +1018,35 @@
             <!--begin::Pricing-->
             <div class="text-center" id="kt_pricing">
               <!--begin::Nav group-->
-              <div class="nav-group landing-dark-bg d-inline-flex mb-15" style="border: 1px dashed #2b4666">
+              <div
+                class="nav-group landing-dark-bg d-inline-flex mb-15"
+                style="border: 1px dashed #2b4666"
+              >
                 <button
                   (click)="selectedPlan = 'facturacion'"
                   class="btn btn-color-gray-600 btn-active btn-active-success px-6 py-3 me-2"
-                  [ngClass]="{ 'active': selectedPlan === 'facturacion' }"
+                  [ngClass]="{ active: selectedPlan === 'facturacion' }"
                 >
                   {{ "LANDINGPAGE.FACTURACION" | translate }}
                 </button>
                 <button
                   (click)="selectedPlan = 'erp'"
                   class="btn btn-color-gray-600 btn-active btn-active-success px-6 py-3"
-                  [ngClass]="{ 'active': selectedPlan === 'erp' }"
+                  [ngClass]="{ active: selectedPlan === 'erp' }"
                 >
                   {{ "LANDINGPAGE.ERP" | translate }}
                 </button>
               </div>
-              <div class="row g-10 custom-responsive-sm-precio" *ngIf="selectedPlan === 'facturacion'">
+              <div
+                class="row g-10 custom-responsive-sm-precio"
+                *ngIf="selectedPlan === 'facturacion'"
+              >
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
@@ -1053,7 +1063,12 @@
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
                           <span class="fs-2x fw-bold text-primary">16.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1062,35 +1077,65 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO10" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO10" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO1USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO1USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO10" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO10" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                       </div>
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                     </div>
                     <!--end::Option-->
                   </div>
@@ -1098,7 +1143,9 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-primary py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-primary py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
@@ -1114,8 +1161,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-white">$</span>
-                          <span class="fs-2x fw-bold text-white" data-kt-plan-price-month="49900" data-kt-plan-price-annual="49900">49.900</span>
-                          <span class="fs-7 fw-semibold text-white opacity-75" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-white"
+                            data-kt-plan-price-month="49900"
+                            data-kt-plan-price-annual="49900"
+                            >49.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold text-white opacity-75"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1124,7 +1181,12 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO100" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO100" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1133,7 +1195,12 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.PRECIO2USUARIOS" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO2USUARIOS" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span la class="path2"></span>
@@ -1142,7 +1209,12 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO50" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO50" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1151,7 +1223,12 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1160,7 +1237,11 @@
                       </div>
                       <!--end::Features-->
                       <!--begin::Select-->
-                      <a routerLink="/auth/login" class="btn btn-color-primary btn-active-light-primary btn-light">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a
+                        routerLink="/auth/login"
+                        class="btn btn-color-primary btn-active-light-primary btn-light"
+                        >{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a
+                      >
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
@@ -1169,7 +1250,9 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
@@ -1185,8 +1268,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
-                          <span class="fs-2x fw-bold text-primary" data-kt-plan-price-month="95900" data-kt-plan-price-annual="95900">95.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-primary"
+                            data-kt-plan-price-month="95900"
+                            data-kt-plan-price-annual="95900"
+                            >95.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1195,8 +1288,15 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO500" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO500" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1204,8 +1304,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO3USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO3USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span la class="path2"></span>
                           </i>
@@ -1213,22 +1320,38 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO200" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO200" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <!--end::Item-->
                       </div>
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
@@ -1237,7 +1360,9 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
@@ -1253,8 +1378,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
-                          <span class="fs-2x fw-bold text-primary" data-kt-plan-price-month="172900" data-kt-plan-price-annual="172900">172.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-primary"
+                            data-kt-plan-price-month="172900"
+                            data-kt-plan-price-annual="172900"
+                            >172.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1263,8 +1398,16 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO"
+                                | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1272,8 +1415,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO8USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO8USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span la class="path2"></span>
                           </i>
@@ -1281,8 +1431,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO500" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO500" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1290,8 +1447,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1299,24 +1463,31 @@
                       </div>
                       <!--end::Features-->
                       <!--begin::Select-->
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
                   </div>
                 </div>
               </div>
-              <div class="row g-10 custom-responsive-sm-precio" *ngIf="selectedPlan === 'erp'">
+              <div
+                class="row g-10 custom-responsive-sm-precio"
+                *ngIf="selectedPlan === 'erp'"
+              >
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
                         <h1 class="text-dark mb-5 fw-boldest">
                           {{ "LANDINGPAGE.PLANIMPULSO" | translate }}
-                          <br>
+                          <br />
                           {{ "LANDINGPAGE.ERP" | translate }}
                         </h1>
                         <!--end::Title-->
@@ -1329,7 +1500,12 @@
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
                           <span class="fs-2x fw-bold text-primary">22.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1338,70 +1514,125 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO10" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO10" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO1USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO1USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO10" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO10" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.COMPRA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.COMPRA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.FACTURACION" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.FACTURACION" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.TESORERIA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.TESORERIA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CARTERA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CARTERA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                       </div>
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                     </div>
                     <!--end::Option-->
                   </div>
@@ -1409,13 +1640,15 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
                         <h1 class="text-dark mb-5 fw-boldest">
                           {{ "LANDINGPAGE.PLANCRECIMIENTO" | translate }}
-                          <br>
+                          <br />
                           {{ "LANDINGPAGE.ERP" | translate }}
                         </h1>
                         <!--end::Title-->
@@ -1427,8 +1660,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
-                          <span class="fs-2x fw-bold text-primary" data-kt-plan-price-month="74900" data-kt-plan-price-annual="74900">74.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-primary"
+                            data-kt-plan-price-month="74900"
+                            data-kt-plan-price-annual="74900"
+                            >74.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1437,8 +1680,15 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO100" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO100" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1446,8 +1696,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO2USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO2USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span la class="path2"></span>
                           </i>
@@ -1455,63 +1712,109 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO50" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO50" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.COMPRA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.COMPRA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.FACTURACION" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.FACTURACION" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.NOMINA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.NOMINA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.TESORERIA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.TESORERIA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CARTERA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CARTERA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                       </div>
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
@@ -1520,13 +1823,15 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-primary py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-primary py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
                         <h1 class="text-white mb-5 fw-boldest">
                           {{ "LANDINGPAGE.PLANEXPANSION" | translate }}
-                          <br>
+                          <br />
                           {{ "LANDINGPAGE.ERP" | translate }}
                         </h1>
                         <!--end::Title-->
@@ -1538,8 +1843,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-white">$</span>
-                          <span class="fs-2x fw-bold text-white" data-kt-plan-price-month="149900" data-kt-plan-price-annual="149900">149.900</span>
-                          <span class="fs-7 fw-semibold text-white opacity-75" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-white"
+                            data-kt-plan-price-month="149900"
+                            data-kt-plan-price-annual="149900"
+                            >149.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold text-white opacity-75"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1548,7 +1863,12 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTO500" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTO500" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1557,7 +1877,12 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.PRECIO3USUARIOS" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO3USUARIOS" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span la class="path2"></span>
@@ -1566,7 +1891,12 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO200" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO200" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1575,49 +1905,72 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.COMPRA" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.COMPRA" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.FACTURACION" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.FACTURACION" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.NOMINA" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.NOMINA" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.TESORERIA" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.TESORERIA" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-white opacity-75 text-start pe-3">{{ "LANDINGPAGE.CARTERA" | translate }}</span>
+                          <span
+                            class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
+                            >{{ "LANDINGPAGE.CARTERA" | translate }}</span
+                          >
                           <i class="ki-duotone ki-check-circle fs-1 text-white">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -1626,7 +1979,11 @@
                       </div>
                       <!--end::Features-->
                       <!--begin::Select-->
-                      <a routerLink="/auth/login" class="btn btn-color-primary btn-active-light-primary btn-light">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a
+                        routerLink="/auth/login"
+                        class="btn btn-color-primary btn-active-light-primary btn-light"
+                        >{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a
+                      >
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
@@ -1635,13 +1992,15 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="d-flex h-100 align-items-center">
                     <!--begin::Option-->
-                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10">
+                    <div
+                      class="w-100 d-flex flex-column flex-center rounded-3 bg-body py-15 px-10"
+                    >
                       <!--begin::Heading-->
                       <div class="mb-7 text-center">
                         <!--begin::Title-->
                         <h1 class="text-dark mb-5 fw-boldest">
                           {{ "LANDINGPAGE.PLANEXITO" | translate }}
-                          <br>
+                          <br />
                           {{ "LANDINGPAGE.ERP" | translate }}
                         </h1>
                         <!--end::Title-->
@@ -1653,8 +2012,18 @@
                         <!--begin::Price-->
                         <div class="text-center">
                           <span class="fs-2x fw-bold text-primary">$</span>
-                          <span class="fs-2x fw-bold text-primary" data-kt-plan-price-month="229900" data-kt-plan-price-annual="229900">229.900</span>
-                          <span class="fs-7 fw-semibold opacity-50" data-kt-plan-price-month="/ Mon" data-kt-plan-price-annual="/ Ann">/ Mes</span>
+                          <span
+                            class="fs-2x fw-bold text-primary"
+                            data-kt-plan-price-month="229900"
+                            data-kt-plan-price-annual="229900"
+                            >229.900</span
+                          >
+                          <span
+                            class="fs-7 fw-semibold opacity-50"
+                            data-kt-plan-price-month="/ Mon"
+                            data-kt-plan-price-annual="/ Ann"
+                            >/ Mes</span
+                          >
                         </div>
                         <!--end::Price-->
                       </div>
@@ -1663,8 +2032,16 @@
                       <div class="w-100 mb-10">
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.CANTIDADDOCUMENTOILIMITADO"
+                                | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1672,8 +2049,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.PRECIO8USUARIOS" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.PRECIO8USUARIOS" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span la class="path2"></span>
                           </i>
@@ -1681,8 +2065,15 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.INGRESOMAXIMO500" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.INGRESOMAXIMO500" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1690,50 +2081,87 @@
                         <!--end::Item-->
                         <!--begin::Item-->
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.SOPORTETECNICO" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{
+                              "LANDINGPAGE.SOPORTETECNICO" | translate
+                            }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CONTABILIDAD" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.COMPRA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.COMPRA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.FACTURACION" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.FACTURACION" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.NOMINA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.NOMINA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.TESORERIA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.TESORERIA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
                         </div>
                         <div class="d-flex flex-stack mb-5">
-                          <span class="fw-semibold fs-6 text-gray-800 text-start pe-3">{{ "LANDINGPAGE.CARTERA" | translate }}</span>
-                          <i class="ki-duotone ki-check-circle fs-1 text-success">
+                          <span
+                            class="fw-semibold fs-6 text-gray-800 text-start pe-3"
+                            >{{ "LANDINGPAGE.CARTERA" | translate }}</span
+                          >
+                          <i
+                            class="ki-duotone ki-check-circle fs-1 text-success"
+                          >
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
@@ -1741,7 +2169,9 @@
                       </div>
                       <!--end::Features-->
                       <!--begin::Select-->
-                      <a routerLink="/auth/login" class="btn btn-primary">{{ "LANDINGPAGE.PRECIOSSELECCIONAR" | translate }}</a>
+                      <a routerLink="/auth/login" class="btn btn-primary">{{
+                        "LANDINGPAGE.PRECIOSSELECCIONAR" | translate
+                      }}</a>
                       <!--end::Select-->
                     </div>
                     <!--end::Option-->
@@ -1838,7 +2268,12 @@
               <div class="d-flex align-items-center">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-circle symbol-50px me-5">
-                  <img src="assets/media/avatars/300-1.jpg" class="" alt="" />
+                  <img
+                    src="assets/media/avatars/300-1.jpg"
+                    class=""
+                    alt=""
+                    loading="lazy"
+                  />
                 </div>
                 <!--end::Avatar-->
                 <!--begin::Name-->
@@ -1896,7 +2331,12 @@
               <div class="d-flex align-items-center">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-circle symbol-50px me-5">
-                  <img src="assets/media/avatars/300-2.jpg" class="" alt="" />
+                  <img
+                    src="assets/media/avatars/300-2.jpg"
+                    class=""
+                    alt=""
+                    loading="lazy"
+                  />
                 </div>
                 <!--end::Avatar-->
                 <!--begin::Name-->
@@ -1954,7 +2394,12 @@
               <div class="d-flex align-items-center">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-circle symbol-50px me-5">
-                  <img src="assets/media/avatars/300-16.jpg" class="" alt="" />
+                  <img
+                    src="assets/media/avatars/300-16.jpg"
+                    class=""
+                    alt=""
+                    loading="lazy"
+                  />
                 </div>
                 <!--end::Avatar-->
                 <!--begin::Name-->
