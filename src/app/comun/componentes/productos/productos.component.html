@@ -21,8 +21,16 @@
       <div
         ngbDropdownMenu
         aria-labelledby="dropdownBasic1"
-        class="dropdown-menu"
+        class="dropdown-menu w-100"
       >
+        <spam
+          class="dropdown-item"
+          (click)="abrirModalNuevoItem(content)"
+          ngbDropdownItem
+          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+        >
+        </spam>
+        <div class="dropdown-divider"></div>
         <ng-container *ngFor="let impuesto of arrItemsLista">
           <button (click)="agregarItem(impuesto)" type="button" ngbDropdownItem>
             {{ impuesto.item_nombre }}
@@ -39,3 +47,12 @@
     </div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <app-item-formulario
+      [ocultarBtnAtras]="true"
+      (emitirGuardoRegistro)="cerrarModalNuevoItem($event)"
+      [tituliFijo]="true"
+    />
+  </div>
+</ng-template>

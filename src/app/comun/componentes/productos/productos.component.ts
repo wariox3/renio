@@ -4,46 +4,53 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownModule,
+  NgbModal,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import itemFormulario from '../../../modules/general/componentes/item/item-formulario/item-formulario.component';
 
 @Component({
   selector: 'app-comun-productos',
   standalone: true,
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.scss'],
   imports: [
     TranslateModule,
     NgbDropdownModule,
     NgFor,
     CommonModule,
-],
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.scss'],
+    itemFormulario,
+  ],
 })
 export class ProductosComponent extends General implements AfterViewInit {
-
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
   @Input() itemNombre: string = '';
   @Input() estado_aprobado: false;
-  @Input() campoInvalido: any  = false;
+  @Input() campoInvalido: any = false;
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
+  @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private httpService: HttpService,
+    private modalService: NgbModal
+  ) {
     super();
   }
 
@@ -55,17 +62,18 @@ export class ProductosComponent extends General implements AfterViewInit {
 
   agregarItem(item: any) {
     this.itemSeleccionado = item;
-    if(this.campoInvalido){
-      this.campoInvalido = false
-      this.changeDetectorRef.detectChanges()
+    if (this.campoInvalido) {
+      this.campoInvalido = false;
+      this.changeDetectorRef.detectChanges();
     }
 
     this.httpService
       .post<any>(`general/item/detalle/`, {
-        'id':item.item_id,
-        'venta': true
+        id: item.item_id,
+        venta: true,
       })
       .subscribe((respuesta: any) => {
+        console.log(respuesta.item);
         this.emitirArrItems.emit(respuesta.item);
       });
   }
@@ -134,8 +142,23 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   onDropdownClose() {
-    if(this.itemSeleccionado === null){
+    if (this.itemSeleccionado === null) {
       this.emitirLineaVacia.emit();
     }
+  }
+
+  abrirModalNuevoItem(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  cerrarModalNuevoItem(respuestaItem: any): void {
+    this.emitirArrItems.emit(respuestaItem.item);
+    this.changeDetectorRef.detectChanges();
+    this.modalService.dismissAll();
+    this.changeDetectorRef.detectChanges();
   }
 }

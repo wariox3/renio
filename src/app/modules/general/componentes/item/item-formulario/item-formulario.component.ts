@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -32,7 +39,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     CardComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-],
+  ],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
@@ -40,6 +47,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
   arrImpuestos: any[] = [];
   @Input() informacionFormulario: any;
+  @Input() ocultarBtnAtras = false;
+  @Input() tituliFijo: Boolean = false;
+  @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
 
@@ -49,6 +59,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   ) {
     super();
   }
+
   ngOnInit() {
     this.iniciarFormulario();
     if (this.detalle) {
@@ -133,16 +144,20 @@ export default class ItemFormularioComponent extends General implements OnInit {
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                  detalle: respuesta.item.id,
-                  accion: 'detalle',
-                },
-              });
+              if (this.ocultarBtnAtras) {
+                this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
+              } else {
+                this.router.navigate(['/administrador/detalle'], {
+                  queryParams: {
+                    modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                    tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                    formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                    detalle: respuesta.item.id,
+                    accion: 'detalle',
+                  },
+                });
+              }
             })
           )
           .subscribe();
@@ -224,6 +239,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges();
       });
   }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioItem?.markAsDirty();
     this.formularioItem?.markAsTouched();

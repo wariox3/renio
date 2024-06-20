@@ -41,12 +41,10 @@ export default class ResolucionFormularioComponent
   formularioResolucion: FormGroup;
   @Input() ocultarBtnAtras = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
-
   @Input() tituliFijo: Boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private resolucionService: ResolucionService,
-    private modalService: NgbModal // necesario para cerrar el modal que está en editarEmpresa
   ) {
     super();
   }
