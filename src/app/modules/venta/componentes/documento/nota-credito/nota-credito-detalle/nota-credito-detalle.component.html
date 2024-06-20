@@ -8,6 +8,21 @@
     <button
       type="button"
       class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      (click)="navegarNuevo()"
+    >
+      {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      (click)="navegarEditar(documento.id)"
+      [disabled]="arrEstados.estado_aprobado"
+    >
+      {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
       (click)="aprobar()"
       [disabled]="arrEstados.estado_aprobado"
     >
@@ -258,6 +273,5 @@
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
     </div>
-
   </section>
 </app-card>
