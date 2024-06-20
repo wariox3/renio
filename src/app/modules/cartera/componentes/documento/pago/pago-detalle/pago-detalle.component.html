@@ -9,6 +9,21 @@
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarNuevo()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarEditar(pago.id)"
+        [disabled]="arrEstados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
         [disabled]="pago.estado_aprobado"
       >

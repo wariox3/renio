@@ -37,6 +37,10 @@ export default class PagoDetalleComponent extends General {
     detalles: [],
     impuestos: [],
   };
+  arrEstados = {
+    estado_aprobado: false,
+    estado_anulado: false,
+  };
   tabActive = 1
   constructor(
     private httpService: HttpService,
@@ -85,5 +89,26 @@ export default class PagoDetalleComponent extends General {
         this.consultardetalle();
         this.alertaService.mensajaExitoso('Documento anulado');
       });
+  }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/editar`], {
+        queryParams: {
+          ...parametro,
+          detalle: id,
+        },
+      });
+    });
+  }
+
+  navegarNuevo() {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/nuevo`], {
+        queryParams: {
+          documento_clase: parametro.documento_clase,
+        },
+      });
+    });
   }
 }
