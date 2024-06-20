@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -27,28 +27,31 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
-  selector: 'app-factura-formulario',
-  standalone: true,
-  templateUrl: './factura-formulario.component.html',
-  styleUrls: ['./factura-formulario.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
-    BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-    BtnAtrasComponent,
-    CardComponent,
-    AnimacionFadeInOutDirective,
-],
+    selector: 'app-factura-formulario',
+    standalone: true,
+    templateUrl: './factura-formulario.component.html',
+    styleUrls: ['./factura-formulario.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgbDropdownModule,
+        NgbNavModule,
+        TablaComponent,
+        ImpuestosComponent,
+        ProductosComponent,
+        BuscarAvanzadoComponent,
+        SoloNumerosDirective,
+        BtnAtrasComponent,
+        CardComponent,
+        AnimacionFadeInOutDirective,
+        ContactoFormulario
+    ]
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;
@@ -100,7 +103,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private facturaService: FacturaService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -806,10 +810,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      if(dato.contacto_id && dato.contacto_nombre_corto){
+        this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+        this.formularioFactura
+          .get('contactoNombre')
+          ?.setValue(dato.contacto_nombre_corto);
+      }
+      if(dato.id && dato.nombre_corto){
+        this.formularioFactura.get(campo)?.setValue(dato.id);
+        this.formularioFactura
+          .get('contactoNombre')
+          ?.setValue(dato.nombre_corto);
+      }
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
@@ -1048,4 +1060,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     return null
   }
+
+  abrirModalContactoNuevo(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  cerrarModal(contacto: Contacto) {
+    this.modificarCampoFormulario('contacto', contacto)
+    this.modalService.dismissAll();
+  }
+
 }

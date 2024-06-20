@@ -63,8 +63,24 @@
           <div
             ngbDropdownMenu
             aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
+            class="dropdown-menu w-100"
           >
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituliFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
               <button
                 type="button"
@@ -380,9 +396,7 @@
             <option
               *ngFor="let sede of arrSede"
               [value]="sede.sede_id"
-              [selected]="
-                sede.sede_id === formularioFactura.controls.sede_id
-              "
+              [selected]="sede.sede_id === formularioFactura.controls.sede_id"
             >
               {{ sede.sede_nombre }}
             </option>

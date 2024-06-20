@@ -1,5 +1,13 @@
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import {
@@ -54,7 +62,7 @@ import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValid
     CardComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-],
+  ],
   providers: [provideNgxMask()],
 })
 export default class ContactDetalleComponent extends General implements OnInit {
@@ -66,6 +74,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrAsesores: any[];
   arrPrecios: any[];
   arrPagos: any[];
+  @Input() ocultarBtnAtras = false;
+  @Input() tituliFijo: Boolean = false;
+  @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
 
@@ -122,7 +133,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.consultarInformacion();
     this.iniciarFormulario();
-    if (this.detalle) {
+    if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
   }
@@ -274,7 +285,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
       if (this.formularioContacto.get('tipo_persona')?.value == 2) {
         this.actualizarNombreCorto();
       }
-      if (this.detalle) {
+      if (
+        this.activatedRoute.snapshot.queryParams['detalle'] &&
+        this.ocultarBtnAtras === false
+      ) {
         this.contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
           .subscribe((respuesta) => {
@@ -298,7 +312,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
               codigo_ciuu: respuesta.codigo_ciuu,
               barrio: respuesta.barrio,
               cliente: respuesta.cliente,
-              proveedor: respuesta.proveedor
+              proveedor: respuesta.proveedor,
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
@@ -317,16 +331,20 @@ export default class ContactDetalleComponent extends General implements OnInit {
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                  detalle: respuesta.id,
-                  accion: 'detalle',
-                },
-              });
+              if (this.ocultarBtnAtras) {
+                this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
+              } else {
+                this.router.navigate(['/administrador/detalle'], {
+                  queryParams: {
+                    modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                    tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                    formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                    detalle: respuesta.id,
+                    accion: 'detalle',
+                  },
+                });
+              }
             })
           )
           .subscribe();
@@ -556,7 +574,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
-          proveedor: respuesta.proveedor
+          proveedor: respuesta.proveedor,
         });
 
         if (respuesta.tipo_persona_id === 1) {
