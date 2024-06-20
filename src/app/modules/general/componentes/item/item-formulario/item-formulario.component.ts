@@ -62,7 +62,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   ngOnInit() {
     this.iniciarFormulario();
-    if (this.detalle) {
+    if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
   }
