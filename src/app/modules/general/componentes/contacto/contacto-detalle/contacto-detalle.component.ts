@@ -1,6 +1,6 @@
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,6 +28,8 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
+    NgSwitch,
+    NgSwitchCase
 ],
   providers: [provideNgxMask()],
 })

@@ -10,7 +10,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { HttpService } from '@comun/services/http.service';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -183,7 +182,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([Validators.required, Validators.maxLength(255)]),
         ],
         ciudad_nombre: [''],
-        ciudad: ['', Validators.compose([Validators.required])], 
+        ciudad: ['', Validators.compose([Validators.required])],
         telefono: [
           null,
           Validators.compose([Validators.required, Validators.maxLength(50)]),

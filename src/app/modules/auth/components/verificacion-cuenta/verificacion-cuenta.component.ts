@@ -2,18 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-verificacion-cuenta',
-    templateUrl: './verificacion-cuenta.component.html',
-    styleUrls: ['./verificacion-cuenta.component.scss'],
-    standalone: true,
-    imports: [
-        NgSwitch,
-        NgSwitchCase,
-        TranslateModule,
-    ],
+  selector: 'app-verificacion-cuenta',
+  templateUrl: './verificacion-cuenta.component.html',
+  styleUrls: ['./verificacion-cuenta.component.scss'],
+  standalone: true,
+  imports: [NgIf, TranslateModule],
 })
 export class VerificacionCuentaComponent extends General implements OnInit {
   verificacionToken: 'exitosa' | 'error' | 'cargando' = 'cargando';
@@ -33,7 +29,9 @@ export class VerificacionCuentaComponent extends General implements OnInit {
     this.authService.validacion(token).subscribe({
       next: (): void => {
         this.alertaService.mensajaExitoso(
-          this.translateService.instant('FORMULARIOS.MENSAJES.AUTENTIFICACION.INICIARSESION')
+          this.translateService.instant(
+            'FORMULARIOS.MENSAJES.AUTENTIFICACION.INICIARSESION'
+          )
         );
         this.verificacionToken = 'exitosa';
         this.changeDetectorRef.detectChanges();
@@ -54,7 +52,9 @@ export class VerificacionCuentaComponent extends General implements OnInit {
       this.authService.reenviarValidacion(this.codigoUsuario).subscribe({
         next: (respuesta): void => {
           this.alertaService.mensajaExitoso(
-            this.translateService.instant("FORMULARIOS.MENSAJES.AUTENTIFICACION.REENVIARVALIDACION")
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.AUTENTIFICACION.REENVIARVALIDACION'
+            )
             //`La nueva verificación se ha enviado nuevamente al correo electrónico registrado. <br> Vence: ${respuesta.verificacion.vence}`
           );
         },

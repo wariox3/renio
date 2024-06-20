@@ -1,5 +1,5 @@
 <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-  <div [ngSwitch]="verificacionToken">
+  <div *ngIf="verificacionToken">
     <div *ngSwitchCase="'exitosa'">
       <div class="alert alert-success d-flex align-items-center p-5 mb-10">
         <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4"

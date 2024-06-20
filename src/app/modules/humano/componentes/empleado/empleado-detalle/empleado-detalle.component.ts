@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
@@ -25,14 +25,18 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-],
+    NgSwitch,
+    NgSwitchCase,
+  ],
   providers: [provideNgxMask()],
   templateUrl: './empleado-detalle.component.html',
   styleUrls: ['./empleado-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class EmpleadoDetalleComponent extends General implements OnInit {
-
+export default class EmpleadoDetalleComponent
+  extends General
+  implements OnInit
+{
   contacto: any = {
     identificacion: 0,
     numero_identificacion: 0,
@@ -54,7 +58,7 @@ export default class EmpleadoDetalleComponent extends General implements OnInit 
     barrio: '',
     tipo_persona: 0,
     ciudad_nombre: 0,
-    asesor_nombre_corto: ''
+    asesor_nombre_corto: '',
   };
 
   constructor(private contactoService: ContactoService) {
@@ -73,5 +77,4 @@ export default class EmpleadoDetalleComponent extends General implements OnInit 
         this.changeDetectorRef.detectChanges();
       });
   }
-
- }
+}
