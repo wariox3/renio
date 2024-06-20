@@ -11,8 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -26,6 +25,8 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { Contacto } from '@interfaces/general/contacto';
+import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -47,6 +48,7 @@ import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut
     BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
+    ContactoFormulario
 ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -90,7 +92,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -951,5 +954,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+  }
+
+  abrirModalContactoNuevo(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  cerrarModal(contacto: Contacto) {
+    this.modificarCampoFormulario('contacto', contacto)
+    this.modalService.dismissAll();
   }
 }

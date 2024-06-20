@@ -64,13 +64,29 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituliFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
               <button
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
-                >
+              >
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
@@ -97,8 +113,12 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3"
-        [ngClass]="dataUrl.documento_clase === '1'? 'col-12 col-3': 'col-12 col-md-6'">
+        <div
+          class="col-12 col-md-3"
+          [ngClass]="
+            dataUrl.documento_clase === '1' ? 'col-12 col-3' : 'col-12 col-md-6'
+          "
+        >
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"

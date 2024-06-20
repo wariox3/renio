@@ -27,26 +27,29 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
-  selector: 'app-pago-formulario',
-  standalone: true,
-  templateUrl: './pago-formulario.component.html',
-  styleUrls: ['./pago-formulario.component.scss'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgbDropdownModule,
-    BtnAtrasComponent,
-    CardComponent,
-    NgbNavModule,
-    BuscarAvanzadoComponent,
-    KeysPipe,
-    BaseFiltroComponent,
-    SoloNumerosDirective,
-    CuentasComponent,
-],
+    selector: 'app-pago-formulario',
+    standalone: true,
+    templateUrl: './pago-formulario.component.html',
+    styleUrls: ['./pago-formulario.component.scss'],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgbDropdownModule,
+        BtnAtrasComponent,
+        CardComponent,
+        NgbNavModule,
+        BuscarAvanzadoComponent,
+        KeysPipe,
+        BaseFiltroComponent,
+        SoloNumerosDirective,
+        CuentasComponent,
+        ContactoFormulario
+    ]
 })
 export default class PagoFormularioComponent extends General implements OnInit {
   formularioFactura: FormGroup;
@@ -488,5 +491,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
     this.changeDetectorRef.detectChanges();
+  }
+
+  abrirModalContactoNuevo(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  cerrarModal(contacto: Contacto) {
+    this.modificarCampoFormulario('contacto', contacto)
+    this.modalService.dismissAll();
   }
 }

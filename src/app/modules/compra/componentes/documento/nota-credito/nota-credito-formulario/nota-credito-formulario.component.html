@@ -64,6 +64,22 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituliFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
               <button
                 type="button"
@@ -661,18 +677,13 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                       ></td>
                       <td class="text-end">
-                        {{
-                          subtotalGeneral | number
-                        }}
+                        {{ subtotalGeneral | number }}
                       </td>
                     </tr>
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                       <td class="text-end">{{ impuesto.key }}</td>
                       <td class="text-end">
-                        {{
-                          impuesto.value.total
-                            | number
-                        }}
+                        {{ impuesto.value.total | number }}
                       </td>
                     </tr>
                     <tr *ngIf="totalDescuento > 0">
@@ -681,9 +692,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
                       ></td>
                       <td class="text-end">
-                        {{
-                          totalDescuento | number
-                        }}
+                        {{ totalDescuento | number }}
                       </td>
                     </tr>
                     <tr *ngIf="totalImpuestos > 0">
@@ -692,9 +701,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                       ></td>
                       <td class="text-end">
-                        {{
-                          totalImpuestos | number
-                        }}
+                        {{ totalImpuestos | number }}
                       </td>
                     </tr>
                     <tr class="border-top">

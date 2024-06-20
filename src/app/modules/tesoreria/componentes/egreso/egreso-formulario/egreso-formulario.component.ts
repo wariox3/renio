@@ -15,7 +15,6 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
-
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -27,10 +26,14 @@ import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { Contacto } from '@interfaces/general/contacto';
+import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-egreso-formulario',
   standalone: true,
+  templateUrl: './egreso-formulario.component.html',
+  styleUrls: ['./egreso-formulario.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -44,9 +47,8 @@ import { documentos } from '@comun/extra/mapeoEntidades/informes';
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
-],
-  templateUrl: './egreso-formulario.component.html',
-  styleUrls: ['./egreso-formulario.component.scss'],
+    ContactoFormulario,
+  ],
 })
 export default class EgresoFormularioComponent
   extends General
@@ -265,7 +267,7 @@ export default class EgresoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-   agregarDocumento(content: any) {
+  agregarDocumento(content: any) {
     if (this.formularioEgreso.get('contacto')?.value !== '') {
       this.consultarDocumentos(null);
       this.store.dispatch(
@@ -482,5 +484,17 @@ export default class EgresoFormularioComponent
     } else {
       this.arrDocumentosSeleccionados.push(documento);
     }
+  }
+
+  abrirModalContactoNuevo(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  cerrarModal(contacto: Contacto) {
+    this.modificarCampoFormulario('contacto', contacto);
+    this.modalService.dismissAll();
   }
 }
