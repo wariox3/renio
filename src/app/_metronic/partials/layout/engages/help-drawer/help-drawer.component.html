@@ -50,24 +50,13 @@
           <!--begin::Heading-->
           <h2 class="fw-bolder mb-5">
             <a
-              href="https://cerio.readthedocs.io/en/latest/index.html"
+              [href]="appDocumentacion"
+              target="_blank"
               class=""
               target="_blank"
               translate="AYUDA.ENLACEDOCUMENTACION"
             ></a>
           </h2>
-          <!--end::Heading-->
-
-          <!--begin::Description-->
-          <!-- <div class="fs-5 fw-bold mb-5">
-            <span class="text-gray-500">Únete a la comunidad para encontrar respuesta a tu pregunta.</span>
-            <a class="explore-link d-none" href="https://cerio.readthedocs.io/en/latest/index.html">FAQs</a>
-          </div> -->
-          <!--end::Description-->
-
-          <!--begin::Link-->
-          <!-- <a href="https://devs.keenthemes.com" class="btn btn-lg explore-btn-primary w-100">Get Support</a> -->
-          <!--end::Link-->
         </div>
         <!--end::Support-->
 
@@ -92,7 +81,8 @@
             <div class="d-flex flex-column me-2 me-lg-5">
               <!--begin::Title-->
               <a
-                href="https://cerio.readthedocs.io/en/latest/index.html"
+                [href]="appDocumentacion+modelo.toLocaleLowerCase()"
+                target="_blank"
                 class="text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1"
                 translate="AYUDA.DOCUMENTACION"
               ></a>
@@ -152,43 +142,6 @@
               ></div>
               <!--end::Description-->
             </div>
-            <!--end::Wrapper-->
-            <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-            <!-- <app-keenicon name="arr064.svg" class=" svg-icon-gray-400 svg-icon-2"></app-keenicon> -->
-            <!--end::Svg Icon-->
-            <!-- </div> -->
-            <!--end::Info-->
-            <!-- </div> -->
-            <!--end::Link-->
-
-            <!--begin::Link-->
-            <!-- <div class="d-flex align-items-center mb-7"> -->
-            <!--begin::Icon-->
-            <!-- <div class="d-flex flex-center w-50px h-50px w-lg-75px h-lg-75px flex-shrink-0 rounded bg-light-danger"> -->
-            <!--begin::Svg Icon | path: icons/duotune/electronics/elc009.svg-->
-            <!-- <app-keenicon name="elc009.svg" class=" text-danger svg-icon-2x svg-icon-lg-3x"></app-keenicon> -->
-            <!--end::Svg Icon-->
-            <!-- </div> -->
-            <!--end::Icon-->
-            <!--begin::Info-->
-            <!-- <div class="d-flex flex-stack flex-grow-1 ms-4 ms-lg-6"> -->
-            <!--begin::Wrapper-->
-            <!-- <div class="d-flex flex-column me-2 me-lg-5"> -->
-            <!--begin::Title-->
-            <!-- <a href="https://preview.keenthemes.com/metronic8/angular/docs/changelog" class="text-dark text-hover-primary fw-bolder fs-6 fs-lg-4 mb-1">What's New</a> -->
-            <!--end::Title-->
-            <!--begin::Description-->
-            <!-- <div class="text-muted fw-bold fs-7 fs-lg-6">Latest features and improvements added with our users feedback in mind.</div> -->
-            <!--end::Description-->
-            <!-- </div> -->
-            <!--end::Wrapper-->
-            <!--begin::Svg Icon | path: icons/duotune/arrows/arr064.svg-->
-            <!-- <app-keenicon name="arr064.svg" class=" svg-icon-gray-400 svg-icon-2"></app-keenicon> -->
-            <!--end::Svg Icon-->
-            <!-- </div> -->
-            <!--end::Info-->
-            <!-- </div> -->
-            <!--end::Link-->
           </div>
           <!--end::Content-->
         </div>

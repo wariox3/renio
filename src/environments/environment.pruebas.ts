@@ -20,4 +20,5 @@ export const environment = {
   appPreviewDocsUrl: 'https://preview.keenthemes.com/metronic8/angular/docs',
   appPreviewChangelogUrl: 'https://preview.keenthemes.com/metronic8/angular/docs/changelog',
   llavePublica: 'pub_test_HrxfoMdxFQFlRQ5be2n0jplrqpAViOKb',
+  appDocumentacion: 'https://documentacion.reddoc.co/apps/documentacion/'
 };
