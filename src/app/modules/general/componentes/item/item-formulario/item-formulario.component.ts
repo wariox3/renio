@@ -94,7 +94,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   enviarFormulario() {
     if (this.formularioItem.valid) {
-      if (this.activatedRoute.snapshot.queryParams['detalle']) {
+      if (this.activatedRoute.snapshot.queryParams['detalle'] && this.ocultarBtnAtras === false) {
         this.itemService
           .actualizarDatosItem(
             this.activatedRoute.snapshot.queryParams['detalle'],
