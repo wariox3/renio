@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@modulos/auth/services/auth.service';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgIf } from '@angular/common';
+import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 
 @Component({
   selector: 'app-verificacion-cuenta',
   templateUrl: './verificacion-cuenta.component.html',
   styleUrls: ['./verificacion-cuenta.component.scss'],
   standalone: true,
-  imports: [NgIf, TranslateModule],
+  imports: [NgIf, TranslateModule, NgSwitch, NgSwitchCase],
 })
 export class VerificacionCuentaComponent extends General implements OnInit {
   verificacionToken: 'exitosa' | 'error' | 'cargando' = 'cargando';
