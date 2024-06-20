@@ -464,7 +464,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
-
+    //limpiar impuesto
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
+    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    arrDetalleImpuestos.clear();
+    //validar si tiene impuestos y agregarlos
     if (item.impuestos) {
       item.impuestos.map((impuesto: any) => {
         impuesto['item_impuesto_id'] = null;
@@ -947,7 +951,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               estado_emitido: respuesta.documento.estado_aprobado,
             },
           })
-        );        
+        );
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
