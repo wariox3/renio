@@ -16,6 +16,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'terminos',
+    loadComponent: () =>
+      import('./pages/terminos/terminos.component').then(
+        (c) => c.TerminosComponent
+      ),
+  },
+  {
     path: 'docs',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
