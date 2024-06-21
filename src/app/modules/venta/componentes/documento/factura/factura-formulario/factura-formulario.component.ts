@@ -669,6 +669,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_id: [impuesto.impuesto_id],
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
+      porcentaje_base: [impuesto.impuesto_porcentaje_base]
     });
     let impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto
     baseImpuesto.setValue(subtotal.value === null ? 0 : subtotal.value)
