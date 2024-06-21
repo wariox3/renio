@@ -38,8 +38,10 @@
           </tr>
         </thead>
         <tbody>
+          <pre>{{arrItems | json }}</pre>
+
           <tr *ngFor="let item of arrItems">
-            <td *ngFor="let key of item | keys">
+            <!-- <td *ngFor="let key of item | keys">
               {{ item[key] }}
             </td>
             <td class="w-45px">
@@ -49,7 +51,7 @@
             >
               <i class="ki-solid ki-check fs-1 p-0"></i>
             </a>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>

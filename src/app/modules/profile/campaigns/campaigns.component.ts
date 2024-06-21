@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
-import { NgbAccordion, NgbPanel, NgbPanelHeader, NgbPanelToggle, NgbPanelContent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-campaigns',
     templateUrl: './campaigns.component.html',
     standalone: true,
     imports: [
-        NgbAccordion,
-        NgbPanel,
-        NgbPanelHeader,
-        NgbPanelToggle,
-        NgbPanelContent,
+        NgbAccordionModule,
     ],
 })
 export class CampaignsComponent {

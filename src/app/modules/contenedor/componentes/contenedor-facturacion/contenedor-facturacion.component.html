@@ -65,37 +65,40 @@
           </div>
         </div>
       </div>
-      <ngb-accordion #a="ngbAccordion">
-        <ngb-panel id="custom-panel-planes">
-          <ng-template ngbPanelHeader let-opened="opened">
-            <div class="accordion-button" [class.collapsed]="!opened">
-              <button
-                translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
-                ngbPanelToggle
-                class="p-0 btn btn-link container-fluid text-start ps-0"
-              ></button>
+      <div ngbAccordion>
+        <div ngbAccordionItem>
+          <h2 ngbAccordionHeader>
+            <button
+              ngbAccordionButton
+              translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
+            ></button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <ng-template>
+                <div>
+                  <table class="table">
+                    <tbody>
+                      <tr
+                        style="width: 100%"
+                        *ngFor="let consumoPlan of consumo.consumosPlan"
+                      >
+                        <td class="d-flex justify-content-between">
+                          <span>{{ consumoPlan.plan_nombre }}</span>
+                          <span>{{
+                            consumoPlan.vr_total | currency : "COP"
+                          }}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div></div>
+                </div>
+              </ng-template>
             </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="custom-content">
-              <table class="table">
-                <tbody>
-                  <tr
-                    style="width: 100%"
-                    *ngFor="let consumoPlan of consumo.consumosPlan"
-                  >
-                    <td class="d-flex justify-content-between">
-                      <span>{{ consumoPlan.plan_nombre }}</span>
-                      <span>{{ consumoPlan.vr_total | currency : "COP" }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div></div>
-            </div>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
+          </div>
+        </div>
+      </div>
       <div class="p-5 text-end">
         Total: {{ consumo.vr_total | currency : "COP" }}
       </div>

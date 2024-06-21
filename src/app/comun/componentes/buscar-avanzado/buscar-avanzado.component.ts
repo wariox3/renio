@@ -4,10 +4,8 @@ import { NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
-import { Listafiltros } from '@interfaces/comunes/filtros';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
-
 import { TranslateModule } from '@ngx-translate/core';
 import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
@@ -58,10 +56,6 @@ export class BuscarAvanzadoComponent extends General {
     this.consultarLista();
     let posicion: keyof typeof mapeo = this.consultarModelo;
 
-    // this.arrPropiedades = mapeo[posicion].filter(
-    //   (propiedad) => propiedad.visibleFiltro === true
-    // );
-
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: mapeo[posicion] })
     );
@@ -98,6 +92,8 @@ export class BuscarAvanzadoComponent extends General {
         propiedades: any[];
       }>(baseUrl, this.arrParametrosConsulta)
       .subscribe((respuesta) => {
+        console.log(respuesta);
+
         // Mapea cada registro en respuesta.registros para crear un nuevo array this.arrItems
         this.arrItems = respuesta.registros.map((registro) => {
           // Inicializa un objeto vacío para almacenar los valores de los campos especificados
