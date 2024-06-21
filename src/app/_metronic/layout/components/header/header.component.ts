@@ -8,7 +8,7 @@ import { SubdominioService } from '@comun/services/subdominio.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HeaderMenuComponent } from './header-menu/header-menu.component';
 import { KeeniconComponent } from '../../../shared/keenicon/keenicon.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-header',
@@ -18,6 +18,7 @@ import { NgClass, NgIf } from '@angular/common';
     imports: [
         NgClass,
         NgIf,
+        NgStyle,
         KeeniconComponent,
         RouterLink,
         HeaderMenuComponent,
@@ -45,6 +46,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   appHeaderDefaultContent: string = '';
   appHeaderDefaulMenuDisplay: boolean;
   appPageTitleDisplay: boolean;
+
+  theme_value = localStorage.getItem('kt_theme_mode_value');
+
 
   navegar = this.subdominioService.esSubdominioActual()
     ? '/dashboard'
