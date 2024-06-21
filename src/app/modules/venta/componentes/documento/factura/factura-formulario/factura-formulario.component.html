@@ -770,6 +770,15 @@
                         {{ subtotalGeneral | currency : "$" }}
                       </td>
                     </tr>
+                    <tr *ngIf="totalBase > 0">
+                      <td
+                        class="text-end"
+    
+                      >Total base</td>
+                      <td class="text-end">
+                        {{ totalBase | currency : "$" }}
+                      </td>
+                    </tr>
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                       <td class="text-end">{{ impuesto.key }}</td>
                       <td class="text-end">

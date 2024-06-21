@@ -73,7 +73,6 @@ export class ProductosComponent extends General implements AfterViewInit {
         venta: true,
       })
       .subscribe((respuesta: any) => {
-        console.log(respuesta.item);
         this.emitirArrItems.emit(respuesta.item);
       });
   }
