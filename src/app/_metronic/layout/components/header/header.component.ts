@@ -145,6 +145,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const layoutSubscr = this.layout.currentLayoutTypeSubject
       .asObservable()
       .subscribe((layout) => {
+        console.log(layout);
+
         this.currentLayoutType = layout;
       });
     this.unsubscribe.push(layoutSubscr);
