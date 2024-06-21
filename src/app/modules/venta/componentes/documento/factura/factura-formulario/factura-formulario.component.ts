@@ -590,7 +590,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const neto = detalleFormGroup.get('neto') as FormControl;
     const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    const base_impuesto = detalleFormGroup.get('base_impuesto') as FormArray;
+    const base_impuesto: any = detalleFormGroup.get('base_impuesto') as FormArray;
     const detalleImpuesto = detalleFormGroup.get('impuesto') as FormArray;
     let impuestoTotal: any = 0;
     this.calcularTotales();
@@ -600,11 +600,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     arrDetalleImpuestos.clear();
 
     impuestoTemporales.map((impuesto: any) => {
-      let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
+      let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100 * impuesto.porcentaje_base / 100;
+      let baseImpuestoActualizar = (subtotal.value * impuesto.porcentaje_base) / 100      
       let impuestoFormGrup = this.formBuilder.group({
         id: [impuesto.impuesto_id ? impuesto.id : null],
         impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id],
-        base: [subtotal.value],
+        base: [baseImpuestoActualizar],
         porcentaje: [impuesto.porcentaje],
         total: [totalImpuesto],
         nombre: [impuesto.nombre],
@@ -612,16 +613,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_id: [impuesto.impuesto_id],
         impuesto_nombre_extendido: [impuesto.nombre_extendido],
         impuesto_nombre: [impuesto.nombre],
+        porcentaje_base: [impuesto.porcentaje_base]
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
         totalImpuesto - impuesto.total;
       impuestoTotal += totalImpuesto;
+      base_impuesto.setValue(baseImpuestoActualizar)
       this.changeDetectorRef.detectChanges();
     });
     neto.patchValue(subtotal.value + impuestoTotal);
     total.patchValue(subtotal.value + impuestoTotal);
-    base_impuesto.setValue(subtotal.value)
     this.calcularTotales();
     detalleImpuesto.setValue(impuestoTotal);
     this.changeDetectorRef.detectChanges();
@@ -658,8 +660,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
     }
     let baseImpuestoActualizar = (subtotal.value * impuesto.impuesto_porcentaje_base) / 100
-    console.log(baseImpuestoActualizar);
-    
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
