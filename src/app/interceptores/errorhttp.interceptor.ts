@@ -1,11 +1,14 @@
 import { HttpHandlerFn, HttpInterceptorFn } from '@angular/common/http';
-import { HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { AlertaService } from '@comun/services/alerta.service';
 import { AuthService } from '@modulos/auth';
 
-export const errorHttpInterceptor: HttpInterceptorFn = (request,   next: HttpHandlerFn) => {
+export const errorHttpInterceptor: HttpInterceptorFn = (
+  request,
+  next: HttpHandlerFn
+) => {
   const alertService = inject(AlertaService);
   const auth = inject(AuthService);
 
@@ -61,11 +64,9 @@ export const errorHttpInterceptor: HttpInterceptorFn = (request,   next: HttpHan
             break;
         }
       }
-
-      return throwError(() => (
-        alertService.cerrarMensajes(),
+      return throwError(() =>
         alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje)
-      ));
+      );
     })
   );
 };

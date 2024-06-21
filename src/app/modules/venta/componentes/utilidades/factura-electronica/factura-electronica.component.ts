@@ -195,13 +195,6 @@ export class FacturaElectronicaComponent extends General implements OnInit {
                   (item) => item !== documento_id
                 );
               this.consultarLista();
-            }),
-            catchError(() => {
-              this.alertaService.mensajeError(
-                'Error',
-                `No al emitir documento: ${documento_id}`
-              );
-              return of(null);
             })
           )
           .subscribe();
