@@ -2,6 +2,7 @@
 // Custom Header(used by Light Sidebar layout only)
 //
 
+
 [data-kt-app-layout="light-sidebar"] {
     // Desktop mode
     @include media-breakpoint-up(lg) {
@@ -14,7 +15,7 @@
                         $icon-color: var(--#{$prefix}primary), 
                         $bullet-color: var(--#{$prefix}primary), 
                         $arrow-color: var(--#{$prefix}primary), 
-                        $bg-color: var(--#{$prefix}app-sidebar-light-header-menu-link-bg-color-active),
+                        $bg-color: null,
                         $all-links: false
                     );
 
@@ -23,12 +24,12 @@
                         $icon-color: var(--#{$prefix}primary), 
                         $bullet-color: var(--#{$prefix}primary), 
                         $arrow-color: var(--#{$prefix}primary), 
-                        $bg-color: var(--#{$prefix}app-sidebar-light-header-menu-link-bg-color-active),
+                        $bg-color: var(--#{$prefix}gray-100),
                         $all-links: false
                     );
                 }
             }
-        }
+        }        
     }
 }
 
@@ -38,9 +39,9 @@
         .app-header {
             background-color: transparent;    
             box-shadow: none;
-            border-bottom: 1px solid var(--#{$prefix}app-sidebar-light-separator-color);
+            border-bottom: none;
         }
-    }
+    }    
 }
 
 // Tablet & mobile modes
@@ -48,8 +49,7 @@
     [data-kt-app-layout="light-sidebar"]:not([data-kt-app-header-fixed-mobile="true"]) {
         .app-header {
             background-color: transparent;    
-            box-shadow: none;
-            border-bottom: 1px solid var(--#{$prefix}app-sidebar-light-separator-color);
+            box-shadow: none;            
         }
     }
 }

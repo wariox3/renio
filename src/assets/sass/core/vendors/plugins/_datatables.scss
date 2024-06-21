@@ -114,7 +114,7 @@ div.dataTables_wrapper {
     div.dataTables_processing {
         @include border-radius($border-radius);
         box-shadow: var(--#{$prefix}dropdown-box-shadow);
-        background-color: var(--#{$prefix}tooltip-bg);
+        background-color: $tooltip-bg;
         color: var(--#{$prefix}gray-700);
         font-weight: $font-weight-semibold;
         margin: 0 !important;
@@ -212,17 +212,22 @@ table.dataTable > tbody > tr.selected > * {
 // Scroll
 div.dataTables_scrollBody {
     border-left: 0 !important;
+
+    .sorting_disabled.sorting_asc,
+    .sorting_disabled.sorting_desc {
+        &:after {
+            display: none !important;
+        }
+    }
 }
 
-.dataTables_scroll .dataTables_scrollBody .table {
-    thead {
-        line-height: 0;    
-
-        .sorting {
-            &:after,
-            &:before {
-                display: none !important;
-            }
+.dataTables_scroll > .dataTables_scrollBody > .table > thead {
+    line-height: 0;
+    
+    .sorting {
+        &:after,
+        &:before {
+            display: none !important;
         }
     }
 }

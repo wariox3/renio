@@ -34,7 +34,9 @@
 }
 
 // Scroll
-.scroll {
+.scroll,
+.hover-scroll,
+.hover-scroll-overlay {
     overflow: scroll;
     position: relative;
 
@@ -44,7 +46,9 @@
     }
 }
 
-.scroll-x {
+.scroll-x,
+.hover-scroll-x,
+.hover-scroll-overlay-x {
     overflow-x: scroll;
     position: relative;
 
@@ -54,7 +58,9 @@
     }
 }
 
-.scroll-y {
+.scroll-y,
+.hover-scroll-y,
+.hover-scroll-overlay-y {
     overflow-y: scroll;
     position: relative;
 
@@ -65,144 +71,49 @@
 }
 
 .hover-scroll,
-.hover-scroll-overlay {    
-    position: relative;
-    
-    // Desktop mode
-    @include media-breakpoint-up(lg) {
-        overflow: hidden;       
-
-        @include for-firefox {
-            overflow: scroll;
-        }
-
-        .safari-mode & {
-            overflow: scroll;
-        }
-
-        &::-webkit-scrollbar {
-            width: var(--#{$prefix}scrollbar-overlay-size);
-            height: var(--#{$prefix}scrollbar-overlay-size);
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-clip: content-box;
-            border: var(--#{$prefix}scrollbar-overlay-space) solid transparent;
-            @include border-radius(var(--#{$prefix}scrollbar-overlay-size));
-        }
-
-        &:hover {
-            overflow: overlay;
-        }
-    }
-
-    // Tablet & mobile modes
-    @include media-breakpoint-down(lg) {
-        overflow: auto;
-    }   
-}
-
-.hover-scroll-y,
-.hover-scroll-overlay-y {    
-    position: relative;
-    
-    // Desktop mode
-    @include media-breakpoint-up(lg) {
-        overflow-y: hidden;       
-
-        @include for-firefox {
-            overflow-y: scroll;
-        }
-
-        .safari-mode & {
-            overflow-y: scroll;
-        }
-
-        &::-webkit-scrollbar {
-            width: var(--#{$prefix}scrollbar-overlay-size);
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-clip: content-box;
-            border: var(--#{$prefix}scrollbar-overlay-space) solid transparent;
-            @include border-radius(var(--#{$prefix}scrollbar-overlay-size));
-        }
-
-        &:hover {
-            overflow-y: overlay;
-        }
-    }
-
-    // Tablet & mobile modes
-    @include media-breakpoint-down(lg) {
-        overflow-y: auto;
-    }   
-}
-
+.hover-scroll-overlay,
 .hover-scroll-x,
-.hover-scroll-overlay-x {    
-    position: relative;
-    
-    // Desktop mode
-    @include media-breakpoint-up(lg) {
-        overflow-x: hidden;       
+.hover-scroll-overlay-x,
+.hover-scroll-y,
+.hover-scroll-overlay-y {
+    @include scrollbar-color(transparent, var(--#{$prefix}scrollbar-color));
+}
 
-        @include for-firefox {
-            overflow-x: scroll;
+// Utilities
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .scroll#{$infix}-ps {
+            padding-left: var(--#{$prefix}scrollbar-size) !important;
         }
 
-        .safari-mode & {
-            overflow-x: scroll;
+        .scroll#{$infix}-ms {
+            margin-left: var(--#{$prefix}scrollbar-size) !important;
         }
 
-        &::-webkit-scrollbar {
-            height: var(--#{$prefix}scrollbar-overlay-size);
+        .scroll#{$infix}-mb {
+            margin-bottom: var(--#{$prefix}scrollbar-size) !important;
         }
 
-        &::-webkit-scrollbar-thumb {
-            background-clip: content-box;
-            border: var(--#{$prefix}scrollbar-overlay-space) solid transparent;
-            @include border-radius(var(--#{$prefix}scrollbar-overlay-size));
+        .scroll#{$infix}-pe {
+            padding-right: var(--#{$prefix}scrollbar-size) !important;
         }
 
-        &:hover {
-            overflow-x: overlay;
+        .scroll#{$infix}-me {
+            margin-right: var(--#{$prefix}scrollbar-size) !important;
+        }
+
+        .scroll#{$infix}-px {
+            padding-left: var(--#{$prefix}scrollbar-size) !important;
+            padding-right: var(--#{$prefix}scrollbar-size) !important;
+        }
+
+        .scroll#{$infix}-mx {
+            margin-left: var(--#{$prefix}scrollbar-size) !important;
+            margin-right: var(--#{$prefix}scrollbar-size) !important;
         }
     }
-
-    // Tablet & mobile modes
-    @include media-breakpoint-down(lg) {
-        overflow-x: auto;
-    }   
 }
 
-// Utilities  
-.scroll-ps {
-    padding-left: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-ms {
-    margin-left: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-mb {
-    margin-bottom: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-pe {
-    padding-right: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-me {
-    margin-right: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-px {
-    padding-left: var(--#{$prefix}scrollbar-size) !important;
-    padding-right: var(--#{$prefix}scrollbar-size) !important;
-}
-
-.scroll-mx {
-    margin-left: var(--#{$prefix}scrollbar-size) !important;
-    margin-right: var(--#{$prefix}scrollbar-size) !important;
-}
+  

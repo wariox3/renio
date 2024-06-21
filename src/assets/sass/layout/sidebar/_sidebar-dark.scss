@@ -5,10 +5,11 @@
 [data-kt-app-layout="dark-sidebar"] {
     .app-sidebar {
         background-color: $app-sidebar-dark-bg-color;
-        border-right: 0 !important;
+        border-right: 0;
 
+        .scroll-y,
         .hover-scroll-overlay-y {        
-            @include scrollbar-color($app-sidebar-dark-scrollbar-color, $app-sidebar-dark-scrollbar-color-hover);
+            @include scrollbar-color(transparent, $app-sidebar-dark-scrollbar-color-hover);
         }
 
         .app-sidebar-logo {
@@ -35,43 +36,48 @@
                 }
 
                 @include menu-link-default-state( 
-                    $title-color: #9D9DA6, 
-                    $icon-color:#C5C5D8, 
-                    $bullet-color:#787887, 
-                    $arrow-color: #787887, 
-                    $bg-color: null  
-                );
-                
-                @include menu-link-hover-state( 
-                    $title-color: var(--#{$prefix}primary-inverse), 
-                    $icon-color: var(--#{$prefix}primary-inverse), 
-                    $bullet-color: var(--#{$prefix}primary-inverse), 
-                    $arrow-color: var(--#{$prefix}primary-inverse), 
-                    $bg-color: null
+                    $title-color: $gray-700-dark, 
+                    $icon-color:  $gray-400-dark, 
+                    $bullet-color:$gray-400-dark,  
+                    $arrow-color: $gray-400-dark,  
+                    $bg-color: null,
+                    $all-links: true 
                 );
                 
                 @include menu-link-here-state( 
-                    $title-color: var(--#{$prefix}primary-inverse), 
-                    $icon-color: var(--#{$prefix}primary-inverse), 
-                    $bullet-color: var(--#{$prefix}primary-inverse), 
-                    $arrow-color: var(--#{$prefix}primary-inverse), 
-                    $bg-color: null
+                    $title-color: $gray-900-dark,
+                    $icon-color: $gray-900-dark, 
+                    $bullet-color: $gray-900-dark,
+                    $arrow-color: $gray-900-dark, 
+                    $bg-color: null,
+                    $all-links: true
                 );
                 
                 @include menu-link-show-state( 
-                    $title-color: var(--#{$prefix}primary-inverse), 
-                    $icon-color: var(--#{$prefix}primary-inverse), 
-                    $bullet-color: var(--#{$prefix}primary-inverse), 
-                    $arrow-color: var(--#{$prefix}primary-inverse), 
-                    $bg-color: null
+                    $title-color: $gray-900-dark,
+                    $icon-color: $gray-900-dark, 
+                    $bullet-color: $gray-900-dark,
+                    $arrow-color: $gray-900-dark,
+                    $bg-color: null,
+                    $all-links: true
+                );
+                
+                @include menu-link-hover-state( 
+                    $title-color: $gray-900-dark,
+                    $icon-color: $gray-900-dark, 
+                    $bullet-color: $gray-900-dark,
+                    $arrow-color: $gray-900-dark,
+                    $bg-color: null,
+                    $all-links: true
                 );
                 
                 @include menu-link-active-state( 
-                    $title-color: var(--#{$prefix}primary-inverse), 
-                    $icon-color: var(--#{$prefix}primary-inverse), 
-                    $bullet-color: var(--#{$prefix}primary-inverse), 
-                    $arrow-color: var(--#{$prefix}primary-inverse), 
-                    $bg-color: $app-sidebar-dark-menu-link-bg-color-active
+                    $title-color: $gray-900-dark,
+                    $icon-color: $gray-900-dark, 
+                    $bullet-color: $gray-900-dark,
+                    $arrow-color: $gray-900-dark,
+                    $bg-color: $app-sidebar-dark-menu-link-bg-color-active,
+                    $all-links: true
                 );
             }
         }
@@ -85,6 +91,15 @@
             .menu-sub-lg-dropdown {
                 background-color: $app-sidebar-dark-bg-color;
             }
+        }
+    }
+}
+
+// Dark mode
+@include color-mode(dark) {
+    [data-kt-app-layout="dark-sidebar"] {
+        .app-sidebar {
+            border-right: 1px solid $app-sidebar-dark-separator-color;
         }
     }
 }

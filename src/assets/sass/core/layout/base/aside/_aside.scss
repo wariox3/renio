@@ -7,8 +7,6 @@
     transition: $app-aside-base-transition;
     background-color: var(--#{$prefix}app-aside-base-bg-color);
     box-shadow: var(--#{$prefix}app-aside-base-box-shadow);
-    border-left: var(--#{$prefix}app-aside-base-border-left);
-    border-right: var(--#{$prefix}app-aside-base-border-right);
 }
 
 // Utilities

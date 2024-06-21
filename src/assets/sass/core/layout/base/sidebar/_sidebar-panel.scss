@@ -199,6 +199,9 @@
 
     // Vars
     :root {
+        --#{$prefix}app-sidebar-panel-width: #{$app-sidebar-panel-base-width-mobile};
+        --#{$prefix}app-sidebar-panel-width-actual: #{$app-sidebar-panel-base-width-mobile};
+
         --#{$prefix}app-sidebar-panel-gap-start: #{$app-sidebar-panel-base-gap-start-mobile};
         --#{$prefix}app-sidebar-panel-gap-end: #{$app-sidebar-panel-base-gap-end-mobile};
         --#{$prefix}app-sidebar-panel-gap-top: #{$app-sidebar-panel-base-gap-top-mobile};

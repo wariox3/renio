@@ -5,7 +5,7 @@
 // Form controls
 :is([data-kt-app-layout="light-sidebar"], [data-kt-app-layout="light-header"], [data-kt-app-layout="dark-header"]) {
     .app-toolbar {
-        .form-select.form-select {
+        .form-select {
             background-color: var(--#{$prefix}body-bg) !important;    
         }    
     }
@@ -14,6 +14,10 @@
 // Desktop mode
 @include media-breakpoint-up(lg) {
     .app-toolbar {
+        [data-kt-app-layout="light-sidebar"] & {
+            border-top: 1px solid var(--#{$prefix}border-color);
+        }
+
         body:not([data-kt-app-toolbar-fixed="true"]) & {
             height: auto;
             background-color: transparent;

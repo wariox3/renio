@@ -2,12 +2,13 @@
 // Content
 //
 
+
 // Desktop mode
 @include media-breakpoint-up(lg) {
 	.app-content {
 		[data-kt-app-toolbar-enabled="true"]:not([data-kt-app-toolbar-fixed="true"]) & {
 			padding-top: 0;
-		}		
+		}			
 	}
 }
 
