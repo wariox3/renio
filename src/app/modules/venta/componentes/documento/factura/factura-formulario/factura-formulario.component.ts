@@ -479,6 +479,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['compra'] = impuesto['impuesto_compra'];
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
+        impuesto['impuesto_pocentaje_base'] = impuesto['impuesto_pocentaje_base'];
         impuesto['id'] = null;
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
@@ -561,9 +562,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           let totalImpuesto = 0;
 
           if (impuesto.data[0]) {
-            totalImpuesto =
-              (subtotal.value * impuesto.data[0].porcentaje) / 100;
-            impuesto.total -= totalImpuesto;
+            totalImpuesto = (subtotal.value * impuesto.data[0].porcentaje) / 100 * impuesto.impuesto_porcentaje_base / 100;
           }
         }
       }
@@ -646,7 +645,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
     let totalImpuesto = impuesto.total;
     if (accion == 'agregar') {
-      totalImpuesto = (subtotal.value * impuesto.impuesto_porcentaje) / 100;
+      totalImpuesto = (subtotal.value * impuesto.impuesto_porcentaje) / 100 * impuesto.impuesto_porcentaje_base / 100;
     }
 
     if (impuesto.hasOwnProperty('impuesto_nombre')) {
@@ -658,10 +657,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (impuesto.hasOwnProperty('impuesto_porcentaje')) {
       impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
     }
+    let baseImpuestoActualizar = (subtotal.value * impuesto.impuesto_porcentaje_base) / 100
+    console.log(baseImpuestoActualizar);
+    
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
-      base: [subtotal.value === null ? 0 : subtotal.value],
+      base: [baseImpuestoActualizar],
       porcentaje: [impuesto.porcentaje],
       total: [totalImpuesto],
       nombre: [impuesto.nombre],
@@ -672,7 +674,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       porcentaje_base: [impuesto.impuesto_porcentaje_base]
     });
     let impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto
-    baseImpuesto.setValue(subtotal.value === null ? 0 : subtotal.value)
+    baseImpuesto.setValue(baseImpuestoActualizar === null ? 0 : baseImpuestoActualizar)
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
 
@@ -718,7 +720,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     total.patchValue(netoTemporal);
     this.calcularTotales();
     detalleFormGroup.patchValue({
-      base_impuesto: baseImpuesto.value,
+      base_impuesto: baseImpuestoActualizar,
       impuesto: impuestoAcumuladoDetalle
     })
     this.formularioFactura.markAsTouched();
