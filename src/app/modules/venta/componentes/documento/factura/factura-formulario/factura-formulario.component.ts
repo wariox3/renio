@@ -559,7 +559,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
 
     if (id != null) {
       this.arrDetallesEliminado.push(id);
