@@ -59,6 +59,17 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
+            <ng-container *ngFor="let contacto of arrContactos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contacto', contacto)"
+                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
+              >
+                {{ contacto.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <div class="dropdown-divider"></div>
             <span
               type="button"
               ngbDropdownItem
@@ -75,17 +86,6 @@
                 </div>
               </ng-template>
             </span>
-            <ng-container *ngFor="let contacto of arrContactos">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
-              >
-                {{ contacto.contacto_nombre_corto }}
-              </button>
-            </ng-container>
-            <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
                 [consultarModelo]="'Contacto'"
