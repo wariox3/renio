@@ -463,6 +463,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       detalleControl.get('neto')?.patchValue(neto);
       detalleControl.get('descuento')?.patchValue(descuento);
       totalBaseImpuesto += detalleControl.get('base_impuesto')?.value;
+      this.totalBase += detalleControl.get('base_impuesto')?.value;
       this.changeDetectorRef.detectChanges();
     });
 
