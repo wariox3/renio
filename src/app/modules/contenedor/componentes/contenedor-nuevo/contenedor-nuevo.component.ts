@@ -25,7 +25,7 @@ import { NgIf } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-],
+  ],
 })
 export class ContenedorNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
@@ -73,7 +73,16 @@ export class ContenedorNuevoComponent extends General implements OnInit {
         switchMap(({ validar }) => {
           if (validar) {
             return this.contenedorService.nuevo(
-              dataFormularioLogin,
+              {
+                ...dataFormularioLogin,
+                ...{
+                  ciudad_id: 1,
+                  digito_verificacion: '0',
+                  numero_identificacion: '0',
+                  identificacion_id: 6,
+                  direccion: '0',
+                },
+              },
               this.codigoUsuario
             );
           }
