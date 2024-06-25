@@ -951,6 +951,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: `${event?.target.value}`,
           valor2: '',
         },
+        {
+          id: '1692284537644-1688',
+          operador: '',
+          propiedad: 'cliente',
+          valor1: 'True',
+          valor2: '',
+        },
       ],
       limite: 10,
       desplazar: 0,
