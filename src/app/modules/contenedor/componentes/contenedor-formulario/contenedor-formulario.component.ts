@@ -30,6 +30,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 @Component({
   selector: 'app-contenedor-formulario',
   templateUrl: './contenedor-formulario.component.html',
+  styleUrls: ['./contenedor-formulario.component.scss'],
   standalone: true,
   imports: [
     RouterModule,
