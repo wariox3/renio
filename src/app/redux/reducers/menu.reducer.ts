@@ -107,6 +107,11 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'Contacto' },
             },
+            {
+              nombre: 'RESOLUCION',
+              tipo: 'Administrador',
+              data: { modelo: 'Resolucion', parametro: 'compra' },
+            },
           ],
         },
         {
