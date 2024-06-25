@@ -148,11 +148,14 @@ export class EmpresaFacturacionElectronicaComponent
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
+        },
+        {
+          propiedad: 'venta',
+          valor1: true,
         },
       ],
       limite: 10,

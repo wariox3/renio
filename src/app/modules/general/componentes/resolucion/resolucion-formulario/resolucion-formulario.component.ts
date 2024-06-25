@@ -47,6 +47,7 @@ export default class ResolucionFormularioComponent
 {
   formularioResolucion: FormGroup;
   @Input() ocultarBtnAtras = false;
+  @Input() tipoRolucion: 'compra' | 'venta' | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @Input() tituliFijo: Boolean = false;
   constructor(
@@ -117,6 +118,10 @@ export default class ResolucionFormularioComponent
       let tipoResolucion: any = {};
       tipoResolucion[this.parametrosUrl.parametro] = true;
 
+      if (this.tipoRolucion != null) {
+        tipoResolucion[this.tipoRolucion] = true;
+      }
+
       if (this.detalle) {
         this.resolucionService
           .actualizarDatos(this.detalle, {
@@ -141,7 +146,8 @@ export default class ResolucionFormularioComponent
                 formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
                 detalle: respuesta.id,
                 accion: 'detalle',
-                parametro: this.activatedRoute.snapshot.queryParams['parametro'],
+                parametro:
+                  this.activatedRoute.snapshot.queryParams['parametro'],
               },
             });
           });
@@ -164,7 +170,8 @@ export default class ResolucionFormularioComponent
                   formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
                   detalle: respuesta.id,
                   accion: 'detalle',
-                  parametro: this.activatedRoute.snapshot.queryParams['parametro'],
+                  parametro:
+                    this.activatedRoute.snapshot.queryParams['parametro'],
                 },
               });
             }
