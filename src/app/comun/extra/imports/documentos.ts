@@ -86,6 +86,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/compra/componentes/documento/documento-soporte/documento-soporte-formulario/documento-soporte-formulario.component'
       ),
   },
+  304: {
+    detalle: async () =>
+      await import(
+        '../../../modules/compra/componentes/documento/nota-ajuste/nota-ajuste-detalle/nota-ajuste-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/compra/componentes/documento/nota-ajuste/nota-ajuste-formulario/nota-ajuste-formulario.component'
+      ),
+  },
   400: {
     detalle: async () =>
       await import(

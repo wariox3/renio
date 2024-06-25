@@ -87,6 +87,11 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 303 },
             },
+            {
+              nombre: 'NOTAAJUSTE',
+              tipo: 'Documento',
+              data: { documento_clase: 304 },
+            },
           ],
         },
         {

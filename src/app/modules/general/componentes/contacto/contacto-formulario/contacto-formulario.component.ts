@@ -210,7 +210,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         plazo_pago: [1, Validators.compose([Validators.required])],
         plazo_pago_proveedor: [1],
         asesor: [null],
-        cliente: [false],
+        cliente: [true],
         proveedor: [false],
       },
       {

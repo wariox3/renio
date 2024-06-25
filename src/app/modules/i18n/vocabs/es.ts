@@ -53,7 +53,8 @@ export const locale = {
         HUMCONTRATO: 'Contrato',
         DOCUMENTOSOPORTE: 'Documento soporte',
         SEDE: 'Sede',
-        DOCUMENTOELECTRONICO: 'Documento electrónico'
+        DOCUMENTOELECTRONICO: 'Documento electrónico',
+        NOTAAJUSTE: 'Nota de ajuste'
       },
     },
     FORMULARIOS: {
