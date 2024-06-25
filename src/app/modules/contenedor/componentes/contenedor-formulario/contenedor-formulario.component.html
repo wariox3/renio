@@ -21,7 +21,7 @@
         id="emailHelp"
         class="form-text text-muted"
         *ngIf="nombreEmpresa !== ''"
-        >{{ nombreEmpresa }}{{ dominioApp }}
+        >{{ nombreEmpresa.toLocaleLowerCase() }}{{ dominioApp }}
         <a
           class="btn btn-icon btn-link btn-sm btn-color-gray-500 btn-active-color-primary"
           (click)="editarSubdominio()"
