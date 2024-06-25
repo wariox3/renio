@@ -31,9 +31,9 @@
         >
         </spam>
         <div class="dropdown-divider"></div>
-        <ng-container *ngFor="let impuesto of arrItemsLista">
-          <button (click)="agregarItem(impuesto)" type="button" ngbDropdownItem>
-            {{ impuesto.item_nombre }}
+        <ng-container *ngFor="let item of arrItemsLista">
+          <button class="text-wrap" (click)="agregarItem(item)" type="button" ngbDropdownItem>
+            {{ item.item_nombre }}
           </button>
         </ng-container>
       </div>
