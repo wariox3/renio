@@ -73,16 +73,7 @@ export class ContenedorNuevoComponent extends General implements OnInit {
         switchMap(({ validar }) => {
           if (validar) {
             return this.contenedorService.nuevo(
-              {
-                ...dataFormularioLogin,
-                ...{
-                  ciudad_id: 1,
-                  digito_verificacion: '0',
-                  numero_identificacion: '0',
-                  identificacion_id: 6,
-                  direccion: '0',
-                },
-              },
+              dataFormularioLogin,
               this.codigoUsuario
             );
           }
