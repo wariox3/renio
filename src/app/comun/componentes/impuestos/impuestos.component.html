@@ -21,6 +21,7 @@
     >
       <div
         ngbDropdown
+        container="body"
         #ImpuestoDropdown="ngbDropdown"
         class="d-inline-flex gap-1 align-self-start"
       >
@@ -40,8 +41,8 @@
         <div
           ngbDropdownMenu
           aria-labelledby="dropdownBasic1"
-          class="dropdown-menu"
-        >
+          class="dropdown-menu z-3 position-absolute p-3 rounded-3"
+         >
           <ng-container *ngFor="let impuesto of arrImpuestoLista">
             <button
               (click)="agregarImpuesto(impuesto)"
