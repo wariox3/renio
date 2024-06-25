@@ -39,32 +39,11 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     },
     {
       propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 1,
-    },
-  ];
-  filtroPermanenteNotificar = [
-    {
-      propiedad: 'estado_electronico_notificado',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: true,
-    },
-    {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 1,
+      valor1: 3,
     },
   ];
   arrParametrosConsultaEmitir: any = {
     filtros: this.filtroPermanenteEmitir,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-  };
-  arrParametrosConsultaNotificar: any = {
-    filtros: this.filtroPermanenteNotificar,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -79,8 +58,6 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   tabActive = 1;
   paginacionEmitirDesde: number = 0;
   paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
-  paginacionNotificarDesde: number = 0;
-  paginacionNotificarHasta: number = this.arrParametrosConsultaNotificar.limite;
   cantidad_registros: number = 0;
 
   constructor(private httpService: HttpService) {
@@ -108,18 +85,8 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
         'general/documento/lista/',
         this.arrParametrosConsultaEmitir
       ),
-      this.httpService.post(
-        'general/documento/lista/',
-        this.arrParametrosConsultaNotificar
-      )
     ).subscribe((respuesta: any) => {
       this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
-        ...documento,
-        ...{
-          selected: false,
-        },
-      }));
-      this.arrDocumentosNotificar = respuesta[1].map((documento: any) => ({
         ...documento,
         ...{
           selected: false,
@@ -235,8 +202,6 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   visualizarTap(tap: string) {
     this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
     this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-    this.arrParametrosConsultaNotificar.filtros =
-      this.filtroPermanenteNotificar;
     this.consultarLista();
   }
 
@@ -254,20 +219,6 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-  obtenerFiltrosNotificar(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaNotificar.filtros = [
-          ...this.filtroPermanenteNotificar,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaNotificar.filtros =
-          this.filtroPermanenteNotificar;
-      }
-    }
-    this.consultarLista();
-  }
 
   aumentarDesplazamientoEmitir() {
     this.paginacionEmitirDesde =
@@ -320,62 +271,4 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     }
   }
 
-  aumentarDesplazamientoNotificar() {
-    this.paginacionNotificarDesde =
-      this.paginacionNotificarDesde +
-      this.arrParametrosConsultaNotificar.limite;
-    this.paginacionNotificarHasta =
-      this.paginacionNotificarHasta +
-      this.arrParametrosConsultaNotificar.limite;
-    this.arrParametrosConsultaNotificar.desplazar =
-      this.paginacionNotificarDesde;
-    this.consultarLista();
-  }
-
-  disminuirDesplazamientoNotificar() {
-    if (this.paginacionNotificarDesde > 0) {
-      let nuevoValor =
-        this.paginacionNotificarDesde -
-        this.arrParametrosConsultaNotificar.limite;
-      this.paginacionNotificarHasta =
-        this.paginacionNotificarHasta -
-        this.arrParametrosConsultaNotificar.limite;
-      this.paginacionNotificarDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaNotificar.desplazar =
-        this.paginacionNotificarDesde;
-      this.consultarLista();
-    }
-  }
-
-  calcularValorMostrarNotificar(evento: any) {
-    if (evento.target.value) {
-      let valorInicial = evento.target.value;
-      if (valorInicial.includes('-')) {
-        let [limite, desplazamiento] = valorInicial.split('-');
-        desplazamiento = desplazamiento - limite + 1;
-        if (limite > 0) {
-          limite -= 1;
-          if (desplazamiento > 0) {
-            this.arrParametrosConsultaNotificar.desplazar = desplazamiento;
-            this.arrParametrosConsultaNotificar.limite = limite;
-            this.consultarLista();
-          }
-        }
-        if (desplazamiento < 0) {
-          evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
-        }
-      } else {
-        this.arrParametrosConsultaNotificar.desplazar = parseInt(valorInicial);
-        this.arrParametrosConsultaNotificar.limite = 1;
-        this.consultarLista();
-      }
-    } else {
-      evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
-      this.arrParametrosConsultaNotificar.desplazar =
-        this.paginacionNotificarHasta;
-      this.arrParametrosConsultaNotificar.limite =
-        this.paginacionNotificarDesde;
-      this.consultarLista();
-    }
-  }
 }

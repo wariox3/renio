@@ -160,7 +160,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        metodo_pago: ['', Validators.compose([Validators.required])],
+        metodo_pago: [1, Validators.compose([Validators.required])],
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
@@ -403,18 +403,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
-
-    if (item.impuestos) {
-      item.impuestos.map((impuesto: any) => {
-        impuesto['item_impuesto_id'] = null;
-        impuesto['nombre'] = impuesto['impuesto_nombre'];
-        impuesto['compra'] = impuesto['impuesto_compra'];
-        impuesto['venta'] = impuesto['impuesto_venta'];
-        impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['id'] = null;
-        this.agregarImpuesto(impuesto, index, 'agregar');
-      });
-    }
     this.calcularTotales();
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
@@ -777,6 +765,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+        {
+          id: '1692284537644-1688',
+          operador: '',
+          propiedad: 'proveedor',
+          valor1: 'True',
           valor2: '',
         },
       ],

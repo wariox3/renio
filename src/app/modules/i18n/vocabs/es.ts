@@ -272,7 +272,8 @@ export const locale = {
           FECHAHASTA: 'Fecha hasta',
           BARRIO: 'Barrio',
           SELECCIONAR: 'Seleccionar',
-          EMPLEADO: 'Empleado'
+          EMPLEADO: 'Empleado',
+          PROVEEDOR: 'Proveedor'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
