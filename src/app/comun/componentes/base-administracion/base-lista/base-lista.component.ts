@@ -71,7 +71,7 @@ export class BaseListaComponent extends General implements OnInit {
       if (parametro.parametro) {
         this.arrParametrosConsulta.filtros = [
           {
-            propiedad: 'empleado',
+            propiedad: parametro.parametro,
             valor1: true,
           },
         ];

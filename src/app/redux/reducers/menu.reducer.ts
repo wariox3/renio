@@ -159,7 +159,7 @@ export const initialState: Menu = {
             {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
-              data: { modelo: 'Contacto', parametro: 'Empleado' },
+              data: { modelo: 'Contacto', parametro: 'empleado' },
             },
             {
               nombre: 'CONTRATO',
@@ -228,7 +228,7 @@ export const initialState: Menu = {
             {
               nombre: 'RESOLUCION',
               tipo: 'Administrador',
-              data: { modelo: 'Resolucion' },
+              data: { modelo: 'Resolucion', parametro: 'venta' },
             },
           ],
         },

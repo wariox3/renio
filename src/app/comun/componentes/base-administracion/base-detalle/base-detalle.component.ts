@@ -36,11 +36,11 @@ export class BaseDetalleComponent extends General implements OnInit {
   async loadComponente() {
 
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      if (parametros.parametro) {
-        this.modelo = parametros.parametro;
-      } else {
+      // if (parametros.parametro) {
+      //   this.modelo = parametros.parametro;
+      // } else {
         this.modelo = localStorage.getItem('itemNombre')!;
-      }
+      //}
     });
     let posicion: keyof typeof Componetes = this.modelo;
     let componete = await (await Componetes[posicion].detalle()).default;

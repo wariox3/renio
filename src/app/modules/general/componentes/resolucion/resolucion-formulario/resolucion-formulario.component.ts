@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -31,7 +38,7 @@ import {
     BtnAtrasComponent,
     CardComponent,
     NgbModalModule, // necesario para cerrar el modal que está en editarEmpresa
-],
+  ],
   providers: [NgbActiveModal],
 })
 export default class ResolucionFormularioComponent
@@ -44,14 +51,13 @@ export default class ResolucionFormularioComponent
   @Input() tituliFijo: Boolean = false;
   constructor(
     private formBuilder: FormBuilder,
-    private resolucionService: ResolucionService,
+    private resolucionService: ResolucionService
   ) {
     super();
   }
 
   ngOnInit() {
     this.iniciarFormulario();
-
     if (this.detalle) {
       this.consultardetalle();
     }
@@ -98,7 +104,7 @@ export default class ResolucionFormularioComponent
       fecha_hasta: [
         fechaVencimientoInicial,
         Validators.compose([Validators.required]),
-      ]
+      ],
     });
   }
 
@@ -108,9 +114,15 @@ export default class ResolucionFormularioComponent
 
   enviarFormulario() {
     if (this.formularioResolucion.valid) {
+      let tipoResolucion: any = {};
+      tipoResolucion[this.parametrosUrl.parametro] = true;
+
       if (this.detalle) {
         this.resolucionService
-          .actualizarDatos(this.detalle, this.formularioResolucion.value)
+          .actualizarDatos(this.detalle, {
+            ...this.formularioResolucion.value,
+            ...tipoResolucion,
+          })
           .subscribe((respuesta: any) => {
             this.formularioResolucion.patchValue({
               prefijo: respuesta.prefijo,
@@ -129,12 +141,16 @@ export default class ResolucionFormularioComponent
                 formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
                 detalle: respuesta.id,
                 accion: 'detalle',
+                parametro: this.activatedRoute.snapshot.queryParams['parametro'],
               },
             });
           });
       } else {
         this.resolucionService
-          .guardarResolucion(this.formularioResolucion.value)
+          .guardarResolucion({
+            ...this.formularioResolucion.value,
+            ...tipoResolucion,
+          })
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             if (this.ocultarBtnAtras) {
@@ -148,6 +164,7 @@ export default class ResolucionFormularioComponent
                   formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
                   detalle: respuesta.id,
                   accion: 'detalle',
+                  parametro: this.activatedRoute.snapshot.queryParams['parametro'],
                 },
               });
             }
