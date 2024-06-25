@@ -63,6 +63,7 @@ export default class FacturaDetalleComponent extends General {
   totalCantidad: number = 0;
   totalDescuento: number = 0;
   totalImpuestos: number = 0;
+  totalBase: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
@@ -120,6 +121,7 @@ export default class FacturaDetalleComponent extends General {
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
           this.totalGeneral += total;
+          this.totalBase += item.base_impuesto
           this.changeDetectorRef.detectChanges();
         });
         this.arrEstados = {
