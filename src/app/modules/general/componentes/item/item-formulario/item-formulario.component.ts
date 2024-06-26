@@ -48,7 +48,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   arrImpuestos: any[] = [];
   @Input() informacionFormulario: any;
   @Input() ocultarBtnAtras = false;
-  @Input() tituliFijo: Boolean = false;
+  @Input() tituloFijo: Boolean = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;

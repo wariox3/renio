@@ -1,8 +1,4 @@
 import { Route } from '@angular/router';
-import { EmpresaDetalleComponent } from './componetes/empresa-detalle/empresa-detalle.component';
-import { EmpresaEditarComponent } from './componetes/empresa-editar/empresa-editar.component';
-import { EmpresaConfiguracionComponent } from './componetes/empresa-configuracion/empresa-configuracion.component';
-import { EmpresaFacturacionElectronicaComponent } from './componetes/empresa-facturacion-electronica/empresa-facturacion-electronica.component';
 
 export const routes: Route[] = [
   {
@@ -12,11 +8,17 @@ export const routes: Route[] = [
   },
   {
     path: 'lista',
-    component: EmpresaDetalleComponent,
+    loadComponent: () =>
+      import('./componetes/empresa-detalle/empresa-detalle.component').then(
+        (c) => c.EmpresaDetalleComponent
+      ),
   },
   {
     path: 'detalle/:empresacodigo',
-    component: EmpresaDetalleComponent,
+    loadComponent: () =>
+      import('./componetes/empresa-detalle/empresa-detalle.component').then(
+        (c) => c.EmpresaDetalleComponent
+      ),
     children: [
       {
         path: '', // Ruta vacía, se inicia por defecto cuando se carga la ruta padre
@@ -25,15 +27,31 @@ export const routes: Route[] = [
       },
       {
         path: 'general',
-        component: EmpresaEditarComponent,
+        loadComponent: () =>
+          import('./componetes/empresa-editar/empresa-editar.component').then(
+            (c) => c.EmpresaEditarComponent
+          ),
       },
       {
         path: 'facturacionelectronica',
-        component: EmpresaFacturacionElectronicaComponent,
+        loadComponent: () =>
+          import(
+            './componetes/empresa-facturacion-electronica/empresa-facturacion-electronica.component'
+          ).then((c) => c.EmpresaFacturacionElectronicaComponent),
       },
       {
         path: 'configuracion',
-        component: EmpresaConfiguracionComponent,
+        loadComponent: () =>
+          import(
+            './componetes/empresa-configuracion/empresa-configuracion.component'
+          ).then((c) => c.EmpresaConfiguracionComponent),
+      },
+      {
+        path: 'documento_tipo',
+        loadComponent: () =>
+          import(
+            './componetes/documento-tipo/empresa-documento-tipo-lista/empresa-documento-tipo.component'
+          ).then((c) => c.DocumentoDocumentoTipoComponent),
       },
     ],
   },

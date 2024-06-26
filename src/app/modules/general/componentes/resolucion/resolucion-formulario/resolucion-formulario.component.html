@@ -16,7 +16,7 @@
   </div>
   <app-card>
     <section card-titulo>
-      <ng-container *ngIf="tituliFijo; else tituliNoFijo">
+      <ng-container *ngIf="tituloFijo; else tituliNoFijo">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
         {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
       </ng-container>

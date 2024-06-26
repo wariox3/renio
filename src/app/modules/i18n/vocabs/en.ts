@@ -230,12 +230,16 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Edit company',
+          EDITARDOCUMENTOTIPO: 'Edit type document',
           FACTURAELECTRONICA: 'Electronic invoicing',
           GENERAL: 'General',
           CONFIGURACION: 'Configuration',
+          DOCUMENTOS: 'Documents',
           CONFIGURACIONEMPRESA: 'Configuration company',
           FACTURAELECTRONICABUSCARCODIGO: 'Are you looking for the code? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it',
+          CONSECUTIVO: 'Consecutive',
+          RESOLUCION: 'Resolution'
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Commercial information',

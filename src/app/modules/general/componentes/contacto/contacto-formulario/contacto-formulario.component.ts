@@ -75,7 +75,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrPrecios: any[];
   arrPagos: any[];
   @Input() ocultarBtnAtras = false;
-  @Input() tituliFijo: Boolean = false;
+  @Input() tituloFijo: Boolean = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;

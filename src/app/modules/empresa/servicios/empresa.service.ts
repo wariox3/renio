@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
+import { DocumentoTipo } from '@interfaces/empresa/documentoTipo';
 
 @Injectable({
   providedIn: 'root',
@@ -62,5 +63,19 @@ export class EmpresaService {
     return this.httpService.put(`general/configuracion/${empresa_id}/`, {
       ...data,
     });
+  }
+
+  obtenerDocumentoTipo() {
+    return this.httpService.get<DocumentoTipo>(`general/documento_tipo/`);
+  }
+
+  actualizarDocumentoTipo(documento_tipo_id: Number | string, data: any) {
+    return this.httpService.put(`general/documento_tipo/${documento_tipo_id}/`, {
+      ...data,
+    });
+  }
+
+  consultarDocumentoTipoDetalle(documento_tipo_id: Number | string) {
+    return this.httpService.getDetalle(`general/documento_tipo/${documento_tipo_id}/`);
   }
 }

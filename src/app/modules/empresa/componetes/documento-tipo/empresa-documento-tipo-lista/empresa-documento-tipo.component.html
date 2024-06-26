@@ -1,0 +1,72 @@
+<app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.CONFIGURACIONEMPRESA'">
+  <section card-body>
+    <div class="table-responsive-sm">
+      <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+        <thead>
+          <tr>
+            <th class="bg-gray-100" style="width: 50px">Id</th>
+            <th class="bg-gray-100">Nombre</th>
+            <th class="bg-gray-100">Consecutivo</th>
+            <th class="bg-gray-100">Resolucion</th>
+            <th class="bg-gray-100">Número</th>
+            <th class="bg-gray-100">Prefijo</th>
+            <th class="bg-gray-100">Venta</th>
+            <th class="bg-gray-100">Compra</th>
+            <th class="bg-gray-100" style="width: 50px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (documentoTipo of arrDocumentosTipos; track documentoTipo.id) {
+          <tr>
+            <td style="width: 50px">{{ documentoTipo.id }}</td>
+            <td class="w-50 text-start">
+              {{ documentoTipo.nombre }}
+            </td>
+            <td style="width: 10rem">
+              {{ documentoTipo.consecutivo }}
+            </td>
+            <td style="width: 10rem">
+              {{ documentoTipo.resolucion_id }}
+            </td>
+            <td style="width: 10rem">
+              {{ documentoTipo.resolucion_numero }}
+            </td>
+            <td style="width: 10rem">
+              {{ documentoTipo.resolucion_prefijo }}
+            </td>
+            <td class="w-45px text-center">
+              {{ documentoTipo.venta ? 'SI' : 'NO' }}
+            </td>
+            <td class="w-45px text-center">
+              {{ documentoTipo.compra ? 'SI' : 'NO' }}
+            </td>
+            <td class="w-45px text-center">
+              <label
+                (click)="navegarEditar(documentoTipo.id, content)"
+                class="cursor-pointer"
+              >
+                <i class="ki-duotone ki-notepad-edit hover-primary">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+              </label>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <ng-template #content let-modal>
+      <div class="modal-body">
+        <app-empresa-documento-tipo-editar
+          [ocultarBtnAtras]="true"
+          (emitirGuardoRegistro)="cerrarModal($event)"
+          [tituloFijo]="true"
+          [tipoRolucion]="'venta'"
+          [idEditarInformacion]="resolucionId"
+          [editarInformacion]="true"
+        />
+      </div>
+    </ng-template>
+  </section>
+</app-card>

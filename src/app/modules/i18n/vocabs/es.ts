@@ -232,12 +232,16 @@ export const locale = {
         },
         EMPRESA: {
           EDITAR: 'Editar empresa',
+          EDITARDOCUMENTOTIPO: 'Editar documento tipo',
           FACTURAELECTRONICA: 'Facturación electronica',
           GENERAL: 'General',
           CONFIGURACION: 'Configuración',
+          DOCUMENTOS: 'Documentos',
           CONFIGURACIONEMPRESA: 'Configuración empresa',
           FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
+          CONSECUTIVO: 'Consecutivo',
+          RESOLUCION: 'Resolución'
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Información comercial',

@@ -20,11 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import {
-  NgbActiveModal,
-  NgbModal,
-  NgbModalModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -46,10 +42,13 @@ export default class ResolucionFormularioComponent
   implements OnInit
 {
   formularioResolucion: FormGroup;
-  @Input() ocultarBtnAtras = false;
+  @Input() ocultarBtnAtras: Boolean = false;
   @Input() tipoRolucion: 'compra' | 'venta' | null = null;
+  @Input() tituloFijo: Boolean = false;
+  @Input() editarInformacion: Boolean = false;
+  @Input() idEditarInformacion: number | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
-  @Input() tituliFijo: Boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private resolucionService: ResolucionService
@@ -59,7 +58,7 @@ export default class ResolucionFormularioComponent
 
   ngOnInit() {
     this.iniciarFormulario();
-    if (this.detalle) {
+    if (this.detalle || this.editarInformacion) {
       this.consultardetalle();
     }
   }
@@ -122,9 +121,15 @@ export default class ResolucionFormularioComponent
         tipoResolucion[this.tipoRolucion] = true;
       }
 
-      if (this.detalle) {
+      if (this.detalle || this.idEditarInformacion) {
+        let resolucionId = this.detalle;
+
+        if (this.idEditarInformacion !== null) {
+          resolucionId = this.idEditarInformacion;
+        }
+
         this.resolucionService
-          .actualizarDatos(this.detalle, {
+          .actualizarDatos(resolucionId, {
             ...this.formularioResolucion.value,
             ...tipoResolucion,
           })
@@ -138,18 +143,22 @@ export default class ResolucionFormularioComponent
               fecha_hasta: respuesta.fecha_hasta,
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.id,
-                accion: 'detalle',
-                parametro:
-                  this.activatedRoute.snapshot.queryParams['parametro'],
-              },
-            });
+            if (this.ocultarBtnAtras) {
+              this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
+            } else {
+              this.router.navigate(['/administrador/detalle'], {
+                queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+                  detalle: respuesta.id,
+                  accion: 'detalle',
+                  parametro:
+                    this.activatedRoute.snapshot.queryParams['parametro'],
+                },
+              });
+            }
           });
       } else {
         this.resolucionService
@@ -183,8 +192,14 @@ export default class ResolucionFormularioComponent
   }
 
   consultardetalle() {
+    let resolucionId = this.detalle;
+
+    if (this.idEditarInformacion !== null) {
+      resolucionId = this.idEditarInformacion;
+    }
+
     this.resolucionService
-      .consultarDetalle(this.detalle)
+      .consultarDetalle(resolucionId)
       .subscribe((respuesta: any) => {
         this.formularioResolucion.patchValue({
           prefijo: respuesta.prefijo,
