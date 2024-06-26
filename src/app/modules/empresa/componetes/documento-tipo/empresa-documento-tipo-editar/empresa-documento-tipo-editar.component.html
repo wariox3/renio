@@ -15,7 +15,7 @@
     </div>
   </div>
   <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.EDITARDOCUMENTOTIPO'">
-    <section card-body >
+    <section card-body>
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
@@ -58,7 +58,7 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.TITULOS.EMPRESA.RESOLUCION"
-            class="form-label required"
+            class="form-label"
           ></label>
           <select
             class="form-select"
@@ -72,7 +72,12 @@
                 formularioDocumentoTipo.controls['resolucion'].valid
             }"
           >
-            <option *ngFor="let resolucion of arrResoluciones">
+            <option value="">Sin resolución</option>
+            <option
+              [value]="resolucion.resolucion_id"
+              *ngFor="let resolucion of arrResoluciones"
+            >
+              {{ resolucion.resolucion_prefijo }}
               {{ resolucion.resolucion_numero }}
             </option>
           </select>

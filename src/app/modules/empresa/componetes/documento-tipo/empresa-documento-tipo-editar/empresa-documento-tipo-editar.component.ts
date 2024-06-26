@@ -60,7 +60,7 @@ export class EmpresaDocumentoTipoEditarComponent
   iniciarFormulario() {
     this.formularioDocumentoTipo = this.formBuilder.group({
       consecutivo: ['', Validators.compose([Validators.required])],
-      resolucion: ['', Validators.compose([Validators.required])],
+      resolucion: [''],
     });
   }
 
