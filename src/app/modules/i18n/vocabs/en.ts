@@ -562,7 +562,7 @@ export const locale = {
     },
     AYUDA: {
       TITULO: 'Help',
-      ENLACEDOCUMENTACION: 'Official documentation',
+      ENLACEDOCUMENTACION: 'Help Center',
       DOCUMENTACION: 'Documentation',
       DOCUMENTACIONTEXTO:
         'From guides and video tutorials, to live demos and examples to get you started.',
