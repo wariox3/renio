@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionImangenAction } from '@redux/actions/empresa.actions';
@@ -9,13 +9,14 @@ import {
   obtenerEmpresaNumeroIdenticionDigitoVerificacion,
   obtenerEmpresaTelefono,
 } from '@redux/selectors/empresa.selectors';
-import { of, switchMap } from 'rxjs';
+import { of, switchMap, zip } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { EmpresaEditarComponent } from '../empresa-editar/empresa-editar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../../_metronic/shared/shared.module';
 import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { RouterModule } from '@angular/router';
+import { Empresa } from '@interfaces/contenedor/empresa';
 
 @Component({
   selector: 'app-empresa-detalle',
@@ -30,19 +31,27 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
 })
-export class EmpresaDetalleComponent extends General {
+export class EmpresaDetalleComponent extends General implements OnInit {
   empresa_id = this.activatedRoute.snapshot.paramMap.get('empresacodigo')!;
-  informacionEmpresa$ = this.store.select(obtenerEmpresaNombre);
   obtenerEmpresaImagen$ = this.store.select(obtenerEmpresaImagen);
-  obtenerEmpresaDireccion$ = this.store.select(obtenerEmpresaDireccion);
-  obtenerEmpresaTelefono$ = this.store.select(obtenerEmpresaTelefono);
-  obtenerEmpresaNumeroIdenticionDigitoVerificacion$ = this.store.select(
-    obtenerEmpresaNumeroIdenticionDigitoVerificacion
-  );
+  informacionEmpresa: Empresa;
 
-  constructor(private empresaServices: EmpresaService) {
+  constructor(private empresaServices: EmpresaService, private empresaService: EmpresaService) {
     super();
   }
+
+  ngOnInit(): void {
+    this.consultarInformacion();
+  }
+
+  consultarInformacion() {
+      this.empresaService.consultarDetalle(this.empresa_id)
+    .subscribe((respuesta: any) => {
+      this.informacionEmpresa = respuesta
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
 
   recuperarBase64(event: any) {
     this.empresaServices.cargarLogo(this.empresa_id, event).subscribe({
