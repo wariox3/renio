@@ -120,8 +120,8 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         identificacion: respuesta[3].identificacion_id,
         ciudad_nombre: respuesta[3].ciudad_nombre,
         ciudad: respuesta[3].ciudad_id,
-        tipo_persona: respuesta[3].tipo_persona,
-        regimen: respuesta[3].regimen,
+        tipo_persona: respuesta[3].tipo_persona_id,
+        regimen: respuesta[3].regimen_id,
       });
       this.changeDetectorRef.detectChanges();
     });
