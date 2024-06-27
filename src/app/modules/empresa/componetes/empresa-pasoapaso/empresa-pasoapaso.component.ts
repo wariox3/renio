@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { NgbNavConfig, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrulario.component';
-import { EmpresaConfiguracionComponent } from '../empresa-configuracion/empresa-configuracion.component';
+import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-electronica/empresa-facturacion-electronica.component';
 
 @Component({
   selector: 'app-empresa-pasoapaso',
@@ -13,7 +13,7 @@ import { EmpresaConfiguracionComponent } from '../empresa-configuracion/empresa-
     NgbNavModule,
     CardComponent,
     EmpresaFormularioComponent,
-    EmpresaConfiguracionComponent
+    EmpresaFacturacionElectronicaComponent
   ],
   templateUrl: './empresa-pasoapaso.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
