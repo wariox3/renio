@@ -144,60 +144,6 @@ export class EmpresaFacturacionElectronicaComponent
     }
   }
 
-  consultarResolucion(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-        {
-          propiedad: 'venta',
-          valor1: true,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'Resolucion',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrResoluciones = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
-  abirModal(content: any) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
-  cerrarModal(resolucion: Resolucion): void {
-    this.modificarCampoFormulario('resolucion_id', {
-      resolucion_id: resolucion.id,
-      resolucion_numero: resolucion.numero,
-    });
-    this.changeDetectorRef.detectChanges();
-    this.modalService.dismissAll();
-    this.changeDetectorRef.detectChanges();
-  }
-
   abirModalEditar(content: any) {
     this.inicializFormularioDianEditar();
     this.consultarInformacion();
