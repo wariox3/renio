@@ -55,6 +55,13 @@ export const routes: Route[] = [
       },
     ],
   },
+  {
+    path: 'configuracion_inicial',
+    loadComponent: () =>
+      import('./componetes/empresa-pasoapaso/empresa-pasoapaso.component').then(
+        (c) => c.EmpresaPasoapasoComponent
+      ),
+  },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },
 ];

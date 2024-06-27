@@ -36,7 +36,6 @@ import {
   NgClass,
   NgTemplateOutlet,
   NgFor,
-  NgIf,
   LowerCasePipe,
   TitleCasePipe,
   CommonModule,
@@ -68,7 +67,7 @@ import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
   ],
   providers: [provideNgxMask()],
 })
-export class EmpresaEditarComponent extends General implements OnInit {
+export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
   arrCiudades: Ciudad[] = [];
@@ -78,7 +77,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
   @Input() empresa_id!: string;
-  @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
+  @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   @ViewChild('inputBusquedaResolucion', { static: true })
   inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
@@ -195,6 +194,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
                   empresa: respuestaActualizacion.empresa,
                 })
               );
+              return this.emitirRegistroGuardado.emit(true);
             }
           })
         )
