@@ -77,6 +77,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
   @Input() empresa_id!: string;
+  @Input() visualizarLabelSiguiente: boolean = false;
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   @ViewChild('inputBusquedaResolucion', { static: true })

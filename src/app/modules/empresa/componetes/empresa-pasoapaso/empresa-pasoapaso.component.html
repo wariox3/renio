@@ -37,6 +37,7 @@
         <ng-template ngbNavContent>
           <app-empresa-formulario
             (emitirRegistroGuardado)="continuarPaso($event)"
+            [visualizarLabelSiguiente]="true"
           ></app-empresa-formulario>
         </ng-template>
       </li>

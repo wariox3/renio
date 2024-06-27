@@ -25,6 +25,16 @@
     </div>
   </ng-container>
   <ng-template #formularioFacturaElectronica>
+    <div class="fv-row d-flex mb-5">
+      <button
+      translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
+        type="submit"
+        class="btn btn-primary"
+        type="submit"
+        #btnGuardar
+      ></button>
+    </div>
+
     <div class="row mb-10">
       <div class="col-md-12 col-sm-12">
         <label
@@ -135,13 +145,6 @@
           </label>
         </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-end">
-      <button
-        translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
-        type="submit"
-        class="btn btn-sm btn-primary"
-      ></button>
     </div>
   </ng-template>
 </form>
