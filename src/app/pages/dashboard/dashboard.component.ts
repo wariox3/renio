@@ -3,13 +3,14 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { CardComponent } from "../../comun/componentes/card/card.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     standalone: true,
-    imports: [CardComponent]
+    imports: [CardComponent, RouterModule]
 })
 export class DashboardComponent extends General implements OnInit {
   constructor(private httpService: HttpService) {

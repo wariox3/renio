@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { NgbNavConfig, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrulario.component';
+import { EmpresaConfiguracionComponent } from '../empresa-configuracion/empresa-configuracion.component';
 
 @Component({
   selector: 'app-empresa-pasoapaso',
@@ -11,7 +12,8 @@ import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrul
     CommonModule,
     NgbNavModule,
     CardComponent,
-    EmpresaFormularioComponent
+    EmpresaFormularioComponent,
+    EmpresaConfiguracionComponent
   ],
   templateUrl: './empresa-pasoapaso.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

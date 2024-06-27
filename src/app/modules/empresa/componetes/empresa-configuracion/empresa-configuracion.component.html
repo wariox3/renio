@@ -13,98 +13,93 @@
       #btnGuardar
     ></button>
   </div>
-  <app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.CONFIGURACIONEMPRESA'">
-    <section card-body>
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.FORMATOFACTURA"
-            class="form-label required"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="formato_factura"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpresa.controls['formato_factura'].touched &&
-                formularioEmpresa.controls['formato_factura'].invalid,
-              'is-valid':
-                formularioEmpresa.controls['formato_factura'].touched &&
-                formularioEmpresa.controls['formato_factura'].valid
-            }"
-          >
-            <option value="">Seleccionar...</option>
-            <option value="F">Factura</option>
-            <option value="C">Cuenta de cobro</option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpresa.controls['formato_factura']
-            }"
-          ></ng-container>
-        </div>
+  <div class="row mb-5">
+    <div class="col-md-12 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.EMPRESA.FORMATOFACTURA"
+        class="form-label required"
+      ></label>
+      <select
+        class="form-select"
+        formControlName="formato_factura"
+        [ngClass]="{
+          'is-invalid':
+            formularioEmpresa.controls['formato_factura'].touched &&
+            formularioEmpresa.controls['formato_factura'].invalid,
+          'is-valid':
+            formularioEmpresa.controls['formato_factura'].touched &&
+            formularioEmpresa.controls['formato_factura'].valid
+        }"
+      >
+        <option value="">Seleccionar...</option>
+        <option value="F">Factura</option>
+        <option value="C">Cuenta de cobro</option>
+      </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioEmpresa.controls['formato_factura']
+        }"
+      ></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
+        class="form-label"
+      ></label>
+      <textarea
+        formControlName="informacion_factura"
+        class="form-control bg-transparent"
+        [ngClass]="{
+          'is-invalid':
+            formularioEmpresa.controls['informacion_factura'].touched &&
+            formularioEmpresa.controls['informacion_factura'].invalid,
+          'is-valid':
+            formularioEmpresa.controls['informacion_factura'].touched &&
+            formularioEmpresa.controls['informacion_factura'].valid
+        }"
+      ></textarea>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '2000',
+          control: formularioEmpresa.controls['informacion_factura']
+        }"
+      ></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-1">
+      <div class="form-check form-switch form-check-custom form-check-solid">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="1"
+          id="venta_asesor"
+          formControlName="venta_asesor"
+        />
+        <label class="form-check-label" for="venta_asesor">Asesor</label>
       </div>
-      <div class="row mb-5">
-        <div class="col-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
-            class="form-label"
-          ></label>
-          <textarea
-            formControlName="informacion_factura"
-            class="form-control bg-transparent"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpresa.controls['informacion_factura'].touched &&
-                formularioEmpresa.controls['informacion_factura'].invalid,
-              'is-valid':
-                formularioEmpresa.controls['informacion_factura'].touched &&
-                formularioEmpresa.controls['informacion_factura'].valid
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '2000',
-              control: formularioEmpresa.controls['informacion_factura']
-            }"
-          ></ng-container>
-        </div>
+    </div>
+    <div class="col-1">
+      <div class="form-check form-switch form-check-custom form-check-solid">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="1"
+          id="venta_sede"
+          formControlName="venta_sede"
+        />
+        <label class="form-check-label" for="venta_asesor">Sede</label>
       </div>
-      <div class="row mb-5">
-        <div class="col-1">
-          <div class="form-check form-switch form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="venta_asesor"
-              formControlName="venta_asesor"
-            />
-            <label class="form-check-label" for="venta_asesor">Asesor</label>
-          </div>
-        </div>
-        <div class="col-1">
-          <div class="form-check form-switch form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="venta_sede"
-              formControlName="venta_sede"
-            />
-            <label class="form-check-label" for="venta_asesor">Sede</label>
-          </div>
-        </div>
-      </div>
-      
-    </section>
-  </app-card>
+    </div>
+  </div>
 </form>
 <ng-template
   #formError
