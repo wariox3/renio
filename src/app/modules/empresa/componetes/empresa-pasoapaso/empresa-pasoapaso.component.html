@@ -1,0 +1,66 @@
+<ul class="stepper stepper-pills" ngbNav #nav="ngbNav">
+  <li ngbNavItem (click)="navSiguiente(1)">
+    <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
+      <div class="stepper-item mx-8 my-4 current" data-kt-stepper-element="nav">
+        <!--begin::Wrapper-->
+        <div class="stepper-wrapper d-flex align-items-center">
+          <!--begin::Icon-->
+          <div class="stepper-icon w-40px h-40px">
+            @if(navCompleto.includes(1)){
+              <i class="fas fa-check text-white"></i>
+
+            } @else {
+              <span class="stepper-number">1</span>
+            }
+          </div>
+          <!--end::Icon-->
+
+          <!--begin::Label-->
+          <div class="stepper-label">
+            <h3 class="stepper-title">Step 1</h3>
+
+            <div class="stepper-desc">Description</div>
+          </div>
+          <!--end::Label-->
+        </div>
+        <div class="stepper-line h-40px"></div>
+      </div>
+    </a>
+    <ng-template ngbNavContent>
+      <p>These navs will always stay in DOM and have no roles</p>
+    </ng-template>
+  </li>
+  <li ngbNavItem (click)="navSiguiente(2)">
+    <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
+      <div class="stepper-item mx-8 my-4 current" data-kt-stepper-element="nav">
+        <!--begin::Wrapper-->
+        <div class="stepper-wrapper d-flex align-items-center">
+          <!--begin::Icon-->
+          <div class="stepper-icon w-40px h-40px">
+            @if(navCompleto.includes(2)){
+              <i class="fas fa-check text-white"></i>
+            } @else {
+              <span class="stepper-number">2</span>
+            }
+          </div>
+          <!--end::Icon-->
+
+          <!--begin::Label-->
+          <div class="stepper-label">
+            <h3 class="stepper-title">Step 2</h3>
+
+            <div class="stepper-desc">Description</div>
+          </div>
+          <!--end::Label-->
+        </div>
+        <div class="stepper-line h-40px"></div>
+      </div>
+    </a>
+    <ng-template ngbNavContent>
+      <p>Because default values have been customized in the config</p>
+    </ng-template>
+  </li>
+</ul>
+
+<!--end::Stepper-->
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
