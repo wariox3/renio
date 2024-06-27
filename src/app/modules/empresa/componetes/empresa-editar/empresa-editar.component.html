@@ -1,4 +1,9 @@
-<form
+<button (click)="abrirModalNuevoItem(content)" class="btn btn-primary">
+  Editar
+</button>
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <form
   class="form w-100"
   novalidate="novalidate"
   [formGroup]="formularioEmpresa"
@@ -480,3 +485,6 @@
     </div>
   </ng-container>
 </ng-template>
+  </div>
+</ng-template>
+

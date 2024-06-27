@@ -30,6 +30,7 @@ import {
   NgbDropdownAnchor,
   NgbDropdownMenu,
   NgbDropdownItem,
+  NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {
@@ -69,6 +70,7 @@ import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
   providers: [provideNgxMask()],
 })
 export class EmpresaEditarComponent extends General implements OnInit {
+  itemSeleccionado: any | null = null;
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
   arrCiudades: Ciudad[] = [];
@@ -77,6 +79,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   arrRegimen: Regimen[] = [];
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
+  @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @Input() empresa_id!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -87,7 +90,8 @@ export class EmpresaEditarComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -264,5 +268,19 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.formularioEmpresa.patchValue({
       digito_verificacion: digito,
     });
+  }
+
+  onDropdownClose() {
+    if (this.itemSeleccionado === null) {
+      this.emitirLineaVacia.emit();
+    }
+  }
+
+  abrirModalNuevoItem(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
   }
 }
