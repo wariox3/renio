@@ -79,20 +79,6 @@ export class EmpresaFacturacionElectronicaComponent
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
         ]),
       ],
-      resolucion_numero: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-        ]),
-      ],
-      resolucion_id: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-        ]),
-      ],
       correo_facturacion_electronica: [
         null,
         Validators.compose([Validators.required, Validators.email]),
