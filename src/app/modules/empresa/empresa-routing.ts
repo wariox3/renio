@@ -22,7 +22,7 @@ export const routes: Route[] = [
     children: [
       {
         path: '', // Ruta vacía, se inicia por defecto cuando se carga la ruta padre
-        redirectTo: 'general',
+        redirectTo: 'configuracion',
         pathMatch: 'full',
       },
       {
