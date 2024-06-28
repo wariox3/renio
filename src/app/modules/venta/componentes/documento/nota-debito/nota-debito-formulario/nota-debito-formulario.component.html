@@ -75,25 +75,23 @@
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituloFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
             <button type="button" ngbDropdownItem>
-              <span
-                type="button"
-                ngbDropdownItem
-                (click)="abrirModalContactoNuevo(content)"
-              >
-                {{
-                  "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase
-                }}
-                <ng-template #content let-modal>
-                  <div class="modal-body">
-                    <app-contacto-formulario
-                      [ocultarBtnAtras]="true"
-                      (emitirGuardoRegistro)="cerrarModal($event)"
-                      [tituloFijo]="true"
-                    />
-                  </div>
-                </ng-template>
-              </span>
               <app-comun-buscar-avanzado
                 [consultarModelo]="'Contacto'"
                 [consultarTipo]="'Administrador'"
