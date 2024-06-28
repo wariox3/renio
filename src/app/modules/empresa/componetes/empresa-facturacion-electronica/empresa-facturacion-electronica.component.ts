@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,6 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { Resolucion } from '@interfaces/general/resolucion';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 import {
@@ -24,7 +23,7 @@ import {
   obtenerEmpresaId,
   obtenerEmpresRededoc_id,
 } from '@redux/selectors/empresa.selectors';
-import { asyncScheduler, switchMap, tap, throttleTime } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-facturacion-electronica',
@@ -50,6 +49,7 @@ export class EmpresaFacturacionElectronicaComponent
   rededoc_id: string;
   empresa_id: string;
   arrResoluciones: any[] = [];
+  @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -122,6 +122,7 @@ export class EmpresaFacturacionElectronicaComponent
               })
             );
             this.changeDetectorRef.detectChanges();
+            return this.emitirRegistroGuardado.emit(true);
           })
         )
         .subscribe(() => {});
@@ -168,5 +169,9 @@ export class EmpresaFacturacionElectronicaComponent
     } else {
       this.formularioDianEditar.markAsTouched;
     }
+  }
+
+  emitirRegistro(){
+    return this.emitirRegistroGuardado.emit(true);
   }
 }

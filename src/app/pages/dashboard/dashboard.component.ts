@@ -4,6 +4,7 @@ import { HttpService } from '@comun/services/http.service';
 import { empresaActionInit } from '@redux/actions/empresa.actions';
 import { CardComponent } from "../../comun/componentes/card/card.component";
 import { RouterModule } from '@angular/router';
+import { Empresa } from '@interfaces/contenedor/empresa';
 
 @Component({
     selector: 'app-dashboard',
@@ -17,7 +18,7 @@ export class DashboardComponent extends General implements OnInit {
     super();
   }
 
-  rededoc_id: string | null;
+  asistente_electronico: boolean;
 
   ngOnInit() {
     this.consultarInformacion();
@@ -25,9 +26,9 @@ export class DashboardComponent extends General implements OnInit {
 
   consultarInformacion() {
     this.httpService
-      .getDetalle<any>(`general/empresa/1/`)
-      .subscribe((empresa: any) => {
-        this.rededoc_id = empresa.rededoc_id
+      .getDetalle<Empresa>(`general/empresa/1/`)
+      .subscribe((empresa) => {
+        this.asistente_electronico = empresa.asistente_electronico
         this.store.dispatch(empresaActionInit({ empresa }));
         this.changeDetectorRef.detectChanges();
       });

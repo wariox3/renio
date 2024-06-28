@@ -47,7 +47,8 @@ export class EmpresaDetalleComponent extends General implements OnInit {
     suscriptor: 0,
     ciudad_id: 0,
     identificacion_id: 0,
-    rededoc_id: ''
+    rededoc_id: '',
+    asistente_electronico: false
   };
 
   constructor(

@@ -37,3 +37,8 @@ export const obtenerEmpresRededoc_id = createSelector(
   Empresa,
   (Empresa) => `${Empresa.rededoc_id}`
 );
+
+export const obtenerEmpresaAsistenteElectronico = createSelector(
+  Empresa,
+  (Empresa) => `${Empresa.asistente_electronico}`
+);

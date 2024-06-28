@@ -82,7 +82,8 @@ export const locale = {
           ELECTRONICO: 'Electrónico',
           ADICIONAR: 'Adicionar',
           ANULAR: 'Anular',
-          SIGUIENTE: 'Seguiente'
+          SIGUIENTE: 'Seguiente',
+          FINALIZAR: 'Finalizar'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

@@ -1,9 +1,14 @@
-import { CommonModule, } from '@angular/common';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { NgbNavConfig, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrulario.component';
 import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-electronica/empresa-facturacion-electronica.component';
+import { EmpresaResolucionComponent } from '../empresa-resolucion/empresa-resolucion.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
+import { empresaActualizacionAsisteneElectronico } from '@redux/actions/empresa.actions';
 
 @Component({
   selector: 'app-empresa-pasoapaso',
@@ -13,24 +18,40 @@ import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-e
     NgbNavModule,
     CardComponent,
     EmpresaFormularioComponent,
-    EmpresaFacturacionElectronicaComponent
+    EmpresaFacturacionElectronicaComponent,
+    EmpresaResolucionComponent,
+    TranslateModule,
   ],
   templateUrl: './empresa-pasoapaso.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NgbNavConfig], // add NgbNavConfig to the component providers
 })
-export class EmpresaPasoapasoComponent  {
-  navActivo = 1
-  navCompleto: number[] = []
+export class EmpresaPasoapasoComponent extends General {
+  navActivo = 1;
+  navCompleto: number[] = [];
 
-  navSiguiente(numero: number){
-    this.navActivo = numero
-    this.navCompleto.push(numero)
+  constructor(private empresaService: EmpresaService) {
+    super();
   }
 
-  continuarPaso(event: any){
-    this.navActivo = 2
-    this.navCompleto.push(1)
+  navSiguiente(numero: number) {
+    this.navActivo = numero;
+    this.navCompleto.push(numero);
+  }
+
+  continuarPaso(event: any, siguientePaso: number) {
+    this.navCompleto.push(this.navActivo);
+    this.navActivo = siguientePaso;
+  }
+
+  finalizarProceso() {
+    this.empresaService.finalizarProceso().subscribe((respuesta) => {
+      this.store.dispatch(
+        empresaActualizacionAsisteneElectronico({
+          asistente_electronico: respuesta.asistente_termiando,
+        })
+      );
+      this.router.navigate(['/dashboard'])
+    });
   }
 }
-

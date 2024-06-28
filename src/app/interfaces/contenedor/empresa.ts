@@ -21,4 +21,5 @@ export interface Empresa {
   ciudad_id: number;
   identificacion_id: number;
   rededoc_id: string;
+  asistente_electronico: boolean;
 }

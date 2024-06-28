@@ -6,7 +6,7 @@
       [(activeId)]="navActivo"
       #nav="ngbNav"
     >
-      <li [ngbNavItem]="1" (click)="navSiguiente(1)">
+      <li [ngbNavItem]="1" [disabled]="!navCompleto.includes(1)">
         <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
           <div
             class="stepper-item mx-8 my-4 current"
@@ -15,19 +15,46 @@
             <!--begin::Wrapper-->
             <div class="stepper-wrapper d-flex align-items-center">
               <!--begin::Icon-->
-              <div class="stepper-icon w-40px h-40px">
+              <div
+                class="stepper-icon w-40px h-40px"
+                [ngClass]="{
+                  'bg-secondary': navActivo !== 1,
+                  'bg-success': navCompleto.includes(1)
+                }"
+              >
                 @if(navCompleto.includes(1)){
                 <i class="fas fa-check text-white"></i>
                 } @else {
-                <span class="stepper-number">1</span>
+                <span
+                  class="stepper-number"
+                  [ngClass]="{
+                    'text-gray-600': navActivo !== 1,
+                    'text-success': navCompleto.includes(1)
+                  }"
+                  >1</span
+                >
                 }
               </div>
               <!--end::Icon-->
 
               <!--begin::Label-->
               <div class="stepper-label">
-                <h3 class="stepper-title">Paso 1</h3>
-                <div class="stepper-desc">Configuración empresa</div>
+                <h3
+                  class="stepper-title"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(1)
+                  }"
+                >
+                  Paso 1
+                </h3>
+                <div
+                  class="stepper-desc"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(1)
+                  }"
+                >
+                  Configuración empresa
+                </div>
               </div>
               <!--end::Label-->
             </div>
@@ -36,12 +63,12 @@
         </a>
         <ng-template ngbNavContent>
           <app-empresa-formulario
-            (emitirRegistroGuardado)="continuarPaso($event)"
+            (emitirRegistroGuardado)="continuarPaso($event, 2)"
             [visualizarLabelSiguiente]="true"
           ></app-empresa-formulario>
         </ng-template>
       </li>
-      <li [ngbNavItem]="2" (click)="navSiguiente(2)">
+      <li [ngbNavItem]="2" [disabled]="!navCompleto.includes(2)">
         <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
           <div
             class="stepper-item mx-8 my-4 current"
@@ -50,19 +77,46 @@
             <!--begin::Wrapper-->
             <div class="stepper-wrapper d-flex align-items-center">
               <!--begin::Icon-->
-              <div class="stepper-icon w-40px h-40px">
+              <div
+                class="stepper-icon w-40px h-40px"
+                [ngClass]="{
+                  'bg-secondary active': navActivo !== 2,
+                  'bg-success': navCompleto.includes(2)
+                }"
+              >
                 @if(navCompleto.includes(2)){
                 <i class="fas fa-check text-white"></i>
                 } @else {
-                <span class="stepper-number">2</span>
+                <span
+                  class="stepper-number"
+                  [ngClass]="{
+                    'text-gray-600': navActivo !== 2,
+                    'text-success': navCompleto.includes(2)
+                  }"
+                  >2</span
+                >
                 }
               </div>
               <!--end::Icon-->
 
               <!--begin::Label-->
               <div class="stepper-label">
-                <h3 class="stepper-title">Paso 2</h3>
-                <div class="stepper-desc">Configuración facturación electronica</div>
+                <h3
+                  class="stepper-title"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(2)
+                  }"
+                >
+                  Paso 2
+                </h3>
+                <div
+                  class="stepper-desc"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(2)
+                  }"
+                >
+                  Configuración facturación electronica
+                </div>
               </div>
               <!--end::Label-->
             </div>
@@ -70,11 +124,166 @@
           </div>
         </a>
         <ng-template ngbNavContent>
-          <app-empresa-facturacion-electronica></app-empresa-facturacion-electronica>
+          <app-empresa-facturacion-electronica
+            (emitirRegistroGuardado)="continuarPaso($event, 3)"
+          ></app-empresa-facturacion-electronica>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" [disabled]="!navCompleto.includes(3)">
+        <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
+          <div
+            class="stepper-item mx-8 my-4 current"
+            data-kt-stepper-element="nav"
+          >
+            <!--begin::Wrapper-->
+            <div class="stepper-wrapper d-flex align-items-center">
+              <!--begin::Icon-->
+              <div
+                class="stepper-icon w-40px h-40px"
+                [ngClass]="{
+                  'bg-secondary active': navActivo !== 3,
+                  'bg-success': navCompleto.includes(3)
+                }"
+              >
+                @if(navCompleto.includes(2)){
+                <i class="fas fa-check text-white"></i>
+                } @else {
+                <span
+                  class="stepper-number"
+                  [ngClass]="{
+                    'text-gray-600': navActivo !== 3,
+                    'text-success': navCompleto.includes(3)
+                  }"
+                  >3</span
+                >
+                }
+              </div>
+              <!--end::Icon-->
+
+              <!--begin::Label-->
+              <div class="stepper-label">
+                <h3
+                  class="stepper-title"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(3)
+                  }"
+                >
+                  Paso 3
+                </h3>
+                <div
+                  class="stepper-desc"
+                  [ngClass]="{
+                    'text-success': navCompleto.includes(3)
+                  }"
+                >
+                  Resolución
+                </div>
+              </div>
+              <!--end::Label-->
+            </div>
+            <div class="stepper-line h-40px"></div>
+          </div>
+        </a>
+        <ng-template ngbNavContent>
+          <app-empresa-resolucion
+            (emitirRegistroGuardado)="continuarPaso($event, 4)"
+          ></app-empresa-resolucion>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4" [disabled]="!navCompleto.includes(4)">
+        <a class="stepper-nav flex-center flex-wrap mb-10" ngbNavLink>
+          <div
+            class="stepper-item mx-8 my-4 current"
+            data-kt-stepper-element="nav"
+          >
+            <!--begin::Wrapper-->
+            <div class="stepper-wrapper d-flex align-items-center">
+              <!--begin::Icon-->
+              <div
+                class="stepper-icon w-40px h-40px"
+                [ngClass]="{ 'bg-secondary active': navActivo !== 4 }"
+              >
+                @if(navCompleto.includes(4)){
+                <i class="fas fa-check text-white"></i>
+                } @else {
+                <span
+                  class="stepper-number"
+                  [ngClass]="{ 'text-gray-600': navActivo !== 4 }"
+                  >4</span
+                >
+                }
+              </div>
+              <!--end::Icon-->
+              <!--begin::Label-->
+              <div class="stepper-label">
+                <h3 class="stepper-title">Paso 4</h3>
+                <div class="stepper-desc">Terminar proceso</div>
+              </div>
+              <!--end::Label-->
+            </div>
+            <div class="stepper-line h-40px"></div>
+          </div>
+        </a>
+        <ng-template ngbNavContent>
+          <div class="row mt-10">
+            <div class="fv-row d-flex mb-5">
+              <button
+                type="submit"
+                class="btn btn-success"
+                type="submit"
+                (click)="finalizarProceso()"
+              >
+                {{ "FORMULARIOS.BOTONES.COMUNES.FINALIZAR" | translate }}
+              </button>
+            </div>
+          </div>
+          <app-card [visualizarTitulo]="false">
+            <section card-body>
+              <div
+                class="d-flex justify-content-between bgi-no-repeat bgi-size-cover bgi-position-x-center pb-0"
+                style="
+                  background-position: 100% 50%;
+                  background-image: url('../../../../assets/media/stock/900x600/42.png');
+                "
+              >
+                <!--begin::Illustration-->
+                <img
+                  class="mx-auto theme-light-show p-0 mx-2"
+                  src="../../../assets/media/illustrations/sigma-1/7.png"
+                  alt=""
+                  height="250"
+                  width="250"
+                />
+                <img
+                  class="mx-auto h-150px h-lg-200px theme-dark-show"
+                  src="../../../assets/media/illustrations/sigma-1/7-dark.png"
+                  alt=""
+                />
+                <!--end::Illustration-->
+                <!--begin::Wrapper-->
+                <div
+                  class="flex-grow-1 mx-2 justify-content-center align-self-center"
+                >
+                  <!--begin::Title-->
+                  <div class="fs-2hx fw-bold text-gray-800">
+                    <span> ¡Felicitaciones! </span>
+                    <br />
+                    <span class="fw-semibold text-gray-600 fs-6 mb-8 d-block">
+                      Has completado exitosamente el proceso de registro para
+                      facturar electronicamente. Nos alegra que formes parte de
+                      nuestra comunidad. ¡Bienvenido/a y esperamos que disfrutes
+                      de todos nuestros servicios!
+                    </span>
+                  </div>
+                  <!--end::Title-->
+                </div>
+                <!--begin::Wrapper-->
+              </div>
+            </section>
+          </app-card>
         </ng-template>
       </li>
     </ul>
-
     <!--end::Stepper-->
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </section>

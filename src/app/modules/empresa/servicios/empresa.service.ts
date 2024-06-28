@@ -70,12 +70,36 @@ export class EmpresaService {
   }
 
   actualizarDocumentoTipo(documento_tipo_id: Number | string, data: any) {
-    return this.httpService.put(`general/documento_tipo/${documento_tipo_id}/`, {
-      ...data,
-    });
+    return this.httpService.put(
+      `general/documento_tipo/${documento_tipo_id}/`,
+      {
+        ...data,
+      }
+    );
   }
 
   consultarDocumentoTipoDetalle(documento_tipo_id: Number | string) {
-    return this.httpService.getDetalle(`general/documento_tipo/${documento_tipo_id}/`);
+    return this.httpService.getDetalle(
+      `general/documento_tipo/${documento_tipo_id}/`
+    );
+  }
+
+  consultarDocumentoTipoUno() {
+    return this.httpService.getDetalle<DocumentoTipo>(
+      `general/documento_tipo/1/`
+    );
+  }
+
+  asignarResolucionDocumentoTipo(resolucion_id: number) {
+    return this.httpService.post(`general/documento_tipo/asignar-resolucion/`, {
+      resolucion_id,
+    });
+  }
+
+  finalizarProceso() {
+    return this.httpService.post<{ asistente_termiando: boolean }>(
+      'general/empresa/terminar-asistente/',
+      null
+    );
   }
 }

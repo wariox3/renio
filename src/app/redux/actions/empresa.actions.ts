@@ -24,3 +24,8 @@ export const empresaActualizacionRededocIdAction = createAction(
   '[Empresa] actualizar rededoc_id',
   props<{ rededoc_id: string }>()
 );
+
+export const empresaActualizacionAsisteneElectronico = createAction(
+  '[Empresa] actualizar asistente electronico',
+  props<{ asistente_electronico: boolean }>()
+);

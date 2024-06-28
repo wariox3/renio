@@ -4,8 +4,20 @@
   [formGroup]="formularioDian"
   (ngSubmit)="activarEmpresa()"
 >
+  <div class="row mt-10" *ngIf="rededoc_id !== 'null';">
+    <div class="fv-row d-flex mb-5">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        type="submit"
+        (click)="emitirRegistro()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
+      </button>
+    </div>
+  </div>
   <button
-    class="btn btn-primary btn-sm"
+    class="btn btn-primary"
     *ngIf="rededoc_id !== 'null'"
     (click)="abirModalEditar(modalEditarConfigutacion)"
   >
@@ -26,13 +38,9 @@
   </ng-container>
   <ng-template #formularioFacturaElectronica>
     <div class="fv-row d-flex mb-5">
-      <button
-      translate="FORMULARIOS.BOTONES.EMPRESA.ACTIVAR"
-        type="submit"
-        class="btn btn-primary"
-        type="submit"
-        #btnGuardar
-      ></button>
+      <button type="submit" class="btn btn-primary" type="submit">
+        {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
+      </button>
     </div>
 
     <div class="row mb-10">

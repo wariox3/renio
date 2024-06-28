@@ -1,0 +1,56 @@
+@if (documentoTipo.resolucion_id === null) {
+<app-resolucion-nuevo
+  [ocultarBtnAtras]="true"
+  [tituloFijo]="true"
+  [tipoRolucion]="'venta'"
+  (emitirGuardoRegistro)="gestionResolucion($event)"
+/>
+}
+@else {
+  <div class="row mt-10">
+    <div class="fv-row d-flex mb-5">
+      <button type="submit" class="btn btn-primary" type="submit" (click)="emitirRegistro()" >
+        {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
+      </button>
+    </div>
+  </div>
+  <app-card [visualizarTitulo]="false">
+    <section card-body>
+      <div
+        class="d-flex justify-content-between bgi-no-repeat bgi-size-cover bgi-position-x-center pb-0"
+        style="
+          background-position: 100% 50%;
+          background-image: url('../../../../assets/media/stock/900x600/42.png');
+        "
+      >
+        <!--begin::Illustration-->
+        <img
+          class="mx-auto theme-light-show p-0 mx-2"
+          src="../../../assets/media/illustrations/sigma-1/17.png"
+          alt=""
+          height="250"
+          width="250"
+        />
+        <img
+          class="mx-auto h-150px h-lg-200px theme-dark-show"
+          src="../../../assets/media/illustrations/sigma-1/17-dark.png"
+          alt=""
+        />
+        <!--end::Illustration-->
+        <!--begin::Wrapper-->
+        <div class="flex-grow-1 mx-2 justify-content-center align-self-center">
+          <!--begin::Title-->
+          <div class="fs-2hx fw-bold text-gray-800">
+            <span> Bien hecho </span>
+            <br />
+            <span class="fw-semibold text-gray-600 fs-6 mb-8 d-block">
+              Ya tienes una resolución asignada
+            </span>
+          </div>
+          <!--end::Title-->
+        </div>
+        <!--begin::Wrapper-->
+      </div>
+    </section>
+  </app-card>
+}
