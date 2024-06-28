@@ -282,7 +282,7 @@
                           <td>
                             {{ detalle.value.contacto }}
                           </td>
-                          <td>
+                          <td class="p-1">
                             <app-comun-cuentas
                               [documentoEnlazado]="
                                 detalle.value.documento_afectado !== null
@@ -306,7 +306,7 @@
                             >
                               <select
                                 formControlName="naturaleza"
-                                class="form-select"
+                                class="form-select form-select-sm"
                                 (change)="calcularTotales()"
                               >
                                 <option value="D">Débito</option>
@@ -314,7 +314,7 @@
                               </select>
                             </ng-container>
                             <ng-template #selectDisabled>
-                              <select disabled class="form-select">
+                              <select disabled class="form-select form-select-sm">
                                 <option value="C">Crédito</option>
                               </select>
                             </ng-template>
