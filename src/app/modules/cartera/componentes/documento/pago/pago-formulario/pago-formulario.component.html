@@ -207,7 +207,7 @@
                 <div class="d-flex justify-content-end my-3">
                   <div class="btn-group contenedor-btn-group">
                     <button
-                      (click)="agregarDocumento(content)"
+                      (click)="agregarDocumento(contentDocumento)"
                       class="btn btn-sm btn-primary"
                       type="button"
                       translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARDOCUMENTO"
@@ -442,7 +442,7 @@
   </ng-container>
 </ng-template>
 
-<ng-template #content let-modal>
+<ng-template #contentDocumento let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Buscar documento</h4>
     <button
