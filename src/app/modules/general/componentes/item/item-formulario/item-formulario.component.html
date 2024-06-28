@@ -1,4 +1,5 @@
 <form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
+  <pre>{{ formularioItem.value | json }}</pre>
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
       class="btn-group btn-sm shadow-sm"

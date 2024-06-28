@@ -25,7 +25,6 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 })
 export default class ItemDetalleComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
-  arrImpuestos: any[] = [];
   item: any = {
     nombre: '',
     id: 0,
@@ -49,7 +48,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
   constructor(private itemService: ItemService) {
     super();
   }
-  ngOnInit() {
+  ngOnInit() {    
     this.consultardetalle();
   }
 
@@ -57,8 +56,16 @@ export default class ItemDetalleComponent extends General implements OnInit {
     this.itemService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.item = respuesta.item;
+        this.item = respuesta.item; 
         this.changeDetectorRef.detectChanges();
       });
+  }
+  
+  get impuestosVenta() {
+    return this.item.impuestos.filter((impuesto: any) => impuesto.impuesto_venta);
+  }
+
+  get impuestosCompra() {
+    return this.item.impuestos.filter((impuesto: any) => impuesto.impuesto_compra);
   }
 }
