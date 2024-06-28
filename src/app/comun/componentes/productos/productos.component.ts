@@ -40,6 +40,9 @@ export class ProductosComponent extends General implements AfterViewInit {
   @Input() itemNombre: string = '';
   @Input() estado_aprobado: false;
   @Input() campoInvalido: any = false;
+  @Input() venta: boolean = true;
+  @Input() compra: boolean = false;
+
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
@@ -70,7 +73,8 @@ export class ProductosComponent extends General implements AfterViewInit {
     this.httpService
       .post<any>(`general/item/detalle/`, {
         id: item.item_id,
-        venta: true,
+        venta: this.venta,
+        compra: this.compra,
       })
       .subscribe((respuesta: any) => {
         this.emitirArrItems.emit(respuesta.item);

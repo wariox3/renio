@@ -402,7 +402,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
-
     if (item.impuestos) {
       item.impuestos.map((impuesto: any) => {
         impuesto['item_impuesto_id'] = null;
@@ -411,6 +410,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
         impuesto['id'] = null;
+        impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -537,6 +538,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_id: [impuesto.impuesto_id],
         impuesto_nombre_extendido: [impuesto.nombre_extendido],
         impuesto_nombre: [impuesto.nombre],
+        impuesto_venta: [impuesto.impuesto_venta],
+        impuesto_compra: [impuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
@@ -590,6 +593,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_id: [impuesto.impuesto_id],
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
+      impuesto_venta: [impuesto.impuesto_venta],
+      impuesto_compra: [impuesto.impuesto_compra]
     });
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -672,6 +677,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_id: [nuevoImpuesto.impuesto_id],
         impuesto_nombre_extendido: [nuevoImpuesto.nombre_extendido],
         impuesto_nombre: [nuevoImpuesto.nombre],
+        impuesto_venta: [nuevoImpuesto.impuesto_venta],
+        impuesto_compra: [nuevoImpuesto.impuesto_compra]
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
