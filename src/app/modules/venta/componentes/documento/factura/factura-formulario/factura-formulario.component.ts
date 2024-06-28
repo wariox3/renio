@@ -498,6 +498,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['impuesto_porcentaje_base'] =
           impuesto['impuesto_porcentaje_base'];
         impuesto['id'] = null;
+        impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -725,6 +727,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
       porcentaje_base: [impuesto.impuesto_porcentaje_base],
+      impuesto_venta: [impuesto.impuesto_venta],
+      impuesto_compra: [impuesto.impuesto_compra]
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
@@ -837,6 +841,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre_extendido: [nuevoImpuesto.nombre_extendido],
         impuesto_nombre: [nuevoImpuesto.nombre],
         porcentaje_base: [nuevoImpuesto.porcentaje_base],
+        impuesto_venta: [nuevoImpuesto.impuesto_venta],
+        impuesto_compra: [nuevoImpuesto.impuesto_compra]
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
