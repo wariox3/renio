@@ -664,6 +664,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre_extendido: [impuesto.nombre_extendido],
         impuesto_nombre: [impuesto.nombre],
         porcentaje_base: [impuesto.porcentaje_base],
+        impuesto_venta: [impuesto.impuesto_venta],
+        impuesto_compra: [impuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
