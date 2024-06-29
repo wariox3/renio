@@ -161,6 +161,19 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'laboratorio',
+    children: [
+      {
+        path: 'graficas',
+        loadComponent: () =>
+          import(
+            '../comun/componentes/laboratorio/laboratorio.component'
+          ).then((c) => c.LaboratorioComponent),
+      },
+    ],
+    data: { layout: 'dark-header' },
+  },
+  {
     path: '',
     redirectTo: getRedirectTo(),
     pathMatch: 'full',
