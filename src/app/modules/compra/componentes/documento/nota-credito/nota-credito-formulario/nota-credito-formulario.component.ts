@@ -787,6 +787,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: `${event?.target.value}`,
           valor2: '',
         },
+        {
+          id: '1692284537644-1688',
+          operador: '',
+          propiedad: 'proveedor',
+          valor1: 'True',
+          valor2: '',
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -832,7 +839,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .post<any>('general/documento/referencia/', {
         ...arrFiltros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 1,
+        documento_clase_id: 300,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
