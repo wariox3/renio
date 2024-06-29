@@ -418,6 +418,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
         impuesto['impuesto_porcentaje_base'] = impuesto['impuesto_porcentaje_base'];
         impuesto['id'] = null;
+        impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -489,15 +491,24 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       // Verifica si el detalle del formulario tiene impuestos asociados.
       for (const impuestoAcumulado in this.acumuladorImpuestos) {
         // Itera sobre cada impuesto acumulado en el acumulador de impuestos.
-        for (const impuestosEliminar of detalleFormGroup.value.impuestos) {
-          // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
-          this.acumuladorImpuestos[impuestoAcumulado].total -=
-            impuestosEliminar.total;
-          // Resta el total del impuesto a eliminar del total acumulado del impuesto correspondiente.
-          if (this.acumuladorImpuestos[impuestoAcumulado].total <= 0) {
-            // Verifica si el total del impuesto acumulado es menor o igual a 0 después de la resta.
-            delete this.acumuladorImpuestos[impuestoAcumulado];
-            // Si es así, elimina el impuesto acumulado del objeto de acumuladores de impuestos.
+        if (this.acumuladorImpuestos.hasOwnProperty(impuestoAcumulado)) {
+          // Verifica que el impuestoAcumulado exista en acumuladorImpuestos.
+          for (const impuestosEliminar of detalleFormGroup.value.impuestos) {
+            // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
+            if (impuestosEliminar && impuestosEliminar.hasOwnProperty('total')) {
+              // Verifica que impuestosEliminar no sea undefined y tenga la propiedad total.
+              if (this.acumuladorImpuestos[impuestoAcumulado] &&
+                  this.acumuladorImpuestos[impuestoAcumulado].hasOwnProperty('total')) {
+                // Verifica que impuestoAcumulado no sea undefined y tenga la propiedad total.
+                this.acumuladorImpuestos[impuestoAcumulado].total -= impuestosEliminar.total;
+                // Resta el total del impuesto a eliminar del total acumulado del impuesto correspondiente.
+                if (this.acumuladorImpuestos[impuestoAcumulado].total <= 0) {
+                  // Verifica si el total del impuesto acumulado es menor o igual a 0 después de la resta.
+                  delete this.acumuladorImpuestos[impuestoAcumulado];
+                  // Si es así, elimina el impuesto acumulado del objeto de acumuladores de impuestos.
+                }
+              }
+            }
           }
         }
       }
@@ -507,6 +518,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
+
 
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
@@ -555,6 +567,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre_extendido: [impuesto.nombre_extendido],
         impuesto_nombre: [impuesto.nombre],
         porcentaje_base: [impuesto.porcentaje_base],
+        impuesto_venta: [impuesto.impuesto_venta],
+        impuesto_compra: [impuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
@@ -618,6 +632,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
       porcentaje_base: [impuesto.impuesto_porcentaje_base],
+      impuesto_venta: [impuesto.impuesto_venta],
+      impuesto_compra: [impuesto.impuesto_compra]
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
@@ -730,6 +746,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre_extendido: [nuevoImpuesto.nombre_extendido],
         impuesto_nombre: [nuevoImpuesto.nombre],
         porcentaje_base: [nuevoImpuesto.porcentaje_base],
+        impuesto_venta: [nuevoImpuesto.impuesto_venta],
+        impuesto_compra: [nuevoImpuesto.impuesto_compra]
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
