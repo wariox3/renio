@@ -69,7 +69,8 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '2000',
               control: formularioEmpresa.controls['informacion_factura']
             }"
@@ -78,7 +79,9 @@
       </div>
       <div class="row mb-5">
         <div class="col-1">
-          <div class="form-check form-switch form-check-custom form-check-solid">
+          <div
+            class="form-check form-switch form-check-custom form-check-solid"
+          >
             <input
               class="form-check-input"
               type="checkbox"
@@ -90,7 +93,9 @@
           </div>
         </div>
         <div class="col-1">
-          <div class="form-check form-switch form-check-custom form-check-solid">
+          <div
+            class="form-check form-switch form-check-custom form-check-solid"
+          >
             <input
               class="form-check-input"
               type="checkbox"
@@ -102,7 +107,6 @@
           </div>
         </div>
       </div>
-
     </section>
   </app-card>
 </form>
@@ -123,3 +127,11 @@
     </div>
   </ng-container>
 </ng-template>
+
+<app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICA'">
+  <section card-body>
+    <app-empresa-facturacion-electronica
+      [visualizarBtnSiguiente]="false"
+    ></app-empresa-facturacion-electronica>
+  </section>
+</app-card>

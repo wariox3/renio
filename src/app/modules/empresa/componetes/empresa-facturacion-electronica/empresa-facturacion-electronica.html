@@ -4,7 +4,8 @@
   [formGroup]="formularioDian"
   (ngSubmit)="activarEmpresa()"
 >
-  <div class="row mt-10" *ngIf="rededoc_id !== 'null';">
+  <div class="row" *ngIf="rededoc_id !== 'null';">
+    @if (visualizarBtnSiguiente) {
     <div class="fv-row d-flex mb-5">
       <button
         type="submit"
@@ -15,6 +16,7 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
       </button>
     </div>
+    }
   </div>
   <button
     class="btn btn-primary"

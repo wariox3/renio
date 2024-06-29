@@ -12,6 +12,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-electronica/empresa-facturacion-electronica.component';
 
 @Component({
   selector: 'app-empresa-configuracion',
@@ -23,6 +24,7 @@ import { tap } from 'rxjs';
     TranslateModule,
     CardComponent,
     TranslateModule,
+    EmpresaFacturacionElectronicaComponent
   ],
   templateUrl: './empresa-configuracion.component.html',
 })

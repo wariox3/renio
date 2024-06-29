@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -49,6 +49,7 @@ export class EmpresaFacturacionElectronicaComponent
   rededoc_id: string;
   empresa_id: string;
   arrResoluciones: any[] = [];
+  @Input() visualizarBtnSiguiente = true
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
 
   constructor(
