@@ -515,7 +515,7 @@
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                       <td class="text-end">{{ impuesto.key }}</td>
                       <td class="text-end">
-                        {{ impuesto.value.total | number }}
+                        {{ impuesto.value.total | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="totalDescuento > 0">
@@ -524,7 +524,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
                       ></td>
                       <td class="text-end">
-                        {{ totalDescuento | number }}
+                        {{ totalDescuento | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="totalImpuestos > 0">
@@ -533,7 +533,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                       ></td>
                       <td class="text-end">
-                        {{ totalImpuestos | number }}
+                        {{ totalImpuestos | currency : "$" }}
                       </td>
                     </tr>
                     <tr class="border-top">
@@ -542,7 +542,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                       ></td>
                       <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | number }}
+                        {{ totalGeneral | currency : "$" }}
                       </td>
                     </tr>
                   </table>
