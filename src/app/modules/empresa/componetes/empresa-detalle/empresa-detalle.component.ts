@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionImangenAction } from '@redux/actions/empresa.actions';
-import { obtenerEmpresaImagen } from '@redux/selectors/empresa.selectors';
-import { of, switchMap, zip } from 'rxjs';
+import {
+  obtenerEmpresaImagen,
+  obtenerEmpresaInformacion,
+} from '@redux/selectors/empresa.selectors';
+import { of, switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { EmpresaEditarComponent } from '../empresa-editar/empresa-editar.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,27 +51,17 @@ export class EmpresaDetalleComponent extends General implements OnInit {
     ciudad_id: 0,
     identificacion_id: 0,
     rededoc_id: '',
-    asistente_electronico: false
+    asistente_electronico: false,
   };
 
-  constructor(
-    private empresaServices: EmpresaService,
-    private empresaService: EmpresaService
-  ) {
+  constructor(private empresaServices: EmpresaService) {
     super();
   }
 
-  ngOnInit(): void {
-    this.consultarInformacion();
-  }
-
-  consultarInformacion() {
-    this.empresaService
-      .consultarDetalle(this.empresa_id)
-      .subscribe((respuesta: any) => {
-        this.informacionEmpresa = respuesta;
-        this.changeDetectorRef.detectChanges();
-      });
+  ngOnInit() {
+    this.store
+      .select(obtenerEmpresaInformacion)
+      .subscribe((empresa) => (this.informacionEmpresa = empresa));
   }
 
   recuperarBase64(event: any) {

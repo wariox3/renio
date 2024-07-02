@@ -7,6 +7,7 @@ import {
   empresaLimpiarAction,
   empresaActualizacionAction,
   empresaActualizacionImangenAction,
+  empresaActualizacionRededocIdAction,
 } from '@redux/actions/empresa.actions';
 import { tap } from 'rxjs/operators';
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
@@ -130,6 +131,55 @@ export class EmpresaEffects {
             ...jsonEmpresa,
             ...{
               imagen: action.imagen,
+            },
+          };
+
+          if (environment.production) {
+            let dominioActual = window.location.host;
+
+            setCookie(
+              `empresa-${dominioActual.split('.')[0]}`,
+              JSON.stringify(jsonEmpresa),
+              {
+                path: '/',
+                domain: environment.dominioApp,
+              }
+            );
+          } else {
+            setCookie(
+              `empresa-${environment.EMPRESA_LOCALHOST}`,
+              JSON.stringify(jsonEmpresa),
+              { path: '/' }
+            );
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  actualizarRededoc_id$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(empresaActualizacionRededocIdAction),
+        tap((action) => {
+          let contenedorDatos: any;
+
+          if (environment.production) {
+            let dominioActual = window.location.host;
+            contenedorDatos = getCookie(
+              `empresa-${dominioActual.split('.')[0]}`
+            );
+          } else {
+            contenedorDatos = getCookie(
+              `empresa-${environment.EMPRESA_LOCALHOST}`
+            );
+          }
+          let jsonEmpresa: Empresa = JSON.parse(contenedorDatos);
+
+          jsonEmpresa = {
+            ...jsonEmpresa,
+            ...{
+              rededoc_id: action.rededoc_id,
             },
           };
 

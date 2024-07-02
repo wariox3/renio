@@ -3,6 +3,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Empresa = createFeatureSelector<Empresa>('empresa');
 
+export const obtenerEmpresaInformacion = createSelector(
+  Empresa,
+  (Empresa) => Empresa
+);
+
 export const obtenerEmpresaImagen = createSelector(
   Empresa,
   (Empresa) => `${Empresa.imagen}`

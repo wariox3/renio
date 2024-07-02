@@ -55,7 +55,6 @@ export class EmpresaFacturacionElectronicaComponent
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
-    private httpService: HttpService,
     private modalService: NgbModal
   ) {
     super();

@@ -88,13 +88,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   @ViewChild('inputBusquedaResolucion', { static: true })
   inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
-    private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private modalService: NgbModal
-  ) {
+  constructor(private modalService: NgbModal) {
     super();
   }
 
@@ -102,15 +96,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
     this.store
       .select(obtenerEmpresaId)
       .subscribe((id) => (this.empresa_id = id));
-    this.consultarInformacion();
-  }
-
-  consultarInformacion() {
-    this.empresaService
-      .consultarDetalle(this.empresa_id)
-      .subscribe((respuesta: any) => {
-        this.changeDetectorRef.detectChanges();
-      });
   }
 
   abrirModalNuevoItem(content: any) {
@@ -122,7 +107,6 @@ export class EmpresaEditarComponent extends General implements OnInit {
   }
 
   cerrarModal() {
-    this.consultarInformacion();
     this.modalService.dismissAll();
   }
 }
