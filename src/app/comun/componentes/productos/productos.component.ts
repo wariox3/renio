@@ -40,8 +40,8 @@ export class ProductosComponent extends General implements AfterViewInit {
   @Input() itemNombre: string = '';
   @Input() estado_aprobado: false;
   @Input() campoInvalido: any = false;
-  @Input() venta: boolean = true;
-  @Input() compra: boolean = false;
+  @Input() venta: boolean = false;
+  @Input() compra: boolean = true;
 
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();

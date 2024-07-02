@@ -410,7 +410,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (item.impuestos) {
       item.impuestos.map((impuesto: any) => {
-        console.log(impuesto);
         impuesto['item_impuesto_id'] = null;
         impuesto['nombre'] = impuesto['impuesto_nombre'];
         impuesto['compra'] = impuesto['impuesto_compra'];

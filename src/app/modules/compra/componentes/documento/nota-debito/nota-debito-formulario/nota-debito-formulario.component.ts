@@ -106,8 +106,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
       if (
-        this.dataUrl.documento_clase === '2' ||
-        this.dataUrl.documento_clase === '3'
+        this.dataUrl.documento_clase === '302'
       ) {
         let orden_compra = this.formularioFactura.get('orden_compra');
         orden_compra?.clearValidators();
@@ -252,7 +251,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               ...{
                 base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
-                documento_tipo: 3,
+                documento_tipo: 7,
               },
             })
             .pipe(
