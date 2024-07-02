@@ -484,11 +484,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-  
+
     if (id != null) {
       this.arrDetallesEliminado.push(id);
     }
-    
+
     if (detalleFormGroup.value.impuestos.length > 0) {
       // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
       for (const impuestoEliminar of detalleFormGroup.value.impuestos) {
@@ -507,7 +507,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       }
     }
-  
+
     this.changeDetectorRef.detectChanges();
     this.detalles.removeAt(index);
     this.calcularTotales();
@@ -1042,24 +1042,34 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   eliminarDocumento(index: number, id: number | null) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    const detalleFormGroup = this.detalles.at(index) as FormGroup;
 
-    // Iterar de manera inversa
-    for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
-      const detalleControl = detallesArray.controls[index];
-      const id = detalleControl.get('id')?.value;
-      if (id === null) {
-        this.detalles.removeAt(index);
-      } else {
-        this.arrDetallesEliminado.push(id);
-        this.detalles.removeAt(index);
+    if (id != null) {
+      this.arrDetallesEliminado.push(id);
+    }
+
+    if (detalleFormGroup.value.impuestos.length > 0) {
+      // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
+      for (const impuestoEliminar of detalleFormGroup.value.impuestos) {
+        // Verifica que impuestosEliminar no sea undefined y tenga la propiedad total.
+        if (impuestoEliminar && impuestoEliminar.hasOwnProperty('total')) {
+          const { total, nombre_extendido } = impuestoEliminar;
+          // Busca el impuesto correspondiente en el acumuladorImpuestos por nombre_extendido.
+          if (this.acumuladorImpuestos[nombre_extendido]?.total != null) {
+            // Resta el total del impuesto eliminado del acumuladorImpuestos.
+            this.acumuladorImpuestos[nombre_extendido].total -= total;
+            // Si el total del impuesto acumulado es menor o igual a 0 después de la resta, elimínalo del acumulador.
+            if (this.acumuladorImpuestos[nombre_extendido].total <= 0) {
+              delete this.acumuladorImpuestos[nombre_extendido];
+            }
+          }
+        }
       }
     }
 
-    this.calcularTotales();
-    this.documentoDetalleSeleccionarTodos =
-      !this.documentoDetalleSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
+    this.detalles.removeAt(index);
+    this.calcularTotales();
   }
 
   abrirModalContactoNuevo(content: any) {
