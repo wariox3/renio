@@ -75,6 +75,7 @@ export class EmpresaEffects {
             ...{
               numero_identificacion: action.empresa.numero_identificacion,
               identificacion_id: action.empresa.identificacion,
+              identificacion_nombre: action.empresa.identificacion_nombre,
               ciudad_id: action.empresa.ciudad,
               ciudad_nombre: action.empresa.ciudad_nombre,
               digito_verificacion: action.empresa.digito_verificacion,
@@ -82,6 +83,10 @@ export class EmpresaEffects {
               direccion: action.empresa.direccion,
               telefono: action.empresa.telefono,
               correo: action.empresa.correo,
+              regimen: action.empresa.regimen,
+              regimen_nombre: action.empresa.regimen_nombre,
+              tipo_persona: action.empresa.tipo_persona,
+              tipo_persona_nombre: action.empresa.tipo_persona_nombre,
             },
           };
 

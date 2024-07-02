@@ -24,7 +24,7 @@ import { TipoPersona } from '@interfaces/general/tipoPersona';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
 import {
   NgbDropdown,
   NgbDropdownAnchor,
@@ -43,6 +43,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
+import { Empresa } from '@interfaces/contenedor/empresa';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -179,24 +180,37 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
+    this.store
+      .select(obtenerEmpresaId)
+      .subscribe((id) => (this.empresa_id = id));
+
     if (this.formularioEmpresa.valid) {
       this.empresaService
         .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
         .pipe(
-          tap((respuestaActualizacion: any) => {
+          switchMap((respuestaActualizacion: any) => {
             if (respuestaActualizacion.actualizacion) {
-              this.alertaService.mensajaExitoso(
-                this.translateService.instant(
-                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-                )
-              );
-              this.store.dispatch(
-                empresaActualizacionAction({
-                  empresa: respuestaActualizacion.empresa,
-                })
-              );
-              return this.emitirRegistroGuardado.emit(true);
+              return this.store.select(obtenerEmpresaId);
             }
+            return of(null);
+          }),
+          switchMap((respuestaEmpresa_id: any) => {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+              )
+            );
+            return this.empresaService.consultarDetalle(respuestaEmpresa_id);
+          }),
+          tap((respuestaConsultaEmpresa: any) => {
+
+            this.store.dispatch(
+              empresaActualizacionAction({
+                empresa: respuestaConsultaEmpresa,
+              })
+            );
+            this.changeDetectorRef.detectChanges();
+            return this.emitirRegistroGuardado.emit(true);
           })
         )
         .subscribe();
