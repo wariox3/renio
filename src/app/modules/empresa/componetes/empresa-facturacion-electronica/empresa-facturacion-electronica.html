@@ -41,7 +41,9 @@
   <ng-template #formularioFacturaElectronica>
     <div class="fv-row d-flex mb-5">
       <button type="submit" class="btn btn-primary" type="submit">
-        {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
+        @if (visualizarBtnSiguiente) { {{
+        "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }} } @else { {{
+        "FORMULARIOS.BOTONES.COMUNES.GUARDAR" | translate }} }
       </button>
     </div>
 
