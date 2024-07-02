@@ -495,20 +495,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           // Verifica que el impuestoAcumulado exista en acumuladorImpuestos.
           for (const impuestosEliminar of detalleFormGroup.value.impuestos) {
             // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
-            if (
-              impuestosEliminar &&
-              impuestosEliminar.hasOwnProperty('total')
-            ) {
+            if (impuestosEliminar && impuestosEliminar.hasOwnProperty('total')) {
               // Verifica que impuestosEliminar no sea undefined y tenga la propiedad total.
-              if (
-                this.acumuladorImpuestos[impuestoAcumulado] &&
-                this.acumuladorImpuestos[impuestoAcumulado].hasOwnProperty(
-                  'total'
-                )
-              ) {
+              if (this.acumuladorImpuestos[impuestoAcumulado] &&
+                  this.acumuladorImpuestos[impuestoAcumulado].hasOwnProperty('total')) {
                 // Verifica que impuestoAcumulado no sea undefined y tenga la propiedad total.
-                this.acumuladorImpuestos[impuestoAcumulado].total -=
-                  impuestosEliminar.total;
+                this.acumuladorImpuestos[impuestoAcumulado].total -= impuestosEliminar.total;
                 // Resta el total del impuesto a eliminar del total acumulado del impuesto correspondiente.
                 if (this.acumuladorImpuestos[impuestoAcumulado].total <= 0) {
                   // Verifica si el total del impuesto acumulado es menor o igual a 0 después de la resta.

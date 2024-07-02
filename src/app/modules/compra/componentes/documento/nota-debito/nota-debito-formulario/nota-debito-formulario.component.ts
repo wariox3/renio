@@ -469,7 +469,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (id != null) {
       this.arrDetallesEliminado.push(id);
-    }
+    }    
 
     if (detalleFormGroup.value.impuestos.length > 0) {
       // Verifica si el detalle del formulario tiene impuestos asociados.
