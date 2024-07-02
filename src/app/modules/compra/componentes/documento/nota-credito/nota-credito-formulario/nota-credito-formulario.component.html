@@ -351,6 +351,8 @@
                             <app-comun-productos
                               [itemNombre]="detalle.value.item_nombre"
                               [estado_aprobado]="estado_aprobado"
+                              [compra]="true"
+                              [venta]="false"
                               [campoInvalido]="
                                 detalle.get('item')?.touched &&
                                 detalle.get('item')?.invalid
