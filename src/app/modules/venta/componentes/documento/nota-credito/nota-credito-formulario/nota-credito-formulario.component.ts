@@ -415,10 +415,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['compra'] = impuesto['impuesto_compra'];
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['impuesto_porcentaje_base'] = impuesto['impuesto_porcentaje_base'];
+        impuesto['impuesto_porcentaje_base'] =
+          impuesto['impuesto_porcentaje_base'];
         impuesto['id'] = null;
         impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
-        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra'];
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -494,12 +495,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           // Verifica que el impuestoAcumulado exista en acumuladorImpuestos.
           for (const impuestosEliminar of detalleFormGroup.value.impuestos) {
             // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
-            if (impuestosEliminar && impuestosEliminar.hasOwnProperty('total')) {
+            if (
+              impuestosEliminar &&
+              impuestosEliminar.hasOwnProperty('total')
+            ) {
               // Verifica que impuestosEliminar no sea undefined y tenga la propiedad total.
-              if (this.acumuladorImpuestos[impuestoAcumulado] &&
-                  this.acumuladorImpuestos[impuestoAcumulado].hasOwnProperty('total')) {
+              if (
+                this.acumuladorImpuestos[impuestoAcumulado] &&
+                this.acumuladorImpuestos[impuestoAcumulado].hasOwnProperty(
+                  'total'
+                )
+              ) {
                 // Verifica que impuestoAcumulado no sea undefined y tenga la propiedad total.
-                this.acumuladorImpuestos[impuestoAcumulado].total -= impuestosEliminar.total;
+                this.acumuladorImpuestos[impuestoAcumulado].total -=
+                  impuestosEliminar.total;
                 // Resta el total del impuesto a eliminar del total acumulado del impuesto correspondiente.
                 if (this.acumuladorImpuestos[impuestoAcumulado].total <= 0) {
                   // Verifica si el total del impuesto acumulado es menor o igual a 0 después de la resta.
@@ -517,7 +526,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
-
 
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
@@ -632,7 +640,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre: [impuesto.nombre],
       porcentaje_base: [impuesto.impuesto_porcentaje_base],
       impuesto_venta: [impuesto.impuesto_venta],
-      impuesto_compra: [impuesto.impuesto_compra]
+      impuesto_compra: [impuesto.impuesto_compra],
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
@@ -746,7 +754,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [nuevoImpuesto.nombre],
         porcentaje_base: [nuevoImpuesto.porcentaje_base],
         impuesto_venta: [nuevoImpuesto.impuesto_venta],
-        impuesto_compra: [nuevoImpuesto.impuesto_compra]
+        impuesto_compra: [nuevoImpuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
@@ -1047,7 +1055,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  eliminarDocumento() {
+  eliminarDocumento(index: number, id: number | null) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
@@ -1055,15 +1063,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     // Iterar de manera inversa
     for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
       const detalleControl = detallesArray.controls[index];
-      const seleccionado = detalleControl.get('seleccionado')?.value;
-      if (seleccionado) {
-        const id = detalleControl.get('id')?.value;
-        if (id === null) {
-          this.detalles.removeAt(index);
-        } else {
-          this.arrDetallesEliminado.push(id);
-          this.detalles.removeAt(index);
-        }
+      const id = detalleControl.get('id')?.value;
+      if (id === null) {
+        this.detalles.removeAt(index);
+      } else {
+        this.arrDetallesEliminado.push(id);
+        this.detalles.removeAt(index);
       }
     }
 
@@ -1071,20 +1076,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.documentoDetalleSeleccionarTodos =
       !this.documentoDetalleSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
-  }
-
-  agregarRegistrosEliminar(index: number, id: number) {
-    // Busca el índice del registro en el array de registros a eliminar
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    detalleFormGroup.get('seleccionado')?.patchValue(true);
-    const posicion = this.arrRegistrosEliminar.indexOf(id);
-    // Si el registro ya está en el array, lo elimina
-    if (posicion !== -1) {
-      this.arrRegistrosEliminar.splice(posicion, 1);
-    } else {
-      // Si el registro no está en el array, lo agrega
-      this.arrRegistrosEliminar.push(posicion);
-    }
   }
 
   abrirModalContactoNuevo(content: any) {

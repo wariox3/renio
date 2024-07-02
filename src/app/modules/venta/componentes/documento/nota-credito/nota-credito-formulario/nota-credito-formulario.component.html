@@ -300,12 +300,6 @@
                       type="button"
                       translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
                     ></button>
-                    <button
-                      (click)="eliminarDocumento()"
-                      class="btn btn-sm btn-danger"
-                      type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                    ></button>
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -346,30 +340,7 @@
                         <th
                           class="w-100px text-center"
                           *ngIf="!estado_aprobado"
-                        >
-                          <label [for]="documentoDetalleSeleccionarTodos">
-                            <i
-                              class="cursor-pointer"
-                              [ngClass]="
-                                checkboxDocumentoDetalleSeleccionarTodos.checked
-                                  ? 'fa-solid fa-square-check text-danger fs-1'
-                                  : 'fa-regular fa-square text-gray-500 fs-1'
-                              "
-                            >
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                            </i>
-                            <input
-                              class="d-none"
-                              type="checkbox"
-                              #checkboxDocumentoDetalleSeleccionarTodos
-                              [id]="documentoDetalleSeleccionarTodos"
-                              [checked]="documentoDetalleSeleccionarTodos"
-                              [value]="documentoDetalleSeleccionarTodos"
-                              (change)="detalleToggleSelectAll()"
-                            />
-                          </label>
-                        </th>
+                        ></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -515,34 +486,10 @@
                             class="w-20px text-center"
                             *ngIf="!estado_aprobado"
                           >
-                            <!-- <i
+                            <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="(i, detalle.value.id)"
-                            ></i> -->
-                            <label [for]="detalle.value.id">
-                              <i
-                                class="cursor-pointer"
-                                [ngClass]="
-                                  checked.checked
-                                    ? 'fa-solid fa-square-check text-danger fs-1'
-                                    : 'fa-regular fa-square text-gray-500 fs-1'
-                                "
-                              >
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                              </i>
-                              <input
-                                #checked
-                                class="d-none"
-                                type="checkbox"
-                                [id]="detalle.value.id"
-                                [value]="detalle.value.id"
-                                (change)="
-                                  agregarRegistrosEliminar(i, detalle.value.id)
-                                "
-                                [checked]="detalle.value.seleccionado"
-                              />
-                            </label>
+                              (click)="eliminarDocumento(i, detalle.value.id)"
+                            ></i>
                           </td>
                         </tr>
                       </ng-container>
