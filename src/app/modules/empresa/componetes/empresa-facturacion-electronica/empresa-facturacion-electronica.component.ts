@@ -77,6 +77,7 @@ export class EmpresaFacturacionElectronicaComponent
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
+          Validators.maxLength(36)
         ]),
       ],
       correo_facturacion_electronica: [
