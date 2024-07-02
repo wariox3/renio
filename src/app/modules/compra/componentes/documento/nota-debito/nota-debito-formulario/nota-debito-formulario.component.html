@@ -509,7 +509,13 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                       ></td>
                       <td class="text-end">
-                        {{ subtotalGeneral | number }}
+                        {{ subtotalGeneral | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="totalBase > 0">
+                      <td class="text-end">Total base</td>
+                      <td class="text-end">
+                        {{ totalBase | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">

@@ -62,6 +62,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
+  totalBase: number = 0;
   informacionDetalle: any = {
     contacto_id: '',
     descuento: '',
