@@ -29,7 +29,7 @@ export const obtenerMenuModulos = (plan_id: number) =>
         return Menu.modulos.filter((menu: string) => menu !== 'HUMANO');
       default:
         return Menu.modulos.filter(
-          (menu: string) => menu === 'VENTA' || menu === 'CARTERA'
+          (menu: string) => menu === 'VENTA'
         );
     }
   });
