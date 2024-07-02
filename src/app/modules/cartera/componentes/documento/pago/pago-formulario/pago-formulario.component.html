@@ -218,12 +218,12 @@
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
                     ></button>
-                    <button
+                    <!-- <button
                       (click)="eliminarDocumento()"
                       class="btn btn-sm btn-danger"
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                    ></button>
+                    ></button> -->
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -241,7 +241,7 @@
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
                         <th class="w-100px text-center">
-                          <label [for]="documentoDetalleSeleccionarTodos">
+                          <!-- <label [for]="documentoDetalleSeleccionarTodos">
                             <i
                               class="cursor-pointer"
                               [ngClass]="
@@ -262,7 +262,7 @@
                               [value]="documentoDetalleSeleccionarTodos"
                               (change)="detalleToggleSelectAll()"
                             />
-                          </label>
+                          </label> -->
                         </th>
                       </tr>
                     </thead>
@@ -346,7 +346,7 @@
                               }"
                             ></ng-container>
                           </td>
-                          <td class="w-20px text-center">
+                          <!-- <td class="w-20px text-center">
                             <label [for]="detalle.value.id">
                               <i
                                 class="cursor-pointer"
@@ -371,6 +371,12 @@
                                 [checked]="detalle.value.seleccionado"
                               />
                             </label>
+                          </td> -->
+                          <td class="text-center" *ngIf="!estado_aprobado">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="eliminarDocumento(i, detalle.value.id)"
+                            ></i>
                           </td>
                         </tr>
                       </ng-container>

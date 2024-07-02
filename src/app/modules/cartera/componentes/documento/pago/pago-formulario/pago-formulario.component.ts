@@ -27,29 +27,29 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
-import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
-    selector: 'app-pago-formulario',
-    standalone: true,
-    templateUrl: './pago-formulario.component.html',
-    styleUrls: ['./pago-formulario.component.scss'],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgbDropdownModule,
-        BtnAtrasComponent,
-        CardComponent,
-        NgbNavModule,
-        BuscarAvanzadoComponent,
-        KeysPipe,
-        BaseFiltroComponent,
-        SoloNumerosDirective,
-        CuentasComponent,
-        ContactoFormulario
-    ]
+  selector: 'app-pago-formulario',
+  standalone: true,
+  templateUrl: './pago-formulario.component.html',
+  styleUrls: ['./pago-formulario.component.scss'],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgbDropdownModule,
+    BtnAtrasComponent,
+    CardComponent,
+    NgbNavModule,
+    BuscarAvanzadoComponent,
+    KeysPipe,
+    BaseFiltroComponent,
+    SoloNumerosDirective,
+    CuentasComponent,
+    ContactoFormulario,
+  ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
   formularioFactura: FormGroup;
@@ -331,10 +331,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumentoSeleccionado(documento: any) {
     const index = this.arrDocumentosSeleccionados.indexOf(documento);
     if (index !== -1) {
-      this.totalSeleccionado -= documento.total
+      this.totalSeleccionado -= documento.total;
       this.arrDocumentosSeleccionados.splice(index, 1);
     } else {
-      this.totalSeleccionado += documento.total
+      this.totalSeleccionado += documento.total;
       this.arrDocumentosSeleccionados.push(documento);
     }
   }
@@ -358,24 +358,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.calcularTotales();
   }
 
-  eliminarDocumento() {
+  eliminarDocumento(index: number, id: number | null) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
-
     // Iterar de manera inversa
-    for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
-      const detalleControl = detallesArray.controls[index];
-      const seleccionado = detalleControl.get('seleccionado')?.value;
-      if (seleccionado) {
-        const id = detalleControl.get('id')?.value;
-        if (id === null) {
-          this.detalles.removeAt(index);
-        } else {
-          this.arrDetallesEliminado.push(id);
-          this.detalles.removeAt(index);
-        }
-      }
+    const detalleControl = detallesArray.controls[index];
+    if (id === null) {
+      this.detalles.removeAt(index);
+    } else {
+      this.arrDetallesEliminado.push(id);
+      this.detalles.removeAt(index);
     }
 
     this.calcularTotales();
@@ -391,10 +384,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
         (documento) => documento.id === item.id
       );
       if (index) {
-        this.totalSeleccionado -= item.total
+        this.totalSeleccionado -= item.total;
         this.arrDocumentosSeleccionados.splice(index, 1);
       } else {
-        this.totalSeleccionado += item.total
+        this.totalSeleccionado += item.total;
         this.arrDocumentosSeleccionados.push(item);
       }
     });
@@ -501,7 +494,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto)
+    this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
   }
 }
