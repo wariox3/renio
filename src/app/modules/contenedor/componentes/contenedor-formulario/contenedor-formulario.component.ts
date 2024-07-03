@@ -171,23 +171,14 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     this.formularioContenedor?.markAsTouched();
     if (campo === 'subdominio') {
       if (!this.visualizarCampoSubdominio) {
-        let nombre: string = this.formularioContenedor.get('nombre')!.value
-        console.log(nombre.length);
-
-        if(nombre.length <= 25){
-          this.nombreEmpresa = this.formularioContenedor.get('nombre')!.value;
-          // Reemplazar ñ y Ñ por n
-          this.nombreEmpresa = this.nombreEmpresa.replace(/ñ/gi, 'n');
-          // eliminar caracteres especiales
-          this.nombreEmpresa = this.nombreEmpresa.replace(/[^a-zA-Z0-9]/g, '');
-          if (this.nombreEmpresa.length <= 25) {
-            this.formularioContenedor
-              .get(campo)
-              ?.setValue(this.nombreEmpresa.toLocaleLowerCase());
-          }
-          this.changeDetectorRef.detectChanges();
-        }
-
+        this.nombreEmpresa = this.formularioContenedor.get('nombre')!.value;
+        this.nombreEmpresa = this.nombreEmpresa.replace(/ñ/gi, 'n');
+        this.nombreEmpresa = this.nombreEmpresa.replace(/[^a-zA-Z0-9]/g, '');
+        this.nombreEmpresa = this.nombreEmpresa
+          .substring(0, 25)
+          .toLocaleLowerCase();
+        this.formularioContenedor.get(campo)?.setValue(this.nombreEmpresa);
+        this.changeDetectorRef.detectChanges();
       }
     }
     this.changeDetectorRef.detectChanges();
