@@ -227,6 +227,30 @@
       ></ng-container>
     </div>
   </div>
+  <!--begin::Alert-->
+  <div class="alert alert-primary d-flex align-items-center p-5">
+    <!--begin::Icon-->
+
+    <i class="ki-duotone ki-information-3 fs-2hx text-primary me-4">
+      <span class="path1"></span>
+      <span class="path2"></span>
+      <span class="path3"></span>
+    </i>
+
+    <!--end::Icon-->
+
+    <!--begin::Wrapper-->
+    <div class="d-flex flex-column">
+      <!--begin::Content-->
+      <span
+        >En unos días tendremos habilitados nuestros planes de ERP y todas sus
+        funcionalidades.</span
+      >
+      <!--end::Content-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+  <!--end::Alert-->
   <div class="row mb-10">
     <div class="col-md-12 col-sm-12">
       <label class="form-label required">Planes </label>
@@ -241,12 +265,15 @@
             class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex align-items-center text-start p-5"
             [ngClass]="{
               active: planSeleccionado === plan.id,
-              'btn-light-secondary btn-outline-secondary': plan.nombre.includes('ERP')
+              'btn-light-secondary btn-outline-secondary':
+                plan.nombre.includes('ERP')
             }"
             data-kt-button="true"
             (click)="seleccionarPlan(plan)"
             [attr.disabled]="plan.nombre.includes('ERP') ? '' : null"
-            [ngStyle]="{'cursor': plan.nombre.includes('ERP') ? 'not-allowed' : 'default'}"
+            [ngStyle]="{
+              cursor: plan.nombre.includes('ERP') ? 'not-allowed' : 'default'
+            }"
           >
             <span
               class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1"
@@ -266,7 +293,7 @@
                 class="fs-7 flex-shrink-1"
                 [ngClass]="
                   plan.nombre.includes('ERP')
-                    ? 'fw-bold  text-gray-600'
+                    ? 'fw-bold  text-gray-400'
                     : 'fw-bold text-gray-800'
                 "
               >
@@ -276,7 +303,7 @@
                 class="fs-7"
                 [ngClass]="
                   plan.nombre.includes('ERP')
-                    ? 'fw-bold  text-gray-600'
+                    ? 'fw-bold  text-gray-400'
                     : 'fw-bold text-gray-800'
                 "
               >
