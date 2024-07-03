@@ -48,7 +48,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   procesando = false;
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  planSeleccionado: Number = 2;
+  planSeleccionado: Number = 3;
   informacionPlan: any = '';
   arrPlanes: Plan[] = [];
   arrIdentificacion: any[];
@@ -218,11 +218,16 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     }
   }
 
-  seleccionarPlan(plan_id: any) {
-    this.planSeleccionado = plan_id;
-    let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
-    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
-    this.changeDetectorRef.detectChanges();
+  seleccionarPlan(plan: any) {
+
+    if(!plan.nombre.includes('ERP') ){
+      this.planSeleccionado = plan.id;
+      let posicion: keyof typeof this.contenedorService.informacionPlan = plan.id;
+      this.informacionPlan = this.contenedorService.informacionPlan[posicion];
+      this.changeDetectorRef.detectChanges();
+    }
+
+
   }
 
   calcularDigitoVerificacion() {

@@ -25,7 +25,9 @@
         <a
           class="btn btn-icon btn-link btn-sm btn-color-gray-500 btn-active-color-primary"
           (click)="editarSubdominio()"
-          data-bs-toggle="tooltip" data-bs-placement="right" title="Editar"
+          data-bs-toggle="tooltip"
+          data-bs-placement="right"
+          title="Editar"
           ><i class="bi bi-pencil fs-4 me-2"></i
         ></a>
       </small>
@@ -237,9 +239,14 @@
         <div class="col" *ngFor="let plan of arrPlanes">
           <label
             class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex align-items-center text-start p-5"
-            [ngClass]="{ active: planSeleccionado === plan.id }"
+            [ngClass]="{
+              active: planSeleccionado === plan.id,
+              'btn-light-secondary btn-outline-secondary': plan.nombre.includes('ERP')
+            }"
             data-kt-button="true"
-            (click)="seleccionarPlan(plan.id)"
+            (click)="seleccionarPlan(plan)"
+            [attr.disabled]="plan.nombre.includes('ERP') ? '' : null"
+            [ngStyle]="{'cursor': plan.nombre.includes('ERP') ? 'not-allowed' : 'default'}"
           >
             <span
               class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1"
@@ -251,13 +258,28 @@
                 formControlName="plan_id"
                 [value]="plan.id"
                 checked="checked"
+                [attr.disabled]="plan.nombre.includes('ERP') ? '' : null"
               />
             </span>
             <div class="ms-5 w-100 d-flex justify-content-between flex-wrap">
-              <div class="fs-7 fw-bold text-gray-800 flex-shrink-1">
+              <div
+                class="fs-7 flex-shrink-1"
+                [ngClass]="
+                  plan.nombre.includes('ERP')
+                    ? 'fw-bold  text-gray-600'
+                    : 'fw-bold text-gray-800'
+                "
+              >
                 {{ plan.nombre }}
               </div>
-              <div class="fs-7 fw-bold text-gray-800">
+              <div
+                class="fs-7"
+                [ngClass]="
+                  plan.nombre.includes('ERP')
+                    ? 'fw-bold  text-gray-600'
+                    : 'fw-bold text-gray-800'
+                "
+              >
                 ${{ plan.precio | number : "1.0-0" }}
               </div>
             </div>

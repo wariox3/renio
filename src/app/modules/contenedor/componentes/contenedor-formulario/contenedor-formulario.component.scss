@@ -8,6 +8,10 @@
   }
 }
 
+input[type="radio"]:disabled {
+  cursor: not-allowed !important;
+}
+
 // #contenedorPlanes{
 //   display: flex;
 // }
