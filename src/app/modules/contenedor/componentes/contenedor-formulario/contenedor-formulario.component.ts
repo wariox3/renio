@@ -130,7 +130,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(20),
+          Validators.maxLength(25),
           Validators.pattern(/^[a-z-0-9]*$/),
         ]),
       ],
