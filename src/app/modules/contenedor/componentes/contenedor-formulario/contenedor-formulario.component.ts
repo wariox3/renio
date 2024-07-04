@@ -88,7 +88,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrPlanes = respuesta[1];
-      let posicion: keyof typeof this.contenedorService.informacionPlan = 2;
+      let posicion: keyof typeof this.contenedorService.informacionPlan = 3;
       this.informacionPlan = this.contenedorService.informacionPlan[posicion];
       this.formularioContenedor.get('correo')?.setValue(respuesta[2]);
       this.changeDetectorRef.detectChanges();
