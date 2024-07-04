@@ -1,55 +1,67 @@
 <div class="d-flex mb-5 justify-content-between align-items-center">
-  <div
-    class="btn-group btn-sm shadow-sm"
-    role="group"
-    aria-label="Basic example"
-  >
+  <div class="d-flex gap-2">
     <app-comun-btn-atras />
-    <button
-    type="button"
-    class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-    (click)="navegarNuevo()"
-  >
-    {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
-  </button>
-  <button
-    type="button"
-    class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-    (click)="navegarEditar(documento.id)"
-    [disabled]="arrEstados.estado_aprobado"
-  >
-    {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
-  </button>
-    <button
-      type="button"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      (click)="aprobar()"
-      [disabled]="arrEstados.estado_aprobado"
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
     >
-      {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
-    </button>
-    <button
-      type="submit"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      #btnGuardar
-      translate=""
-      (click)="imprimir()"
-    >
-      {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
-    </button>
-    <div class="btn-group">
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="emitir()"
-        [disabled]="
-          !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
-        "
+        (click)="navegarNuevo()"
       >
-        {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }}
       </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarEditar(documento.id)"
+        [disabled]="arrEstados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="aprobar()"
+        [disabled]="arrEstados.estado_aprobado"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+      </button>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          (click)="emitir()"
+          [disabled]="
+            !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
+          "
+        >
+          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="btn-group ml-2 shadow-sm">
+      <app-log-electronico
+        [estado_electronico_notificado]="
+          arrEstados.estado_electronico_notificado
+        "
+        [estado_anulado]="arrEstados.estado_anulado"
+        (emitirRenotificar)="consultardetalle()"
+      ></app-log-electronico>
     </div>
   </div>
+
   <div class="d-flex justify-content-end gap-2">
     <ng-container *ngIf="arrEstados.estado_aprobado">
       <span class="badge badge-success">Aprobado</span>

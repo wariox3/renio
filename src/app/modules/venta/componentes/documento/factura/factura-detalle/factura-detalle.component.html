@@ -61,33 +61,14 @@
         </button>
       </div>
     </div>
-    <div class="btn-group ml-2">
-      <div
-        ngbDropdown
-        class="d-inline-block"
-        *ngIf="arrEstados.estado_electronico_notificado"
-      >
-        <button
-          type="button"
-          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
-          {{ "FORMULARIOS.BOTONES.COMUNES.ELECTRONICO" | translate }}
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button
-            ngbDropdownItem
-            (click)="reNotifica()"
-            [disabled]="arrEstados.estado_anulado"
-          >
-            Re-Notificar
-          </button>
-          <button ngbDropdownItem (click)="verLog(content)">
-            Log notificar
-          </button>
-        </div>
-      </div>
+    <div class="btn-group ml-2 shadow-sm">
+      <app-log-electronico
+        [estado_electronico_notificado]="
+          arrEstados.estado_electronico_notificado
+        "
+        [estado_anulado]="arrEstados.estado_anulado"
+        (emitirRenotificar)="consultardetalle()"
+      ></app-log-electronico>
     </div>
   </div>
   <div class="d-flex justify-content-end gap-2">

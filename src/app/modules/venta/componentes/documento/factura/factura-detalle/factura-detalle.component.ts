@@ -20,28 +20,30 @@ import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { switchMap, tap } from 'rxjs';
+import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-electronico.component";
 
 @Component({
-  selector: 'app-factura-detalle',
-  standalone: true,
-  templateUrl: './factura-detalle.component.html',
-  styleUrls: ['./factura-detalle.component.scss'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
-    BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-    CardComponent,
-    BtnAtrasComponent,
-    KeysPipe,
-  ],
+    selector: 'app-factura-detalle',
+    standalone: true,
+    templateUrl: './factura-detalle.component.html',
+    styleUrls: ['./factura-detalle.component.scss'],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgbDropdownModule,
+        NgbNavModule,
+        TablaComponent,
+        ImpuestosComponent,
+        ProductosComponent,
+        BuscarAvanzadoComponent,
+        SoloNumerosDirective,
+        CardComponent,
+        BtnAtrasComponent,
+        KeysPipe,
+        LogElectronicoComponent
+    ]
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

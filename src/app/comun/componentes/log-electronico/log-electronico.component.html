@@ -1,0 +1,139 @@
+@if(estado_electronico_notificado){
+  <div ngbDropdown class="d-inline-block">
+    <button
+      type="button"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      id="dropdownBasic1"
+      ngbDropdownToggle
+    >
+      {{ "FORMULARIOS.BOTONES.COMUNES.ELECTRONICO" | translate }}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+      <button ngbDropdownItem (click)="reNotifica()" [disabled]="estado_anulado">
+        Re-Notificar
+      </button>
+      <button ngbDropdownItem (click)="verLog(content)">Log notificar</button>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Log</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <h2
+        class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+      >
+        {{ "LISTAS.COMUNES.CORREOS" | translate | titlecase }}
+      </h2>
+      <div class="table-responsive table-loading mt-5">
+        <table
+          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+        >
+          <thead>
+            <tr *ngIf="arrCorreos && arrCorreos.length > 0">
+              <th class="bg-gray-100" *ngFor="let key of arrCorreos[0] | keys">
+                {{ "LISTAS.LOG.CORREOS." + (key | uppercase) | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (correo of arrCorreos; track $index) {
+            <tr>
+              <td>
+                {{ correo.codigoCorreoPk }}
+              </td>
+              <td>
+                {{ correo.enviado | date : "yyyy-MM-dd h:mm" }}
+              </td>
+              <td>
+                {{ correo.numeroDocumento }}
+              </td>
+              <td>
+                {{ correo.fecha | date : "yyyy-MM-dd h:mm" }}
+              </td>
+              <td>
+                {{ correo.correo }}
+              </td>
+              <td>
+                {{ correo.correoCopia }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <h2
+        class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+      >
+        {{ "LISTAS.COMUNES.EVENTOS" | translate | titlecase }}
+      </h2>
+      <div class="table-responsive table-sm table-loading mt-5">
+        <table
+          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+        >
+          <thead>
+            <tr *ngIf="arrEventos && arrEventos.length > 0">
+              <th class="bg-gray-100" *ngFor="let key of arrEventos[0] | keys">
+                {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (evento of arrEventos; track $index) {
+            <tr>
+              <td>
+                {{ evento.codigoEventoPk }}
+              </td>
+              <td>{{ evento.evento }}</td>
+              <td>{{ evento.correo }}</td>
+              <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
+              <td>{{ evento.ipEnvio }}</td>
+              <td>{{ evento.idmensaje }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <h2
+        class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
+      >
+        {{ "LISTAS.COMUNES.VALIDACIONES" | translate | titlecase }}
+      </h2>
+      <div class="table-responsive table-sm table-loading mt-5">
+        <table
+          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+        >
+          <thead>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.ID" | translate }}
+            </th>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.FECHA" | translate }}
+            </th>
+            <th class="bg-gray-100">
+              {{ "LISTAS.LOG.VALIDACIONES.DESCRIPCION" | translate }}
+            </th>
+          </thead>
+          <tbody>
+            @for (validacion of arrValidaciones; track $index) {
+            <tr class="bg-light-danger text-danger">
+              <td>
+                {{ validacion.codigoValidacionPk }}
+              </td>
+              <td>{{ validacion.fecha | date : "yyyy-MM-dd h:mm" }}</td>
+              <td>{{ validacion.descripcion }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+}
+
