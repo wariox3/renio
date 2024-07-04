@@ -15,18 +15,14 @@
       <div class="d-flex flex-column pe-0 pe-sm-10">
         <!--begin::Title-->
         <h4 class="fw-semibold text-danger">
-          ¡Gracias por tu interés en nuestros servicios!
+          ¡Nos tomamos en serio la seguridad de tu información!
         </h4>
         <!--end::Title-->
         <!--begin::Content-->
         <span class="text-danger">
-          ¡Gracias por tu interés en nuestros servicios! Hemos enviado un correo
-          electrónico de activación. Por favor, revisa tu correo, en algunas
-          ocasiones puede llegar a no deseados o spam.<br />
-          <strong
-            >Es importante que completes la activación en las próximas 3 horas
-            para evitar que tu base de datos expire.</strong
-          >
+          Queremos estar seguros de que el correo electrónico con el cual creaste tu cuenta es de tu propiedad.
+          <br>
+          <strong>Debes verificar la cuenta mediante un correo que te enviamos. La cuenta expirará en 3 horas si no está verificada.</strong>
         </span>
         <!--end::Content-->
       </div>
@@ -60,8 +56,9 @@
       Tu base de datos expira en 3 horas! Para mantener tu base de datos en
       funcionamiento, usa el enlace de activación que se envió al correo
       electrónico <strong>{{ usuarioCorreo }}</strong>
-      <br>
-      limite de activacion: {{usuarioFechaLimiteActivarCuenta | date : "YYYY-MM-dd h:mm"  }}
+      <br />
+      limite de activacion:
+      {{ usuarioFechaLimiteActivarCuenta | date : "YYYY-MM-dd h:mm" }}
     </p>
     <p>¿No recibiste el correo?</p>
     <input class="form-control" type="text" [value]="usuarioCorreo" />
