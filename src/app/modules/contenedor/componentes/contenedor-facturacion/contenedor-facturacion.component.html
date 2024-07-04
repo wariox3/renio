@@ -24,7 +24,7 @@
           <div class="col">
             <b>{{
               this.fechasServices.obtenerPrimerDiaDelMesSiguiente()
-                | date : "fullDate"
+                | date : "yyyy-MM-dd"
             }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO">
               <i class="ki-outline ki-information-2"></i>
@@ -37,13 +37,13 @@
             </p>
           </div>
           <div class="col">
-            <b>{{ consumo.vr_total | currency : "COP" }}</b>
+            <b>{{ consumo.vr_total || "0.00" | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
               <i class="ki-outline ki-information-2"></i>
             </p>
           </div>
           <div class="col">
-            <b>{{ consumo.vr_plan | currency : "COP" }}</b>
+            <b>{{ consumo.vr_plan || "0.00" | currency : "$" }}</b>
             <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
               <i class="ki-outline ki-information-2"></i>
             </p>
