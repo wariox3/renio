@@ -10,5 +10,7 @@ export interface Usuario {
   idioma: string | null;
   dominio: string;
   fecha_limite_pago: Date;
+  fecha_creacion: Date;
   vr_saldo: number;
+  verificado: boolean;
 }

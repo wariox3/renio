@@ -64,3 +64,13 @@ export const obtenerUsuarioCorreo = createSelector(
 
 export const obtenerValidacionSaldo = (saldo: number) =>
   createSelector(Usuario, (Usuario) => Usuario.vr_saldo !== saldo);
+
+export const obtenerUsuarioVerificado = createSelector(
+  Usuario,
+  (Usuario) => Usuario.verificado
+);
+
+export const obtenerUsuarioFechaCreacion = createSelector(
+  Usuario,
+  (Usuario) => Usuario.fecha_creacion
+);

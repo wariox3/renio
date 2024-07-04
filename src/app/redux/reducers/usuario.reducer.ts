@@ -26,6 +26,8 @@ let parsedState: Usuario = {
   dominio: '',
   fecha_limite_pago: new Date(),
   vr_saldo: 0,
+  fecha_creacion: new Date(),
+  verificado: false
 };
 
 export const initialState: Usuario = usuarioData

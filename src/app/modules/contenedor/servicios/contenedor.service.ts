@@ -214,6 +214,16 @@ export class ContenedorService {
     );
   }
 
+  reenviarCorreoVerificacion(usuario_id: string){
+    return this.http.post<Movimientos>(
+      `${environment.URL_API_MUUP}/contenedor/verificacion/reenviar-verificacion/ `,
+      {
+        usuario_id,
+      }
+    );
+
+  }
+
   informacionPlan: any = {
     1: [
       'LANDINGPAGE.CANTIDADDOCUMENTO10',
