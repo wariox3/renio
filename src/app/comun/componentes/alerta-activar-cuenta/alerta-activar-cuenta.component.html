@@ -1,4 +1,4 @@
-@if(visualizarAlerta){
+@if(visualizarAlerta === false){
 <!--begin::Alert-->
 <div class="alert alert-danger">
   <div class="row align-items-center">
@@ -57,7 +57,7 @@
     <p>{{ displayTimeLeft() }}</p>
     } @else {
     <p>
-      ! El periodo de prueba de tu cuenta expira en 3 horas! Usa el enlace de
+      !El periodo de activación de tu cuenta expira en 3 horas! Usa el enlace de
       activación enviado al correo: <strong>{{ usuarioCorreo }}</strong> límite
       de activación:
       {{ usuarioFechaLimiteActivarCuenta | date : "YYYY-MM-dd h:mm" }}

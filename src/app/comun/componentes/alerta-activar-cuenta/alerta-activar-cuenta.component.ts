@@ -37,7 +37,7 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
   usuarioVrSaldo = '';
   usuarioCorreo = '';
   usuarioId = '';
-  timeLeft: number = 180; // 3 minutos en segundos
+  timeLeft: number = 180;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -72,8 +72,6 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
           return of(null);
         }),
         tap((respuestaEstadoVerificado: any) => {
-          console.log(respuestaEstadoVerificado);
-
           if (respuestaEstadoVerificado !== null) {
             if (respuestaEstadoVerificado.verificado) {
               this.store.dispatch(
