@@ -202,6 +202,12 @@ export class AuthService implements OnDestroy {
     }
   }
 
+  consultarEstadoVerificado(usuario_id: string){
+    return this.http.post(`${environment.URL_API_MUUP}/seguridad/usuario/estado-verificado/`,{
+      usuario_id
+    })
+  }
+
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
+  usuarioActionActualizarEstadoVerificado,
   usuarioActionActualizarIdioma,
   usuarioActionActualizarImagen,
   usuarioActionActualizarInformacionUsuario,
@@ -134,6 +135,30 @@ export class UsuarioEffects {
       ),
     { dispatch: false }
   );
+
+  updateCookieEstadoVerificado$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(usuarioActionActualizarEstadoVerificado),
+        tap((action) => {
+          let coockieUsuario = getCookie('usuario');
+          if (coockieUsuario) {
+            let jsonUsuario = JSON.parse(coockieUsuario);
+            jsonUsuario.estado_verificado = action.estado_verificado;
+            if (environment.production) {
+              setCookie('usuario', JSON.stringify(jsonUsuario), {
+                path: '/',
+                domain: environment.dominioApp,
+              });
+            } else {
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+            }
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
 
   constructor(private actions$: Actions) {}
 }

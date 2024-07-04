@@ -1,4 +1,4 @@
-@if(!visualizarAlerta){
+@if(visualizarAlerta){
 <!--begin::Alert-->
 <div class="alert alert-danger">
   <div class="row align-items-center">
@@ -20,9 +20,13 @@
         <!--end::Title-->
         <!--begin::Content-->
         <span class="text-danger">
-          Queremos estar seguros de que el correo electrónico con el cual creaste tu cuenta es de tu propiedad.
-          <br>
-          <strong>Debes verificar la cuenta mediante un correo que te enviamos. La cuenta expirará en 3 horas si no está verificada.</strong>
+          Queremos estar seguros de que el correo electrónico con el cual
+          creaste esta cuenta es de tu propiedad.
+          <br />
+          <strong
+            >Debes verificar la cuenta mediante un correo que te enviamos. La
+            cuenta expirará en 3 horas si no está verificada.</strong
+          >
         </span>
         <!--end::Content-->
       </div>
@@ -53,11 +57,9 @@
     <p>{{ displayTimeLeft() }}</p>
     } @else {
     <p>
-      Tu base de datos expira en 3 horas! Para mantener tu base de datos en
-      funcionamiento, usa el enlace de activación que se envió al correo
-      electrónico <strong>{{ usuarioCorreo }}</strong>
-      <br />
-      limite de activacion:
+      ! El periodo de prueba de tu cuenta expira en 3 horas! Usa el enlace de
+      activación enviado al correo: <strong>{{ usuarioCorreo }}</strong> límite
+      de activación:
       {{ usuarioFechaLimiteActivarCuenta | date : "YYYY-MM-dd h:mm" }}
     </p>
     <p>¿No recibiste el correo?</p>

@@ -7,6 +7,7 @@ import {
   usuarioActionActualizarIdioma,
   usuarioActionActualizarImagen,
   usuarioActionActualizarVrSaldo,
+  usuarioActionActualizarEstadoVerificado,
 } from '../actions/usuario.actions';
 import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
@@ -85,6 +86,12 @@ export const usuarioReducer = createReducer(
     return {
       ...state,
       vr_saldo,
+    };
+  }),
+  on(usuarioActionActualizarEstadoVerificado, (state, { estado_verificado }) => {
+    return {
+      ...state,
+      estado_verificado,
     };
   })
 );

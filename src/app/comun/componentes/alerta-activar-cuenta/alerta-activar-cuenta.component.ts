@@ -5,17 +5,23 @@ import { General } from '@comun/clases/general';
 import {
   obtenerUsuarioCorreo,
   obtenerUsuarioFechaCreacion,
-  obtenerUsuarioFechaLimitePago,
   obtenerUsuarioId,
-  obtenerUsuarioSuspencion,
   obtenerUsuarioVerificado,
-  obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RouterModule } from '@angular/router';
-import { combineLatest, combineLatestAll, interval, Subscription } from 'rxjs';
+import {
+  combineLatest,
+  interval,
+  of,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '@modulos/auth';
+import { usuarioActionActualizarEstadoVerificado } from '@redux/actions/usuario.actions';
 
 @Component({
   selector: 'app-comun-alerta-activar-cuenta',
@@ -36,7 +42,8 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private contenedorService: ContenedorService
+    private contenedorService: ContenedorService,
+    private authService: AuthService
   ) {
     super();
   }
@@ -47,14 +54,40 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
       this.store.select(obtenerUsuarioFechaCreacion),
       this.store.select(obtenerUsuarioCorreo),
       this.store.select(obtenerUsuarioId),
-    ]).subscribe((respuesta: any) => {
-      this.visualizarAlerta = respuesta[0];
-      this.usuarioFechaLimitePago = new Date(respuesta[1]);
-      this.usuarioCorreo = respuesta[2];
-      this.usuarioId = respuesta[3];
-      this.usuarioFechaLimiteActivarCuenta.setHours(this.usuarioFechaLimitePago.getHours()+3)
+    ])
+      .pipe(
+        tap((respuesta: any) => {
+          this.visualizarAlerta = respuesta[0];
+          this.usuarioFechaLimitePago = new Date(respuesta[1]);
+          this.usuarioCorreo = respuesta[2];
+          this.usuarioId = respuesta[3];
+          this.usuarioFechaLimiteActivarCuenta.setHours(
+            this.usuarioFechaLimitePago.getHours() + 3
+          );
+        }),
+        switchMap(() => {
+          if (!this.visualizarAlerta) {
+            return this.authService.consultarEstadoVerificado(this.usuarioId);
+          }
+          return of(null);
+        }),
+        tap((respuestaEstadoVerificado: any) => {
+          console.log(respuestaEstadoVerificado);
 
-    });
+          if (respuestaEstadoVerificado !== null) {
+            if (respuestaEstadoVerificado.verificado) {
+              this.store.dispatch(
+                usuarioActionActualizarEstadoVerificado({
+                  estado_verificado: true,
+                })
+              );
+              this.visualizarAlerta = true
+              this.changeDetectorRef.detectChanges();
+            }
+          }
+        })
+      )
+      .subscribe();
     this.changeDetectorRef.detectChanges();
   }
 

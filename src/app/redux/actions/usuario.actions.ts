@@ -41,4 +41,9 @@ export const usuarioActionActualizarVrSaldo = createAction(
   props<{ vr_saldo: number }>()
 );
 
+export const usuarioActionActualizarEstadoVerificado = createAction(
+  '[Usuario] actualizar estado verificado',
+  props<{ estado_verificado: boolean }>()
+);
+
 
