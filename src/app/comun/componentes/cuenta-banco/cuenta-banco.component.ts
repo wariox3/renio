@@ -69,16 +69,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       this.campoInvalido = false;
       this.changeDetectorRef.detectChanges();
     }
-
-    // this.httpService
-    //   .post<any>(`general/item/detalle/`, {
-    //     id: item.item_id,
-    //     venta: this.venta,
-    //     compra: this.compra,
-    //   })
-      // .subscribe((respuesta: any) => {
-      this.emitirArrItems.emit(item);
-      // });
+    this.emitirArrItems.emit(item);
   }
 
   consultarItems(event: any) {
@@ -150,18 +141,4 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     }
   }
 
-  abrirModalNuevoItem(content: any) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
-  cerrarModalNuevoItem(respuestaItem: any): void {
-    this.emitirArrItems.emit(respuestaItem.item);
-    this.changeDetectorRef.detectChanges();
-    this.modalService.dismissAll();
-    this.changeDetectorRef.detectChanges();
-  }
 }

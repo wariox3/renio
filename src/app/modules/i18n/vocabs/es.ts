@@ -226,7 +226,8 @@ export const locale = {
           TOTAL: 'Total',
           CREDITO: 'Crédito',
           DEBITO: 'Débito',
-          PAGOS: 'Pagos'
+          PAGOS: 'Pagos',
+          PAGO: 'Pago'
         },
         GENERAL: {
           ITEM: {

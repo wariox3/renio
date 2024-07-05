@@ -34,14 +34,6 @@
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>
-
-        <spam
-          class="dropdown-item"
-          (click)="abrirModalNuevoItem(content)"
-          ngbDropdownItem
-          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-        >
-        </spam>
       </div>
     </div>
   </div>
@@ -53,12 +45,3 @@
     </div>
   </div>
 </div>
-<ng-template #content let-modal>
-  <div class="modal-body">
-    <app-item-formulario
-      [ocultarBtnAtras]="true"
-      (emitirGuardoRegistro)="cerrarModalNuevoItem($event)"
-      [tituloFijo]="true"
-    />
-  </div>
-</ng-template>
