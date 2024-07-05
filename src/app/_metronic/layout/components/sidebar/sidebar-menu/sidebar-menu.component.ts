@@ -13,6 +13,7 @@ import { switchMap, tap, withLatestFrom } from 'rxjs';
 import { NgFor, NgClass, UpperCasePipe, LowerCasePipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-sidebar-menu',
@@ -110,6 +111,34 @@ export class SidebarMenuComponent implements OnInit {
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     let url = [item.tipo?.toLocaleLowerCase(), 'lista'];
+    if (item.url !== undefined) {
+      if (typeof item.url === 'string') {
+        // Check if item.url is a string
+        url = [item.url]; // If so, assign it as a single element array
+      }
+    }
+    this.router.navigate(url, {
+      queryParams: {
+        ...item.data,
+      },
+    });
+  }
+
+  navegarNuevo(item: informacionMenuItem) {
+    console.log(item);
+
+    if (item.tipo === 'Administrador') {
+      if (item.data) {
+        localStorage.setItem('itemNombre', item.data.modelo);
+        localStorage.setItem('itemTipo', item.nombre);
+      }
+    } else {
+      localStorage.setItem('itemNombre', item.nombre);
+      localStorage.setItem('itemTipo', 'DOCUMENTO');
+    }
+    localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
+    localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
+    let url = [item.tipo?.toLocaleLowerCase(), 'nuevo'];
     if (item.url !== undefined) {
       if (typeof item.url === 'string') {
         // Check if item.url is a string

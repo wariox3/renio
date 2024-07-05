@@ -9,6 +9,7 @@ export interface informacionMenuItem {
   nombre: string;
   tipo?: string;
   url?: string;
+  visualiazarIconoDeracha?: boolean;
   data?: {
     [key: string]: any;
   };
@@ -37,6 +38,7 @@ export const initialState: Menu = {
               nombre: 'PAGO',
               tipo: 'Documento',
               data: { documento_clase: 200 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
@@ -71,26 +73,31 @@ export const initialState: Menu = {
               nombre: 'FACTURACOMPRA',
               tipo: 'Documento',
               data: { documento_clase: 300 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 301 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
               data: { documento_clase: 302 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'DOCUMENTOSOPORTE',
               tipo: 'Documento',
               data: { documento_clase: 303 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTAAJUSTE',
               tipo: 'Documento',
               data: { documento_clase: 304 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
@@ -194,21 +201,25 @@ export const initialState: Menu = {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
               data: { documento_clase: 100 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 101 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
               data: { documento_clase: 102 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
               data: { documento_clase: 200 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
@@ -312,16 +323,19 @@ export const initialState: Menu = {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
               data: { documento_clase: 100 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 101 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
               data: { documento_clase: 200 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
@@ -342,7 +356,7 @@ export const initialState: Menu = {
               nombre: 'Sede',
               tipo: 'Administrador',
               data: { modelo: 'Sede' },
-            }
+            },
           ],
         },
         {
@@ -372,11 +386,13 @@ export const initialState: Menu = {
               nombre: 'ENTREDA',
               tipo: 'Documento',
               data: { documento_clase: 500 },
+              visualiazarIconoDeracha: true,
             },
             {
               nombre: 'SALIDA',
               tipo: 'Documento',
               data: { documento_clase: 501 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
@@ -405,6 +421,7 @@ export const initialState: Menu = {
               nombre: 'EGRESO',
               tipo: 'Documento',
               data: { documento_clase: 400 },
+              visualiazarIconoDeracha: true,
             },
           ],
         },
