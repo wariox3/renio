@@ -317,6 +317,12 @@ export const locale = {
           CONTRATO: {
             FECHADESDE: 'Date from',
             FECHAHASTA: 'Date to',
+          },
+          CUENTABANCO: {
+            ID: 'ID',
+            NOMBRE: 'Name',
+            NUMEROCUENTA: 'Number account',
+            CUENTABANCOTIPO: 'Type bank account'
           }
         },
         FACTURA: {

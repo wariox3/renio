@@ -357,6 +357,11 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'Sede' },
             },
+            {
+              nombre: 'CuentaBanco',
+              tipo: 'Administrador',
+              data: { modelo: 'CuentaBanco' },
+            },
           ],
         },
         {

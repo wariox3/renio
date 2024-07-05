@@ -54,7 +54,8 @@ export const locale = {
         DOCUMENTOSOPORTE: 'Documento soporte',
         SEDE: 'Sede',
         DOCUMENTOELECTRONICO: 'Documento electrónico',
-        NOTAAJUSTE: 'Nota de ajuste'
+        NOTAAJUSTE: 'Nota de ajuste',
+        CUENTABANCO: 'Cuenta banco'
       },
     },
     FORMULARIOS: {
@@ -324,6 +325,12 @@ export const locale = {
           CONTRATO: {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
+          },
+          CUENTABANCO: {
+            ID: 'ID',
+            NOMBRE: 'Nombre',
+            NUMEROCUENTA: 'Número cuenta',
+            CUENTABANCOTIPO: 'Cuenta banco tipo'
           }
         },
         FACTURA: {
@@ -356,8 +363,7 @@ export const locale = {
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electronica',
           FORMATOFACTURA: 'Formato factura',
           COPIACORREOFACTURAELECTRONICA: 'Copia correo facturación electrónica',
-          INFORMACIONFACTURA: 'Información factura inferior',
-          INFORMACIONFACTURASUPERIOR: 'Información factura superior',
+          INFORMACIONFACTURA: 'Información factura',
         },
         FILTROS: {
           OPERADORES: {
@@ -597,6 +603,12 @@ export const locale = {
       SEDE: {
         ID: 'ID',
         NOMBRE: 'Nombre',
+      },
+      CUENTABANCO: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+        NUMERO_CUENTA: 'Número cuenta',
+        CUENTA_BANCO_TIPO_NOMBRE: 'Cuenta banco tipo'
       }
     },
     TEMA: {

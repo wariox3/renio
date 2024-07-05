@@ -112,4 +112,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/sede/sede-formulario/sede-formulario.component'
       ),
   },
+  CuentaBanco: {
+    modulo: 'general',
+    modelo: 'CuentaBanco',
+    detalle: async () =>
+      await import(
+        '../../../modules/general/componentes/cuenta-banco/cuenta-banco-detalle/cuenta-banco-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/general/componentes/cuenta-banco/cuenta-banco-formulario/cuenta-banco-formulario.component'
+      ),
+  },
 };

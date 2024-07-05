@@ -14,13 +14,16 @@ type Mapeo = {
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;
+      esFk?: boolean;
+      modeloFk?: string;
       aplicaFormatoNumerico?: boolean;
       campoTipo:
         | 'IntegerField'
         | 'FloatField'
         | 'CharField'
         | 'DateField'
-        | 'Booleano';
+        | 'Booleano'
+        | 'Fk';
     }[];
   };
 };
@@ -410,10 +413,10 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
-      }
+      },
     ],
   },
-  HumContrato:{
+  HumContrato: {
     modulo: 'humano',
     modelo: 'HumContrato',
     tipo: 'Administrador',
@@ -424,7 +427,44 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
-      }
-    ]
+      },
+    ],
+  },
+  CuentaBanco: {
+    modulo: 'general',
+    modelo: 'CuentaBanco',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NUMERO_CUENTA',
+        campoTipo: 'IntegerField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CUENTA_BANCO_TIPO_NOMBRE',
+        campoTipo: 'Fk',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+        esFk: true,
+        modeloFk: 'CUENTA_BANCO',
+      },
+    ],
   },
 };

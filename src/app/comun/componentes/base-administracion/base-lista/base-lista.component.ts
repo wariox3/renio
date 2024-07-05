@@ -199,21 +199,4 @@ export class BaseListaComponent extends General implements OnInit {
     });
   }
 
-  // imprimir() {
-  //   this.httpService
-  //     .descargarArchivo(
-  //       'general/documento/imprimir/',
-  //       this.arrParametrosConsulta
-  //     )
-  //     .subscribe((data) => {
-  //       const blob = new Blob([data], { type: 'application/pdf' });
-  //       const url = window.URL.createObjectURL(blob);
-  //       const a = document.createElement('a');
-  //       a.href = url;
-  //       a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
-  //       document.body.appendChild(a);
-  //       a.click();
-  //       window.URL.revokeObjectURL(url);
-  //     });
-  // }
 }
