@@ -51,6 +51,10 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
         null,
         Validators.compose([Validators.maxLength(2000)]),
       ],
+      informacion_factura_superior: [
+        null,
+        Validators.compose([Validators.maxLength(2000)]),
+      ],
       venta_asesor: [false],
       venta_sede: [false],
     });
@@ -63,6 +67,7 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
         this.formularioEmpresa.patchValue({
           formato_factura: respuesta.formato_factura,
           informacion_factura: respuesta.informacion_factura,
+          informacion_factura_superior: respuesta.informacion_factura_superior,
           venta_asesor: respuesta.venta_asesor,
           venta_sede: respuesta.venta_sede
         });
