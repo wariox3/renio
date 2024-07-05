@@ -66,6 +66,8 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
           );
         }),
         switchMap(() => {
+          console.log(this.visualizarAlerta);
+          
           if (!this.visualizarAlerta) {
             return this.authService.consultarEstadoVerificado(this.usuarioId);
           }
