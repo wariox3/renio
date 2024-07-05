@@ -69,6 +69,7 @@ export default class FacturaDetalleComponent extends General {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
+  totalAfectado: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
