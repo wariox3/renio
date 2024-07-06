@@ -251,6 +251,11 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'Resolucion', parametro: 'venta' },
             },
+            {
+              nombre: 'CuentaBanco',
+              tipo: 'Administrador',
+              data: { modelo: 'CuentaBanco' },
+            },
           ],
         },
         {
