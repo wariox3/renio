@@ -748,10 +748,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     let baseImpuestoActualizar =
       (subtotal.value * impuesto.impuesto_porcentaje_base) / 100;
+      console.log(baseImpuestoActualizar);
+      let baseImpuestoRedondeada = this.redondear(baseImpuestoActualizar, 2)
+      console.log(baseImpuestoRedondeada);
+      
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
-      base: [this.redondear(baseImpuestoActualizar, 2)],
+      base: [baseImpuestoRedondeada],
       porcentaje: [impuesto.porcentaje],
       total: [totalImpuesto],
       nombre: [impuesto.nombre],
@@ -765,9 +769,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
-      baseImpuestoActualizar === null
+      baseImpuestoRedondeada === null
         ? 0
-        : this.redondear(baseImpuestoActualizar, 2)
+        : baseImpuestoRedondeada
     );
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -818,7 +822,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     total.patchValue(netoTemporal);
     this.calcularTotales();
     detalleFormGroup.patchValue({
-      base_impuesto: baseImpuestoActualizar,
+      base_impuesto: baseImpuestoRedondeada,
       impuesto: impuestoAcumuladoDetalle,
     });
     this.formularioFactura.markAsTouched();
