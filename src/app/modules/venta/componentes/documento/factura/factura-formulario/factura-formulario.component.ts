@@ -293,12 +293,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.btnGuardarDisabled = true;
     this.changeDetectorRef.detectChanges();
     if (this.formularioFactura.valid) {
-      if(this.pagos.length > 0){
-        if(this.totalAfectado > this.totalGeneral){
-          this.alertaService.mensajeError("Error", "Los pagos agregados son superiores al total de la factura")
+      if (this.pagos.length > 0) {
+        if (this.totalAfectado > this.totalGeneral) {
+          this.alertaService.mensajeError(
+            'Error',
+            'Los pagos agregados son superiores al total de la factura'
+          );
           this.btnGuardarDisabled = false;
           this.changeDetectorRef.detectChanges();
-          return null
+          return null;
         }
       }
       if (this.detalle == undefined) {
@@ -336,7 +339,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.facturaService
             .actualizarDatosFactura(this.detalle, {
               ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado , pagos_eliminados: this.arrPagosEliminado},
+              ...{
+                detalles_eliminados: this.arrDetallesEliminado,
+                pagos_eliminados: this.arrPagosEliminado,
+              },
             })
             .pipe(
               tap((respuesta) => {
@@ -575,7 +581,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     this.pagos.controls.forEach((detallePago) => {
       const pago = detallePago.get('pago')?.value || 0;
-      this.totalAfectado += pago;
+      this.totalAfectado += parseInt(pago);
     });
 
     // Redondear subtotalGeneral
@@ -748,7 +754,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     let baseImpuestoActualizar =
       (subtotal.value * impuesto.impuesto_porcentaje_base) / 100;
-      let baseImpuestoRedondeada = this.redondear(baseImpuestoActualizar, 2)
+    let baseImpuestoRedondeada = this.redondear(baseImpuestoActualizar, 2);
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
@@ -766,9 +772,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
-      baseImpuestoRedondeada === null
-        ? 0
-        : baseImpuestoRedondeada
+      baseImpuestoRedondeada === null ? 0 : baseImpuestoRedondeada
     );
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -811,9 +815,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       netoTemporal += totalImpuesto;
     }
 
-
     netoTemporal = this.redondear(netoTemporal, 2);
-
 
     neto.patchValue(netoTemporal);
     total.patchValue(netoTemporal);
@@ -1222,22 +1224,25 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   agregarPago() {
-    const pagoFormGroup = this.formBuilder.group({
-      cuenta_banco: [null, Validators.compose([Validators.required])],
-      cuenta_banco_nombre: [null],
-      pago: [0],
-      pagos_eliminados: this.formBuilder.array([]),
-      id: [null],
-    });
-    this.formularioFactura?.markAsDirty();
-    this.formularioFactura?.markAsTouched();
+    if (this.detalles.length > 0) {
+      const pagoFormGroup = this.formBuilder.group({
+        cuenta_banco: [null, Validators.compose([Validators.required])],
+        cuenta_banco_nombre: [null],
+        pago: [0],
+        pagos_eliminados: this.formBuilder.array([]),
+        id: [null],
+      });
+      this.formularioFactura?.markAsDirty();
+      this.formularioFactura?.markAsTouched();
 
-    this.pagos.push(pagoFormGroup);
-    this.changeDetectorRef.detectChanges();
+      this.pagos.push(pagoFormGroup);
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.alertaService.mensajeError('Error', 'Se requieren agragar detalles');
+    }
   }
 
   eliminarPago(index: number, id: number | null) {
-
     if (id != null) {
       this.arrPagosEliminado.push(id);
     }
@@ -1268,10 +1273,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         pagoFormGroup.get(campo)?.patchValue(0);
       } else {
         const valorRedondeado = this.redondear(valor, 2);
-        if(valorRedondeado <= this.totalGeneral){
+        if (valorRedondeado <= this.totalGeneral) {
           pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
         } else {
-          this.alertaService.mensajeError("Error", "El valor ingresado del pago es mayor al total general")
+          this.alertaService.mensajeError(
+            'Error',
+            'El valor ingresado del pago es mayor al total general'
+          );
         }
       }
     } else {
@@ -1279,8 +1287,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
 
     this.calcularTotales();
-    if(this.totalAfectado > this.totalGeneral){
-      this.alertaService.mensajeError("Error", "Los pagos agregados son superiores al total de la factura")
+    if (this.totalAfectado > this.totalGeneral) {
+      this.alertaService.mensajeError(
+        'Error',
+        'Los pagos agregados son superiores al total de la factura'
+      );
     }
 
     this.changeDetectorRef.detectChanges();
