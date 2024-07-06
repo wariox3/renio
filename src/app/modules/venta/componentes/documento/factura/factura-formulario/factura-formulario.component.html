@@ -1,5 +1,4 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <pre>{{ formularioFactura.value | json }}</pre>
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
       class="btn-group btn-sm shadow-sm"
@@ -534,6 +533,17 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
+                <div
+                  class="d-flex justify-content-end mb-2"
+                  *ngIf="!estado_aprobado"
+                >
+                  <button
+                    (click)="agregarProductos()"
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                  ></button>
+                </div>
                 <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"
@@ -572,14 +582,7 @@
                         <th
                           class="w-100px text-center"
                           *ngIf="!estado_aprobado"
-                        >
-                          <button
-                            (click)="agregarProductos()"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                          ></button>
-                        </th>
+                        ></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -763,6 +766,17 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.PAGOS"
               ></a>
               <ng-template ngbNavContent>
+                <div
+                  class="d-flex justify-content-end mb-2"
+                  *ngIf="!estado_aprobado"
+                >
+                  <button
+                    (click)="agregarPago()"
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                  ></button>
+                </div>
                 <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"
@@ -775,14 +789,8 @@
                         <th class="w-50px">pago</th>
                         <th
                           class="w-100px text-center"
-                          *ngIf="!estado_aprobado"
                         >
-                          <button
-                            (click)="agregarPago()"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                          ></button>
+
                         </th>
                       </tr>
                     </thead>
