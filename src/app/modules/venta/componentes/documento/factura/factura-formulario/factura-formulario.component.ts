@@ -748,10 +748,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     let baseImpuestoActualizar =
       (subtotal.value * impuesto.impuesto_porcentaje_base) / 100;
-      console.log(baseImpuestoActualizar);
       let baseImpuestoRedondeada = this.redondear(baseImpuestoActualizar, 2)
-      console.log(baseImpuestoRedondeada);
-      
     let impuestoFormGrup = this.formBuilder.group({
       id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
       impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
@@ -816,7 +813,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
 
     netoTemporal = this.redondear(netoTemporal, 2);
-    
+
 
     neto.patchValue(netoTemporal);
     total.patchValue(netoTemporal);
@@ -1251,8 +1248,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   agregarPagoSeleccionado(item: any, index: number) {
-    console.log(item);
-
     this.pagos.controls[index].patchValue({
       cuenta_banco: item.cuenta_banco_id,
       cuenta_banco_nombre: item.cuenta_banco_nombre,
@@ -1273,11 +1268,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         pagoFormGroup.get(campo)?.patchValue(0);
       } else {
         const valorRedondeado = this.redondear(valor, 2);
-        console.log(this.totalGeneral);
         if(valorRedondeado <= this.totalGeneral){
           pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
         } else {
-          this.alertaService.mensajeError("Error", "El valor ingresado del pago es mayor al total general")        
+          this.alertaService.mensajeError("Error", "El valor ingresado del pago es mayor al total general")
         }
       }
     } else {

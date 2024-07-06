@@ -125,8 +125,6 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
-    console.log(item);
-
     if (item.tipo === 'Administrador') {
       if (item.data) {
         localStorage.setItem('itemNombre', item.data.modelo);

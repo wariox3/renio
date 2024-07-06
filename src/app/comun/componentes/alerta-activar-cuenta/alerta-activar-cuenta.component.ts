@@ -66,8 +66,6 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
           );
         }),
         switchMap(() => {
-          console.log(this.visualizarAlerta);
-          
           if (!this.visualizarAlerta) {
             return this.authService.consultarEstadoVerificado(this.usuarioId);
           }
@@ -105,8 +103,6 @@ export class AlertaActivarCuentaComponent extends General implements OnInit {
     this.contenedorService
       .reenviarCorreoVerificacion(this.usuarioId)
       .subscribe((respuesta) => {
-        console.log(respuesta);
-
         this.subscription = source.subscribe((val) => this.tick());
       });
     this.changeDetectorRef.detectChanges();

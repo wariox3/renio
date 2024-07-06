@@ -151,8 +151,6 @@ export class EmpresaDocumentoTipoEditarComponent
       .consultarDocumentoTipoDetalle(resolucionId),
 
     ).subscribe((respuesta: any) => {
-      console.log(resolucionId);
-
         this.arrResoluciones = respuesta[0].registros
         this.formularioDocumentoTipo.patchValue({
           consecutivo: respuesta[1].consecutivo,

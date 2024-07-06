@@ -92,8 +92,6 @@ export class BuscarAvanzadoComponent extends General {
         propiedades: any[];
       }>(baseUrl, this.arrParametrosConsulta)
       .subscribe((respuesta) => {
-        console.log(respuesta);
-
         // Mapea cada registro en respuesta.registros para crear un nuevo array this.arrItems
         this.arrItems = respuesta.registros.map((registro) => {
           // Inicializa un objeto vacío para almacenar los valores de los campos especificados
