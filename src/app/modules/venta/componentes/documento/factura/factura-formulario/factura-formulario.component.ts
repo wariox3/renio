@@ -810,6 +810,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       netoTemporal += totalImpuesto;
     }
 
+
+    netoTemporal = this.redondear(netoTemporal, 2);
+    
+
     neto.patchValue(netoTemporal);
     total.patchValue(netoTemporal);
     this.calcularTotales();
