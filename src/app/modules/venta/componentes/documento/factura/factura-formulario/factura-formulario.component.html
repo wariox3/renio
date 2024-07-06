@@ -770,12 +770,8 @@
                     <thead>
                       <tr class="bg-gray-100">
                         <th class="w-40px">Id</th>
-                        <th
-
-                        >cuenta_banco</th>
-                        <th
-                          class="w-50px"
-                        >pago</th>
+                        <th>cuenta_banco</th>
+                        <th class="w-50px">pago</th>
                         <th
                           class="w-100px text-center"
                           *ngIf="!estado_aprobado"
@@ -816,7 +812,9 @@
                             <input
                               formControlName="pago"
                               [value]="pago.value.pago"
-                              (change)="actualizarDetallePago(i, 'pago', $event)"
+                              (change)="
+                                actualizarDetallePago(i, 'pago', $event)
+                              "
                               [attr.disabled]="estado_aprobado"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
@@ -826,27 +824,15 @@
                                 'text-white':
                                   theme_value === 'dark' && estado_aprobado,
                                 'is-invalid':
-                                pago.get('pago')?.touched &&
-                                pago.get('pago')?.getError('zero')
+                                  pago.get('pago')?.touched &&
+                                  pago.get('pago')?.getError('zero')
                               }"
                               rows="1"
                               spellcheck="true"
                               appSoloNumeros
                             />
-                            <div
-                              *ngIf="
-                                pago.get('pago')?.touched &&
-                                pago.get('pago')?.getError('valorCero')
-                              "
-                            >
-                              <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                  <span role="alert">
-                                    Valor no permitido.
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                          </td>
+
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
@@ -858,7 +844,6 @@
                     </tbody>
                   </table>
                 </div>
-
               </ng-template>
             </li>
           </ul>

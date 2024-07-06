@@ -96,6 +96,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrSede: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
+  arrPagosEliminado: number[] = [];
   estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
@@ -292,6 +293,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.btnGuardarDisabled = true;
     this.changeDetectorRef.detectChanges();
     if (this.formularioFactura.valid) {
+      if(this.pagos.length > 0){
+        if(this.totalAfectado > this.totalGeneral){
+          this.alertaService.mensajeError("Error", "Los pagos agregados son superiores al total de la factura")
+          this.btnGuardarDisabled = false;
+          this.changeDetectorRef.detectChanges();
+          return null
+        }
+      }
       if (this.detalle == undefined) {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
@@ -327,7 +336,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.facturaService
             .actualizarDatosFactura(this.detalle, {
               ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
+              ...{ detalles_eliminados: this.arrDetallesEliminado , pagos_eliminados: this.arrPagosEliminado},
             })
             .pipe(
               tap((respuesta) => {
@@ -353,7 +362,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                         id: [detalle.id],
                       },
                       {
-                        validator: this.validatePrecio,
+                        validator: [this.validatePrecio],
                       }
                     );
 
@@ -1223,6 +1232,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   eliminarPago(index: number, id: number | null) {
+
+    if (id != null) {
+      this.arrPagosEliminado.push(id);
+    }
+
     this.changeDetectorRef.detectChanges();
     this.pagos.removeAt(index);
     this.calcularTotales();
@@ -1251,13 +1265,22 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         pagoFormGroup.get(campo)?.patchValue(0);
       } else {
         const valorRedondeado = this.redondear(valor, 2);
-        pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
+        console.log(this.totalGeneral);
+        if(valorRedondeado <= this.totalGeneral){
+          pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
+        } else {
+          this.alertaService.mensajeError("Error", "El valor ingresado del pago es mayor al total general")        
+        }
       }
     } else {
       pagoFormGroup.get(campo)?.patchValue(0);
     }
 
     this.calcularTotales();
+    if(this.totalAfectado > this.totalGeneral){
+      this.alertaService.mensajeError("Error", "Los pagos agregados son superiores al total de la factura")
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 }

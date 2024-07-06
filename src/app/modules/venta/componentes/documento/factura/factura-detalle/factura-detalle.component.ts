@@ -102,7 +102,7 @@ export default class FacturaDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
-
+        this.totalAfectado = respuesta.documento.afectado
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
           const precio = item.precio;
