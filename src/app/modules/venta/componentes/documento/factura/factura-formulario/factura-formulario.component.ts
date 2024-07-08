@@ -30,9 +30,9 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { Contacto } from '@interfaces/general/contacto';
-import { CuentaBancoComponent } from '../../../../../../comun/componentes/cuenta-banco/cuenta-banco.component';
+import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -292,8 +292,23 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   formSubmit() {
     this.btnGuardarDisabled = true;
     this.changeDetectorRef.detectChanges();
+    let errores = false
     if (this.formularioFactura.valid) {
       if (this.pagos.length > 0) {
+        this.pagos.controls.map((pago)=>{
+          if(pago.get('pago')?.value === 0){
+            this.alertaService.mensajeError(
+              'Error',
+              'Los pagos agregados no puede tener pagos en cero '
+            );
+            errores = true;
+            this.btnGuardarDisabled = false;
+            return null;
+          }
+          this.btnGuardarDisabled = false;
+          this.changeDetectorRef.detectChanges();
+          return null;
+        })
         if (this.totalAfectado > this.totalGeneral) {
           this.alertaService.mensajeError(
             'Error',
@@ -304,112 +319,116 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           return null;
         }
       }
-      if (this.detalle == undefined) {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioFactura.value,
-              ...{
-                numero: null,
-                documento_tipo: 1,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    documento_clase: this.dataUrl.documento_clase,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              }),
-              catchError(() => {
-                this.btnGuardarDisabled = false;
-                this.changeDetectorRef.detectChanges();
-                return of(null);
+      if(!errores){
+        if (this.detalle == undefined) {
+          if (this.validarCamposDetalles() === false) {
+            this.facturaService
+              .guardarFactura({
+                ...this.formularioFactura.value,
+                ...{
+                  numero: null,
+                  documento_tipo: 1,
+                },
               })
-            )
-            .subscribe();
+              .pipe(
+                tap((respuesta) => {
+                  this.router.navigate(['documento/detalle'], {
+                    queryParams: {
+                      documento_clase: this.dataUrl.documento_clase,
+                      detalle: respuesta.documento.id,
+                    },
+                  });
+                }),
+                catchError(() => {
+                  this.btnGuardarDisabled = false;
+                  this.changeDetectorRef.detectChanges();
+                  return of(null);
+                })
+              )
+              .subscribe();
+          } else {
+            this.btnGuardarDisabled = false;
+            this.changeDetectorRef.detectChanges();
+          }
         } else {
-          this.btnGuardarDisabled = false;
-          this.changeDetectorRef.detectChanges();
-        }
-      } else {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{
-                detalles_eliminados: this.arrDetallesEliminado,
-                pagos_eliminados: this.arrPagosEliminado,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.detalles.clear();
-                respuesta.documento.detalles.forEach(
-                  (detalle: any, indexDetalle: number) => {
-                    const detalleFormGroup = this.formBuilder.group(
-                      {
-                        item: [detalle.item],
-                        cantidad: [detalle.cantidad],
-                        precio: [detalle.precio],
-                        porcentaje_descuento: [detalle.porcentaje_descuento],
-                        descuento: [detalle.descuento],
-                        subtotal: [detalle.subtotal],
-                        total_bruto: [detalle.total_bruto],
-                        total: [detalle.total],
-                        neto: [detalle.total],
-                        base_impuesto: [detalle.base_impuesto],
-                        impuesto: [detalle.impuesto],
-                        item_nombre: [detalle.item_nombre],
-                        impuestos: this.formBuilder.array([]),
-                        impuestos_eliminados: this.formBuilder.array([]),
-                        id: [detalle.id],
-                      },
-                      {
-                        validator: [this.validatePrecio],
-                      }
-                    );
-
-                    if (detalle.impuestos.length === 0) {
-                      const cantidad = detalleFormGroup.get('cantidad')?.value;
-                      const precio = detalleFormGroup.get('precio')?.value;
-                      const neto = cantidad * precio;
-                      detalleFormGroup.get('neto')?.setValue(neto);
-                    }
-
-                    this.detalles.push(detalleFormGroup);
-
-                    detalle.impuestos.forEach(
-                      (impuesto: any, index: number) => {
-                        this.agregarImpuesto(
-                          impuesto,
-                          indexDetalle,
-                          'actualizacion'
-                        );
-                      }
-                    );
-                  }
-                );
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    documento_clase: this.dataUrl.documento_clase,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              }),
-              catchError(() => {
-                this.btnGuardarDisabled = false;
-                this.changeDetectorRef.detectChanges();
-                return of(null);
+          if (this.validarCamposDetalles() === false) {
+            this.facturaService
+              .actualizarDatosFactura(this.detalle, {
+                ...this.formularioFactura.value,
+                ...{
+                  detalles_eliminados: this.arrDetallesEliminado,
+                  pagos_eliminados: this.arrPagosEliminado,
+                },
               })
-            )
-            .subscribe();
+              .pipe(
+                tap((respuesta) => {
+                  this.detalles.clear();
+                  respuesta.documento.detalles.forEach(
+                    (detalle: any, indexDetalle: number) => {
+                      const detalleFormGroup = this.formBuilder.group(
+                        {
+                          item: [detalle.item],
+                          cantidad: [detalle.cantidad],
+                          precio: [detalle.precio],
+                          porcentaje_descuento: [detalle.porcentaje_descuento],
+                          descuento: [detalle.descuento],
+                          subtotal: [detalle.subtotal],
+                          total_bruto: [detalle.total_bruto],
+                          total: [detalle.total],
+                          neto: [detalle.total],
+                          base_impuesto: [detalle.base_impuesto],
+                          impuesto: [detalle.impuesto],
+                          item_nombre: [detalle.item_nombre],
+                          impuestos: this.formBuilder.array([]),
+                          impuestos_eliminados: this.formBuilder.array([]),
+                          id: [detalle.id],
+                        },
+                        {
+                          validator: [this.validatePrecio],
+                        }
+                      );
+
+                      if (detalle.impuestos.length === 0) {
+                        const cantidad = detalleFormGroup.get('cantidad')?.value;
+                        const precio = detalleFormGroup.get('precio')?.value;
+                        const neto = cantidad * precio;
+                        detalleFormGroup.get('neto')?.setValue(neto);
+                      }
+
+                      this.detalles.push(detalleFormGroup);
+
+                      detalle.impuestos.forEach(
+                        (impuesto: any, index: number) => {
+                          this.agregarImpuesto(
+                            impuesto,
+                            indexDetalle,
+                            'actualizacion'
+                          );
+                        }
+                      );
+                    }
+                  );
+                  this.router.navigate(['documento/detalle'], {
+                    queryParams: {
+                      documento_clase: this.dataUrl.documento_clase,
+                      detalle: respuesta.documento.id,
+                    },
+                  });
+                }),
+                catchError(() => {
+                  this.btnGuardarDisabled = false;
+                  this.changeDetectorRef.detectChanges();
+                  return of(null);
+                })
+              )
+              .subscribe();
+          }
         }
       }
+
     } else {
       this.formularioFactura.markAllAsTouched();
+      this.pagos.markAllAsTouched();
       setTimeout(() => {
         this.btnGuardarDisabled = false;
         this.changeDetectorRef.detectChanges();
@@ -1232,10 +1251,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         pagos_eliminados: this.formBuilder.array([]),
         id: [null],
       });
+      this.pagos.push(pagoFormGroup);
       this.formularioFactura?.markAsDirty();
       this.formularioFactura?.markAsTouched();
-
-      this.pagos.push(pagoFormGroup);
       this.changeDetectorRef.detectChanges();
     } else {
       this.alertaService.mensajeError('Error', 'Se requieren agragar detalles');

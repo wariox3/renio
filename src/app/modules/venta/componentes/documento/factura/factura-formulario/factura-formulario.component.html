@@ -787,11 +787,7 @@
                         <th class="w-40px">Id</th>
                         <th>Cuenta banco</th>
                         <th class="w-50px">Pago</th>
-                        <th
-                          class="w-100px text-center"
-                        >
-
-                        </th>
+                        <th class="w-100px text-center"></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="pagos">
@@ -806,8 +802,8 @@
                               [itemNombre]="pago.value.cuenta_banco_nombre"
                               [estado_aprobado]="estado_aprobado"
                               [campoInvalido]="
-                                pago.get('pago')?.touched &&
-                                pago.get('pago')?.invalid
+                                pago.get('cuenta_banco')?.touched &&
+                                pago.get('cuenta_banco')?.invalid
                               "
                               (emitirArrItems)="
                                 agregarPagoSeleccionado($event, i)
@@ -834,12 +830,26 @@
                                   theme_value === 'dark' && estado_aprobado,
                                 'is-invalid':
                                   pago.get('pago')?.touched &&
-                                  pago.get('pago')?.getError('zero')
+                                  pago.get('pago')?.value === 0
                               }"
                               rows="1"
                               spellcheck="true"
                               appSoloNumeros
                             />
+                            <div
+                              *ngIf="
+                                pago.get('pago')?.touched &&
+                                pago.get('pago')?.value === 0
+                              "
+                            >
+                              <div class="fv-plugins-message-container">
+                                <div class="fv-help-block">
+                                  <span role="alert">
+                                    Valor no permitido.
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
                           </td>
 
                           <td class="text-center" *ngIf="!estado_aprobado">
