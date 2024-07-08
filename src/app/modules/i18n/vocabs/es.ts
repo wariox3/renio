@@ -365,7 +365,8 @@ export const locale = {
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electronica',
           FORMATOFACTURA: 'Formato factura',
           COPIACORREOFACTURAELECTRONICA: 'Copia correo facturación electrónica',
-          INFORMACIONFACTURA: 'Información factura',
+          INFORMACIONFACTURA: 'Información factura inferior',
+          INFORMACIONFACTURASUPERIOR: 'Información factura superior',
         },
         FILTROS: {
           OPERADORES: {

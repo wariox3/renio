@@ -50,11 +50,43 @@
       <div class="row mb-5">
         <div class="col-12">
           <label
+            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURASUPERIOR"
+            class="form-label"
+          ></label>
+          <textarea
+            formControlName="informacion_factura_superior"
+            class="form-control bg-transparent"
+            (blur)="modificarCampoFormulario('informacion_factura_superior', null)" 
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpresa.controls['informacion_factura_superior'].touched &&
+                formularioEmpresa.controls['informacion_factura_superior'].invalid,
+              'is-valid':
+                formularioEmpresa.controls['informacion_factura_superior'].touched &&
+                formularioEmpresa.controls['informacion_factura_superior'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '2000',
+              control: formularioEmpresa.controls['informacion_factura_superior']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <label
             translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
             class="form-label"
           ></label>
           <textarea
             formControlName="informacion_factura"
+            (blur)="modificarCampoFormulario('informacion_factura', null)" 
             class="form-control bg-transparent"
             [ngClass]="{
               'is-invalid':
@@ -73,36 +105,6 @@
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '2000',
               control: formularioEmpresa.controls['informacion_factura']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURASUPERIOR"
-            class="form-label"
-          ></label>
-          <textarea
-            formControlName="informacion_factura_superior"
-            class="form-control bg-transparent"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpresa.controls['informacion_factura_superior'].touched &&
-                formularioEmpresa.controls['informacion_factura_superior'].invalid,
-              'is-valid':
-                formularioEmpresa.controls['informacion_factura_superior'].touched &&
-                formularioEmpresa.controls['informacion_factura_superior'].valid
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '2000',
-              control: formularioEmpresa.controls['informacion_factura_superior']
             }"
           ></ng-container>
         </div>

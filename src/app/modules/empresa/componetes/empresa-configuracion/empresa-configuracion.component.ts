@@ -46,7 +46,7 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
 
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
-      formato_factura: [''],
+      formato_factura: ['', Validators.required,],
       informacion_factura: [
         null,
         Validators.compose([Validators.maxLength(2000)]),
@@ -93,5 +93,21 @@ export class EmpresaConfiguracionComponent extends General implements OnInit {
     } else {
       this.formularioEmpresa.markAllAsTouched();
     }
+  }
+
+  modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioEmpresa?.markAsDirty();
+    this.formularioEmpresa?.markAsTouched();
+    if (campo === 'informacion_factura') {
+      if (this.formularioEmpresa.get(campo)?.value === '') {
+        this.formularioEmpresa.get(campo)?.setValue(null);
+      }
+    }
+    if (campo === 'informacion_factura_superior') {
+      if (this.formularioEmpresa.get(campo)?.value === '') {
+        this.formularioEmpresa.get(campo)?.setValue(null);
+      }
+    }
+    this.changeDetectorRef.detectChanges();
   }
 }
