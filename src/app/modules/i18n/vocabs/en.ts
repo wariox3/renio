@@ -472,7 +472,8 @@ export const locale = {
         PLAZO_PAGO: 'Payment Term',
         PAGO: 'Pay',
         CUENTA: 'Account',
-        NATURALEZA: 'Nature'
+        NATURALEZA: 'Nature',
+        AFECTADO: 'Affected'
       },
       ITEM: {
         ID: 'ID',

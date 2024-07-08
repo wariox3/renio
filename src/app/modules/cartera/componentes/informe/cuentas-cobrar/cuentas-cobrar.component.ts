@@ -91,6 +91,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
           documento_referencia: documento,
           plazo_pago: documento.plazo_pago,
           comentario: documento.comentario,
+          afectado: documento.afectado,
         }));
         this.changeDetectorRef.detectChanges();
       });

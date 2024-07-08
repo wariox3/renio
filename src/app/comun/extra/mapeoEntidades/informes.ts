@@ -336,5 +336,13 @@ export const documentos: Mapeo = {
       visibleTabla: false,
       ordenable: false,
     },
+    {
+      nombre: 'afectado',
+      campoTipo: 'IntegerField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+      aplicaFormatoNumerico: true,
+    },
   ],
 };
