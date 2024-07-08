@@ -72,6 +72,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
           impuesto: documento.impuesto,
           descuento: documento.descuento,
           total: documento.total,
+          afectado: documento.afectado,
           estado_anulado: documento.estado_anulado,
           estado_aprobado: documento.estado_aprobado,
           estado_electronico: documento.estado_electronico,
@@ -91,7 +92,6 @@ export class CuentasCobrarComponent extends General implements OnInit {
           documento_referencia: documento,
           plazo_pago: documento.plazo_pago,
           comentario: documento.comentario,
-          afectado: documento.afectado,
         }));
         this.changeDetectorRef.detectChanges();
       });

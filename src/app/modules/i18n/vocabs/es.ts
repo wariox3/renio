@@ -492,7 +492,7 @@ export const locale = {
         PAGO: 'Pago',
         CUENTA: 'Cuenta',
         NATURALEZA: 'Naturaleza',
-        AFECTADO: 'Afectado'
+        AFECTADO: 'Abono'
       },
       ITEM: {
         ID: 'ID',

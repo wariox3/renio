@@ -473,7 +473,7 @@ export const locale = {
         PAGO: 'Pay',
         CUENTA: 'Account',
         NATURALEZA: 'Nature',
-        AFECTADO: 'Affected'
+        AFECTADO: 'Fertilizer'
       },
       ITEM: {
         ID: 'ID',

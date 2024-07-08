@@ -196,6 +196,14 @@ export const documentos: Mapeo = {
       aplicaFormatoNumerico: true,
     },
     {
+      nombre: 'afectado',
+      campoTipo: 'IntegerField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+      aplicaFormatoNumerico: true,
+    },
+    {
       nombre: 'PENDIENTE',
       campoTipo: 'FloatField',
       visibleFiltro: false,
@@ -335,14 +343,6 @@ export const documentos: Mapeo = {
       visibleFiltro: false,
       visibleTabla: false,
       ordenable: false,
-    },
-    {
-      nombre: 'afectado',
-      campoTipo: 'IntegerField',
-      visibleFiltro: false,
-      visibleTabla: true,
-      ordenable: false,
-      aplicaFormatoNumerico: true,
-    },
+    }
   ],
 };
