@@ -34,7 +34,7 @@
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NOMBRE"
             class="form-label required"
           ></label>
           <input
@@ -60,109 +60,111 @@
             }"
           ></ng-container>
         </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NUMEROCUENTA"
-            class="form-label required"
-          ></label>
+        <div
+        class="col-md-6 col-sm-12"
+        ngbDropdown
+        #CiudadDropdown="ngbDropdown"
+      >
+        <label
+          translate="FORMULARIOS.CAMPOS.COMUNES.cuenta_banco_tipo"
+          translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOTIPO"
+          class="form-label required"
+        ></label>
+        <div class="position-relative">
           <input
-            formControlName="numero_cuenta"
-            class="form-control bg-transparent"
             type="text"
-            autocomplete="off"
+            class="form-control"
+            ngbDropdownAnchor
+            formControlName="cuenta_banco_tipo_nombre"
             [ngClass]="{
               'is-invalid':
-                formularioCuentaBanco.controls['numero_cuenta'].touched &&
-                formularioCuentaBanco.controls['numero_cuenta'].invalid,
+                formularioCuentaBanco.controls['cuenta_banco_tipo'].touched &&
+                formularioCuentaBanco.controls['cuenta_banco_tipo'].invalid,
               'is-valid':
-                formularioCuentaBanco.controls['numero_cuenta'].touched &&
-                formularioCuentaBanco.controls['numero_cuenta'].valid
+                formularioCuentaBanco.controls['cuenta_banco_tipo'].touched &&
+                formularioCuentaBanco.controls['cuenta_banco_tipo'].valid
             }"
+            (focus)="consultarCiudad($event); CiudadDropdown.open()"
+            (blur)="modificarCampoFormulario('cuenta_banco_tipo', null)"
+            (keyup)="consultarCiudad($event)"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioCuentaBanco.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioCuentaBanco.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioCuentaBanco.controls['numero_cuenta']
-            }"
-          ></ng-container>
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <i class="bi bi-search fs-2"></i>
+          </div>
+        </div>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioCuentaBanco.controls['cuenta_banco_tipo']
+          }"
+        ></ng-container>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            type="button"
+            ngbDropdownItem
+            *ngFor="let tipo of arrCuentasTipos; index as i"
+            [ngClass]="{ item: selectedDateIndex === i }"
+            (click)="
+              modificarCampoFormulario('cuenta_banco_tipo', tipo);
+              CiudadDropdown.close()
+            "
+          >
+            {{ tipo.cuenta_banco_tipo_nombre }}
+          </button>
         </div>
       </div>
+      </div>
       <div class="row mb-5">
-        <div
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #CiudadDropdown="ngbDropdown"
-        >
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.cuenta_banco_tipo"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOTIPO"
-
-            class="form-label required"
-          ></label>
-          <div class="position-relative">
+        @if(visualizarCampoNumeroCuenta){
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NUMEROCUENTA"
+              class="form-label required"
+            ></label>
             <input
+              formControlName="numero_cuenta"
+              class="form-control bg-transparent"
               type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="cuenta_banco_tipo_nombre"
+              autocomplete="off"
               [ngClass]="{
                 'is-invalid':
-                  formularioCuentaBanco.controls['cuenta_banco_tipo'].touched &&
-                  formularioCuentaBanco.controls['cuenta_banco_tipo'].invalid,
+                  formularioCuentaBanco.controls['numero_cuenta'].touched &&
+                  formularioCuentaBanco.controls['numero_cuenta'].invalid,
                 'is-valid':
-                  formularioCuentaBanco.controls['cuenta_banco_tipo'].touched &&
-                  formularioCuentaBanco.controls['cuenta_banco_tipo'].valid
+                  formularioCuentaBanco.controls['numero_cuenta'].touched &&
+                  formularioCuentaBanco.controls['numero_cuenta'].valid
               }"
-              (focus)="consultarCiudad($event); CiudadDropdown.open()"
-              (blur)="modificarCampoFormulario('cuenta_banco_tipo', null)"
-              (keyup)="consultarCiudad($event)"
             />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioCuentaBanco.controls['numero_cuenta']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '100',
+                control: formularioCuentaBanco.controls['numero_cuenta']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                control: formularioCuentaBanco.controls['numero_cuenta']
+              }"
+            ></ng-container>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioCuentaBanco.controls['cuenta_banco_tipo']
-            }"
-          ></ng-container>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button
-              type="button"
-              ngbDropdownItem
-              *ngFor="let tipo of arrCuentasTipos; index as i"
-              [ngClass]="{ item: selectedDateIndex === i }"
-              (click)="
-                modificarCampoFormulario('cuenta_banco_tipo', tipo); CiudadDropdown.close()
-              "
-            >
-              {{ tipo.cuenta_banco_tipo_nombre }}
-            </button>
-          </div>
-        </div>
+        }
       </div>
     </section>
   </app-card>

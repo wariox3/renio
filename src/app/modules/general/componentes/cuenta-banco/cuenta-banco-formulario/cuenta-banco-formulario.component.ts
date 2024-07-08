@@ -39,6 +39,7 @@ export default class CuentaBancoFormularioComponent
   formularioCuentaBanco: FormGroup;
   arrCuentasTipos: any[];
   selectedDateIndex: number = -1;
+  visualizarCampoNumeroCuenta = false;
   public ciudadDropdown: NgbDropdown;
 
   constructor(
@@ -87,10 +88,7 @@ export default class CuentaBancoFormularioComponent
   iniciarFormulario() {
     this.formularioCuentaBanco = this.formBuilder.group({
       nombre: [null, Validators.compose([Validators.required])],
-      numero_cuenta: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(50)]),
-      ],
+      numero_cuenta: [null, Validators.compose([Validators.maxLength(50)])],
       cuenta_banco_tipo_nombre: [''],
       cuenta_banco_tipo: ['', Validators.compose([Validators.required])],
     });
@@ -191,15 +189,31 @@ export default class CuentaBancoFormularioComponent
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioCuentaBanco?.markAsDirty();
     this.formularioCuentaBanco?.markAsTouched();
+
     if (campo === 'cuenta_banco_tipo') {
       if (dato === null) {
-        this.formularioCuentaBanco.get('cuenta_banco_tipo_nombre')?.setValue(null);
+        this.formularioCuentaBanco
+          .get('cuenta_banco_tipo_nombre')
+          ?.setValue(null);
         this.formularioCuentaBanco.get('cuenta_banco_tipo')?.setValue(null);
+        this.visualizarCampoNumeroCuenta = false;
+        this.changeDetectorRef.detectChanges();
       } else {
+        if (dato.cuenta_banco_tipo_id !== 3) {
+          this.visualizarCampoNumeroCuenta = true;
+          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.required])
+          this.changeDetectorRef.detectChanges();
+        } else {
+          this.visualizarCampoNumeroCuenta = false;
+          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.maxLength(50)])
+          this.changeDetectorRef.detectChanges();
+        }
         this.formularioCuentaBanco
           .get('cuenta_banco_tipo_nombre')
           ?.setValue(dato.cuenta_banco_tipo_nombre);
-        this.formularioCuentaBanco.get('cuenta_banco_tipo')?.setValue(dato.cuenta_banco_tipo_id);
+        this.formularioCuentaBanco
+          .get('cuenta_banco_tipo')
+          ?.setValue(dato.cuenta_banco_tipo_id);
       }
     }
     this.changeDetectorRef.detectChanges();
