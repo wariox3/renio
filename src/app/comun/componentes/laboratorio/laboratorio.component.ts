@@ -53,7 +53,7 @@ export class LaboratorioComponent {
     this.chartOptions = {
       series: [
         {
-          name: 'My-series',
+          name: 'Saldos',
           data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
         },
       ],
@@ -62,7 +62,7 @@ export class LaboratorioComponent {
         type: 'bar',
       },
       title: {
-        text: 'My First Angular Chart',
+        text: 'Pagos',
       },
       xaxis: {
         categories: [
@@ -100,11 +100,11 @@ export class LaboratorioComponent {
       },
 
       title: {
-        text: "Fundamental Analysis of Stocks",
+        text: "Análisis fundamental de las acciones",
         align: "left"
       },
       subtitle: {
-        text: "Price Movements",
+        text: "Movimientos de precios",
         align: "left"
       },
       labels: series.monthDataSeries1.dates,

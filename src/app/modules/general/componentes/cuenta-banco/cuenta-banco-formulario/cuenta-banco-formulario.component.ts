@@ -149,6 +149,11 @@ export default class CuentaBancoFormularioComponent
           nombre: respuesta.nombre,
           numero_cuenta: respuesta.numero_cuenta,
         });
+        if (respuesta.cuenta_banco_tipo_id === 3) {
+          this.visualizarCampoNumeroCuenta = true;
+          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.required])
+          this.changeDetectorRef.detectChanges();
+        }
 
         this.changeDetectorRef.detectChanges();
       });
