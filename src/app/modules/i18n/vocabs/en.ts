@@ -580,7 +580,7 @@ export const locale = {
       INICIO: 'Home',
       COMOFUNCIONA: 'How it Works',
       ARCHIVOS: 'Data',
-      PORTAFOLIO: 'Portfolio',
+      PRODUCTO: 'Product',
       PRECIO: 'Pricing',
       CONTACTO: 'Contac',
       LOGIN: 'Login',

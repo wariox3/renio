@@ -632,7 +632,7 @@ export const locale = {
       DESCUBRIR: 'Descubre la diferencia hoy',
       COMOFUNCIONA: 'Cómo funciona',
       ARCHIVOS: 'Datos',
-      PORTAFOLIO: 'Portafolio',
+      PRODUCTO: 'Producto',
       PRECIO: 'Precio',
       CONTACTO: 'Contacto',
       LOGIN: 'Iniciar sesión',
