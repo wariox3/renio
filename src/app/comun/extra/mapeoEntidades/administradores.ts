@@ -17,6 +17,7 @@ type Mapeo = {
       esFk?: boolean;
       modeloFk?: string;
       aplicaFormatoNumerico?: boolean;
+      alinearAlaIzquierda?: boolean;
       campoTipo:
         | 'IntegerField'
         | 'FloatField'
@@ -443,6 +444,15 @@ export const mapeo: Mapeo = {
         ordenable: true,
       },
       {
+        nombre: 'CUENTA_BANCO_TIPO_NOMBRE',
+        campoTipo: 'Fk',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+        esFk: true,
+        modeloFk: 'CUENTA_BANCO',
+      },
+      {
         nombre: 'NOMBRE',
         campoTipo: 'CharField',
         visibleTabla: true,
@@ -452,18 +462,10 @@ export const mapeo: Mapeo = {
       {
         nombre: 'NUMERO_CUENTA',
         campoTipo: 'IntegerField',
-        visibleTabla: false,
-        visibleFiltro: true,
-        ordenable: true,
-      },
-      {
-        nombre: 'CUENTA_BANCO_TIPO_NOMBRE',
-        campoTipo: 'Fk',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
-        esFk: true,
-        modeloFk: 'CUENTA_BANCO',
+        alinearAlaIzquierda: true
       },
     ],
   },

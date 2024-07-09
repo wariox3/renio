@@ -157,6 +157,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
                 .aplicaFormatoNumerico
                 ? true
                 : false,
+              alinearAlaIzquierda: this.columnasVibles[clave]
+              .alinearAlaIzquierda
+              ? true
+              : false,
             };
           }
         }

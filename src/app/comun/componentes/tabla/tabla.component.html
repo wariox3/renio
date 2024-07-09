@@ -208,7 +208,7 @@
         <td
           *ngFor="let key of item | keys"
           [ngClass]="{
-            'text-end': item[key].aplicaFormatoNumerico,
+            'text-end': item[key].aplicaFormatoNumerico || item[key].alinearAlaIzquierda,
             'text-center': item[key].campoTipo === 'Booleano'
           }"
         >

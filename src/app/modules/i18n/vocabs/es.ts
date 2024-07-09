@@ -332,7 +332,7 @@ export const locale = {
             ID: 'ID',
             NOMBRE: 'Nombre',
             NUMEROCUENTA: 'Número cuenta',
-            CUENTABANCOTIPO: 'Cuenta banco tipo'
+            CUENTABANCOTIPO: 'Cuenta tipo'
           }
         },
         FACTURA: {
@@ -611,8 +611,8 @@ export const locale = {
       CUENTABANCO: {
         ID: 'ID',
         NOMBRE: 'Nombre',
-        NUMERO_CUENTA: 'Número cuenta',
-        CUENTA_BANCO_TIPO_NOMBRE: 'Cuenta banco tipo'
+        NUMERO_CUENTA: 'Cuenta',
+        CUENTA_BANCO_TIPO_NOMBRE: 'Tipo'
       }
     },
     TEMA: {

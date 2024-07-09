@@ -322,7 +322,7 @@ export const locale = {
             ID: 'ID',
             NOMBRE: 'Name',
             NUMEROCUENTA: 'Number account',
-            CUENTABANCOTIPO: 'Type bank account'
+            CUENTABANCOTIPO: 'Type account'
           }
         },
         FACTURA: {
