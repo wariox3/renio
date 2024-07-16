@@ -325,7 +325,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           if (campo.aplicaFormatoNumerico) {
             // Formatea el valor con dos decimales y comas para separar miles
             let formattedValue = valor
-              .toFixed()
+              .toFixed(2)
               .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
             return `${formattedValue}`;
