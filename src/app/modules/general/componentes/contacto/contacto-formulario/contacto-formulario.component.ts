@@ -252,7 +252,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   tipoPersonaSeleccionado($event: any) {
-    if ($event.target.value === '1') {
+    let valorPersonaTipo = parseInt($event.target.value)
+    if (valorPersonaTipo === 1) {
       //1 es igual a juridico
       this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
       this.setValidators('apellido1', [Validators.pattern(/^[a-zA-Z]+$/)]);
@@ -278,6 +279,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ]);
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
+    this.formularioContacto.patchValue({
+      tipo_persona: valorPersonaTipo
+    })
   }
 
   enviarFormulario() {
@@ -571,7 +575,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           codigo_ciuu: respuesta.codigo_ciuu,
           precio: respuesta.precio_id,
           plazo_pago: respuesta.plazo_pago_id,
-          plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
+          plazo_pago_proveedor: parseInt(respuesta.plazo_pago_proveedor_id),
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
