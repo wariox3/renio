@@ -163,6 +163,9 @@ export class ContenedorFormularioComponent extends General implements OnInit {
           Validators.pattern(/^[0-9]+$/),
         ]),
       ],
+      reddoc: [
+        true
+      ]
     });
   }
 
