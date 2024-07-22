@@ -27,6 +27,7 @@ export class ContenedorService {
       `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-usuario/`,
       {
         usuario_id,
+        reddoc: true
       }
     );
   }

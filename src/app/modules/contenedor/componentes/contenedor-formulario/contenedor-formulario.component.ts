@@ -165,6 +165,9 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       ],
       reddoc: [
         true
+      ],
+      ruteo: [
+        false
       ]
     });
   }
