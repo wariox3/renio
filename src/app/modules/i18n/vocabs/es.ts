@@ -186,7 +186,9 @@ export const locale = {
             'Mantenga su cuenta más segura con un segundo paso de autenticación.',
           REALIZARPAGO: 'Realizar un pago',
           TEXTOAYUDA2:
-            'Esta es una estimación de la cantidad que debe basada en su usuario actual del mes hasta la fecha después de créditos y pagos por adelantado.',
+            'Esta es una estimación de la cantidad que debe pagar de este usuario en el mes hasta la fecha después de créditos y pagos por adelantado.',
+          TEXTOAYUDA4:
+            'Seleccione las facturas para pago.',
           ESTIMADO: 'Valor estimado',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'pago tipo',

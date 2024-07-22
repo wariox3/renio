@@ -25,6 +25,10 @@
                   ></h5>
                   <div class="card-toolbar" id="wompiWidget"></div>
                 </div>
+                <p
+                  class="text-gray-700"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA4"
+                ></p>
                 <div class="row p-5">
                   <table
                     class="table table-hover table-bordered table-rounded border gy-2 gs-2"
@@ -32,9 +36,15 @@
                     <thead>
                       <tr class="fw-bold text-gray-800">
                         <th>Id</th>
-                        <th translate="FORMULARIOS.TITULOS.FACTURACION.FECHA"></th>
-                        <th translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"></th>
-                        <th translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.FECHA"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"
+                        ></th>
+                        <th
+                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"
+                        ></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -70,41 +80,76 @@
                       </tr>
                     </tbody>
                   </table>
+                  <div
+                    class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-12 p-6"
+                  >
+                    <i
+                      class="ki-duotone ki-information fs-2tx text-warning me-4"
+                    >
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                      <span class="path3"></span>
+                    </i>
+                    <div class="d-flex flex-stack flex-grow-1">
+                      <div class="fw-semibold">
+                        <h4 class="text-gray-900 fw-bold">
+                          Información de facturación
+                        </h4>
+                        <div class="fs-6 text-gray-700">
+                          La factura electrónica se envía al correo o podrá
+                          descargarla en la pestaña historial después de
+                          realizar el pago.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="mb-10 p-5 border">
                 <h5
-                  class="mb-4"
+                  class="d-inline-block"
                   translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO"
                 ></h5>
+                <span
+                  class="badge badge-sm badge-success badge-outline d-inline-block ms-2"
+                >
+                  Mes actual
+                </span>
+                <br />
+                <b style="font-size: 24px">{{
+                  consumoTotal | currency : "$ "
+                }}</b>
                 <p
-                  class="text-gray-400"
+                  class="text-gray-700"
                   translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
                 ></p>
-                <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
                 <div class="mb-0">
                   <div class="row">
                     <div class="col">
                       <b>{{
-                        this.fechaServices.obtenerPrimerDiaDelMesSiguiente()
+                        fechaServices.obtenerPrimerDiaDelMesSiguiente()
                           | date : "yyyy-MM-dd"
                       }}</b>
-                      <p translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO"></p>
+                      <p
+                        translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO"
+                      ></p>
                     </div>
                     <div class="col">
-                      <b>{{ 0 | currency : "$" }}</b>
-                      <p translate="FORMULARIOS.TITULOS.FACTURACION.PAGOSANTICIPADOS">
+                      <b>{{ 0 | currency : "$ " }}</b>
+                      <p
+                        translate="FORMULARIOS.TITULOS.FACTURACION.PAGOSANTICIPADOS"
+                      >
                         <i class="ki-outline ki-information-2"></i>
                       </p>
                     </div>
                     <div class="col">
-                      <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
+                      <b>{{ consumoTotal | currency : "$ " }}</b>
                       <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
                         <i class="ki-outline ki-information-2"></i>
                       </p>
                     </div>
                     <div class="col">
-                      <b>{{ consumoTotal || "0.00" | currency : "$" }}</b>
+                      <b>{{ consumoTotal | currency : "$ " }}</b>
                       <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
                         <i class="ki-outline ki-information-2"></i>
                       </p>
@@ -113,29 +158,33 @@
                 </div>
               </div>
               <div class="mb-10 p-5 border">
-                <table
-                  class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-                >
-                  <thead>
-                    <tr class="fw-bold text-gray-800">
-                      <th colspan="4">Consumo</th>
-                    </tr>
-                    <tr class="fw-bold text-gray-800">
-                      <th>Subdominio</th>
-                      <th>Empresa</th>
-                      <th>Plan</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let consumo of consumos">
-                      <td>{{ consumo.subdominio }}</td>
-                      <td>{{ consumo.contenedor }}</td>
-                      <td>{{ consumo.plan__nombre }}</td>
-                      <td class="text-end">$ {{ consumo.vr_total }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table
+                    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+                  >
+                    <thead>
+                      <tr class="fw-bold text-gray-800">
+                        <th colspan="4">Consumo</th>
+                      </tr>
+                      <tr class="fw-bold text-gray-800">
+                        <th>Subdominio</th>
+                        <th>Empresa</th>
+                        <th>Plan</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let consumo of consumos">
+                        <td>{{ consumo.subdominio }}</td>
+                        <td>{{ consumo.contenedor }}</td>
+                        <td>{{ consumo.plan__nombre }}</td>
+                        <td class="text-end">
+                          {{ consumo.vr_total | currency : "$ " }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </ng-template>
           </li>
@@ -155,4 +204,7 @@
       </div>
     </div>
   </section>
+</app-card>
+<app-card>
+  <section card-titulo>Información de facturación</section>
 </app-card>
