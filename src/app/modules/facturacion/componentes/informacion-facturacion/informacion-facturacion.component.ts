@@ -20,6 +20,7 @@ import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
 import {
   NgbActiveModal,
@@ -70,7 +71,8 @@ export class InformacionFacturacionComponent extends General implements OnInit {
     private modalService: NgbModal,
     private httpService: HttpService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private facturacionService: FacturacionService
+    private facturacionService: FacturacionService,
+    private contenedorService: ContenedorService
   ) {
     super();
   }
@@ -155,17 +157,13 @@ export class InformacionFacturacionComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Ciudad',
+      modelo: 'ContenedorCiudad',
     };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
+    this.contenedorService
+      .listaCiudades(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
+        tap((respuesta: any) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
@@ -174,30 +172,10 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   }
 
   consultarInformacion() {
-    zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        {
-          filtros: [
-            {
-              id: '1692284537644-1688',
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'Identificacion',
-        }
-      )
-    ).subscribe((respuesta: any) => {
-      this.arrIdentificacion = respuesta[0].registros;
+    this.contenedorService.listaTipoIdentificacion().subscribe((respuesta:any) => {
+      this.arrIdentificacion = respuesta.registros;
       this.changeDetectorRef.detectChanges();
-    });
+    })
   }
 
   modificarCampoFormulario(campo: string, dato: any) {

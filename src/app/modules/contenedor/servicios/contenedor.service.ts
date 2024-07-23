@@ -139,6 +139,20 @@ export class ContenedorService {
     );
   }
 
+  listarCiudades() {
+    return this.http.post<any[]>(
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      {
+        filtros: [],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'ContenedorIdentificacion',
+      }
+    );
+  }
+
   listaRegimen() {
     return this.http.post<Regimen[]>(
       `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
