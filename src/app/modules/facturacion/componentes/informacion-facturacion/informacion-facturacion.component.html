@@ -1,9 +1,11 @@
 <div class="menu-item px-3">
   <a
-    translate="FORMULARIOS.BOTONES.COMUNES.EDITAR"
     class="btn btn-sm btn-dark me-3 cursor-pointer"
     (click)="openModal()"
   >
+    @if (validarNuevoEditar) { {{
+    "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }} } @else { {{
+    "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }} }
   </a>
 </div>
 <ng-template #dialogTemplate>

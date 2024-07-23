@@ -29,6 +29,7 @@ import {
   NgbModalModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
@@ -55,12 +56,13 @@ export class InformacionFacturacionComponent extends General implements OnInit {
     correo: '',
     telefono: '',
     nombre_corto: '',
-    identificacion_id: 0,
-    ciudad_id: 0,
-    usuario: 0
+    identificacion_id: '',
+    ciudad_id: '',
+    usuario: '',
   };
   arrCiudades: any[];
   arrIdentificacion: any[];
+  codigoUsuario = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,7 +75,8 @@ export class InformacionFacturacionComponent extends General implements OnInit {
     super();
   }
 
-  @Input() informacion_id!: string;
+  @Input() informacion_id?: string;
+  @Input() validarNuevoEditar: boolean = true;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   public ciudadDropdown: NgbDropdown;
@@ -83,6 +86,10 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   ngOnInit(): void {
     this.consultarInformacion();
     this.iniciarFormulario();
+    this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
+      this.codigoUsuario = codigoUsuario;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   iniciarFormulario() {
@@ -96,9 +103,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
             Validators.maxLength(100),
           ]),
         ],
-        digito_verificacion: [
-          this.informacionFacturacion.digito_verificacion,
-        ],
+        digito_verificacion: [this.informacionFacturacion.digito_verificacion],
         numero_identificacion: [
           this.informacionFacturacion.numero_identificacion,
           Validators.compose([
@@ -128,9 +133,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
           this.informacionFacturacion.telefono,
           Validators.compose([Validators.required, Validators.maxLength(50)]),
         ],
-        usuario: [
-          this.informacionFacturacion.usuario,
-        ],
+        usuario: [this.informacionFacturacion.usuario],
       },
       {
         validator: MultiplesEmailValidator.validarCorreos,
@@ -224,24 +227,25 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   }
 
   openModal() {
-    this.facturacionService
-      .obtenerInformacionFacturacion(this.informacion_id)
-      .subscribe((respuesta: any) => {
-        this.informacionFacturacion = respuesta;
-
-        this.formularioInformacion.patchValue({
-          nombre_corto: respuesta.nombre_corto,
-          numero_identificacion: respuesta.numero_identificacion,
-          direccion: respuesta.direccion,
-          telefono: respuesta.telefono,
-          identificacion: respuesta.identificacion_id,
-          ciudad: respuesta.ciudad_id,
-          correo: respuesta.correo,
-          ciudad_nombre: respuesta.ciudad_nombre,
-          usuario: respuesta.usuario_id,
-          digito_verificacion: respuesta.digito_verificacion
+    if (!this.validarNuevoEditar) {
+      this.facturacionService
+        .obtenerInformacionFacturacion(this.informacion_id)
+        .subscribe((respuesta: any) => {
+          this.informacionFacturacion = respuesta;
+          this.formularioInformacion.patchValue({
+            nombre_corto: respuesta.nombre_corto,
+            numero_identificacion: respuesta.numero_identificacion,
+            direccion: respuesta.direccion,
+            telefono: respuesta.telefono,
+            identificacion: respuesta.identificacion_id,
+            ciudad: respuesta.ciudad_id,
+            correo: respuesta.correo,
+            ciudad_nombre: respuesta.ciudad_nombre,
+            usuario: respuesta.usuario_id,
+            digito_verificacion: respuesta.digito_verificacion,
+          });
         });
-      });
+    }
     this.modalRef = this.modalService.open(this.customTemplate, {
       backdrop: 'static',
       size: 'lg',
@@ -252,23 +256,44 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   }
 
   enviar() {
-    if (this.formularioInformacion.valid) {    
-    this.facturacionService
-      .actualizarDatosInformacionFacturacion(
-        this.informacion_id,
-        this.formularioInformacion.value
-      )
-      .subscribe((respuesta) => {
-        this.modalService.dismissAll();
-        this.alertaService.mensajaExitoso(
-          this.translateService.instant(
-            'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-          )
-        );
-        return this.emitirActualizacion.emit(true);
-      });
-  }else {
-    this.formularioInformacion.markAllAsTouched();
+    if (this.formularioInformacion.valid) {
+      if(!this.validarNuevoEditar){
+        this.facturacionService
+        .actualizarDatosInformacionFacturacion(
+          this.informacion_id,
+          this.formularioInformacion.value
+        )
+        .subscribe((respuesta) => {
+          this.modalService.dismissAll();
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+            )
+          );
+          return this.emitirActualizacion.emit(true);
+        });
+      } else {
+        this.formularioInformacion.patchValue({
+          usuario: this.codigoUsuario
+        })
+        this.facturacionService
+        .crearInformacionFacturacion(
+          this.formularioInformacion.value
+        )
+        .subscribe((respuesta) => {
+          this.modalService.dismissAll();
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+            )
+          );
+          return this.emitirActualizacion.emit(true);
+        });
+      }
+
+    } else {
+      this.formularioInformacion.markAllAsTouched();
+    }
   }
-}
+
 }

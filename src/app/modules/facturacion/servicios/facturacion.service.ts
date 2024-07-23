@@ -65,4 +65,10 @@ export class FacturacionService {
       `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/`, data);
   }
 
+  eliminarInformacionFacturacion(informacion_id: any) {
+    return this.http.delete<{informacion_id: any}>(
+      `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/${informacion_id}/`);
+  }
+
+
 }

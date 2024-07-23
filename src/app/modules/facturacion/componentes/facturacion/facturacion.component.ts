@@ -62,7 +62,7 @@ export class FacturacionComponent extends General implements OnInit {
   arrFacturasSeleccionados: any[] = [];
   arrFacturacionInformacion: any[] = [];
   totalPagar = new BehaviorSubject(0);
-  informacionFacturacion: Number = 1;
+  informacionFacturacion: Number = 0;
 
   ngOnInit() {
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
@@ -209,5 +209,21 @@ export class FacturacionComponent extends General implements OnInit {
       default:
         return 'NI';
     }
+  }
+
+  eliminarInformacionFacturacion(informacion_id: any) {
+    this.facturacionService
+      .eliminarInformacionFacturacion(informacion_id)
+      .subscribe((respuesta) => {
+        if (respuesta) {
+          this.alertaService.mensajaExitoso(
+            'Se ha eliminado correctamente la información de facturación'
+          );
+        }
+        this.facturacionService.informacionFacturacion(this.codigoUsuario).subscribe((respuesta) => {
+          this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
+          this.changeDetectorRef.detectChanges();
+        })
+      });
   }
 }
