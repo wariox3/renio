@@ -62,7 +62,7 @@ export class FacturacionComponent extends General implements OnInit {
   arrFacturasSeleccionados: any[] = [];
   arrFacturacionInformacion: any[] = [];
   totalPagar = new BehaviorSubject(0);
-  informacionFacturacion: Number = 0;
+  informacionFacturacion: number | null = null;
 
   ngOnInit() {
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
@@ -83,6 +83,9 @@ export class FacturacionComponent extends General implements OnInit {
       this.facturas = respuesta[0].movimientos;
       this.consumos = respuesta[1].consumos;
       this.arrFacturacionInformacion = respuesta[2].informaciones_facturacion;
+      if (this.arrFacturacionInformacion.length > 0) {
+        this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+      }
       respuesta[1].consumos.map((consumo: Consumo) => {
         this.consumoTotal += consumo.vr_total;
       });
@@ -222,6 +225,9 @@ export class FacturacionComponent extends General implements OnInit {
         }
         this.facturacionService.informacionFacturacion(this.codigoUsuario).subscribe((respuesta) => {
           this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
+          if (this.arrFacturacionInformacion.length > 0) {
+            this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+          }
           this.changeDetectorRef.detectChanges();
         })
       });
