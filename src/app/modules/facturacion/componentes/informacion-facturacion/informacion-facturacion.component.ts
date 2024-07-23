@@ -257,43 +257,45 @@ export class InformacionFacturacionComponent extends General implements OnInit {
 
   enviar() {
     if (this.formularioInformacion.valid) {
-      if(!this.validarNuevoEditar){
+      if (!this.validarNuevoEditar) {
         this.facturacionService
-        .actualizarDatosInformacionFacturacion(
-          this.informacion_id,
-          this.formularioInformacion.value
-        )
-        .subscribe((respuesta) => {
-          this.modalService.dismissAll();
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-            )
-          );
-          return this.emitirActualizacion.emit(true);
-        });
+          .actualizarDatosInformacionFacturacion(
+            this.informacion_id,
+            this.formularioInformacion.value
+          )
+          .subscribe((respuesta) => {
+            this.modalService.dismissAll();
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+              )
+            );
+            this.formularioInformacion.reset();  // Limpiar el formulario
+            return this.emitirActualizacion.emit(true);
+          });
       } else {
         this.formularioInformacion.patchValue({
           usuario: this.codigoUsuario
-        })
-        this.facturacionService
-        .crearInformacionFacturacion(
-          this.formularioInformacion.value
-        )
-        .subscribe((respuesta) => {
-          this.modalService.dismissAll();
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-            )
-          );
-          return this.emitirActualizacion.emit(true);
         });
+        this.facturacionService
+          .crearInformacionFacturacion(
+            this.formularioInformacion.value
+          )
+          .subscribe((respuesta) => {
+            this.modalService.dismissAll();
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant(
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+              )
+            );
+            this.formularioInformacion.reset();  // Limpiar el formulario
+            return this.emitirActualizacion.emit(true);
+          });
       }
-
     } else {
       this.formularioInformacion.markAllAsTouched();
     }
   }
+  
 
 }

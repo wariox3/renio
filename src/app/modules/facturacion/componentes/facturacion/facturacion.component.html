@@ -59,7 +59,7 @@
                             <i
                               class="cursor-pointer"
                               [ngClass]="
-                                checked.checked
+                                checkbox.checked
                                   ? 'fa-solid fa-square-check text-danger'
                                   : 'fa-regular fa-square text-gray-500'
                               "
@@ -68,12 +68,12 @@
                               <span class="path2"></span>
                             </i>
                             <input
-                              #checked
+                              #checkbox
                               class="d-none"
                               type="checkbox"
                               [id]="item.id"
                               [value]="item.id"
-                              (change)="agregarRegistrosPagar(item)"
+                              (change)="agregarRegistrosPagar(item, checkbox)"
                             />
                           </label>
                         </td>

@@ -93,46 +93,42 @@ export class FacturacionComponent extends General implements OnInit {
     });
   }
 
-  agregarRegistrosPagar(item: Factura) {
-    const index = this.arrFacturasSeleccionados.findIndex(
-      (documento) => documento.id === item.id
-    );
+  agregarRegistrosPagar(item: Factura, checkbox: HTMLInputElement) {
+    if (this.informacionFacturacion === null || '') {
+      this.alertaService.mensajeError('Error', 'No se puede realizar un pago si no cuenta con información de facturación');
+      checkbox.checked = false;
+      return;
+    }
+  
+    const index = this.arrFacturasSeleccionados.findIndex((documento) => documento.id === item.id);
     let valorActualPagar = this.totalPagar.getValue();
-
+  
     if (index !== -1) {
-      this.totalPagar.next(
-        valorActualPagar - parseInt(item.vr_saldo_enmascarado)
-      );
+      this.totalPagar.next(valorActualPagar - parseInt(item.vr_saldo_enmascarado));
       this.arrFacturasSeleccionados.splice(index, 1);
       this.changeDetectorRef.detectChanges();
     } else {
-      this.totalPagar.next(
-        valorActualPagar + parseInt(item.vr_saldo_enmascarado)
-      );
+      this.totalPagar.next(valorActualPagar + parseInt(item.vr_saldo_enmascarado));
       this.arrFacturasSeleccionados.push(item);
       this.changeDetectorRef.detectChanges();
     }
-
+  
     let referencia = '';
-    referencia = this.arrFacturasSeleccionados
-      .map((factura: Factura, index: number, array: Factura[]) => {
-        if (index === array.length - 1) {
-          return factura.id;
-        } else {
-          return factura.id + '-';
-        }
-      })
-      .join('');
-
+    referencia = this.arrFacturasSeleccionados.map((factura: Factura, index: number, array: Factura[]) => {
+      if (index === array.length - 1) {
+        return factura.id;
+      } else {
+        return factura.id + '-';
+      }
+    }).join('');
+  
     if (referencia !== '') {
-      this.contenedorServices
-        .contenedorGenerarIntegridad({
-          referencia,
-          monto: `${this.totalPagar.getValue()}`,
-        })
-        .subscribe((respuesta) => {
-          this.habitarBtnWompi(respuesta.hash, referencia);
-        });
+      this.contenedorServices.contenedorGenerarIntegridad({
+        referencia,
+        monto: `${this.totalPagar.getValue()}`,
+      }).subscribe((respuesta) => {
+        this.habitarBtnWompi(respuesta.hash, referencia);
+      });
     }
   }
 
@@ -185,6 +181,10 @@ export class FacturacionComponent extends General implements OnInit {
       .informacionFacturacion(this.codigoUsuario)
       .subscribe((respuesta) => {
         this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
+        if (this.arrFacturacionInformacion.length > 0) {
+          this.informacionFacturacion =
+            this.arrFacturacionInformacion[0].id;
+        }
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -223,13 +223,19 @@ export class FacturacionComponent extends General implements OnInit {
             'Se ha eliminado correctamente la información de facturación'
           );
         }
-        this.facturacionService.informacionFacturacion(this.codigoUsuario).subscribe((respuesta) => {
-          this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
-          if (this.arrFacturacionInformacion.length > 0) {
-            this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
-          }
-          this.changeDetectorRef.detectChanges();
-        })
+        this.facturacionService
+          .informacionFacturacion(this.codigoUsuario)
+          .subscribe((respuesta) => {
+            this.arrFacturacionInformacion =
+              respuesta.informaciones_facturacion;
+            if (this.arrFacturacionInformacion.length > 0) {
+              this.informacionFacturacion =
+                this.arrFacturacionInformacion[0].id;
+            } else {
+              this.informacionFacturacion = null
+            }
+            this.changeDetectorRef.detectChanges();
+          });
       });
   }
 }
