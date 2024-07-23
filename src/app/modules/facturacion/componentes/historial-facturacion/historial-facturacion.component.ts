@@ -39,7 +39,7 @@ export class HistorialFacturacionComponent extends General implements OnInit {
 
 
   descargarDocumento(documento_id:any) {
-    this.httpService.descargarArchivo('contenedor/movimiento/descargar/', {
+    this.httpService.descargarArchivoDominio('contenedor/movimiento/descargar/', {
       'id': documento_id
     });
   }
