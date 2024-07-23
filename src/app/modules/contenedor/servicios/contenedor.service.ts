@@ -215,6 +215,15 @@ export class ContenedorService {
     );
   }
 
+  descargarDocumento(documento_id: any) {
+    return this.http.post<any>(
+      `${environment.URL_API_MUUP}/contenedor/movimiento/descargar/`,
+      {
+        'id' : documento_id
+      }
+    );
+  }
+
   reenviarCorreoVerificacion(usuario_id: string){
     return this.http.post<Movimientos>(
       `${environment.URL_API_MUUP}/contenedor/verificacion/reenviar-verificacion/ `,

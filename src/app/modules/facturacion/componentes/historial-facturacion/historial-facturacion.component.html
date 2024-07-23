@@ -12,35 +12,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let moviento of movientos">
-        <td>{{ moviento.id }}</td>
-        <td>{{ moviento.tipo }}</td>
-        <td>{{ moviento.fecha | date : "yyyy-MM-dd" }}</td>
-        <td class="text-end">$ {{ moviento.vr_total | number }}</td>
-        <td class="w-50px">
-          <div class="h-100 d-flex flex-column justify-content-center">
-            <div
-              ngbDropdown
-              class="d-inline-block"
-              display="dynamic"
-              placement="end"
-            >
-              <button
-                type="button"
-                class="btn btn-link text-hover-primary"
-                id="dropdownBasic1"
-                ngbDropdownToggle
-              >
-                <i class="bi bi-three-dots-vertical fs-2x"></i>
-              </button>
-              <div
-                class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
-                ngbDropdownMenu
-                aria-labelledby="dropdownBasic1"
-              ></div>
-            </div>
-          </div>
-        </td>
+      <tr *ngFor="let movimiento of movientos">
+        <td>{{ movimiento.id }}</td>
+        <td>{{ movimiento.tipo }}</td>
+        <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
+        <td class="text-end">$ {{ movimiento.vr_total | number }}</td>
+        <button
+          type="submit"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          #btnGuardar
+          translate=""
+          (click)="descargarDocumento(movimiento.id)"
+        >
+          Descargar
+        </button>
       </tr>
     </tbody>
   </table>

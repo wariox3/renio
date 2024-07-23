@@ -5,18 +5,20 @@ import { General } from '@comun/clases/general';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { switchMap, tap } from 'rxjs';
 import { Movimiento } from '@interfaces/facturacion/Facturacion';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-historial-facturacion',
   standalone: true,
   templateUrl: './historial-facturacion.component.html',
   styleUrls: ['./historial-facturacion.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
 })
 export class HistorialFacturacionComponent extends General implements OnInit {
   movientos: Movimiento[];
 
-  constructor(private contenedorService: ContenedorService) {
+  constructor(private contenedorService: ContenedorService, private httpService: HttpService) {
     super();
   }
 
@@ -33,5 +35,12 @@ export class HistorialFacturacionComponent extends General implements OnInit {
         })
       )
       .subscribe();
+  }
+
+
+  descargarDocumento(documento_id:any) {
+    this.httpService.descargarArchivo('contenedor/movimiento/descargar/', {
+      'id': documento_id
+    });
   }
 }

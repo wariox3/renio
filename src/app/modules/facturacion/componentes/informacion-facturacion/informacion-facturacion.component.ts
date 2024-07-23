@@ -18,7 +18,6 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
@@ -69,7 +68,6 @@ export class InformacionFacturacionComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
-    private httpService: HttpService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
     private facturacionService: FacturacionService,
     private contenedorService: ContenedorService
