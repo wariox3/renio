@@ -81,7 +81,7 @@
                     </tbody>
                   </table>
                   <div
-                    class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-12 p-6"
+                    class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-3 p-4"
                   >
                     <i
                       class="ki-duotone ki-information fs-2tx text-warning me-4"
@@ -101,6 +101,85 @@
                           realizar el pago.
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-10 p-5 border">
+                <div class="col-md-12 col-sm-12">
+                  <h5
+                    class="mb-4"
+                  >Información de facturación</h5>
+                  <br>
+                  <div
+                    class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9"
+                    data-kt-buttons="true"
+                    data-kt-buttons-target="[data-kt-button='true']"
+                    data-kt-initialized="1"
+                  >
+                    <div
+                      class="col"
+                      *ngFor="let informacion of arrFacturacionInformacion"
+                    >
+                      <label
+                        class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4"
+                        [ngClass]="{
+                          active: informacionFacturacion === informacion.id
+                        }"
+                        (click)="informacionFacturacion = informacion.id"
+                        data-kt-button="true"
+                        style="position: relative; cursor: pointer"
+                      >
+                        <div
+                          class="d-flex justify-content-end"
+                          style="position: absolute; top: 8px; right: 8px"
+                        >
+                          <app-informacion-facturacion
+                            [informacion_id]="informacion.id"
+                            (emitirActualizacion)="consultarDetalle()"
+                          ></app-informacion-facturacion>
+                        </div>
+                        <div class="d-flex align-items-center w-100">
+                          <span
+                            class="form-check form-check-custom form-check-solid form-check-sm mt-1"
+                            style="flex-shrink: 0; margin-right: 8px"
+                          >
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="informacion_id"
+                              formControlName="informacion_id"
+                              [value]="informacion.id"
+                              [checked]="
+                                informacionFacturacion === informacion.id
+                              "
+                              (change)="informacionFacturacion = informacion.id"
+                            />
+                          </span>
+                          <span class="text-left w-100">
+                            <span class="fs-6 text-gray-800 d-block">
+                              {{
+                                getIdentificacionPrefix(
+                                  informacion.identificacion_id
+                                )
+                              }}
+                              {{ informacion.numero_identificacion }}
+                            </span>
+                            <span class="fs-6 fw-bold text-gray-800 d-block">{{
+                              informacion.nombre_corto
+                            }}</span>
+                            <span class="fs-6 text-gray-800 d-block">{{
+                              informacion.telefono
+                            }}</span>
+                            <span class="fs-6 text-gray-800 d-block">{{
+                              informacion.direccion
+                            }}</span>
+                            <span class="fs-6 text-gray-800 d-block">{{
+                              informacion.ciudad_nombre_mascara
+                            }}</span>
+                          </span>
+                        </div>
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -158,14 +237,18 @@
                 </div>
               </div>
               <div class="mb-10 p-5 border">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h5
+                    class="mb-4"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.CONSUMO"
+                  ></h5>
+                  <div class="card-toolbar" id="wompiWidget"></div>
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table table-hover table-bordered table-rounded border gy-2 gs-2"
                   >
                     <thead>
-                      <tr class="fw-bold text-gray-800">
-                        <th colspan="4">Consumo</th>
-                      </tr>
                       <tr class="fw-bold text-gray-800">
                         <th>Subdominio</th>
                         <th>Empresa</th>
@@ -204,7 +287,4 @@
       </div>
     </div>
   </section>
-</app-card>
-<app-card>
-  <section card-titulo>Información de facturación</section>
 </app-card>

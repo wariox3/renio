@@ -6,7 +6,12 @@ import {
   type OnInit,
 } from '@angular/core';
 import { CardComponent } from '../../../../comun/componentes/card/card.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbActiveModal,
+  NgbDropdownModule,
+  NgbModalModule,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -20,6 +25,7 @@ import { environment } from '@env/environment';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { FechasService } from '@comun/services/fechas.service';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
+import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';
 
 @Component({
   selector: 'app-facturacion',
@@ -32,7 +38,11 @@ import { HistorialFacturacionComponent } from '../historial-facturacion/historia
     NgbNavModule,
     TranslateModule,
     HistorialFacturacionComponent,
+    NgbDropdownModule,
+    InformacionFacturacionComponent,
+    NgbModalModule,
   ],
+  providers: [NgbActiveModal],
 })
 export class FacturacionComponent extends General implements OnInit {
   constructor(
@@ -50,7 +60,9 @@ export class FacturacionComponent extends General implements OnInit {
   consumoTotal = 0;
   codigoUsuario = '';
   arrFacturasSeleccionados: any[] = [];
+  arrFacturacionInformacion: any[] = [];
   totalPagar = new BehaviorSubject(0);
+  informacionFacturacion: Number = 1;
 
   ngOnInit() {
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
@@ -65,10 +77,12 @@ export class FacturacionComponent extends General implements OnInit {
     const fechaHasta = hoy.toISOString().slice(0, 10);
     zip(
       this.facturacionService.facturacion(this.codigoUsuario),
-      this.facturacionService.facturacionFechas(this.codigoUsuario, fechaHasta)
+      this.facturacionService.facturacionFechas(this.codigoUsuario, fechaHasta),
+      this.facturacionService.informacionFacturacion(this.codigoUsuario)
     ).subscribe((respuesta) => {
       this.facturas = respuesta[0].movimientos;
       this.consumos = respuesta[1].consumos;
+      this.arrFacturacionInformacion = respuesta[2].informaciones_facturacion;
       respuesta[1].consumos.map((consumo: Consumo) => {
         this.consumoTotal += consumo.vr_total;
       });
@@ -161,5 +175,39 @@ export class FacturacionComponent extends General implements OnInit {
         }
       }
     });
+  }
+
+  consultarDetalle() {
+    this.facturacionService
+      .informacionFacturacion(this.codigoUsuario)
+      .subscribe((respuesta) => {
+        this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  getIdentificacionPrefix(id: number): string {
+    switch (id) {
+      case 1:
+        return 'RC';
+      case 2:
+        return 'TI';
+      case 3:
+        return 'CC';
+      case 4:
+        return 'TE';
+      case 5:
+        return 'CE';
+      case 6:
+        return 'NI';
+      case 7:
+        return 'PB';
+      case 8:
+        return 'TE';
+      case 9:
+        return 'RC';
+      default:
+        return 'NI';
+    }
   }
 }

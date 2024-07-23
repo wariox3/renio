@@ -1,0 +1,374 @@
+<div class="menu-item px-3">
+  <a
+    translate="FORMULARIOS.BOTONES.COMUNES.EDITAR"
+    class="btn btn-sm btn-dark me-3 cursor-pointer"
+    (click)="openModal()"
+  >
+  </a>
+</div>
+<ng-template #dialogTemplate>
+  <form
+    class="form w-100"
+    novalidate="novalidate"
+    [formGroup]="formularioInformacion"
+    (ngSubmit)="enviar()"
+  >
+    <div class="card shadow-sm">
+      <div class="modal-header">
+        <h3 class="card-title">Editar información de facturación</h3>
+        <button
+          type="button"
+          class="btn btn-bg-light btn-color-danger"
+          aria-label="Close"
+          (click)="modalRef.dismiss('Cross click')"
+        >
+          <i class="bi bi-x fs-2x"></i>
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="row mb-10">
+          <div class="col-md-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="nombre_corto"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['nombre_corto'].touched &&
+                  formularioInformacion.controls['nombre_corto'].invalid,
+                'is-valid':
+                  formularioInformacion.controls['nombre_corto'].touched &&
+                  formularioInformacion.controls['nombre_corto'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['nombre_corto']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                control: formularioInformacion.controls['nombre_corto']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'minlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+                cantidadCaracteres: '3',
+                control: formularioInformacion.controls['nombre_corto']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '100',
+                control: formularioInformacion.controls['nombre_corto']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+        <div class="row mb-10">
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="numero_identificacion"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              (blur)="calcularDigitoVerificacion()"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['numero_identificacion']
+                    .touched &&
+                  formularioInformacion.controls['numero_identificacion']
+                    .invalid,
+                'is-valid':
+                  formularioInformacion.controls['numero_identificacion']
+                    .touched &&
+                  formularioInformacion.controls['numero_identificacion'].valid
+              }"
+            />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
+              class="form-label required"
+            ></label>
+            <select
+              class="form-select"
+              formControlName="identificacion"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['identificacion'].touched &&
+                  formularioInformacion.controls['identificacion'].invalid,
+                'is-valid':
+                  formularioInformacion.controls['identificacion'].touched &&
+                  formularioInformacion.controls['identificacion'].valid
+              }"
+            >
+              <option value="">Seleccionar...</option>
+              <option
+                *ngFor="let identificacion of arrIdentificacion"
+                [value]="identificacion.identificacion_id"
+                [selected]="
+                  identificacion.identificacion_id ===
+                  formularioInformacion.value.identificacion
+                "
+              >
+                {{ identificacion.identificacion_nombre }}
+              </option>
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['identificacion']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+        <div class="row mb-10">
+          <div
+            class="col-md-6 col-sm-12"
+            ngbDropdown
+            #CiudadDropdown="ngbDropdown"
+          >
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.CIUDAD"
+              class="form-label required"
+            ></label>
+            <div class="position-relative">
+              <input
+                type="text"
+                class="form-control"
+                ngbDropdownAnchor
+                formControlName="ciudad_nombre"
+                [ngClass]="{
+                  'is-invalid':
+                    formularioInformacion.controls['ciudad'].touched &&
+                    formularioInformacion.controls['ciudad'].invalid,
+                  'is-valid':
+                    formularioInformacion.controls['ciudad'].touched &&
+                    formularioInformacion.controls['ciudad'].valid
+                }"
+                (focus)="consultarCiudad($event); CiudadDropdown.open()"
+                (blur)="modificarCampoFormulario('ciudad', null)"
+                (keyup)="consultarCiudad($event)"
+              />
+              <div
+                class="position-absolute translate-middle-y top-50 end-0 me-3"
+              >
+                <i class="bi bi-search fs-2"></i>
+              </div>
+            </div>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['ciudad']
+              }"
+            ></ng-container>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button
+                type="button"
+                ngbDropdownItem
+                *ngFor="let ciudad of arrCiudades; index as i"
+                [ngClass]="{ item: selectedDateIndex === i }"
+                (click)="
+                  modificarCampoFormulario('ciudad', ciudad);
+                  CiudadDropdown.close()
+                "
+                (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
+              >
+                {{ ciudad.ciudad_nombre }}
+              </button>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.DIRECCION"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="direccion"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['direccion'].touched &&
+                  formularioInformacion.controls['direccion'].invalid,
+                'is-valid':
+                  formularioInformacion.controls['direccion'].touched &&
+                  formularioInformacion.controls['direccion'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['direccion']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '255',
+                control: formularioInformacion.controls['direccion']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+        <div class="row mb-10">
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.TELEFONO"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="telefono"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['telefono'].touched &&
+                  formularioInformacion.controls['telefono'].invalid,
+                'is-valid':
+                  formularioInformacion.controls['telefono'].touched &&
+                  formularioInformacion.controls['telefono'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['telefono']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '255',
+                control: formularioInformacion.controls['telefono']
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="correo"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioInformacion.controls['correo'].touched &&
+                  formularioInformacion.controls['correo'].invalid,
+                'is-valid':
+                  formularioInformacion.controls['correo'].touched &&
+                  formularioInformacion.controls['correo'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioInformacion.controls['correo']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '100',
+                control: formularioInformacion.controls['correo']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+                control: formularioInformacion.controls['correo']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+
+        <!-- Botón Guardar -->
+        <div class="fv-row d-flex justify-content-end">
+          <button
+            translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+            type="submit"
+            class="btn btn-primary"
+            type="submit"
+            #btnGuardar
+          ></button>
+        </div>
+      </div>
+    </div>
+    <!--end::Form group-->
+  </form>
+  <ng-template
+    #formError
+    let-control="control"
+    let-message="message"
+    let-validation="validation"
+    let-cantidadCaracteres="cantidadCaracteres"
+  >
+    <ng-container
+      *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+    >
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</ng-template>

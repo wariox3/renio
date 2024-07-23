@@ -32,10 +32,37 @@ export class FacturacionService {
     );
   }
 
+  informacionFacturacion(usuario_id: string) {
+    return this.http.post<any>(
+      `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/consulta-usuario/`,
+      {
+        usuario_id,
+      }
+    );
+  }
+
+
+  obtenerInformacionFacturacion(usuario_id: any) {
+    return this.http.get<{usuario_id: any}>(
+      `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/${usuario_id}/`,
+    );
+  }
+
+
   obtenerUsuarioVrSaldo(usuario_id: string) {
     return this.http.get<{saldo: number}>(
       `${environment.URL_API_MUUP}/seguridad/usuario/saldo/${usuario_id}/`,
     );
+  }
+
+  actualizarDatosInformacionFacturacion(informacion_id: any, data: any) {
+    return this.http.put<{informacion_id: any, data: any}>(
+      `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/${informacion_id}/`, data);
+  }
+
+  crearInformacionFacturacion(data: any) {
+    return this.http.post<{data: any}>(
+      `${environment.URL_API_MUUP}/contenedor/informacion_facturacion/`, data);
   }
 
 }

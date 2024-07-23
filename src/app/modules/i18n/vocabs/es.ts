@@ -189,6 +189,8 @@ export const locale = {
             'Esta es una estimación de la cantidad que debe pagar de este usuario en el mes hasta la fecha después de créditos y pagos por adelantado.',
           TEXTOAYUDA4:
             'Seleccione las facturas para pago.',
+          CONSUMO:
+            'Consumos',
           ESTIMADO: 'Valor estimado',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'pago tipo',
@@ -229,7 +231,8 @@ export const locale = {
           CREDITO: 'Crédito',
           DEBITO: 'Débito',
           PAGOS: 'Pagos',
-          PAGO: 'Pago'
+          PAGO: 'Pago',
+          INFORMACIONFACTURACION: 'Información de facturación'
         },
         GENERAL: {
           ITEM: {
@@ -286,7 +289,8 @@ export const locale = {
           BARRIO: 'Barrio',
           SELECCIONAR: 'Seleccionar',
           EMPLEADO: 'Empleado',
-          PROVEEDOR: 'Proveedor'
+          PROVEEDOR: 'Proveedor',
+          DIGITO: 'Digito',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
