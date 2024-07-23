@@ -95,7 +95,7 @@ export class FacturacionComponent extends General implements OnInit {
 
   agregarRegistrosPagar(item: Factura, checkbox: HTMLInputElement) {
     if (this.informacionFacturacion === null || '') {
-      this.alertaService.mensajeError('Error', 'No se puede realizar un pago si no cuenta con información de facturación');
+      this.alertaService.mensajeError('Error', 'Debe seleccionar la información de facturación antes de realizar el pago');
       checkbox.checked = false;
       return;
     }

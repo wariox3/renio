@@ -417,9 +417,11 @@ export const locale = {
           PROCESANDOACTUALIZACION: 'actualización completa',
           PROCESANDOELIMINACION: 'Por favor espere, procesando eliminación',
           ACTUALIZACION: 'Actualización de los datos exitosa',
-          ALERTASUSPENCIONTITULO: '¡Alerta de suscripción!',
+          ALERTASUSPENCIONTITULO: '¡Es hora de realizar tu pago!',
           ALERTASUSPENCIONMENSAJE:
-            'Tiene un saldo pendiente por pagar. Si no realiza el pago pronto, su cuenta será suspendida. Fecha límite: ',
+            'Se ha generado el pedido correspondiente al consumo de tu cuenta y tienes un saldo de: ',
+            ALERTASUSPENCIONMENSAJE2:
+            ' disponible para pago. Fecha límite: ',
           CARGARIMAGEN: 'Imagen cargada con éxito',
         },
         CONTENEDOR: {

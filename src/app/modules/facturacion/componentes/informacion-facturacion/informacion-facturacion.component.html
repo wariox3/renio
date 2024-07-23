@@ -17,7 +17,7 @@
   >
     <div class="card shadow-sm">
       <div class="modal-header">
-        <h3 class="card-title">Editar información de facturación</h3>
+        <h3 class="card-title">Información de facturación</h3>
         <button
           type="button"
           class="btn btn-bg-light btn-color-danger"
@@ -112,6 +112,32 @@
                   formularioInformacion.controls['numero_identificacion'].valid
               }"
             />
+            <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioInformacion.controls['numero_identificacion']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioInformacion.controls['numero_identificacion']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioInformacion.controls['numero_identificacion']
+            }"
+          ></ng-container>
           </div>
           <div class="col-md-6 col-sm-12">
             <label
