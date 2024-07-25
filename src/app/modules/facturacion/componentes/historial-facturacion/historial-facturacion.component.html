@@ -17,16 +17,14 @@
         <td>{{ movimiento.tipo }}</td>
         <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
         <td class="text-end">$ {{ movimiento.vr_total | number }}</td>
-        <button
-          type="submit"
-          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          #btnGuardar
-          translate=""
-          (click)="descargarDocumento(movimiento.id)"
-        >
-          Descargar
-        </button>
+        <td class="text-center">
+          <i
+            class="fa-solid fa-download"
+            (click)="descargarDocumento(movimiento.id)"
+          ></i>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
+

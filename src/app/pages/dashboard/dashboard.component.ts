@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -10,23 +10,92 @@ import { RouterModule } from '@angular/router';
 import { Empresa } from '@interfaces/contenedor/empresa';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { LaboratorioComponent } from "../../comun/componentes/laboratorio/laboratorio.component";
+import { series } from "../../comun/componentes/laboratorio/data";
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexLegend,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis,
+  ChartComponent,
+  NgApexchartsModule,
+} from 'ng-apexcharts';
+
+export type areaChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  labels: string[];
+  legend: ApexLegend;
+  subtitle: ApexTitleSubtitle;
+};
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   standalone: true,
-  imports: [CardComponent, RouterModule, NgbTooltipModule],
+  imports: [CardComponent, RouterModule, NgbTooltipModule, LaboratorioComponent, NgApexchartsModule],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },
 })
+
 export class DashboardComponent extends General implements OnInit {
   constructor(
     private httpService: HttpService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    
   ) {
     super();
+
+    this.areaChartOptions = {
+      series: [
+        {
+          name: "Total",
+          data: series.monthDataSeries1.prices
+        }
+      ],
+      chart: {
+        type: "area",
+        height: 450,
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: "straight"
+      },
+
+      title: {
+        text: "Análisis fundamental de las acciones",
+        align: "left"
+      },
+      labels: series.monthDataSeries1.dates,
+      xaxis: {
+        type: "datetime"
+      },
+      yaxis: {
+        opposite: true
+      },
+      legend: {
+        horizontalAlign: "left"
+      }
+    };
   }
+
+  @ViewChild('seires') seiresChart: ChartComponent;
+  public areaChartOptions: Partial<areaChartOptions>;
 
   asistente_electronico: boolean;
 
@@ -54,4 +123,5 @@ export class DashboardComponent extends General implements OnInit {
       this.consultarInformacion()
     });
   }
+  
 }
