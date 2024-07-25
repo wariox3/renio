@@ -1,5 +1,5 @@
 type Mapeo = {
-  [key: number]: {
+  [key: number | string]: {
     nombre: string;
     nombreAbreviado?: string;
     visibleTabla: boolean;
@@ -881,4 +881,13 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
   ],
+  'HumProgramacion': [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    }
+  ]
 };

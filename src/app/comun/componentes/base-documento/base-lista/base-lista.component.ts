@@ -62,9 +62,7 @@ export class BaseListaComponent extends General implements OnInit {
         .getItem('itemNombre')
         ?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
-      let posicion: keyof typeof documentos = parseInt(
-        parametro.documento_clase
-      );
+      let posicion: keyof typeof documentos = parametro.documento_clase      
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
     });
@@ -74,32 +72,57 @@ export class BaseListaComponent extends General implements OnInit {
   consultarLista() {
     const { documento_clase } = this.parametrosUrl;
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-    if (filtroGuardado === null) {
-      this.arrParametrosConsulta.filtros = [
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: documento_clase,
+    const consulaHttp = localStorage.getItem('consultaHttp')
+    if(consulaHttp === 'si'){
+      if (filtroGuardado === null) {
+        this.arrParametrosConsulta.filtros = [
+          {
+            propiedad: 'documento_tipo__documento_clase_id',
+            valor1: documento_clase,
+          },
+        ];
+      } else {
+        this.arrParametrosConsulta.filtros = [
+          {
+            propiedad: 'documento_tipo__documento_clase_id',
+            valor1: documento_clase,
+          },
+          ...JSON.parse(filtroGuardado),
+        ];
+      }
+  
+      this.httpService
+        .post<{
+          registros: any;
+        }>('general/documento/lista/', this.arrParametrosConsulta)
+        .subscribe((respuesta: any) => {
+          this.cantidad_registros = respuesta.length;
+          this.arrItems = respuesta;
+          this.changeDetectorRef.detectChanges();
+        });
+    }else {
+      let baseUrl = 'general/funcionalidad/lista-administrador/';
+      this.arrParametrosConsulta = {
+        ...this.arrParametrosConsulta,
+        ...{
+          modelo: documento_clase,
         },
-      ];
-    } else {
-      this.arrParametrosConsulta.filtros = [
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: documento_clase,
-        },
-        ...JSON.parse(filtroGuardado),
-      ];
+      };
+  
+      this.httpService
+        .post<{
+          cantidad_registros: number;
+          registros: any[];
+          propiedades: any[];
+        }>(baseUrl, this.arrParametrosConsulta)
+        .subscribe((respuesta: any) => {
+          this.cantidad_registros = respuesta.cantidad_registros;
+          this.arrItems = respuesta.registros;
+          this.arrPropiedades = respuesta.propiedades;
+  
+          this.changeDetectorRef.detectChanges();
+        });
     }
-
-    this.httpService
-      .post<{
-        registros: any;
-      }>('general/documento/lista/', this.arrParametrosConsulta)
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length;
-        this.arrItems = respuesta;
-        this.changeDetectorRef.detectChanges();
-      });
   }
 
   obtenerFiltros(arrfiltros: any[]) {

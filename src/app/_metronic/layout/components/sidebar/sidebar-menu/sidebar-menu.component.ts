@@ -107,6 +107,7 @@ export class SidebarMenuComponent implements OnInit {
     } else {
       localStorage.setItem('itemNombre', item.nombre);
       localStorage.setItem('itemTipo', 'DOCUMENTO');
+      localStorage.setItem('consultaHttp', item.consultaHttp? 'si' : 'no');
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));

@@ -10,6 +10,7 @@ export interface informacionMenuItem {
   tipo?: string;
   url?: string;
   visualiazarIconoDeracha?: boolean;
+  consultaHttp?: boolean;
   data?: {
     [key: string]: any;
   };
@@ -39,6 +40,7 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 200 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },
@@ -74,30 +76,35 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 300 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 301 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
               data: { documento_clase: 302 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'DOCUMENTOSOPORTE',
               tipo: 'Documento',
               data: { documento_clase: 303 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTAAJUSTE',
               tipo: 'Documento',
               data: { documento_clase: 304 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },
@@ -164,6 +171,15 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          children: [
+            {
+              nombre: 'PROGRAMACION',
+              tipo: 'Documento',
+              data: { documento_clase: 'HumProgramacion' },
+              visualiazarIconoDeracha: true,
+              consultaHttp: false,
+            },
+          ],
         },
         {
           nombre: 'administracion',
@@ -202,24 +218,28 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 100 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 101 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
               data: { documento_clase: 102 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
               data: { documento_clase: 200 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },
@@ -329,18 +349,21 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 100 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
               data: { documento_clase: 101 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
               data: { documento_clase: 200 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },
@@ -393,16 +416,18 @@ export const initialState: Menu = {
           nombre: 'documento',
           children: [
             {
-              nombre: 'ENTREDA',
+              nombre: 'ENTRADA',
               tipo: 'Documento',
               data: { documento_clase: 500 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
             {
               nombre: 'SALIDA',
               tipo: 'Documento',
               data: { documento_clase: 501 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },
@@ -432,6 +457,7 @@ export const initialState: Menu = {
               tipo: 'Documento',
               data: { documento_clase: 400 },
               visualiazarIconoDeracha: true,
+              consultaHttp: true,
             },
           ],
         },

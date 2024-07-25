@@ -39,7 +39,7 @@ export const locale = {
         COMPRA: 'Compra',
         NOTACREDITOCOMPRA: 'Nota crédito',
         NOTADEBITOCOMPRA: 'Nota débito',
-        ENTREDA: 'Entreda',
+        ENTRADA: 'Entrada',
         SALIDA: 'Salida',
         EGRESO: 'Egreso',
         FACTURAELECTRONICA: 'Factura electrónica',
