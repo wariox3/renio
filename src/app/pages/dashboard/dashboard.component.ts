@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -25,6 +25,7 @@ import {
 
 import { zip } from 'rxjs';
 import { dashboardService } from './dashboard.service';
+import { CommonModule } from '@angular/common';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -48,6 +49,7 @@ export type ChartOptions = {
     NgbTooltipModule,
     LaboratorioComponent,
     NgApexchartsModule,
+    CommonModule
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },
@@ -90,7 +92,7 @@ export class DashboardComponent extends General implements OnInit {
         curve: 'straight',
       },
       title: {
-        text: 'Ventas Diarias',
+        text: 'La gáfica muestra el valor de tur ventas con impuestos incluidos',
         align: 'left',
       },
       grid: {
@@ -176,7 +178,7 @@ export class DashboardComponent extends General implements OnInit {
           curve: 'straight',
         },
         title: {
-          text: 'Ventas Diarias',
+          text: 'La gáfica muestra el valor de tur ventas con impuestos incluidos',
           align: 'left',
         },
         grid: {
