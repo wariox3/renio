@@ -53,111 +53,147 @@
     </div>
   </section>
 </app-card>
-}@else {
-  <div class="container-fluid">
-    <div class="row mb-4">
-      <div class="col-lg-6 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Cuentas por cobrar</h5>
-            <p class="card-text">${{ arrResumenCobrar?.resumen?.saldo_pendiente | number }}</p>
-            <div class="d-flex justify-content-between">
-              <div>
-                <small class="text-success">Vigentes</small>
-                <p>${{ arrResumenCobrar?.resumen_vigente?.saldo_pendiente | number }}</p>
-                <small>{{ arrResumenCobrar?.resumen_vigente?.cantidad }} documentos</small>
-              </div>
-              <div>
-                <small class="text-danger">Vencidas</small>
-                <p>${{ arrResumenCobrar?.resumen_vencido?.saldo_pendiente | number  }}</p>
-                <small>{{ arrResumenCobrar?.resumen_vencido?.cantidad }} documentos</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Cuentas por pagar</h5>
-            <p class="card-text">${{ arrResumenPagar?.resumen?.saldo_pendiente | number  }}</p>
-            <div class="d-flex justify-content-between">
-              <div>
-                <small class="text-success">Vigentes</small>
-                <p>${{ arrResumenPagar?.resumen_vigente?.saldo_pendiente | number  }}</p>
-                <small>{{ arrResumenPagar?.resumen_vigente?.cantidad }} documentos</small>
-              </div>
-              <div>
-                <small class="text-danger">Vencidas</small>
-                <p>${{ arrResumenPagar?.resumen_vencido?.saldo_pendiente | number  }}</p>
-                <small>{{ arrResumenPagar?.resumen_vencido?.cantidad }} documentos</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="row mb-4">
-      <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Impuestos en venta</h5>
-            <p class="card-text">$0,00</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Productos vendidos</h5>
-            <p class="card-text">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Devoluciones de clientes</h5>
-            <p class="card-text">$0,00</p>
-            <small>Incluye impuestos</small>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Clientes con ventas</h5>
-            <p class="card-text">0</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Total de ventas</h5>
+}
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-lg-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Cuentas por cobrar</h5>
+          <p class="card-text">
+            ${{ arrResumenCobrar?.resumen?.saldo_pendiente | number }}
+          </p>
+          <div class="d-flex justify-content-between">
             <div>
-              <div id="chart">
-                <apx-chart
-                  [series]="chartOptions.series!"
-                  [chart]="chartOptions.chart!"
-                  [xaxis]="chartOptions.xaxis!"
-                  [dataLabels]="chartOptions.dataLabels!"
-                  [grid]="chartOptions.grid!"
-                  [stroke]="chartOptions.stroke!"
-                  [title]="chartOptions.title!"
-                ></apx-chart>
-              </div>
+              <small class="text-success">Vigentes</small>
+              <p>
+                ${{
+                  arrResumenCobrar?.resumen_vigente?.saldo_pendiente | number
+                }}
+              </p>
+              <small
+                >{{
+                  arrResumenCobrar?.resumen_vigente?.cantidad
+                }}
+                documentos</small
+              >
+            </div>
+            <div>
+              <small class="text-danger">Vencidas</small>
+              <p>
+                ${{
+                  arrResumenCobrar?.resumen_vencido?.saldo_pendiente | number
+                }}
+              </p>
+              <small
+                >{{
+                  arrResumenCobrar?.resumen_vencido?.cantidad
+                }}
+                documentos</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Cuentas por pagar</h5>
+          <p class="card-text">
+            ${{ arrResumenPagar?.resumen?.saldo_pendiente | number }}
+          </p>
+          <div class="d-flex justify-content-between">
+            <div>
+              <small class="text-success">Vigentes</small>
+              <p>
+                ${{
+                  arrResumenPagar?.resumen_vigente?.saldo_pendiente | number
+                }}
+              </p>
+              <small
+                >{{
+                  arrResumenPagar?.resumen_vigente?.cantidad
+                }}
+                documentos</small
+              >
+            </div>
+            <div>
+              <small class="text-danger">Vencidas</small>
+              <p>
+                ${{
+                  arrResumenPagar?.resumen_vencido?.saldo_pendiente | number
+                }}
+              </p>
+              <small
+                >{{
+                  arrResumenPagar?.resumen_vencido?.cantidad
+                }}
+                documentos</small
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-}
 
+  <div class="row mb-4">
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Impuestos en venta</h5>
+          <p class="card-text">$0,00</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Productos vendidos</h5>
+          <p class="card-text">0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Devoluciones de clientes</h5>
+          <p class="card-text">$0,00</p>
+          <small>Incluye impuestos</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Clientes con ventas</h5>
+          <p class="card-text">0</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total de ventas</h5>
+          <div>
+            <div id="chart">
+              <apx-chart
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [xaxis]="chartOptions.xaxis!"
+                [dataLabels]="chartOptions.dataLabels!"
+                [grid]="chartOptions.grid!"
+                [stroke]="chartOptions.stroke!"
+                [title]="chartOptions.title!"
+              ></apx-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
