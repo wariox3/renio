@@ -60,17 +60,17 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Cuentas por cobrar</h5>
-            <p class="card-text">$0,00</p>
+            <p class="card-text">${{ arrResumenCobrar?.resumen?.saldo_pendiente}}</p>
             <div class="d-flex justify-content-between">
               <div>
                 <small class="text-success">Vigentes</small>
-                <p>$0,00</p>
-                <small>0 documentos</small>
+                <p>${{ arrResumenCobrar?.resumen_vigente?.saldo_pendiente}}</p>
+                <small>{{ arrResumenCobrar?.resumen_vigente?.cantidad }} documentos</small>
               </div>
               <div>
                 <small class="text-danger">Vencidas</small>
-                <p>$0,00</p>
-                <small>0 documentos</small>
+                <p>${{ arrResumenCobrar?.resumen_vencido?.saldo_pendiente }}</p>
+                <small>{{ arrResumenCobrar?.resumen_vencido?.cantidad }} documentos</small>
               </div>
             </div>
           </div>
@@ -80,17 +80,17 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Cuentas por pagar</h5>
-            <p class="card-text">$0,00</p>
+            <p class="card-text">${{ arrResumenPagar?.resumen?.saldo_pendiente }}</p>
             <div class="d-flex justify-content-between">
               <div>
                 <small class="text-success">Vigentes</small>
-                <p>$0,00</p>
-                <small>0 documentos</small>
+                <p>${{ arrResumenPagar?.resumen_vigente?.saldo_pendiente }}</p>
+                <small>{{ arrResumenPagar?.resumen_vigente?.cantidad }} documentos</small>
               </div>
               <div>
                 <small class="text-danger">Vencidas</small>
-                <p>$0,00</p>
-                <small>0 documentos</small>
+                <p>${{ arrResumenPagar?.resumen_vencido?.saldo_pendiente }}</p>
+                <small>{{ arrResumenPagar?.resumen_vencido?.cantidad }} documentos</small>
               </div>
             </div>
           </div>
@@ -140,21 +140,16 @@
           <div class="card-body">
             <h5 class="card-title">Total de ventas</h5>
             <div>
-              <div style="text-align:center">
+              <div id="chart">
                 <apx-chart
-                #seires
-              
-                [series]="areaChartOptions.series!"
-                [chart]="areaChartOptions.chart!"
-                [xaxis]="areaChartOptions.xaxis!"
-                [stroke]="areaChartOptions.stroke!"
-                [dataLabels]="areaChartOptions.dataLabels!"
-                [yaxis]="areaChartOptions.yaxis!"
-                [labels]="areaChartOptions.labels!"
-                [legend]="areaChartOptions.legend!"
-                [title]="areaChartOptions.title!"
-                [subtitle]="areaChartOptions.subtitle!"
-              ></apx-chart>
+                  [series]="chartOptions.series!"
+                  [chart]="chartOptions.chart!"
+                  [xaxis]="chartOptions.xaxis!"
+                  [dataLabels]="chartOptions.dataLabels!"
+                  [grid]="chartOptions.grid!"
+                  [stroke]="chartOptions.stroke!"
+                  [title]="chartOptions.title!"
+                ></apx-chart>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -10,32 +10,31 @@ import { RouterModule } from '@angular/router';
 import { Empresa } from '@interfaces/contenedor/empresa';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { LaboratorioComponent } from "../../comun/componentes/laboratorio/laboratorio.component";
-import { series } from "../../comun/componentes/laboratorio/data";
+import { LaboratorioComponent } from '../../comun/componentes/laboratorio/laboratorio.component';
 import {
+  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexDataLabels,
-  ApexLegend,
-  ApexStroke,
-  ApexTitleSubtitle,
   ApexXAxis,
-  ApexYAxis,
-  ChartComponent,
+  ApexDataLabels,
+  ApexTitleSubtitle,
+  ApexStroke,
+  ApexGrid,
   NgApexchartsModule,
 } from 'ng-apexcharts';
 
-export type areaChartOptions = {
+import { zip } from 'rxjs';
+import { dashboardService } from './dashboard.service';
+
+export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
-  stroke: ApexStroke;
   dataLabels: ApexDataLabels;
-  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  stroke: ApexStroke;
   title: ApexTitleSubtitle;
-  labels: string[];
-  legend: ApexLegend;
-  subtitle: ApexTitleSubtitle;
+  noData: ApexNoData;
 };
 
 @Component({
@@ -43,64 +42,77 @@ export type areaChartOptions = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   standalone: true,
-  imports: [CardComponent, RouterModule, NgbTooltipModule, LaboratorioComponent, NgApexchartsModule],
+  imports: [
+    CardComponent,
+    RouterModule,
+    NgbTooltipModule,
+    LaboratorioComponent,
+    NgApexchartsModule,
+  ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },
 })
-
 export class DashboardComponent extends General implements OnInit {
+  @ViewChild('chart') chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>;
+
+  asistente_electronico: boolean;
+  arrResumenCobrar: any;
+  arrResumenPagar: any;
+  arrVentaDiaria: any;
+  series: any = [];
+  dates: any = [];
+
   constructor(
     private httpService: HttpService,
     private empresaService: EmpresaService,
-    
+    private dashboardService: dashboardService
   ) {
     super();
-
-    this.areaChartOptions = {
+    this.chartOptions = {
       series: [
         {
-          name: "Total",
-          data: series.monthDataSeries1.prices
-        }
+          name: 'Total',
+          data: []
+        },
       ],
       chart: {
-        type: "area",
-        height: 450,
+        height: 500,
+        type: 'line',
         zoom: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       stroke: {
-        curve: "straight"
+        curve: 'straight',
       },
-
       title: {
-        text: "Análisis fundamental de las acciones",
-        align: "left"
+        text: 'Ventas Diarias',
+        align: 'left',
       },
-      labels: series.monthDataSeries1.dates,
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5,
+        },
+      },
       xaxis: {
-        type: "datetime"
+        categories: []
       },
-      yaxis: {
-        opposite: true
-      },
-      legend: {
-        horizontalAlign: "left"
+      noData:{
+        text: 'no data'
       }
     };
   }
 
-  @ViewChild('seires') seiresChart: ChartComponent;
-  public areaChartOptions: Partial<areaChartOptions>;
-
-  asistente_electronico: boolean;
-
   ngOnInit() {
     this.consultarInformacion();
+    this.consultarInformacionDashboard();
+    this.initializeChart();
+
   }
 
   consultarInformacion() {
@@ -113,6 +125,17 @@ export class DashboardComponent extends General implements OnInit {
       });
   }
 
+  consultarInformacionDashboard() {
+    zip(
+      this.dashboardService.resumenCobrar(''),
+      this.dashboardService.resumenPagar('')
+    ).subscribe((respuesta: any) => {
+      this.arrResumenCobrar = respuesta[0];
+      this.arrResumenPagar = respuesta[1];
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
   finalizarProceso() {
     this.empresaService.finalizarProceso().subscribe((respuesta) => {
       this.store.dispatch(
@@ -120,8 +143,63 @@ export class DashboardComponent extends General implements OnInit {
           asistente_electronico: respuesta.asistente_termiando,
         })
       );
-      this.consultarInformacion()
+      this.consultarInformacion();
     });
   }
-  
+
+  initializeChart() {
+    this.dashboardService.ventaPorDia('').subscribe((respuesta) => {
+      
+      this.arrVentaDiaria = respuesta.resumen;
+      
+      this.dates = this.arrVentaDiaria.map((item: any) => item.dia);
+      this.series = this.arrVentaDiaria.map((item: any) => item.total);
+
+      this.chartOptions = {
+        series: [
+          {
+            name: 'Total',
+            data: []
+          },
+        ],
+        chart: {
+          height: 500,
+          type: 'line',
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'straight',
+        },
+        title: {
+          text: 'Ventas Diarias',
+          align: 'left',
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'],
+            opacity: 0.5,
+          },
+        },
+        xaxis: {
+          categories: this.dates
+        },
+        noData:{
+          text: 'no data'
+        }
+      };
+     
+      this.chartOptions.series = [{
+        data: this.series
+      }];
+      this.changeDetectorRef.detectChanges();
+    });
+
+  }
+
+
 }
