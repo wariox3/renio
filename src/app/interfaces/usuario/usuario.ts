@@ -13,4 +13,6 @@ export interface Usuario {
   fecha_creacion: Date;
   vr_saldo: number;
   verificado: boolean;
+  es_socio: boolean;
+  socio_id: string;
 }

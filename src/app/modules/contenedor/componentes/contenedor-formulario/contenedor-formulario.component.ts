@@ -51,7 +51,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   planSeleccionado: Number = 3;
   informacionPlan: any = '';
   arrPlanes: Plan[] = [];
-  arrIdentificacion: any[];
   arrTipoPersona: any[];
   arrCiudades: any[];
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
@@ -82,12 +81,10 @@ export class ContenedorFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.contenedorService.listaTipoIdentificacion(),
       this.contenedorService.listaPlanes(),
       this.store.select(obtenerUsuarioCorreo)
     ).subscribe((respuesta: any) => {
-      this.arrIdentificacion = respuesta[0].registros;
-      this.arrPlanes = respuesta[1];
+      this.arrPlanes = respuesta[0];
       let posicion: keyof typeof this.contenedorService.informacionPlan = 3;
       this.informacionPlan = this.contenedorService.informacionPlan[posicion];
       this.formularioContenedor.get('correo')?.setValue(respuesta[2]);

@@ -888,6 +888,27 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
-    }
+    },
+    {
+      nombre: 'FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA_HASTA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ]
 };

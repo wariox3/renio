@@ -74,3 +74,8 @@ export const obtenerUsuarioFechaCreacion = createSelector(
   Usuario,
   (Usuario) => Usuario.fecha_creacion
 );
+
+export const obtenerUsuarioSocio = createSelector(
+  Usuario,
+  (Usuario) => Usuario.es_socio
+);

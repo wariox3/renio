@@ -1,5 +1,5 @@
 type FormulariosYDetallesAsíncronos = {
-  [key: number]: {
+  [key: number | string]: {
     detalle: () => Promise<{ default: any }>;
     formulario: () => Promise<{ default: any }>;
   };
@@ -124,6 +124,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     formulario: async () =>
       await import(
         '../../../modules/inventario/componentes/salida/salida-formulario/salida-formulario.component'
+      ),
+  },
+  'HumProgramacion': {
+    detalle: async () =>
+      await import(
+        '../../../modules/inventario/componentes/salida/salida-detalle/salida-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/programacion/programacion-formulario/programacion-formulario.component'
       ),
   },
 };

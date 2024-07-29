@@ -8,6 +8,7 @@ import {
   obtenerUsuarioNombreCorto,
   obtenerUsuarioNombre,
   obtenerUsuarioidioma,
+  obtenerUsuarioSocio,
 } from '@redux/selectors/usuario.selectors';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
@@ -43,11 +44,13 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   language: LanguageFlag;
   user$: Observable<UserType>;
+  // esSocio$: Observable<boolean>;
   langs = languages;
   usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioNombre);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
+  obtenerEsSocio$ = this.store.select(obtenerUsuarioSocio);
   private unsubscribe: Subscription[] = [];
   esSubdominio = this.subdominioService.esSubdominioActual();
   visualizarMenuApps = false;

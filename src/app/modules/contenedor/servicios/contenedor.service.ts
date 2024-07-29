@@ -134,7 +134,7 @@ export class ContenedorService {
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
-        modelo: 'ContenedorIdentificacion',
+        modelo: 'CtnIdentificacion',
       }
     );
   }
@@ -148,7 +148,7 @@ export class ContenedorService {
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
-        modelo: 'ContenedorRegimen',
+        modelo: 'CtnRegimen',
       }
     );
   }
@@ -162,7 +162,7 @@ export class ContenedorService {
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
-        modelo: 'ContenedorTipoPersona',
+        modelo: 'CtnTipoPersona',
       }
     );
   }

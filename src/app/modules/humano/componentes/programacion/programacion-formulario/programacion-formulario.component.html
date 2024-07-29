@@ -1,0 +1,147 @@
+<form [formGroup]="formularioProgramacion" (ngSubmit)="enviarFormulario()">
+  <div class="d-flex mb-5 justify-content-between align-items-center">
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
+    >
+      <app-comun-btn-atras />
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
+    </div>
+  </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-2">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.PROGRAMACION.FECHADESDE"
+          ></label>
+          <input
+            formControlName="fecha_desde"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioProgramacion.controls['fecha_desde'].touched &&
+                formularioProgramacion.controls['fecha_desde'].invalid,
+              'is-valid':
+                formularioProgramacion.controls['fecha_desde'].touched &&
+                formularioProgramacion.controls['fecha_desde'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioProgramacion.controls['fecha_desde']
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioProgramacion.controls.fechaDesde?.touched &&
+              formularioProgramacion.controls.fechaDesde?.hasError(
+                'fechaSuperiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.PROGRAMACION.FECHAHASTA"
+          ></label>
+          <input
+            formControlName="fecha_hasta"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioProgramacion.controls['fecha_hasta'].touched &&
+                formularioProgramacion.controls['fecha_hasta'].invalid,
+              'is-valid':
+                formularioProgramacion.controls['fecha_hasta'].touched &&
+                formularioProgramacion.controls['fecha_hasta'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioProgramacion.controls['fecha_hasta']
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioProgramacion.controls.fechaHasta?.touched &&
+              formularioProgramacion.controls.fechaHasta?.hasError(
+                'fechaSuperiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

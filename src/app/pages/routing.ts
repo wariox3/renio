@@ -87,6 +87,12 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'socio',
+    loadChildren: () =>
+      import('../modules/socio/socio-routing').then((r) => r.routes),
+    data: { layout: 'dark-header' },
+  },
+  {
     path: 'administrador',
     children: [
       {

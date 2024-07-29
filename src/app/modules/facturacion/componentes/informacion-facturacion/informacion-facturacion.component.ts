@@ -155,7 +155,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'ContenedorCiudad',
+      modelo: 'CtnCiudad',
     };
     this.contenedorService
       .listaCiudades(arrFiltros)

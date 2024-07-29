@@ -37,6 +37,12 @@
         translate="FORMULARIOS.TITULOS.COMUNES.MENU.FACTURACION"
       ></span>
     </a>
+    <a *ngIf="obtenerEsSocio$ | async" routerLink="/socio" class="menu-link px-5 cursor-pointer">
+      <span
+        class="menu-text"
+        translate="FORMULARIOS.TITULOS.COMUNES.MENU.SOCIO"
+      ></span>
+    </a>
     <a
       (click)="navegarAmisContenedores()"
       class="menu-link px-5 cursor-pointer"

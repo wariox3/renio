@@ -184,7 +184,9 @@ export class AuthService implements OnDestroy {
           fecha_limite_pago: new Date(usuario.fecha_limite_pago),
           vr_saldo: usuario.vr_saldo,
           fecha_creacion: new Date(usuario.fecha_creacion),
-          verificado: usuario.verificado
+          verificado: usuario.verificado,
+          es_socio: usuario.es_socio,
+          socio_id: usuario.socio_id
         },
       })
     );

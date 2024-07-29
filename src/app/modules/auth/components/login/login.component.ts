@@ -125,7 +125,9 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   fecha_limite_pago: new Date(respuesta.user.fecha_limite_pago),
                   vr_saldo: respuesta.user.vr_saldo,
                   fecha_creacion: new Date(respuesta.user.fecha_creacion),
-                  verificado: respuesta.user.verificado
+                  verificado: respuesta.user.verificado,
+                  es_socio: respuesta.user.es_socio,
+                  socio_id: respuesta.user.socio_id
                 },
               })
             );

@@ -28,7 +28,9 @@ let parsedState: Usuario = {
   fecha_limite_pago: new Date(),
   vr_saldo: 0,
   fecha_creacion: new Date(),
-  verificado: false
+  verificado: false,
+  es_socio: false,
+  socio_id: ''
 };
 
 export const initialState: Usuario = usuarioData

@@ -55,7 +55,8 @@ export const locale = {
         SEDE: 'Sede',
         DOCUMENTOELECTRONICO: 'Documento electrónico',
         NOTAAJUSTE: 'Nota de ajuste',
-        CUENTABANCO: 'Cuenta banco'
+        CUENTABANCO: 'Cuenta banco',
+        PROGRAMACION: 'Programacion',
       },
     },
     FORMULARIOS: {
@@ -84,7 +85,7 @@ export const locale = {
           ADICIONAR: 'Adicionar',
           ANULAR: 'Anular',
           SIGUIENTE: 'Seguiente',
-          FINALIZAR: 'Finalizar'
+          FINALIZAR: 'Finalizar',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -131,6 +132,7 @@ export const locale = {
             CONTENEDOR: 'Mi contenedor',
             EMPRESA: 'Mi empresa',
             CONTENEDORES: 'Mis contenedores',
+            SOCIO:'Socio'
           },
           VERMAS: 'Ver más',
         },
@@ -173,7 +175,8 @@ export const locale = {
           PROCESANDOTOKEN: 'Procesando token',
           REGRESARLOGIN: 'Regresar a la página de iniciar sesión',
           CARACTERISTICAS1: 'Simplifica tu gestión empresarial',
-          CARACTERISTICAS2: 'Nuestra aplicación combina facturación electrónica y ERP en una solución fácil y rápida de usar. Optimiza y controla tu negocio con eficiencia. ',
+          CARACTERISTICAS2:
+            'Nuestra aplicación combina facturación electrónica y ERP en una solución fácil y rápida de usar. Optimiza y controla tu negocio con eficiencia. ',
           CARACTERISTICAS3: 'el blogger',
           CARACTERISTICAS4: 'presenta a una persona que ha entrevistado',
           CARACTERISTICAS5: 'y proporciona información general sobre sus',
@@ -187,10 +190,8 @@ export const locale = {
           REALIZARPAGO: 'Realizar un pago',
           TEXTOAYUDA2:
             'Esta es una estimación de la cantidad que debe pagar de este usuario en el mes hasta la fecha después de créditos y pagos por adelantado.',
-          TEXTOAYUDA4:
-            'Seleccione las facturas para pago.',
-          CONSUMO:
-            'Consumos',
+          TEXTOAYUDA4: 'Seleccione las facturas para pago.',
+          CONSUMO: 'Consumos',
           ESTIMADO: 'Valor estimado',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'pago tipo',
@@ -232,7 +233,7 @@ export const locale = {
           DEBITO: 'Débito',
           PAGOS: 'Pagos',
           PAGO: 'Pago',
-          INFORMACIONFACTURACION: 'Información de facturación'
+          INFORMACIONFACTURACION: 'Información de facturación',
         },
         GENERAL: {
           ITEM: {
@@ -252,7 +253,7 @@ export const locale = {
           FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
           CONSECUTIVO: 'Consecutivo',
-          RESOLUCION: 'Resolución'
+          RESOLUCION: 'Resolución',
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Información comercial',
@@ -317,7 +318,7 @@ export const locale = {
             ASESOR: 'Asesor',
             CLIENTE: 'Cliente',
             PROVEEDOR: 'Proveedor',
-            EMPLEADO: 'Empleado'
+            EMPLEADO: 'Empleado',
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',
@@ -338,8 +339,13 @@ export const locale = {
             ID: 'ID',
             NOMBRE: 'Nombre',
             NUMEROCUENTA: 'Número cuenta',
-            CUENTABANCOTIPO: 'Cuenta tipo'
-          }
+            CUENTABANCOTIPO: 'Cuenta tipo',
+          },
+          PROGRAMACION: {
+            FECHADESDE: 'Fecha desde',
+            FECHAHASTA: 'Fecha hasta',
+            FECHAHASTAPERIODO: 'Fecha hasta periodo',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Movimiento tipo',
@@ -357,7 +363,7 @@ export const locale = {
           PLAZOPAGO: 'Plazo pago',
           FECHA: 'Fecha',
           ASESOR: 'Asesor',
-          SEDE: 'Sede'
+          SEDE: 'Sede',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -420,8 +426,7 @@ export const locale = {
           ALERTASUSPENCIONTITULO: '¡Es hora de realizar tu pago!',
           ALERTASUSPENCIONMENSAJE:
             'Se ha generado el pedido correspondiente al consumo de tu cuenta y tienes un saldo de: ',
-            ALERTASUSPENCIONMENSAJE2:
-            ' disponible para pago. Fecha límite: ',
+          ALERTASUSPENCIONMENSAJE2: ' disponible para pago. Fecha límite: ',
           CARGARIMAGEN: 'Imagen cargada con éxito',
         },
         CONTENEDOR: {
@@ -449,7 +454,7 @@ export const locale = {
         CARGANDO: 'Cargando',
         EVENTOS: 'Eventos',
         CORREOS: 'Correos',
-        VALIDACIONES: 'Validaciones'
+        VALIDACIONES: 'Validaciones',
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -500,7 +505,11 @@ export const locale = {
         PAGO: 'Pago',
         CUENTA: 'Cuenta',
         NATURALEZA: 'Naturaleza',
-        AFECTADO: 'Abono'
+        AFECTADO: 'Abono',
+        FECHA_DESDE: 'Fecha desde',
+        FECHA_HASTA: 'Fecha hasta',
+        NOMBRE: 'Nombre',
+        FECHA_HASTA_PERIODO: 'Fecha hasta periodo',
       },
       ITEM: {
         ID: 'ID',
@@ -589,7 +598,7 @@ export const locale = {
           ID: 'Id',
           FECHA: 'Fecha',
           DESCRIPCION: 'Descripción',
-        }
+        },
       },
       EMPLEADO: {
         ID: 'ID',
@@ -620,8 +629,8 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         NUMERO_CUENTA: 'Cuenta',
-        CUENTA_BANCO_TIPO_NOMBRE: 'Tipo'
-      }
+        CUENTA_BANCO_TIPO_NOMBRE: 'Tipo',
+      },
     },
     TEMA: {
       CLARO: 'Claro',
@@ -646,15 +655,15 @@ export const locale = {
       CONTACTO: 'Contacto',
       LOGIN: 'Iniciar sesión',
       PRUEBAREDDOC: 'Prueba REDDOC',
-      MENSAJEDESCURBIR:
-        'Empieza ahora y transforma tu gestión empresarial',
+      MENSAJEDESCURBIR: 'Empieza ahora y transforma tu gestión empresarial',
       MENSAJE1: 'Descubre la revolución en facturación electrónica',
       MENSAJE2: 'con reddoc',
       EMPRESARIO: 'Empresario',
       MENSAJE3: 'Ahorre entre miles y millones',
       MENSAJE4: 'utilizando una única herramienta para diferentes',
       MENSAJE5: 'increíble y genial',
-      MEJORAMOSMENSAJE: 'Descubre cómo nuestra app simplifica tu gestión empresarial, aumenta tu productividad y te ayuda a tomar decisiones más inteligentes',
+      MEJORAMOSMENSAJE:
+        'Descubre cómo nuestra app simplifica tu gestión empresarial, aumenta tu productividad y te ayuda a tomar decisiones más inteligentes',
       CONFIGURAAPP: 'Configura tu aplicación',
       APPAUTENTICA: 'Disfruta de la aplicación Náutica',
       MEJORAMOS: 'Mejoramos las cosas',
@@ -663,16 +672,20 @@ export const locale = {
       PAGOSEGURO: 'Pago seguro',
       PALABRASCEO1: 'Con nuestra app, estamos redefiniendo el camino hacia el',
       PALABRASCEO2: 'éxito empresarial.',
-      PALABRASCEO3: 'Únete a nosotros y descubre cómo podemos potenciar juntos el crecimiento y la innovación en tu empresa.',
+      PALABRASCEO3:
+        'Únete a nosotros y descubre cómo podemos potenciar juntos el crecimiento y la innovación en tu empresa.',
       MAXPOTENTE: 'Más potente',
       emocionante: 'de forma emocionalmente expresiva',
       NUESTROEQUIPO: 'Nuestro equipo',
       PASO1: 'Registrate',
       PASO2: 'Selecciona tu plan',
       PASO3: 'Disfruta de reddoc',
-      MENSAJEPASO1: 'Únete a nuestra app y simplifica tu día a día. No necesitas nada más que tu correo y una contraseña. ¡Así de fácil y rápido!',
-      MENSAJEPASO2: 'Selecciona el plan que mejor se ajuste a tus necesidades en solo unos clics. Tenemos opciones flexibles y adaptables para cualquier tipo de empresa.',
-      MENSAJEPASO3: 'Simplifica tu gestión empresarial, aumenta tu productividad y toma decisiones inteligentes con nuestra herramienta fácil de usar.',
+      MENSAJEPASO1:
+        'Únete a nuestra app y simplifica tu día a día. No necesitas nada más que tu correo y una contraseña. ¡Así de fácil y rápido!',
+      MENSAJEPASO2:
+        'Selecciona el plan que mejor se ajuste a tus necesidades en solo unos clics. Tenemos opciones flexibles y adaptables para cualquier tipo de empresa.',
+      MENSAJEPASO3:
+        'Simplifica tu gestión empresarial, aumenta tu productividad y toma decisiones inteligentes con nuestra herramienta fácil de usar.',
       NUESTROEQUIPOFRESE1:
         'No hay duda de que cuando un desarrollo tarda más en completarse,',
       NUESTROEQUIPOFRESE2:
@@ -769,9 +782,9 @@ export const locale = {
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
     },
-    PAGOS:{
+    PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',
-      CONTENEDORES: 'Regresar a mis contenedores'
-    }
+      CONTENEDORES: 'Regresar a mis contenedores',
+    },
   },
 };
