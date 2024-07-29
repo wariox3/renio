@@ -234,6 +234,15 @@ export class ContenedorService {
 
   }
 
+  consultarMovimientoSocio(socio_id: string) {
+    return this.http.post(
+      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-socio/`,
+      {
+        socio_id,
+      }
+    );
+  }
+
   informacionPlan: any = {
     1: [
       'LANDINGPAGE.CANTIDADDOCUMENTO10',

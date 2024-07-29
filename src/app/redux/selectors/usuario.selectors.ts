@@ -79,3 +79,8 @@ export const obtenerUsuarioSocio = createSelector(
   Usuario,
   (Usuario) => Usuario.es_socio
 );
+
+export const obtenerUsuarioSocioId = createSelector(
+  Usuario,
+  (Usuario) => Usuario.socio_id
+);

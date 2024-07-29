@@ -1,4 +1,87 @@
 <app-card>
   <section card-titulo>Socio</section>
-  <section card-body></section>
+  <section card-body>
+    <div class="row mb-5">
+      <div class="col-12">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="active"
+          class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+        >
+          <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+            <a class="nav-link" ngbNavLink data-bs-toggle="tab">Socios</a>
+            <ng-template ngbNavContent>
+              <div class="mb-10 p-5 border">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="mb-4"></h5>
+                </div>
+                <div class="table-responsive">
+                  <table
+                    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+                  >
+                    <thead>
+                      <tr class="fw-bold text-gray-800">
+                        <th>Id</th>
+                        <th>Usuario</th>
+                        <th>Fecha creación</th>
+                        <th>Verificado</th>
+                        <th>Activo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let socio of arrListaSocio">
+                        <td>{{ socio.id }}</td>
+                        <td>{{ socio.username }}</td>
+                        <td>
+                          {{ socio.fecha_creacion | date : "yyyy-MM-dd" }}
+                        </td>
+                        <td>{{ socio.verificado ? "Si" : "No" }}</td>
+                        <td>{{ socio.is_active ? "Si" : "No" }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+            <a class="nav-link" ngbNavLink data-bs-toggle="tab">Movimientos</a>
+            <ng-template ngbNavContent>
+              <div class="mb-10 p-5 border">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="mb-4"></h5>
+                </div>
+                <div class="table-responsive">
+                  <table
+                    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+                  >
+                    <thead>
+                      <tr class="fw-bold text-gray-800">
+                        <th>Id</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Cuenta</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let movimiento of arrMovimientos">
+                        <td>{{ movimiento.id }}</td>
+                        <td>{{ movimiento.tipo }}</td>
+                        <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
+                        <td></td>
+                        <td>{{ movimiento.vr_total | currency : "$"  }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </section>
 </app-card>

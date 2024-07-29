@@ -31,6 +31,7 @@ import { InformacionFacturacionComponent } from '../informacion-facturacion/info
   selector: 'app-facturacion',
   standalone: true,
   templateUrl: './facturacion.component.html',
+  styleUrls: ['./facturacion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

@@ -213,4 +213,13 @@ export class AuthService implements OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
+
+  listaSocio(socio_id: string) {
+    return this.http.post(
+      `${environment.URL_API_MUUP}/seguridad/usuario/lista-socio/`,
+      {
+        socio_id,
+      }
+    );
+  }
 }
