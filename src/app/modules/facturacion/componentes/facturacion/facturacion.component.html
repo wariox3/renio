@@ -53,7 +53,7 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.fecha | date : "yyyy-MM-dd" }}</td>
                         <td>{{ item.tipo }}</td>
-                        <td>{{ item.vr_total | currency : "$" }}</td>
+                        <td class="text-end">{{ item.vr_total | currency : "$" }}</td>
                         <td class="w-20px">
                           <label [for]="item.id">
                             <i

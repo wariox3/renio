@@ -70,8 +70,8 @@
                         <td>{{ movimiento.id }}</td>
                         <td>{{ movimiento.tipo }}</td>
                         <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
-                        <td></td>
-                        <td>{{ movimiento.vr_total | currency : "$"  }}</td>
+                        <td>{{ movimiento.usuario_username }}</td>
+                        <td class="text-end">{{ movimiento.vr_total | currency : "$"  }}</td>
                       </tr>
                     </tbody>
                   </table>
