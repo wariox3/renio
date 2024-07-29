@@ -178,7 +178,7 @@ export class DashboardComponent extends General implements OnInit {
           curve: 'straight',
         },
         title: {
-          text: 'La gáfica muestra el valor de tur ventas con impuestos incluidos',
+          text: 'La gáfica muestra el valor de tus ventas con impuestos incluidos',
           align: 'left',
         },
         grid: {
