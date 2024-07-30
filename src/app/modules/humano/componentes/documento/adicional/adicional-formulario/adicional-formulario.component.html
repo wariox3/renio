@@ -1,0 +1,185 @@
+<form [formGroup]="formularioAdicional" (ngSubmit)="enviarFormulario()">
+  <div class="d-flex mb-5 justify-content-between align-items-center">
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
+    >
+      <app-comun-btn-atras />
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
+    </div>
+  </div>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+      </ng-container>
+      <ng-template #tituloDetalle>
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+        {{
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        }}
+        {{ detalle }}
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ConceptoDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="concepto"
+              (focus)="consultarConceptos($event); ConceptoDropdown.open()"
+              (keyup)="consultarConceptos($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['concepto'].touched &&
+                  formularioAdicional.controls['concepto'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['concepto'].touched &&
+                  formularioAdicional.controls['concepto'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let concepto of arrConceptos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('concepto', concepto)"
+                (pointerenter)="modificarCampoFormulario('concepto', concepto)"
+              >
+                {{ concepto.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <!-- <div class="dropdown-divider"></div>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'Contacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  actualizarFormulario($event, 'empleado')
+                "
+                [campoLista]="camposBuscarAvanzado"
+                [campoFiltros]="camposBuscarAvanzado"
+              >
+              </app-comun-buscar-avanzado>
+            </button> -->
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['concepto']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ContratosDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contrato"
+              (focus)="consultarContratos($event); ContratosDropdown.open()"
+              (keyup)="consultarContratos($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['contrato'].touched &&
+                  formularioAdicional.controls['contrato'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['contrato'].touched &&
+                  formularioAdicional.controls['contrato'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contrato of arrContratos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contrato', contrato)"
+                (pointerenter)="modificarCampoFormulario('contrato', contrato)"
+              >
+                {{ contrato.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <!-- <div class="dropdown-divider"></div>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'Contacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  actualizarFormulario($event, 'empleado')
+                "
+                [campoLista]="camposBuscarAvanzado"
+                [campoFiltros]="camposBuscarAvanzado"
+              >
+              </app-comun-buscar-avanzado>
+            </button> -->
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['contrato']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

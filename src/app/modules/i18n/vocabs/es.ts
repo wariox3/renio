@@ -61,6 +61,7 @@ export const locale = {
         HUMCONCEPTO: 'Concepto',
         GRUPO: 'Grupo',
         HUMGRUPO: 'Grupo',
+        ADICIONAL: 'Adicional',
       },
     },
     FORMULARIOS: {
@@ -402,6 +403,14 @@ export const locale = {
             INGRESOBASEPRESTACION: 'Ingreso base prestación',
             PORCENTAJE: 'Porcentaje',
             ORDEN: 'Orden'
+          },
+          ADICIONAL: {
+            CONTRATO: 'Contrato',
+            CONCEPTO: 'Concepto'
+          },
+          CREDITO: {
+            FECHAINICIO: 'Inicio',
+            CONTRATO: 'Contrato',
           }
         }
       },

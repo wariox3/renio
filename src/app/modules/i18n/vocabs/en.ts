@@ -57,6 +57,7 @@ export const locale = {
         HUMCONCEPTO: 'concept',
         GRUPO: 'Group',
         HUMGRUPO: 'Group',
+        ADICIONAL: 'Additional',
       },
     },
     FORMULARIOS: {
@@ -375,6 +376,14 @@ export const locale = {
             INGRESOBASEPRESTACION: 'Base benefit income',
             PORCENTAJE: 'Percentage',
             ORDEN: 'Order'
+          },
+          ADICIONAL: {
+            CONTRATO: 'Contract',
+            CONCEPTO: 'Concept'
+          },
+          CREDITO: {
+            FECHAINICIO: 'Start',
+            CONTRATO: 'Contract',
           }
         }
       },

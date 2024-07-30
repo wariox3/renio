@@ -179,6 +179,13 @@ export const initialState: Menu = {
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
+            {
+              nombre: 'ADICIONAL',
+              tipo: 'Documento',
+              data: { documento_clase: 'HumAdicional' },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
           ],
         },
         {

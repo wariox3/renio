@@ -126,7 +126,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/inventario/componentes/salida/salida-formulario/salida-formulario.component'
       ),
   },
-  'HumProgramacion': {
+  HumProgramacion: {
     detalle: async () =>
       await import(
         '../../../modules/inventario/componentes/salida/salida-detalle/salida-detalle.component'
@@ -134,6 +134,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     formulario: async () =>
       await import(
         '../../../modules/humano/componentes/documento/programacion/programacion-formulario/programacion-formulario.component'
+      )
+  },
+  HumAdicional: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/adicional/adicional-detalle/adicional-detalle.component'
       ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/adicional/adicional-formulario/adicional-formulario.component'
+      )
   },
 };
