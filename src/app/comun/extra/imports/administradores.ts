@@ -81,11 +81,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'contacto',
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/empleado/empleado-detalle/empleado-detalle.component'
+        '../../../modules/humano/componentes/administrador/empleado/empleado-detalle/empleado-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/empleado/empleado-formulario/empleado-formulario.component'
+        '../../../modules/humano/componentes/administrador/empleado/empleado-formulario/empleado-formulario.component'
       ),
   },
   HumContrato: {
@@ -93,13 +93,38 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'HumContrato',
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/contrato/contrato-detalle/contrato-detalle.component'
+        '../../../modules/humano/componentes/administrador/contrato/contrato-detalle/contrato-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/contrato/contrato-formulario/contrato-formulario.component'
+        '../../../modules/humano/componentes/administrador/contrato/contrato-formulario/contrato-formulario.component'
       ),
   },
+  HumGrupo: {
+    modulo: 'humano',
+    modelo: 'HumGrupo',
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/grupo/grupo-detalle/grupo-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/grupo/grupo-formulario/grupo-formulario.component'
+      ),
+  },
+  HumConcepto: {
+    modulo: 'humano',
+    modelo: 'HumConcepto',
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/concepto/concepto-detalle/concepto-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/concepto/concepto-formulario/concepto-formulario.component'
+      ),
+  },
+
   Sede: {
     modulo: 'general',
     modelo: 'sede',

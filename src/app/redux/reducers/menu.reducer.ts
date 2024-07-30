@@ -194,6 +194,16 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'HumContrato' },
             },
+            {
+              nombre: 'CONCEPTO',
+              tipo: 'Administrador',
+              data: { modelo: 'HumConcepto' },
+            },
+            {
+              nombre: 'GRUPO',
+              tipo: 'Administrador',
+              data: { modelo: 'HumGrupo' },
+            },
           ],
         },
         {

@@ -133,7 +133,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/programacion/programacion-formulario/programacion-formulario.component'
+        '../../../modules/humano/componentes/documento/programacion/programacion-formulario/programacion-formulario.component'
       ),
   },
 };

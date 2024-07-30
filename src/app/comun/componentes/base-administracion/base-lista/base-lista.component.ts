@@ -137,9 +137,14 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
+      let modelo = this.modelo.toLowerCase()
+      let eliminarPrefijos = ['hum']
+      if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
+        modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
+      }
       const eliminarSolicitudes = data.map((id) => {
         return this.httpService.delete(
-          `${this.modulo}/${this.modelo.toLowerCase()}/${id}/`,
+          `${this.modulo}/${modelo}/${id}/`,
           {}
         );
       });

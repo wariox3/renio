@@ -57,6 +57,10 @@ export const locale = {
         NOTAAJUSTE: 'Nota de ajuste',
         CUENTABANCO: 'Cuenta banco',
         PROGRAMACION: 'Programacion',
+        CONCEPTO: 'Concepto',
+        HUMCONCEPTO: 'Concepto',
+        GRUPO: 'Grupo',
+        HUMGRUPO: 'Grupo',
       },
     },
     FORMULARIOS: {
@@ -392,6 +396,14 @@ export const locale = {
             NO: 'No',
           },
         },
+        HUMANO: {
+          CONCEPTO: {
+            INGRESOBASECOTIZACION: 'Ingreso base cotización',
+            INGRESOBASEPRESTACION: 'Ingreso base prestación',
+            PORCENTAJE: 'Porcentaje',
+            ORDEN: 'Orden'
+          }
+        }
       },
       VALIDACIONES: {
         COMUNES: {
@@ -630,6 +642,14 @@ export const locale = {
         NOMBRE: 'Nombre',
         NUMERO_CUENTA: 'Cuenta',
         CUENTA_BANCO_TIPO_NOMBRE: 'Tipo',
+      },
+      GRUPO: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+      },
+      CONCEPTO: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
       },
     },
     TEMA: {

@@ -52,8 +52,11 @@ export const locale = {
         CONTRATO: 'Contract',
         HUMCONTRATO: 'Contract',
         DOCUMENTOSOPORTE: 'Document support',
-        DOCUMENTOELECTRONICO: 'Document electronic'
-
+        DOCUMENTOELECTRONICO: 'Document electronic',
+        CONCEPTO: 'concept',
+        HUMCONCEPTO: 'concept',
+        GRUPO: 'Group',
+        HUMGRUPO: 'Group',
       },
     },
     FORMULARIOS: {
@@ -366,6 +369,14 @@ export const locale = {
             NO: 'Not',
           },
         },
+        HUMANO: {
+          CONCEPTO: {
+            INGRESOBASECOTIZACION: 'Contribution base income',
+            INGRESOBASEPRESTACION: 'Base benefit income',
+            PORCENTAJE: 'Percentage',
+            ORDEN: 'Order'
+          }
+        }
       },
       VALIDACIONES: {
         COMUNES: {
@@ -562,6 +573,24 @@ export const locale = {
           FECHA: 'Date',
           DESCRIPCION: 'Description',
         }
+      },
+      SEDE: {
+        ID: 'ID',
+        NOMBRE: 'Name',
+      },
+      CUENTABANCO: {
+        ID: 'ID',
+        NOMBRE: 'Name',
+        NUMERO_CUENTA: 'Account',
+        CUENTA_BANCO_TIPO_NOMBRE: 'Type',
+      },
+      GRUPO: {
+        ID: 'ID',
+        NOMBRE: 'Name',
+      },
+      CONCEPTO: {
+        ID: 'ID',
+        NOMBRE: 'Name',
       },
     },
     TEMA: {

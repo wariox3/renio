@@ -431,6 +431,48 @@ export const mapeo: Mapeo = {
       },
     ],
   },
+  HumConcepto: {
+    modulo: 'humano',
+    modelo: 'HumConcepto',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+    ],
+  },
+  HumGrupo: {
+    modulo: 'humano',
+    modelo: 'HumGrupo',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+    ],
+  },
   CuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',
