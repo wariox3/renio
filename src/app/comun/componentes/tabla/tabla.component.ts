@@ -336,6 +336,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         case 'Booleano':
           // Convierte el valor booleano a 'Si' si es verdadero y a 'No' si es falso
           return valor ? 'SI' : 'NO';
+        case 'Porcentaje':
+          return `${parseFloat(valor.replace(",", "."))}`;
         // En caso de que el tipo de campo no sea ninguno de los anteriores
         default:
           // Devuelve el valor sin modificar

@@ -24,6 +24,7 @@ type Mapeo = {
         | 'CharField'
         | 'DateField'
         | 'Booleano'
+        | 'Porcentaje'
         | 'Fk';
     }[];
   };
@@ -452,7 +453,8 @@ export const mapeo: Mapeo = {
       },
       {
         nombre: 'PORCENTAJE',
-        campoTipo: 'CharField',
+        campoTipo: 'Porcentaje',
+        aplicaFormatoNumerico: true,
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: true,
