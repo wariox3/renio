@@ -83,6 +83,14 @@
             }"
             appSoloNumeros
           />
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioConcepto.controls['porcentaje']
+          }"
+        ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -116,7 +124,7 @@
       </div>
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
-          <div class="form-check form-check-custom form-check-solid">
+          <div class="form-check form-check-custom form-check-solid my-5">
             <input
               class="form-check-input"
               type="checkbox"
@@ -130,15 +138,13 @@
               }}
             </label>
           </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
           <div class="form-check form-check-custom form-check-solid">
             <input
               class="form-check-input"
               type="checkbox"
               id="INGRESOBASEPRESTACION"
               formControlName="ingreso_base_prestacion"
-              
+
             />
             <label class="form-check-label text-gray-700" for="INGRESOBASEPRESTACION">
               {{
@@ -147,6 +153,9 @@
               }}
             </label>
           </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+
         </div>
       </div>
     </section>

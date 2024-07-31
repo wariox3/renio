@@ -32,60 +32,35 @@
     </section>
     <section card-body>
       <div class="row mb-5">
-        <div class="col-12" ngbDropdown #ConceptoDropdown="ngbDropdown">
+        <div class="col-12 col-md-6">
           <label
             class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.FECHAINICIO"
           ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="concepto_nombre"
-              (focus)="consultarConceptos($event); ConceptoDropdown.open()"
-              (keyup)="consultarConceptos($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioAdicional.controls['concepto'].touched &&
-                  formularioAdicional.controls['concepto'].invalid,
-                'is-valid':
-                  formularioAdicional.controls['concepto'].touched &&
-                  formularioAdicional.controls['concepto'].valid
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
-            <ng-container *ngFor="let concepto of arrConceptos">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('concepto', concepto)"
-                (pointerenter)="modificarCampoFormulario('concepto', concepto)"
-              >
-                {{ concepto.concepto_nombre }}
-              </button>
-            </ng-container>
-          </div>
+          <input
+            formControlName="fecha_inicio"
+            class="form-control"
+            type="date"
+            id="fecha_inicio"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicional.controls['fecha_inicio'].touched &&
+                formularioAdicional.controls['fecha_inicio'].invalid,
+              'is-valid':
+                formularioAdicional.controls['fecha_inicio'].touched &&
+                formularioAdicional.controls['fecha_inicio'].valid
+            }"
+          />
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['concepto']
+              control: formularioAdicional.controls['fecha_inicio']
             }"
           ></ng-container>
         </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12" ngbDropdown #ContratosDropdown="ngbDropdown">
+        <div class="col-12 col-md-6" ngbDropdown #ContratosDropdown="ngbDropdown">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"

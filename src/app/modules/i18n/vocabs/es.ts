@@ -62,6 +62,7 @@ export const locale = {
         GRUPO: 'Grupo',
         HUMGRUPO: 'Grupo',
         ADICIONAL: 'Adicional',
+        CREDITO: 'Credito',
       },
     },
     FORMULARIOS: {
@@ -659,6 +660,10 @@ export const locale = {
       CONCEPTO: {
         ID: 'ID',
         NOMBRE: 'Nombre',
+        ORDEN: 'Orden',
+        PORCENTAJE: 'Porcentaje',
+        INGRESO_BASE_COTIZACION: 'Base cotización',
+        INGRESO_BASE_PRESTACION: 'Base prestación',
       },
     },
     TEMA: {

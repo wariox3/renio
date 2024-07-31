@@ -919,5 +919,14 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: true,
     },
+  ],
+  'HumCredito': [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ]
 };

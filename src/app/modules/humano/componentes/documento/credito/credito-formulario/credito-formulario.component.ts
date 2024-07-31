@@ -1,23 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
+import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
-  selector: 'app-adicional-formulario',
+  selector: 'app-credito-formulario',
   standalone: true,
   imports: [
     CommonModule,
@@ -28,21 +22,19 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
   ],
-  templateUrl: './adicional-formulario.component.html',
-  styleUrl: './adicional-formulario.component.scss',
+  templateUrl: './credito-formulario.component.html',
+  styleUrl: './credito-formulario.component.scss',
 })
-export default class AdicionalFormularioComponent
+export default class CreditoFormularioComponent
   extends General
   implements OnInit
 {
   formularioAdicional: FormGroup;
-  arrConceptos: any[] = [];
   arrContratos: any[] = [];
-
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private adicionalService: AdicionalService
+    private creditoService: CreditoService
   ) {
     super();
   }
@@ -54,11 +46,9 @@ export default class AdicionalFormularioComponent
       this.consultarDetalle();
     }
   }
-
   iniciarFormulario() {
     this.formularioAdicional = this.formBuilder.group({
-      concepto: [''],
-      concepto_nombre: [''],
+      fecha_inicio: [''],
       contrato: [''],
     });
   }
@@ -66,11 +56,8 @@ export default class AdicionalFormularioComponent
   enviarFormulario() {
     if (this.formularioAdicional.valid) {
       if (this.detalle) {
-        this.adicionalService
-          .actualizarDatosAdicional(
-            this.detalle,
-            this.formularioAdicional.value
-          )
+        this.creditoService
+          .actualizarDatoCredito(this.detalle, this.formularioAdicional.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
@@ -84,8 +71,8 @@ export default class AdicionalFormularioComponent
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.adicionalService
-          .guardarAdicional(this.formularioAdicional.value)
+        this.creditoService
+          .guardarCredito(this.formularioAdicional.value)
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
@@ -108,7 +95,7 @@ export default class AdicionalFormularioComponent
   }
 
   consultarDetalle() {
-    this.adicionalService
+    this.creditoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioAdicional.patchValue({
@@ -122,43 +109,11 @@ export default class AdicionalFormularioComponent
       });
   }
 
-  consultarConceptos(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumConcepto',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrConceptos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
   consultarContratos(event: any) {
     let arrFiltros = {
       filtros: [
         {
-          operador: '',
+          operador: '__icontains',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
@@ -189,17 +144,11 @@ export default class AdicionalFormularioComponent
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
-    if (campo === 'concepto') {
-      this.formularioAdicional.get(campo)?.setValue(dato.concepto_id);
+    if (campo === 'empleado') {
+      this.formularioAdicional.get(campo)?.setValue(dato.contacto_id);
       this.formularioAdicional
-        .get('concepto_nombre')
-        ?.setValue(dato.concepto_nombre);
-    }
-    if (campo === 'contrato') {
-      this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
-      this.formularioAdicional
-        .get('contrato_nombre')
-        ?.setValue(dato.contrato_nombre);
+        .get('empleado_nombre')
+        ?.setValue(dato.contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
   }
