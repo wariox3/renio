@@ -39,7 +39,8 @@ export default class ConceptoDetalleComponent
     this.conceptoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta) => {
-        this.concepto = respuesta;
+        this.concepto = respuesta
+        this.concepto.porcentaje = `${parseFloat(respuesta.porcentaje.replace(",", "."))}`;
         this.changeDetectorRef.detectChanges();
       });
   }

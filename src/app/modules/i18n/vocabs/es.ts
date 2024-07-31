@@ -661,9 +661,9 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         ORDEN: 'Orden',
-        PORCENTAJE: 'Porcentaje',
-        INGRESO_BASE_COTIZACION: 'Base cotización',
-        INGRESO_BASE_PRESTACION: 'Base prestación',
+        PORCENTAJE: 'Por',
+        INGRESO_BASE_COTIZACION: 'Ibc',
+        INGRESO_BASE_PRESTACION: 'Ibp',
       },
     },
     TEMA: {

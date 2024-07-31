@@ -108,7 +108,7 @@ export default class ConceptoFormularioComponent
           nombre: respuesta.nombre,
           ingreso_base_cotizacion: respuesta.ingreso_base_cotizacion,
           ingreso_base_prestacion: respuesta.ingreso_base_prestacion,
-          porcentaje: respuesta.porcentaje,
+          porcentaje: `${parseFloat(respuesta.porcentaje.replace(",", "."))}`,
           orden: respuesta.orden,
         });
         this.changeDetectorRef.detectChanges();
