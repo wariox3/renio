@@ -54,8 +54,8 @@ export default class ConceptoFormularioComponent
       nombre: ['', Validators.compose([Validators.required])],
       ingreso_base_cotizacion: [false],
       ingreso_base_prestacion: [false],
-      porcentaje: ['', Validators.compose([Validators.required])],
-      orden: ['', Validators.compose([Validators.required])],
+      porcentaje: [0, Validators.compose([Validators.required])],
+      orden: [0, Validators.compose([Validators.required])],
     });
   }
 
