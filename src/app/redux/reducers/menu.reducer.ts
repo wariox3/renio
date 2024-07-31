@@ -209,14 +209,14 @@ export const initialState: Menu = {
               data: { modelo: 'HumContrato' },
             },
             {
-              nombre: 'CONCEPTO',
-              tipo: 'Administrador',
-              data: { modelo: 'HumConcepto' },
-            },
-            {
               nombre: 'GRUPO',
               tipo: 'Administrador',
               data: { modelo: 'HumGrupo' },
+            },
+            {
+              nombre: 'CONCEPTO',
+              tipo: 'Administrador',
+              data: { modelo: 'HumConcepto' },
             },
           ],
         },

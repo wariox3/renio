@@ -335,7 +335,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         // Si el campo es de tipo booleano
         case 'Booleano':
           // Convierte el valor booleano a 'Si' si es verdadero y a 'No' si es falso
-          return valor ? 'Si' : 'No';
+          return valor ? 'SI' : 'NO';
         // En caso de que el tipo de campo no sea ninguno de los anteriores
         default:
           // Devuelve el valor sin modificar
