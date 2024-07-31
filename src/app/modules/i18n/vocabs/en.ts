@@ -602,9 +602,9 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Name',
         ORDEN: 'Orden',
-        PORCENTAJE: 'Percentage',
-        INGRESO_BASE_COTIZACION: 'Base contribution',
-        INGRESO_BASE_PRESTACION: 'Benefit base',
+        PORCENTAJE: 'Por',
+        INGRESO_BASE_COTIZACION: 'Ibc',
+        INGRESO_BASE_PRESTACION: 'Ibp',
       },
     },
     TEMA: {
