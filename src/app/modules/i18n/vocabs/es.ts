@@ -340,6 +340,8 @@ export const locale = {
           CONTRATO: {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
+            GRUPO: 'Grupo',
+            CONTRATOTIPO: 'Contrato tipo'
           },
           CUENTABANCO: {
             ID: 'ID',

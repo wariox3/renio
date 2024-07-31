@@ -16,7 +16,7 @@ import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -30,7 +30,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarAvanzadoComponent,
-],
+  ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +41,8 @@ export default class ContratoFormularioComponent
 {
   formularioContrato: FormGroup;
   arrEmpleados: any[] = [];
+  arrGrupo: any[] = [];
+  arrContratoTipo: any[] = [];
   camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -57,8 +59,11 @@ export default class ContratoFormularioComponent
   }
 
   ngOnInit() {
+    this.consultarInformacion();
     this.iniciarFormulario();
-    this.changeDetectorRef.detectChanges();
+    if (this.detalle) {
+      this.consultardetalle();
+    }
   }
 
   iniciarFormulario() {
@@ -69,8 +74,8 @@ export default class ContratoFormularioComponent
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
     this.formularioContrato = this.formBuilder.group({
-      empleado: ['', Validators.compose([Validators.required])],
-      empleado_nombre: [''],
+      contacto: ['', Validators.compose([Validators.required])],
+      contacto_nombre: [''],
       fecha_desde: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -89,6 +94,8 @@ export default class ContratoFormularioComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
+      grupo: ['', Validators.compose([Validators.required])],
+      contrato_tipo: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -102,7 +109,7 @@ export default class ContratoFormularioComponent
               empleado: respuesta.contacto_id,
               empleadoNombre: respuesta.contado_nombre_corto,
               fecha_desde: respuesta.fecha_desde,
-              fecha_hasta: respuesta.fecha_hasta
+              fecha_hasta: respuesta.fecha_hasta,
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
@@ -137,6 +144,51 @@ export default class ContratoFormularioComponent
     } else {
       this.formularioContrato.markAllAsTouched();
     }
+  }
+
+  consultarInformacion() {
+    zip(
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumGrupo',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista-autocompletar/',
+        {
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumContratoTipo',
+        }
+      )
+    ).subscribe((respuesta: any) => {
+      this.arrGrupo = respuesta[0].registros;
+      this.arrContratoTipo = respuesta[1].registros;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   consultarEmpleado(event: any) {
@@ -177,13 +229,12 @@ export default class ContratoFormularioComponent
   }
 
   actualizarFormulario(dato: any, campo: string) {
-    if (campo === 'empleado') {
+    if (campo === 'contacto') {
       this.formularioContrato.get(campo)?.setValue(dato.id);
       this.formularioContrato
-        .get('empleado_nombre')
+        .get('contacto_nombre')
         ?.setValue(dato.nombre_corto);
     }
-
     this.formularioContrato?.markAsDirty();
     this.formularioContrato?.markAsTouched();
     this.changeDetectorRef.detectChanges();
@@ -192,12 +243,29 @@ export default class ContratoFormularioComponent
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioContrato?.markAsDirty();
     this.formularioContrato?.markAsTouched();
-    if (campo === 'empleado') {
+    if (campo === 'contacto') {
       this.formularioContrato.get(campo)?.setValue(dato.contacto_id);
       this.formularioContrato
-        .get('empleado_nombre')
+        .get('contacto_nombre')
         ?.setValue(dato.contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  consultardetalle() {
+    this.contratoService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.formularioContrato.patchValue({
+          contacto: respuesta.contacto,
+          contacto_nombre: respuesta.contacto_nombre,
+          fecha_desde: respuesta.fecha_desde,
+          fecha_hasta: respuesta.fecha_hasta,
+          grupo: respuesta.grupo,
+          contrato_tipo: respuesta.contrato_tipo,
+        });
+
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

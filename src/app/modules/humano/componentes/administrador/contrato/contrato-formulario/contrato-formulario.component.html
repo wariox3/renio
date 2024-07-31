@@ -42,16 +42,16 @@
               type="text"
               class="form-control"
               ngbDropdownAnchor
-              formControlName="empleado_nombre"
+              formControlName="contacto_nombre"
               (focus)="consultarEmpleado($event); ClienteDropdown.open()"
               (keyup)="consultarEmpleado($event)"
               [ngClass]="{
                 'is-invalid':
-                  formularioContrato.controls['empleado'].touched &&
-                  formularioContrato.controls['empleado'].invalid,
+                  formularioContrato.controls['contacto'].touched &&
+                  formularioContrato.controls['contacto'].invalid,
                 'is-valid':
-                  formularioContrato.controls['empleado'].touched &&
-                  formularioContrato.controls['empleado'].valid
+                  formularioContrato.controls['contacto'].touched &&
+                  formularioContrato.controls['contacto'].valid
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -67,10 +67,10 @@
               <button
                 type="button"
                 ngbDropdownItem
-                (click)="modificarCampoFormulario('empleado', empleado)"
-                (pointerenter)="modificarCampoFormulario('empleado', empleado)"
+                (click)="modificarCampoFormulario('contacto', empleado)"
+                (pointerenter)="modificarCampoFormulario('contacto', empleado)"
               >
-                {{ empleado.contacto_nombre_corto }}
+                {{ empleado.empleado_nombre }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -79,7 +79,7 @@
                 [consultarModelo]="'Contacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
-                  actualizarFormulario($event, 'empleado')
+                  actualizarFormulario($event, 'contacto')
                 "
                 [campoLista]="camposBuscarAvanzado"
                 [campoFiltros]="camposBuscarAvanzado"
@@ -92,13 +92,13 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['empleado']
+              control: formularioContrato.controls['contacto']
             }"
           ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-6">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHADESDE"
@@ -144,7 +144,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-6">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"
@@ -189,6 +189,88 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="grupo"
+            [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['grupo'].touched &&
+                formularioContrato.controls['grupo'].invalid,
+              'is-valid':
+              formularioContrato.controls['grupo'].touched &&
+              formularioContrato.controls['grupo'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let grupo of arrGrupo"
+              [value]="grupo.grupo_id"
+              [selected]="
+              grupo.grupo_id ===
+                formularioContrato.controls.grupo_id
+              "
+            >
+              {{ grupo.grupo_nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['grupo']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTRATOTIPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="contrato_tipo"
+            [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['contrato_tipo'].touched &&
+                formularioContrato.controls['contrato_tipo'].invalid,
+              'is-valid':
+              formularioContrato.controls['contrato_tipo'].touched &&
+              formularioContrato.controls['contrato_tipo'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let contrato_tipo of arrContratoTipo"
+              [value]="contrato_tipo.contrato_tipo_id"
+              [selected]="
+              contrato_tipo.contrato_tipo_id ===
+                formularioContrato.controls.contrato_tipo_id
+              "
+            >
+              {{ contrato_tipo.contrato_tipo_nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['contrato_tipo']
+            }"
+          ></ng-container>
         </div>
       </div>
     </section>
