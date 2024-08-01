@@ -412,7 +412,11 @@ export const locale = {
           },
           ADICIONAL: {
             CONTRATO: 'Contrato',
-            CONCEPTO: 'Concepto'
+            CONCEPTO: 'Concepto',
+            VALOR: 'Valor',
+            HORAS: 'Horas',
+            APLICA_DIA_LABORADO: 'Aplica día laborado',
+            DETALLE: 'Detalle'
           },
           CREDITO: {
             FECHAINICIO: 'Inicio',
