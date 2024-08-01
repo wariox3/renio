@@ -60,7 +60,11 @@
             }"
           ></ng-container>
         </div>
-        <div class="col-12 col-md-6" ngbDropdown #ContratosDropdown="ngbDropdown">
+        <div
+          class="col-12 col-md-6"
+          ngbDropdown
+          #ContratosDropdown="ngbDropdown"
+        >
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
@@ -98,9 +102,9 @@
                 (click)="modificarCampoFormulario('contrato', contrato)"
                 (pointerenter)="modificarCampoFormulario('contrato', contrato)"
               >
-              {{ contrato.contrato_contacto_numero_identificacion }}
-              {{ contrato.contrato_contacto_nombre_corto }}
-            </button>
+                {{ contrato.contrato_contacto_numero_identificacion }}
+                {{ contrato.contrato_contacto_nombre_corto }}
+              </button>
             </ng-container>
           </div>
           <ng-container
@@ -132,6 +136,14 @@
                 formularioAdicional.controls['cantidad_cuotas'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['cantidad_cuotas']
+            }"
+          ></ng-container>
         </div>
         <div class="col-12 col-md-6">
           <label
@@ -151,6 +163,14 @@
                 formularioAdicional.controls['cuota'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['cuota']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -172,6 +192,14 @@
                 formularioAdicional.controls['total'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['total']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">

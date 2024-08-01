@@ -59,9 +59,9 @@ export default class CreditoFormularioComponent
       fecha_inicio: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
-      total: [''],
-      cuota: [''],
-      cantidad_cuotas: [''],
+      total: ['', Validators.compose([Validators.required])],
+      cuota: ['', Validators.compose([Validators.required])],
+      cantidad_cuotas: ['', Validators.compose([Validators.required])],
       validar_cuotas: [false],
     });
   }

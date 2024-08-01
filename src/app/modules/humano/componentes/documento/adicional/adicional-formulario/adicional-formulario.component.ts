@@ -62,7 +62,7 @@ export default class AdicionalFormularioComponent
       concepto_nombre: [''],
       contrato_nombre: [''],
       detalle: ['', Validators.compose([Validators.required])],
-      horas: [''],
+      horas: ['', Validators.compose([Validators.required])],
       aplica_dia_laborado: [false],
       valor: ['', Validators.compose([Validators.required])],
     });
