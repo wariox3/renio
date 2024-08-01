@@ -22,23 +22,28 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export default class CreditoDetalleComponent extends General {
   credito: any = {
-    contrato: '',
-    concepto: '',
+      "id": 0,
+      "fecha_inicio": "",
+      "total": 0,
+      "cuota": 0,
+      "cantidad_cuotas": 0,
+      "validar_cuotas": false,
+      "contrato": 0
   };
 
-  // constructor(
-  //   private creditoService: CreditoService
-  // ) {
-  //   super();
-  //   this.consultardetalle();
-  // }
+  constructor(
+    private creditoService: CreditoService
+  ) {
+    super();
+    this.consultardetalle();
+  }
 
-  // consultardetalle() {
-  //   this.creditoService
-  //     .consultarDetalle(this.detalle)
-  //     .subscribe((respuesta: any) => {
-  //       this.credito = respuesta.documento;
-  //       this.changeDetectorRef.detectChanges();
-  //     });
-  // }
+  consultardetalle() {
+    this.creditoService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.credito = respuesta;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
 }

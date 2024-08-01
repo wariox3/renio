@@ -73,11 +73,9 @@ export default class AdicionalFormularioComponent
           )
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
+            this.router.navigate(['documento/detalle'], {
               queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
                 detalle: respuesta.id,
               },
             });
@@ -89,13 +87,10 @@ export default class AdicionalFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
+              this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
                   detalle: respuesta.id,
-                  accion: 'detalle',
                 },
               });
             })
@@ -112,11 +107,9 @@ export default class AdicionalFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioAdicional.patchValue({
-          nombre: respuesta.nombre,
-          ingreso_base_cotizacion: respuesta.ingreso_base_cotizacion,
-          ingreso_base_prestacion: respuesta.ingreso_base_prestacion,
-          porcentaje: respuesta.porcentaje,
-          orden: respuesta.orden,
+          concepto: respuesta.concepto,
+          concepto_nombre: respuesta.concepto_nombre,
+          contrato: respuesta.contrato
         });
         this.changeDetectorRef.detectChanges();
       });

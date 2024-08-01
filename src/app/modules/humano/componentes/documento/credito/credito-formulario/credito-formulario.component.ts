@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -48,8 +54,8 @@ export default class CreditoFormularioComponent
   }
   iniciarFormulario() {
     this.formularioAdicional = this.formBuilder.group({
-      fecha_inicio: [''],
-      contrato: [''],
+      fecha_inicio: ['', Validators.compose([Validators.required])],
+      contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
     });
   }
@@ -61,11 +67,9 @@ export default class CreditoFormularioComponent
           .actualizarDatoCredito(this.detalle, this.formularioAdicional.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
+            this.router.navigate(['documento/detalle'], {
               queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
                 detalle: respuesta.id,
               },
             });
@@ -77,13 +81,10 @@ export default class CreditoFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
+              this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
                   detalle: respuesta.id,
-                  accion: 'detalle',
                 },
               });
             })
@@ -100,11 +101,9 @@ export default class CreditoFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioAdicional.patchValue({
-          nombre: respuesta.nombre,
-          ingreso_base_cotizacion: respuesta.ingreso_base_cotizacion,
-          ingreso_base_prestacion: respuesta.ingreso_base_prestacion,
-          porcentaje: respuesta.porcentaje,
-          orden: respuesta.orden,
+          fecha_inicio: respuesta.fecha_inicio,
+          contrato: respuesta.contrato_id,
+          contrato_nombre: respuesta.contrato_contacto_nombre_corto,
         });
         this.changeDetectorRef.detectChanges();
       });
