@@ -50,6 +50,7 @@ export default class CreditoFormularioComponent
     this.formularioAdicional = this.formBuilder.group({
       fecha_inicio: [''],
       contrato: [''],
+      contrato_nombre: [''],
     });
   }
 
@@ -144,11 +145,11 @@ export default class CreditoFormularioComponent
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
-    if (campo === 'empleado') {
-      this.formularioAdicional.get(campo)?.setValue(dato.contacto_id);
+    if (campo === 'contrato') {
+      this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
       this.formularioAdicional
-        .get('empleado_nombre')
-        ?.setValue(dato.contacto_nombre_corto);
+        .get('contrato_nombre')
+        ?.setValue(dato.contrato_contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
   }

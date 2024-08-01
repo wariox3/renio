@@ -11,6 +11,7 @@ type Mapeo = {
     tipo: 'Administrador' | 'Movimiento';
     datos: {
       nombre: string;
+      nombreAbreviado?: string;
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;
@@ -429,6 +430,70 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
+      },
+      {
+        nombre: 'CONTRATO_TIPO_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CONTACTO_ID',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CONTACTO_NOMBRE_CORTO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'FECHA_DESDE',
+        campoTipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'FECHA_HASTA',
+        campoTipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CONTRATO_TIPO',
+        campoTipo: 'CharField',
+        visibleTabla: false,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'GRUPO_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'ESTADO_TERMINADO',
+        nombreAbreviado: 'ESTADO_TERMINADO_ABREVIATURA',
+        campoTipo: 'Booleano',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
       },
     ],
   },

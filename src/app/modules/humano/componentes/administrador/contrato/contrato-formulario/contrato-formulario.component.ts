@@ -257,12 +257,12 @@ export default class ContratoFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioContrato.patchValue({
-          contacto: respuesta.contacto,
-          contacto_nombre: respuesta.contacto_nombre,
+          contacto: respuesta.contacto_id,
+          contacto_nombre: respuesta.contacto_nombre_corto,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
-          grupo: respuesta.grupo,
-          contrato_tipo: respuesta.contrato_tipo,
+          grupo: respuesta.grupo_id,
+          contrato_tipo: respuesta.contrato_tipo_id,
         });
 
         this.changeDetectorRef.detectChanges();

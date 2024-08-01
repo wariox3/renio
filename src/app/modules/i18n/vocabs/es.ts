@@ -667,6 +667,20 @@ export const locale = {
         INGRESO_BASE_COTIZACION: 'Ibc',
         INGRESO_BASE_PRESTACION: 'Ibp',
       },
+      CONTRATO: {
+        ID: 'ID',
+        FECHA_DESDE: 'Fecha desde',
+        FECHA_HASTA: 'Fecha hasta',
+        ESTADO_TERMINADO: 'Estado terminado',
+        ESTADO_TERMINADO_ABREVIATURA: 'Ter',
+        CONTRATO_TIPO: 'Contrato tipo',
+        CONTRATO_TIPO_NOMBRE: 'Tipo',
+        GRUPO: 'Grupo',
+        GRUPO_NOMBRE: 'Grupo',
+        CONTACTO_ID: 'Cod',
+        CONTACTO_NUMERO_IDENTIFICACION: 'Número identificación',
+        CONTACTO_NOMBRE_CORTO: 'Nombre',
+      }
     },
     TEMA: {
       CLARO: 'Claro',
