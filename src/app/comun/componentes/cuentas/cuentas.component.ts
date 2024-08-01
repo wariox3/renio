@@ -69,7 +69,7 @@ export class CuentasComponent extends General implements AfterViewInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Cuenta',
+      modelo: 'ConCuenta',
     };
 
     this.httpService
