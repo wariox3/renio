@@ -149,4 +149,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/cuenta-banco/cuenta-banco-formulario/cuenta-banco-formulario.component'
       ),
   },
+  ConCuenta: {
+    modulo: 'contabilidad',
+    modelo: 'ConCuenta',
+    detalle: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/cuenta/cuenta-detalle/cuenta-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/cuenta/cuenta-formulario/cuenta-formulario.component'
+      ),
+  },
 };

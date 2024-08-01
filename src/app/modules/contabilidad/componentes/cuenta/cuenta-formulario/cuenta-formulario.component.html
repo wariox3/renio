@@ -1,4 +1,4 @@
-<form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
+<form [formGroup]="formularioCuenta" (ngSubmit)="enviarFormulario()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
       class="btn-group btn-sm shadow-sm"
@@ -50,11 +50,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioItem.controls['nombre'].touched &&
-                formularioItem.controls['nombre'].invalid,
+              formularioCuenta.controls['nombre'].touched &&
+              formularioCuenta.controls['nombre'].invalid,
               'is-valid':
-                formularioItem.controls['nombre'].touched &&
-                formularioItem.controls['nombre'].valid
+              formularioCuenta.controls['nombre'].touched &&
+              formularioCuenta.controls['nombre'].valid
             }"
           />
           <ng-container
@@ -62,7 +62,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['nombre']
+              control: formularioCuenta.controls['nombre']
             }"
           ></ng-container>
           <ng-container
@@ -70,7 +70,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['nombre']
+              control: formularioCuenta.controls['nombre']
             }"
           ></ng-container>
           <ng-container
@@ -80,7 +80,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: '3',
-              control: formularioItem.controls['nombre']
+              control: formularioCuenta.controls['nombre']
             }"
           ></ng-container>
           <ng-container
@@ -90,7 +90,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioItem.controls['nombre']
+              control: formularioCuenta.controls['nombre']
             }"
           ></ng-container>
         </div>
@@ -107,11 +107,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioItem.controls['codigo'].touched &&
-                formularioItem.controls['codigo'].invalid,
+              formularioCuenta.controls['codigo'].touched &&
+              formularioCuenta.controls['codigo'].invalid,
               'is-valid':
-                formularioItem.controls['codigo'].touched &&
-                formularioItem.controls['codigo'].valid
+              formularioCuenta.controls['codigo'].touched &&
+              formularioCuenta.controls['codigo'].valid
             }"
           />
           <ng-container
@@ -119,7 +119,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['codigo']
+              control: formularioCuenta.controls['codigo']
             }"
           ></ng-container>
           <ng-container
@@ -127,7 +127,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['codigo']
+              control: formularioCuenta.controls['codigo']
             }"
           ></ng-container>
           <ng-container
@@ -137,7 +137,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: '3',
-              control: formularioItem.controls['codigo']
+              control: formularioCuenta.controls['codigo']
             }"
           ></ng-container>
           <ng-container
@@ -147,289 +147,9 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioItem.controls['codigo']
+              control: formularioCuenta.controls['codigo']
             }"
           ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="costo"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            prefix="$ "
-            mask="separator.2"
-            (blur)="modificarCampoFormulario('costo', 0)"
-            [thousandSeparator]="','"
-            [decimalMarker]="'.'"
-            [ngClass]="{
-              'is-invalid':
-                formularioItem.controls['costo'].touched &&
-                formularioItem.controls['costo'].invalid,
-              'is-valid':
-                formularioItem.controls['costo'].touched &&
-                formularioItem.controls['costo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-              cantidadCaracteres: '3',
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.REFERENCIA"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="referencia"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('referencia', null)"
-            [ngClass]="{
-              'is-invalid':
-                formularioItem.controls['referencia'].touched &&
-                formularioItem.controls['referencia'].invalid,
-              'is-valid':
-                formularioItem.controls['referencia'].touched &&
-                formularioItem.controls['referencia'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['referencia']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-              cantidadCaracteres: '3',
-              control: formularioItem.controls['referencia']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioItem.controls['referencia']
-            }"
-          ></ng-container>
-        </div>
-
-      </div>
-      <div class="row mb-5 gap-3">
-        <div class="d-flex gap-3">
-          <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="radio"
-              value="producto"
-              id="producto"
-              (change)="modificarCampoFormulario('producto', true)"
-              formControlName="productoServicio"
-              [ngClass]="{
-                'is-invalid':
-                  formularioItem.controls['producto'].touched &&
-                  formularioItem.controls['producto'].invalid,
-                'is-valid':
-                  formularioItem.controls['producto'].touched &&
-                  formularioItem.controls['producto'].valid
-              }"
-            />
-            <label class="form-check-label" for="producto"> Producto </label>
-          </div>
-          <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="radio"
-              value="servicio"
-              id="servicio"
-              formControlName="productoServicio"
-              (change)="modificarCampoFormulario('servicio', true)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioItem.controls['servicio'].touched &&
-                  formularioItem.controls['servicio'].invalid,
-                'is-valid':
-                  formularioItem.controls['servicio'].touched &&
-                  formularioItem.controls['servicio'].valid
-              }"
-            />
-            <label class="form-check-label" for="servicio"> Servicio </label>
-          </div>
-        </div>
-        <div>
-          <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="inventario"
-              formControlName="inventario"
-              [ngClass]="{
-                'is-invalid':
-                  formularioItem.controls['inventario'].touched &&
-                  formularioItem.controls['inventario'].invalid,
-                'is-valid':
-                  formularioItem.controls['inventario'].touched &&
-                  formularioItem.controls['inventario'].valid
-              }"
-            />
-            <label class="form-check-label" for="inventario"> Inventario </label>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  </app-card>
-
-  <app-card>
-    <section card-titulo>Venta</section>
-    <section card-body>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-            class="form-label"
-          ></label>
-          <app-comun-impuestos
-            (emitirImpuestoAgregado)="agregarImpuesto($event)"
-            (emitirImpuestoElimiando)="removerImpuesto($event)"
-            [arrLista]="arrImpuestos"
-            [estado_aprobado]="true"
-            [visualizarImpuestosVenta]="true"
-          ></app-comun-impuestos>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
-            class="form-label"
-          >
-          </label>
-          <input
-            formControlName="precio"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            prefix="$ "
-            mask="separator.2"
-            [thousandSeparator]="','"
-            [decimalMarker]="'.'"
-            (blur)="modificarCampoFormulario('precio', 0)"
-            [ngClass]="{
-              'is-invalid':
-                formularioItem.controls['precio'].touched &&
-                formularioItem.controls['precio'].invalid,
-              'is-valid':
-                formularioItem.controls['precio'].touched &&
-                formularioItem.controls['precio'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['precio']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['precio']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-              cantidadCaracteres: '3',
-              control: formularioItem.controls['precio']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioItem.controls['precio']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-    </section>
-  </app-card>
-
-  <app-card>
-    <section card-titulo>Compra</section>
-    <section card-body>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-            class="form-label"
-          ></label>
-          <app-comun-impuestos
-            (emitirImpuestoAgregado)="agregarImpuesto($event)"
-            (emitirImpuestoElimiando)="removerImpuesto($event)"
-            [arrLista]="arrImpuestos"
-            [estado_aprobado]="true"
-            [visualizarImpuestosCompra]="true"
-          ></app-comun-impuestos>
         </div>
       </div>
     </section>
