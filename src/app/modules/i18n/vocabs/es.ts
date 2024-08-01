@@ -414,6 +414,9 @@ export const locale = {
           CREDITO: {
             FECHAINICIO: 'Inicio',
             CONTRATO: 'Contrato',
+            VALIDAR_CUOTAS: 'Validar cuotas',
+            CANTIDAD_CUOTAS: 'Cantidad cuotas',
+            TOTAL: 'Total',
           }
         }
       },
