@@ -65,7 +65,7 @@ export const locale = {
         CREDITO: 'Credito',
         CUENTA: 'Cuenta',
         CONCUENTA: 'Cuenta',
-        ASIENTO: 'Asiento'
+        ASIENTO: 'Asiento',
       },
     },
     FORMULARIOS: {
@@ -141,7 +141,7 @@ export const locale = {
             CONTENEDOR: 'Mi contenedor',
             EMPRESA: 'Mi empresa',
             CONTENEDORES: 'Mis contenedores',
-            SOCIO:'Socio'
+            SOCIO: 'Socio',
           },
           VERMAS: 'Ver más',
         },
@@ -301,7 +301,7 @@ export const locale = {
           EMPLEADO: 'Empleado',
           PROVEEDOR: 'Proveedor',
           DIGITO: 'Digito',
-          ID: 'Id'
+          ID: 'Id',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -345,7 +345,7 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             GRUPO: 'Grupo',
-            CONTRATOTIPO: 'Contrato tipo'
+            CONTRATOTIPO: 'Contrato tipo',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -409,7 +409,7 @@ export const locale = {
             INGRESOBASECOTIZACION: 'Ingreso base cotización',
             INGRESOBASEPRESTACION: 'Ingreso base prestación',
             PORCENTAJE: 'Porcentaje',
-            ORDEN: 'Orden'
+            ORDEN: 'Orden',
           },
           ADICIONAL: {
             CONTRATO: 'Contrato',
@@ -417,7 +417,8 @@ export const locale = {
             VALOR: 'Valor',
             HORAS: 'Horas',
             APLICA_DIA_LABORADO: 'Aplica día laborado',
-            DETALLE: 'Detalle'
+            DETALLE: 'Detalle',
+            TOTAL: 'Total',
           },
           CREDITO: {
             FECHAINICIO: 'Inicio',
@@ -425,8 +426,8 @@ export const locale = {
             VALIDAR_CUOTAS: 'Validar cuotas',
             CANTIDAD_CUOTAS: 'Cantidad cuotas',
             TOTAL: 'Total',
-          }
-        }
+          },
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -550,10 +551,16 @@ export const locale = {
         CUOTA: 'Cuota',
         VALIDAR_CUOTAS: 'Validar cuotas',
         CANTIDAD_CUOTAS: 'Cantidad cuotas',
-        VALIDAR_CUOTAS_ABREVIATURA: 'Validar',
+        VALIDAR_CUOTAS_ABREVIATURA: 'Validar cuotas',
         APLICA_DIA_LABORADO_ABREVIATURA: 'Día laboral',
         HORAS: 'Horas',
         VALOR: 'Valor',
+        CONCEPTO_ID: 'Concepto',
+        CONCEPTO_NOMBRE: 'Nombre',
+        CONTRATO_CONTACTO_ID: 'Contacto',
+        CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Número identificación',
+        CONTRATO_ID: 1,
       },
       ITEM: {
         ID: 'ID',
@@ -704,7 +711,7 @@ export const locale = {
       CUENTA: {
         ID: 'ID',
         NOMBRE: 'Nombre',
-        CODIGO: 'Código'
+        CODIGO: 'Código',
       },
     },
     TEMA: {

@@ -60,6 +60,12 @@ export default class AdicionalFormularioComponent
       concepto: ['', Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
+      contrato_nombre: [''],
+      total: ['', Validators.compose([Validators.required])],
+      detalle: ['', Validators.compose([Validators.required])],
+      horas: [''],
+      aplica_dia_laborado: [''],
+      valor: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -107,9 +113,15 @@ export default class AdicionalFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioAdicional.patchValue({
-          concepto: respuesta.concepto,
+          concepto: respuesta.concepto_id,
           concepto_nombre: respuesta.concepto_nombre,
-          contrato: respuesta.contrato
+          contrato: respuesta.contrato_id,
+          contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          total: respuesta.total,
+          detalle: respuesta.detalle,
+          horas: respuesta.horas,
+          valor: respuesta.valor,
+          aplica_dia_laborado: respuesta.aplica_dia_laborado
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -192,7 +204,7 @@ export default class AdicionalFormularioComponent
       this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
       this.formularioAdicional
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_nombre);
+        ?.setValue(dato.contrato_contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
   }

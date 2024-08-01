@@ -13,6 +13,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -25,7 +26,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     BaseFiltroComponent,
     TablaComponent,
     ImportarComponent,
-],
+  ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
@@ -62,7 +63,7 @@ export class BaseListaComponent extends General implements OnInit {
         .getItem('itemNombre')
         ?.toLowerCase()}`;
       this.modelo = localStorage.getItem('itemNombre')!;
-      let posicion: keyof typeof documentos = parametro.documento_clase      
+      let posicion: keyof typeof documentos = parametro.documento_clase;
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
     });
@@ -72,8 +73,8 @@ export class BaseListaComponent extends General implements OnInit {
   consultarLista() {
     const { documento_clase } = this.parametrosUrl;
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-    const consulaHttp = localStorage.getItem('consultaHttp')
-    if(consulaHttp === 'si'){
+    const consulaHttp = localStorage.getItem('consultaHttp');
+    if (consulaHttp === 'si') {
       if (filtroGuardado === null) {
         this.arrParametrosConsulta.filtros = [
           {
@@ -90,7 +91,7 @@ export class BaseListaComponent extends General implements OnInit {
           ...JSON.parse(filtroGuardado),
         ];
       }
-  
+
       this.httpService
         .post<{
           registros: any;
@@ -100,7 +101,7 @@ export class BaseListaComponent extends General implements OnInit {
           this.arrItems = respuesta;
           this.changeDetectorRef.detectChanges();
         });
-    }else {
+    } else {
       let baseUrl = 'general/funcionalidad/lista-administrador/';
       this.arrParametrosConsulta = {
         ...this.arrParametrosConsulta,
@@ -108,7 +109,7 @@ export class BaseListaComponent extends General implements OnInit {
           modelo: documento_clase,
         },
       };
-  
+
       this.httpService
         .post<{
           cantidad_registros: number;
@@ -119,7 +120,7 @@ export class BaseListaComponent extends General implements OnInit {
           this.cantidad_registros = respuesta.cantidad_registros;
           this.arrItems = respuesta.registros;
           this.arrPropiedades = respuesta.propiedades;
-  
+
           this.changeDetectorRef.detectChanges();
         });
     }
@@ -153,12 +154,34 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      this.httpService
+      const consulaHttp = localStorage.getItem('consultaHttp');
+      if (consulaHttp === 'si') {
+        this.httpService
         .post('general/documento/eliminar/', { documentos: data })
         .subscribe((respuesta: any) => {
           this.alertaService.mensajaExitoso(respuesta.mensaje);
           this.consultarLista();
         });
+      } else {
+        let modelo = this.modelo.toLowerCase()
+        let modulo = localStorage.getItem('ruta')
+        let eliminarPrefijos = ['hum']
+        if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
+          modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
+        }
+        const eliminarSolicitudes = data.map((id) => {
+          return this.httpService.delete(
+            `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
+            {}
+          );
+        });
+        combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+          this.confirmacionRegistrosEliminado = true;
+          this.changeDetectorRef.detectChanges();
+          this.consultarLista();
+        });
+      }
     } else {
       this.alertaService.mensajeError(
         'Error',
