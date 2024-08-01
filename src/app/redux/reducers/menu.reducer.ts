@@ -151,6 +151,16 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          children: [
+            {
+              nombre: 'ASIENTO',
+              tipo: 'Documento',
+              data: { documento_clase: 601 },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
+          ]
+          
         },
         {
           nombre: 'administracion',

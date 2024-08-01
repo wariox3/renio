@@ -126,6 +126,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/inventario/componentes/salida/salida-formulario/salida-formulario.component'
       ),
   },
+  601: {
+    detalle: async () =>
+      await import(
+        '../../../modules/inventario/componentes/salida/salida-detalle/salida-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/inventario/componentes/salida/salida-formulario/salida-formulario.component'
+      ),
+  },
   HumProgramacion: {
     detalle: async () =>
       await import(
