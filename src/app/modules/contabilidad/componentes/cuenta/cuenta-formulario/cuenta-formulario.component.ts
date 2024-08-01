@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -20,13 +19,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
-import { tap } from 'rxjs';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 
 @Component({
-  selector: 'app-item-formulario',
+  selector: 'app-cuenta-formulario',
   standalone: true,
   templateUrl: './cuenta-formulario.component.html',
   imports: [
@@ -37,15 +35,10 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ImpuestosComponent,
     BtnAtrasComponent,
     CardComponent,
-    NgxMaskDirective,
-    NgxMaskPipe,
-  ],
-  providers: [provideNgxMask()],
+  ]
 })
 export default class ItemFormularioComponent extends General implements OnInit {
-  formularioItem: FormGroup;
-  arrImpuestosEliminado: number[] = [];
-  arrImpuestos: any[] = [];
+  formularioCuenta: FormGroup;
   @Input() informacionFormulario: any;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
@@ -55,7 +48,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private itemService: ItemService
+    private cuentaService: CuentaService
   ) {
     super();
   }
@@ -68,7 +61,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   iniciarFormulario() {
-    this.formularioItem = this.formBuilder.group({
+    this.formularioCuenta = this.formBuilder.group({
       codigo: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
@@ -77,54 +70,41 @@ export default class ItemFormularioComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
-      referencia: [null, Validators.compose([Validators.maxLength(50)])],
-      precio: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
-      costo: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
-      productoServicio: ['producto'],
-      producto: [true],
-      servicio: [false],
-      inventario: [false],
-      impuestos: this.formBuilder.array([]),
     });
   }
 
   get obtenerFormularioCampos() {
-    return this.formularioItem.controls;
+    return this.formularioCuenta.controls;
   }
 
   enviarFormulario() {
-    if (this.formularioItem.valid) {
-      if (this.activatedRoute.snapshot.queryParams['detalle'] && this.ocultarBtnAtras === false) {
-        this.itemService
-          .actualizarDatosItem(
-            this.activatedRoute.snapshot.queryParams['detalle'],
-            {
-              ...this.formularioItem.value,
-              ...{ impuestos_eliminados: this.arrImpuestosEliminado },
-            }
-          )
-          .subscribe((respuesta) => {
-            this.formularioItem.patchValue({
-              codigo: respuesta.item.codigo,
-              nombre: respuesta.item.nombre,
-              referencia: respuesta.item.referencia,
-              precio: respuesta.item.precio,
-            });
 
-            let arrImpuesto = this.obtenerFormularioCampos
-              .impuestos as FormArray;
-
-            arrImpuesto.clear();
-
-            respuesta.item.impuestos.map((impuesto: any) => {
-              arrImpuesto.push(
-                this.formBuilder.group({
-                  impuesto: impuesto,
-                })
-              );
-            });
-            this.arrImpuestos = respuesta.item.impuestos;
-            this.arrImpuestosEliminado = [];
+    if (this.formularioCuenta.valid) {
+      if (this.detalle) {
+        // this.cuentaService
+        //   .actualizarDatos(this.detalle, this.formularioAsesor.value)
+        //   .subscribe((respuesta: any) => {
+        //     this.formularioAsesor.patchValue({
+        //       nombre_corto: respuesta.nombre_corto,
+        //       celular: respuesta.celular,
+        //       correo: respuesta.correo,
+        //     });
+        //     this.alertaService.mensajaExitoso('Se actualizó la información');
+        //     this.router.navigate(['/administrador/detalle'], {
+        //       queryParams: {
+        //         modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+        //         modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+        //         tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+        //         formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
+        //         detalle: respuesta.id,
+        //         accion: 'detalle',
+        //       },
+        //     });
+        //   });
+      } else {
+        this.cuentaService
+          .guardarCuenta(this.formularioCuenta.value)
+          .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
@@ -132,135 +112,32 @@ export default class ItemFormularioComponent extends General implements OnInit {
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                 tipo: this.activatedRoute.snapshot.queryParams['tipo'],
                 formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.item.id,
+                detalle: respuesta.id,
                 accion: 'detalle',
               },
             });
-            this.changeDetectorRef.detectChanges();
           });
-      } else {
-        this.itemService
-          .guardarItem(this.formularioItem.value)
-          .pipe(
-            tap((respuesta: any) => {
-              this.alertaService.mensajaExitoso('Se guardó la información');
-              if (this.ocultarBtnAtras) {
-                this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
-              } else {
-                this.router.navigate(['/administrador/detalle'], {
-                  queryParams: {
-                    modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                    tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                    formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                    detalle: respuesta.item.id,
-                    accion: 'detalle',
-                  },
-                });
-              }
-            })
-          )
-          .subscribe();
       }
     } else {
-      this.formularioItem.markAllAsTouched();
+      this.formularioCuenta.markAllAsTouched();
     }
+
   }
 
   limpiarFormulario() {
-    this.formularioItem.reset();
-  }
-
-  agregarImpuesto(impuesto: any) {
-    const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
-    let impuestoFormGrup = this.formBuilder.group({
-      impuesto: [impuesto.impuesto_id],
-    });
-    arrImpuesto.push(impuestoFormGrup);
-
-    this.changeDetectorRef.detectChanges();
-  }
-
-  removerImpuesto(impuesto: any) {
-    const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
-
-    let nuevosImpuestos = arrImpuesto.value.filter(
-      (item: any) =>
-        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
-    );
-
-    // Limpiar el FormArray actual
-    arrImpuesto.clear();
-
-    nuevosImpuestos.forEach((item: any) => {
-      const nuevoDetalle = this.formBuilder.group({
-        // Aquí debes definir la estructura de tu FormGroup para un impuesto
-        impuesto: [item.impuesto],
-      });
-      arrImpuesto.push(nuevoDetalle);
-    });
-
-    if (impuesto.id != null) {
-      this.arrImpuestosEliminado.push(impuesto.id);
-    }
-
-    this.changeDetectorRef.detectChanges();
+    this.formularioCuenta.reset();
   }
 
   consultardetalle() {
-    this.itemService
+    this.cuentaService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.formularioItem.patchValue({
+        this.formularioCuenta.patchValue({
           codigo: respuesta.item.codigo,
           nombre: respuesta.item.nombre,
-          referencia: respuesta.item.referencia,
-          precio: respuesta.item.precio,
-          costo: respuesta.item.costo,
-          productoServicio: respuesta.item.producto ? 'producto' : 'servicio',
-          inventario: respuesta.item.inventario,
-          producto: respuesta.item.producto,
-          servicio: respuesta.item.servicio,
         });
-
-        let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
-
-        arrImpuesto.clear();
-
-        respuesta.item.impuestos.map((impuesto: any) => {
-          arrImpuesto.push(
-            this.formBuilder.group({
-              impuesto: impuesto,
-            })
-          );
-        });
-        this.arrImpuestos = respuesta.item.impuestos;
-        // this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
-    this.formularioItem?.markAsDirty();
-    this.formularioItem?.markAsTouched();
-    if (campo === 'referencia') {
-      if (this.formularioItem.get(campo)?.value === '') {
-        this.formularioItem.get(campo)?.setValue(null);
-      }
-    }
-    if (campo === 'producto') {
-      this.formularioItem.get(campo)?.setValue(true);
-      this.formularioItem.get('servicio')?.setValue(false);
-    }
-    if (campo === 'servicio') {
-      this.formularioItem.get(campo)?.setValue(true);
-      this.formularioItem.get('producto')?.setValue(false);
-    }
-    if (campo === 'precio' || campo === 'costo') {
-      if (this.formularioItem.get(campo)?.value === '') {
-        this.formularioItem.get(campo)?.setValue(dato);
-      }
-    }
-    this.changeDetectorRef.detectChanges();
-  }
 }

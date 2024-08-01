@@ -300,6 +300,7 @@ export const locale = {
           EMPLEADO: 'Empleado',
           PROVEEDOR: 'Proveedor',
           DIGITO: 'Digito',
+          ID: 'Id'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
