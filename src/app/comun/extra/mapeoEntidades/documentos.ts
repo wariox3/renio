@@ -1129,5 +1129,49 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: false,
     },
+  ],
+  'HumNovedad': [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTRATO_CONTACTO_ID',
+      campoTipo: 'CharField',
+      visibleTabla: false,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA_HASTA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    }
   ]
 };

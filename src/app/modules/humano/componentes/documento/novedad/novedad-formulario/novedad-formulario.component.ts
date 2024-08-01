@@ -11,7 +11,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { CreditoService } from '@modulos/humano/servicios/creditoservice';
+import { NovedadService } from '@modulos/humano/servicios/novedad';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -40,7 +40,7 @@ export default class CreditoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private creditoService: CreditoService
+    private novedadService: NovedadService
   ) {
     super();
   }
@@ -53,9 +53,10 @@ export default class CreditoFormularioComponent
     }
   }
   iniciarFormulario() {
+    const fechaActual = new Date(); // Obtener la fecha actual
     this.formularioAdicional = this.formBuilder.group({
-      fecha_desde: ['', Validators.compose([Validators.required])],
-      fecha_hasta: ['', Validators.compose([Validators.required])],
+      fecha_desde: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
+      fecha_hasta: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
     });
@@ -64,8 +65,8 @@ export default class CreditoFormularioComponent
   enviarFormulario() {
     if (this.formularioAdicional.valid) {
       if (this.detalle) {
-        this.creditoService
-          .actualizarDatoCredito(this.detalle, this.formularioAdicional.value)
+        this.novedadService
+          .actualizarDatoNovedad(this.detalle, this.formularioAdicional.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['documento/detalle'], {
@@ -77,8 +78,8 @@ export default class CreditoFormularioComponent
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.creditoService
-          .guardarCredito(this.formularioAdicional.value)
+        this.novedadService
+          .guardarNovedad(this.formularioAdicional.value)
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
@@ -98,7 +99,7 @@ export default class CreditoFormularioComponent
   }
 
   consultarDetalle() {
-    this.creditoService
+    this.novedadService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.formularioAdicional.patchValue({

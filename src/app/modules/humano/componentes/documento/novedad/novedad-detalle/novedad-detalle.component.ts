@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { CreditoService } from '@modulos/humano/servicios/creditoservice';
+import { NovedadService } from '@modulos/humano/servicios/novedad';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -21,28 +21,26 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './novedad-detalle.component.scss',
 })
 export default class CreditoDetalleComponent extends General {
-  credito: any = {
+  novedad: any = {
       "id": 0,
-      "fecha_inicio": "",
-      "total": 0,
-      "cuota": 0,
-      "cantidad_cuotas": 0,
-      "validar_cuotas": false,
-      "contrato": 0
+      "fecha_desde": "",
+      "fecha_hasta": "",
+      "contrato_contacto_nombre_corto": "",
+      "contrato_contacto_numero_identificacion": ""
   };
 
   constructor(
-    private creditoService: CreditoService
+    private novedadService: NovedadService
   ) {
     super();
     this.consultardetalle();
   }
 
   consultardetalle() {
-    this.creditoService
+    this.novedadService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.credito = respuesta;
+        this.novedad = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
