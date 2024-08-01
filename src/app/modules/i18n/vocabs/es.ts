@@ -427,6 +427,7 @@ export const locale = {
             VALIDAR_CUOTAS: 'Validar cuotas',
             CANTIDAD_CUOTAS: 'Cantidad cuotas',
             TOTAL: 'Total',
+            CUOTA: 'Cuota',
           },
         },
       },

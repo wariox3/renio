@@ -194,36 +194,6 @@
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.TOTAL"
-          ></label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="total"
-            [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['total'].touched &&
-                formularioAdicional.controls['total'].invalid,
-              'is-valid':
-                formularioAdicional.controls['total'].touched &&
-                formularioAdicional.controls['total'].valid
-            }"
-          />
-          <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioAdicional.controls['total']
-          }"
-        ></ng-container>
-        </div>
-      </div>
-
-      <div class="row mb-5">
-        <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
             <input
               class="form-check-input"

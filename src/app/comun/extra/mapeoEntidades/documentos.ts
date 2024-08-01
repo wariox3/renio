@@ -8,6 +8,7 @@ type Mapeo = {
     esFk?: boolean;
     modeloFk?: string;
     aplicaFormatoNumerico?: boolean;
+    alinearAlaIzquierda?: boolean;
     campoTipo:
       | 'IntegerField'
       | 'FloatField'
@@ -1099,12 +1100,14 @@ export const documentos: Mapeo = {
     {
       nombre: 'CUOTA',
       campoTipo: 'IntegerField',
+      alinearAlaIzquierda: true,
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
     },
     {
       nombre: 'CANTIDAD_CUOTAS',
+      alinearAlaIzquierda: true,
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,

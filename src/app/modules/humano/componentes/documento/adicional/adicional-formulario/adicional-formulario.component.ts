@@ -61,10 +61,9 @@ export default class AdicionalFormularioComponent
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
       contrato_nombre: [''],
-      total: ['', Validators.compose([Validators.required])],
       detalle: ['', Validators.compose([Validators.required])],
       horas: [''],
-      aplica_dia_laborado: [''],
+      aplica_dia_laborado: [false],
       valor: ['', Validators.compose([Validators.required])],
     });
   }
@@ -117,7 +116,6 @@ export default class AdicionalFormularioComponent
           concepto_nombre: respuesta.concepto_nombre,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
-          total: respuesta.total,
           detalle: respuesta.detalle,
           horas: respuesta.horas,
           valor: respuesta.valor,

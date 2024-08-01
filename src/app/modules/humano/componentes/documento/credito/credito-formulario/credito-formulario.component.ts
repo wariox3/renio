@@ -47,16 +47,22 @@ export default class CreditoFormularioComponent
 
   ngOnInit() {
     this.iniciarFormulario();
-
     if (this.detalle) {
       this.consultarDetalle();
     }
   }
+
   iniciarFormulario() {
+    const fechaActual = new Date(); // Obtener la fecha actual
+
     this.formularioAdicional = this.formBuilder.group({
-      fecha_inicio: ['', Validators.compose([Validators.required])],
+      fecha_inicio: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
+      total: [''],
+      cuota: [''],
+      cantidad_cuotas: [''],
+      validar_cuotas: [false],
     });
   }
 
@@ -104,6 +110,12 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          total: respuesta.total,
+          cuota: respuesta.cuota,
+          cantidad_cuotas: respuesta.cantidad_cuotas,
+          validar_cuotas: respuesta.validar_cuotas,
+
+
         });
         this.changeDetectorRef.detectChanges();
       });
