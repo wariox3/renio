@@ -57,9 +57,9 @@ export default class AdicionalFormularioComponent
 
   iniciarFormulario() {
     this.formularioAdicional = this.formBuilder.group({
-      concepto: [''],
+      concepto: ['', Validators.compose([Validators.required])],
+      contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
-      contrato: [''],
     });
   }
 

@@ -22,19 +22,14 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './adicional-detalle.component.scss',
 })
 export default class AdicionalDetalleComponent extends General {
-emitir() {
-throw new Error('Method not implemented.');
-}
-imprimir() {
-throw new Error('Method not implemented.');
-}
-aprobar() {
-throw new Error('Method not implemented.');
-}
-
   adicional: any = {
-    contrato: '',
+    id: 0,
+    valor: '',
+    horas: '',
+    aplica_dia_laborado: false,
+    detalle: null,
     concepto: '',
+    contrato: '',
   };
 
   constructor(
@@ -45,12 +40,11 @@ throw new Error('Method not implemented.');
     this.consultardetalle();
   }
 
-
   consultardetalle() {
     this.adicionalService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.adicional = respuesta.documento;
+        this.adicional = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -75,5 +69,4 @@ throw new Error('Method not implemented.');
       });
     });
   }
-
 }
