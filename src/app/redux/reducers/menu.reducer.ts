@@ -210,6 +210,13 @@ export const initialState: Menu = {
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
+            {
+              nombre: 'NOVEDAD',
+              tipo: 'Documento',
+              data: { documento_clase: 'HumNovedad' },
+              visualiazarIconoDeracha: true,
+              consultaHttp: false,
+            },
           ],
         },
         {

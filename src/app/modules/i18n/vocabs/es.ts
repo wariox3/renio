@@ -66,6 +66,7 @@ export const locale = {
         CUENTA: 'Cuenta',
         CONCUENTA: 'Cuenta',
         ASIENTO: 'Asiento',
+        NOVEDAD: 'Novedad'
       },
     },
     FORMULARIOS: {
