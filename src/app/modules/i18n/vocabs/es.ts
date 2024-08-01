@@ -63,6 +63,8 @@ export const locale = {
         HUMGRUPO: 'Grupo',
         ADICIONAL: 'Adicional',
         CREDITO: 'Credito',
+        CUENTA: 'Cuenta',
+        CONCUENTA: 'Cuenta'
       },
     },
     FORMULARIOS: {
@@ -683,7 +685,12 @@ export const locale = {
         CONTACTO_ID: 'Cod',
         CONTACTO_NUMERO_IDENTIFICACION: 'Número identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
-      }
+      },
+      CUENTA: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+        CODIGO: 'Código'
+      },
     },
     TEMA: {
       CLARO: 'Claro',

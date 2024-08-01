@@ -154,6 +154,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
+          children: [
+            {
+              nombre: 'CUENTA',
+              tipo: 'Administrador',
+              data: { modelo: 'ConCuenta' },
+            },
+          ]
         },
         {
           nombre: 'utilidad',
