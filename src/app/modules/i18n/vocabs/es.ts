@@ -72,7 +72,8 @@ export const locale = {
         GENCUENTABANCO: 'Cuenta banco',
         GENPRECIO: 'Precio',
         GENASESOR: 'Asesor',
-        GENRESOLUCION: 'Resolución'
+        GENRESOLUCION: 'Resolución',
+        GENSEDE: 'Sede'
       },
     },
     FORMULARIOS: {
