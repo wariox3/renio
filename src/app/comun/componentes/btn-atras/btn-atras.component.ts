@@ -1,3 +1,4 @@
+import { Subdominio } from '@comun/clases/subdomino';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -30,11 +31,12 @@ export class BtnAtrasComponent extends General {
     switch (tipo) {
       case 'administrador':
         this.activatedRoute.queryParams.subscribe((parametro) => {
-          if(parametro.parametro){
+          if(parametro.parametro  || parametro.submodelo){
             this.router.navigate([`/administrador/lista`], {
               queryParams: {
                 modelo: parametro.modelo,
-                parametro: parametro.parametro
+                parametro: parametro.parametro,
+                submodelo: parametro.submodelo
               },
             });
           } else {

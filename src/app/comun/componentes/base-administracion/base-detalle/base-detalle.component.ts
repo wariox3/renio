@@ -34,13 +34,12 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-
+    this.modelo = localStorage.getItem('itemNombre')!;
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      // if (parametros.parametro) {
-      //   this.modelo = parametros.parametro;
-      // } else {
-        this.modelo = localStorage.getItem('itemNombre')!;
-      //}
+       if (parametros.submodelo) {
+        this.modelo = parametros.submodelo;
+        this.changeDetectorRef.detectChanges()
+       }
     });
     let posicion: keyof typeof Componetes = this.modelo;
     let componete = await (await Componetes[posicion].detalle()).default;

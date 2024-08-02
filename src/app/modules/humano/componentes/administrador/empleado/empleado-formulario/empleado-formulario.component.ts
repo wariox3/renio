@@ -156,36 +156,12 @@ export default class EmpleadoFormularioComponent
         this.contactoService
           .actualizarDatosContacto(this.detalle, this.formularioEmpleado.value)
           .subscribe((respuesta) => {
-            this.formularioEmpleado.patchValue({
-              numero_identificacion: respuesta.numero_identificacion,
-              identificacion: respuesta.identificacion_id,
-              codigo: respuesta.codigo,
-              nombre_corto: respuesta.nombre_corto,
-              nombre1: respuesta.nombre1,
-              nombre2: respuesta.nombre2,
-              apellido1: respuesta.apellido1,
-              apellido2: respuesta.apellido2,
-              ciudad: respuesta.ciudad_id,
-              ciudad_nombre: respuesta.ciudad_nombre,
-              direccion: respuesta.direccion,
-              telefono: respuesta.telefono,
-              celular: respuesta.celular,
-              correo: respuesta.correo,
-              tipo_persona: respuesta.tipo_persona_id,
-              regimen: respuesta.regimen_id,
-              codigo_ciuu: respuesta.codigo_ciuu,
-              barrio: respuesta.barrio,
-              cliente: respuesta.cliente,
-              proveedor: respuesta.proveedor,
-            });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                parametro: this.activatedRoute.snapshot.queryParams['parametro'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                detalle: respuesta.id,
+                submodelo: this.activatedRoute.snapshot.queryParams['submodelo'],
+                detalle:  this.activatedRoute.snapshot.queryParams['detalle'],
               },
             });
             this.changeDetectorRef.detectChanges();
@@ -198,11 +174,8 @@ export default class EmpleadoFormularioComponent
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.router.navigate(['/administrador/detalle'], {
                 queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  detalle: respuesta.id,
-                  accion: 'detalle',
+                  submodelo: this.activatedRoute.snapshot.queryParams['submodelo'],
                 },
               });
             })

@@ -160,7 +160,7 @@ export const initialState: Menu = {
               consultaHttp: true,
             },
           ]
-          
+
         },
         {
           nombre: 'administracion',
@@ -225,7 +225,7 @@ export const initialState: Menu = {
             {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto', parametro: 'empleado' },
+              data: { modelo: 'GenContacto', submodelo: 'GenEmpleado' },
             },
             {
               nombre: 'CONTRATO',
