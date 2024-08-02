@@ -173,7 +173,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -187,18 +187,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'MetodoPago',
+          modelo: 'GenMetodoPago',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [],
           limite: 10,
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'PlazoPago',
+          modelo: 'GenPlazoPago',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -832,14 +832,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
         {
-          id: '1692284537644-1688',
           operador: '',
           propiedad: 'cliente',
           valor1: 'True',
@@ -850,12 +848,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Contacto',
+      modelo: 'GenContacto',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
@@ -872,7 +870,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,

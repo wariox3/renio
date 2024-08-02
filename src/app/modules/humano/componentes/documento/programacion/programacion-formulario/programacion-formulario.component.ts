@@ -62,7 +62,7 @@ export default class ContratoFormularioComponent
     const fechaActual = new Date(); // Obtener la fecha actual
     const primerDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
     const ultimoDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-  
+
     const fechaDesde = `${primerDiaMes.getFullYear()}-${(primerDiaMes.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${primerDiaMes.getDate().toString().padStart(2, '0')}`;
@@ -94,11 +94,10 @@ export default class ContratoFormularioComponent
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: ``,
@@ -113,11 +112,10 @@ export default class ContratoFormularioComponent
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: ``,

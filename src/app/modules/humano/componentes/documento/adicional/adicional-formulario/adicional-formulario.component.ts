@@ -144,7 +144,7 @@ export default class AdicionalFormularioComponent
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
@@ -176,7 +176,7 @@ export default class AdicionalFormularioComponent
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
