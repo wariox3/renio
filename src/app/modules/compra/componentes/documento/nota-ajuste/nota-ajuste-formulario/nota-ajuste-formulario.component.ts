@@ -180,7 +180,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -194,18 +194,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'MetodoPago',
+          modelo: 'GenMetodoPago',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [],
           limite: 10,
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'PlazoPago',
+          modelo: 'GenPlazoPago',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -779,12 +779,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Contacto',
+      modelo: 'GenContacto',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(

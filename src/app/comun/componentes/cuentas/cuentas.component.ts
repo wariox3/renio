@@ -69,12 +69,12 @@ export class CuentasComponent extends General implements AfterViewInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'ConCuenta',
+      modelo: 'GenConCuenta',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .subscribe((respuesta) => {
@@ -98,12 +98,12 @@ export class CuentasComponent extends General implements AfterViewInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Cuenta',
+      modelo: 'GenCuenta',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
