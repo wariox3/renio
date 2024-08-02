@@ -61,7 +61,7 @@ export default class CuentaBancoFormularioComponent
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -76,7 +76,7 @@ export default class CuentaBancoFormularioComponent
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'CuentaBancoTipo',
+          modelo: 'GenCuentaBancoTipo',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -175,12 +175,12 @@ export default class CuentaBancoFormularioComponent
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'CuentaBancoTipo',
+      modelo: 'GenCuentaBancoTipo',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
