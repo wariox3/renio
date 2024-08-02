@@ -149,7 +149,7 @@ export default class ContratoFormularioComponent
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -167,7 +167,7 @@ export default class ContratoFormularioComponent
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -210,12 +210,12 @@ export default class ContratoFormularioComponent
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Contacto',
+      modelo: 'GenContacto',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
