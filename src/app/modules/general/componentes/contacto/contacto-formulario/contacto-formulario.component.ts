@@ -372,12 +372,12 @@ export default class ContactDetalleComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Ciudad',
+      modelo: 'GenCiudad',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         arrFiltros
       )
       .pipe(
@@ -393,7 +393,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -408,11 +408,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'Identificacion',
+          modelo: 'GenIdentificacion',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -427,11 +427,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'Regimen',
+          modelo: 'GenRegimen',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -446,11 +446,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'TipoPersona',
+          modelo: 'GenTipoPersona',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -465,11 +465,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'Precio',
+          modelo: 'GenPrecio',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -484,11 +484,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'Asesor',
+          modelo: 'GenAsesor',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
@@ -503,7 +503,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
-          modelo: 'PlazoPago',
+          modelo: 'GenPlazoPago',
         }
       )
     ).subscribe((respuesta: any) => {
