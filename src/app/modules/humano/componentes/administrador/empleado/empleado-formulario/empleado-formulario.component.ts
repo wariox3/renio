@@ -176,6 +176,7 @@ export default class EmpleadoFormularioComponent
                 queryParams: {
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
                   submodelo: this.activatedRoute.snapshot.queryParams['submodelo'],
+                  detalle:  this.activatedRoute.snapshot.queryParams['detalle'],
                 },
               });
             })

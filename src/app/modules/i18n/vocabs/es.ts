@@ -73,7 +73,8 @@ export const locale = {
         GENPRECIO: 'Precio',
         GENASESOR: 'Asesor',
         GENRESOLUCION: 'Resolución',
-        GENSEDE: 'Sede'
+        GENSEDE: 'Sede',
+        GENEMPLEADO: 'Empleado'
       },
     },
     FORMULARIOS: {
