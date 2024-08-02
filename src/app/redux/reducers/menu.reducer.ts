@@ -114,17 +114,17 @@ export const initialState: Menu = {
             {
               nombre: 'Item',
               tipo: 'Administrador',
-              data: { modelo: 'Item' },
+              data: { modelo: 'GenItem' },
             },
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { modelo: 'Contacto' },
+              data: { modelo: 'GenContacto' },
             },
             {
               nombre: 'RESOLUCION',
               tipo: 'Administrador',
-              data: { modelo: 'Resolucion', parametro: 'compra' },
+              data: { modelo: 'GenResolucion', parametro: 'compra' },
             },
           ],
         },
@@ -225,7 +225,7 @@ export const initialState: Menu = {
             {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
-              data: { modelo: 'Contacto', parametro: 'empleado' },
+              data: { modelo: 'GenContacto', parametro: 'empleado' },
             },
             {
               nombre: 'CONTRATO',
@@ -297,32 +297,32 @@ export const initialState: Menu = {
             {
               nombre: 'CONTACTO',
               tipo: 'Administrador',
-              data: { modelo: 'Contacto' },
+              data: { modelo: 'GenContacto' },
             },
             {
               nombre: 'ITEM',
               tipo: 'Administrador',
-              data: { modelo: 'Item' },
+              data: { modelo: 'GenItem' },
             },
             {
               nombre: 'PRECIO',
               tipo: 'Administrador',
-              data: { modelo: 'Precio' },
+              data: { modelo: 'GenPrecio' },
             },
             {
               nombre: 'ASESOR',
               tipo: 'Administrador',
-              data: { modelo: 'Asesor' },
+              data: { modelo: 'GenAsesor' },
             },
             {
               nombre: 'RESOLUCION',
               tipo: 'Administrador',
-              data: { modelo: 'Resolucion', parametro: 'venta' },
+              data: { modelo: 'GenResolucion', parametro: 'venta' },
             },
             {
               nombre: 'CuentaBanco',
               tipo: 'Administrador',
-              data: { modelo: 'CuentaBanco' },
+              data: { modelo: 'GenCuentaBanco' },
             },
           ],
         },
@@ -421,22 +421,22 @@ export const initialState: Menu = {
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { modelo: 'Contacto' },
+              data: { modelo: 'GenContacto' },
             },
             {
               nombre: 'Item',
               tipo: 'Administrador',
-              data: { modelo: 'Item' },
+              data: { modelo: 'GenItem' },
             },
             {
               nombre: 'Sede',
               tipo: 'Administrador',
-              data: { modelo: 'Sede' },
+              data: { modelo: 'GenSede' },
             },
             {
               nombre: 'CuentaBanco',
               tipo: 'Administrador',
-              data: { modelo: 'CuentaBanco' },
+              data: { modelo: 'GenCuentaBanco' },
             },
           ],
         },

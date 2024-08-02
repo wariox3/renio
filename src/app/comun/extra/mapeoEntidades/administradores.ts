@@ -32,7 +32,7 @@ type Mapeo = {
 };
 
 export const mapeo: Mapeo = {
-  Contacto: {
+  GenContacto: {
     modulo: 'general',
     modelo: 'contacto',
     tipo: 'Administrador',
@@ -172,9 +172,9 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  Item: {
+  GenItem: {
     modulo: 'general',
-    modelo: 'item',
+    modelo: 'Item',
     tipo: 'Administrador',
     datos: [
       {
@@ -258,7 +258,7 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  Resolucion: {
+  GenResolucion: {
     modulo: 'general',
     modelo: 'resolucion',
     tipo: 'Administrador',
@@ -328,7 +328,7 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  Precio: {
+  GenPrecio: {
     modulo: 'general',
     modelo: 'precio',
     tipo: 'Administrador',
@@ -363,7 +363,7 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  Asesor: {
+  GenAsesor: {
     modulo: 'general',
     modelo: 'asesor',
     tipo: 'Administrador',
@@ -398,7 +398,7 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  Sede: {
+  GenSede: {
     modulo: 'general',
     modelo: 'sede',
     tipo: 'Administrador',
@@ -568,7 +568,7 @@ export const mapeo: Mapeo = {
       },
     ],
   },
-  CuentaBanco: {
+  GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',
     tipo: 'Administrador',

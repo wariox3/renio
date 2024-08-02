@@ -15,7 +15,7 @@ type FormulariosYDetallesAsíncronos = {
 };
 
 export const Componetes: FormulariosYDetallesAsíncronos = {
-  Contacto: {
+  GenContacto: {
     modulo: 'general',
     modelo: 'contacto',
     detalle: async () =>
@@ -27,7 +27,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
       ),
   },
-  Item: {
+  GenItem: {
     modulo: 'general',
     modelo: 'item',
     detalle: async () =>
@@ -39,7 +39,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/item/item-formulario/item-formulario.component'
       ),
   },
-  Resolucion: {
+  GenResolucion: {
     modulo: 'general',
     modelo: 'resolucion',
     tipo: 'Administrador',
@@ -52,7 +52,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
       ),
   },
-  Precio: {
+  GenPrecio: {
     modulo: 'general',
     modelo: 'precio',
     detalle: async () =>
@@ -64,7 +64,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/precio/precio-formulario/precio-formulario.component'
       ),
   },
-  Asesor: {
+  GenAsesor: {
     modulo: 'general',
     modelo: 'asesor',
     detalle: async () =>
@@ -76,7 +76,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
       ),
   },
-  Empleado: {
+  GenEmpleado: {
     modulo: 'humano',
     modelo: 'contacto',
     detalle: async () =>
@@ -124,8 +124,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/humano/componentes/administrador/concepto/concepto-formulario/concepto-formulario.component'
       ),
   },
-
-  Sede: {
+  GenSede: {
     modulo: 'general',
     modelo: 'sede',
     detalle: async () =>
@@ -137,7 +136,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/general/componentes/sede/sede-formulario/sede-formulario.component'
       ),
   },
-  CuentaBanco: {
+  GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',
     detalle: async () =>

@@ -84,7 +84,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    let baseUrl = 'general/funcionalidad/lista-administrador/';
+    let baseUrl = 'general/funcionalidad/lista/';
     this.arrParametrosConsulta = {
       ...this.arrParametrosConsulta,
       ...{
