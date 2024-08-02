@@ -280,7 +280,7 @@
                             {{ detalle.value.numero }}
                           </td>
                           <td>
-                            {{ detalle.value.contacto }}
+                            {{ detalle.value.contacto_nombre }}
                           </td>
                           <td class="p-1">
                             <app-comun-cuentas
@@ -535,7 +535,7 @@
               {{ item["fecha_vence"] }}
             </td>
             <td>
-              {{ item["contacto"] }}
+              {{ item["contacto_nombre"] }}
             </td>
             <td class="text-end">
               {{ item["subtotal"] | number }}

@@ -875,7 +875,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .post<any>('general/documento/referencia/', {
         ...arrFiltros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 101,
+        documento_clase_id: 100,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
