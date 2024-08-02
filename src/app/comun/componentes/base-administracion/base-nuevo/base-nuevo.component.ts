@@ -34,12 +34,12 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   async loadComponente() {
     this.componenteDinamico.clear();
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      // if (parametros.parametro) {
-      //   this.modelo = parametros.parametro;
-      // } else {
-      //   this.modelo = localStorage.getItem('itemNombre')!;
-      // }
-      this.modelo = localStorage.getItem('itemNombre')!;
+       if (parametros.parametro) {
+        this.modelo = parametros.parametro.charAt(0).toUpperCase() + parametros.parametro.slice(1).toLowerCase();
+        this.changeDetectorRef.detectChanges()
+       } else {
+         this.modelo = localStorage.getItem('itemNombre')!;
+      }
     });
     let posicion: keyof typeof Componetes = this.modelo;
     let componete = await (await Componetes[posicion].formulario()).default;
