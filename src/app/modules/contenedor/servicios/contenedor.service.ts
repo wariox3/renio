@@ -120,14 +120,14 @@ export class ContenedorService {
 
   listaCiudades(arrFiltros: any) {
     return this.http.post<Ciudad[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/autocompletar/`,
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       arrFiltros
     );
   }
 
   listaTipoIdentificacion() {
     return this.http.post<TipoIdentificacionLista[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/autocompletar/`,
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
@@ -141,7 +141,7 @@ export class ContenedorService {
 
   listaRegimen() {
     return this.http.post<Regimen[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/autocompletar/`,
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
