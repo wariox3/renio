@@ -155,7 +155,7 @@ export class ContenedorService {
 
   listaTipoPersona() {
     return this.http.post<TipoPersona[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/autocompletar/`,
+      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
