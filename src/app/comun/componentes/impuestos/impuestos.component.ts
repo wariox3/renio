@@ -44,7 +44,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    modelo: 'Impuesto',
+    modelo: 'GenImpuesto',
   };
   @Input() arrLista: any[];
   @Input() estado_aprobado = false;
@@ -127,7 +127,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     }
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista-autocompletar/',
+        'general/funcionalidad/autocompletar/',
         this.arrParametrosConsulta
       )
       .pipe(
