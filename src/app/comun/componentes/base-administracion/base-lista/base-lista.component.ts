@@ -1,3 +1,4 @@
+import { Subdominio } from './../../../clases/subdomino';
 import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -68,10 +69,11 @@ export class BaseListaComponent extends General implements OnInit {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
-      if (parametro.parametro) {
+      if (parametro.submodelo) {
         this.arrParametrosConsulta.filtros = [
           {
-            propiedad: parametro.parametro,
+            operador: '',
+            propiedad: 'empleado',
             valor1: true,
           },
         ];
