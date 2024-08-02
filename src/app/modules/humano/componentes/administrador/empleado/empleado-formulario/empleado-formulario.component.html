@@ -101,16 +101,18 @@
             }"
           >
             <option value="">Seleccionar...</option>
-            <option
-              *ngFor="let identificacion of arrIdentificacion"
-              [value]="identificacion.identificacion_id"
-              [selected]="
-                identificacion.identificacion_id ===
-                formularioEmpleado.value.identificacion
-              "
-            >
-              {{ identificacion.identificacion_nombre }}
-            </option>
+            <ng-container *ngFor="let identificacion of arrIdentificacion">
+              <option
+                [value]="identificacion.identificacion_id"
+                [selected]="
+                  identificacion.identificacion_id ===
+                  formularioEmpleado.value.identificacion
+                "
+                *ngIf="identificacion.identificacion_id !== 6"
+              >
+                {{ identificacion.identificacion_nombre }}
+              </option>
+            </ng-container>
           </select>
           <ng-container
             [ngTemplateOutlet]="formError"
