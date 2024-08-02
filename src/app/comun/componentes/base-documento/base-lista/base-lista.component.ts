@@ -102,7 +102,7 @@ export class BaseListaComponent extends General implements OnInit {
           this.changeDetectorRef.detectChanges();
         });
     } else {
-      let baseUrl = 'general/funcionalidad/';
+      let baseUrl = 'general/funcionalidad/lista/';
       this.arrParametrosConsulta = {
         ...this.arrParametrosConsulta,
         ...{
