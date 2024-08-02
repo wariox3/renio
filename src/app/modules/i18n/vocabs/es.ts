@@ -66,7 +66,13 @@ export const locale = {
         CUENTA: 'Cuenta',
         CONCUENTA: 'Cuenta',
         ASIENTO: 'Asiento',
-        NOVEDAD: 'Novedad'
+        NOVEDAD: 'Novedad',
+        GENCONTACTO: 'Contacto',
+        GENITEM: 'Item',
+        GENCUENTABANCO: 'Cuenta banco',
+        GENPRECIO: 'Precio',
+        GENASESOR: 'Asesor',
+        GENRESOLUCION: 'Resolución'
       },
     },
     FORMULARIOS: {
