@@ -44,6 +44,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { Empresa } from '@interfaces/contenedor/empresa';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -88,7 +89,8 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private contenedorService: ContenedorService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
+    private httpService: HttpService,
   ) {
     super();
   }
@@ -103,9 +105,63 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.contenedorService.listaTipoIdentificacion(),
-      this.contenedorService.listaRegimen(),
-      this.contenedorService.listaTipoPersona(),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: ``,
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenIdentificacion',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: ``,
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenRegimen',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenTipoPersona',
+        }
+      ),
       this.empresaService.consultarDetalle(this.empresa_id)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -233,13 +289,17 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'CtnCiudad',
+      modelo: 'GenCiudad',
     };
-    this.contenedorService
-      .listaCiudades(arrFiltros)
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta: any) => {
+        tap((respuesta) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
