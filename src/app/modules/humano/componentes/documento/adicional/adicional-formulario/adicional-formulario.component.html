@@ -203,7 +203,7 @@
       <div class="row mb-5">
         <div class="col-12 col-md-12">
           <label
-            class="form-label required"
+            class="form-label"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
           ></label>
 
@@ -212,6 +212,7 @@
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)"
             [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['detalle'].touched &&

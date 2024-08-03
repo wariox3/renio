@@ -61,7 +61,7 @@ export default class AdicionalFormularioComponent
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
       contrato_nombre: [''],
-      detalle: ['', Validators.compose([Validators.required])],
+      detalle: [''],
       horas: ['', Validators.compose([Validators.required])],
       aplica_dia_laborado: [false],
       valor: ['', Validators.compose([Validators.required])],
@@ -203,6 +203,11 @@ export default class AdicionalFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+    }
+    if (campo === 'detalle') {
+      if (this.formularioAdicional.get(campo)?.value === '') {
+        this.formularioAdicional.get(campo)?.setValue(null);
+      }
     }
     this.changeDetectorRef.detectChanges();
   }
