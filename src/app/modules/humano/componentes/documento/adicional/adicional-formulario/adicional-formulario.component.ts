@@ -61,10 +61,10 @@ export default class AdicionalFormularioComponent
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
       contrato_nombre: [''],
-      detalle: [''],
-      horas: ['', Validators.compose([Validators.required])],
+      detalle: [null],
+      horas: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
       aplica_dia_laborado: [false],
-      valor: ['', Validators.compose([Validators.required])],
+      valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
     });
   }
 

@@ -154,6 +154,8 @@
             type="text"
             class="form-control"
             formControlName="valor"
+            prefix="$ "
+            mask="separator.2"
             [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['valor'].touched &&
@@ -168,6 +170,14 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['valor']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioAdicional.controls['valor']
             }"
           ></ng-container>
@@ -198,6 +208,14 @@
               control: formularioAdicional.controls['horas']
             }"
           ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+            control: formularioAdicional.controls['horas']
+          }"
+        ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
