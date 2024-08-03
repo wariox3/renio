@@ -74,7 +74,7 @@ export const locale = {
         GENASESOR: 'Asesor',
         GENRESOLUCION: 'Resolución',
         GENSEDE: 'Sede',
-        GENEMPLEADO: 'Empleado'
+        GENEMPLEADO: 'Empleado',
       },
     },
     FORMULARIOS: {
@@ -366,6 +366,7 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
+            PAGOTIPO: 'Tipo de pago',
           },
         },
         FACTURA: {
@@ -436,6 +437,22 @@ export const locale = {
             CANTIDAD_CUOTAS: 'Cantidad cuotas',
             TOTAL: 'Total',
             CUOTA: 'Cuota',
+          },
+          PROGRAMACION: {
+            DESCUENTOSALUD: 'Descuento salud',
+            DESCUENTOPENSION: 'Descuento pension',
+            FONDO: 'Fondo de solidaridad',
+            RETENCION: 'Retención fuente',
+            INCAPACIDAD: 'Incapacidad',
+            LICENCIA: 'Licencia',
+            VACACION: 'Vacación',
+            AUXILIOTRANSPORTE: 'Auxilio de transporte',
+            HORAS: 'Horas',
+            ADICIONALPERMANENTE: 'Adicional permanente',
+            ADICIONALPROGRAMACION: 'Adicional programación',
+            DESCUENTOCREDITO: 'Descuento crédito',
+            DESCUENTOEMBARGO: 'Descuento embargo',
+            FECHAHASTAPERIODO: 'Fecha hasta periodo'
           },
         },
       },

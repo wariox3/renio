@@ -13,6 +13,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
+import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -44,7 +45,7 @@ export default class ContratoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private contratoService: ContratoService
+    private programacionService: ProgramacionService
   ) {
     super();
   }
@@ -55,6 +56,9 @@ export default class ContratoFormularioComponent
   ngOnInit() {
     this.consultarInformacion();
     this.iniciarFormulario();
+    if (this.detalle) {
+      this.consultarDetalle();
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -62,11 +66,15 @@ export default class ContratoFormularioComponent
     const fechaActual = new Date(); // Obtener la fecha actual
     const primerDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
     const ultimoDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-
+  
     const fechaDesde = `${primerDiaMes.getFullYear()}-${(primerDiaMes.getMonth() + 1)
       .toString()
       .padStart(2, '0')}-${primerDiaMes.getDate().toString().padStart(2, '0')}`;
-
+  
+    const fechaHastaPeriodo = `${ultimoDiaMes.getFullYear()}-${(ultimoDiaMes.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${ultimoDiaMes.getDate().toString().padStart(2, '0')}`;
+  
     this.formularioProgramacion = this.formBuilder.group({
       fecha_desde: [
         fechaDesde,
@@ -86,10 +94,34 @@ export default class ContratoFormularioComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      pago_tipo: ['', Validators.compose([Validators.required])],
-      grupo: ['', Validators.compose([Validators.required])],
+      fecha_hasta_periodo: [
+        fechaHastaPeriodo,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(200),
+          Validators.pattern(/^[a-z-0-9.-_]*$/),
+        ]),
+      ],
+      pago_tipo: [1, Validators.compose([Validators.required])],
+      grupo: [1, Validators.compose([Validators.required])],
+      nombre: [null],
+      descuento_salud: [true],
+      descuento_pension: [true],
+      descuento_fondo_solidaridad: [true],
+      descuento_retencion_fuente: [true],
+      pago_incapacidad: [true],
+      pago_licencia: [true],
+      pago_vacacion: [true],
+      pago_horas: [true],
+      pago_auxilio_transporte: [true],
+      descuento_adicional_permanente: [true],
+      descuento_adicional_programacion: [true],
+      descuento_credito: [true],
+      descuento_embargo: [true],
     });
   }
+  
 
   consultarInformacion() {
     zip(
@@ -137,7 +169,79 @@ export default class ContratoFormularioComponent
   }
 
   enviarFormulario(){
+    if (this.formularioProgramacion.valid) {
+      if (this.detalle) {
+        this.programacionService
+          .actualizarDatosProgramacion(this.detalle, this.formularioProgramacion.value)
+          .subscribe((respuesta) => {
+            this.formularioProgramacion.patchValue({
+              empleado: respuesta.contacto_id,
+              empleadoNombre: respuesta.contado_nombre_corto,
+              fecha_desde: respuesta.fecha_desde,
+              fecha_hasta: respuesta.fecha_hasta,
+            });
+            this.alertaService.mensajaExitoso('Se actualizó la información');
+            this.router.navigate(['/administrador/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                detalle: respuesta.id,
+              },
+            });
+            this.changeDetectorRef.detectChanges();
+          });
+      } else {
+        this.programacionService
+          .guardarProgramacion(this.formularioProgramacion.value)
+          .pipe(
+            tap((respuesta: any) => {
+              this.alertaService.mensajaExitoso('Se guardó la información');
+              this.router.navigate(['/administrador/detalle'], {
+                queryParams: {
+                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  detalle: respuesta.id,
+                  accion: 'detalle',
+                },
+              });
+            })
+          )
+          .subscribe();
+      }
+    } else {
+      this.formularioProgramacion.markAllAsTouched();
+    }
+  }
 
+  consultarDetalle() {
+    this.programacionService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.formularioProgramacion.patchValue({
+          fecha_desde: respuesta.fecha_desde,
+          fecha_hasta: respuesta.fecha_hasta,
+          fecha_hasta_periodo: respuesta.fecha_hasta_periodo,
+          nombre: respuesta.nombre,
+          pago_tipo: respuesta.pago_tipo,
+          grupo: respuesta.grupo,
+          descuento_salud: respuesta.descuento_salud,
+          descuento_pension: respuesta.descuento_pension,
+          descuento_fondo_solidaridad: respuesta.descuento_fondo_solidaridad,
+          descuento_retencion_fuente: respuesta.descuento_retencion_fuente,
+          pago_incapacidad: respuesta.pago_incapacidad,
+          pago_licencia: respuesta.pago_licencia,
+          pago_vacacion: respuesta.pago_vacacion,
+          pago_horas: respuesta.pago_horas,
+          pago_auxilio_transporte: respuesta.pago_auxilio_transporte,
+          descuento_adicional_permanente: respuesta.descuento_adicional_permanente,
+          descuento_adicional_programacion: respuesta.descuento_adicional_programacion,
+          descuento_credito: respuesta.descuento_credito,
+          descuento_embargo: respuesta.descuento_embargo,
+        });
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
 }
