@@ -139,7 +139,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   HumProgramacion: {
     detalle: async () =>
       await import(
-        '../../../modules/inventario/componentes/salida/salida-detalle/salida-detalle.component'
+        '../../../modules/humano/componentes/documento/programacion/programacion-detalle/programacion-detalle.component'
       ),
     formulario: async () =>
       await import(
