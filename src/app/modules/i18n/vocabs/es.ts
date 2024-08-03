@@ -464,6 +464,8 @@ export const locale = {
             'La cantidad máxima de caracteres permitidos para este campo es de',
           TIPOCORREO: 'El campo no es un correo electrónico válido',
           NOVALIDO: 'El campo contiene caracteres no válidos',
+          NUMEROIDENTIFICACIONEXISTEN: 'El numero de identificación existe'
+
         },
         CONTENEDORES: {
           NOMBREUSADO: 'Nombre no disponible',

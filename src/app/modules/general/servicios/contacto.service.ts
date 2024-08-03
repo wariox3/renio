@@ -23,4 +23,8 @@ export class ContactoService extends Subdominio {
   actualizarDatosContacto(id: number, data: any) {
     return this.httpService.put<any>(`general/contacto/${id}/`, data);
   }
+
+  validarNumeroIdentificacion(data: any){
+    return this.httpService.post<{validacion: boolean, codigo: number}>(`general/contacto/validar/`, data);
+  }
 }

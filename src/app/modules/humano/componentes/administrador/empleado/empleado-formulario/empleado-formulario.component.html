@@ -56,6 +56,24 @@
                 formularioEmpleado.controls['numero_identificacion'].valid
             }"
           />
+          <div
+            *ngIf="
+            formularioEmpleado.controls.numero_identificacion?.touched &&
+            formularioEmpleado.controls.numero_identificacion?.hasError(
+                'numeroIdentificacionExistente'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.COMUNES.NUMEROIDENTIFICACIONEXISTEN"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -91,6 +109,7 @@
           <select
             class="form-select"
             formControlName="identificacion"
+            (change)="validarNumeroIdentificacion()"
             [ngClass]="{
               'is-invalid':
                 formularioEmpleado.controls['identificacion'].touched &&

@@ -30,7 +30,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     BtnAtrasComponent,
     TranslateModule,
     NgbDropdownModule,
-],
+  ],
   templateUrl: './empleado-formulario.component.html',
   styleUrls: ['./empleado-formulario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -144,7 +144,7 @@ export default class EmpleadoFormularioComponent
         empleado: [true],
       },
       {
-        validator: MultiplesEmailValidator.validarCorreos,
+        validator: [MultiplesEmailValidator.validarCorreos],
       }
     );
   }
@@ -160,8 +160,9 @@ export default class EmpleadoFormularioComponent
             this.router.navigate(['/administrador/detalle'], {
               queryParams: {
                 modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                submodelo: this.activatedRoute.snapshot.queryParams['submodelo'],
-                detalle:  this.activatedRoute.snapshot.queryParams['detalle'],
+                submodelo:
+                  this.activatedRoute.snapshot.queryParams['submodelo'],
+                detalle: this.activatedRoute.snapshot.queryParams['detalle'],
               },
             });
             this.changeDetectorRef.detectChanges();
@@ -175,8 +176,9 @@ export default class EmpleadoFormularioComponent
               this.router.navigate(['/administrador/detalle'], {
                 queryParams: {
                   modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  submodelo: this.activatedRoute.snapshot.queryParams['submodelo'],
-                  detalle:  respuesta.id,
+                  submodelo:
+                    this.activatedRoute.snapshot.queryParams['submodelo'],
+                  detalle: respuesta.id,
                 },
               });
             })
@@ -448,5 +450,33 @@ export default class EmpleadoFormularioComponent
 
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  validarNumeroIdentificacion() {
+    let campoNumeroIdentificacion = this.formularioEmpleado.get(
+      'numero_identificacion'
+    );
+    let identificacion = this.formularioEmpleado.get(
+      'numero_identificacion'
+    );
+    if (identificacion!.value !== '' && campoNumeroIdentificacion!.value >= 3) {
+      this.contactoService
+        .validarNumeroIdentificacion({
+          identificacion_id:
+            parseInt(this.formularioEmpleado.get('identificacion')!.value),
+          numero_identificacion: campoNumeroIdentificacion!.value,
+        })
+        .subscribe((respuesta) => {
+          if (respuesta.validacion) {
+            this.formularioEmpleado
+              .get('numero_identificacion')
+              ?.setErrors({ numeroIdentificacionExistente: true });
+          } else {
+            this.formularioEmpleado
+              .get('numero_identificacion')
+              ?.setErrors(null);
+          }
+        });
+    }
   }
 }
