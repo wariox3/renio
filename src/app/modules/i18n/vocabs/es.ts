@@ -596,7 +596,7 @@ export const locale = {
         CONCEPTO_NOMBRE: 'Nombre',
         CONTRATO_CONTACTO_ID: 'Contacto',
         CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
-        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Número identificación',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTRATO_ID: 1,
       },
       ITEM: {
