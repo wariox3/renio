@@ -171,7 +171,8 @@ export default class EmpleadoFormularioComponent
             .pipe(
               switchMap((respuestaValidacion) => {
                 if (!respuestaValidacion.validacion) {
-                  return this.contactoService.guardarContacto(
+                  return this.contactoService.actualizarDatosContacto(
+                    this.detalle,
                     this.formularioEmpleado.value
                   );
                 } else {
@@ -202,7 +203,10 @@ export default class EmpleadoFormularioComponent
             .subscribe();
         } else {
           this.contactoService
-            .guardarContacto(this.formularioEmpleado.value)
+            .actualizarDatosContacto(
+              this.detalle,
+              this.formularioEmpleado.value
+            )
             .subscribe((respuestaFormulario) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.router.navigate(['/administrador/detalle'], {
