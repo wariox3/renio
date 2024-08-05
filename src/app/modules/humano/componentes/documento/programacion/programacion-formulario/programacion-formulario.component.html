@@ -191,10 +191,12 @@
             class="form-control"
             type="date"
             autocomplete="off"
+            [min]="formularioProgramacion.controls['fecha_desde'].value"
             [ngClass]="{
               'is-invalid':
-                formularioProgramacion.controls['fecha_hasta'].touched &&
-                formularioProgramacion.controls['fecha_hasta'].invalid,
+                (formularioProgramacion.controls['fecha_hasta'].touched &&
+                  formularioProgramacion.controls['fecha_hasta'].invalid) ||
+                formularioProgramacion.errors?.fechaInvalida,
               'is-valid':
                 formularioProgramacion.controls['fecha_hasta'].touched &&
                 formularioProgramacion.controls['fecha_hasta'].valid
@@ -208,68 +210,11 @@
               control: formularioProgramacion.controls['fecha_hasta']
             }"
           ></ng-container>
-          <div
-            *ngIf="
-              formularioProgramacion.controls.fechaHasta?.touched &&
-              formularioProgramacion.controls.fechaHasta?.hasError(
-                'fechaSuperiorNoValida'
-              )
-            "
-          >
+          <div *ngIf="formularioProgramacion.errors?.fechaInvalida">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTAPERIODO"
-          ></label>
-          <input
-            formControlName="fecha_hasta_periodo"
-            class="form-control"
-            type="date"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioProgramacion.controls['fecha_hasta_periodo']
-                  .touched &&
-                formularioProgramacion.controls['fecha_hasta_periodo'].invalid,
-              'is-valid':
-                formularioProgramacion.controls['fecha_hasta_periodo']
-                  .touched &&
-                formularioProgramacion.controls['fecha_hasta_periodo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioProgramacion.controls['fecha_hasta_periodo']
-            }"
-          ></ng-container>
-          <div
-            *ngIf="
-              formularioProgramacion.controls.fechaDesde?.touched &&
-              formularioProgramacion.controls.fechaDesde?.hasError(
-                'fechaSuperiorNoValida'
-              )
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
+                <span role="alert">
+                  La fecha desde no puede ser mayor que la fecha hasta.
                 </span>
               </div>
             </div>

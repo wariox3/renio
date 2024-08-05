@@ -6,6 +6,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
+    NgbDropdownModule
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',

@@ -14,20 +14,25 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="cargarContratos()"
-      >
-        {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
-      </button>
-      <button
-      type="button"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      (click)="generar()"
-    >
-      {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
-    </button>
+
+      <div class="btn-group" ngbDropdown>
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+        Opciones
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="cargarContratos()">
+            {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
+          </button>
+          <button ngbDropdownItem (click)="generar()">
+            {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

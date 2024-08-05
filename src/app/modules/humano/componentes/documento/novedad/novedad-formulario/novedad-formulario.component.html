@@ -32,7 +32,11 @@
     </section>
     <section card-body>
       <div class="row mb-5">
-        <div class="col-12 col-md-6" ngbDropdown #ContratosDropdown="ngbDropdown">
+        <div
+          class="col-12 col-md-6"
+          ngbDropdown
+          #ContratosDropdown="ngbDropdown"
+        >
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
@@ -70,9 +74,9 @@
                 (click)="modificarCampoFormulario('contrato', contrato)"
                 (pointerenter)="modificarCampoFormulario('contrato', contrato)"
               >
-              {{ contrato.contrato_contacto_numero_identificacion }}
-              {{ contrato.contrato_contacto_nombre_corto }}
-            </button>
+                {{ contrato.contrato_contacto_numero_identificacion }}
+                {{ contrato.contrato_contacto_nombre_corto }}
+              </button>
             </ng-container>
           </div>
           <ng-container
@@ -127,8 +131,9 @@
             [min]="formularioAdicional.controls['fecha_desde'].value"
             [ngClass]="{
               'is-invalid':
-                formularioAdicional.controls['fecha_hasta'].touched &&
-                formularioAdicional.controls['fecha_hasta'].invalid,
+                (formularioAdicional.controls['fecha_hasta'].touched &&
+                  formularioAdicional.controls['fecha_hasta'].invalid) ||
+                formularioAdicional.errors?.fechaInvalida,
               'is-valid':
                 formularioAdicional.controls['fecha_hasta'].touched &&
                 formularioAdicional.controls['fecha_hasta'].valid
@@ -142,6 +147,15 @@
               control: formularioAdicional.controls['fecha_hasta']
             }"
           ></ng-container>
+          <div *ngIf="formularioAdicional.errors?.fechaInvalida">
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  La fecha desde no puede ser mayor que la fecha hasta.
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

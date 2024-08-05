@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
@@ -52,15 +54,29 @@ export default class CreditoFormularioComponent
       this.consultarDetalle();
     }
   }
-  
+
   iniciarFormulario() {
     const fechaActual = new Date(); // Obtener la fecha actual
-    this.formularioAdicional = this.formBuilder.group({
-      fecha_desde: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
-      fecha_hasta: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
-      contrato: ['', Validators.compose([Validators.required])],
-      contrato_nombre: [''],
-    });
+    this.formularioAdicional = this.formBuilder.group(
+      {
+        fecha_desde: [
+          fechaActual.toISOString().substring(0, 10),
+          Validators.compose([Validators.required]),
+        ],
+        fecha_hasta: [
+          fechaActual.toISOString().substring(0, 10),
+          Validators.compose([Validators.required]),
+        ],
+        contrato: ['', Validators.compose([Validators.required])],
+        contrato_nombre: [''],
+      },
+      {
+        validator: this.fechaDesdeMenorQueFechaHasta(
+          'fecha_desde',
+          'fecha_hasta'
+        ),
+      }
+    );
   }
 
   enviarFormulario() {
@@ -72,7 +88,8 @@ export default class CreditoFormularioComponent
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['documento/detalle'], {
               queryParams: {
-                documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
+                documento_clase:
+                  this.activatedRoute.snapshot.queryParams['documento_clase'],
                 detalle: respuesta.id,
               },
             });
@@ -86,7 +103,8 @@ export default class CreditoFormularioComponent
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase:  this.activatedRoute.snapshot.queryParams['documento_clase'],
+                  documento_clase:
+                    this.activatedRoute.snapshot.queryParams['documento_clase'],
                   detalle: respuesta.id,
                 },
               });
@@ -154,5 +172,19 @@ export default class CreditoFormularioComponent
         ?.setValue(dato.contrato_contacto_nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+
+  fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const desde = formGroup.get(fechaDesde)?.value;
+      const hasta = formGroup.get(fechaHasta)?.value;
+
+      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+        return { fechaInvalida: true };
+      }
+      return null;
+    };
   }
 }
