@@ -495,6 +495,15 @@ export const mapeo: Mapeo = {
         visibleFiltro: true,
         ordenable: false,
       },
+      {
+        nombre: 'CONTACTO_NOMBRE_CORTO',
+        campoTipo: 'Fk',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+        esFk: true,
+        modeloFk: 'Contacto',
+      },
     ],
   },
   HumConcepto: {
@@ -602,7 +611,7 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
-        alinearAlaIzquierda: true
+        alinearAlaIzquierda: true,
       },
     ],
   },
@@ -631,7 +640,7 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
-      }
+      },
     ],
   },
 };
