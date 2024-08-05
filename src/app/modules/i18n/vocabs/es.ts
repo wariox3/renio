@@ -691,7 +691,7 @@ export const locale = {
       EMPLEADO: {
         ID: 'ID',
         IDENTIFICACION_ABREVIATURA: 'Tipo',
-        NUMERO_IDENTIFICACION: 'Número de Identificación',
+        NUMERO_IDENTIFICACION: 'Identificación',
         DIGITO_VERIFICACION: 'Dígito de Verificación',
         NOMBRE_CORTO: 'Nombre',
         NOMBRE1: 'Nombre 1',

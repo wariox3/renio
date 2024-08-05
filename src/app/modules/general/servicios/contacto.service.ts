@@ -13,7 +13,7 @@ export class ContactoService extends Subdominio {
   }
 
   guardarContacto(data: any) {
-    return this.httpService.post<Contacto[]>(`general/contacto/`, data);
+    return this.httpService.post<Contacto>(`general/contacto/`, data);
   }
 
   consultarDetalle(id: number) {

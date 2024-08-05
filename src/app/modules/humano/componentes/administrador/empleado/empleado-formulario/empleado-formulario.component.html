@@ -38,6 +38,46 @@
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
           <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="identificacion"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpleado.controls['identificacion'].touched &&
+                formularioEmpleado.controls['identificacion'].invalid,
+              'is-valid':
+                formularioEmpleado.controls['identificacion'].touched &&
+                formularioEmpleado.controls['identificacion'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let identificacion of arrIdentificacion">
+              <option
+                [value]="identificacion.identificacion_id"
+                [selected]="
+                  identificacion.identificacion_id ===
+                  formularioEmpleado.value.identificacion
+                "
+                *ngIf="identificacion.identificacion_id !== 6"
+              >
+                {{ identificacion.identificacion_nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpleado.controls['identificacion']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
             translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
             class="form-label required"
           ></label>
@@ -98,47 +138,6 @@
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioEmpleado.controls['numero_identificacion']
-            }"
-          ></ng-container>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.IDENTIFICACIONTIPO"
-            class="form-label required"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="identificacion"
-            (change)="validarNumeroIdentificacion()"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpleado.controls['identificacion'].touched &&
-                formularioEmpleado.controls['identificacion'].invalid,
-              'is-valid':
-                formularioEmpleado.controls['identificacion'].touched &&
-                formularioEmpleado.controls['identificacion'].valid
-            }"
-          >
-            <option value="">Seleccionar...</option>
-            <ng-container *ngFor="let identificacion of arrIdentificacion">
-              <option
-                [value]="identificacion.identificacion_id"
-                [selected]="
-                  identificacion.identificacion_id ===
-                  formularioEmpleado.value.identificacion
-                "
-                *ngIf="identificacion.identificacion_id !== 6"
-              >
-                {{ identificacion.identificacion_nombre }}
-              </option>
-            </ng-container>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['identificacion']
             }"
           ></ng-container>
         </div>

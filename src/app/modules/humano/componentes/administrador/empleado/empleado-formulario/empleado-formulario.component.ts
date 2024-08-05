@@ -17,7 +17,7 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -32,7 +32,6 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownModule,
   ],
   templateUrl: './empleado-formulario.component.html',
-  styleUrls: ['./empleado-formulario.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EmpleadoFormularioComponent
@@ -154,33 +153,79 @@ export default class EmpleadoFormularioComponent
       this.actualizarNombreCorto();
       if (this.detalle) {
         this.contactoService
-          .actualizarDatosContacto(this.detalle, this.formularioEmpleado.value)
-          .subscribe((respuesta) => {
-            this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                submodelo:
-                  this.activatedRoute.snapshot.queryParams['submodelo'],
-                detalle: this.activatedRoute.snapshot.queryParams['detalle'],
-              },
-            });
-            this.changeDetectorRef.detectChanges();
-          });
+          .validarNumeroIdentificacion({
+            identificacion_id: parseInt(
+              this.formularioEmpleado.get('identificacion')!.value
+            ),
+            numero_identificacion: this.formularioEmpleado.get(
+              'numero_identificacion'
+            )!.value,
+          })
+          .pipe(
+            switchMap((respuestaValidacion) => {
+              if (!respuestaValidacion.validacion) {
+                return this.contactoService.guardarContacto(
+                  this.formularioEmpleado.value
+                );
+              } else {
+                this.alertaService.mensajeError('Error',
+                  'El número de identificación ya existe en el sistema con este tipo de identificación'
+                );
+                return of(null);
+              }
+            }),
+            tap((respuestaFormulario) => {
+              if (respuestaFormulario !== null) {
+                this.alertaService.mensajaExitoso(
+                  'Se actualizó la información'
+                );
+                this.router.navigate(['/administrador/detalle'], {
+                  queryParams: {
+                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                    submodelo:
+                      this.activatedRoute.snapshot.queryParams['submodelo'],
+                    detalle: respuestaFormulario.id,
+                  },
+                });
+              }
+            })
+          )
+          .subscribe();
       } else {
         this.contactoService
-          .guardarContacto(this.formularioEmpleado.value)
+          .validarNumeroIdentificacion({
+            identificacion_id: parseInt(
+              this.formularioEmpleado.get('identificacion')!.value
+            ),
+            numero_identificacion: this.formularioEmpleado.get(
+              'numero_identificacion'
+            )!.value,
+          })
           .pipe(
-            tap((respuesta: any) => {
-              this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  submodelo:
-                    this.activatedRoute.snapshot.queryParams['submodelo'],
-                  detalle: respuesta.id,
-                },
-              });
+            switchMap((respuestaValidacion) => {
+              if (!respuestaValidacion.validacion) {
+                return this.contactoService.guardarContacto(
+                  this.formularioEmpleado.value
+                );
+              } else {
+                this.alertaService.mensajeError('Error',
+                  'El número de identificación ya existe en el sistema con este tipo de identificación'
+                );
+                return of(null);
+              }
+            }),
+            tap((respuestaFormulario) => {
+              if (respuestaFormulario !== null) {
+                this.alertaService.mensajaExitoso('Se guardó la información');
+                this.router.navigate(['/administrador/detalle'], {
+                  queryParams: {
+                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                    submodelo:
+                      this.activatedRoute.snapshot.queryParams['submodelo'],
+                    detalle: respuestaFormulario.id,
+                  },
+                });
+              }
             })
           )
           .subscribe();
@@ -452,31 +497,4 @@ export default class EmpleadoFormularioComponent
       });
   }
 
-  validarNumeroIdentificacion() {
-    let campoNumeroIdentificacion = this.formularioEmpleado.get(
-      'numero_identificacion'
-    );
-    let identificacion = this.formularioEmpleado.get(
-      'numero_identificacion'
-    );
-    if (identificacion!.value !== '' && campoNumeroIdentificacion!.value >= 3) {
-      this.contactoService
-        .validarNumeroIdentificacion({
-          identificacion_id:
-            parseInt(this.formularioEmpleado.get('identificacion')!.value),
-          numero_identificacion: campoNumeroIdentificacion!.value,
-        })
-        .subscribe((respuesta) => {
-          if (respuesta.validacion) {
-            this.formularioEmpleado
-              .get('numero_identificacion')
-              ?.setErrors({ numeroIdentificacionExistente: true });
-          } else {
-            this.formularioEmpleado
-              .get('numero_identificacion')
-              ?.setErrors(null);
-          }
-        });
-    }
-  }
 }
