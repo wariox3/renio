@@ -52,6 +52,7 @@ export default class CreditoFormularioComponent
       this.consultarDetalle();
     }
   }
+  
   iniciarFormulario() {
     const fechaActual = new Date(); // Obtener la fecha actual
     this.formularioAdicional = this.formBuilder.group({

@@ -212,6 +212,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         asesor: [null],
         cliente: [true],
         proveedor: [false],
+        empleado: [false],
       },
       {
         validator: MultiplesEmailValidator.validarCorreos,
