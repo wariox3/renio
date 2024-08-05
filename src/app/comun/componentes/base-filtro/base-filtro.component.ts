@@ -397,7 +397,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         cantidad_registros: number;
         registros: any[];
         propiedades: any[];
-      }>('general/funcionalidad/lista-buscar/', {
+      }>('general/funcionalidad/buscar/', {
         modelo,
         filtros: listaFiltros,
       })
