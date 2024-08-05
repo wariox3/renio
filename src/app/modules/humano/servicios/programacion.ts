@@ -26,6 +26,10 @@ export class ProgramacionService extends Subdominio {
   cargarContratos(data: any) {
     return this.httpService.post<any>(`humano/programacion/cargar-contrato/`, data);
   }
+
+  generar(data: any) {
+    return this.httpService.post<any>(`humano/programacion/generar/`, data);
+  }
   
 
 }

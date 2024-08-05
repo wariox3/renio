@@ -75,6 +75,12 @@ export default class CreditoDetalleComponent extends General {
     }).subscribe()
   }
 
+  generar(){
+    this.programacionService.generar({
+      id: this.programacion.id
+    }).subscribe()
+  }
+
   navegarEditar(id: number) {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.router.navigate([`/documento/editar`], {
