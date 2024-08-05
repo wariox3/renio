@@ -155,6 +155,8 @@ export const locale = {
             SOCIO: 'Socio',
           },
           VERMAS: 'Ver más',
+          IDENTIFICACION: 'Identificación',
+          NOMBRE: 'Nombre'
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -279,6 +281,9 @@ export const locale = {
           INFORMACIONCOMERCIAL: 'Información comercial',
           INFORMACIONCLIENTE: 'Información cliente',
           INFORMACIONPROVEEDOR: 'Información proveedor',
+        },
+        HUMPROGRAMACION: {
+          ADICIONAL: 'Adicionales'
         },
       },
       CAMPOS: {
