@@ -50,6 +50,7 @@ export class BaseListaComponent extends General implements OnInit {
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
   documento_clase_id: string;
+  submodelo: string;
 
   constructor(
     private httpService: HttpService,
@@ -70,6 +71,7 @@ export class BaseListaComponent extends General implements OnInit {
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
       if (parametro.submodelo) {
+        this.submodelo = parametro.submodelo
         this.arrParametrosConsulta.filtros = [
           {
             operador: '',

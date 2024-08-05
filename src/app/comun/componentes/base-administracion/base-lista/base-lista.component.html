@@ -13,7 +13,15 @@
   <div class="tabla">
     <app-card>
       <section card-titulo>
-        {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+        <ng-container *ngIf="submodelo; else elseTemplate">
+          {{ "MENU.FUNCIONALIDAD." + (submodelo | uppercase) | translate }}
+
+        </ng-container>
+        <ng-template #elseTemplate>
+          {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
+
+        </ng-template>
+
       </section>
       <section card-body>
         <app-comun-tabla
