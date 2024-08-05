@@ -740,7 +740,7 @@ export const locale = {
         GRUPO: 'Grupo',
         GRUPO_NOMBRE: 'Grupo',
         CONTACTO_ID: 'Cod',
-        CONTACTO_NUMERO_IDENTIFICACION: 'Número identificación',
+        CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
       },
       CUENTA: {
