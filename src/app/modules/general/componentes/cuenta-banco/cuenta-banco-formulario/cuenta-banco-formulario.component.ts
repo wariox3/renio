@@ -149,12 +149,18 @@ export default class CuentaBancoFormularioComponent
           nombre: respuesta.nombre,
           numero_cuenta: respuesta.numero_cuenta,
         });
-        console.log(respuesta);
 
         if (respuesta.cuenta_banco_tipo_id !== 3) {
           this.visualizarCampoNumeroCuenta = true;
-          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.required])
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.setValidators([Validators.required]);
           this.changeDetectorRef.detectChanges();
+        } else {
+          this.formularioCuentaBanco.get('numero_cuenta')?.clearValidators();
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.updateValueAndValidity();
         }
 
         this.changeDetectorRef.detectChanges();
@@ -208,11 +214,19 @@ export default class CuentaBancoFormularioComponent
       } else {
         if (dato.cuenta_banco_tipo_id !== 3) {
           this.visualizarCampoNumeroCuenta = true;
-          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.required])
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.setValidators([Validators.required]);
           this.changeDetectorRef.detectChanges();
         } else {
+          this.formularioCuentaBanco.get('numero_cuenta')?.clearValidators();
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.updateValueAndValidity();
           this.visualizarCampoNumeroCuenta = false;
-          this.formularioCuentaBanco.get('numero_cuenta')?.setValidators([Validators.maxLength(50)])
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.setValidators([Validators.maxLength(50)]);
           this.changeDetectorRef.detectChanges();
         }
         this.formularioCuentaBanco
