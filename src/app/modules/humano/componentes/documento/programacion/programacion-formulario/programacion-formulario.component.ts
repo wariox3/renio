@@ -82,12 +82,6 @@ export default class ContratoFormularioComponent
       .toString()
       .padStart(2, '0')}-${primerDiaMes.getDate().toString().padStart(2, '0')}`;
 
-    const fechaHastaPeriodo = `${ultimoDiaMes.getFullYear()}-${(
-      ultimoDiaMes.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${ultimoDiaMes.getDate().toString().padStart(2, '0')}`;
-
     this.formularioProgramacion = this.formBuilder.group({
       fecha_desde: [
         fechaDesde,
@@ -108,7 +102,7 @@ export default class ContratoFormularioComponent
         ]),
       ],
       fecha_hasta_periodo: [
-        fechaHastaPeriodo,
+        fechaDesde,
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
@@ -254,6 +248,16 @@ export default class ContratoFormularioComponent
         });
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+
+  modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioProgramacion?.markAsDirty();
+    this.formularioProgramacion?.markAsTouched();
+    if (campo === 'fecha_hasta_periodo') {
+      this.formularioProgramacion.get(campo)?.setValue(dato);
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
