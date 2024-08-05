@@ -60,7 +60,7 @@ export default class CreditoFormularioComponent
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
       total: ['', Validators.compose([Validators.required])],
-      cuota: ['', Validators.compose([Validators.required])],
+      cuota: [0, Validators.compose([Validators.required])],
       cantidad_cuotas: ['', Validators.compose([Validators.required])],
       validar_cuotas: [false],
     });
