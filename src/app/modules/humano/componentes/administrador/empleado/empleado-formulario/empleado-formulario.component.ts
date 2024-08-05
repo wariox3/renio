@@ -154,10 +154,12 @@ export default class EmpleadoFormularioComponent
       this.actualizarNombreCorto();
       if (this.detalle) {
         if (
-          this.informacionEmpleado.numero_identificacion !==
-            this.formularioEmpleado.get('numero_identificacion')!.value ||
-          this.informacionEmpleado.identificacion_id !==
-            this.formularioEmpleado.get('identificacion')!.value
+          parseInt(this.informacionEmpleado.numero_identificacion) !==
+            parseInt(
+              this.formularioEmpleado.get('numero_identificacion')!.value
+            ) ||
+          parseInt(this.informacionEmpleado.identificacion_id) !==
+            parseInt(this.formularioEmpleado.get('identificacion')!.value)
         ) {
           this.contactoService
             .validarNumeroIdentificacion({
