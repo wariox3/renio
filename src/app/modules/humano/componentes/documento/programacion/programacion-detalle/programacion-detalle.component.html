@@ -22,7 +22,7 @@
           id="dropdownBasic1"
           ngbDropdownToggle
         >
-        Opciones
+          Opciones
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button ngbDropdownItem (click)="cargarContratos()">
@@ -92,112 +92,397 @@
     <div class="row mb-5">
       <div class="col-12">
         <ul
-        ngbNav
-        #nav="ngbNav"
-        [(activeId)]="active"
-        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-      >
-        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-          ></a>
-          <ng-template ngbNavContent>
-            <div class="table-responsive-sm">
-              <table
-                id="tableDetalles"
-                class="table table-bordered table-row-gray-500"
-              >
-                <thead>
-                  <tr>
-                    <th class="bg-gray-100" style="width: 50px">Id</th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.COMUNES.IDENTIFICACION"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
-                    ></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container
-                    *ngFor="let programacionDetalle of arrProgramacionDetalle"
-                  >
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="active"
+          class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+        >
+          <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive-sm">
+                <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+                  <thead>
                     <tr>
-                      <td style="width: 50px">{{ programacionDetalle.id }}</td>
-                      <td class="w-50 text-start">
-                        {{ programacionDetalle.id }}
-                      </td>
-                      <!-- <td class="text-end" style="width: 10rem">
-                        {{ detalle.cantidad }}
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.precio | number }}
-                      </td>
-                      <td class="text-end" style="width: 10rem">
-                        {{ detalle.descuento }}
-                        <i class="bi bi-percent"></i>
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.subtotal | number }}
-                      </td>
-                      <td class="text-center">
-                        <ul
-                          *ngFor="
-                            let impuesto of detalle.impuestos;
-                            let i = index
-                          "
-                        >
-                          <li>{{ impuesto.impuesto_nombre_extendido }}</li>
-                        </ul>
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.total | number }}
-                      </td> -->
+                      <th class="bg-gray-100" style="width: 50px">Id</th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.IDENTIFICACION"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"></th>
+                      <th class="bg-gray-100">D</th>
+                      <th class="bg-gray-100">N</th>
+                      <th class="bg-gray-100">FD</th>
+                      <th class="bg-gray-100">FN</th>
+                      <th class="bg-gray-100">ED</th>
+                      <th class="bg-gray-100">EN</th>
+                      <th class="bg-gray-100">EFD</th>
+                      <th class="bg-gray-100">EFN</th>
+                      <th class="bg-gray-100">RN</th>
+                      <th class="bg-gray-100">RFD</th>
+                      <th class="bg-gray-100">RFN</th>
                     </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-          <a
-            class="nav-link"
-            ngbNavLink
-            data-bs-toggle="tab"
-            translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"
-          ></a>
-          <ng-template ngbNavContent>
-            <div class="table-responsive-sm">
-              <table id="tableDetalles" class="table table-bordered table-sm">
-                <thead>
-                  <tr class="bg-gray-100">
-                    <th class="w-40px">Id</th>
-                    <!-- <th>Cuenta banco</th>
-                    <th>Pago</th> -->
-                  </tr>
-                </thead>
-                <tbody >
-                  <ng-container
-                    *ngFor="let programacionAdicional of arrProgramacionAdicional"
-                  >
-                    <tr>
-                      <td class="w-40px">{{ programacionAdicional.id }}</td>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let programacionDetalle of arrProgramacionDetalle">
+                      <tr>
+                        <td style="width: 50px">{{ programacionDetalle.id }}</td>
+                        <td>{{ programacionDetalle.contrato_contacto_numero_identificacion }}</td>
+                        <td>{{ programacionDetalle.contrato_contacto_nombre_corto }}</td>
+                        <td>{{ programacionDetalle.diurna }}</td>
+                        <td>{{ programacionDetalle.nocturna }}</td>
+                        <td>{{ programacionDetalle.festiva_diurna }}</td>
+                        <td>{{ programacionDetalle.festiva_nocturna }}</td>
+                        <td>{{ programacionDetalle.extra_diurna }}</td>
+                        <td>{{ programacionDetalle.extra_nocturna }}</td>
+                        <td>{{ programacionDetalle.extra_festiva_diurna }}</td>
+                        <td>{{ programacionDetalle.extra_festiva_nocturna }}</td>
+                        <td>{{ programacionDetalle.recargo_nocturno }}</td>
+                        <td>{{ programacionDetalle.recargo_festivo_diurno }}</td>
+                        <td>{{ programacionDetalle.recargo_festivo_nocturno }}</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+              
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="d-flex justify-content-end my-3">
+                <div class="btn-group contenedor-btn-group">
+                  <button
+                    (click)="abrirModal(content)"
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
+                  ></button>
+                </div>
+              </div>
+              <div class="table-responsive-sm">
+                <table id="tableDetalles" class="table table-bordered table-sm">
+                  <thead>
+                    <tr class="bg-gray-100">
+                      <th class="bg-gray-100" style="width: 50px">Id</th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.IDENTIFICACION"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"></th>
                     </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-          </ng-template>
-        </li>
-      </ul>
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="
+                        let programacionAdicional of arrProgramacionAdicional
+                      "
+                    >
+                      <tr>
+                        <td class="w-40px">{{ programacionAdicional.id }}</td>
+                        <td>{{ programacionAdicional.contrato_contacto_numero_identificacion }}</td>
+                        <td>{{ programacionAdicional.contrato_contacto_nombre_corto }}</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
     </div>
   </section>
 </app-card>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      [formGroup]="formularioAdicionalProgramacion"
+      (ngSubmit)="enviarFormularioAdicional()"
+    >
+      <div class="row mb-5">
+        <div
+          class="col-12 col-md-6"
+          ngbDropdown
+          #ConceptoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="concepto_nombre"
+              (focus)="consultarConceptos($event); ConceptoDropdown.open()"
+              (keyup)="consultarConceptos($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicionalProgramacion.controls['concepto']
+                    .touched &&
+                  formularioAdicionalProgramacion.controls['concepto'].invalid,
+                'is-valid':
+                  formularioAdicionalProgramacion.controls['concepto']
+                    .touched &&
+                  formularioAdicionalProgramacion.controls['concepto'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let concepto of arrConceptos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('concepto', concepto)"
+                (pointerenter)="modificarCampoFormulario('concepto', concepto)"
+              >
+                {{ concepto.concepto_nombre }}
+              </button>
+            </ng-container>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['concepto']
+            }"
+          ></ng-container>
+        </div>
+        <div
+          class="col-12 col-md-6"
+          ngbDropdown
+          #ContratosDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contrato_nombre"
+              (focus)="consultarContratos($event); ContratosDropdown.open()"
+              (keyup)="consultarContratos($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicionalProgramacion.controls['contrato']
+                    .touched &&
+                  formularioAdicionalProgramacion.controls['contrato'].invalid,
+                'is-valid':
+                  formularioAdicionalProgramacion.controls['contrato']
+                    .touched &&
+                  formularioAdicionalProgramacion.controls['contrato'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contrato of arrContratos">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contrato', contrato)"
+                (pointerenter)="modificarCampoFormulario('contrato', contrato)"
+              >
+                {{ contrato.contrato_contacto_numero_identificacion }}
+                {{ contrato.contrato_contacto_nombre_corto }}
+              </button>
+            </ng-container>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['contrato']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="valor"
+            prefix="$ "
+            mask="separator.2"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.HORAS"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="horas"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['horas'].touched &&
+                formularioAdicionalProgramacion.controls['horas'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['horas'].touched &&
+                formularioAdicionalProgramacion.controls['horas'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['horas']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['horas']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+          ></label>
+
+          <textarea
+            formControlName="detalle"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['detalle']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="aplica_dia_laborado"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.APLICA_DIA_LABORADO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="cerrarModal()"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

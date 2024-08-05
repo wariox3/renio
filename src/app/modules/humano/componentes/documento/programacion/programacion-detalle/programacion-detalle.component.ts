@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
+import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -21,7 +21,8 @@ import { forkJoin } from 'rxjs';
     CardComponent,
     BtnAtrasComponent,
     NgbDropdownModule,
-    NgbNavModule
+    NgbNavModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -64,10 +65,15 @@ export default class ProgramacionDetalleComponent extends General implements OnI
   arrParametrosConsultaAdicional: any;
   arrProgramacionDetalle: any;
   arrProgramacionAdicional: any;
+  formularioAdicionalProgramacion: FormGroup;
+  arrConceptos: any[] = [];
+  arrContratos: any[] = [];
 
   constructor(
     private programacionService: ProgramacionService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
   ) {
     super();
   }
@@ -152,5 +158,124 @@ export default class ProgramacionDetalleComponent extends General implements OnI
       });
     });
   }
+
+  abrirModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.iniciarFormulario()
+    this.changeDetectorRef.detectChanges();
+  }
+
+  iniciarFormulario() {
+    this.formularioAdicionalProgramacion = this.formBuilder.group({
+      concepto: ['', Validators.compose([Validators.required])],
+      contrato: ['', Validators.compose([Validators.required])],
+      concepto_nombre: [''],
+      contrato_nombre: [''],
+      detalle: [null],
+      horas: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      aplica_dia_laborado: [false],
+      valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+    });
+  }
+
+  enviarFormularioAdicional(){
+
+  }
+
+  consultarConceptos(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumConcepto',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrConceptos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  consultarContratos(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '',
+          propiedad: 'contacto__nombre_corto__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumContrato',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrContratos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  modificarCampoFormulario(campo: string, dato: any) {
+    this.formularioAdicionalProgramacion?.markAsDirty();
+    this.formularioAdicionalProgramacion?.markAsTouched();
+    if (campo === 'concepto') {
+      this.formularioAdicionalProgramacion.get(campo)?.setValue(dato.concepto_id);
+      this.formularioAdicionalProgramacion
+        .get('concepto_nombre')
+        ?.setValue(dato.concepto_nombre);
+    }
+    if (campo === 'contrato') {
+      this.formularioAdicionalProgramacion.get(campo)?.setValue(dato.contrato_id);
+      this.formularioAdicionalProgramacion
+        .get('contrato_nombre')
+        ?.setValue(dato.contrato_contacto_nombre_corto);
+    }
+    if (campo === 'detalle') {
+      if (this.formularioAdicionalProgramacion.get(campo)?.value === '') {
+        this.formularioAdicionalProgramacion.get(campo)?.setValue(null);
+      }
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  cerrarModal() {
+    this.modalService.dismissAll();
+  }
+
+
 }
 
