@@ -39,6 +39,7 @@ export default class EmpleadoFormularioComponent
   implements OnInit
 {
   formularioEmpleado: FormGroup;
+  informacionEmpleado: any;
   arrCiudades: any[];
   arrIdentificacion: any[];
   arrTipoPersona: any[];
@@ -152,45 +153,68 @@ export default class EmpleadoFormularioComponent
     if (this.formularioEmpleado.valid) {
       this.actualizarNombreCorto();
       if (this.detalle) {
-        this.contactoService
-          .validarNumeroIdentificacion({
-            identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
-            ),
-            numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
-            )!.value,
-          })
-          .pipe(
-            switchMap((respuestaValidacion) => {
-              if (!respuestaValidacion.validacion) {
-                return this.contactoService.guardarContacto(
-                  this.formularioEmpleado.value
-                );
-              } else {
-                this.alertaService.mensajeError('Error',
-                  'El número de identificación ya existe en el sistema con este tipo de identificación'
-                );
-                return of(null);
-              }
-            }),
-            tap((respuestaFormulario) => {
-              if (respuestaFormulario !== null) {
-                this.alertaService.mensajaExitoso(
-                  'Se actualizó la información'
-                );
-                this.router.navigate(['/administrador/detalle'], {
-                  queryParams: {
-                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                    submodelo:
-                      this.activatedRoute.snapshot.queryParams['submodelo'],
-                    detalle: respuestaFormulario.id,
-                  },
-                });
-              }
+        if (
+          this.informacionEmpleado.numero_identificacion !==
+            this.formularioEmpleado.get('numero_identificacion')!.value ||
+          this.informacionEmpleado.identificacion_id !==
+            this.formularioEmpleado.get('identificacion')!.value
+        ) {
+          this.contactoService
+            .validarNumeroIdentificacion({
+              identificacion_id: parseInt(
+                this.formularioEmpleado.get('identificacion')!.value
+              ),
+              numero_identificacion: this.formularioEmpleado.get(
+                'numero_identificacion'
+              )!.value,
             })
-          )
-          .subscribe();
+            .pipe(
+              switchMap((respuestaValidacion) => {
+                if (!respuestaValidacion.validacion) {
+                  return this.contactoService.guardarContacto(
+                    this.formularioEmpleado.value
+                  );
+                } else {
+                  this.alertaService.mensajeError(
+                    'Error',
+                    'El número de identificación ya existe en el sistema con este tipo de identificación'
+                  );
+                  return of(null);
+                }
+              }),
+              tap((respuestaFormulario) => {
+                if (respuestaFormulario !== null) {
+                  this.alertaService.mensajaExitoso(
+                    'Se actualizó la información'
+                  );
+                  this.router.navigate(['/administrador/detalle'], {
+                    queryParams: {
+                      modelo:
+                        this.activatedRoute.snapshot.queryParams['modelo'],
+                      submodelo:
+                        this.activatedRoute.snapshot.queryParams['submodelo'],
+                      detalle: respuestaFormulario.id,
+                    },
+                  });
+                }
+              })
+            )
+            .subscribe();
+        } else {
+          this.contactoService
+            .guardarContacto(this.formularioEmpleado.value)
+            .subscribe((respuestaFormulario) => {
+              this.alertaService.mensajaExitoso('Se actualizó la información');
+              this.router.navigate(['/administrador/detalle'], {
+                queryParams: {
+                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                  submodelo:
+                    this.activatedRoute.snapshot.queryParams['submodelo'],
+                  detalle: respuestaFormulario.id,
+                },
+              });
+            });
+        }
       } else {
         this.contactoService
           .validarNumeroIdentificacion({
@@ -208,7 +232,8 @@ export default class EmpleadoFormularioComponent
                   this.formularioEmpleado.value
                 );
               } else {
-                this.alertaService.mensajeError('Error',
+                this.alertaService.mensajeError(
+                  'Error',
                   'El número de identificación ya existe en el sistema con este tipo de identificación'
                 );
                 return of(null);
@@ -465,6 +490,7 @@ export default class EmpleadoFormularioComponent
     this.contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        this.informacionEmpleado = respuesta;
         this.formularioEmpleado.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -496,5 +522,4 @@ export default class EmpleadoFormularioComponent
         this.changeDetectorRef.detectChanges();
       });
   }
-
 }
