@@ -104,6 +104,7 @@ export const locale = {
           ANULAR: 'Anular',
           SIGUIENTE: 'Seguiente',
           FINALIZAR: 'Finalizar',
+          CARGARCONTRATOS: 'Cargar contratos'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

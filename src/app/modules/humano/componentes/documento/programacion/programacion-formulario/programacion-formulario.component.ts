@@ -31,7 +31,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarAvanzadoComponent,
-],
+  ],
   templateUrl: './programacion-formulario.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,7 +40,6 @@ export default class ContratoFormularioComponent
   implements OnInit
 {
   formularioProgramacion: FormGroup;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,17 +63,29 @@ export default class ContratoFormularioComponent
 
   iniciarFormulario() {
     const fechaActual = new Date(); // Obtener la fecha actual
-    const primerDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
-    const ultimoDiaMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-  
-    const fechaDesde = `${primerDiaMes.getFullYear()}-${(primerDiaMes.getMonth() + 1)
+    const primerDiaMes = new Date(
+      fechaActual.getFullYear(),
+      fechaActual.getMonth(),
+      1
+    );
+    const ultimoDiaMes = new Date(
+      fechaActual.getFullYear(),
+      fechaActual.getMonth() + 1,
+      0
+    );
+
+    const fechaDesde = `${primerDiaMes.getFullYear()}-${(
+      primerDiaMes.getMonth() + 1
+    )
       .toString()
       .padStart(2, '0')}-${primerDiaMes.getDate().toString().padStart(2, '0')}`;
-  
-    const fechaHastaPeriodo = `${ultimoDiaMes.getFullYear()}-${(ultimoDiaMes.getMonth() + 1)
+
+    const fechaHastaPeriodo = `${ultimoDiaMes.getFullYear()}-${(
+      ultimoDiaMes.getMonth() + 1
+    )
       .toString()
       .padStart(2, '0')}-${ultimoDiaMes.getDate().toString().padStart(2, '0')}`;
-  
+
     this.formularioProgramacion = this.formBuilder.group({
       fecha_desde: [
         fechaDesde,
@@ -121,7 +132,6 @@ export default class ContratoFormularioComponent
       descuento_embargo: [true],
     });
   }
-  
 
   consultarInformacion() {
     zip(
@@ -160,7 +170,7 @@ export default class ContratoFormularioComponent
           limite_conteo: 10000,
           modelo: 'HumGrupo',
         }
-      ),
+      )
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
@@ -168,24 +178,20 @@ export default class ContratoFormularioComponent
     });
   }
 
-  enviarFormulario(){
+  enviarFormulario() {
     if (this.formularioProgramacion.valid) {
       if (this.detalle) {
         this.programacionService
-          .actualizarDatosProgramacion(this.detalle, this.formularioProgramacion.value)
+          .actualizarDatosProgramacion(
+            this.detalle,
+            this.formularioProgramacion.value
+          )
           .subscribe((respuesta) => {
-            this.formularioProgramacion.patchValue({
-              empleado: respuesta.contacto_id,
-              empleadoNombre: respuesta.contado_nombre_corto,
-              fecha_desde: respuesta.fecha_desde,
-              fecha_hasta: respuesta.fecha_hasta,
-            });
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
+            this.router.navigate(['documento/detalle'], {
               queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                documento_clase:
+                  this.activatedRoute.snapshot.queryParams['documento_clase'],
                 detalle: respuesta.id,
               },
             });
@@ -197,13 +203,11 @@ export default class ContratoFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
+              this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                  documento_clase:
+                    this.activatedRoute.snapshot.queryParams['documento_clase'],
                   detalle: respuesta.id,
-                  accion: 'detalle',
                 },
               });
             })
@@ -224,8 +228,8 @@ export default class ContratoFormularioComponent
           fecha_hasta: respuesta.fecha_hasta,
           fecha_hasta_periodo: respuesta.fecha_hasta_periodo,
           nombre: respuesta.nombre,
-          pago_tipo: respuesta.pago_tipo,
-          grupo: respuesta.grupo,
+          pago_tipo: respuesta.pago_tipo_id,
+          grupo: respuesta.grupo_id,
           descuento_salud: respuesta.descuento_salud,
           descuento_pension: respuesta.descuento_pension,
           descuento_fondo_solidaridad: respuesta.descuento_fondo_solidaridad,
@@ -235,13 +239,14 @@ export default class ContratoFormularioComponent
           pago_vacacion: respuesta.pago_vacacion,
           pago_horas: respuesta.pago_horas,
           pago_auxilio_transporte: respuesta.pago_auxilio_transporte,
-          descuento_adicional_permanente: respuesta.descuento_adicional_permanente,
-          descuento_adicional_programacion: respuesta.descuento_adicional_programacion,
+          descuento_adicional_permanente:
+            respuesta.descuento_adicional_permanente,
+          descuento_adicional_programacion:
+            respuesta.descuento_adicional_programacion,
           descuento_credito: respuesta.descuento_credito,
           descuento_embargo: respuesta.descuento_embargo,
         });
         this.changeDetectorRef.detectChanges();
       });
   }
-
 }

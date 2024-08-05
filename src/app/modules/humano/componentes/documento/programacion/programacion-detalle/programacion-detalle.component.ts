@@ -45,6 +45,14 @@ export default class CreditoDetalleComponent extends General {
       "pago_vacacion": false,
   };
 
+  arrEstados = {
+    estado_aprobado: false,
+    estado_anulado: false,
+    estado_electronico: false,
+    estado_electronico_enviado: false,
+    estado_electronico_notificado: false,
+  };
+
   constructor(
     private programacionService: ProgramacionService
   ) {
@@ -62,6 +70,19 @@ export default class CreditoDetalleComponent extends General {
   }
 
   cargarContratos(){
-    
+    this.programacionService.cargarContratos({
+      id: this.programacion.id
+    }).subscribe()
+  }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/editar`], {
+        queryParams: {
+          ...parametro,
+          detalle: id,
+        },
+      });
+    });
   }
 }
