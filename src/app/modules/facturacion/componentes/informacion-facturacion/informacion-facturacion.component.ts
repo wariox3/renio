@@ -63,6 +63,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   arrCiudades: any[];
   arrIdentificacion: any[];
   codigoUsuario = '';
+  ciudadSeleccionada: string | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -170,10 +171,12 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   }
 
   consultarInformacion() {
-    this.contenedorService.listaTipoIdentificacion().subscribe((respuesta:any) => {
-      this.arrIdentificacion = respuesta.registros;
-      this.changeDetectorRef.detectChanges();
-    })
+    this.contenedorService
+      .listaTipoIdentificacion()
+      .subscribe((respuesta: any) => {
+        this.arrIdentificacion = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -183,7 +186,9 @@ export class InformacionFacturacionComponent extends General implements OnInit {
       if (dato === null) {
         this.formularioInformacion.get('ciudad_nombre')?.setValue(null);
         this.formularioInformacion.get('ciudad')?.setValue(null);
+        this.ciudadSeleccionada = null;
       } else {
+        this.ciudadSeleccionada = dato.nombre;
         this.formularioInformacion
           .get('ciudad_nombre')
           ?.setValue(dato.ciudad_nombre);
@@ -208,6 +213,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         .obtenerInformacionFacturacion(this.informacion_id)
         .subscribe((respuesta: any) => {
           this.informacionFacturacion = respuesta;
+          this.ciudadSeleccionada = respuesta.ciudad_nombre;
           this.formularioInformacion.patchValue({
             nombre_corto: respuesta.nombre_corto,
             numero_identificacion: respuesta.numero_identificacion,
@@ -246,17 +252,15 @@ export class InformacionFacturacionComponent extends General implements OnInit {
                 'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
               )
             );
-            this.formularioInformacion.reset();  // Limpiar el formulario
+            this.formularioInformacion.reset(); // Limpiar el formulario
             return this.emitirActualizacion.emit(true);
           });
       } else {
         this.formularioInformacion.patchValue({
-          usuario: this.codigoUsuario
+          usuario: this.codigoUsuario,
         });
         this.facturacionService
-          .crearInformacionFacturacion(
-            this.formularioInformacion.value
-          )
+          .crearInformacionFacturacion(this.formularioInformacion.value)
           .subscribe((respuesta) => {
             this.modalService.dismissAll();
             this.alertaService.mensajaExitoso(
@@ -264,7 +268,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
                 'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
               )
             );
-            this.formularioInformacion.reset();  // Limpiar el formulario
+            this.formularioInformacion.reset(); // Limpiar el formulario
             return this.emitirActualizacion.emit(true);
           });
       }
@@ -272,6 +276,4 @@ export class InformacionFacturacionComponent extends General implements OnInit {
       this.formularioInformacion.markAllAsTouched();
     }
   }
-  
-
 }
