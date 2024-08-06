@@ -608,6 +608,14 @@ export const locale = {
         INGRESO_BASE_COTIZACION: 'Ibc',
         INGRESO_BASE_PRESTACION: 'Ibp',
       },
+      COMPROBANTE: {
+        ID: 'ID',
+        NOMBRE: 'Name',
+        ORDEN: 'Orden',
+        PORCENTAJE: 'Por',
+        INGRESO_BASE_COTIZACION: 'Ibc',
+        INGRESO_BASE_PRESTACION: 'Ibp',
+      },
     },
     TEMA: {
       CLARO: 'Light',

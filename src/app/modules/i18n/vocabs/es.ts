@@ -757,6 +757,9 @@ export const locale = {
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
       },
+      COMPROBANTE: {
+        ID: 'ID',
+      },
     },
     TEMA: {
       CLARO: 'Claro',
