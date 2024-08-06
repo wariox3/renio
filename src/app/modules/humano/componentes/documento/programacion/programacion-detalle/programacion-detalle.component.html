@@ -207,6 +207,22 @@
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
                       ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.CONCEPTO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.COMUNES.HORAS"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.COMUNES.VALOR"
+                      ></th>
+                      <th
+                      class="bg-gray-100"
+                      translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.DIALABORADO"
+                    ></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -226,6 +242,18 @@
                           {{
                             programacionAdicional.contrato_contacto_nombre_corto
                           }}
+                        </td>
+                        <td>
+                          {{ programacionAdicional.concepto_nombre }}
+                        </td>
+                        <td>
+                          {{ programacionAdicional.horas }}
+                        </td>
+                        <td>
+                          {{ programacionAdicional.valor }}
+                        </td>
+                        <td>
+                          {{ programacionAdicional.aplica_dia_laborado ?'SI' : 'NO' }}
                         </td>
                       </tr>
                     </ng-container>
@@ -251,9 +279,7 @@
     ></button>
   </div>
   <div class="modal-body">
-    <form
-      [formGroup]="formularioAdicionalProgramacion"
-    >
+    <form [formGroup]="formularioAdicionalProgramacion">
       <div class="row mb-5">
         <div
           class="col-12 col-md-12"

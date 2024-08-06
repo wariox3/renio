@@ -306,6 +306,7 @@ export default class ProgramacionDetalleComponent
     this.adicionalService
       .guardarAdicional(this.formularioAdicionalProgramacion.value)
       .subscribe();
+    this.consultarDatos();
     this.modalService.dismissAll();
   }
 }
