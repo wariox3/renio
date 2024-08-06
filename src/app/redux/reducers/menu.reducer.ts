@@ -486,7 +486,13 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
-          children: [],
+          children: [
+            {
+              nombre: 'Almacen',
+              tipo: 'Administrador',
+              data: { modelo: 'InvAlmacen' },
+            },
+          ],
         },
         {
           nombre: 'utilidad',

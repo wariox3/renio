@@ -142,7 +142,7 @@ export class BaseListaComponent extends General implements OnInit {
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       let modelo = this.modelo.toLowerCase()
-      let eliminarPrefijos = ['hum', 'gen', 'con']
+      let eliminarPrefijos = ['hum', 'gen', 'con', 'inv']
       if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
         modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
       }

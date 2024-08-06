@@ -77,6 +77,8 @@ export const locale = {
         GENEMPLEADO: 'Empleado',
         CONCOMPROBANTE: 'Comprobante',
         COMPROBANTE: 'Comprobante',
+        INVALMACEN: 'Almacén',
+        ALMACEN: 'Almacén'
       },
     },
     FORMULARIOS: {
@@ -763,6 +765,10 @@ export const locale = {
         CODIGO: 'Código',
       },
       COMPROBANTE: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+      },
+      ALMACEN: {
         ID: 'ID',
         NOMBRE: 'Nombre',
       },

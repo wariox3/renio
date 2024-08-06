@@ -165,7 +165,7 @@ export class BaseListaComponent extends General implements OnInit {
       } else {
         let modelo = this.modelo.toLowerCase()
         let modulo = localStorage.getItem('ruta')
-        let eliminarPrefijos = ['hum']
+        let eliminarPrefijos = ['hum', 'gen', 'con', 'inv']
         if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
           modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
         }

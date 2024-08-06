@@ -6,6 +6,7 @@ type FormulariosYDetallesAsíncronos = {
       | 'contabilidad'
       | 'cartera'
       | 'humano'
+      | 'inventario'
       | 'general';
     modelo?: string;
     tipo?: string;
@@ -170,6 +171,18 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     formulario: async () =>
       await import(
         '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-formulario/comprobante-formulario.component'
+      ),
+  },
+  InvAlmacen: {
+    modulo: 'inventario',
+    modelo: 'InvAlmacen',
+    detalle: async () =>
+      await import(
+        '../../../modules/inventario/componentes/administrador/almacen/almacen-detalle/almacen-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/inventario/componentes/administrador/almacen/almacen-formulario/almacen-formulario.component'
       ),
   },
 };

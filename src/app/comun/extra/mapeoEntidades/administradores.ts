@@ -6,6 +6,7 @@ type Mapeo = {
       | 'contabilidad'
       | 'cartera'
       | 'humano'
+      | 'inventario'
       | 'general';
     modelo: string;
     tipo: 'Administrador' | 'Movimiento';
@@ -646,6 +647,27 @@ export const mapeo: Mapeo = {
   ConComprobante: {
     modulo: 'contabilidad',
     modelo: 'ConComprobante',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+    ],
+  },
+  InvAlmacen: {
+    modulo: 'inventario',
+    modelo: 'InvAlamacen',
     tipo: 'Administrador',
     datos: [
       {

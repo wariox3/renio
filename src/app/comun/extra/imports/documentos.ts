@@ -109,21 +109,21 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   500: {
     detalle: async () =>
       await import(
-        '../../../modules/inventario/componentes/entrada/entrada-detalle/entrada-detalle.component'
+        '../../../modules/inventario/componentes/documento/entrada/entrada-detalle/entrada-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/inventario/componentes/entrada/entrada-formulario/entrada-formulario.component'
+        '../../../modules/inventario/componentes/documento/entrada/entrada-formulario/entrada-formulario.component'
       ),
   },
   501: {
     detalle: async () =>
       await import(
-        '../../../modules/inventario/componentes/salida/salida-detalle/salida-detalle.component'
+        '../../../modules/inventario/componentes/documento/salida/salida-detalle/salida-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/inventario/componentes/salida/salida-formulario/salida-formulario.component'
+        '../../../modules/inventario/componentes/documento/salida/salida-formulario/salida-formulario.component'
       ),
   },
   601: {
