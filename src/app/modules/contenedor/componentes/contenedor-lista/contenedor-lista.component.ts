@@ -41,6 +41,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   dominioApp = environment.dominioApp;
   cargandoContederes = false;
   habilitarContenedores = true;
+  usuarioSaldo = 0;
   constructor(private contenedorService: ContenedorService) {
     super();
   }
@@ -55,7 +56,17 @@ export class ContenedorListaComponent extends General implements OnInit {
     ]).subscribe((respuesta) => {
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
       this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
-      this.habilitarContenedores = this.fechaActual < this.usuarioFechaLimitePago && respuesta[1] === 0
+      this.usuarioSaldo = respuesta[1];      
+      console.log(this.usuarioSaldo);
+      console.log(this.habilitarContenedores);
+      
+      if(this.usuarioSaldo > 0 && this.usuarioFechaLimitePago < this.fechaActual){
+        this.habilitarContenedores = false
+      }
+      
+      // this.habilitarContenedores = this.usuarioFechaLimitePago < this.fechaActual && respuesta[1] === 0;
+      // console.log(this.habilitarContenedores);
+      
       this.changeDetectorRef.detectChanges();
     })
   }

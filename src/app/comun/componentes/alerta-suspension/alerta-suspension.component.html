@@ -38,34 +38,32 @@
 </div>
 <!--end::Alert-->
 <!--begin::Alert-->
-<div class="alert alert-danger" *ngIf="usuarioVrSaldo > 0">
+<div class="alert alert-danger" *ngIf="usuarioVrSaldo > 0 && usuarioFechaLimitePago < hoy">
   <div class="row align-items-center">
-    <!--begin::Wrapper-->
+
     <div class="col-10 d-flex align-items-center">
-      <!--begin::Icon-->
+
       <i class="ki-duotone ki-information-3 fs-2hx text-danger me-4">
         <span class="path1"></span>
         <span class="path2"></span>
         <span class="path3"></span>
       </i>
-      <!--end::Icon-->
+
       <div class="d-flex flex-column pe-0 pe-sm-10">
-        <!--begin::Title-->
+
         <h4 class="fw-semibold text-danger">
           Se cumplió la fecha límite de su pago
         </h4>
-        <!--end::Title-->
-        <!--begin::Content-->
+
         <span class="text-danger">
           Por favor cancele el saldo pendiente para seguir disfrutando de
           nuestros servicios, con este importe aseguramos la disponibilidad de
           nuestra infraestructura y la remuneración de nuestros chicos. Si tiene
           alguna duda puede comunicarse por WhatsApp 3205015059.
         </span>
-        <!--end::Content-->
+
       </div>
     </div>
   </div>
-  <!--end::Wrapper-->
 </div>
 <!--end::Alert-->
