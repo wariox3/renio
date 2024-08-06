@@ -246,11 +246,11 @@
                         <td>
                           {{ programacionAdicional.concepto_nombre }}
                         </td>
-                        <td>
+                        <td class="text-end">
                           {{ programacionAdicional.horas }}
                         </td>
-                        <td>
-                          {{ programacionAdicional.valor }}
+                        <td class="text-end">
+                          {{ programacionAdicional.valor | number }}
                         </td>
                         <td>
                           {{ programacionAdicional.aplica_dia_laborado ?'SI' : 'NO' }}
