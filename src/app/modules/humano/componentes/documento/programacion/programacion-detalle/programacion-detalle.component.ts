@@ -1,13 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
 
@@ -27,15 +38,18 @@ import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
-export default class ProgramacionDetalleComponent extends General implements OnInit {
+export default class ProgramacionDetalleComponent
+  extends General
+  implements OnInit
+{
   active: Number;
-  
+
   programacion: any = {
     id: 0,
-    fecha_desde: "",
-    fecha_hasta: "",
-    fecha_hasta_periodo: "",
-    nombre: "",
+    fecha_desde: '',
+    fecha_hasta: '',
+    fecha_hasta_periodo: '',
+    nombre: '',
     cantidad: 0,
     dias: 0,
     descuento_pension: false,
@@ -74,6 +88,7 @@ export default class ProgramacionDetalleComponent extends General implements OnI
     private httpService: HttpService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private adicionalService: AdicionalService
   ) {
     super();
   }
@@ -83,19 +98,29 @@ export default class ProgramacionDetalleComponent extends General implements OnI
   }
 
   consultarDatos() {
-    this.programacionService.consultarDetalle(this.detalle).subscribe((respuesta: any) => {
-      this.programacion = respuesta;
-      this.inicializarParametrosConsulta();
-      this.inicializarParametrosConsultaAdicional();
-      forkJoin({
-        programacionDetalles: this.httpService.post('general/funcionalidad/lista/', this.arrParametrosConsulta),
-        programacionAdicionales: this.httpService.post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)
-      }).subscribe(({ programacionDetalles, programacionAdicionales }: any) => {
-        this.arrProgramacionDetalle = programacionDetalles.registros;
-        this.arrProgramacionAdicional = programacionAdicionales.registros
-        this.changeDetectorRef.detectChanges();
+    this.programacionService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta: any) => {
+        this.programacion = respuesta;
+        this.inicializarParametrosConsulta();
+        this.inicializarParametrosConsultaAdicional();
+        forkJoin({
+          programacionDetalles: this.httpService.post(
+            'general/funcionalidad/lista/',
+            this.arrParametrosConsulta
+          ),
+          programacionAdicionales: this.httpService.post(
+            'general/funcionalidad/lista/',
+            this.arrParametrosConsultaAdicional
+          ),
+        }).subscribe(
+          ({ programacionDetalles, programacionAdicionales }: any) => {
+            this.arrProgramacionDetalle = programacionDetalles.registros;
+            this.arrProgramacionAdicional = programacionAdicionales.registros;
+            this.changeDetectorRef.detectChanges();
+          }
+        );
       });
-    });
   }
 
   inicializarParametrosConsulta() {
@@ -135,17 +160,21 @@ export default class ProgramacionDetalleComponent extends General implements OnI
   }
 
   cargarContratos() {
-    this.programacionService.cargarContratos({
-      id: this.programacion.id
-    }).subscribe();
-    this.consultarDatos()
+    this.programacionService
+      .cargarContratos({
+        id: this.programacion.id,
+      })
+      .subscribe();
+    this.consultarDatos();
   }
 
   generar() {
-    this.programacionService.generar({
-      id: this.programacion.id
-    }).subscribe();
-    this.consultarDatos()
+    this.programacionService
+      .generar({
+        id: this.programacion.id,
+      })
+      .subscribe();
+    this.consultarDatos();
   }
 
   navegarEditar(id: number) {
@@ -164,7 +193,7 @@ export default class ProgramacionDetalleComponent extends General implements OnI
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
-    this.iniciarFormulario()
+    this.iniciarFormulario();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -178,11 +207,8 @@ export default class ProgramacionDetalleComponent extends General implements OnI
       horas: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
       aplica_dia_laborado: [false],
       valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      programacion: [this.programacion.id],
     });
-  }
-
-  enviarFormularioAdicional(){
-
   }
 
   consultarConceptos(event: any) {
@@ -253,13 +279,17 @@ export default class ProgramacionDetalleComponent extends General implements OnI
     this.formularioAdicionalProgramacion?.markAsDirty();
     this.formularioAdicionalProgramacion?.markAsTouched();
     if (campo === 'concepto') {
-      this.formularioAdicionalProgramacion.get(campo)?.setValue(dato.concepto_id);
+      this.formularioAdicionalProgramacion
+        .get(campo)
+        ?.setValue(dato.concepto_id);
       this.formularioAdicionalProgramacion
         .get('concepto_nombre')
         ?.setValue(dato.concepto_nombre);
     }
     if (campo === 'contrato') {
-      this.formularioAdicionalProgramacion.get(campo)?.setValue(dato.contrato_id);
+      this.formularioAdicionalProgramacion
+        .get(campo)
+        ?.setValue(dato.contrato_id);
       this.formularioAdicionalProgramacion
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
@@ -273,9 +303,9 @@ export default class ProgramacionDetalleComponent extends General implements OnI
   }
 
   cerrarModal() {
+    this.adicionalService
+      .guardarAdicional(this.formularioAdicionalProgramacion.value)
+      .subscribe();
     this.modalService.dismissAll();
   }
-
-
 }
-

@@ -21,6 +21,7 @@ export class AlertaSuspensionComponent extends General implements OnInit {
   visualizarAlerta = false;
   usuarioFechaLimitePago: Date;
   usuarioVrSaldo: number;
+  hoy: Date = new Date();
 
   constructor() {
     super();
