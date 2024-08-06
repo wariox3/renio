@@ -310,12 +310,17 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       if (dato === null) {
         this.formularioEmpresa.get(campo)?.setValue(null);
         this.formularioEmpresa.get('ciudad_nombre')?.setValue(null);
+        this.ciudadSeleccionada = null;
       } else {
+        this.ciudadSeleccionada = dato.nombre;
         this.formularioEmpresa.get(campo)?.setValue(dato.id);
         this.formularioEmpresa
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);;
+          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
       }
+    }
+    if(campo === 'ciudad_nombre'){
+      this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato);
     }
     if (campo === 'telefono') {
       if (this.formularioEmpresa.get(campo)?.value === '') {

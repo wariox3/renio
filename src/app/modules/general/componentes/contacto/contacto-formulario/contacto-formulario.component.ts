@@ -531,7 +531,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.ciudadSeleccionada = dato.nombre;
         this.formularioContacto
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);;
+          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);;
         this.formularioContacto.get('ciudad')?.setValue(dato.id);
       }
     }

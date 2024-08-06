@@ -345,7 +345,7 @@ export default class EmpleadoFormularioComponent
         this.ciudadSeleccionada = dato.nombre;
         this.formularioEmpleado
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);
+          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
         this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
       }
     }
