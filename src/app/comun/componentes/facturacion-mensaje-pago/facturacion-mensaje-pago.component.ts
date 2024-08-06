@@ -34,11 +34,20 @@ export class FacturacionMensajePagoComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
+    const isFirstTime = !localStorage.getItem('isFirstTime');
+
+    if (isFirstTime) {
+      localStorage.setItem('isFirstTime', 'false');
+      setTimeout(() => {
+        this.procesando = false;
+        this.changeDetectorRef.detectChanges();
+        this.consultarInformacion();
+      }, 5000);
+    } else {
       this.procesando = false;
       this.changeDetectorRef.detectChanges();
       this.consultarInformacion();
-    }, 5000);
+    }
   }
 
   consultarInformacion() {
@@ -62,10 +71,14 @@ export class FacturacionMensajePagoComponent extends General implements OnInit {
                 vr_saldo: this.vr_saldo,
               })
             );
+            this.changeDetectorRef.detectChanges();
+            location.reload();
           }
           of(null);
         })
       )
       .subscribe();
+    this.changeDetectorRef.detectChanges();
   }
+
 }
