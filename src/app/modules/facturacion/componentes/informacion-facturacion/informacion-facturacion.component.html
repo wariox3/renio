@@ -203,7 +203,8 @@
                     formularioInformacion.controls['ciudad'].touched &&
                     formularioInformacion.controls['ciudad'].valid
                 }"
-                (focus)="consultarCiudad($event); CiudadDropdown.open()"
+                (focus)="modificarCampoFormulario('ciudad_nombre', ciudadSeleccionada); CiudadDropdown.open(); consultarCiudad($event);"
+
                 (blur)="modificarCampoFormulario('ciudad', null)"
                 (keyup)="consultarCiudad($event)"
               />
@@ -234,7 +235,7 @@
                 "
                 (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
               >
-                {{ ciudad.ciudad_nombre }}
+                {{ ciudad.nombre }} - {{ciudad.estado_nombre}}
               </button>
             </div>
           </div>

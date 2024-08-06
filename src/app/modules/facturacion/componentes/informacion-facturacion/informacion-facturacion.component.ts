@@ -189,12 +189,16 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         this.ciudadSeleccionada = null;
       } else {
         this.ciudadSeleccionada = dato.nombre;
-        this.formularioInformacion
+          this.formularioInformacion
           .get('ciudad_nombre')
-          ?.setValue(dato.ciudad_nombre);
+          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
         this.formularioInformacion.get('ciudad')?.setValue(dato.ciudad_id);
       }
     }
+    if(campo === 'ciudad_nombre'){
+      this.formularioInformacion.get('ciudad_nombre')?.setValue(dato);
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -222,7 +226,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
             identificacion: respuesta.identificacion_id,
             ciudad: respuesta.ciudad_id,
             correo: respuesta.correo,
-            ciudad_nombre: respuesta.ciudad_nombre,
+            ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.ciudad_estado_nombre}`,
             usuario: respuesta.usuario_id,
             digito_verificacion: respuesta.digito_verificacion,
           });
