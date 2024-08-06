@@ -158,7 +158,9 @@ export const locale = {
           },
           VERMAS: 'Ver más',
           IDENTIFICACION: 'Identificación',
-          NOMBRE: 'Nombre'
+          NOMBRE: 'Nombre',
+          VALOR: 'Valor',
+          HORAS: 'Horas'
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -285,7 +287,9 @@ export const locale = {
           INFORMACIONPROVEEDOR: 'Información proveedor',
         },
         HUMPROGRAMACION: {
-          ADICIONAL: 'Adicionales'
+          ADICIONAL: 'Adicionales',
+          CONCEPTO: 'Concepto',
+          DIALABORADO: 'Aplica dia laborado'
         },
       },
       CAMPOS: {
