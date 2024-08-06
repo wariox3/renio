@@ -35,6 +35,7 @@ export class AlertaSuspensionComponent extends General implements OnInit {
 
       this.visualizarAlerta = respuesta[0];
       this.usuarioFechaLimitePago = new Date(respuesta[1]);
+      this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
       this.usuarioVrSaldo = respuesta[2];
     });
     this.changeDetectorRef.detectChanges();
