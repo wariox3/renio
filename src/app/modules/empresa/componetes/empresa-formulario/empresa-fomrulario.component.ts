@@ -71,6 +71,7 @@ import { HttpService } from '@comun/services/http.service';
 export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
+  ciudadSeleccionada: string | null;
   arrCiudades: any[] = [];
   arrIdentificacion: TipoIdentificacion[] = [];
   arrTipoPersona: TipoPersona[] = [];
