@@ -22,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './asiento-detalle.component.html',
 })
 export default class PagoDetalleComponent extends General {
-  pago: any = {
+  asiento: any = {
     contacto_id: '',
     descuento: '',
     documento_tipo_id: '',
@@ -54,7 +54,7 @@ export default class PagoDetalleComponent extends General {
     this.facturaService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.pago = respuesta.documento;
+        this.asiento = respuesta.documento;
         this.changeDetectorRef.detectChanges();
       });
   }

@@ -133,13 +133,15 @@ export default class AsientoFormularioComponent extends General implements OnIni
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
-            numero: [detalle.documento_afectado_numero],
+            numero: [detalle.numero],
             contacto: [detalle.documento_afectado_contacto_nombre_corto],
-            pago: [detalle.pago],
+            total: [detalle.total],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
             naturaleza: detalle.naturaleza,
+            base_impuesto: detalle.base_impuesto,
+            detalle: detalle.detalle
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -249,36 +251,6 @@ export default class AsientoFormularioComponent extends General implements OnIni
       .subscribe();
   }
 
-  agregarDocumentoSeleccionado(documento: any) {
-    const index = this.arrDocumentosSeleccionados.indexOf(documento);
-    if (index !== -1) {
-      this.totalSeleccionado -= documento.total;
-      this.arrDocumentosSeleccionados.splice(index, 1);
-    } else {
-      this.totalSeleccionado += documento.total;
-      this.arrDocumentosSeleccionados.push(documento);
-    }
-  }
-
-  agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((documento) => {
-      const detalleFormGroup = this.formBuilder.group({
-        id: [null],
-        documento_afectado: [documento.id],
-        numero: [documento.numero],
-        contacto: [documento.contacto],
-        pago: [documento.pendiente],
-        seleccionado: [false],
-        cuenta: [documento.cuenta],
-        cuenta_codigo: [documento.cuenta_codigo],
-        naturaleza: [documento.naturaleza],
-      });
-      this.detalles.push(detalleFormGroup);
-    });
-    this.modalService.dismissAll();
-    this.calcularTotales();
-  }
-
   eliminarDocumento(index: number, id: number | null) {
     this.formularioAsiento?.markAsDirty();
     this.formularioAsiento?.markAsTouched();
@@ -298,41 +270,6 @@ export default class AsientoFormularioComponent extends General implements OnIni
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarDocumentosToggleSelectAll() {
-    this.arrDocumentos.forEach((item: any) => {
-      item.selected = !item.selected;
-      const index = this.arrDocumentosSeleccionados.find(
-        (documento) => documento.id === item.id
-      );
-      if (index) {
-        this.totalSeleccionado -= item.total;
-        this.arrDocumentosSeleccionados.splice(index, 1);
-      } else {
-        this.totalSeleccionado += item.total;
-        this.arrDocumentosSeleccionados.push(item);
-      }
-    });
-    this.agregarDocumentoSeleccionarTodos =
-      !this.agregarDocumentoSeleccionarTodos;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  detalleToggleSelectAll() {
-    this.formularioAsiento?.markAsDirty();
-    this.formularioAsiento?.markAsTouched();
-    const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
-    detallesArray.controls.forEach((detalleControl) => {
-      detalleControl
-        .get('seleccionado')
-        ?.setValue(!detalleControl.get('seleccionado')?.value);
-      this.changeDetectorRef.detectChanges();
-    });
-    this.documentoDetalleSeleccionarTodos =
-      !this.documentoDetalleSeleccionarTodos;
-    this.changeDetectorRef.detectChanges();
-  }
-
-
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
 
@@ -348,7 +285,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
     this.total = 0;
     const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('pago')?.value || 0;
+      const pago = detalleControl.get('total')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
         this.totalCredito += parseInt(pago);
@@ -386,8 +323,10 @@ export default class AsientoFormularioComponent extends General implements OnIni
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
-      pago: [null, Validators.compose([Validators.required])],
+      total: [0, Validators.compose([Validators.required])],
+      detalle: [null],
       seleccionado: [false],
+      base_impuesto: [0]
     });
     this.detalles.push(detalleFormGroup);
   }

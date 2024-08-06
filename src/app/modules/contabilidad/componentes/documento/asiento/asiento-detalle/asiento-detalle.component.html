@@ -16,7 +16,7 @@
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="navegarEditar(pago.id)"
+        (click)="navegarEditar(asiento.id)"
         [disabled]="arrEstados.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
@@ -25,7 +25,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="pago.estado_aprobado"
+        [disabled]="asiento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -33,7 +33,7 @@
         type="button"
         class="btn btn-sm btn-danger"
         (click)="anular()"
-        [disabled]="pago.estado_aprobado"
+        [disabled]="asiento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
       </button>
@@ -49,26 +49,26 @@
     </div>
   </div>
   <div class="d-flex justify-content-end gap-2">
-    <ng-container *ngIf="pago.estado_aprobado">
+    <ng-container *ngIf="asiento.estado_aprobado">
       <span class="badge badge-success">Aprobado</span>
     </ng-container>
-    <ng-container *ngIf="pago.estado_anulado">
+    <ng-container *ngIf="asiento.estado_anulado">
       <span class="badge badge-danger">Anulado</span>
     </ng-container>
-    <ng-container *ngIf="pago.estado_electronico">
+    <ng-container *ngIf="asiento.estado_electronico">
       <span class="badge badge-success">Electrónico</span>
     </ng-container>
     <ng-container
       *ngIf="
-        pago.estado_electronico_enviado === true &&
-        pago.estado_electronico === false
+        asiento.estado_electronico_enviado === true &&
+        asiento.estado_electronico === false
       "
     >
       <span class="badge badge-success"
         >Enviado DIAN (Esperando respuesta)</span
       >
     </ng-container>
-    <ng-container *ngIf="pago.estado_electronico_notificado">
+    <ng-container *ngIf="asiento.estado_electronico_notificado">
       <span class="badge badge-success">Notificado</span>
     </ng-container>
   </div>
@@ -86,21 +86,21 @@
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="LISTAS.DOCUMENTO.CONTACTO"
           ></td>
-          <td colspan="5">{{ pago.contacto_nombre_corto }}</td>
+          <td colspan="5">{{ asiento.contacto_nombre_corto }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
           ></td>
-          <td>{{ pago.fecha }}</td>
+          <td>{{ asiento.fecha }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
           ></td>
-          <td colspan="5">{{ pago.comentario }}</td>
+          <td colspan="5">{{ asiento.comentario }}</td>
         </tr>
       </tbody>
     </table>
@@ -131,24 +131,22 @@
                         [translate]="'LISTAS.DOCUMENTO.ID'"
                         style="width: 50px"
                       ></th>
-                      <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
-                      <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let documento of pago.detalles">
+                    <tr *ngFor="let documento of asiento.detalles">
                       <td>
                         {{ documento.id }}
                       </td>
                       <td>
-                        {{ documento.documento_afectado_id }}
-                      </td>
-                      <td>
-                        {{ documento.documento_afectado_numero }}
+                        {{ documento.numero }}
                       </td>
                       <td>
                         {{ documento.documento_afectado_contacto_nombre_corto }}
@@ -160,7 +158,13 @@
                         {{ documento.naturaleza }}
                       </td>
                       <td class="text-end">
-                        {{ documento.pago | number }}
+                        {{ documento.base_impuesto | number }}
+                      </td>
+                      <td class="text-end">
+                        {{ documento.total | number }}
+                      </td>
+                      <td>
+                        {{ documento.detalle }}
                       </td>
                     </tr>
                   </tbody>
@@ -168,12 +172,14 @@
               </div>
               <div class="d-flex justify-content-end mb-5">
                 <table>
-                  <tr *ngIf="pago.total > 0">
+                  <tr *ngIf="asiento.total > 0">
                     <td
                       class="text-end"
                       translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                     ></td>
-                    <td class="text-end">{{ pago.total | currency : "$" }}</td>
+                    <td class="text-end">
+                      {{ asiento.total | currency : "$" }}
+                    </td>
                   </tr>
                 </table>
               </div>

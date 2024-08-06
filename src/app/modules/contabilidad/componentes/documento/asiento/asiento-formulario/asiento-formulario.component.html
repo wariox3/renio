@@ -212,12 +212,6 @@
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
                     ></button>
-                    <!-- <button
-                      (click)="eliminarDocumento()"
-                      class="btn btn-sm btn-danger"
-                      type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                    ></button> -->
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -228,12 +222,13 @@
                     <thead>
                       <tr class="bg-gray-100">
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
                         <th class="w-100px text-center">
                         </th>
                       </tr>
@@ -245,11 +240,32 @@
                       >
                         <tr>
                           <td class="w-40px">{{ detalle.value.id }}</td>
-                          <td>
-                            {{ detalle.value.documento_afectado }}
-                          </td>
-                          <td>
-                            {{ detalle.value.numero }}
+                          <td class="w-100px">
+                            <input
+                              formControlName="numero"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'numero', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('numero')?.touched &&
+                                  detalle.get('numero')?.invalid,
+                                'is-valid':
+                                  detalle.get('numero')?.touched &&
+                                  detalle.get('numero')?.invalid
+                              }"
+                            />
+                            <ng-container
+                              [ngTemplateOutlet]="formError"
+                              [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message:
+                                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                  | translate,
+                                control: detalle.get('numero')
+                              }"
+                            ></ng-container>
                           </td>
                           <td>
                             {{ detalle.value.contacto }}
@@ -293,18 +309,35 @@
                           </td>
                           <td class="w-100px">
                             <input
-                              formControlName="pago"
+                              formControlName="base_impuesto"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (change)="actualizarDetalle(i, 'pago', $event)"
+                              (change)="actualizarDetalle(i, 'total', $event)"
                               appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
-                                  detalle.get('pago')?.touched &&
-                                  detalle.get('pago')?.invalid,
+                                  detalle.get('base_impuesto')?.touched &&
+                                  detalle.get('base_impuesto')?.invalid,
                                 'is-valid':
-                                  detalle.get('pago')?.touched &&
-                                  detalle.get('pago')?.invalid
+                                  detalle.get('base_impuesto')?.touched &&
+                                  detalle.get('base_impuesto')?.invalid
+                              }"
+                            />
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="total"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'total', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('total')?.touched &&
+                                  detalle.get('total')?.invalid,
+                                'is-valid':
+                                  detalle.get('total')?.touched &&
+                                  detalle.get('total')?.invalid
                               }"
                             />
                             <ng-container
@@ -314,9 +347,25 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('pago')
+                                control: detalle.get('total')
                               }"
                             ></ng-container>
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="detalle"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'detalle', $event)"
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('detalle')?.touched &&
+                                  detalle.get('detalle')?.invalid,
+                                'is-valid':
+                                  detalle.get('detalle')?.touched &&
+                                  detalle.get('detalle')?.invalid
+                              }"
+                            />
                           </td>
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i

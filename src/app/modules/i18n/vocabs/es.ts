@@ -609,6 +609,7 @@ export const locale = {
         CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
         CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTRATO_ID: 1,
+        DETALLE: 'Detalle',
       },
       ITEM: {
         ID: 'ID',
