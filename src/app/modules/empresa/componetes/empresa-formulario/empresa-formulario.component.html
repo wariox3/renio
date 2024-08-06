@@ -215,7 +215,7 @@
               formularioEmpresa.controls['ciudad'].touched &&
               formularioEmpresa.controls['ciudad'].valid
           }"
-          (focus)="consultarCiudad($event); CiudadDropdown.open()"
+          (focus)="modificarCampoFormulario('ciudad_nombre', ciudadSeleccionada); CiudadDropdown.open(); consultarCiudad($event);"
           (blur)="modificarCampoFormulario('ciudad', null)"
           (keyup)="consultarCiudad($event)"
         />
@@ -242,8 +242,8 @@
             ngbDropdownItem
             (click)="modificarCampoFormulario('ciudad', ciudad)"
           >
-            {{ ciudad.ciudad_nombre }}
-          </button>
+          {{ ciudad.nombre }}-{{ciudad.estado_nombre}}
+        </button>
         </ng-container>
         <div class="dropdown-divider"></div>
       </div>

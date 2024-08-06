@@ -74,6 +74,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrAsesores: any[];
   arrPrecios: any[];
   arrPagos: any[];
+  ciudadSeleccionada: string | null;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
@@ -253,7 +254,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   tipoPersonaSeleccionado($event: any) {
-    let valorPersonaTipo = parseInt($event.target.value)
+    let valorPersonaTipo = parseInt($event.target.value);
     if (valorPersonaTipo === 1) {
       //1 es igual a juridico
       this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
@@ -281,8 +282,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
     this.formularioContacto.patchValue({
-      tipo_persona: valorPersonaTipo
-    })
+      tipo_persona: valorPersonaTipo,
+    });
   }
 
   enviarFormulario() {
@@ -525,12 +526,17 @@ export default class ContactDetalleComponent extends General implements OnInit {
       if (dato === null) {
         this.formularioContacto.get('ciudad_nombre')?.setValue(null);
         this.formularioContacto.get('ciudad')?.setValue(null);
+        this.ciudadSeleccionada = null;
       } else {
+        this.ciudadSeleccionada = dato.nombre;
         this.formularioContacto
           .get('ciudad_nombre')
-          ?.setValue(dato.ciudad_nombre);
-        this.formularioContacto.get('ciudad')?.setValue(dato.ciudad_id);
+          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);;
+        this.formularioContacto.get('ciudad')?.setValue(dato.id);
       }
+    }
+    if(campo === 'ciudad_nombre'){
+      this.formularioContacto.get('ciudad_nombre')?.setValue(dato);
     }
     if (campo === 'barrio') {
       if (this.formularioContacto.get(campo)?.value === '') {
@@ -554,6 +560,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        this.ciudadSeleccionada = respuesta.ciudad_nombre;
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -565,7 +572,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           apellido1: respuesta.apellido1,
           apellido2: respuesta.apellido2,
           ciudad: respuesta.ciudad_id,
-          ciudad_nombre: respuesta.ciudad_nombre,
+          ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.departamento_nombre}`,
           direccion: respuesta.direccion,
           telefono: respuesta.telefono,
           celular: respuesta.celular,

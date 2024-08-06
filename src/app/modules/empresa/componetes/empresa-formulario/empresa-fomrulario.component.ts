@@ -43,7 +43,6 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
-import { Empresa } from '@interfaces/contenedor/empresa';
 import { HttpService } from '@comun/services/http.service';
 
 @Component({
@@ -72,7 +71,7 @@ import { HttpService } from '@comun/services/http.service';
 export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
-  arrCiudades: Ciudad[] = [];
+  arrCiudades: any[] = [];
   arrIdentificacion: TipoIdentificacion[] = [];
   arrTipoPersona: TipoPersona[] = [];
   arrRegimen: Regimen[] = [];
@@ -88,9 +87,8 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
-    private contenedorService: ContenedorService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private httpService: HttpService,
+    private httpService: HttpService
   ) {
     super();
   }
@@ -259,7 +257,6 @@ export class EmpresaFormularioComponent extends General implements OnInit {
             return this.empresaService.consultarDetalle(respuestaEmpresa_id);
           }),
           tap((respuestaConsultaEmpresa: any) => {
-
             this.store.dispatch(
               empresaActualizacionAction({
                 empresa: respuestaConsultaEmpresa,
@@ -313,10 +310,10 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         this.formularioEmpresa.get(campo)?.setValue(null);
         this.formularioEmpresa.get('ciudad_nombre')?.setValue(null);
       } else {
-        this.formularioEmpresa.get(campo)?.setValue(dato.ciudad_id);
+        this.formularioEmpresa.get(campo)?.setValue(dato.id);
         this.formularioEmpresa
           .get('ciudad_nombre')
-          ?.setValue(dato.ciudad_nombre);
+          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);;
       }
     }
     if (campo === 'telefono') {

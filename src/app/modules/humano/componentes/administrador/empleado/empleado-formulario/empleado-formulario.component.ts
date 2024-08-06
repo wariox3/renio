@@ -40,6 +40,7 @@ export default class EmpleadoFormularioComponent
 {
   formularioEmpleado: FormGroup;
   informacionEmpleado: any;
+  ciudadSeleccionada: string | null;
   arrCiudades: any[];
   arrIdentificacion: any[];
   arrTipoPersona: any[];
@@ -339,12 +340,17 @@ export default class EmpleadoFormularioComponent
       if (dato === null) {
         this.formularioEmpleado.get('ciudad_nombre')?.setValue(null);
         this.formularioEmpleado.get('ciudad')?.setValue(null);
+        this.ciudadSeleccionada = null;
       } else {
+        this.ciudadSeleccionada = dato.nombre;
         this.formularioEmpleado
           .get('ciudad_nombre')
-          ?.setValue(dato.ciudad_nombre);
-        this.formularioEmpleado.get('ciudad')?.setValue(dato.ciudad_id);
+          ?.setValue(`${dato.nombre}-${dato.estado_nombre}`);
+        this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
       }
+    }
+    if(campo === 'ciudad_nombre'){
+      this.formularioEmpleado.get('ciudad_nombre')?.setValue(dato);
     }
     if (campo === 'barrio') {
       if (this.formularioEmpleado.get(campo)?.value === '') {
@@ -497,6 +503,7 @@ export default class EmpleadoFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionEmpleado = respuesta;
+        this.ciudadSeleccionada = respuesta.ciudad_nombre;
         this.formularioEmpleado.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -508,7 +515,7 @@ export default class EmpleadoFormularioComponent
           apellido1: respuesta.apellido1,
           apellido2: respuesta.apellido2,
           ciudad: respuesta.ciudad_id,
-          ciudad_nombre: respuesta.ciudad_nombre,
+          ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.departamento_nombre}`,
           direccion: respuesta.direccion,
           telefono: respuesta.telefono,
           celular: respuesta.celular,
