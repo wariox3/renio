@@ -763,6 +763,7 @@ export const locale = {
       },
       COMPROBANTE: {
         ID: 'ID',
+        NOMBRE: 'Nombre',
       },
     },
     TEMA: {

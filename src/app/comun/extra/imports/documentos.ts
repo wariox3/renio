@@ -129,11 +129,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   601: {
     detalle: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/asiento/asiento-detalle/asiento-detalle.component'
+        '../../../modules/contabilidad/componentes/documento/asiento/asiento-detalle/asiento-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/asiento/asiento-formulario/asiento-formulario.component'
+        '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
       ),
   },
   HumProgramacion: {

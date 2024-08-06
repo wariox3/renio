@@ -28,7 +28,7 @@ import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { Contacto } from '@interfaces/general/contacto';
-import ContactDetalleComponent from "../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-pago-formulario',

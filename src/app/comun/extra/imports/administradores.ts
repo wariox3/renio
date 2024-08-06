@@ -153,11 +153,23 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     modelo: 'ConCuenta',
     detalle: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/cuenta/cuenta-detalle/cuenta-detalle.component'
+        '../../../modules/contabilidad/componentes/administrador/cuenta/cuenta-detalle/cuenta-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/cuenta/cuenta-formulario/cuenta-formulario.component'
+        '../../../modules/contabilidad/componentes/administrador/cuenta/cuenta-formulario/cuenta-formulario.component'
+      ),
+  },
+  ConComprobante: {
+    modulo: 'contabilidad',
+    modelo: 'ConComprobante',
+    detalle: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-detalle/comprobante-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-formulario/comprobante-formulario.component'
       ),
   },
 };

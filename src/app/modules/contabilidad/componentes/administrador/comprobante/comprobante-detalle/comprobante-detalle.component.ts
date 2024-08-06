@@ -3,23 +3,23 @@ import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Grupo } from '@interfaces/humano/Grupo';
-import { GrupoService } from '@modulos/humano/servicios/grupo.service';
+import { ComprobanteService } from '@modulos/contabilidad/servicios/comprobante.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-grupo-detalle',
+  selector: 'app-comprobante-detalle',
   standalone: true,
   imports: [CommonModule, TranslateModule, CardComponent, BtnAtrasComponent],
-  templateUrl: './grupo-detalle.component.html',
-  styleUrl: './grupo-detalle.component.scss',
+  templateUrl: './comprobante-detalle.component.html',
+  styleUrl: './comprobante-detalle.component.scss',
 })
-export default class GrupoDetalleComponent extends General implements OnInit {
-  grupo: Grupo = {
+export default class ComprobanteDetalleComponent  extends General implements OnInit {
+
+  comprobante = {
     nombre: '',
   };
 
-  constructor(private grupoService: GrupoService) {
+  constructor(private comprobanteServicio: ComprobanteService) {
     super();
   }
 
@@ -28,9 +28,10 @@ export default class GrupoDetalleComponent extends General implements OnInit {
   }
 
   consultarDetalle() {
-    this.grupoService.consultarDetalle(this.detalle).subscribe((respuesta) => {
-      this.grupo = respuesta;
+    this.comprobanteServicio.consultarDetalle(this.detalle).subscribe((respuesta) => {
+      this.comprobante = respuesta;
       this.changeDetectorRef.detectChanges();
     });
   }
+
 }
