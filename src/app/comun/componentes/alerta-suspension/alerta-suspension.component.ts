@@ -20,7 +20,7 @@ import { combineLatest, combineLatestAll } from 'rxjs';
 export class AlertaSuspensionComponent extends General implements OnInit {
   visualizarAlerta = false;
   usuarioFechaLimitePago: Date;
-  usuarioVrSaldo = '';
+  usuarioVrSaldo: number;
 
   constructor() {
     super();
@@ -32,7 +32,6 @@ export class AlertaSuspensionComponent extends General implements OnInit {
       this.store.select(obtenerUsuarioFechaLimitePago),
       this.store.select(obtenerUsuarioVrSaldo),
     ]).subscribe((respuesta: any) => {
-
       this.visualizarAlerta = respuesta[0];
       this.usuarioFechaLimitePago = new Date(respuesta[1]);
       this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);

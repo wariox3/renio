@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContenedorService } from '../../servicios/contenedor.service';
-import { catchError, of, switchMap, tap } from 'rxjs';
-import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { obtenerUsuarioFechaLimitePago, obtenerUsuarioId, obtenerUsuarioVrSaldo } from '@redux/selectors/usuario.selectors';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { General } from '@comun/clases/general';
@@ -10,7 +10,6 @@ import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
@@ -37,8 +36,11 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
+  fechaActual = new Date;
+  usuarioFechaLimitePago: Date;
   dominioApp = environment.dominioApp;
   cargandoContederes = false;
+  habilitarContenedores = true;
   constructor(private contenedorService: ContenedorService) {
     super();
   }
@@ -46,6 +48,16 @@ export class ContenedorListaComponent extends General implements OnInit {
   ngOnInit() {
     this.consultarLista();
     this.limpiarEmpresa();
+
+    combineLatest([
+      this.store.select(obtenerUsuarioFechaLimitePago),
+      this.store.select(obtenerUsuarioVrSaldo),
+    ]).subscribe((respuesta) => {
+      this.usuarioFechaLimitePago = new Date(respuesta[0]);
+      this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
+      this.habilitarContenedores = this.fechaActual < this.usuarioFechaLimitePago && respuesta[1] === 0
+      this.changeDetectorRef.detectChanges();
+    })
   }
 
   consultarLista() {
