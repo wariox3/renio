@@ -170,6 +170,11 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'ConCuenta' },
             },
+            {
+              nombre: 'COMPROBANTE',
+              tipo: 'Administrador',
+              data: { modelo: 'ConComprobante' },
+            },
           ]
         },
         {

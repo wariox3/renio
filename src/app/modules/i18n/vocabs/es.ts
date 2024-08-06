@@ -75,6 +75,8 @@ export const locale = {
         GENRESOLUCION: 'Resolución',
         GENSEDE: 'Sede',
         GENEMPLEADO: 'Empleado',
+        CONCOMPROBANTE: 'Comprobante',
+        COMPROBANTE: 'Comprobante',
       },
     },
     FORMULARIOS: {
