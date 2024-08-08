@@ -16,6 +16,8 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpService } from '@comun/services/http.service';
@@ -34,6 +36,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -216,7 +219,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         empleado: [false],
       },
       {
-        validator: MultiplesEmailValidator.validarCorreos,
+        validator: [MultiplesEmailValidator.validarCorreos],
       }
     );
   }
@@ -618,4 +621,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
       digito_verificacion: digito,
     });
   }
+
+  limpiarCiudad(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioContacto.controls['ciudad'].setValue(null);
+      this.formularioContacto.controls['ciudad_nombre'].setValue(null);
+    }
+  }
+
 }
