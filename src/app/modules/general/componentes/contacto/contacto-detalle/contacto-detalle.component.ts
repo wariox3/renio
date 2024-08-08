@@ -43,6 +43,7 @@ export default class ContactoDetalleComponent
     identificacion_abreviatura: '',
     nombre_corto: '',
     direccion: '',
+    departamento_nombre: '',
     ciudad: 0,
     telefono: 0,
     celular: 0,

@@ -7,6 +7,7 @@ export interface Contacto {
   direccion: string;
   ciudad: number;
   ciudad_nombre: number;
+  departamento_nombre?: string;
   telefono: number;
   celular: number;
   tipo_persona_id: number;
