@@ -517,8 +517,7 @@
                   formularioContacto.controls['ciudad'].touched &&
                   formularioContacto.controls['ciudad'].valid
               }"
-              (focus)="modificarCampoFormulario('ciudad_nombre', ciudadSeleccionada); CiudadDropdown.open(); consultarCiudad($event);"
-              (blur)="modificarCampoFormulario('ciudad', null)"
+              (focus)="consultarCiudad($event); CiudadDropdown.open()"
               (keyup)="consultarCiudad($event)"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
