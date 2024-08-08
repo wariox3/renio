@@ -192,7 +192,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
           this.formularioInformacion
           .get('ciudad_nombre')
           ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
-        this.formularioInformacion.get('ciudad')?.setValue(dato.ciudad_id);
+        this.formularioInformacion.get('ciudad')?.setValue(dato.id);
       }
     }
     if(campo === 'ciudad_nombre'){
