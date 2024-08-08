@@ -587,7 +587,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
-          emplaedo: respuesta.empleado
+          empleado: respuesta.empleado
         });
 
         if (respuesta.tipo_persona_id === 1) {
