@@ -280,4 +280,13 @@ export class InformacionFacturacionComponent extends General implements OnInit {
       this.formularioInformacion.markAllAsTouched();
     }
   }
+
+  limpiarCiudad(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioInformacion.controls['ciudad'].setValue(null);
+      this.formularioInformacion.controls['ciudad_nombre'].setValue(null);
+    }
+  }
 }

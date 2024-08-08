@@ -205,6 +205,7 @@
                 }"
                 (focus)="consultarCiudad($event); CiudadDropdown.open()"
                 (keyup)="consultarCiudad($event)"
+                (blur)="limpiarCiudad($event)"
               />
               <div
                 class="position-absolute translate-middle-y top-50 end-0 me-3"
