@@ -1,3 +1,4 @@
+<pre>{{ formularioContacto.value | json }}</pre>
 <form [formGroup]="formularioContacto" (ngSubmit)="enviarFormulario()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
@@ -816,7 +817,7 @@
                   formularioContacto.controls['empleado'].invalid,
                 'is-valid':
                   formularioContacto.controls['empleado'].touched &&
-                  formularioContacto.controls['proveeempleadodor'].valid
+                  formularioContacto.controls['empleado'].valid
               }"
             />
             <label class="form-check-label" for="empleado"> Empleado </label>
