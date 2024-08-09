@@ -29,14 +29,14 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
             errorCodigo = 400;
             errorMensaje =
               'Solicitud inválida. Verifica los datos y reintenta.';
-            break;
-          case 404:
-            errorCodigo = 404;
-            errorMensaje = 'El recurso solicitado no se encontró.';
             if (error.error.hasOwnProperty('mensaje')) {
               errorCodigo = error.error.codigo;
               errorMensaje = error.error.mensaje;
             }
+            break;
+          case 404:
+            errorCodigo = 404;
+            errorMensaje = 'El recurso solicitado no se encontró.';
             break;
           case 405:
             errorCodigo = 405;

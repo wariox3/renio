@@ -26,6 +26,7 @@ import {
   obtenerMenuDataMapeoCamposVisibleTabla,
 } from '@redux/selectors/menu.selectors';
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
+import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -41,6 +42,7 @@ import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
     TranslateModule,
     ImportarComponent,
     AnimationFadeinUpDirective,
+    ImportarAdministradorComponent
 ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
@@ -84,6 +86,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirNavegarNuevo: EventEmitter<any> = new EventEmitter();
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
+  @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
 
   constructor() {
     super();
@@ -403,5 +406,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     } else {
       return true;
     }
+  }
+
+  solicitarConsultarTabla(){
+    this.emitirConsultarLista.emit(true);
   }
 }

@@ -23,10 +23,19 @@
       data-toggle="buttons"
       [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
+      @if(ubicacion === 'documento'){
       <app-importar
         modelo="{{ modelo }}"
         *ngIf="visualizarBtnImportar"
       ></app-importar>
+      } @if(ubicacion === 'administrador'){
+      <div class="btn-group">
+        <app-importar-administrador
+          (emitirDetallesAgregados)="solicitarConsultarTabla()"
+          *ngIf="visualizarBtnImportar"
+        ></app-importar-administrador>
+      </div>
+      }
       <div
         class="btn-group"
         ngbDropdown
@@ -208,7 +217,8 @@
         <td
           *ngFor="let key of item | keys"
           [ngClass]="{
-            'text-end': item[key].aplicaFormatoNumerico || item[key].alinearAlaIzquierda,
+            'text-end':
+              item[key].aplicaFormatoNumerico || item[key].alinearAlaIzquierda,
             'text-center': item[key].campoTipo === 'Booleano'
           }"
         >
