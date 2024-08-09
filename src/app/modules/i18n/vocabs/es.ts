@@ -741,6 +741,7 @@ export const locale = {
       GRUPO: {
         ID: 'ID',
         NOMBRE: 'Nombre',
+        CODIGO: 'Código'
       },
       CONCEPTO: {
         ID: 'ID',

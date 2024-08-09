@@ -173,6 +173,18 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-formulario/comprobante-formulario.component'
       ),
   },
+  ConGrupo: {
+    modulo: 'contabilidad',
+    modelo: 'ConGrupo',
+    detalle: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/administrador/grupo/grupo-detalle/grupo-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/administrador/grupo/grupo-formulario/grupo-formulario.component'
+      ),
+  },
   InvAlmacen: {
     modulo: 'inventario',
     modelo: 'InvAlmacen',

@@ -698,6 +698,13 @@ export const mapeo: Mapeo = {
         visibleFiltro: true,
         ordenable: true,
       },
+      {
+        nombre: 'CODIGO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
     ],
   },
   InvAlmacen: {
