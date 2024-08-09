@@ -478,6 +478,9 @@ export const locale = {
             CODIGO: 'Id',
           },
         },
+        CONTABILIDAD: {
+          PERMITEASIENTO: 'Permite asiento'
+        }
       },
       VALIDACIONES: {
         COMUNES: {

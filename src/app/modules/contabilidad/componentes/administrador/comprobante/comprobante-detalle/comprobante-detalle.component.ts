@@ -17,6 +17,8 @@ export default class ComprobanteDetalleComponent  extends General implements OnI
 
   comprobante = {
     nombre: '',
+    codigo: '',
+    permite_asiento: ''
   };
 
   constructor(private comprobanteServicio: ComprobanteService) {

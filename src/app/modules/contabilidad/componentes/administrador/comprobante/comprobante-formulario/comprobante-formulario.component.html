@@ -31,7 +31,7 @@
       </ng-template>
     </section>
     <section card-body>
-      <div class="row mb-2">
+      <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
@@ -44,11 +44,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioComprobante.controls['nombre'].touched &&
+                formularioComprobante.controls['nombre'].touched &&
                 formularioComprobante.controls['nombre'].invalid,
               'is-valid':
-              formularioComprobante.controls['nombre'].touched &&
-              formularioComprobante.controls['nombre'].valid
+                formularioComprobante.controls['nombre'].touched &&
+                formularioComprobante.controls['nombre'].valid
             }"
             appSoloNumeros
           />
@@ -60,6 +60,59 @@
               control: formularioComprobante.controls['nombre']
             }"
           ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="codigo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioComprobante.controls['codigo'].touched &&
+                formularioComprobante.controls['codigo'].invalid,
+              'is-valid':
+                formularioComprobante.controls['codigo'].touched &&
+                formularioComprobante.controls['codigo'].valid
+            }"
+            appSoloNumeros
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioComprobante.controls['codigo']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="permite_asiento"
+              formControlName="permite_asiento"
+              [ngClass]="{
+                'is-invalid':
+                  formularioComprobante.controls['permite_asiento'].touched &&
+                  formularioComprobante.controls['permite_asiento'].invalid,
+                'is-valid':
+                  formularioComprobante.controls['permite_asiento'].touched &&
+                  formularioComprobante.controls['permite_asiento'].valid
+              }"
+            />
+            <label class="form-check-label" for="permite_asiento">
+              Permite asiento
+            </label>
+          </div>
         </div>
       </div>
     </section>

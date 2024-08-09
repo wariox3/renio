@@ -56,6 +56,11 @@ export default class ComprobanteFormularioComponent
         '',
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
+      codigo: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(200)]),
+      ],
+      permite_asiento: [false],
     });
   }
 
