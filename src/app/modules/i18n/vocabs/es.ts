@@ -772,6 +772,8 @@ export const locale = {
       COMPROBANTE: {
         ID: 'ID',
         NOMBRE: 'Nombre',
+        PERMITEASIENTO: 'Permite asiento',
+        CODIGO: 'Código'
       },
       ALMACEN: {
         ID: 'ID',
