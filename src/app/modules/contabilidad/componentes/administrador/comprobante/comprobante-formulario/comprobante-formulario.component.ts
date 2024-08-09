@@ -11,6 +11,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { ComprobanteService } from '@modulos/contabilidad/servicios/comprobante.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
@@ -57,8 +58,8 @@ export default class ComprobanteFormularioComponent
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
       codigo: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
+        null,
+        Validators.compose([Validators.maxLength(200), cambiarVacioPorNulo.validar]),
       ],
       permite_asiento: [false],
     });

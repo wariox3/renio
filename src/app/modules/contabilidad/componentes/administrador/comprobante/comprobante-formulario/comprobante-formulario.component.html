@@ -64,7 +64,7 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
-            class="form-label required"
+            class="form-label"
           ></label>
           <input
             formControlName="codigo"
@@ -79,7 +79,6 @@
                 formularioComprobante.controls['codigo'].touched &&
                 formularioComprobante.controls['codigo'].valid
             }"
-            appSoloNumeros
           />
           <ng-container
             [ngTemplateOutlet]="formError"
