@@ -8,8 +8,14 @@
         #btnGuardar
         translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
       ></button>
-      <app-importar-detalles></app-importar-detalles>
+      @if (detalle) {
+      <app-importar-detalles
+        [estadoHabilitado]="estado_aprobado"
+        (emitirDetallesAgregados)="consultardetalle()"
+      ></app-importar-detalles>
+      }
     </div>
+    //
   </div>
   <app-card>
     <section card-titulo>
@@ -269,7 +275,9 @@
                           </td>
                           <td>
                             <app-comun-contactos
-                              [contactoNombre]="detalle.value.contacto_nombre_corto"
+                              [contactoNombre]="
+                                detalle.value.contacto_nombre_corto
+                              "
                               (emitirContacto)="
                                 agregarContactoSeleccionado($event, i)
                               "

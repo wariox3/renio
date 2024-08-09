@@ -18,12 +18,28 @@ export class General {
   protected accion: string | null = null;
   protected detalle = 0;
   protected parametrosUrl: any = {};
+  protected ubicacion: 'documento' | 'administrador' | 'utilidad' | 'informe';
 
   constructor() {
     this.consultarParametros();
   }
 
   consultarParametros() {
+    switch (true) {
+      case this.router.url.includes('documento'):
+        this.ubicacion = 'documento';
+        break;
+      case this.router.url.includes('administrador'):
+        this.ubicacion = 'administrador';
+        break;
+      case this.router.url.includes('utilidad'):
+        this.ubicacion = 'utilidad';
+        break;
+      case this.router.url.includes('informe'):
+        this.ubicacion = 'informe';
+        break;
+    }
+
     if (this.router.url.includes('nuevo')) {
       this.accion = 'nuevo';
     } else if (this.router.url.includes('detalle')) {
@@ -32,7 +48,7 @@ export class General {
 
     this.activatedRoute.queryParams.subscribe((parametros) => {
       this.parametrosUrl = parametros;
-      if(localStorage.getItem('itemNombre')){
+      if (localStorage.getItem('itemNombre')) {
         this.modelo = localStorage.getItem('itemNombre')!;
       }
       this.detalle = parametros.detalle;

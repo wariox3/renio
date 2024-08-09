@@ -94,5 +94,24 @@
         }
       </tbody>
     </table>
+    <div class="card-footer d-flex justify-content-end">
+      @if (this.errorImportar.length > 0) {
+      <button
+        type="submit"
+        class="btn btn-sm btn-danger me-2"
+        (click)="descargarExcelError()"
+        appAnimationFadeinLeft
+      >
+        Errores
+      </button>
+      }
+      <button
+        type="submit"
+        class="btn btn-sm btn-primary me-2"
+        (click)="descargarExcelImportar()"
+      >
+        Ejemplo
+      </button>
+    </div>
   </div>
 </ng-template>
