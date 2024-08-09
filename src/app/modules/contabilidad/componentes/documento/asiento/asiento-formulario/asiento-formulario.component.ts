@@ -130,6 +130,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
           total: respuesta.documento.total,
         });
 
+        this.detalles.clear();
         respuesta.documento.detalles.forEach((detalle: any) => {
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],

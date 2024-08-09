@@ -104,10 +104,13 @@ export class ImportarDetallesComponent extends General {
             `Se guardo la información registros importados: ${respuesta.registros_importados}`
           );
           this.modalService.dismissAll();
+          this.errorImportar = [];
           this.emitirDetallesAgregados.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
-          this.errorImportar = respuesta.errores_datos;
+          if(respuesta.errores_datos){
+            this.errorImportar = respuesta.errores_datos;
+          }
           return of(null);
         })
       )

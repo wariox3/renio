@@ -33,6 +33,10 @@
     ></button>
   </div>
   <div class="modal-body">
+    <div class="alert alert-info" role="alert">
+      Recuerda que la carga de los registros limpiara los registros que no ha
+      guardado
+    </div>
     <form action="">
       <div class="custom-file-upload">
         <ng-container *ngIf="archivoNombre === ''; else visualizarArchivo">
@@ -76,24 +80,28 @@
       </div>
       <img src="" alt="" />
     </form>
-    <table
-      class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-    >
-      <thead>
-        <tr>
-          <th class="w-20px">Fila</th>
-          <th>Mensaje</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of errorImportar; track $index) {
-        <tr appAnimationFadeinUp>
-          <td>{{ item.fila }}</td>
-          <td>{{ item.Mensaje }}</td>
-        </tr>
-        }
-      </tbody>
-    </table>
+    <div style="height: 300px; overflow: auto">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead class="">
+          <tr>
+            <th class="w-20px">Fila</th>
+            <th>Mensaje</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of errorImportar; track $index) {
+          <tr appAnimationFadeinUp>
+            <td>{{ item.fila }}</td>
+            <td>{{ item.Mensaje }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
     <div class="card-footer d-flex justify-content-end">
       @if (this.errorImportar.length > 0) {
       <button
