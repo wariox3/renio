@@ -55,11 +55,11 @@ export default class ComprobanteFormularioComponent
     this.formularioComprobante = this.formBuilder.group({
       nombre: [
         '',
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
       codigo: [
         null,
-        Validators.compose([Validators.maxLength(200), cambiarVacioPorNulo.validar]),
+        Validators.compose([Validators.maxLength(20), cambiarVacioPorNulo.validar]),
       ],
       permite_asiento: [false],
     });

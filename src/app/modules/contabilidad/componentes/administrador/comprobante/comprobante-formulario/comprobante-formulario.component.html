@@ -60,6 +60,16 @@
               control: formularioComprobante.controls['nombre']
             }"
           ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioComprobante.controls['nombre']
+            }"
+          ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -88,6 +98,16 @@
               control: formularioComprobante.controls['codigo']
             }"
           ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message:
+              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '20',
+            control: formularioComprobante.controls['codigo']
+          }"
+        ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
