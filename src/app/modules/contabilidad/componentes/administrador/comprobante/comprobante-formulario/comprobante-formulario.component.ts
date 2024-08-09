@@ -112,6 +112,8 @@ export default class ComprobanteFormularioComponent
       .subscribe((respuesta: any) => {
         this.formularioComprobante.patchValue({
           nombre: respuesta.nombre,
+          codigo: respuesta.codigo,
+          permite_asiento: respuesta.permite_asiento
         });
         this.changeDetectorRef.detectChanges();
       });
