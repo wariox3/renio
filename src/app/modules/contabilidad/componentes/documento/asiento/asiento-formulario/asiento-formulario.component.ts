@@ -12,7 +12,6 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -23,12 +22,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
+import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -48,7 +47,9 @@ import ContactDetalleComponent from '@modulos/general/componentes/contacto/conta
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
-    ContactDetalleComponent
+    ContactDetalleComponent,
+    ContactosComponent,
+    ImportarDetallesComponent
 ],
 })
 export default class AsientoFormularioComponent extends General implements OnInit {
@@ -135,13 +136,14 @@ export default class AsientoFormularioComponent extends General implements OnIni
             documento_afectado: [detalle.documento_afectado_id],
             numero: [detalle.numero],
             contacto: [detalle.documento_afectado_contacto_nombre_corto],
+            contacto_nombre_corto: [detalle.contacto_nombre_corto],
             total: [detalle.total],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
             naturaleza: detalle.naturaleza,
             base_impuesto: detalle.base_impuesto,
-            detalle: detalle.detalle
+            detalle: detalle.detalle,
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -323,6 +325,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
+      contacto_nombre_corto: [null],
       total: [0, Validators.compose([Validators.required])],
       detalle: [null],
       seleccionado: [false],
@@ -336,6 +339,17 @@ export default class AsientoFormularioComponent extends General implements OnIni
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
       naturaleza: 'D',
+    });
+
+    this.formularioAsiento.markAsTouched();
+    this.formularioAsiento.markAsDirty();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarContactoSeleccionado(contacto: any, index: number) {
+    this.detalles.controls[index].patchValue({
+      contacto: contacto.contacto_id,
+      contacto_nombre_corto: contacto.contacto_nombre_corto
     });
 
     this.formularioAsiento.markAsTouched();

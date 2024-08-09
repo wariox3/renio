@@ -8,6 +8,7 @@
         #btnGuardar
         translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
       ></button>
+      <app-importar-detalles></app-importar-detalles>
     </div>
   </div>
   <app-card>
@@ -43,11 +44,11 @@
               (keyup)="consultarCliente($event)"
               [ngClass]="{
                 'is-invalid':
-                formularioAsiento.controls['contacto'].touched &&
-                formularioAsiento.controls['contacto'].invalid,
+                  formularioAsiento.controls['contacto'].touched &&
+                  formularioAsiento.controls['contacto'].invalid,
                 'is-valid':
-                formularioAsiento.controls['contacto'].touched &&
-                formularioAsiento.controls['contacto'].valid
+                  formularioAsiento.controls['contacto'].touched &&
+                  formularioAsiento.controls['contacto'].valid
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -120,11 +121,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioAsiento.controls['fecha'].touched &&
-              formularioAsiento.controls['fecha'].invalid,
+                formularioAsiento.controls['fecha'].touched &&
+                formularioAsiento.controls['fecha'].invalid,
               'is-valid':
-              formularioAsiento.controls['fecha'].touched &&
-              formularioAsiento.controls['fecha'].valid
+                formularioAsiento.controls['fecha'].touched &&
+                formularioAsiento.controls['fecha'].valid
             }"
           />
           <ng-container
@@ -137,8 +138,8 @@
           ></ng-container>
           <div
             *ngIf="
-            formularioAsiento.controls.fecha?.touched &&
-            formularioAsiento.controls.fecha?.hasError(
+              formularioAsiento.controls.fecha?.touched &&
+              formularioAsiento.controls.fecha?.hasError(
                 'fechaSuperiorNoValida'
               )
             "
@@ -169,11 +170,11 @@
             rows="3"
             [ngClass]="{
               'is-invalid':
-              formularioAsiento.controls['comentario'].touched &&
-              formularioAsiento.controls['comentario'].invalid,
+                formularioAsiento.controls['comentario'].touched &&
+                formularioAsiento.controls['comentario'].invalid,
               'is-valid':
-              formularioAsiento.controls['comentario'].touched &&
-              formularioAsiento.controls['comentario'].valid
+                formularioAsiento.controls['comentario'].touched &&
+                formularioAsiento.controls['comentario'].valid
             }"
           ></textarea>
           <ng-container
@@ -229,8 +230,7 @@
                         <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.VALOR'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
-                        <th class="w-100px text-center">
-                        </th>
+                        <th class="w-100px text-center"></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -268,7 +268,13 @@
                             ></ng-container>
                           </td>
                           <td>
-                            {{ detalle.value.contacto }}
+                            <app-comun-contactos
+                              [contactoNombre]="detalle.value.contacto_nombre_corto"
+                              (emitirContacto)="
+                                agregarContactoSeleccionado($event, i)
+                              "
+                            >
+                            </app-comun-contactos>
                           </td>
                           <td class="p-1">
                             <app-comun-cuentas
@@ -302,7 +308,10 @@
                               </select>
                             </ng-container>
                             <ng-template #selectDisabled>
-                              <select disabled class="form-select form-select-sm">
+                              <select
+                                disabled
+                                class="form-select form-select-sm"
+                              >
                                 <option value="C">Crédito</option>
                               </select>
                             </ng-template>

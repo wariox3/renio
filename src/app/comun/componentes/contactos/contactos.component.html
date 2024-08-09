@@ -1,0 +1,37 @@
+<div>
+  <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+    <input
+      #inputItem
+      type="text"
+      formControlName="impuestos"
+      ngbDropdownAnchor
+      class="cursor-pointer form-select form-select-sm w-100"
+      (focus)="consultarContactos($event); ItemDropdown.open()"
+      (keyup)="aplicarFiltrosContactos($event); ItemDropdown.open()"
+      [disabled]="estado_aprobado"
+      [readonly]="estado_aprobado"
+      [ngClass]="{ 'disabled-cursor': estado_aprobado }"
+      [value]="contactoNombre"
+      [ngClass]="{
+        'is-invalid': campoInvalido,
+        'is-valid': itemSeleccionado !== null
+      }"
+    />
+    <div
+      ngbDropdownMenu
+      aria-labelledby="dropdownBasic1"
+      class="dropdown-menu dropdown-menu-custom-width"
+    >
+      <ng-container *ngFor="let item of arrContactos">
+        <button
+          class="text-wrap"
+          (click)="agregarContacto(item)"
+          type="button"
+          ngbDropdownItem
+        >
+          {{ item.contacto_nombre_corto }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

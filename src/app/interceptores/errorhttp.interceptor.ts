@@ -16,7 +16,6 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
     catchError((error: HttpErrorResponse) => {
       let errorCodigo: number;
       let errorMensaje: string = '';
-
       if (error.error instanceof ErrorEvent) {
         // Error de cliente
         errorMensaje = `Error: ${error.error.message}`;
@@ -25,6 +24,11 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
         switch (error.status) {
           case 401:
             auth.logout();
+            break;
+          case 400:
+            errorCodigo = 400;
+            errorMensaje =
+              'Solicitud inválida. Verifica los datos y reintenta.';
             break;
           case 404:
             errorCodigo = 404;
@@ -64,9 +68,10 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
             break;
         }
       }
-      return throwError(() =>
-        alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje)
-      );
+      return throwError(() => {
+        alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje);
+        return error.error;
+      });
     })
   );
 };
