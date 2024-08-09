@@ -79,7 +79,8 @@ export const locale = {
         COMPROBANTE: 'Comprobante',
         INVALMACEN: 'Almacén',
         ALMACEN: 'Almacén',
-        MOVIMIENTO: 'Movimiento'
+        MOVIMIENTO: 'Movimiento',
+        CONGRUPO: 'Grupo'
       },
     },
     FORMULARIOS: {

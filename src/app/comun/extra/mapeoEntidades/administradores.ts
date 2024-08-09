@@ -665,6 +665,27 @@ export const mapeo: Mapeo = {
       },
     ],
   },
+  ConGrupo: {
+    modulo: 'contabilidad',
+    modelo: 'ConGrupo',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+    ],
+  },
   InvAlmacen: {
     modulo: 'inventario',
     modelo: 'InvAlamacen',
