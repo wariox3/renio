@@ -685,14 +685,14 @@ export const mapeo: Mapeo = {
         ordenable: true,
       },
       {
-        nombre: 'NOMBRE',
+        nombre: 'CODIGO',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
       },
       {
-        nombre: 'CODIGO',
+        nombre: 'NOMBRE',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
@@ -720,14 +720,14 @@ export const mapeo: Mapeo = {
         ordenable: true,
       },
       {
-        nombre: 'NOMBRE',
+        nombre: 'CODIGO',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
       },
       {
-        nombre: 'CODIGO',
+        nombre: 'NOMBRE',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
