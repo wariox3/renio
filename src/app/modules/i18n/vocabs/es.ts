@@ -328,6 +328,7 @@ export const locale = {
           PROVEEDOR: 'Proveedor',
           DIGITO: 'Digito',
           ID: 'Id',
+          CUENTACLASE: 'Cuenta clase',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -769,6 +770,10 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
+        EXIGE_BASE: 'Exige base',
+        EXIGE_GRUPO: 'Exige grupo',
+        EXIGE_TERCERO: 'Exige tercero',
+        PERMITE_MOVIMIENTO: 'Permite movimiento',
       },
       COMPROBANTE: {
         ID: 'ID',

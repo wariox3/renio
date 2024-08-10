@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,7 +7,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -17,10 +17,11 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ItemService } from '@modulos/general/servicios/item.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { HttpService } from '@comun/services/http.service';
+import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 
 @Component({
@@ -35,20 +36,22 @@ import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
     ImpuestosComponent,
     BtnAtrasComponent,
     CardComponent,
-  ]
+  ],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
-  formularioCuenta: FormGroup;
+  formularioConCuenta: FormGroup;
   @Input() informacionFormulario: any;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
+  arrCuentaClase: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private cuentaService: CuentaService
+    private cuentaService: CuentaService,
+    // private httpService: HttpService
   ) {
     super();
   }
@@ -61,7 +64,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   iniciarFormulario() {
-    this.formularioCuenta = this.formBuilder.group({
+    this.formularioConCuenta = this.formBuilder.group({
       codigo: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
@@ -70,40 +73,37 @@ export default class ItemFormularioComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
+      cuenta_clase: [null],
+      exige_base: [false],
+      exige_tercero: [false],
+      exige_grupo: [false],
+      permite_movimiento: [false],
     });
   }
 
   get obtenerFormularioCampos() {
-    return this.formularioCuenta.controls;
+    return this.formularioConCuenta.controls;
   }
 
   enviarFormulario() {
-
-    if (this.formularioCuenta.valid) {
+    if (this.formularioConCuenta.valid) {
       if (this.detalle) {
-        // this.cuentaService
-        //   .actualizarDatos(this.detalle, this.formularioAsesor.value)
-        //   .subscribe((respuesta: any) => {
-        //     this.formularioAsesor.patchValue({
-        //       nombre_corto: respuesta.nombre_corto,
-        //       celular: respuesta.celular,
-        //       correo: respuesta.correo,
-        //     });
-        //     this.alertaService.mensajaExitoso('Se actualizó la información');
-        //     this.router.navigate(['/administrador/detalle'], {
-        //       queryParams: {
-        //         modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-        //         modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-        //         tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-        //         formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-        //         detalle: respuesta.id,
-        //         accion: 'detalle',
-        //       },
-        //     });
-        //   });
+        this.cuentaService
+          .actualizarDatos(this.detalle, this.formularioConCuenta.value)
+          .subscribe((respuesta: ConCuenta) => {
+            this.alertaService.mensajaExitoso('Se actualizó la información');
+            this.router.navigate(['/administrador/detalle'], {
+              queryParams: {
+                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
+                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
+                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
+                detalle: respuesta.id,
+              },
+            });
+          });
       } else {
         this.cuentaService
-          .guardarCuenta(this.formularioCuenta.value)
+          .guardarCuenta(this.formularioConCuenta.value)
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['/administrador/detalle'], {
@@ -119,25 +119,51 @@ export default class ItemFormularioComponent extends General implements OnInit {
           });
       }
     } else {
-      this.formularioCuenta.markAllAsTouched();
+      this.formularioConCuenta.markAllAsTouched();
     }
-
   }
 
   limpiarFormulario() {
-    this.formularioCuenta.reset();
+    this.formularioConCuenta.reset();
   }
 
   consultardetalle() {
     this.cuentaService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
-        this.formularioCuenta.patchValue({
-          codigo: respuesta.item.codigo,
-          nombre: respuesta.item.nombre,
+      .subscribe((respuesta: ConCuenta) => {
+        this.formularioConCuenta.patchValue({
+          codigo: respuesta.codigo,
+          nombre: respuesta.nombre,
+          exige_base: respuesta.exige_base,
+          exige_tercero: respuesta.exige_tercero,
+          exige_grupo: respuesta.exige_grupo,
+          permite_movimiento: respuesta.permite_movimiento,
         });
         this.changeDetectorRef.detectChanges();
       });
   }
 
+  // consultarInformacion() {
+  //   this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+  //     'general/funcionalidad/autocompletar/',
+  //     {
+  //       filtros: [
+  //         {
+  //           id: '1692284537644-1688',
+  //           operador: '__icontains',
+  //           propiedad: 'nombre__icontains',
+  //           valor1: ``,
+  //           valor2: '',
+  //         },
+  //       ],
+  //       limite: 0,
+  //       desplazar: 0,
+  //       ordenamientos: [],
+  //       limite_conteo: 10000,
+  //       modelo: 'ConCuentaClase',
+  //     }
+  //   ).subscribe(respuesta => {
+  //     this.arrCuentaClase = respuesta
+  //   })
+  // }
 }
