@@ -120,6 +120,13 @@
       >
         Ejemplo
       </button>
+      <button
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+        type="submit"
+        class="btn btn-sm btn-primary"
+        [disabled]="archivoNombre === ''"
+        (click)="guardarArchivo()"
+      ></button>
     </div>
   </div>
 </ng-template>

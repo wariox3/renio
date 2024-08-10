@@ -30,6 +30,7 @@ export class ImportarAdministradorComponent extends General {
   archivoNombre: string = '';
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];
+  inputFile: any = null;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
@@ -53,15 +54,17 @@ export class ImportarAdministradorComponent extends General {
     this.modalService.dismissAll();
   }
 
-  async archivoSeleccionado(event: any) {
+  archivoSeleccionado(event: any) {
+    this.inputFile = event.target.files[0]
     const selectedFile = event.target.files[0];
     this.archivoNombre = selectedFile.name;
-
-    const file: any = document.querySelector('#myfile');
-    if (file) {
-      this.subirArchivo(await this.toBase64(file.files[0]));
-    }
+    this.changeDetectorRef.detectChanges()
   }
+
+  async guardarArchivo() {
+    this.subirArchivo(await this.toBase64(this.inputFile));
+  }
+
   async toBase64(file: File) {
     try {
       const reader = new FileReader();
@@ -70,7 +73,6 @@ export class ImportarAdministradorComponent extends General {
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
       });
-
       // Remover los metadatos
       return base64ConMetadatos.split(',')[1];
     } catch (error) {
