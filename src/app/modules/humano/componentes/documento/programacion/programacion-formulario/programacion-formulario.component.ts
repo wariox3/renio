@@ -14,6 +14,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 
@@ -112,7 +113,7 @@ export default class ContratoFormularioComponent
       ],
       pago_tipo: [1, Validators.compose([Validators.required])],
       grupo: [1, Validators.compose([Validators.required])],
-      nombre: [null],
+      nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
       descuento_salud: [true],
       descuento_pension: [true],
       descuento_fondo_solidaridad: [true],
