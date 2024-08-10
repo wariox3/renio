@@ -70,7 +70,7 @@
         <div class="col-md-6 col-sm-12">
           <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label">
           </label>
-          <input formControlName="codigo" class="form-control bg-transparent" type="number" autocomplete="off" [ngClass]="{
+          <input formControlName="codigo" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
               'is-invalid':
               formularioConCuenta.controls['codigo'].touched &&
               formularioConCuenta.controls['codigo'].invalid,
@@ -78,23 +78,17 @@
               formularioConCuenta.controls['codigo'].touched &&
               formularioConCuenta.controls['codigo'].valid
             }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioConCuenta.controls['codigo']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
               control: formularioConCuenta.controls['codigo']
             }"></ng-container>
         </div>
       </div>
 
       <div class="row mb-5">
-        <div class="row mb-5 gap-3">
+        <div class="col-12 col-md-6 d-flex flex-column gap-2">
 
           <!-- Exige base check -->
           <div class="form-check form-check-custom form-check-solid">

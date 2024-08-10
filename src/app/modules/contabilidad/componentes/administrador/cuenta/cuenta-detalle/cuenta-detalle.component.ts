@@ -28,7 +28,7 @@ export default class CuentaDetalleComponent extends General implements OnInit {
   cuenta: ConCuenta = {
     nombre: '',
     id: 0,
-    codigo: 0,
+    codigo: '',
     exige_base: false,
     exige_grupo: false,
     exige_tercero: false,

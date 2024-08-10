@@ -1,6 +1,6 @@
 export interface ConCuenta {
   readonly id: number;
-  codigo: number;
+  codigo: string;
   nombre: string;
   exige_base: boolean;
   exige_tercero: boolean;

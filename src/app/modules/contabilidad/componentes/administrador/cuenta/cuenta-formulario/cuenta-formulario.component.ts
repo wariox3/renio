@@ -65,13 +65,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   iniciarFormulario() {
     this.formularioConCuenta = this.formBuilder.group({
-      codigo: [
-        '',
-        Validators.compose([
-          Validators.maxLength(100),
-          cambiarVacioPorNulo.validar,
-        ]),
-      ],
+      codigo: [null, Validators.compose([Validators.maxLength(20), cambiarVacioPorNulo.validar])],
       nombre: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
