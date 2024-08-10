@@ -44,6 +44,7 @@ export class ImportarAdministradorComponent extends General {
 
   abrirModalContactoNuevo(content: any) {
     this.archivoNombre = '';
+    this.errorImportar = []
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
@@ -52,6 +53,8 @@ export class ImportarAdministradorComponent extends General {
 
   cerrarModal() {
     this.modalService.dismissAll();
+    this.errorImportar = []
+    this.changeDetectorRef.detectChanges()
   }
 
   archivoSeleccionado(event: any) {

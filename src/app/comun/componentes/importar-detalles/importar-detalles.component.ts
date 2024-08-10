@@ -43,6 +43,7 @@ export class ImportarDetallesComponent extends General {
   }
 
   abrirModalContactoNuevo(content: any) {
+    this.errorImportar = []
     this.archivoNombre = '';
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -52,6 +53,8 @@ export class ImportarDetallesComponent extends General {
 
   cerrarModal() {
     this.modalService.dismissAll();
+    this.errorImportar = []
+    this.archivoNombre = '';
   }
 
   archivoSeleccionado(event: any) {
