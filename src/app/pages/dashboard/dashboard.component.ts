@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { InicioHumanoComponent } from './../../modules/humano/componentes/inicio/inicio-humano/inicio-humano.component';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -26,17 +33,14 @@ import {
 import { zip } from 'rxjs';
 import { dashboardService } from './dashboard.service';
 import { CommonModule } from '@angular/common';
+import { InicioContabilidadComponent } from '@modulos/contabilidad/componentes/inicio/inicio-contabilida.component';
+import { InicioCompraComponent } from '@modulos/compra/componentes/inicio/inicio-compra/inicio-compra.component';
+import { InicioVentaComponent } from '@modulos/venta/componentes/inicio/inicio-venta/inicio-venta.component';
+import { InicioTesoreriaComponent } from '@modulos/tesoreria/componentes/inicio/inicio-tesoreria/inicio-tesoreria.component';
+import { InicioInventarioComponent } from '@modulos/inventario/componentes/inicio/inicio-inventario/inicio-inventario.component';
+import { InicioCarteraComponent } from '@modulos/cartera/componentes/inicio/inicio-cartera/inicio-cartera.component';
+import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
 
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  dataLabels: ApexDataLabels;
-  grid: ApexGrid;
-  stroke: ApexStroke;
-  title: ApexTitleSubtitle;
-  noData: ApexNoData;
-};
 
 @Component({
   selector: 'app-dashboard',
@@ -49,15 +53,22 @@ export type ChartOptions = {
     NgbTooltipModule,
     LaboratorioComponent,
     NgApexchartsModule,
-    CommonModule
+    CommonModule,
+    InicioContabilidadComponent,
+    InicioCompraComponent,
+    InicioVentaComponent,
+    InicioTesoreriaComponent,
+    InicioInventarioComponent,
+    InicioHumanoComponent,
+    InicioCarteraComponent,
+    InicioGeneralComponent,
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },
 })
 export class DashboardComponent extends General implements OnInit {
-  @ViewChild('chart') chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
 
+  ruta = localStorage.getItem('ruta')!;
   asistente_electronico: boolean;
   arrResumenCobrar: any;
   arrResumenPagar: any;
@@ -71,50 +82,11 @@ export class DashboardComponent extends General implements OnInit {
     private dashboardService: dashboardService
   ) {
     super();
-    this.chartOptions = {
-      series: [
-        {
-          name: 'Total',
-          data: []
-        },
-      ],
-      chart: {
-        height: 500,
-        type: 'line',
-        zoom: {
-          enabled: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: 'straight',
-      },
-      title: {
-        text: 'La gáfica muestra el valor de tus ventas con impuestos incluidos',
-        align: 'left',
-      },
-      grid: {
-        row: {
-          colors: ['#f3f3f3', 'transparent'],
-          opacity: 0.5,
-        },
-      },
-      xaxis: {
-        categories: []
-      },
-      noData:{
-        text: 'no data'
-      }
-    };
   }
 
   ngOnInit() {
     this.consultarInformacion();
     this.consultarInformacionDashboard();
-    this.initializeChart();
-
   }
 
   consultarInformacion() {
@@ -148,60 +120,5 @@ export class DashboardComponent extends General implements OnInit {
       this.consultarInformacion();
     });
   }
-
-  initializeChart() {
-    this.dashboardService.ventaPorDia('').subscribe((respuesta) => {
-      
-      this.arrVentaDiaria = respuesta.resumen;
-      
-      this.dates = this.arrVentaDiaria.map((item: any) => item.dia);
-      this.series = this.arrVentaDiaria.map((item: any) => item.total);
-
-      this.chartOptions = {
-        series: [
-          {
-            name: 'Total',
-            data: []
-          },
-        ],
-        chart: {
-          height: 500,
-          type: 'line',
-          zoom: {
-            enabled: false,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        title: {
-          text: 'La gáfica muestra el valor de tus ventas con impuestos incluidos',
-          align: 'left',
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5,
-          },
-        },
-        xaxis: {
-          categories: this.dates
-        },
-        noData:{
-          text: 'no data'
-        }
-      };
-     
-      this.chartOptions.series = [{
-        data: this.series
-      }];
-      this.changeDetectorRef.detectChanges();
-    });
-
-  }
-
 
 }

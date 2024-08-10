@@ -54,7 +54,7 @@
   </section>
 </app-card>
 }
-<div class="container-fluid" style="--bs-gutter-x: 0;">
+<div class="container-fluid" style="--bs-gutter-x: 0">
   <div class="row mb-4">
     <div class="col-lg-6 mb-3">
       <div class="card h-100">
@@ -138,6 +138,33 @@
     </div>
   </div>
 
+  @switch (ruta) {
+    @case ('COMPRA') {
+      <app-inicio-compra></app-inicio-compra>
+    }
+    @case ('VENTA') {
+      <app-inicio-venta></app-inicio-venta>
+    }
+    @case ('CONTABILIDAD') {
+      <app-inicio-contabilidad></app-inicio-contabilidad>
+    }
+    @case ('CARTERA') {
+      <app-inicio-cartera></app-inicio-cartera>
+    }
+    @case ('HUMANO') {
+      <app-inicio-humano></app-inicio-humano>
+    }
+    @case ('INVENTARIO') {
+      <app-inicio-inventario></app-inicio-inventario>
+    }
+    @case ('TESORERIA') {
+      <app-inicio-tesoreria></app-inicio-tesoreria>
+    }
+    @case ('GENERAL') {
+      <app-inicio-general></app-inicio-general>
+    }
+  }
+
   <!-- <div class="row mb-4">
     <div class="col-md-6 col-lg-3 mb-3">
       <div class="card h-100">
@@ -174,26 +201,4 @@
     </div>
   </div> -->
 
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Total de ventas</h5>
-          <div>
-            <div id="chart">
-              <apx-chart
-                [series]="chartOptions.series!"
-                [chart]="chartOptions.chart!"
-                [xaxis]="chartOptions.xaxis!"
-                [dataLabels]="chartOptions.dataLabels!"
-                [grid]="chartOptions.grid!"
-                [stroke]="chartOptions.stroke!"
-                [title]="chartOptions.title!"
-              ></apx-chart>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
