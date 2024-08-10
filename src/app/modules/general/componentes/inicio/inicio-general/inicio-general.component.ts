@@ -41,6 +41,8 @@ export class InicioGeneralComponent extends General implements OnInit {
   public chartOptions: Partial<ChartOptions>;
   ruta = localStorage.getItem('ruta')!;
   arrVentaDiaria: any;
+  arrResumenCobrar: any;
+  arrResumenPagar: any;
   series: any = [];
   dates: any = [];
 
@@ -89,6 +91,18 @@ export class InicioGeneralComponent extends General implements OnInit {
 
   ngOnInit() {
     this.initializeChart();
+    this.consultarInformacionDashboard()
+  }
+
+  consultarInformacionDashboard() {
+    zip(
+      this.dashboardService.resumenCobrar(''),
+      this.dashboardService.resumenPagar('')
+    ).subscribe((respuesta: any) => {
+      this.arrResumenCobrar = respuesta[0];
+      this.arrResumenPagar = respuesta[1];
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   initializeChart() {

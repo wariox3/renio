@@ -70,11 +70,6 @@ export class DashboardComponent extends General implements OnInit {
 
   ruta = localStorage.getItem('ruta')!;
   asistente_electronico: boolean;
-  arrResumenCobrar: any;
-  arrResumenPagar: any;
-  arrVentaDiaria: any;
-  series: any = [];
-  dates: any = [];
 
   constructor(
     private httpService: HttpService,
@@ -86,7 +81,6 @@ export class DashboardComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarInformacion();
-    this.consultarInformacionDashboard();
   }
 
   consultarInformacion() {
@@ -99,16 +93,6 @@ export class DashboardComponent extends General implements OnInit {
       });
   }
 
-  consultarInformacionDashboard() {
-    zip(
-      this.dashboardService.resumenCobrar(''),
-      this.dashboardService.resumenPagar('')
-    ).subscribe((respuesta: any) => {
-      this.arrResumenCobrar = respuesta[0];
-      this.arrResumenPagar = respuesta[1];
-      this.changeDetectorRef.detectChanges();
-    });
-  }
 
   finalizarProceso() {
     this.empresaService.finalizarProceso().subscribe((respuesta) => {
