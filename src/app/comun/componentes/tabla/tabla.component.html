@@ -29,12 +29,11 @@
         *ngIf="visualizarBtnImportar"
       ></app-importar>
       } @if(ubicacion === 'administrador'){
-      <div class="btn-group">
-        <app-importar-administrador
-          (emitirDetallesAgregados)="solicitarConsultarTabla()"
-          *ngIf="visualizarBtnImportar"
-        ></app-importar-administrador>
-      </div>
+      <app-importar-administrador
+        role="group"
+        (emitirDetallesAgregados)="solicitarConsultarTabla()"
+        *ngIf="visualizarBtnImportar"
+      ></app-importar-administrador>
       }
       <div
         class="btn-group"

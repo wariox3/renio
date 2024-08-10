@@ -8,7 +8,7 @@ import {
   ImportarDetalles,
   ImportarDetallesErrores,
 } from '@interfaces/comunes/importar-detalles.';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
