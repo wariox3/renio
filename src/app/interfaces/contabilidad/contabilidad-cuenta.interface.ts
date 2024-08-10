@@ -6,4 +6,5 @@ export interface ConCuenta {
   exige_tercero: boolean;
   exige_grupo: boolean;
   permite_movimiento: boolean;
+  cuenta_clase?: number | null;
 }

@@ -23,6 +23,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { HttpService } from '@comun/services/http.service';
 import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -50,8 +51,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cuentaService: CuentaService,
-    // private httpService: HttpService
+    private cuentaService: CuentaService // private httpService: HttpService
   ) {
     super();
   }
@@ -67,11 +67,14 @@ export default class ItemFormularioComponent extends General implements OnInit {
     this.formularioConCuenta = this.formBuilder.group({
       codigo: [
         '',
-        Validators.compose([Validators.required, Validators.maxLength(100)]),
+        Validators.compose([
+          Validators.maxLength(100),
+          cambiarVacioPorNulo.validar,
+        ]),
       ],
       nombre: [
         '',
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
       cuenta_clase: [null],
       exige_base: [false],

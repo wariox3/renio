@@ -68,9 +68,9 @@
         </div>
         <!-- Codigo -->
         <div class="col-md-6 col-sm-12">
-          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label required">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label">
           </label>
-          <input formControlName="codigo" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
+          <input formControlName="codigo" class="form-control bg-transparent" type="number" autocomplete="off" [ngClass]="{
               'is-invalid':
               formularioConCuenta.controls['codigo'].touched &&
               formularioConCuenta.controls['codigo'].invalid,
@@ -79,20 +79,8 @@
               formularioConCuenta.controls['codigo'].valid
             }" />
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConCuenta.controls['codigo']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioConCuenta.controls['codigo']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-              cantidadCaracteres: '3',
               control: formularioConCuenta.controls['codigo']
             }"></ng-container>
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -104,7 +92,7 @@
             }"></ng-container>
         </div>
       </div>
-      
+
       <div class="row mb-5">
         <div class="row mb-5 gap-3">
 
@@ -149,8 +137,8 @@
           </div>
           <!-- Permite movimiento check -->
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="permite_movimiento" formControlName="permite_movimiento"
-              [ngClass]="{
+            <input class="form-check-input" type="checkbox" value="1" id="permite_movimiento"
+              formControlName="permite_movimiento" [ngClass]="{
               'is-invalid':
                 formularioConCuenta.controls['permite_movimiento'].touched &&
                 formularioConCuenta.controls['permite_movimiento'].invalid,
@@ -160,7 +148,7 @@
             }" />
             <label class="form-check-label" for="permite_movimiento">Permite movimiento</label>
           </div>
-          
+
         </div>
       </div>
 
