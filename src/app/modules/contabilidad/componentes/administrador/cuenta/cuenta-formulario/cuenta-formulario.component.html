@@ -30,6 +30,25 @@
     </section>
     <section card-body>
       <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label">
+          </label>
+          <input formControlName="codigo" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
+              'is-invalid':
+              formularioConCuenta.controls['codigo'].touched &&
+              formularioConCuenta.controls['codigo'].invalid,
+              'is-valid':
+              formularioConCuenta.controls['codigo'].touched &&
+              formularioConCuenta.controls['codigo'].valid
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioConCuenta.controls['codigo']
+            }"></ng-container>
+        </div>
         <!-- Nombre -->
         <div class="col-md-6 col-sm-12">
           <label translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE" class="form-label required"></label>
@@ -64,25 +83,6 @@
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioConCuenta.controls['nombre']
-            }"></ng-container>
-        </div>
-        <!-- Codigo -->
-        <div class="col-md-6 col-sm-12">
-          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label">
-          </label>
-          <input formControlName="codigo" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
-              'is-invalid':
-              formularioConCuenta.controls['codigo'].touched &&
-              formularioConCuenta.controls['codigo'].invalid,
-              'is-valid':
-              formularioConCuenta.controls['codigo'].touched &&
-              formularioConCuenta.controls['codigo'].valid
-            }" />
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '20',
-              control: formularioConCuenta.controls['codigo']
             }"></ng-container>
         </div>
       </div>

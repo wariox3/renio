@@ -32,6 +32,46 @@
     </section>
     <section card-body>
       <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="codigo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioComprobante.controls['codigo'].touched &&
+                formularioComprobante.controls['codigo'].invalid,
+              'is-valid':
+                formularioComprobante.controls['codigo'].touched &&
+                formularioComprobante.controls['codigo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioComprobante.controls['codigo']
+            }"
+          ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message:
+              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '20',
+            control: formularioComprobante.controls['codigo']
+          }"
+        ></ng-container>
+        </div>
+        <!-- Nombre -->
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
@@ -71,44 +111,7 @@
             }"
           ></ng-container>
         </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="codigo"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioComprobante.controls['codigo'].touched &&
-                formularioComprobante.controls['codigo'].invalid,
-              'is-valid':
-                formularioComprobante.controls['codigo'].touched &&
-                formularioComprobante.controls['codigo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioComprobante.controls['codigo']
-            }"
-          ></ng-container>
-          <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message:
-              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '20',
-            control: formularioComprobante.controls['codigo']
-          }"
-        ></ng-container>
-        </div>
+        
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
