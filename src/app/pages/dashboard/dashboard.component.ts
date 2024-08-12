@@ -40,6 +40,7 @@ import { InicioTesoreriaComponent } from '@modulos/tesoreria/componentes/inicio/
 import { InicioInventarioComponent } from '@modulos/inventario/componentes/inicio/inicio-inventario/inicio-inventario.component';
 import { InicioCarteraComponent } from '@modulos/cartera/componentes/inicio/inicio-cartera/inicio-cartera.component';
 import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
+import { InicioTransporteComponent } from '@modulos/transporte/componentes/inicio/inicio-transporte/inicio-transporte.component';
 
 
 @Component({
@@ -62,6 +63,7 @@ import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inic
     InicioHumanoComponent,
     InicioCarteraComponent,
     InicioGeneralComponent,
+    InicioTransporteComponent
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },

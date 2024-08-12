@@ -93,6 +93,11 @@ const Routing: Routes = [
     data: { layout: 'dark-header' },
   },
   {
+    path: 'transporte',
+    loadChildren: () =>
+      import('../modules/transporte/transporte-routing').then((r) => r.routes),
+  },
+  {
     path: 'administrador',
     children: [
       {
