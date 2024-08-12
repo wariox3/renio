@@ -769,6 +769,7 @@ export const locale = {
         CONTACTO_ID: 'Cod',
         CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTACTO: 'Contacto'
       },
       CUENTA: {
         ID: 'ID',
