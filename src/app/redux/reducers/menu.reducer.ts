@@ -161,7 +161,7 @@ export const initialState: Menu = {
           children: [
             {
               nombre: 'MOVIMIENTO',
-              tipo: 'utilidad',
+              tipo: 'Independiente',
               urlIndependientes: {
                 lista: 'contabilidad/movimiento'
               },
@@ -170,11 +170,13 @@ export const initialState: Menu = {
             },
             {
               nombre: 'PERIODO',
-              tipo: 'utilidad',
+              tipo: 'Independiente',
               urlIndependientes: {
                 lista: 'contabilidad/periodo'
               },
-            },           
+              consultaHttp: false,
+              data: { documento_clase: 'ConMovimiento' },
+            },
           ],
         },
         {

@@ -104,15 +104,20 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-    if (item.tipo === 'Administrador') {
-      if (item.data) {
-        localStorage.setItem('itemNombre', item.data.modelo);
+    switch(item.tipo){
+      case 'Administrador':
+        localStorage.setItem('itemNombre', item.data?.modelo);
         localStorage.setItem('itemTipo', item.nombre);
-      }
-    } else {
-      localStorage.setItem('itemNombre', item.nombre);
-      localStorage.setItem('itemTipo', 'DOCUMENTO');
-      localStorage.setItem('consultaHttp', item.consultaHttp? 'si' : 'no');
+        break;
+      case 'Documento':
+        localStorage.setItem('itemNombre', item.nombre);
+        localStorage.setItem('itemTipo', 'DOCUMENTO');
+        localStorage.setItem('consultaHttp', item.consultaHttp? 'si' : 'no');
+        break;
+      case 'Independiente':
+        localStorage.setItem('itemNombre', item.nombre);
+        localStorage.setItem('itemTipo', item.nombre);
+        break;
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
@@ -133,14 +138,19 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
-    if (item.tipo === 'Administrador') {
-      if (item.data) {
-        localStorage.setItem('itemNombre', item.data.modelo);
+    switch(item.tipo){
+      case 'Administrador':
+        localStorage.setItem('itemNombre', item.data?.modelo);
         localStorage.setItem('itemTipo', item.nombre);
-      }
-    } else {
-      localStorage.setItem('itemNombre', item.nombre);
-      localStorage.setItem('itemTipo', 'DOCUMENTO');
+        break;
+      case 'Documento':
+        localStorage.setItem('itemNombre', item.nombre);
+        localStorage.setItem('itemTipo', 'DOCUMENTO');
+        break;
+      case 'Independiente':
+        localStorage.setItem('itemNombre', item.nombre);
+        localStorage.setItem('itemTipo', item.nombre);
+        break;
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
