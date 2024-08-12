@@ -790,6 +790,18 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
       },
+      MOVIMIENTO: {
+        ID: 'ID',
+        NUMERO: 'NUMERO',
+        FECHA: 'FECHA',
+        CONTACTO_NOMBRE_CORTO: 'CONTACTO',
+        CUENTA: 'CUENTA',
+        BASE: 'BASE',
+        DEBITO: 'DEBITO',
+        CREDITO: 'CREDITO',
+        GRUPO: 'GRUPO',
+        COMPROBANTE: 'COMPROBANTE',
+      }
     },
     TEMA: {
       CLARO: 'Claro',

@@ -64,6 +64,13 @@ export class MovimientoListaComponent extends General implements OnInit {
           id: documento.id,
           fecha: documento.fecha,
           numero: documento.numero,
+          contacto_nombre_corto: documento.contacto_nombre_corto,
+          comprobante: documento.comprobante_nombre,
+          cuenta: documento.cuenta_codigo,
+          grupo: documento.grupo_nombre,
+          base: documento.base,
+          debito: documento.debito,
+          credito: documento.credito,
         }));
         this.changeDetectorRef.detectChanges();
       });
