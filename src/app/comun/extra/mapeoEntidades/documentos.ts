@@ -1182,5 +1182,12 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: true,
     },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ]
 };
