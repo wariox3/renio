@@ -1,0 +1,36 @@
+<div class="row periodo-section">
+  <div class="col-3">
+    <app-card>
+      <section card-titulo>
+        Periodos
+      </section>
+      <section card-body>
+        @for(fecha of fechas; track $index) {
+        <button class="card w-100 mb-3" (click)="seleccionarAnio(fecha)">
+          <div class="card-body">
+            {{ fecha }}
+          </div>
+        </button>
+        }
+      </section>
+    </app-card>
+  </div>
+  @if (periodosFiltradosPorAnio.length) {
+  <div class="col-4">
+    <app-card>
+      <section card-titulo>
+        {{ anioSeleccionado }}
+      </section>
+      <section card-body>
+        @for(periodo of periodosFiltradosPorAnio; track $index) {
+        <button class="card w-100 mb-3">
+          <div class="card-body">
+            {{ deNumeroAMes(periodo.mes) }}
+          </div>
+        </button>
+        }
+      </section>
+    </app-card>
+  </div>
+  }
+</div>
