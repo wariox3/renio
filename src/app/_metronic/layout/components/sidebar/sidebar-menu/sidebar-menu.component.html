@@ -88,6 +88,8 @@
           class="menu-title"
           [translate]="'MENU.FUNCIONALIDAD.' + (children.nombre | uppercase)"
           routerLink="{{ children.urlIndependientes.lista }}"
+          routerLink="{{ children.urlIndependientes.lista }}"
+          (click)="navegar(children)"
         >
         </span>
 

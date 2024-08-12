@@ -113,10 +113,12 @@ export class SidebarMenuComponent implements OnInit {
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     let url = [item.tipo?.toLocaleLowerCase(), 'lista'];
-    if (item.url !== undefined) {
+    if (item.url !== undefined || item.urlIndependientes !== undefined) {
       if (typeof item.url === 'string') {
         // Check if item.url is a string
         url = [item.url]; // If so, assign it as a single element array
+      } else {
+        url = [item.urlIndependientes?.lista];
       }
     }
     this.router.navigate(url, {
