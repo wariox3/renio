@@ -38,7 +38,7 @@
                       ? ("LISTAS." +
                           (tipo | uppercase) +
                           "." +
-                          (propiedad.modeloFk | uppercase) | translate)
+                          (propiedad.modeloFk.substring(3) | uppercase) | translate)
                       : ("LISTAS." +
                           (tipo | uppercase) +
                           "." +
@@ -147,7 +147,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      Buscar {{ tituloModal | lowercase }}
+      Buscar {{ tituloModal.substring(3) | lowercase }}
     </h4>
     <button
       type="button"
@@ -195,9 +195,9 @@
                         ? ("LISTAS." +
                             (tituloModal | uppercase) +
                             "." +
-                            (propiedad.modeloFk | uppercase) | translate)
+                            (propiedad.modeloFk.substring(3) | uppercase) | translate)
                         : ("LISTAS." +
-                            (tituloModal | uppercase) +
+                            (tituloModal.substring(3) | uppercase) +
                             "." +
                             (propiedad.nombre | uppercase) | translate)
                     }}
@@ -293,7 +293,7 @@
               *ngFor="let key of arrRegistroBusquedaAvanzada[0] | keys"
             >
               {{
-                "LISTAS." + (tituloModal | uppercase) + "." + (key | uppercase)
+                "LISTAS." + (tituloModal.substring(3) | uppercase) + "." + (key | uppercase)
                   | translate
               }}
             </th>

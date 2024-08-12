@@ -455,10 +455,12 @@ export const mapeo: Mapeo = {
       },
       {
         nombre: 'CONTACTO_NOMBRE_CORTO',
-        campoTipo: 'CharField',
+        campoTipo: 'Fk',
         visibleTabla: true,
-        visibleFiltro: false,
-        ordenable: true,
+        visibleFiltro: true,
+        ordenable: false,
+        esFk: true,
+        modeloFk: 'GenContacto'
       },
       {
         nombre: 'FECHA_DESDE',
@@ -483,10 +485,12 @@ export const mapeo: Mapeo = {
       },
       {
         nombre: 'GRUPO_NOMBRE',
-        campoTipo: 'CharField',
+        campoTipo: 'Fk',
         visibleTabla: true,
-        visibleFiltro: false,
+        visibleFiltro: true,
         ordenable: true,
+        esFk: true,
+        modeloFk: 'ConGrupo',
       },
       {
         nombre: 'ESTADO_TERMINADO',
@@ -495,15 +499,6 @@ export const mapeo: Mapeo = {
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: false,
-      },
-      {
-        nombre: 'CONTACTO_NOMBRE_CORTO',
-        campoTipo: 'Fk',
-        visibleTabla: true,
-        visibleFiltro: true,
-        ordenable: false,
-        esFk: true,
-        modeloFk: 'Contacto',
       },
     ],
   },

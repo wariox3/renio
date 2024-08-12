@@ -14,7 +14,7 @@ type Mapeo = {
 };
 
 export const mapeo: Mapeo = {
-  Contacto: [
+  GenContacto: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -149,7 +149,23 @@ export const mapeo: Mapeo = {
       ordenable: false,
     },
   ],
-  Item: [
+  GenItem: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+  ],
+  ConGrupo: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
