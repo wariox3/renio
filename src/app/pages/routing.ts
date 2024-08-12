@@ -40,7 +40,7 @@ const Routing: Routes = [
   {
     path: 'contabilidad',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/contabilidad/contabilidad-routing').then((r) => r.routes),
   },
   {
     path: 'humano',

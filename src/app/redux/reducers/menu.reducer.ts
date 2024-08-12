@@ -11,6 +11,7 @@ export interface informacionMenuItem {
   url?: string;
   visualiazarIconoDeracha?: boolean;
   consultaHttp?: boolean;
+  esIndependiente?: boolean;
   data?: {
     [key: string]: any;
   };
@@ -150,6 +151,20 @@ export const initialState: Menu = {
       nombre: 'contabilidad',
       children: [
         {
+          nombre: '',
+          esIndependiente: true,
+          children: [
+            {
+              nombre: 'MOVIMIENTO',
+              tipo: 'utilidad',
+              url: 'contabilidad/movimiento',
+              visualiazarIconoDeracha: true,
+              consultaHttp: false,
+              data: { documento_clase: 'ConMovimiento' },
+            },
+          ],
+        },
+        {
           nombre: 'documento',
           children: [
             {
@@ -166,8 +181,7 @@ export const initialState: Menu = {
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
-          ]
-
+          ],
         },
         {
           nombre: 'administracion',
@@ -187,7 +201,7 @@ export const initialState: Menu = {
               tipo: 'Administrador',
               data: { modelo: 'ConGrupo' },
             },
-          ]
+          ],
         },
         {
           nombre: 'utilidad',
@@ -380,26 +394,6 @@ export const initialState: Menu = {
             //   url: 'venta/informe/ventas_vendedores'
             // },
           ],
-        },
-      ],
-    },
-    {
-      nombre: 'contabilidad',
-      children: [
-        {
-          nombre: 'documento',
-        },
-        {
-          nombre: 'administracion',
-        },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
-        {
-          nombre: 'informe',
         },
       ],
     },

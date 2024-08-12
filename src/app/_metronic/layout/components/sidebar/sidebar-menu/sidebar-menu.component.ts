@@ -10,7 +10,7 @@ import {
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
-import { NgFor, NgClass, UpperCasePipe, LowerCasePipe } from '@angular/common';
+import { NgFor, NgClass, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
         TranslateModule,
         NgFor,
         NgClass,
+        CommonModule,
         UpperCasePipe,
         LowerCasePipe,
     ],
