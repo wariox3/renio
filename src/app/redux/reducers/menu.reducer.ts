@@ -174,13 +174,13 @@ export const initialState: Menu = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
-            {
-              nombre: 'MOVIMIENTO',
-              tipo: 'Documento',
-              data: { documento_clase: 'ConMovimiento' },
-              visualiazarIconoDeracha: true,
-              consultaHttp: false,
-            },
+            // {
+            //   nombre: 'MOVIMIENTO',
+            //   tipo: 'Documento',
+            //   data: { documento_clase: 'ConMovimiento' },
+            //   visualiazarIconoDeracha: true,
+            //   consultaHttp: false,
+            // },
           ],
         },
         {

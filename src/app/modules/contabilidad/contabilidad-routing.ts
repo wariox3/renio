@@ -15,7 +15,7 @@ export const routes: Route[] = [
   },
   {
     path: 'movimiento',
-    loadComponent: () => import('./componentes/documento/movimiento/movimiento-formulario/movimiento-formulario.component')
+    loadComponent: () => import('./componentes/independientes/movimiento/movimiento-lista/movimiento-lista.component').then((c)=> c.MovimientoListaComponent)
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },

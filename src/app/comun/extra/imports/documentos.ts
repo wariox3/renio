@@ -176,14 +176,4 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/humano/componentes/documento/novedad/novedad-formulario/novedad-formulario.component'
       ),
   },
-  ConMovimiento: {
-    detalle: async () =>
-      await import(
-        '../../../modules/contabilidad/componentes/documento/movimiento/movimiento-detalle/movimiento-detalle.component'
-      ),
-    formulario: async () =>
-      await import(
-        '../../../modules/contabilidad/componentes/documento/movimiento/movimiento-formulario/movimiento-formulario.component'
-      ),
-  },
 };
