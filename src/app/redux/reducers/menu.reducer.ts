@@ -168,6 +168,13 @@ export const initialState: Menu = {
               consultaHttp: false,
               data: { documento_clase: 'ConMovimiento' },
             },
+            {
+              nombre: 'PERIODO',
+              tipo: 'utilidad',
+              urlIndependientes: {
+                lista: 'contabilidad/periodo'
+              },
+            },           
           ],
         },
         {

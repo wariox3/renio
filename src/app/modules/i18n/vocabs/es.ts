@@ -25,6 +25,7 @@ export const locale = {
         INFORME: 'Informe',
       },
       FUNCIONALIDAD: {
+        PERIODO: 'Periodo',
         FACTURA: 'Factura',
         FACTURAVENTA: 'Factura de venta',
         NOTACREDITO: 'Nota crédito',
