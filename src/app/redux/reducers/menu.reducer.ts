@@ -9,7 +9,7 @@ export interface informacionMenuItem {
   nombre: string;
   tipo?: string;
   url?: string;
-  urlsIndependites?: {
+  urlIndependientes?: {
     lista?: string;
     nuevo?: string;
     detalle?: string;
@@ -162,7 +162,7 @@ export const initialState: Menu = {
             {
               nombre: 'MOVIMIENTO',
               tipo: 'utilidad',
-              urlsIndependites: {
+              urlIndependientes: {
                 lista: 'contabilidad/movimiento'
               },
               consultaHttp: false,

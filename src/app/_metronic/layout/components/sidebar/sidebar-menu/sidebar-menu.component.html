@@ -87,13 +87,13 @@
         <span
           class="menu-title"
           [translate]="'MENU.FUNCIONALIDAD.' + (children.nombre | uppercase)"
-          routerLink="{{ children.urlsIndependites.lista }}"
+          routerLink="{{ children.urlIndependientes.lista }}"
         >
         </span>
 
         @if(children.visualiazarIconoDeracha){
         <a
-          routerLink="{{ children.urlsIndependites.nuevo }}"
+          routerLink="{{ children.urlIndependientes.nuevo }}"
           (click)="navegarNuevo(children)"
         >
           <span class="">
