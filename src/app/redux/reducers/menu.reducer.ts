@@ -9,6 +9,11 @@ export interface informacionMenuItem {
   nombre: string;
   tipo?: string;
   url?: string;
+  urlsIndependites?: {
+    lista?: string;
+    nuevo?: string;
+    detalle?: string;
+  },
   visualiazarIconoDeracha?: boolean;
   consultaHttp?: boolean;
   esIndependiente?: boolean;
@@ -157,8 +162,9 @@ export const initialState: Menu = {
             {
               nombre: 'MOVIMIENTO',
               tipo: 'utilidad',
-              url: 'contabilidad/movimiento',
-              visualiazarIconoDeracha: true,
+              urlsIndependites: {
+                lista: 'contabilidad/movimiento'
+              },
               consultaHttp: false,
               data: { documento_clase: 'ConMovimiento' },
             },
