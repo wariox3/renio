@@ -160,12 +160,8 @@ export class ContenedorFormularioComponent extends General implements OnInit {
           Validators.pattern(/^[0-9]+$/),
         ]),
       ],
-      reddoc: [
-        true
-      ],
-      ruteo: [
-        false
-      ]
+      reddoc: [true],
+      ruteo: [false],
     });
   }
 
@@ -222,15 +218,10 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   }
 
   seleccionarPlan(plan: any) {
-
-    if(!plan.nombre.includes('ERP') ){
-      this.planSeleccionado = plan.id;
-      let posicion: keyof typeof this.contenedorService.informacionPlan = plan.id;
-      this.informacionPlan = this.contenedorService.informacionPlan[posicion];
-      this.changeDetectorRef.detectChanges();
-    }
-
-
+    this.planSeleccionado = plan.id;
+    let posicion: keyof typeof this.contenedorService.informacionPlan = plan.id;
+    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
+    this.changeDetectorRef.detectChanges();
   }
 
   calcularDigitoVerificacion() {
