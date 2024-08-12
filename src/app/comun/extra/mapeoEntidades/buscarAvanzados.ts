@@ -181,4 +181,20 @@ export const mapeo: Mapeo = {
       ordenable: true,
     },
   ],
+  HumGrupo: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+  ],
 };

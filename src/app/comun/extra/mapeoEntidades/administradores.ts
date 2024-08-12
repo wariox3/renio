@@ -490,7 +490,7 @@ export const mapeo: Mapeo = {
         visibleFiltro: true,
         ordenable: true,
         esFk: true,
-        modeloFk: 'ConGrupo',
+        modeloFk: 'HumGrupo',
       },
       {
         nombre: 'ESTADO_TERMINADO',
