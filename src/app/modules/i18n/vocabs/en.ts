@@ -86,7 +86,11 @@ export const locale = {
           ADICIONAR: 'Add',
           ANULAR: 'Cancel',
           SIGUIENTE: 'Next',
-          FINALIZAR: 'Finish'
+          FINALIZAR: 'Finish',
+          CARGARCONTRATOS: 'Cargo contracts',
+          GENERAR: 'Trigger',
+          DESCARGARERRORES: 'Download errores',
+          EJEMPLO: 'Example'
         },
         CONTENEDOR: {
           CONECTAR: 'Connect',

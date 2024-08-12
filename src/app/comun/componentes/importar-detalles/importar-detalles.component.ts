@@ -32,6 +32,7 @@ export class ImportarDetallesComponent extends General {
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];
   inputFile: any = null;
+  cargardoDocumento: boolean = false;
   @Input() estadoHabilitado: boolean = false;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
@@ -89,6 +90,8 @@ export class ImportarDetallesComponent extends General {
   }
 
   subirArchivo(archivo_base64: string) {
+    this.cargardoDocumento = true;
+    this.changeDetectorRef.detectChanges();
     const { detalle: documento_id } = this.parametrosUrl;
     let url = '';
     switch (this.ubicacion) {
@@ -111,12 +114,16 @@ export class ImportarDetallesComponent extends General {
           );
           this.modalService.dismissAll();
           this.errorImportar = [];
+          this.cargardoDocumento = false;
+          this.changeDetectorRef.detectChanges();
           this.emitirDetallesAgregados.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
           if(respuesta.errores_datos){
             this.errorImportar = respuesta.errores_datos;
           }
+          this.cargardoDocumento = false;
+          this.changeDetectorRef.detectChanges();
           return of(null);
         })
       )

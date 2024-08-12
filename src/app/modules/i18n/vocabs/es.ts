@@ -111,7 +111,9 @@ export const locale = {
           SIGUIENTE: 'Seguiente',
           FINALIZAR: 'Finalizar',
           CARGARCONTRATOS: 'Cargar contratos',
-          GENERAR: 'Generar'
+          GENERAR: 'Generar',
+          DESCARGARERRORES: 'Descargar errores',
+          EJEMPLO: 'Ejemplo'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

@@ -31,6 +31,7 @@ export class ImportarAdministradorComponent extends General {
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];
   inputFile: any = null;
+  cargardoDocumento: boolean = false;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
@@ -44,7 +45,7 @@ export class ImportarAdministradorComponent extends General {
 
   abrirModalContactoNuevo(content: any) {
     this.archivoNombre = '';
-    this.errorImportar = []
+    this.errorImportar = [];
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
@@ -53,15 +54,15 @@ export class ImportarAdministradorComponent extends General {
 
   cerrarModal() {
     this.modalService.dismissAll();
-    this.errorImportar = []
-    this.changeDetectorRef.detectChanges()
+    this.errorImportar = [];
+    this.changeDetectorRef.detectChanges();
   }
 
   archivoSeleccionado(event: any) {
-    this.inputFile = event.target.files[0]
+    this.inputFile = event.target.files[0];
     const selectedFile = event.target.files[0];
     this.archivoNombre = selectedFile.name;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   async guardarArchivo() {
@@ -88,7 +89,11 @@ export class ImportarAdministradorComponent extends General {
   }
 
   subirArchivo(archivo_base64: string) {
-    let url = `contabilidad/${this.modelo.toLowerCase().substring(3, this.modelo.length)}/importar/`;
+    this.cargardoDocumento = true;
+    this.changeDetectorRef.detectChanges();
+    let url = `contabilidad/${this.modelo
+      .toLowerCase()
+      .substring(3, this.modelo.length)}/importar/`;
     this.httpService
       .post<ImportarDetalles>(url, {
         archivo_base64,
@@ -100,12 +105,16 @@ export class ImportarAdministradorComponent extends General {
           );
           this.modalService.dismissAll();
           this.errorImportar = [];
+          this.cargardoDocumento = false;
+          this.changeDetectorRef.detectChanges();
           this.emitirDetallesAgregados.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
-          if(respuesta.errores_datos){
+          if (respuesta.errores_datos) {
             this.errorImportar = respuesta.errores_datos;
           }
+          this.cargardoDocumento = false;
+          this.changeDetectorRef.detectChanges();
           return of(null);
         })
       )
@@ -115,7 +124,7 @@ export class ImportarAdministradorComponent extends General {
   descargarExcelImportar() {
     const { modelo } = this.parametrosUrl;
 
-    let fileUrl =  `../../../../assets/ejemplos/modelo/${modelo}.xlsx`;
+    let fileUrl = `../../../../assets/ejemplos/modelo/${modelo}.xlsx`;
     // Crear un enlace de descarga
     const link = document.createElement('a');
     link.href = fileUrl;

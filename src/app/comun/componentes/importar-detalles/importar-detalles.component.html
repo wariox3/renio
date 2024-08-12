@@ -80,7 +80,24 @@
       </div>
       <img src="" alt="" />
     </form>
-    <div style="height: 300px; overflow: auto">
+    <div class="d-flex justify-content-between mb-2">
+      <button
+        type="submit"
+        class="btn btn-sm btn-primary me-2"
+        (click)="descargarExcelImportar()"
+        translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
+      ></button>
+      <div>
+        <button
+          translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
+          type="submit"
+          class="btn btn-sm btn-primary"
+          [disabled]="archivoNombre === '' || cargardoDocumento"
+          (click)="guardarArchivo()"
+        ></button>
+      </div>
+    </div>
+    <div style="max-height: 300px; overflow: auto">
       <table
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
@@ -90,7 +107,6 @@
             <th>Mensaje</th>
           </tr>
         </thead>
-
         <tbody>
           @for (item of errorImportar; track $index) {
           <tr appAnimationFadeinUp>
@@ -101,32 +117,16 @@
         </tbody>
       </table>
     </div>
-
-    <div class="card-footer d-flex justify-content-end">
-      @if (this.errorImportar.length > 0) {
-      <button
-        type="submit"
-        class="btn btn-sm btn-danger me-2"
-        (click)="descargarExcelError()"
-        appAnimationFadeinLeft
-      >
-        Errores
-      </button>
-      }
+    @if (errorImportar.length > 0) {
+    <div class="d-flex justify-content-end mt-3">
       <button
         type="submit"
         class="btn btn-sm btn-primary me-2"
-        (click)="descargarExcelImportar()"
-      >
-        Ejemplo
-      </button>
-      <button
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-        type="submit"
-        class="btn btn-sm btn-primary"
-        [disabled]="archivoNombre === ''"
-        (click)="guardarArchivo()"
+        (click)="descargarExcelError()"
+        appAnimationFadeinLeft
+        translate="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
       ></button>
     </div>
+    }
   </div>
 </ng-template>
