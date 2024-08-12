@@ -22,13 +22,15 @@
         {{ anioSeleccionado }}
       </section>
       <section card-body>
-        @for(periodo of periodosFiltradosPorAnio; track $index) {
-        <button class="card w-100 mb-3">
-          <div class="card-body">
-            {{ deNumeroAMes(periodo.mes) }}
-          </div>
-        </button>
-        }
+        <div style="max-height: 480px; overflow-y: scroll;">
+          @for(periodo of periodosFiltradosPorAnio; track $index) {
+          <button class="card w-100 mb-3">
+            <div class="card-body">
+              {{ deNumeroAMes(periodo.mes) }}
+            </div>
+          </button>
+          }
+        </div>
       </section>
     </app-card>
   </div>
