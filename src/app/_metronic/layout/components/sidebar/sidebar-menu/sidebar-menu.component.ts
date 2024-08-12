@@ -74,6 +74,10 @@ export class SidebarMenuComponent implements OnInit {
         return 'setting-3';
       case 'utilidad':
         return 'share';
+      case 'MOVIMIENTO':
+        return 'file'
+      case 'PERIODO':
+        return 'calendar'
     }
   }
 
