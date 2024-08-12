@@ -36,7 +36,7 @@ export class MovimientoListaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: 100,
+    documento_clase_id: '',
   };
   constructor(
     private httpService: HttpService,
@@ -62,6 +62,7 @@ export class MovimientoListaComponent extends General implements OnInit {
         this.cantidad_registros = respuesta.length;
         this.arrDocumentos = respuesta.map((documento: any) => ({
           id: documento.id,
+          fecha: documento.fecha,
           numero: documento.numero,
         }));
         this.changeDetectorRef.detectChanges();

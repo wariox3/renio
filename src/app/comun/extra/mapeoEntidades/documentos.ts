@@ -1183,8 +1183,22 @@ export const documentos: Mapeo = {
       ordenable: true,
     },
     {
+      nombre: 'FECHA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
       nombre: 'NUMERO',
       campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+      campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
