@@ -245,10 +245,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       let valorInicial = evento.target.value;
       if (valorInicial.includes('-')) {
         let [limite, desplazamiento] = valorInicial.split('-');
+        limite = parseInt(limite)
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
           limite -= 1;
-          if (desplazamiento > 0 && limite > 0) {
+          if (desplazamiento > 0 || limite > 0) {
             this.emitirPaginacion.emit({ desplazamiento, limite });
           }
         }

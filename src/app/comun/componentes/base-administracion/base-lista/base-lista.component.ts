@@ -131,6 +131,7 @@ export class BaseListaComponent extends General implements OnInit {
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
+    this.changeDetectorRef.detectChanges()
     this.consultarLista();
   }
 
