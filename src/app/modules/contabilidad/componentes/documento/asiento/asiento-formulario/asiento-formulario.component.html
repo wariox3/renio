@@ -326,6 +326,25 @@
                           </td>
                           <td class="w-100px">
                             <input
+                              formControlName="base_impuesto"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="
+                                actualizarDetalle(i, 'base_impuesto', $event)
+                              "
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('base_impuesto')?.touched &&
+                                  detalle.get('base_impuesto')?.invalid,
+                                'is-valid':
+                                  detalle.get('base_impuesto')?.touched &&
+                                  detalle.get('base_impuesto')?.invalid
+                              }"
+                            />
+                          </td>
+                          <td class="w-100px">
+                            <input
                               formControlName="total"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
@@ -350,23 +369,6 @@
                                 control: detalle.get('total')
                               }"
                             ></ng-container>
-                          </td>
-                          <td class="w-100px">
-                            <input
-                              formControlName="base_impuesto"
-                              [readonly]="estado_aprobado"
-                              class="form-control-sm"
-                              (change)="actualizarDetalle(i, 'total', $event)"
-                              appSoloNumeros
-                              [ngClass]="{
-                                'is-invalid':
-                                  detalle.get('base_impuesto')?.touched &&
-                                  detalle.get('base_impuesto')?.invalid,
-                                'is-valid':
-                                  detalle.get('base_impuesto')?.touched &&
-                                  detalle.get('base_impuesto')?.invalid
-                              }"
-                            />
                           </td>
                           <td class="w-100px">
                             <input
