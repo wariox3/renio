@@ -87,16 +87,18 @@
         <h5 class="card-title">Total de ventas</h5>
         <div>
           <div id="chart">
-            <apx-chart
-              [series]="chartOptions.series!"
-              [chart]="chartOptions.chart!"
-              [yaxis]="chartOptions.yaxis!"
-              [xaxis]="chartOptions.xaxis!"
-              [dataLabels]="chartOptions.dataLabels!"
-              [grid]="chartOptions.grid!"
-              [stroke]="chartOptions.stroke!"
-              [title]="chartOptions.title!"
-            ></apx-chart>
+            <div *ngIf="chartOptions?.series?.length">
+              <apx-chart
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [yaxis]="chartOptions.yaxis!"
+                [xaxis]="chartOptions.xaxis!"
+                [dataLabels]="chartOptions.dataLabels!"
+                [grid]="chartOptions.grid!"
+                [stroke]="chartOptions.stroke!"
+                [title]="chartOptions.title!"
+              ></apx-chart>
+            </div>
           </div>
         </div>
       </div>
