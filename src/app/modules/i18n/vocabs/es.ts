@@ -16,6 +16,7 @@ export const locale = {
         VENTA: 'Venta',
         INVENTARIO: 'Inventario',
         TESORERIA: 'Tesorería',
+        TRANSPORTE: 'Transporte'
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
