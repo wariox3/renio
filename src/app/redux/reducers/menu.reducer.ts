@@ -554,6 +554,26 @@ export const initialState: Menu = {
         },
       ],
     },
+    {
+      nombre: 'transporte',
+      children: [
+        {
+          nombre: 'documento',
+        },
+        {
+          nombre: 'administracion',
+        },
+        {
+          nombre: 'utilidad',
+        },
+        {
+          nombre: 'proceso',
+        },
+        {
+          nombre: 'informe',
+        },
+      ],
+    },
   ],
   modulos: [
     'COMPRA',
@@ -563,6 +583,7 @@ export const initialState: Menu = {
     'HUMANO',
     'INVENTARIO',
     'TESORERIA',
+    'TRANSPORTE'
   ],
   dataMapeo: [],
 };
