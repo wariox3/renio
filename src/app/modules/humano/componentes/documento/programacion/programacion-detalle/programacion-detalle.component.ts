@@ -18,6 +18,7 @@ import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
@@ -34,6 +35,7 @@ import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
     NgbDropdownModule,
     NgbNavModule,
     ReactiveFormsModule,
+    NgbTooltipModule,
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
