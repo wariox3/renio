@@ -49,7 +49,7 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Contacto'
+      modeloFk: 'Contacto',
     },
     {
       nombre: 'SUBTOTAL',
@@ -271,7 +271,7 @@ export const documentos: Mapeo = {
       visibleFiltro: true,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Contacto'
+      modeloFk: 'Contacto',
     },
     {
       nombre: 'SUBTOTAL',
@@ -953,7 +953,7 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
   ],
-  'HumProgramacion': [
+  HumProgramacion: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -983,7 +983,7 @@ export const documentos: Mapeo = {
       ordenable: true,
     },
   ],
-  'HumAdicional': [
+  HumAdicional: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -1061,7 +1061,7 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
   ],
-  'HumCredito': [
+  HumCredito: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -1130,7 +1130,7 @@ export const documentos: Mapeo = {
       ordenable: false,
     },
   ],
-  'HumNovedad': [
+  HumNovedad: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -1172,9 +1172,9 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
-    }
+    },
   ],
-  'ConMovimiento': [
+  ConMovimiento: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -1225,14 +1225,6 @@ export const documentos: Mapeo = {
       ordenable: true,
     },
     {
-      nombre: 'BASE',
-      campoTipo: 'FloatField',
-      visibleTabla: true,
-      visibleFiltro: false,
-      aplicaFormatoNumerico: true,
-      ordenable: false,
-    },
-    {
       nombre: 'DEBITO',
       campoTipo: 'FloatField',
       visibleTabla: true,
@@ -1248,5 +1240,13 @@ export const documentos: Mapeo = {
       aplicaFormatoNumerico: true,
       ordenable: false,
     },
-  ]
+    {
+      nombre: 'BASE',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+  ],
 };
