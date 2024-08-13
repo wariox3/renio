@@ -18,7 +18,12 @@ export class General {
   protected accion: string | null = null;
   protected detalle = 0;
   protected parametrosUrl: any = {};
-  protected ubicacion: 'documento' | 'administrador' | 'utilidad' | 'informe';
+  protected ubicacion:
+    | 'documento'
+    | 'administrador'
+    | 'utilidad'
+    | 'informe'
+    | 'independiente';
 
   constructor() {
     this.consultarParametros();
@@ -37,6 +42,9 @@ export class General {
         break;
       case this.router.url.includes('informe'):
         this.ubicacion = 'informe';
+        break;
+      default:
+        this.ubicacion = 'independiente';
         break;
     }
 

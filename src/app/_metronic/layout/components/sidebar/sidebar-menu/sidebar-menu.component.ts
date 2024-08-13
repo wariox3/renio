@@ -10,27 +10,33 @@ import {
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
-import { NgFor, NgClass, UpperCasePipe, LowerCasePipe, CommonModule } from '@angular/common';
+import {
+  NgFor,
+  NgClass,
+  UpperCasePipe,
+  LowerCasePipe,
+  CommonModule,
+} from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'app-sidebar-menu',
-    templateUrl: './sidebar-menu.component.html',
-    styleUrls: ['./sidebar-menu.component.scss'],
-    standalone: true,
-    imports: [
-        RouterLinkActive,
-        KeeniconComponent,
-        RouterLink,
-        TranslateModule,
-        NgFor,
-        NgClass,
-        CommonModule,
-        UpperCasePipe,
-        LowerCasePipe,
-    ],
+  selector: 'app-sidebar-menu',
+  templateUrl: './sidebar-menu.component.html',
+  styleUrls: ['./sidebar-menu.component.scss'],
+  standalone: true,
+  imports: [
+    RouterLinkActive,
+    KeeniconComponent,
+    RouterLink,
+    TranslateModule,
+    NgFor,
+    NgClass,
+    CommonModule,
+    UpperCasePipe,
+    LowerCasePipe,
+  ],
 })
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;
@@ -38,10 +44,7 @@ export class SidebarMenuComponent implements OnInit {
   arrMenu: any = [];
   arrMenuApps: string[];
 
-  constructor(
-    private router: Router,
-    private store: Store,
-  ) {}
+  constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
     this.store
@@ -75,11 +78,11 @@ export class SidebarMenuComponent implements OnInit {
       case 'utilidad':
         return 'share';
       case 'MOVIMIENTO':
-        return 'file'
+        return 'file';
       case 'PERIODO':
-        return 'calendar'
+        return 'calendar';
       case 'GUIA':
-        return 'map'
+        return 'map';
     }
   }
 
@@ -106,19 +109,24 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-    switch(item.tipo){
+    switch (item.tipo) {
       case 'Administrador':
         localStorage.setItem('itemNombre', item.data?.modelo);
         localStorage.setItem('itemTipo', item.nombre);
+        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
+        localStorage.setItem('esIndependiente', 'no');
         break;
       case 'Documento':
         localStorage.setItem('itemNombre', item.nombre);
         localStorage.setItem('itemTipo', 'DOCUMENTO');
-        localStorage.setItem('consultaHttp', item.consultaHttp? 'si' : 'no');
+        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
+        localStorage.setItem('esIndependiente', 'no');
         break;
       case 'Independiente':
         localStorage.setItem('itemNombre', item.nombre);
         localStorage.setItem('itemTipo', item.nombre);
+        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
+        localStorage.setItem('esIndependiente', 'si');
         break;
     }
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
@@ -140,7 +148,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
-    switch(item.tipo){
+    switch (item.tipo) {
       case 'Administrador':
         localStorage.setItem('itemNombre', item.data?.modelo);
         localStorage.setItem('itemTipo', item.nombre);

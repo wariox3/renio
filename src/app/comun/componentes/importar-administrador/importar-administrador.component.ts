@@ -90,12 +90,17 @@ export class ImportarAdministradorComponent extends General {
 
   subirArchivo(archivo_base64: string) {
     let ruta = localStorage.getItem('ruta')!;
+    let esIndependite = localStorage.getItem('esIndependiente')!;
+    let modelo = '';
+    if (esIndependite == 'no') {
+      modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+    } else {
+      modelo = this.modelo.toLowerCase();
+    }
 
     this.cargardoDocumento = true;
     this.changeDetectorRef.detectChanges();
-    let url = `${ruta.toLowerCase()}/${this.modelo
-      .toLowerCase()
-      .substring(3, this.modelo.length)}/importar/`;
+    let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
     this.httpService
       .post<ImportarDetalles>(url, {
         archivo_base64,

@@ -23,18 +23,15 @@
       data-toggle="buttons"
       [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
-      @if(ubicacion === 'documento'){
-      <app-importar
-        modelo="{{ modelo }}"
-        *ngIf="visualizarBtnImportar"
-      ></app-importar>
-      } @if(ubicacion === 'administrador'){
+      @if(visualizarBtnImportar){ @if(ubicacion === 'documento'){
+      <app-importar modelo="{{ modelo }}"></app-importar>
+      } @if(ubicacion === 'administrador' || ubicacion === 'independiente'){
       <app-importar-administrador
         role="group"
         (emitirDetallesAgregados)="solicitarConsultarTabla()"
-        *ngIf="visualizarBtnImportar"
       ></app-importar-administrador>
-      }
+      } }
+
       <div
         class="btn-group"
         ngbDropdown
