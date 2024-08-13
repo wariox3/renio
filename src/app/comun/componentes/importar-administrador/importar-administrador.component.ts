@@ -130,13 +130,30 @@ export class ImportarAdministradorComponent extends General {
 
   descargarExcelImportar() {
     const { modelo } = this.parametrosUrl;
-
     let fileUrl = `../../../../assets/ejemplos/modelo/${modelo}.xlsx`;
+    let nombreArchivo = `adminsitrador_${modelo}.xlsx`;
+
+    let esIndependite = localStorage.getItem('esIndependiente')!;
+    if (esIndependite == 'si') {
+      fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
+        .getItem('ruta')!
+        .toLowerCase()
+        .substring(0, 3)}_${localStorage
+        .getItem('itemNombre')
+        ?.toLocaleLowerCase()}.xlsx`;
+
+      nombreArchivo = `${localStorage
+        .getItem('ruta')!
+        .toLowerCase()
+        .substring(0, 3)}_${localStorage
+        .getItem('itemNombre')
+        ?.toLocaleLowerCase()}.xlsx`;
+    }
+
     // Crear un enlace de descarga
     const link = document.createElement('a');
     link.href = fileUrl;
-    link.download = `adminsitrador_${modelo}.xlsx`; // Nombre del archivo
-
+    link.download = nombreArchivo;
     // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
     document.body.appendChild(link);
     link.click();
@@ -147,6 +164,18 @@ export class ImportarAdministradorComponent extends General {
 
   descargarExcelError() {
     const { modelo } = this.parametrosUrl;
+    let nombreArchivo = `errores_${modelo}.xlsx`;
+
+    let esIndependite = localStorage.getItem('esIndependiente')!;
+    if (esIndependite == 'si') {
+      nombreArchivo = `errores_${localStorage
+        .getItem('ruta')!
+        .toLowerCase()
+        .substring(0, 3)}_${localStorage
+        .getItem('itemNombre')
+        ?.toLocaleLowerCase()}.xlsx`;
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
       this.errorImportar
     );
@@ -161,6 +190,6 @@ export class ImportarAdministradorComponent extends General {
     const data: Blob = new Blob([excelBuffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    saveAs(data, `errores_${modelo}.xlsx`); // Nombre del archivo Excel a descargar
+    saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
   }
 }
