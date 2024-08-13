@@ -1,25 +1,6 @@
-type Mapeo = {
-  [key: number | string]: {
-    nombre: string;
-    nombreAbreviado?: string;
-    visibleTabla: boolean;
-    visibleFiltro: boolean;
-    ordenable: boolean;
-    esFk?: boolean;
-    modeloFk?: string;
-    aplicaFormatoNumerico?: boolean;
-    alinearAlaIzquierda?: boolean;
-    campoTipo:
-      | 'IntegerField'
-      | 'FloatField'
-      | 'CharField'
-      | 'DateField'
-      | 'Booleano'
-      | 'Fk';
-  }[];
-};
+import { MapeoDocumentos } from "@interfaces/mapeo/mapeo";
 
-export const documentos: Mapeo = {
+export const documentos: MapeoDocumentos = {
   100: [
     {
       nombre: 'ID',

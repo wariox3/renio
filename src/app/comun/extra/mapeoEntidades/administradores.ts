@@ -1,38 +1,6 @@
-type Mapeo = {
-  [key: string]: {
-    modulo:
-      | 'compra'
-      | 'venta'
-      | 'contabilidad'
-      | 'cartera'
-      | 'humano'
-      | 'inventario'
-      | 'general';
-    modelo: string;
-    tipo: 'Administrador' | 'Movimiento';
-    datos: {
-      nombre: string;
-      nombreAbreviado?: string;
-      visibleTabla: boolean;
-      visibleFiltro: boolean;
-      ordenable: boolean;
-      esFk?: boolean;
-      modeloFk?: string;
-      aplicaFormatoNumerico?: boolean;
-      alinearAlaIzquierda?: boolean;
-      campoTipo:
-        | 'IntegerField'
-        | 'FloatField'
-        | 'CharField'
-        | 'DateField'
-        | 'Booleano'
-        | 'Porcentaje'
-        | 'Fk';
-    }[];
-  };
-};
+import { MapeoAdministrador } from "@interfaces/mapeo/mapeo";
 
-export const mapeo: Mapeo = {
+export const mapeo: MapeoAdministrador = {
   GenContacto: {
     modulo: 'general',
     modelo: 'contacto',
