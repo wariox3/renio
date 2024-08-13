@@ -78,6 +78,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'file'
       case 'PERIODO':
         return 'calendar'
+      case 'GUIA':
+        return 'map'
     }
   }
 
