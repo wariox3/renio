@@ -19,12 +19,12 @@
                 <option
                   [value]="
                     propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase() + '_id'
+                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) + '_id'
                       : propiedad.nombre.toLocaleLowerCase()
                   "
                   [attr.data-value]="
                     propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase() + '_id'
+                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) + '_id'
                       : propiedad.nombre.toLocaleLowerCase()
                   "
                   [attr.data-tipo]="propiedad.campoTipo"
