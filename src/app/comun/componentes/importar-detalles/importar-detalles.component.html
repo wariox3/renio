@@ -88,13 +88,23 @@
         translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
       ></button>
       <div>
-        <button
-          translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
-          type="submit"
-          class="btn btn-sm btn-primary"
-          [disabled]="archivoNombre === '' || cargardoDocumento"
-          (click)="guardarArchivo()"
-        ></button>
+        @if(!cargardoDocumento){
+          <button
+            translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
+            type="submit"
+            class="btn btn-sm btn-primary"
+            [disabled]="archivoNombre === ''"
+            (click)="guardarArchivo()"
+          ></button>
+          } @else {
+          <button class="btn btn-sm btn-primary" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              aria-hidden="true"
+            ></span>
+            <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+          </button>
+          }
       </div>
     </div>
     <div style="max-height: 300px; overflow: auto">
