@@ -116,6 +116,12 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
     });
   }
 
+  navegarAmiEmpresaConfiguracion(){
+    this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
+      this.router.navigate([`/empresa/configuracion_modulos/${empresa_id}/`]);
+    });
+  }
+
   navegarAmisContenedores() {
     if (this.esSubdominio) {
       location.href = `${

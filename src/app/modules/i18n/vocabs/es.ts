@@ -162,6 +162,7 @@ export const locale = {
             FACTURACION: 'Facturación',
             CONTENEDOR: 'Mi contenedor',
             EMPRESA: 'Mi empresa',
+            EMPRESACONFIGURACION: 'Configuración',
             CONTENEDORES: 'Mis contenedores',
             SOCIO: 'Socio',
           },

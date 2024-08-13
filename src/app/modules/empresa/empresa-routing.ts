@@ -56,6 +56,13 @@ export const routes: Route[] = [
     ],
   },
   {
+    path: 'configuracion_modulos/:empresacodigo',
+    loadComponent: () =>
+      import('./componetes/emprese-configuracion-modulos/emprese-configuracion-modulos.component').then(
+        (c) => c.EmpreseConfiguracionModulosComponent
+      ),
+  },
+  {
     path: 'configuracion_inicial',
     loadComponent: () =>
       import('./componetes/empresa-pasoapaso/empresa-pasoapaso.component').then(
