@@ -166,7 +166,6 @@ export const initialState: Menu = {
                 lista: 'contabilidad/movimiento'
               },
               consultaHttp: false,
-              data: { documento_clase: 'ConMovimiento' },
             },
             {
               nombre: 'PERIODO',
@@ -175,7 +174,6 @@ export const initialState: Menu = {
                 lista: 'contabilidad/periodo'
               },
               consultaHttp: false,
-              data: { documento_clase: 'ConMovimiento' },
             },
           ],
         },
