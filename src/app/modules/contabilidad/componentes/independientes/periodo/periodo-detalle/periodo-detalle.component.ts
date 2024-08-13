@@ -27,7 +27,6 @@ import { map } from 'rxjs';
   styleUrl: './periodo-detalle.component.scss'
 })
 export class PeriodoDetalleComponent extends General implements OnInit {
-  // periodos$: Observable<ConPeriodo[]>
   periodos: ConPeriodo[];
   fechas: number[];
   periodosFiltradosPorAnio: ConPeriodo[] = [];
@@ -63,9 +62,10 @@ export class PeriodoDetalleComponent extends General implements OnInit {
       'Octubre',
       'Noviembre',
       'Diciembre',
+      'Cierre'
     ];
 
-    return meses[mes-1] || meses[0] ;
+    return meses[mes-1] || ''
   }
 
   consultarDetalle() {
