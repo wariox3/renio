@@ -26,17 +26,14 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 export class MovimientoListaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [
-    {
-    },
-  ];
+  filtroPermanente = [{}];
   arrParametrosConsulta: any = {
-    filtros: this.filtroPermanente,
+    filtros: [],
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: '',
+    modelo: 'ConMovimiento',
   };
   constructor(
     private httpService: HttpService,
@@ -57,10 +54,10 @@ export class MovimientoListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.httpService
-    .get('contabilidad/movimiento/')
+      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length;
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+        this.cantidad_registros = respuesta.cantidad_registros;
+        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
           fecha: documento.fecha,
           numero: documento.numero,
