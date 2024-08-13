@@ -12,9 +12,9 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
@@ -89,14 +89,15 @@ export default class EmpleadoFormularioComponent
           null,
           Validators.compose([
             Validators.required,
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         nombre2: [
           null,
           Validators.compose([
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            cambiarVacioPorNulo.validar,
           ]),
         ],
         apellido1: [
@@ -104,14 +105,15 @@ export default class EmpleadoFormularioComponent
           Validators.compose([
             Validators.required,
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         apellido2: [
           null,
           Validators.compose([
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            cambiarVacioPorNulo.validar,
           ]),
         ],
         direccion: [
@@ -135,7 +137,13 @@ export default class EmpleadoFormularioComponent
         tipo_persona: [2, Validators.compose([Validators.required])],
         regimen: [1, Validators.compose([Validators.required])],
         codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
-        barrio: [null, Validators.compose([Validators.maxLength(200)])],
+        barrio: [
+          null,
+          Validators.compose([
+            Validators.maxLength(200),
+            cambiarVacioPorNulo.validar,
+          ]),
+        ],
         precio: [null],
         plazo_pago: [null],
         plazo_pago_proveedor: [null],
@@ -349,23 +357,8 @@ export default class EmpleadoFormularioComponent
         this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
       }
     }
-    if(campo === 'ciudad_nombre'){
+    if (campo === 'ciudad_nombre') {
       this.formularioEmpleado.get('ciudad_nombre')?.setValue(dato);
-    }
-    if (campo === 'barrio') {
-      if (this.formularioEmpleado.get(campo)?.value === '') {
-        this.formularioEmpleado.get(campo)?.setValue(null);
-      }
-    }
-    if (campo === 'codigo_ciuu') {
-      if (this.formularioEmpleado.get(campo)?.value === '') {
-        this.formularioEmpleado.get(campo)?.setValue(null);
-      }
-    }
-    if (campo === 'nombre2') {
-      if (this.formularioEmpleado.get(campo)?.value === '') {
-        this.formularioEmpleado.get(campo)?.setValue(null);
-      }
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -534,5 +527,62 @@ export default class EmpleadoFormularioComponent
 
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  validarNumeroIdenficacionExistente() {
+    if (this.detalle) {
+      if (
+        parseInt(this.informacionEmpleado.numero_identificacion) !==
+          parseInt(
+            this.formularioEmpleado.get('numero_identificacion')!.value
+          ) ||
+        parseInt(this.informacionEmpleado.identificacion_id) !==
+          parseInt(this.formularioEmpleado.get('identificacion')!.value)
+      ) {
+        this.contactoService
+          .validarNumeroIdentificacion({
+            identificacion_id: parseInt(
+              this.formularioEmpleado.get('identificacion')!.value
+            ),
+            numero_identificacion: this.formularioEmpleado.get(
+              'numero_identificacion'
+            )!.value,
+          })
+          .subscribe((respuesta) => {
+            if (!respuesta.validacion) {
+              this.formularioEmpleado
+                .get('numero_identificacion')!
+                .setErrors({ numeroIdentificacionExistente: true });
+              this.changeDetectorRef.detectChanges();
+            }
+          });
+      }
+    } else {
+      this.contactoService
+        .validarNumeroIdentificacion({
+          identificacion_id: parseInt(
+            this.formularioEmpleado.get('identificacion')!.value
+          ),
+          numero_identificacion: this.formularioEmpleado.get(
+            'numero_identificacion'
+          )!.value,
+        })
+        .subscribe((respuesta) => {
+          if (!respuesta.validacion) {
+            this.formularioEmpleado
+              .get('numero_identificacion')!
+              .setErrors({ numeroIdentificacionExistente: true });
+          }
+        });
+    }
+  }
+
+  limpiarCiudad(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioEmpleado.controls['ciudad'].setValue(null);
+      this.formularioEmpleado.controls['ciudad_nombre'].setValue(null);
+    }
   }
 }

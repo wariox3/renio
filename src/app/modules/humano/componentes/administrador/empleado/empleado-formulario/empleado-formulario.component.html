@@ -95,6 +95,7 @@
                 formularioEmpleado.controls['numero_identificacion'].touched &&
                 formularioEmpleado.controls['numero_identificacion'].valid
             }"
+
           />
           <div
             *ngIf="
@@ -407,9 +408,9 @@
                   formularioEmpleado.controls['ciudad'].touched &&
                   formularioEmpleado.controls['ciudad'].valid
               }"
-              (focus)="modificarCampoFormulario('ciudad_nombre', ciudadSeleccionada); CiudadDropdown.open(); consultarCiudad($event);"
-              (blur)="modificarCampoFormulario('ciudad', null)"
+              (focus)="consultarCiudad($event); CiudadDropdown.open()"
               (keyup)="consultarCiudad($event)"
+              (blur)="limpiarCiudad($event)"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
