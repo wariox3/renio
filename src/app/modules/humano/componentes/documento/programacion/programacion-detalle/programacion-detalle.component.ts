@@ -161,6 +161,8 @@ export default class ProgramacionDetalleComponent
     };
   }
 
+  aprobar() {}
+
   cargarContratos() {
     this.programacionService
       .cargarContratos({
