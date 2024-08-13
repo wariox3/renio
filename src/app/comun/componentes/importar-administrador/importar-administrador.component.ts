@@ -89,9 +89,11 @@ export class ImportarAdministradorComponent extends General {
   }
 
   subirArchivo(archivo_base64: string) {
+    let ruta = localStorage.getItem('ruta')!;
+
     this.cargardoDocumento = true;
     this.changeDetectorRef.detectChanges();
-    let url = `contabilidad/${this.modelo
+    let url = `${ruta.toLowerCase()}/${this.modelo
       .toLowerCase()
       .substring(3, this.modelo.length)}/importar/`;
     this.httpService
