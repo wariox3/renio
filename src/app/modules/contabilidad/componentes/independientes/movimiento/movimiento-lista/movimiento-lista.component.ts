@@ -26,7 +26,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 export class MovimientoListaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [{}];
+  filtroPermanente = [];
   arrParametrosConsulta: any = {
     filtros: [],
     limite: 50,
