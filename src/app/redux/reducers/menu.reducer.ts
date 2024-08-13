@@ -558,6 +558,20 @@ export const initialState: Menu = {
       nombre: 'transporte',
       children: [
         {
+          nombre: '',
+          esIndependiente: true,
+          children: [
+            {
+              nombre: 'GUIA',
+              tipo: 'Independiente',
+              urlIndependientes: {
+                lista: 'transporte/guia'
+              },
+              consultaHttp: false,
+            },
+          ],
+        },
+        {
           nombre: 'documento',
         },
         {

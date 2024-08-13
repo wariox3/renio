@@ -82,7 +82,8 @@ export const locale = {
         INVALMACEN: 'Almacén',
         ALMACEN: 'Almacén',
         MOVIMIENTO: 'Movimiento',
-        CONGRUPO: 'Grupo'
+        CONGRUPO: 'Grupo',
+        GUIA: 'Guía'
       },
     },
     FORMULARIOS: {
@@ -801,6 +802,9 @@ export const locale = {
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
         COMPROBANTE: 'COMPROBANTE',
+      },
+      GUIA: {
+        ID: 'ID'
       }
     },
     TEMA: {

@@ -1,7 +1,7 @@
 import { MapeoIndependientes } from "@interfaces/mapeo/mapeo";
 
 export const mapeoIndependientes: MapeoIndependientes = {
-  ConMovimiento: [
+  TransGuia: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
