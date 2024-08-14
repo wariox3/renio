@@ -1,53 +1,48 @@
 <app-card [visualizarTitulo]="false">
-  <section card-body >
+  <section card-body>
     <h3>Configuraciones</h3>
     <div class="d-flex overflow-auto h-55px">
       <ul
         class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap"
       >
-      <li class="nav-item mb-2">
-        <a
-          class="nav-link text-active-primary me-6"
-          (click)="seleccionarConfiguracion('GENERAL')"
-          [translate]="'MENU.TITULOS.GENERAL'">
-        </a>
-      </li>
+        <li class="nav-item mb-2">
+          <a
+            class="nav-link text-active-primary me-6 cursor-pointer"
+            (click)="seleccionarConfiguracion('GENERAL')"
+            [translate]="'MENU.TITULOS.GENERAL'"
+          >
+          </a>
+        </li>
         @for (item of arrMenuApps; track $index) {
-          <li class="nav-item mb-2">
-            <a
-              class="nav-link text-active-primary me-6"
-              (click)="seleccionarConfiguracion(item)"
-              [translate]="'MENU.TITULOS.'+item">
-            </a>
-          </li>
+        <li class="nav-item mb-2">
+          <a
+            class="nav-link text-active-primary cursor-pointer"
+            (click)="seleccionarConfiguracion(item)"
+            [translate]="'MENU.TITULOS.' + item"
+          >
+          </a>
+        </li>
         }
       </ul>
     </div>
-    {{menuSeleccionado}}
-    @switch (menuSeleccionado) {
-      @case ('COMPRA') {
-
-      }
-      @case ('VENTA') {
-        <app-configuracion-humano></app-configuracion-humano>
-      }
-      @case ('CONTABILIDAD') {
-      }
-      @case ('CARTERA') {
-      }
-      @case ('HUMANO') {
-        <app-configuracion-humano></app-configuracion-humano>
-      }
-      @case ('INVENTARIO') {
-      }
-      @case ('TESORERIA') {
-      }
-      @case ('GENERAL') {
-        <app-configuracion-general></app-configuracion-general>
-      }
-      @case ('TRANSPORTE') {
-      }
-    }
+    @switch (menuSeleccionado) { @case ('COMPRA') {
+    <app-configuracion-compra></app-configuracion-compra>
+    } @case ('VENTA') {
+    <app-configuracion-venta></app-configuracion-venta>
+    } @case ('CONTABILIDAD') {
+    <app-configuracion-contabilidad></app-configuracion-contabilidad>
+    } @case ('CARTERA') {
+    <app-configuracion-cartera></app-configuracion-cartera>
+    } @case ('HUMANO') {
+    <app-configuracion-humano></app-configuracion-humano>
+    } @case ('INVENTARIO') {
+    <app-configuracion-inventario></app-configuracion-inventario>
+    } @case ('TESORERIA') {
+    <app-configuracion-tesoreria></app-configuracion-tesoreria>
+    } @case ('GENERAL') {
+    <app-configuracion-general></app-configuracion-general>
+    } @case ('TRANSPORTE') {
+    <app-configuracion-transporte></app-configuracion-transporte>
+    } }
   </section>
 </app-card>
-

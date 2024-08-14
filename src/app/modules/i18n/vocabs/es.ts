@@ -296,7 +296,6 @@ export const locale = {
           CONFIGURACION: 'Configuración',
           DOCUMENTOS: 'Documentos',
           CONFIGURACIONEMPRESA: 'Configuración empresa',
-          CONFIGURACIONVENTA: 'Configuracion venta',
           FACTURAELECTRONICABUSCARCODIGO: '¿Estas buscando el código? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
           CONSECUTIVO: 'Consecutivo',
