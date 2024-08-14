@@ -17,7 +17,16 @@ import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValid
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
+import {
+  asyncScheduler,
+  combineLatest,
+  debounceTime,
+  of,
+  switchMap,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -32,7 +41,6 @@ import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownModule,
   ],
   templateUrl: './empleado-formulario.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EmpleadoFormularioComponent
   extends General
@@ -66,6 +74,21 @@ export default class EmpleadoFormularioComponent
     if (this.detalle) {
       this.consultardetalle();
     }
+
+    this.formularioEmpleado
+      .get('numero_identificacion')!
+      .valueChanges.pipe(debounceTime(300))
+      .subscribe((value) => {
+        if (value != null) {
+          this.validarNumeroIdenficacionExistente();
+        }
+      });
+
+    this.formularioEmpleado
+      .get('identificacion')!
+      .valueChanges.subscribe((value) => {
+        this.validarNumeroIdenficacionExistente();
+      });
   }
 
   iniciarFormulario() {
@@ -549,16 +572,28 @@ export default class EmpleadoFormularioComponent
             )!.value,
           })
           .subscribe((respuesta) => {
-            if (!respuesta.validacion) {
+            if (respuesta.validacion) {
+              this.formularioEmpleado
+                .get('numero_identificacion')!
+                .markAsTouched();
               this.formularioEmpleado
                 .get('numero_identificacion')!
                 .setErrors({ numeroIdentificacionExistente: true });
-              this.changeDetectorRef.detectChanges();
+            } else {
+              this.formularioEmpleado
+                .get('numero_identificacion')!
+                .setErrors(null);
             }
+            this.changeDetectorRef.detectChanges();
           });
+      } else {
+        this.formularioEmpleado.get('numero_identificacion')!.setErrors(null);
       }
     } else {
-      this.contactoService
+      if(this.formularioEmpleado.get(
+        'numero_identificacion'
+      )!.value !== ''){
+        this.contactoService
         .validarNumeroIdentificacion({
           identificacion_id: parseInt(
             this.formularioEmpleado.get('identificacion')!.value
@@ -573,10 +608,14 @@ export default class EmpleadoFormularioComponent
               .get('numero_identificacion')!
               .setErrors({ numeroIdentificacionExistente: true });
           } else {
-            this.formularioEmpleado.get('numero_identificacion')!.setErrors(null)
-            this.changeDetectorRef.detectChanges();
+            this.formularioEmpleado
+              .get('numero_identificacion')!
+              .setErrors(null);
           }
+          this.changeDetectorRef.detectChanges();
         });
+      }
+
     }
   }
 

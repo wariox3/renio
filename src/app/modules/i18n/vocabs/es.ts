@@ -16,7 +16,7 @@ export const locale = {
         VENTA: 'Venta',
         INVENTARIO: 'Inventario',
         TESORERIA: 'Tesorería',
-        TRANSPORTE: 'Transporte'
+        TRANSPORTE: 'Transporte',
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
@@ -83,7 +83,7 @@ export const locale = {
         ALMACEN: 'Almacén',
         MOVIMIENTO: 'Movimiento',
         CONGRUPO: 'Grupo',
-        GUIA: 'Guía'
+        GUIA: 'Guía',
       },
     },
     FORMULARIOS: {
@@ -116,7 +116,7 @@ export const locale = {
           CARGARCONTRATOS: 'Cargar contratos',
           GENERAR: 'Generar',
           DESCARGARERRORES: 'Descargar errores',
-          EJEMPLO: 'Ejemplo'
+          EJEMPLO: 'Ejemplo',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -309,7 +309,7 @@ export const locale = {
         HUMPROGRAMACION: {
           ADICIONAL: 'Adicionales',
           CONCEPTO: 'Concepto',
-          DIALABORADO: 'Aplica dia laborado'
+          DIALABORADO: 'Aplica dia laborado',
         },
       },
       CAMPOS: {
@@ -496,11 +496,11 @@ export const locale = {
           },
         },
         CONTABILIDAD: {
-          PERMITEASIENTO: 'Permite asiento'
+          PERMITEASIENTO: 'Permite asiento',
         },
         CONFIGURACIONHUMANO: {
-          FACTOR: 'Factor'
-        }
+          FACTOR: 'Factor',
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -510,8 +510,8 @@ export const locale = {
             'La cantidad máxima de caracteres permitidos para este campo es de',
           TIPOCORREO: 'El campo no es un correo electrónico válido',
           NOVALIDO: 'El campo contiene caracteres no válidos',
-          NUMEROIDENTIFICACIONEXISTEN: 'El numero de identificación existe'
-
+          NUMEROIDENTIFICACIONEXISTEN:
+            'El empleado con el número y tipo de identificación seleccionados ya existe.',
         },
         CONTENEDORES: {
           NOMBREUSADO: 'Nombre no disponible',
@@ -761,7 +761,7 @@ export const locale = {
       GRUPO: {
         ID: 'ID',
         NOMBRE: 'Nombre',
-        CODIGO: 'Código'
+        CODIGO: 'Código',
       },
       CONCEPTO: {
         ID: 'ID',
@@ -784,7 +784,7 @@ export const locale = {
         CONTACTO_ID: 'Cod',
         CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
-        CONTACTO: 'Contacto'
+        CONTACTO: 'Contacto',
       },
       CUENTA: {
         ID: 'ID',
@@ -799,7 +799,7 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         PERMITEASIENTO: 'Permite asiento',
-        CODIGO: 'Código'
+        CODIGO: 'Código',
       },
       ALMACEN: {
         ID: 'ID',
@@ -818,8 +818,8 @@ export const locale = {
         COMPROBANTE: 'COMPROBANTE',
       },
       GUIA: {
-        ID: 'ID'
-      }
+        ID: 'ID',
+      },
     },
     TEMA: {
       CLARO: 'Claro',
