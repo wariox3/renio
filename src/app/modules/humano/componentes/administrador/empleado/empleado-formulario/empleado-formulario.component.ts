@@ -568,10 +568,13 @@ export default class EmpleadoFormularioComponent
           )!.value,
         })
         .subscribe((respuesta) => {
-          if (!respuesta.validacion) {
+          if (respuesta.validacion) {
             this.formularioEmpleado
               .get('numero_identificacion')!
               .setErrors({ numeroIdentificacionExistente: true });
+          } else {
+            this.formularioEmpleado.get('numero_identificacion')!.setErrors(null)
+            this.changeDetectorRef.detectChanges();
           }
         });
     }

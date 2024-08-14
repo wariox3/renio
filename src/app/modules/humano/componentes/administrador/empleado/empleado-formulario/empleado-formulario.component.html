@@ -86,7 +86,7 @@
             class="form-control bg-transparent"
             type="number"
             autocomplete="off"
-            (blur)="calcularDigitoVerificacion()"
+            (blur)="calcularDigitoVerificacion(); validarNumeroIdenficacionExistente()"
             [ngClass]="{
               'is-invalid':
                 formularioEmpleado.controls['numero_identificacion'].touched &&
