@@ -19,7 +19,6 @@ import {
 } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -83,6 +82,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'calendar';
       case 'GUIA':
         return 'map';
+      case 'nomina':
+        return 'dollar';
     }
   }
 

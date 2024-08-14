@@ -14,6 +14,7 @@ export interface informacionMenuItem {
     nuevo?: string;
     detalle?: string;
   },
+  menuOpen?: boolean
   visualiazarIconoDeracha?: boolean;
   consultaHttp?: boolean;
   esIndependiente?: boolean;
@@ -40,6 +41,7 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'PAGO',
@@ -73,6 +75,7 @@ export const initialState: Menu = {
     },
     {
       nombre: 'compra',
+      menuOpen: true,
       children: [
         {
           nombre: 'documento',
@@ -154,6 +157,7 @@ export const initialState: Menu = {
     },
     {
       nombre: 'contabilidad',
+      menuOpen: true,
       children: [
         {
           nombre: '',
@@ -231,7 +235,8 @@ export const initialState: Menu = {
       nombre: 'humano',
       children: [
         {
-          nombre: 'documento',
+          nombre: 'nomina',
+          menuOpen: true,
           children: [
             {
               nombre: 'PROGRAMACION',
@@ -264,7 +269,13 @@ export const initialState: Menu = {
           ],
         },
         {
+          nombre: 'documento',
+          menuOpen: false,
+
+        },
+        {
           nombre: 'administracion',
+          menuOpen: false,
           children: [
             {
               nombre: 'EMPLEADO',
@@ -301,6 +312,7 @@ export const initialState: Menu = {
     },
     {
       nombre: 'venta',
+      menuOpen: true,
       children: [
         {
           nombre: 'documento',
@@ -415,6 +427,7 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'FACTURAVENTA',
@@ -486,6 +499,7 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'ENTRADA',
@@ -529,6 +543,7 @@ export const initialState: Menu = {
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'EGRESO',
@@ -556,6 +571,7 @@ export const initialState: Menu = {
     },
     {
       nombre: 'transporte',
+      menuOpen: true,
       children: [
         {
           nombre: '',
