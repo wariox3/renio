@@ -24,6 +24,7 @@ export const locale = {
         UTILIDAD: 'Utilidad',
         PROCESO: 'Proceso',
         INFORME: 'Informe',
+        NOMINA: 'Nomina',
       },
       FUNCIONALIDAD: {
         PERIODO: 'Periodo',
