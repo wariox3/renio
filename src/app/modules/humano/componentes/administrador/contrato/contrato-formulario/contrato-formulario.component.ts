@@ -75,37 +75,38 @@ export default class ContratoFormularioComponent
     )
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
-    this.formularioContrato = this.formBuilder.group({
-      contacto: ['', Validators.compose([Validators.required])],
-      contacto_nombre: [''],
-      fecha_desde: [
-        fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      fecha_hasta: [
-        fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      grupo: ['', Validators.compose([Validators.required])],
-      contrato_tipo: ['', Validators.compose([Validators.required])],
-    },
-    {
-      validator: this.fechaDesdeMenorQueFechaHasta(
-        'fecha_desde',
-        'fecha_hasta'
-      ),
-    }
-  );
+    this.formularioContrato = this.formBuilder.group(
+      {
+        contacto: ['', Validators.compose([Validators.required])],
+        contacto_nombre: [''],
+        fecha_desde: [
+          fechaVencimientoInicial,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        fecha_hasta: [
+          fechaVencimientoInicial,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        grupo: ['', Validators.compose([Validators.required])],
+        contrato_tipo: ['', Validators.compose([Validators.required])],
+      },
+      {
+        validator: this.fechaDesdeMenorQueFechaHasta(
+          'fecha_desde',
+          'fecha_hasta'
+        ),
+      }
+    );
   }
 
   enviarFormulario() {
@@ -278,8 +279,10 @@ export default class ContratoFormularioComponent
       });
   }
 
-
-  fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
+  fechaDesdeMenorQueFechaHasta(
+    fechaDesde: string,
+    fechaHasta: string
+  ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;
@@ -290,5 +293,15 @@ export default class ContratoFormularioComponent
       }
       return null;
     };
+  }
+
+  cambioDeContratoTipo(event: Event) {
+    const selector = event.target as HTMLInputElement;
+
+    if (selector.value === '1') {
+      this.formularioContrato.patchValue({
+        fecha_hasta: this.formularioContrato.get('fecha_desde')?.value,
+      });
+    }
   }
 }

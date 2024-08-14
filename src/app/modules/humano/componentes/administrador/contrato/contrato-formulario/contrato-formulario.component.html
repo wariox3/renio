@@ -1,17 +1,9 @@
 <form [formGroup]="formularioContrato" (ngSubmit)="enviarFormulario()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
+    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
       <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
+      <button type="submit" class="btn btn-primary btn-sm" #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"></button>
     </div>
   </div>
   <app-card>
@@ -19,13 +11,13 @@
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
       </ng-container>
       <ng-template #tituloDetalle>
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
         {{ detalle }}
       </ng-template>
@@ -33,82 +25,101 @@
     <section card-body>
       <div class="row mb-5">
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.EMPLEADO"
-          ></label>
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.COMUNES.EMPLEADO"></label>
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="contacto_nombre"
-              (focus)="consultarEmpleado($event); ClienteDropdown.open()"
-              (keyup)="consultarEmpleado($event)"
-              [ngClass]="{
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="contacto_nombre"
+              (focus)="consultarEmpleado($event); ClienteDropdown.open()" (keyup)="consultarEmpleado($event)" [ngClass]="{
                 'is-invalid':
                   formularioContrato.controls['contacto'].touched &&
                   formularioContrato.controls['contacto'].invalid,
                 'is-valid':
                   formularioContrato.controls['contacto'].touched &&
                   formularioContrato.controls['contacto'].valid
-              }"
-            />
+              }" />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let empleado of arrEmpleados">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contacto', empleado)"
-                (pointerenter)="modificarCampoFormulario('contacto', empleado)"
-              >
+              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contacto', empleado)"
+                (pointerenter)="modificarCampoFormulario('contacto', empleado)">
                 {{ empleado.contacto_nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
-              <app-comun-buscar-avanzado
-                [consultarModelo]="'Contacto'"
-                [consultarTipo]="'Administrador'"
+              <app-comun-buscar-avanzado [consultarModelo]="'Contacto'" [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
-                "
-                [campoLista]="camposBuscarAvanzado"
-                [campoFiltros]="camposBuscarAvanzado"
-              >
+                " [campoLista]="camposBuscarAvanzado" [campoFiltros]="camposBuscarAvanzado">
               </app-comun-buscar-avanzado>
             </button>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioContrato.controls['contacto']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHADESDE"
-          ></label>
-          <input
-            #fechaDesde
-            formControlName="fecha_desde"
-            class="form-control"
-            type="date"
-            autocomplete="off"
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTRATOTIPO"></label>
+          <select #contratoTipo (change)="cambioDeContratoTipo($event)" class="form-select" formControlName="contrato_tipo" [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['contrato_tipo'].touched &&
+                formularioContrato.controls['contrato_tipo'].invalid,
+              'is-valid':
+                formularioContrato.controls['contrato_tipo'].touched &&
+                formularioContrato.controls['contrato_tipo'].valid
+            }">
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option *ngFor="let contrato_tipo of arrContratoTipo" [value]="contrato_tipo.contrato_tipo_id" [selected]="
+                contrato_tipo.contrato_tipo_id ===
+                formularioContrato.controls.contrato_tipo_id
+              ">
+              {{ contrato_tipo.contrato_tipo_nombre }}
+            </option>
+          </select>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['contrato_tipo']
+            }"></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPO"></label>
+          <select class="form-select" formControlName="grupo" [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['grupo'].touched &&
+                formularioContrato.controls['grupo'].invalid,
+              'is-valid':
+                formularioContrato.controls['grupo'].touched &&
+                formularioContrato.controls['grupo'].valid
+            }">
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.grupo_id" [selected]="
+                grupo.grupo_id === formularioContrato.controls.grupo_id
+              ">
+              {{ grupo.grupo_nombre }}
+            </option>
+          </select>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['grupo']
+            }"></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHADESDE"></label>
+          <input #fechaDesde formControlName="fecha_desde" class="form-control" type="date" autocomplete="off"
             [ngClass]="{
               'is-invalid':
                 formularioContrato.controls['fecha_desde'].touched &&
@@ -116,64 +127,44 @@
               'is-valid':
                 formularioContrato.controls['fecha_desde'].touched &&
                 formularioContrato.controls['fecha_desde'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioContrato.controls['fecha_desde']
-            }"
-          ></ng-container>
-          <div
-            *ngIf="
+            }"></ng-container>
+          <div *ngIf="
               formularioContrato.controls.fechaDesde?.touched &&
               formularioContrato.controls.fechaDesde?.hasError(
                 'fechaSuperiorNoValida'
               )
-            "
-          >
+            ">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
+                <span translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO" role="alert">
                 </span>
               </div>
             </div>
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"
-          ></label>
-          <input
-            formControlName="fecha_hasta"
-            class="form-control"
-            type="date"
-            autocomplete="off"
-            [min]="fechaDesde.value"
-            [ngClass]="{
-              'is-invalid':
-                (formularioContrato.controls['fecha_hasta'].touched &&
-                  formularioContrato.controls['fecha_hasta'].invalid) ||
-                formularioContrato.errors?.fechaInvalida,
-              'is-valid':
-                formularioContrato.controls['fecha_hasta'].touched &&
-                formularioContrato.controls['fecha_hasta'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['fecha_hasta']
-            }"
-          ></ng-container>
+          @if(contratoTipo.value !== '1'){
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"></label>
+          <input formControlName="fecha_hasta" class="form-control" type="date" autocomplete="off"
+            [min]="fechaDesde.value" [ngClass]="{
+                'is-invalid':
+                  (formularioContrato.controls['fecha_hasta'].touched &&
+                    formularioContrato.controls['fecha_hasta'].invalid) ||
+                  formularioContrato.errors?.fechaInvalida,
+                'is-valid':
+                  formularioContrato.controls['fecha_hasta'].touched &&
+                  formularioContrato.controls['fecha_hasta'].valid
+              }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioContrato.controls['fecha_hasta']
+              }"></ng-container>
           <div *ngIf="formularioContrato.errors?.fechaInvalida">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
@@ -183,102 +174,16 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="grupo"
-            [ngClass]="{
-              'is-invalid':
-                formularioContrato.controls['grupo'].touched &&
-                formularioContrato.controls['grupo'].invalid,
-              'is-valid':
-                formularioContrato.controls['grupo'].touched &&
-                formularioContrato.controls['grupo'].valid
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let grupo of arrGrupo"
-              [value]="grupo.grupo_id"
-              [selected]="
-                grupo.grupo_id === formularioContrato.controls.grupo_id
-              "
-            >
-              {{ grupo.grupo_nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['grupo']
-            }"
-          ></ng-container>
-        </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTRATOTIPO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="contrato_tipo"
-            [ngClass]="{
-              'is-invalid':
-                formularioContrato.controls['contrato_tipo'].touched &&
-                formularioContrato.controls['contrato_tipo'].invalid,
-              'is-valid':
-                formularioContrato.controls['contrato_tipo'].touched &&
-                formularioContrato.controls['contrato_tipo'].valid
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let contrato_tipo of arrContratoTipo"
-              [value]="contrato_tipo.contrato_tipo_id"
-              [selected]="
-                contrato_tipo.contrato_tipo_id ===
-                formularioContrato.controls.contrato_tipo_id
-              "
-            >
-              {{ contrato_tipo.contrato_tipo_nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['contrato_tipo']
-            }"
-          ></ng-container>
+          }
+
         </div>
       </div>
     </section>
   </app-card>
 </form>
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
+<ng-template #formError let-control="control" let-message="message" let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
