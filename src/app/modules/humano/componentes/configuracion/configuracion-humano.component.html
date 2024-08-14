@@ -1,0 +1,64 @@
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  [formGroup]="formularioConfiguracion"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="fv-row d-flex mb-5">
+    <button
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      type="submit"
+      class="btn btn-sm btn-primary"
+      type="submit"
+      #btnGuardar
+    ></button>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-12 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.FACTOR"
+        class="form-label required"
+      ></label>
+      <input
+      formControlName="factor"
+      class="form-control"
+      type="text"
+      autocomplete="off"
+      [ngClass]="{
+        'is-invalid':
+        formularioConfiguracion.controls['factor'].touched &&
+        formularioConfiguracion.controls['factor'].invalid,
+        'is-valid':
+        formularioConfiguracion.controls['factor'].touched &&
+        formularioConfiguracion.controls['factor'].valid
+      }"
+      appSoloNumeros
+    />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioConfiguracion.controls['factor']
+        }"
+      ></ng-container>
+    </div>
+  </div>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

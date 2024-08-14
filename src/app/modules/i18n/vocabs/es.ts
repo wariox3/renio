@@ -497,6 +497,9 @@ export const locale = {
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento'
+        },
+        CONFIGURACIONHUMANO: {
+          FACTOR: 'Factor'
         }
       },
       VALIDACIONES: {

@@ -18,7 +18,6 @@ import { tap } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
