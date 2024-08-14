@@ -119,6 +119,8 @@
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Recargo festivo nocturno">RFN</div>
                       </th>
+                      <th>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -153,6 +155,14 @@
                         </td>
                         <td>
                           {{ programacionDetalle.recargo_festivo_nocturno }}
+                        </td>
+                        <td class="w-45px">
+                          <label class="cursor-pointer" (click)="abrirModalDeEditarRegistro(contentModalEditarRegistro, programacionDetalle.id)">
+                            <i class="ki-duotone ki-notepad-edit hover-primary">
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                          </label>
                         </td>
                       </tr>
                     </ng-container>
@@ -225,6 +235,8 @@
     </div>
   </section>
 </app-card>
+
+<!-- Modal para adicionar programacion -->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
@@ -386,6 +398,261 @@
     </button>
   </div>
 </ng-template>
+
+<!-- Modal para editar registros de detalle -->
+<ng-template #contentModalEditarRegistro let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar registro</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="formularioEditarDetalleProgramacion" (ngSubmit)="actualizarDetalleProgramacion()">
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="pago_horas"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_salud"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="pago_auxilio_transporte"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_pension"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_adicional_permanente"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPERMANENTE"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_fondo_solidaridad"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_adicional_programacion"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPROGRAMACION"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_retencion_fuente"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="pago_incapacidad"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_credito"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="pago_licencia"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="descuento_embargo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="pago_vacacion"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" (click)="actualizarDetalleProgramacion()">
+      Guardar
+    </button>
+  </div>
+</ng-template>
+
+<!-- Errores -->
 <ng-template #formError let-control="control" let-message="message" let-validation="validation"
   let-cantidadCaracteres="cantidadCaracteres">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
