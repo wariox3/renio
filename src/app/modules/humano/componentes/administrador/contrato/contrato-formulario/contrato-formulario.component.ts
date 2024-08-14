@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
@@ -96,7 +98,14 @@ export default class ContratoFormularioComponent
       ],
       grupo: ['', Validators.compose([Validators.required])],
       contrato_tipo: ['', Validators.compose([Validators.required])],
-    });
+    },
+    {
+      validator: this.fechaDesdeMenorQueFechaHasta(
+        'fecha_desde',
+        'fecha_hasta'
+      ),
+    }
+  );
   }
 
   enviarFormulario() {
@@ -267,5 +276,19 @@ export default class ContratoFormularioComponent
 
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+
+  fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const desde = formGroup.get(fechaDesde)?.value;
+      const hasta = formGroup.get(fechaHasta)?.value;
+
+      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+        return { fechaInvalida: true };
+      }
+      return null;
+    };
   }
 }

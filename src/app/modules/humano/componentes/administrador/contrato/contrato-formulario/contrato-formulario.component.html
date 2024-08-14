@@ -104,17 +104,18 @@
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHADESDE"
           ></label>
           <input
+            #fechaDesde
             formControlName="fecha_desde"
             class="form-control"
             type="date"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioContrato.controls['fecha_desde'].touched &&
-              formularioContrato.controls['fecha_desde'].invalid,
+                formularioContrato.controls['fecha_desde'].touched &&
+                formularioContrato.controls['fecha_desde'].invalid,
               'is-valid':
-              formularioContrato.controls['fecha_desde'].touched &&
-              formularioContrato.controls['fecha_desde'].valid
+                formularioContrato.controls['fecha_desde'].touched &&
+                formularioContrato.controls['fecha_desde'].valid
             }"
           />
           <ng-container
@@ -154,13 +155,15 @@
             class="form-control"
             type="date"
             autocomplete="off"
+            [min]="fechaDesde.value"
             [ngClass]="{
               'is-invalid':
-              formularioContrato.controls['fecha_hasta'].touched &&
-              formularioContrato.controls['fecha_hasta'].invalid,
+                (formularioContrato.controls['fecha_hasta'].touched &&
+                  formularioContrato.controls['fecha_hasta'].invalid) ||
+                formularioContrato.errors?.fechaInvalida,
               'is-valid':
-              formularioContrato.controls['fecha_hasta'].touched &&
-              formularioContrato.controls['fecha_hasta'].valid
+                formularioContrato.controls['fecha_hasta'].touched &&
+                formularioContrato.controls['fecha_hasta'].valid
             }"
           />
           <ng-container
@@ -171,20 +174,11 @@
               control: formularioContrato.controls['fecha_hasta']
             }"
           ></ng-container>
-          <div
-            *ngIf="
-              formularioContrato.controls.fechaHasta?.touched &&
-              formularioContrato.controls.fechaHasta?.hasError(
-                'fechaSuperiorNoValida'
-              )
-            "
-          >
+          <div *ngIf="formularioContrato.errors?.fechaInvalida">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
+                <span role="alert">
+                  La fecha desde no puede ser mayor que la fecha hasta.
                 </span>
               </div>
             </div>
@@ -205,8 +199,8 @@
                 formularioContrato.controls['grupo'].touched &&
                 formularioContrato.controls['grupo'].invalid,
               'is-valid':
-              formularioContrato.controls['grupo'].touched &&
-              formularioContrato.controls['grupo'].valid
+                formularioContrato.controls['grupo'].touched &&
+                formularioContrato.controls['grupo'].valid
             }"
           >
             <option value="">
@@ -216,8 +210,7 @@
               *ngFor="let grupo of arrGrupo"
               [value]="grupo.grupo_id"
               [selected]="
-              grupo.grupo_id ===
-                formularioContrato.controls.grupo_id
+                grupo.grupo_id === formularioContrato.controls.grupo_id
               "
             >
               {{ grupo.grupo_nombre }}
@@ -245,8 +238,8 @@
                 formularioContrato.controls['contrato_tipo'].touched &&
                 formularioContrato.controls['contrato_tipo'].invalid,
               'is-valid':
-              formularioContrato.controls['contrato_tipo'].touched &&
-              formularioContrato.controls['contrato_tipo'].valid
+                formularioContrato.controls['contrato_tipo'].touched &&
+                formularioContrato.controls['contrato_tipo'].valid
             }"
           >
             <option value="">
@@ -256,7 +249,7 @@
               *ngFor="let contrato_tipo of arrContratoTipo"
               [value]="contrato_tipo.contrato_tipo_id"
               [selected]="
-              contrato_tipo.contrato_tipo_id ===
+                contrato_tipo.contrato_tipo_id ===
                 formularioContrato.controls.contrato_tipo_id
               "
             >
