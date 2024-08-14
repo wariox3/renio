@@ -29,3 +29,7 @@ export interface ProgramacionDetalleRegistro {
   descuento_credito: boolean;
   descuento_embargo: boolean;
 }
+
+export interface TablaRegistroLista extends ProgramacionDetalleRegistro {
+  selected?: boolean;
+}

@@ -12,7 +12,11 @@ export class ProgramacionDetalleService extends Subdominio {
     super();
   }
 
-  actualizarDetalles(id: string, data: Partial<ProgramacionDetalleRegistro>) {
+  actualizarDetalles(id: number, data: Partial<ProgramacionDetalleRegistro>) {
     return this.httpService.put<ProgramacionDetalleRegistro>(`humano/programacion_detalle/${id}/`, data);
+  }
+
+  eliminarRegistro(id: number, data: any) {
+    return this.httpService.delete(`humano/programacion_detalle/${id}/`, {});
   }
 }

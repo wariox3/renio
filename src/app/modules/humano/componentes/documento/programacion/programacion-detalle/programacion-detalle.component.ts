@@ -11,7 +11,10 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { ProgramacionDetalleRegistro } from '@interfaces/humano/programacion';
+import {
+  ProgramacionDetalleRegistro,
+  TablaRegistroLista,
+} from '@interfaces/humano/programacion';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
@@ -81,13 +84,15 @@ export default class ProgramacionDetalleComponent
 
   arrParametrosConsulta: any;
   arrParametrosConsultaAdicional: any;
-  arrProgramacionDetalle: any;
+  arrProgramacionDetalle: TablaRegistroLista[] = [];
   arrProgramacionAdicional: any;
   formularioAdicionalProgramacion: FormGroup;
   formularioEditarDetalleProgramacion: FormGroup;
   arrConceptos: any[] = [];
   arrContratos: any[] = [];
-  registroSeleccionado: string;
+  registroSeleccionado: number;
+  registrosAEliminar: number[] = [];
+  isCheckedSeleccionarTodos: boolean = false;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -122,7 +127,12 @@ export default class ProgramacionDetalleComponent
           ),
         }).subscribe(
           ({ programacionDetalles, programacionAdicionales }: any) => {
-            this.arrProgramacionDetalle = programacionDetalles.registros;
+            this.arrProgramacionDetalle = programacionDetalles.registros.map(
+              (registro: TablaRegistroLista) => ({
+                ...registro,
+                selected: false,
+              })
+            );
             this.arrProgramacionAdicional = programacionAdicionales.registros;
             this.changeDetectorRef.detectChanges();
           }
@@ -148,7 +158,7 @@ export default class ProgramacionDetalleComponent
     };
   }
 
-  inicializarParametrosConsultaProgramacionDetalle(id: string) {
+  inicializarParametrosConsultaProgramacionDetalle(id: number) {
     this.arrParametrosConsulta = {
       filtros: [
         {
@@ -194,17 +204,20 @@ export default class ProgramacionDetalleComponent
 
   actualizarDetalleProgramacion() {
     if (this.formularioEditarDetalleProgramacion.valid) {
-      this.programacionDetalleService.actualizarDetalles(
-        this.registroSeleccionado,
-        this.formularioEditarDetalleProgramacion.value
-      ).subscribe(respuesta => {
-        this.alertaService.mensajaExitoso('Se actualizó la información');
-        this.modalService.dismissAll();
-      })
+      this.programacionDetalleService
+        .actualizarDetalles(
+          this.registroSeleccionado,
+          this.formularioEditarDetalleProgramacion.value
+        )
+        .subscribe(() => {
+          this.alertaService.mensajaExitoso('Se actualizó la información');
+          this.modalService.dismissAll();
+        });
     }
   }
 
   cargarContratos() {
+    this.isCheckedSeleccionarTodos = false
     this.programacionService
       .cargarContratos({
         id: this.programacion.id,
@@ -242,7 +255,7 @@ export default class ProgramacionDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  abrirModalDeEditarRegistro(content: any, id: string) {
+  abrirModalDeEditarRegistro(content: any, id: number) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -293,8 +306,10 @@ export default class ProgramacionDetalleComponent
             recargo_festivo_nocturno: registro.recargo_festivo_nocturno,
             contrato: registro.contrato_id,
             contrato_contacto_id: registro.contrato_contacto_id,
-            contrato_contacto_numero_identificacion: registro.contrato_contacto_numero_identificacion,
-            contrato_contacto_nombre_corto: registro.contrato_contacto_nombre_corto,
+            contrato_contacto_numero_identificacion:
+              registro.contrato_contacto_numero_identificacion,
+            contrato_contacto_nombre_corto:
+              registro.contrato_contacto_nombre_corto,
             pago_horas: registro.pago_horas,
             pago_auxilio_transporte: registro.pago_auxilio_transporte,
             pago_incapacidad: registro.pago_incapacidad,
@@ -446,5 +461,68 @@ export default class ProgramacionDetalleComponent
       .subscribe();
     this.consultarDatos();
     this.modalService.dismissAll();
+  }
+
+  // funcionalidades de eliminar registros
+  agregarRegistrosEliminar(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const index = this.registrosAEliminar.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
+    if (index !== -1) {
+      this.registrosAEliminar.splice(index, 1);
+    } else {
+      // Si el registro no está en el array, lo agrega
+      this.registrosAEliminar.push(id);
+    }
+  }
+
+  toggleSelectAll(event: Event) {
+    const seleccionarTodos = event.target as HTMLInputElement;
+    this.isCheckedSeleccionarTodos = !this.isCheckedSeleccionarTodos;
+    // Itera sobre todos los datos
+    if (seleccionarTodos.checked) {
+      this.arrProgramacionDetalle.forEach((item: TablaRegistroLista) => {
+        // Establece el estado de selección de cada registro
+        item.selected = !item.selected;
+        // Busca el índice del registro en el array de registros a eliminar
+        const index = this.registrosAEliminar.indexOf(item.id);
+        // Si el registro ya estaba en el array de registros a eliminar, lo elimina
+        if (index === -1) {
+          this.registrosAEliminar.push(item.id);
+        } // Si el registro no estaba en el array de registros a eliminar, lo agrega
+      });
+    } else {
+      this.arrProgramacionDetalle.forEach((item: TablaRegistroLista) => {
+        // Establece el estado de selección de cada registro
+        item.selected = !item.selected;
+      });
+
+      this.registrosAEliminar = [];
+    }
+  
+    this.changeDetectorRef.detectChanges();
+  }
+
+  eliminarRegistros() {
+    if (this.registrosAEliminar.length > 0) {
+      this.registrosAEliminar.forEach((id) => {
+        this.programacionDetalleService
+          .eliminarRegistro(id, {})
+          .subscribe(() => {
+            this.isCheckedSeleccionarTodos = false;  
+            this.alertaService.mensajaExitoso('Registro eliminado');
+          });
+      });
+      this.consultarDatos();
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'No se han seleccionado registros para eliminar'
+      );
+    }
+
+    this.registrosAEliminar = [];
+
+    this.changeDetectorRef.detectChanges();
   }
 }

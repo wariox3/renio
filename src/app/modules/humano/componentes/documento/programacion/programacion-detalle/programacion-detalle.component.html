@@ -75,6 +75,12 @@
             <a class="nav-link" ngbNavLink data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"></a>
             <ng-template ngbNavContent>
+              <div class="d-flex justify-content-end mb-4">
+                <div class="btn-group" role="group">
+                  <button type="button" (click)="eliminarRegistros()" class="btn btn-sm btn-danger"
+                    translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"></button>
+                </div>
+              </div>
               <div class="table-responsive-sm">
                 <table id="tableDetalles" class="table table-bordered table-row-gray-500">
                   <thead>
@@ -119,7 +125,23 @@
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Recargo festivo nocturno">RFN</div>
                       </th>
-                      <th>
+                      <th class="bg-gray-100">
+                      </th>
+                      <th class="text-center bg-gray-100">
+                        <label for="seleccionarTodos">
+                          <i class="cursor-pointer" [ngClass]="
+                            isCheckedSeleccionarTodos
+                              ? 'fa-solid fa-square-check text-danger'
+                              : 'fa-regular fa-square text-gray-500'
+                          ">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                          </i>
+
+                          <input class="d-none" type="checkbox" #checkboxSelectAll id="seleccionarTodos"
+                            [checked]="isCheckedSeleccionarTodos" [value]="isCheckedSeleccionarTodos"
+                            (click)="toggleSelectAll($event)" />
+                        </label>
                       </th>
                     </tr>
                   </thead>
@@ -157,11 +179,27 @@
                           {{ programacionDetalle.recargo_festivo_nocturno }}
                         </td>
                         <td class="w-45px">
-                          <label class="cursor-pointer" (click)="abrirModalDeEditarRegistro(contentModalEditarRegistro, programacionDetalle.id)">
+                          <label class="cursor-pointer"
+                            (click)="abrirModalDeEditarRegistro(contentModalEditarRegistro, programacionDetalle.id)">
                             <i class="ki-duotone ki-notepad-edit hover-primary">
                               <span class="path1"></span>
                               <span class="path2"></span>
                             </i>
+                          </label>
+                        </td>
+                        <td class="w-20px">
+                          <label [for]="programacionDetalle.id">
+                            <i class="cursor-pointer" [ngClass]="
+                                checked.checked
+                                  ? 'fa-solid fa-square-check text-danger'
+                                  : 'fa-regular fa-square text-gray-500'
+                              ">
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                            <input #checked class="d-none" type="checkbox" [id]="programacionDetalle.id"
+                              [value]="programacionDetalle.id" [checked]="programacionDetalle.selected"
+                              (click)="agregarRegistrosEliminar(programacionDetalle.id)" />
                           </label>
                         </td>
                       </tr>
@@ -411,35 +449,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_horas"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_horas" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_salud"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_salud" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD">
             </label>
           </div>
         </div>
@@ -447,35 +469,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_auxilio_transporte"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_auxilio_transporte" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_pension"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_pension" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION">
             </label>
           </div>
         </div>
@@ -483,35 +489,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_adicional_permanente"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPERMANENTE"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_adicional_permanente" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPERMANENTE">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_fondo_solidaridad"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_fondo_solidaridad" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO">
             </label>
           </div>
         </div>
@@ -519,35 +509,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_adicional_programacion"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPROGRAMACION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_adicional_programacion" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPROGRAMACION">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_retencion_fuente"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_retencion_fuente" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION">
             </label>
           </div>
         </div>
@@ -555,35 +529,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_incapacidad"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_incapacidad" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_credito"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_credito" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO">
             </label>
           </div>
         </div>
@@ -591,35 +549,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_licencia"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_licencia" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_embargo"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_embargo" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO">
             </label>
           </div>
         </div>
@@ -627,18 +569,10 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_vacacion"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_vacacion" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION">
             </label>
           </div>
         </div>
