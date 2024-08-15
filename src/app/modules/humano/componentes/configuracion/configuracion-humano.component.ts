@@ -58,10 +58,6 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
-      gen_uvt: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(20)]),
-      ],
     });
   }
 
@@ -73,7 +69,6 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           hum_factor: respuesta.hum_factor,
           hum_salario_minimo: parseInt(respuesta.hum_salario_minimo),
           hum_auxilio_transporte: parseInt(respuesta.hum_auxilio_transporte),
-          gen_uvt: parseInt(respuesta.gen_uvt),
         });
       });
   }

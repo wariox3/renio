@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="row mb-5">
-    <div class="col-md-12 col-sm-12">
+    <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.SALARIOMINIMO"
         class="form-label required"
@@ -94,9 +94,7 @@
         }"
       ></ng-container>
     </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-12 col-sm-12">
+    <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.AUXILIOTRANSPORTE"
         class="form-label required"
@@ -132,45 +130,6 @@
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '20',
           control: formularioConfiguracion.controls['hum_auxilio_transporte']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-md-12 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.UVT"
-        class="form-label required"
-      ></label>
-      <input
-        formControlName="gen_uvt"
-        class="form-control"
-        type="test"
-        [ngClass]="{
-          'is-invalid':
-            formularioConfiguracion.controls['gen_uvt'].touched &&
-            formularioConfiguracion.controls['gen_uvt'].invalid,
-          'is-valid':
-            formularioConfiguracion.controls['gen_uvt'].touched &&
-            formularioConfiguracion.controls['gen_uvt'].valid
-        }"
-        appSoloNumeros
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioConfiguracion.controls['gen_uvt']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '20',
-          control: formularioConfiguracion.controls['gen_uvt']
         }"
       ></ng-container>
     </div>
