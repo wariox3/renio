@@ -1,0 +1,76 @@
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  [formGroup]="formularioConfiguracion"
+  (ngSubmit)="formSubmit()"
+>
+  <div class="fv-row d-flex mb-5">
+    <button
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      type="submit"
+      class="btn btn-sm btn-primary"
+      type="submit"
+      #btnGuardar
+    ></button>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-12 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.CONFIGURACIONGENREAL.UVT"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="gen_uvt"
+        class="form-control"
+        type="test"
+        [ngClass]="{
+          'is-invalid':
+            formularioConfiguracion.controls['gen_uvt'].touched &&
+            formularioConfiguracion.controls['gen_uvt'].invalid,
+          'is-valid':
+            formularioConfiguracion.controls['gen_uvt'].touched &&
+            formularioConfiguracion.controls['gen_uvt'].valid
+        }"
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioConfiguracion.controls['gen_uvt']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '6',
+          control: formularioConfiguracion.controls['gen_uvt']
+        }"
+      ></ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+        control: formularioConfiguracion.controls['gen_uvt']
+      }"></ng-container>
+    </div>
+  </div>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
