@@ -963,6 +963,20 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: true,
     },
+    {
+      nombre: 'GRUPO_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'PAGO_TIPO_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ],
   HumAdicional: [
     {

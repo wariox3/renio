@@ -90,7 +90,7 @@ export const locale = {
           CARGARCONTRATOS: 'Cargo contracts',
           GENERAR: 'Trigger',
           DESCARGARERRORES: 'Download errores',
-          EJEMPLO: 'Example'
+          EJEMPLO: 'Example',
         },
         CONTENEDOR: {
           CONECTAR: 'Connect',
@@ -178,7 +178,8 @@ export const locale = {
           PROCESANDOTOKEN: 'Processing token',
           REGRESARLOGIN: 'Back to home page login',
           CARACTERISTICAS1: 'Simplify your business management',
-          CARACTERISTICAS2: 'Our application combines electronic invoicing and ERP in an easy and fast to use solution. Optimize and control your business with efficiency.',
+          CARACTERISTICAS2:
+            'Our application combines electronic invoicing and ERP in an easy and fast to use solution. Optimize and control your business with efficiency.',
           CARACTERISTICAS3: 'the blogger',
           CARACTERISTICAS4: 'introduces a person they’ve interviewed',
           CARACTERISTICAS5: 'and provides some background information about',
@@ -231,7 +232,7 @@ export const locale = {
           NOFITICAR: 'To notify',
           TOTAL: 'Total',
           CREDITO: 'Credit',
-          DEBITO: 'Debit'
+          DEBITO: 'Debit',
         },
         GENERAL: {
           ITEM: {
@@ -250,7 +251,7 @@ export const locale = {
           FACTURAELECTRONICABUSCARCODIGO: 'Are you looking for the code? ',
           FACTURAELECTRONICABUSCARCODIGOURL: 'Learn how to find it',
           CONSECUTIVO: 'Consecutive',
-          RESOLUCION: 'Resolution'
+          RESOLUCION: 'Resolution',
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Commercial information',
@@ -286,7 +287,7 @@ export const locale = {
           BARRIO: 'Neighborhood',
           SELECCIONAR: 'Select',
           FECHA: 'Date',
-          EMPLEADO: 'Employee'
+          EMPLEADO: 'Employee',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Display name',
@@ -327,14 +328,14 @@ export const locale = {
             FECHADESDE: 'Date from',
             FECHAHASTA: 'Date to',
             GRUPO: 'Group',
-            CONTRATOTIPO: 'Standard contract'
+            CONTRATOTIPO: 'Standard contract',
           },
           CUENTABANCO: {
             ID: 'ID',
             NOMBRE: 'Name',
             NUMEROCUENTA: 'Number account',
-            CUENTABANCOTIPO: 'Type account'
-          }
+            CUENTABANCOTIPO: 'Type account',
+          },
         },
         FACTURA: {
           MOVIMIENTOTIPO: 'Type of transaction',
@@ -382,17 +383,17 @@ export const locale = {
             INGRESOBASECOTIZACION: 'Contribution base income',
             INGRESOBASEPRESTACION: 'Base benefit income',
             PORCENTAJE: 'Percentage',
-            ORDEN: 'Order'
+            ORDEN: 'Order',
           },
           ADICIONAL: {
             CONTRATO: 'Contract',
-            CONCEPTO: 'Concept'
+            CONCEPTO: 'Concept',
           },
           CREDITO: {
             FECHAINICIO: 'Start',
             CONTRATO: 'Contract',
-          }
-        }
+          },
+        },
       },
       VALIDACIONES: {
         COMUNES: {
@@ -452,7 +453,7 @@ export const locale = {
         CARGANDOTABLA: 'Loading',
         EVENTOS: 'Events',
         CORREOS: 'Emails',
-        VALIDACIONES: 'Validations'
+        VALIDACIONES: 'Validations',
       },
       DOCUMENTO: {
         ID: 'Id',
@@ -500,7 +501,29 @@ export const locale = {
         PAGO: 'Pay',
         CUENTA: 'Account',
         NATURALEZA: 'Nature',
-        AFECTADO: 'Fertilizer'
+        AFECTADO: 'Fertilizer',
+        FECHA_DESDE: 'Start Date',
+        FECHA_HASTA: 'End Date',
+        NOMBRE: 'Name',
+        FECHA_HASTA_PERIODO: 'Period End Date',
+        FECHA_INICIO: 'Start',
+        CONTRATO: 'Contract',
+        CUOTA: 'Quota',
+        VALIDAR_CUOTAS: 'Validate Quotas',
+        CANTIDAD_CUOTAS: 'Number of Quotas',
+        VALIDAR_CUOTAS_ABREVIATURA: 'Validate Quotas',
+        APLICA_DIA_LABORADO_ABREVIATURA: 'Workday',
+        HORAS: 'Hours',
+        VALOR: 'Value',
+        CONCEPTO_ID: 'Concept',
+        CONCEPTO_NOMBRE: 'Name',
+        CONTRATO_CONTACTO_ID: 'Contact',
+        CONTRATO_CONTACTO_NOMBRE_CORTO: 'Name',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identification Number',
+        CONTRATO_ID: 'Contract ID',
+        DETALLE: 'Detail',
+        GRUPO_NOMBRE: 'Group',
+        PAGO_TIPO_NOMBRE: 'Type',
       },
       ITEM: {
         ID: 'ID',
@@ -588,7 +611,7 @@ export const locale = {
           ID: 'Id',
           FECHA: 'Date',
           DESCRIPCION: 'Description',
-        }
+        },
       },
       SEDE: {
         ID: 'ID',
@@ -644,7 +667,8 @@ export const locale = {
       LOGIN: 'Login',
       Mensaje1: 'Build An Outstanding Solutions',
       PRUEBAREDDOC: 'Prueba REDDOC',
-      AHORRO1: 'Uniting every piece of your business, efficiency, precision and growth with our ERP',
+      AHORRO1:
+        'Uniting every piece of your business, efficiency, precision and growth with our ERP',
       MENSAJE1: 'Build an exceptional solution with',
       MENSAJE2: 'the best tool in the world',
       EMPRESARIO: 'businessman',
@@ -729,9 +753,9 @@ export const locale = {
       DESCRIPCION: 'Description',
       GUARDAR: 'Save',
     },
-    PAGOS:{
+    PAGOS: {
       MENSAJECONFIRMACION: 'Thank you for paying for your subscription!',
-      CONTENEDORES: 'Return to my containers'
-    }
+      CONTENEDORES: 'Return to my containers',
+    },
   },
 };

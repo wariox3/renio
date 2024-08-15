@@ -638,8 +638,10 @@ export const locale = {
         CONTRATO_CONTACTO_ID: 'Contacto',
         CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
         CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
-        CONTRATO_ID: 1,
+        CONTRATO_ID: 'Contrato id',
         DETALLE: 'Detalle',
+        GRUPO_NOMBRE: 'Grupo',
+        PAGO_TIPO_NOMBRE: 'Tipo'
       },
       ITEM: {
         ID: 'ID',
