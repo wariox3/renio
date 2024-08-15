@@ -118,6 +118,8 @@ export const locale = {
           GENERAR: 'Generar',
           DESCARGARERRORES: 'Descargar errores',
           EJEMPLO: 'Ejemplo',
+          VERMAS: 'Ver Más',
+          VERMENOS: 'Ver Menos'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

@@ -10,6 +10,7 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { HttpService } from '@comun/services/http.service';
 import {
   ProgramacionDetalleRegistro,
@@ -27,11 +28,13 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
+import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @Component({
   selector: 'app-programacion-detalle',
   standalone: true,
   imports: [
+    KeeniconComponent,
     CommonModule,
     FormsModule,
     TranslateModule,
@@ -41,6 +44,7 @@ import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
     NgbNavModule,
     ReactiveFormsModule,
     NgbTooltipModule,
+    AnimacionFadeInOutDirective
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -93,6 +97,7 @@ export default class ProgramacionDetalleComponent
   registroSeleccionado: number;
   registrosAEliminar: number[] = [];
   isCheckedSeleccionarTodos: boolean = false;
+  mostrarMasDetalles: boolean = false;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -217,7 +222,7 @@ export default class ProgramacionDetalleComponent
   }
 
   cargarContratos() {
-    this.isCheckedSeleccionarTodos = false
+    this.isCheckedSeleccionarTodos = false;
     this.programacionService
       .cargarContratos({
         id: this.programacion.id,
@@ -463,6 +468,12 @@ export default class ProgramacionDetalleComponent
     this.modalService.dismissAll();
   }
 
+  // detalles visuales
+  mostrarTodosLosDetalles() {
+    this.mostrarMasDetalles = !this.mostrarMasDetalles;
+    this.changeDetectorRef.detectChanges();
+  }
+
   // funcionalidades de eliminar registros
   agregarRegistrosEliminar(id: number) {
     // Busca el índice del registro en el array de registros a eliminar
@@ -499,7 +510,7 @@ export default class ProgramacionDetalleComponent
 
       this.registrosAEliminar = [];
     }
-  
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -509,7 +520,7 @@ export default class ProgramacionDetalleComponent
         this.programacionDetalleService
           .eliminarRegistro(id, {})
           .subscribe(() => {
-            this.isCheckedSeleccionarTodos = false;  
+            this.isCheckedSeleccionarTodos = false;
             this.alertaService.mensajaExitoso('Registro eliminado');
           });
       });
