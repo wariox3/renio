@@ -503,6 +503,9 @@ export const locale = {
         },
         CONFIGURACIONHUMANO: {
           FACTOR: 'Factor',
+          UVT: 'UVT',
+          AUXILIOTRANSPORTE: 'Auxilio transporte',
+          SALARIOMINIMO: 'Salario mínimo'
         },
       },
       VALIDACIONES: {

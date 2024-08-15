@@ -20,26 +20,116 @@
         class="form-label required"
       ></label>
       <input
-      formControlName="factor"
-      class="form-control"
-      type="text"
-      autocomplete="off"
-      [ngClass]="{
-        'is-invalid':
-        formularioConfiguracion.controls['factor'].touched &&
-        formularioConfiguracion.controls['factor'].invalid,
-        'is-valid':
-        formularioConfiguracion.controls['factor'].touched &&
-        formularioConfiguracion.controls['factor'].valid
-      }"
-      appSoloNumeros
-    />
+        formControlName="hum_factor"
+        class="form-control"
+        type="test"
+        [ngClass]="{
+          'is-invalid':
+            formularioConfiguracion.controls['hum_factor'].touched &&
+            formularioConfiguracion.controls['hum_factor'].invalid,
+          'is-valid':
+            formularioConfiguracion.controls['hum_factor'].touched &&
+            formularioConfiguracion.controls['hum_factor'].valid
+        }"
+      />
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioConfiguracion.controls['factor']
+          control: formularioConfiguracion.controls['hum_factor']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '6',
+          control: formularioConfiguracion.controls['hum_factor']
+        }"
+      ></ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'pattern',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+        control: formularioConfiguracion.controls['hum_factor']
+      }"></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.SALARIOMINIMO"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="hum_salario_minimo"
+        class="form-control"
+        type="test"
+        [ngClass]="{
+          'is-invalid':
+            formularioConfiguracion.controls['hum_salario_minimo'].touched &&
+            formularioConfiguracion.controls['hum_salario_minimo'].invalid,
+          'is-valid':
+            formularioConfiguracion.controls['hum_salario_minimo'].touched &&
+            formularioConfiguracion.controls['hum_salario_minimo'].valid
+        }"
+        appSoloNumeros
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioConfiguracion.controls['hum_salario_minimo']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '20',
+          control: formularioConfiguracion.controls['hum_salario_minimo']
+        }"
+      ></ng-container>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.AUXILIOTRANSPORTE"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="hum_auxilio_transporte"
+        class="form-control"
+        type="test"
+        [ngClass]="{
+          'is-invalid':
+            formularioConfiguracion.controls['hum_auxilio_transporte']
+              .touched &&
+            formularioConfiguracion.controls['hum_auxilio_transporte'].invalid,
+          'is-valid':
+            formularioConfiguracion.controls['hum_auxilio_transporte']
+              .touched &&
+            formularioConfiguracion.controls['hum_auxilio_transporte'].valid
+        }"
+        appSoloNumeros
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioConfiguracion.controls['hum_auxilio_transporte']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '20',
+          control: formularioConfiguracion.controls['hum_auxilio_transporte']
         }"
       ></ng-container>
     </div>
