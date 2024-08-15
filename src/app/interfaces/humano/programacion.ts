@@ -28,6 +28,11 @@ export interface ProgramacionDetalleRegistro {
   descuento_adicional_programacion: boolean;
   descuento_credito: boolean;
   descuento_embargo: boolean;
+  fecha_desde: string;
+  fecha_hasta: string;
+  salario: number;
+  dias_transporte: number;
+  dias: number;
 }
 
 export interface TablaRegistroLista extends ProgramacionDetalleRegistro {

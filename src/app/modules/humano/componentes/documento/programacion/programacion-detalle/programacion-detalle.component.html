@@ -152,6 +152,24 @@
                         <div>Nombre</div>
                       </th>
                       <th class="bg-gray-100">
+                        <div ngbTooltip="Contrato">CONT</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div ngbTooltip="Fecha desde">DESDE</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div ngbTooltip="Fecha hasta">HASTA</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div placement="top" ngbTooltip="Salario">SALARIO</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div placement="top" ngbTooltip="Días transporte">DT</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div placement="top" ngbTooltip="Días transporte">DIAS</div>
+                      </th>
+                      <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Diurna">D</div>
                       </th>
                       <th class="bg-gray-100">
@@ -183,6 +201,9 @@
                       </th>
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Recargo festivo nocturno">RFN</div>
+                      </th>
+                      <th class="bg-gray-100">
+                        <div placement="top" ngbTooltip="Días transporte">NETO</div>
                       </th>
                       <th class="bg-gray-100">
                       </th>
@@ -220,6 +241,30 @@
                           programacionDetalle.contrato_contacto_nombre_corto
                           }}
                         </td>
+                        <td>
+                          {{
+                          programacionDetalle.contrato_id
+                          }}
+                        </td>
+                        <td>
+                          {{
+                          programacionDetalle.fecha_desde
+                          }}
+                        </td>
+                        <td>
+                          {{
+                          programacionDetalle.fecha_hasta
+                          }}
+                        </td>
+                        <td>
+                          {{ programacionDetalle.salario }}
+                        </td>
+                        <td>
+                          {{ programacionDetalle.dias_transporte }}
+                        </td>
+                        <td>
+                          {{ programacionDetalle.dias }}
+                        </td>
                         <td>{{ programacionDetalle.diurna }}</td>
                         <td>{{ programacionDetalle.nocturna }}</td>
                         <td>{{ programacionDetalle.festiva_diurna }}</td>
@@ -236,6 +281,9 @@
                         </td>
                         <td>
                           {{ programacionDetalle.recargo_festivo_nocturno }}
+                        </td>
+                        <td>
+                          
                         </td>
                         <td class="w-45px">
                           <label class="cursor-pointer"
