@@ -978,6 +978,22 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'DIAS',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'CONTRATOS',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: false,
+      ordenable: false,
+    },
+    {
       nombre: 'NETO',
       campoTipo: 'FloatField',
       visibleTabla: true,

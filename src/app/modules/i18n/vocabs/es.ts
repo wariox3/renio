@@ -648,7 +648,9 @@ export const locale = {
         CONTRATO_ID: 'Contrato id',
         DETALLE: 'Detalle',
         GRUPO_NOMBRE: 'Grupo',
-        PAGO_TIPO_NOMBRE: 'Tipo'
+        PAGO_TIPO_NOMBRE: 'Tipo',
+        DIAS: 'Días',
+        CONTRATOS: 'Cantidad'
       },
       ITEM: {
         ID: 'ID',

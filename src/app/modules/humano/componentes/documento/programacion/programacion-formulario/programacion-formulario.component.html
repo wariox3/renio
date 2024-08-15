@@ -223,6 +223,38 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></label>
+          <textarea
+            formControlName="comentario"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            [ngClass]="{
+              'is-invalid':
+                formularioProgramacion.controls['comentario'].touched &&
+                formularioProgramacion.controls['comentario'].invalid,
+              'is-valid':
+              formularioProgramacion.controls['comentario'].touched &&
+              formularioProgramacion.controls['comentario'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '500',
+              control: formularioProgramacion.controls['comentario']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
             <input
