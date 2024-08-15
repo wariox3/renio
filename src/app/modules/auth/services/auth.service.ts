@@ -86,7 +86,11 @@ export class AuthService implements OnDestroy {
         removeCookie(cookieNombre);
       }
     });
-    window.location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/inicio`;
+    if(environment.production){
+      window.location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/inicio`;
+    } else {
+      this.router.navigate(['/inicio'])
+    }
   }
 
   registration(data: any) {
