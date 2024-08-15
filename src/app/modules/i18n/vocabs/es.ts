@@ -496,6 +496,7 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             CODIGO: 'Id',
+            NETO: 'Neto'
           },
         },
         CONTABILIDAD: {
@@ -585,6 +586,7 @@ export const locale = {
         BASE: 'Base',
         IMPUESTO: 'Impuesto',
         TOTAL: 'Total',
+        NETO: 'Neto',
         ESTADO_APROBADO_ABREVIATURA: 'Apr',
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
         ESTADO_ELECTRONICO_ABREVIATURA: 'Elec',
