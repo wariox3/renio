@@ -202,7 +202,6 @@ export class AuthService implements OnDestroy {
           },
         })
       );
-      console.log('loginExitoso')
       this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/contenedor/lista']);

@@ -36,7 +36,8 @@ let estadoInicializado: Contenedor = {
   identificacion: 0,
   nombre_corto: '',
   numero_identificacion: 0,
-  telefono: ''
+  telefono: '',
+  acceso_restringido: false
 };
 
 export const initialState: Contenedor = contenedorDatos

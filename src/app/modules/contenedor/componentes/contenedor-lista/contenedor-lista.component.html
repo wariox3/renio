@@ -37,7 +37,6 @@
               </tr>
             </thead>
             <tbody>
-              <div></div>
               <ng-container
                 *ngIf="arrContenedores.length > 0; else sinContenedores"
               >
@@ -111,7 +110,7 @@
                         href="#"
                         class="btn btn-bg-primary btn-color-white"
                         (click)="seleccionarEmpresa(contenedor.contenedor_id)"
-                        [disabled]="!habilitarContenedores"
+                        [disabled]="contenedor.acceso_restringido"
                       ></button>
                     </div>
                   </td>

@@ -18,6 +18,7 @@ export interface Contenedor {
   usuario_id: number;
   usuarios: number;
   usuarios_base: number | null;
+  acceso_restringido: boolean;
 }
 
 export interface ContenedorLista {

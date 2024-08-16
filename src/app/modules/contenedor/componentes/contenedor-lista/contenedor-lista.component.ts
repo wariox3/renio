@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
-import { obtenerUsuarioFechaLimitePago, obtenerUsuarioId, obtenerUsuarioVrSaldo } from '@redux/selectors/usuario.selectors';
+import {
+  obtenerUsuarioFechaLimitePago,
+  obtenerUsuarioId,
+  obtenerUsuarioVrSaldo,
+} from '@redux/selectors/usuario.selectors';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { General } from '@comun/clases/general';
@@ -12,7 +16,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
-import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
 
@@ -29,41 +33,48 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     NgOptimizedImage,
     NgIf,
     NgFor,
+    CommonModule,
     NgbDropdownModule,
     SkeletonLoadingComponent,
     NgOptimizedImage,
-],
+  ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
-  fechaActual = new Date;
+  fechaActual = new Date();
   usuarioFechaLimitePago: Date;
   dominioApp = environment.dominioApp;
   cargandoContederes = false;
   habilitarContenedores = true;
   usuarioSaldo = 0;
+
   constructor(private contenedorService: ContenedorService) {
     super();
   }
 
   ngOnInit() {
     this.consultarLista();
-    //this.limpiarEmpresa();
+    this.limpiarEmpresa();
 
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
       this.store.select(obtenerUsuarioVrSaldo),
     ]).subscribe((respuesta) => {
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
-      this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
+      this.usuarioFechaLimitePago.setDate(
+        this.usuarioFechaLimitePago.getDate() + 1
+      );
       this.usuarioSaldo = respuesta[1];
 
-      if(this.usuarioSaldo > 0 && this.usuarioFechaLimitePago < this.fechaActual){
-        this.habilitarContenedores = false
+      if (
+        this.usuarioSaldo > 0 &&
+        this.usuarioFechaLimitePago < this.fechaActual
+      ) {
+        this.habilitarContenedores = false;
       }
 
       this.changeDetectorRef.detectChanges();
-    })
+    });
   }
 
   consultarLista() {
@@ -97,8 +108,7 @@ export class ContenedorListaComponent extends General implements OnInit {
       .subscribe((respuesta) => {
         const contenedor: Contenedor = {
           nombre: respuesta.nombre,
-          imagen:
-            'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+          imagen: 'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
           contenedor_id: respuesta.id,
           subdominio: respuesta.subdominio,
           id: respuesta.id,
@@ -116,6 +126,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           nombre_corto: '',
           numero_identificacion: 0,
           telefono: '',
+          acceso_restringido: respuesta.acceso_restringido
         };
         this.store.dispatch(ContenedorActionInit({ contenedor }));
         this.store.dispatch(
@@ -197,11 +208,5 @@ export class ContenedorListaComponent extends General implements OnInit {
       })
     );
     this.store.dispatch(empresaLimpiarAction());
-    if (window.location.host.includes(environment.dominioApp)) {
-      console.log('limpiarEmpresa');
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.router.navigate(['/contenedor/lista']);
-    }
   }
 }
