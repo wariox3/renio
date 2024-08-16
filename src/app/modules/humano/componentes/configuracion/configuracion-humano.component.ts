@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,11 +23,13 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     SoloNumerosDirective,
+    CardComponent
   ],
   templateUrl: './configuracion-humano.component.html',
 })
 export class ConfiguracionHumanoComponent extends General implements OnInit {
   formularioConfiguracion: FormGroup;
+  arrConceptosNomina: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +40,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarInformacion();
+    this.consultarConceptoNomina();
     this.initForm();
   }
 
@@ -71,6 +75,13 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           hum_auxilio_transporte: parseInt(respuesta.hum_auxilio_transporte),
         });
       });
+  }
+
+  consultarConceptoNomina(){
+    this.empresaService.obtenerConceptosNomina().subscribe((respuesta: any) => {
+      this.arrConceptosNomina = respuesta
+      this.changeDetectorRef.detectChanges()
+    })
   }
 
   formSubmit() {

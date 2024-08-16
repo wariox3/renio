@@ -69,6 +69,10 @@ export class EmpresaService {
     return this.httpService.get<DocumentoTipo>(`general/documento_tipo/`);
   }
 
+  obtenerConceptosNomina() {
+    return this.httpService.get<any>(`humano/concepto_nomina/`);
+  }
+
   actualizarDocumentoTipo(documento_tipo_id: Number | string, data: any) {
     return this.httpService.put(
       `general/documento_tipo/${documento_tipo_id}/`,

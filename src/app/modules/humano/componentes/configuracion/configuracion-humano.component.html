@@ -134,6 +134,49 @@
       ></ng-container>
     </div>
   </div>
+  <br>
+  <div class="row mb-5">
+    <app-card>
+      <section card-titulo>
+        <div>
+            Conceptos nomina
+        </div>
+    </section>
+    <section card-body>
+      <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+        <thead>
+          <tr>
+            <th class="bg-gray-100" style="width: 10px">Id</th>
+            <th class="bg-gray-100">Nombre</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (conceptoNomina of arrConceptosNomina; track conceptoNomina.id) {
+            <tr>
+              <td style="width: 10px">{{ conceptoNomina.id }}</td>
+              <td class="w-50 text-start">
+                {{ conceptoNomina.nombre }}
+              </td>
+              <!-- <td class="w-45px text-center">
+                <label
+                  (click)="navegarEditar(documentoTipo.id, content)"
+                  class="cursor-pointer"
+                >
+                  <i class="ki-duotone ki-notepad-edit hover-primary">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </i>
+                </label>
+              </td> -->
+            </tr>
+            }
+        </tbody>
+      </table>
+    </section>
+
+    </app-card>
+    
+  </div>
 </form>
 <ng-template
   #formError
