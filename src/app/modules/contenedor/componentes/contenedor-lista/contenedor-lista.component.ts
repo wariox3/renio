@@ -56,12 +56,12 @@ export class ContenedorListaComponent extends General implements OnInit {
     ]).subscribe((respuesta) => {
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
       this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
-      this.usuarioSaldo = respuesta[1];      
- 
+      this.usuarioSaldo = respuesta[1];
+
       if(this.usuarioSaldo > 0 && this.usuarioFechaLimitePago < this.fechaActual){
         this.habilitarContenedores = false
       }
-  
+
       this.changeDetectorRef.detectChanges();
     })
   }
@@ -125,11 +125,11 @@ export class ContenedorListaComponent extends General implements OnInit {
             },
           })
         );
-        if (environment.production) {
-          window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
-        } else {
-          this.router.navigateByUrl('/dashboard');
-        }
+        // if (environment.production) {
+        //   window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
+        // } else {
+        //   this.router.navigateByUrl('/dashboard');
+        // }
       });
   }
 
