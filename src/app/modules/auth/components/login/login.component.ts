@@ -1,5 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
@@ -14,19 +20,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgIf,
-        NgClass,
-        NgTemplateOutlet,
-        RouterLink,
-    ],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgIf,
+    NgClass,
+    NgTemplateOutlet,
+    RouterLink,
+  ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
@@ -145,11 +151,16 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           tap((respuesta: any) => {
             console.log(respuesta);
-            console.log('respuesta?.empresa.acceso_restringido', respuesta?.empresa.acceso_restringido);
+            console.log(
+              'respuesta?.empresa.acceso_restringido',
+              respuesta?.empresa.acceso_restringido
+            );
 
             if (respuesta?.empresa.acceso_restringido) {
-              console.log('empresa.acceso_restringido')
-              this.router.navigate(['/contenedor/lista']);
+              console.log('empresa.acceso_restringido');
+              location.href = `${
+                environment.dominioHttp
+              }://${environment.dominioApp.slice(1)}/contenedor/lista`;
             } else {
               this.validarSubdominioYrediccionar();
             }
@@ -194,7 +205,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           },
         })
       );
-      console.log('validarSubdominioYrediccionar')
+      console.log('validarSubdominioYrediccionar');
       this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/contenedor/lista']);
