@@ -48,7 +48,7 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarLista();
-    this.limpiarEmpresa();
+    //this.limpiarEmpresa();
 
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
