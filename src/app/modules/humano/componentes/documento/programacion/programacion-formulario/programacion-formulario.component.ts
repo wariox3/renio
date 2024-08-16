@@ -127,6 +127,7 @@ export default class ContratoFormularioComponent
       descuento_adicional_programacion: [true],
       descuento_credito: [true],
       descuento_embargo: [true],
+      comentario: [null, Validators.compose([Validators.maxLength(500), cambiarVacioPorNulo.validar])],
     },
     {
       validator: this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
@@ -246,6 +247,9 @@ export default class ContratoFormularioComponent
             respuesta.descuento_adicional_programacion,
           descuento_credito: respuesta.descuento_credito,
           descuento_embargo: respuesta.descuento_embargo,
+          comentario: respuesta.comentario,
+          dias: respuesta.dias,
+          cantidad: respuesta.contratos
         });
         this.changeDetectorRef.detectChanges();
       });

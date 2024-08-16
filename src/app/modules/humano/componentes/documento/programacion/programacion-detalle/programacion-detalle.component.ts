@@ -63,6 +63,7 @@ export default class ProgramacionDetalleComponent
     nombre: '',
     cantidad: 0,
     dias: 0,
+    neto: 0,
     descuento_pension: false,
     descuento_salud: false,
     descuento_fondo_solidaridad: false,
