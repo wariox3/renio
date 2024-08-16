@@ -249,7 +249,7 @@
                           programacionDetalle.contrato_id
                           }}
                         </td>
-                        <td>
+                        <td [ngClass]="{ 'marcar-ingreso' : programacionDetalle.ingreso }">
                           {{
                           programacionDetalle.fecha_desde
                           }}

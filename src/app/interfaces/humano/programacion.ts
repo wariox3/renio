@@ -33,7 +33,8 @@ export interface ProgramacionDetalleRegistro {
   salario: number;
   dias: number;
   dias_transporte: number;
-  neto: number
+  neto: number;
+  ingreso: boolean;
 }
 
 export interface TablaRegistroLista extends ProgramacionDetalleRegistro {
