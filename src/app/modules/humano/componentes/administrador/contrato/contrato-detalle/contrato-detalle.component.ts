@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ProgramacionContrato } from '@interfaces/humano/contrato';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,12 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-contrato-detalle',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardComponent,
-    BtnAtrasComponent,
-    TranslateModule,
-],
+  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,11 +24,36 @@ export default class ContratoDetalleComponent
     super();
   }
 
-  contrato: any = {
-    empleado: '',
-    empleado_nombre: '',
-    fecha_desde: '',
-    fechas_hasta: '',
+  contrato: ProgramacionContrato = {
+    id: 1,
+    fecha_desde: new Date(),
+    fecha_hasta: new Date(),
+    salario: 0,
+    auxilio_transporte: false,
+    salario_integral: false,
+    estado_terminado: false,
+    comentario: '',
+    contrato_tipo_id: 0,
+    contrato_tipo_nombre: '',
+    grupo_id: 0,
+    grupo_nombre: '',
+    contacto_id: 0,
+    contacto_numero_identificacion: '',
+    contacto_nombre_corto: '',
+    sucursal_id: 0,
+    sucursal_nombre: '',
+    riesgo_id: 0,
+    riesgo_nombre: '',
+    cargo_id: 0,
+    cargo_nombre: '',
+    tipo_cotizante_id: 0,
+    tipo_cotizante_nombre: '',
+    subtipo_cotizante_id: 0,
+    subtipo_cotizante_nombre: '',
+    salud_id: 0,
+    salud_nombre: '',
+    pension_id: 0,
+    pension_nombre: '',
   };
 
   ngOnInit() {

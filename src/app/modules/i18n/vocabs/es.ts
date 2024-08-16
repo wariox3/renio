@@ -393,12 +393,17 @@ export const locale = {
             GRUPO: 'Grupo',
             CONTRATOTIPO: 'Contrato tipo',
             RIESGO: 'Riesgo',
+            COMENTARIO: 'Comentario',
             PENSION: 'Pensión',
             SUBTIPOCOTIZANTE: 'Subtipo cotizante',
             SALUD: 'Salud',
             SUCURSAL: 'Sucursal',
             TIPOCOTIZANTE: 'Tipo cotizante',
             CARGO: 'Cargo',
+            SALARIO: 'Salario',
+            AUXILIOTRANSPORTE: 'Auxilio transporte',
+            SALARIOINTEGRAL: 'Salario integral',
+            ESTADOTERMINADO: 'Estado terminado',
             INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social'
 
           },
