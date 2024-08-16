@@ -20,30 +20,30 @@ import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { switchMap, tap } from 'rxjs';
-import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-electronico.component";
+import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 
 @Component({
-    selector: 'app-factura-detalle',
-    standalone: true,
-    templateUrl: './factura-detalle.component.html',
-    styleUrls: ['./factura-detalle.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgbDropdownModule,
-        NgbNavModule,
-        TablaComponent,
-        ImpuestosComponent,
-        ProductosComponent,
-        BuscarAvanzadoComponent,
-        SoloNumerosDirective,
-        CardComponent,
-        BtnAtrasComponent,
-        KeysPipe,
-        LogElectronicoComponent
-    ]
+  selector: 'app-factura-detalle',
+  standalone: true,
+  templateUrl: './factura-detalle.component.html',
+  styleUrls: ['./factura-detalle.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    TablaComponent,
+    ImpuestosComponent,
+    ProductosComponent,
+    BuscarAvanzadoComponent,
+    SoloNumerosDirective,
+    CardComponent,
+    BtnAtrasComponent,
+    KeysPipe,
+    LogElectronicoComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -102,7 +102,7 @@ export default class FacturaDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
-        this.totalAfectado = respuesta.documento.afectado
+        this.totalAfectado = respuesta.documento.afectado;
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
           const precio = item.precio;
@@ -124,7 +124,7 @@ export default class FacturaDetalleComponent extends General {
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
           this.totalGeneral += total;
-          this.totalBase += item.base_impuesto
+          this.totalBase += item.base_impuesto;
           this.changeDetectorRef.detectChanges();
         });
         this.arrEstados = {

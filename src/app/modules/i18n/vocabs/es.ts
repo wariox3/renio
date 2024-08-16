@@ -512,6 +512,19 @@ export const locale = {
             CODIGO: 'Id',
             NETO: 'Neto'
           },
+          PAGO: {
+            DESDE: 'Desde',
+            HASTA: 'Hasta',
+            EMPLEADO: 'Empleado'
+          },
+          PAGODETALLE: {
+            CODIGO: 'Código',
+            CONCEPTO: 'Concepto',
+            DETALLE: 'Detalle',
+            HORAS: 'Horas',
+            PORCENTAJE: '%',
+            VALOR: 'Valor'
+          }
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento',

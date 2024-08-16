@@ -136,6 +136,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
       ),
   },
+  701: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/pago/pago-detalle/pago-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
+      ),
+  },
   HumProgramacion: {
     detalle: async () =>
       await import(

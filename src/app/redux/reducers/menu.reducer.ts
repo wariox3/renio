@@ -271,6 +271,15 @@ export const initialState: Menu = {
         {
           nombre: 'documento',
           menuOpen: false,
+          children: [
+            {
+              nombre: 'PAGO',
+              tipo: 'Documento',
+              data: { documento_clase: 701 },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
+          ],
 
         },
         {
