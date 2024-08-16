@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
 import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 @Component({
     selector: 'app-login',
@@ -45,7 +46,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private subdominioService: SubdominioService
+    private subdominioService: SubdominioService,
+    private contenedorServices: ContenedorService
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -101,57 +103,54 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     if (Swal.isVisible()) {
       Swal.close();
     }
-
     if (this.loginForm.valid) {
       this.visualizarLoader = true;
       this.authService
         .login(this.f.email.value, this.f.password.value)
         .pipe(
-          tap((respuesta) => {
+          tap((respuestaLogin) => {
             //actualizar el store de redux
             this.store.dispatch(
               usuarioActionInit({
                 usuario: {
-                  id: respuesta.user.id,
-                  username: respuesta.user.username,
-                  imagen: respuesta.user.imagen,
-                  nombre_corto: respuesta.user.nombre_corto,
-                  nombre: respuesta.user.nombre,
-                  apellido: respuesta.user.apellido,
-                  telefono: respuesta.user.telefono,
-                  correo: respuesta.user.correo,
-                  idioma: respuesta.user.idioma,
-                  dominio: respuesta.user.dominio,
-                  fecha_limite_pago: new Date(respuesta.user.fecha_limite_pago),
-                  vr_saldo: respuesta.user.vr_saldo,
-                  fecha_creacion: new Date(respuesta.user.fecha_creacion),
-                  verificado: respuesta.user.verificado,
-                  es_socio: respuesta.user.es_socio,
-                  socio_id: respuesta.user.socio_id
+                  id: respuestaLogin.user.id,
+                  username: respuestaLogin.user.username,
+                  imagen: respuestaLogin.user.imagen,
+                  nombre_corto: respuestaLogin.user.nombre_corto,
+                  nombre: respuestaLogin.user.nombre,
+                  apellido: respuestaLogin.user.apellido,
+                  telefono: respuestaLogin.user.telefono,
+                  correo: respuestaLogin.user.correo,
+                  idioma: respuestaLogin.user.idioma,
+                  dominio: respuestaLogin.user.dominio,
+                  fecha_limite_pago: new Date(
+                    respuestaLogin.user.fecha_limite_pago
+                  ),
+                  vr_saldo: respuestaLogin.user.vr_saldo,
+                  fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
+                  verificado: respuestaLogin.user.verificado,
+                  es_socio: respuestaLogin.user.es_socio,
+                  socio_id: respuestaLogin.user.socio_id,
                 },
               })
             );
-            if (window.location.host.includes(environment.dominioApp)) {
-              this.store.dispatch(
-                configuracionVisualizarAction({
-                  configuracion: {
-                    visualizarApps: true,
-                  },
-                })
-              );
-              this.router.navigate(['/dashboard']);
-            } else {
-              this.router.navigate(['/contenedor/lista']);
-            }
           }),
-          switchMap((respuesta) => {
+          switchMap(() => {
             if (this.subdominioService.esSubdominioActual()) {
-              this.consultarInformacionEmpresa(
-                respuesta.user.id,
+              return this.contenedorServices.varios(
                 this.subdominioService.subdominioNombre()
               );
             }
             return of(null);
+          }),
+          tap((respuesta: any) => {
+            console.log(respuesta);
+
+            if (respuesta?.empresa.acceso_restringido) {
+              this.validarSubdominioYrediccionar();
+            } else {
+              this.router.navigate(['/contenedor/lista']);
+            }
           }),
           switchMap(() => {
             if (tokenUrl) {
@@ -179,6 +178,21 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         .subscribe();
     } else {
       this.loginForm.markAllAsTouched();
+    }
+  }
+
+  validarSubdominioYrediccionar() {
+    if (this.subdominioService.esSubdominioActual()) {
+      this.store.dispatch(
+        configuracionVisualizarAction({
+          configuracion: {
+            visualizarApps: true,
+          },
+        })
+      );
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/contenedor/lista']);
     }
   }
 

@@ -243,6 +243,16 @@ export class ContenedorService {
     );
   }
 
+  varios(subdominio: string) {
+    return this.http.post(
+      `${environment.URL_API_MUUP}/contenedor/contenedor/consulta-subdominio/`,
+      {
+        subdominio,
+      }
+    );
+  }
+
+
   informacionPlan: any = {
     1: [
       'LANDINGPAGE.CANTIDADDOCUMENTO10',
