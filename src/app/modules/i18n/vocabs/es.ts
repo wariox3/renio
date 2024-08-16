@@ -392,6 +392,15 @@ export const locale = {
             FECHAHASTA: 'Fecha hasta',
             GRUPO: 'Grupo',
             CONTRATOTIPO: 'Contrato tipo',
+            RIESGO: 'Riesgo',
+            PENSION: 'Pensión',
+            SUBTIPOCOTIZANTE: 'Subtipo cotizante',
+            SALUD: 'Salud',
+            SUCURSAL: 'Sucursal',
+            TIPOCOTIZANTE: 'Tipo cotizante',
+            CARGO: 'Cargo',
+            INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social'
+
           },
           CUENTABANCO: {
             ID: 'ID',

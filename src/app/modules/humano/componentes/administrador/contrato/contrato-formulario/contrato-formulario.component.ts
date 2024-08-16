@@ -14,6 +14,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import { AutocompletarRegistros, RegistroAutocompletarCargo, RegistroAutocompletarPension, RegistroAutocompletarRiesgo, RegistroAutocompletarSalud, RegistroAutocompletarSubtipoCotizante, RegistroAutocompletarSucursal, RegistroAutocompletarTipoCotizante } from '@interfaces/comunes/autocompletar';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,7 +35,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     BuscarAvanzadoComponent,
   ],
   templateUrl: './contrato-formulario.component.html',
-  styleUrls: ['./contrato-formulario.component.css'],
+  styleUrls: ['./contrato-formulario.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ContratoFormularioComponent
@@ -45,6 +46,13 @@ export default class ContratoFormularioComponent
   arrEmpleados: any[] = [];
   arrGrupo: any[] = [];
   arrContratoTipo: any[] = [];
+  autocompletarRiesgo: RegistroAutocompletarRiesgo[] = [];
+  autocompletarPension: RegistroAutocompletarPension[] = [];
+  autocompletarSubtipoCotizante: RegistroAutocompletarSubtipoCotizante[] = [];
+  autocompletarSalud: RegistroAutocompletarSalud[] = [];
+  autocompletarSucursal: RegistroAutocompletarSucursal[] = [];
+  autocompletarTipoCotizante: RegistroAutocompletarTipoCotizante[] = [];
+  autocompletarCargo: RegistroAutocompletarCargo[] = [];
   camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -99,6 +107,14 @@ export default class ContratoFormularioComponent
         ],
         grupo: ['', Validators.compose([Validators.required])],
         contrato_tipo: ['', Validators.compose([Validators.required])],
+        riesgo: ['', Validators.required],
+        pension: ['', Validators.required],
+        subtipo_cotizante: ['', Validators.required],
+        salud: ['', Validators.required],
+        sucursal: [''],
+        tipo_cotizante: ['', Validators.required],
+        cargo: ['', Validators.required],
+        cargo_nombre: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -193,10 +209,138 @@ export default class ContratoFormularioComponent
           limite_conteo: 10000,
           modelo: 'HumContratoTipo',
         }
-      )
+      ),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarRiesgo>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumRiesgo',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarPension>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumPension',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarSubtipoCotizante>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumSubtipoCotizante',
+      }),
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumSalud',
+        }
+      ),
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumSucursal',
+        }
+      ),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumTipoCotizante',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumCargo',
+      })
     ).subscribe((respuesta: any) => {
       this.arrGrupo = respuesta[0].registros;
       this.arrContratoTipo = respuesta[1].registros;
+      this.autocompletarRiesgo = respuesta?.[2]?.registros;
+      this.autocompletarPension = respuesta?.[3]?.registros;
+      this.autocompletarSubtipoCotizante = respuesta?.[4]?.registros;
+      this.autocompletarSalud = respuesta?.[5]?.registros;
+      this.autocompletarSucursal = respuesta?.[6]?.registros;
+      this.autocompletarTipoCotizante = respuesta?.[7]?.registros;
+      this.autocompletarCargo = respuesta?.[8]?.registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -259,6 +403,14 @@ export default class ContratoFormularioComponent
         .get('contacto_nombre')
         ?.setValue(dato.contacto_nombre_corto);
     }
+
+    if (campo === 'cargo') {
+      this.formularioContrato.get(campo)?.setValue(dato.cargo_id);
+      this.formularioContrato
+        .get('cargo_nombre')
+        ?.setValue(dato.cargo_nombre);
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -273,6 +425,14 @@ export default class ContratoFormularioComponent
           fecha_hasta: respuesta.fecha_hasta,
           grupo: respuesta.grupo_id,
           contrato_tipo: respuesta.contrato_tipo_id,
+          riesgo: respuesta.riesgo_id,
+          pension: respuesta.pension_id,
+          subtipo_cotizante: respuesta.subtipo_cotizante_id,
+          salud: respuesta.salud_id,
+          sucursal: respuesta.sucursal_id,
+          tipo_cotizante: respuesta.tipo_cotizante_id,
+          cargo: respuesta.cargo_id,
+          cargo_nombre: respuesta.cargo_nombre
         });
 
         this.changeDetectorRef.detectChanges();
@@ -302,6 +462,47 @@ export default class ContratoFormularioComponent
       this.formularioContrato.patchValue({
         fecha_hasta: this.formularioContrato.get('fecha_desde')?.value,
       });
+    }
+  }
+
+  consultarCargo(event: any) {
+    const arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumCargo',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.autocompletarCargo = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCargo(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioContrato.controls['cargo'].setValue(null);
     }
   }
 }
