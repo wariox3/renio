@@ -125,11 +125,11 @@ export class ContenedorListaComponent extends General implements OnInit {
             },
           })
         );
-        // if (environment.production) {
-        //   window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
-        // } else {
-        //   this.router.navigateByUrl('/dashboard');
-        // }
+        if (environment.production) {
+          window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
+        } else {
+          this.router.navigateByUrl('/dashboard');
+        }
       });
   }
 
@@ -198,6 +198,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     );
     this.store.dispatch(empresaLimpiarAction());
     if (window.location.host.includes(environment.dominioApp)) {
+      console.log('limpiarEmpresa');
       this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/contenedor/lista']);

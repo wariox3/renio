@@ -148,6 +148,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             console.log('respuesta?.empresa.acceso_restringido', respuesta?.empresa.acceso_restringido);
 
             if (respuesta?.empresa.acceso_restringido) {
+              console.log('empresa.acceso_restringido')
               this.router.navigate(['/contenedor/lista']);
             } else {
               this.validarSubdominioYrediccionar();
@@ -183,6 +184,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   }
 
   validarSubdominioYrediccionar() {
+    console.log();
+
     if (this.subdominioService.esSubdominioActual()) {
       this.store.dispatch(
         configuracionVisualizarAction({
@@ -191,6 +194,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           },
         })
       );
+      console.log('validarSubdominioYrediccionar')
       this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/contenedor/lista']);
