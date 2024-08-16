@@ -145,6 +145,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           tap((respuesta: any) => {
             console.log(respuesta);
+            console.log('respuesta?.empresa.acceso_restringido', respuesta?.empresa.acceso_restringido);
 
             if (respuesta?.empresa.acceso_restringido) {
               this.router.navigate(['/contenedor/lista']);
