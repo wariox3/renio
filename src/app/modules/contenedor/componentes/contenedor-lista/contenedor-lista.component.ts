@@ -48,7 +48,7 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarLista();
-    this.limpiarEmpresa();
+    //this.limpiarEmpresa();
 
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
@@ -56,12 +56,12 @@ export class ContenedorListaComponent extends General implements OnInit {
     ]).subscribe((respuesta) => {
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
       this.usuarioFechaLimitePago.setDate(this.usuarioFechaLimitePago.getDate() + 1);
-      this.usuarioSaldo = respuesta[1];      
- 
+      this.usuarioSaldo = respuesta[1];
+
       if(this.usuarioSaldo > 0 && this.usuarioFechaLimitePago < this.fechaActual){
         this.habilitarContenedores = false
       }
-  
+
       this.changeDetectorRef.detectChanges();
     })
   }
@@ -198,6 +198,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     );
     this.store.dispatch(empresaLimpiarAction());
     if (window.location.host.includes(environment.dominioApp)) {
+      console.log('limpiarEmpresa');
       this.router.navigate(['/dashboard']);
     } else {
       this.router.navigate(['/contenedor/lista']);
