@@ -147,9 +147,9 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             console.log(respuesta);
 
             if (respuesta?.empresa.acceso_restringido) {
-              this.validarSubdominioYrediccionar();
-            } else {
               this.router.navigate(['/contenedor/lista']);
+            } else {
+              this.validarSubdominioYrediccionar();
             }
           }),
           switchMap(() => {
@@ -194,15 +194,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/contenedor/lista']);
     }
-  }
-
-  consultarInformacionEmpresa(empresa_id: string, empresa_nombre: string) {
-    // this.empresaService
-    // .consultarInformacion(this.empresa_id)
-    // .subscribe((respuesta: any) => {
-    //   this.informacionEmpresa = respuesta;
-    //   this.changeDetectorRef.detectChanges();
-    // });
   }
 
   ngOnDestroy() {
