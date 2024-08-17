@@ -23,4 +23,8 @@ export class ConceptoService extends Subdominio {
     return this.httpService.put<any>(`humano/concepto/${id}/`, data);
   }
 
+  actualizarConceptoNomina(id: number, data: any){
+    return this.httpService.put<any[]>(`humano/concepto_nomina/${id}/`, data);
+  }
+
 }

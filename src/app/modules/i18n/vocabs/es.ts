@@ -532,7 +532,8 @@ export const locale = {
         CONFIGURACIONHUMANO: {
           FACTOR: 'Factor',
           AUXILIOTRANSPORTE: 'Auxilio transporte',
-          SALARIOMINIMO: 'Salario mínimo'
+          SALARIOMINIMO: 'Salario mínimo',
+          CONCEPTO: 'Concepto'
         },
         CONFIGURACIONGENREAL: {
           UVT: 'UVT',

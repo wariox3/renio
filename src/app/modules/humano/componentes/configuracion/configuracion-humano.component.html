@@ -49,11 +49,14 @@
           control: formularioConfiguracion.controls['hum_factor']
         }"
       ></ng-container>
-      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-        validation: 'pattern',
-        message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-        control: formularioConfiguracion.controls['hum_factor']
-      }"></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioConfiguracion.controls['hum_factor']
+        }"
+      ></ng-container>
     </div>
   </div>
   <div class="row mb-5">
@@ -134,48 +137,50 @@
       ></ng-container>
     </div>
   </div>
-  <br>
+  <br />
   <div class="row mb-5">
     <app-card>
       <section card-titulo>
-        <div>
-            Conceptos nomina
-        </div>
-    </section>
-    <section card-body>
-      <table id="tableDetalles" class="table table-bordered table-row-gray-500">
-        <thead>
-          <tr>
-            <th class="bg-gray-100" style="width: 10px">Id</th>
-            <th class="bg-gray-100">Nombre</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (conceptoNomina of arrConceptosNomina; track conceptoNomina.id) {
+        <div>Conceptos nomina</div>
+      </section>
+      <section card-body>
+        <table
+          id="tableDetalles"
+          class="table table-bordered table-row-gray-500"
+        >
+          <thead>
+            <tr>
+              <th class="bg-gray-100" style="width: 10px">Id</th>
+              <th class="bg-gray-100">Nombre</th>
+              <th class="bg-gray-100">Concepto</th>
+              <th class="bg-gray-100"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (conceptoNomina of arrConceptosNomina; track conceptoNomina.id)
+            {
             <tr>
               <td style="width: 10px">{{ conceptoNomina.id }}</td>
               <td class="w-50 text-start">
                 {{ conceptoNomina.nombre }}
               </td>
-              <!-- <td class="w-45px text-center">
-                <label
-                  (click)="navegarEditar(documentoTipo.id, content)"
-                  class="cursor-pointer"
-                >
+              <td>
+                {{ conceptoNomina.concepto_nombre }}
+              </td>
+              <td class="w-45px text-center">
+                <label (click)="abrirModal(content, conceptoNomina)" class="cursor-pointer">
                   <i class="ki-duotone ki-notepad-edit hover-primary">
                     <span class="path1"></span>
                     <span class="path2"></span>
                   </i>
                 </label>
-              </td> -->
+              </td>
             </tr>
             }
-        </tbody>
-      </table>
-    </section>
-
+          </tbody>
+        </table>
+      </section>
     </app-card>
-    
   </div>
 </form>
 <ng-template
@@ -194,4 +199,71 @@
       </div>
     </div>
   </ng-container>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h3>Concepto</h3>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioConcepto" (ngSubmit)="enviarFormulario()">
+      <div class="d-flex mb-5 justify-content-between align-items-center">
+        <div
+          class="btn-group btn-sm shadow-sm"
+          role="group"
+          aria-label="Basic example"
+        >
+          <button
+            type="submit"
+            class="btn btn-primary btn-sm"
+            #btnGuardar
+            translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+          ></button>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.CONCEPTO"
+            class="form-label required"
+          >
+          </label>
+          <select
+            class="form-select"
+            formControlName="concepto"
+            [ngClass]="{
+              'is-invalid':
+                formularioConcepto.controls['concepto'].touched &&
+                formularioConcepto.controls['concepto'].invalid,
+              'is-valid':
+                formularioConcepto.controls['concepto'].touched &&
+                formularioConcepto.controls['concepto'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            @for (item of arrConceptosHumano; track $index) {
+            <option
+              [value]="item.concepto_id"
+              [selected]="
+                item.concepto_id === formularioConcepto.value.identificacion
+              "
+              *ngIf="item.concepto_id !== 6"
+            >
+              {{ item.concepto_nombre }}
+            </option>
+            }
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConcepto.controls['concepto']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
 </ng-template>

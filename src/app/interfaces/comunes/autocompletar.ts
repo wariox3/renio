@@ -38,3 +38,8 @@ export interface RegistroAutocompletarCargo {
   cargo_id: number;
   cargo_nombre: string;
 }
+
+export interface RegistroAutocompletarConcepto {
+  concepto_id: number;
+  concepto_nombre: string;
+}
