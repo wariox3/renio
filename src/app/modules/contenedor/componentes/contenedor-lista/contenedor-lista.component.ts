@@ -47,6 +47,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   cargandoContederes = false;
   habilitarContenedores = true;
   usuarioSaldo = 0;
+  VisalizarMensajeBloqueo = false;
 
   constructor(private contenedorService: ContenedorService) {
     super();
@@ -87,6 +88,9 @@ export class ContenedorListaComponent extends General implements OnInit {
           this.contenedorService.lista(respuestaUsuarioId)
         ),
         tap((respuestaLista) => {
+          this.VisalizarMensajeBloqueo = !!respuestaLista.contenedores.find(
+            (contenedor) => contenedor.acceso_restringido === true
+          );
           this.arrContenedores = respuestaLista.contenedores;
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
@@ -108,7 +112,8 @@ export class ContenedorListaComponent extends General implements OnInit {
       .subscribe((respuesta) => {
         const contenedor: Contenedor = {
           nombre: respuesta.nombre,
-          imagen: 'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+          imagen:
+            'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
           contenedor_id: respuesta.id,
           subdominio: respuesta.subdominio,
           id: respuesta.id,
@@ -126,7 +131,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           nombre_corto: '',
           numero_identificacion: 0,
           telefono: '',
-          acceso_restringido: respuesta.acceso_restringido
+          acceso_restringido: respuesta.acceso_restringido,
         };
         this.store.dispatch(ContenedorActionInit({ contenedor }));
         this.store.dispatch(

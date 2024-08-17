@@ -59,31 +59,23 @@
                     </ng-container>
                   </td>
                   <td>
-                    <!-- <div
-                      class="h-100 d-flex flex-column justify-content-center"
-                    >
                       <p class="text-dark fw-bolder fs-6">
                         {{ contenedor.nombre }}
                       </p>
-
-                      <span class="text-muted fw-bold text-muted d-block fs-7"
-                        >{{ contenedor.subdominio }}{{ dominioApp }}</span
-                      >
-                      <small class="badge badge-light-primary fs-8 fw-bold">{{
-                        contenedor.rol
-                      }}</small>
-                    </div> -->
-                    <div>
-                      <p class="text-dark fw-bolder fs-6">
-                        {{ contenedor.nombre }}
-                      </p>
-                      <p class="text-muted fw-bold text-muted d-block fs-7">
+                      <p class="text-muted fw-bold text-muted fs-7">
                         {{ contenedor.subdominio }}{{ dominioApp }}
                       </p>
-                      <span class="badge badge-light-primary fs-8 fw-bold">{{
-                        contenedor.rol
-                      }}</span>
-                    </div>
+                      <div>
+                        <p class="badge badge-light-primary fs-8 fw-bold">{{
+                          contenedor.rol
+                        }}</p>
+                      </div>
+
+                    @if(contenedor.acceso_restringido){
+                      <p class="badge badge-light-danger fs-8 fw-bold text-wrap text-start">
+                        El acceso a este contenedor está temporalmente suspendido. Por favor, revise su cuenta o la del propietario para solucionar el inconveniente
+                      </p>
+                    }
                   </td>
                   <td class="w-150px">
                     <div
