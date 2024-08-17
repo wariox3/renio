@@ -101,6 +101,7 @@ export default class ProgramacionDetalleComponent
   isCheckedSeleccionarTodos: boolean = false;
   cargandoContratos: boolean = false;
   generando: boolean = false;
+  desgenerando: boolean = false;
   mostrarMasDetalles: boolean = false;
 
   // Nos permite manipular el dropdown desde el codigo
@@ -254,6 +255,22 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
+          this.dropdown.close();
+        })
+      )
+      .subscribe();
+    this.consultarDatos();
+  }
+
+  desgenerar() {
+    this.desgenerando = true;
+    this.programacionService
+      .desgenerar({
+        id: this.programacion.id,
+      })
+      .pipe(
+        finalize(() => {
+          this.desgenerando = false;
           this.dropdown.close();
         })
       )

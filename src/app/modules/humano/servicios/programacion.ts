@@ -30,6 +30,10 @@ export class ProgramacionService extends Subdominio {
   generar(data: any) {
     return this.httpService.post<any>(`humano/programacion/generar/`, data);
   }
+
+  desgenerar(data: any) {
+    return this.httpService.post<any>(`humano/programacion/desgenerar/`, data);
+  }
   
 
 }
