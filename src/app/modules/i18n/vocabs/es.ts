@@ -525,7 +525,10 @@ export const locale = {
             DETALLE: 'Detalle',
             HORAS: 'Horas',
             PORCENTAJE: '%',
-            VALOR: 'Valor'
+            VALOR: 'Valor',
+            PAGO: 'Pago',
+            DESCUENTO: 'Descuento',
+            DEDUCCION: 'Deducción'
           }
         },
         CONTABILIDAD: {
