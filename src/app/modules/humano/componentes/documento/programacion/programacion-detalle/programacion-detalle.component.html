@@ -61,6 +61,16 @@
             {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
             }
           </button>
+          <button ngbDropdownItem (click)="desgenerar()" [disabled]="desgenerando">
+            @if (desgenerando) {
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Desgenerando...</span>
+            </div>
+            Desgenerando...
+            } @else {
+            {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
+            }
+          </button>
         </div>
       </div>
     </div>

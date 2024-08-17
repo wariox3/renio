@@ -119,7 +119,8 @@ export const locale = {
           DESCARGARERRORES: 'Descargar errores',
           EJEMPLO: 'Ejemplo',
           VERMAS: 'Ver Más',
-          VERMENOS: 'Ver Menos'
+          VERMENOS: 'Ver Menos',
+          DESGENERAR: 'Desgenerar'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
