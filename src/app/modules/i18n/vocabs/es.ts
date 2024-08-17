@@ -511,7 +511,8 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             CODIGO: 'Id',
-            NETO: 'Neto'
+            NETO: 'Neto',
+            SALARIOINTEGRAL: 'Salario integral'
           },
           PAGO: {
             DESDE: 'Desde',

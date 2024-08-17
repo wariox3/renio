@@ -15,6 +15,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarCargo,
@@ -43,7 +44,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarAvanzadoComponent,
-    SoloNumerosDirective
+    SoloNumerosDirective,
   ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
@@ -129,6 +130,12 @@ export default class ContratoFormularioComponent
         cargo: ['', Validators.required],
         cargo_nombre: [''],
         salario: ['', [Validators.required]],
+        auxilio_transporte: [false],
+        salario_integral: [false],
+        comentario: [
+          '',
+          [Validators.maxLength(300), cambiarVacioPorNulo.validar],
+        ],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -445,7 +452,10 @@ export default class ContratoFormularioComponent
           tipo_cotizante: respuesta.tipo_cotizante_id,
           cargo: respuesta.cargo_id,
           cargo_nombre: respuesta.cargo_nombre,
-          salario: respuesta.salario
+          salario: respuesta.salario,
+          auxilio_transporte: respuesta.auxilio_transporte,
+          salario_integral: respuesta.salario_integral,
+          comentario: respuesta.comentario,
         });
 
         this.changeDetectorRef.detectChanges();

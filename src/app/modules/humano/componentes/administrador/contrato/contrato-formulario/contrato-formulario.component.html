@@ -229,6 +229,72 @@
             }"></ng-container>
         </div>
       </div>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></label>
+          <textarea
+            formControlName="comentario"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['comentario'].touched &&
+                formularioContrato.controls['comentario'].invalid,
+              'is-valid':
+                formularioContrato.controls['comentario'].touched &&
+                formularioContrato.controls['comentario'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '300',
+              control: formularioContrato.controls['comentario']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6 d-flex flex-column gap-2">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="auxilio_transporte"
+              formControlName="auxilio_transporte"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.AUXILIOTRANSPORTE"
+            >
+            </label>
+          </div>
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="salario_integral"
+              formControlName="salario_integral"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.SALARIOINTEGRAL"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
     </section>
   </app-card>
 
