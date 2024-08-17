@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -21,13 +21,14 @@ import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
 import {
+  NgbDropdown,
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, forkJoin, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, finalize, forkJoin, tap, throttleTime } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @Component({
@@ -44,7 +45,7 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     NgbNavModule,
     ReactiveFormsModule,
     NgbTooltipModule,
-    AnimacionFadeInOutDirective
+    AnimacionFadeInOutDirective,
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -98,7 +99,12 @@ export default class ProgramacionDetalleComponent
   registroSeleccionado: number;
   registrosAEliminar: number[] = [];
   isCheckedSeleccionarTodos: boolean = false;
+  cargandoContratos: boolean = false;
+  generando: boolean = false;
   mostrarMasDetalles: boolean = false;
+
+  // Nos permite manipular el dropdown desde el codigo
+  @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -224,19 +230,33 @@ export default class ProgramacionDetalleComponent
 
   cargarContratos() {
     this.isCheckedSeleccionarTodos = false;
+    this.cargandoContratos = true;
     this.programacionService
       .cargarContratos({
         id: this.programacion.id,
       })
+      .pipe(
+        finalize(() => {
+          this.cargandoContratos = false;
+          this.dropdown.close();
+        })
+      )
       .subscribe();
     this.consultarDatos();
   }
 
   generar() {
+    this.generando = true;
     this.programacionService
       .generar({
         id: this.programacion.id,
       })
+      .pipe(
+        finalize(() => {
+          this.generando = false;
+          this.dropdown.close();
+        })
+      )
       .subscribe();
     this.consultarDatos();
   }
