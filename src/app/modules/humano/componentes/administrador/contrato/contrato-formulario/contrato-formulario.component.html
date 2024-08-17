@@ -210,6 +210,24 @@
             </button>
           </div>
         </div>
+
+        <div class="col-12 col-md-6 ">
+          <label translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.SALARIO" class="form-label required"></label>
+          <input appSoloNumeros formControlName="salario" class="form-control bg-transparent" type="text"
+            autocomplete="off" [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['salario'].touched &&
+                formularioContrato.controls['salario'].invalid,
+              'is-valid':
+                formularioContrato.controls['salario'].touched &&
+                formularioContrato.controls['salario'].valid
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['salario']
+            }"></ng-container>
+        </div>
       </div>
     </section>
   </app-card>
@@ -221,7 +239,7 @@
     <section card-body>
       <div class="row mb-5">
         <!-- Selector tipo cotizante -->
-        <div class="col-12">
+        <div class="col-12 col-md-6">
           <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.TIPOCOTIZANTE"></label>
           <select class="form-select" formControlName="tipo_cotizante" [ngClass]="{
               'is-invalid':
@@ -248,10 +266,8 @@
               control: formularioContrato.controls['tipo_cotizante']
             }"></ng-container>
         </div>
-      </div>
-      <div class="row mb-5">
         <!-- Selector de subtipo cotizante -->
-        <div class="col-12">
+        <div class="col-12 col-md-6">
           <label class="form-label required" translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.SUBTIPOCOTIZANTE"></label>
           <select class="form-select" formControlName="subtipo_cotizante" [ngClass]="{
               'is-invalid':
@@ -279,7 +295,6 @@
             }"></ng-container>
         </div>
       </div>
-      
       <div class="row mb-5">
         <!-- Selector salud -->
         <div class="col-12 col-md-6">

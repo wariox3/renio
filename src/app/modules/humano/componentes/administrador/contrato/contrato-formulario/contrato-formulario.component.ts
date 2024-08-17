@@ -13,8 +13,18 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarCargo, RegistroAutocompletarPension, RegistroAutocompletarRiesgo, RegistroAutocompletarSalud, RegistroAutocompletarSubtipoCotizante, RegistroAutocompletarSucursal, RegistroAutocompletarTipoCotizante } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarCargo,
+  RegistroAutocompletarPension,
+  RegistroAutocompletarRiesgo,
+  RegistroAutocompletarSalud,
+  RegistroAutocompletarSubtipoCotizante,
+  RegistroAutocompletarSucursal,
+  RegistroAutocompletarTipoCotizante,
+} from '@interfaces/comunes/autocompletar';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +43,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarAvanzadoComponent,
+    SoloNumerosDirective
   ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
@@ -73,6 +84,8 @@ export default class ContratoFormularioComponent
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultardetalle();
+    } else {
+      this.consultarSalario();
     }
   }
 
@@ -108,13 +121,14 @@ export default class ContratoFormularioComponent
         grupo: ['', Validators.compose([Validators.required])],
         contrato_tipo: ['', Validators.compose([Validators.required])],
         riesgo: ['', Validators.required],
-        pension: ['', Validators.required],
+        pension: [1, Validators.required],
         subtipo_cotizante: ['', Validators.required],
-        salud: ['', Validators.required],
+        salud: [1, Validators.required],
         sucursal: [''],
         tipo_cotizante: ['', Validators.required],
         cargo: ['', Validators.required],
         cargo_nombre: [''],
+        salario: ['', [Validators.required]],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -406,9 +420,7 @@ export default class ContratoFormularioComponent
 
     if (campo === 'cargo') {
       this.formularioContrato.get(campo)?.setValue(dato.cargo_id);
-      this.formularioContrato
-        .get('cargo_nombre')
-        ?.setValue(dato.cargo_nombre);
+      this.formularioContrato.get('cargo_nombre')?.setValue(dato.cargo_nombre);
     }
 
     this.changeDetectorRef.detectChanges();
@@ -432,10 +444,28 @@ export default class ContratoFormularioComponent
           sucursal: respuesta.sucursal_id,
           tipo_cotizante: respuesta.tipo_cotizante_id,
           cargo: respuesta.cargo_id,
-          cargo_nombre: respuesta.cargo_nombre
+          cargo_nombre: respuesta.cargo_nombre,
+          salario: respuesta.salario
         });
 
         this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  consultarSalario() {
+    const bodyData = {
+      campos: ['hum_salario_minimo'],
+    };
+    this.httpService
+      .post<{ configuracion: { hum_salario_minimo: number }[] }>(
+        'general/configuracion/consulta/',
+        bodyData
+      )
+      .subscribe((respuesta) => {
+        const salario = respuesta.configuracion[0].hum_salario_minimo;
+        this.formularioContrato.patchValue({
+          salario,
+        });
       });
   }
 
