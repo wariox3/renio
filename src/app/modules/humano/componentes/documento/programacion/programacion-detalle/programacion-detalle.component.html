@@ -29,15 +29,6 @@
           Opciones
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem (click)="cargarContratos()" [disabled]="cargandoContratos">
-            @if (cargandoContratos) {
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only">Cargando...</span>
-            </div>
-            Cargando... } @else {
-            {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
-            }
-          </button>
           <button ngbDropdownItem (click)="desgenerar()" [disabled]="desgenerando">
             @if (desgenerando) {
             <div class="spinner-border spinner-border-sm" role="status">
@@ -403,7 +394,7 @@
               </div>
             </ng-template>
           </li>
-          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item" (click)="consultarAdicionalesTab()">
             <a class="nav-link" ngbNavLink data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"></a>
             <ng-template ngbNavContent>

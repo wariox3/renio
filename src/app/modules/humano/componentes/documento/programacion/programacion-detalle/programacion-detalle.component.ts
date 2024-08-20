@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,7 +17,6 @@ import {
   TablaRegistroLista,
 } from '@interfaces/humano/programacion';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
-import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
 import {
@@ -134,30 +133,33 @@ export default class ProgramacionDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.programacion = respuesta;
-        this.inicializarParametrosConsulta();
-        this.inicializarParametrosConsultaAdicional();
-        forkJoin({
-          programacionDetalles: this.httpService.post(
-            'general/funcionalidad/lista/',
-            this.arrParametrosConsulta
-          ),
-          programacionAdicionales: this.httpService.post(
-            'general/funcionalidad/lista/',
-            this.arrParametrosConsultaAdicional
-          ),
-        }).subscribe(
-          ({ programacionDetalles, programacionAdicionales }: any) => {
-            this.arrProgramacionDetalle = programacionDetalles.registros.map(
-              (registro: TablaRegistroLista) => ({
-                ...registro,
-                selected: false,
-              })
-            );
-            this.arrProgramacionAdicional = programacionAdicionales.registros;
-            this.changeDetectorRef.detectChanges();
-          }
-        );
+        this.inicializarParametrosConsulta();     
+        this.httpService
+          .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
+          .subscribe(
+            (respuesta: any) => {
+              this.arrProgramacionDetalle = respuesta.registros.map(
+                (registro: TablaRegistroLista) => ({
+                  ...registro,
+                  selected: false,
+                })
+              );
+             
+              this.changeDetectorRef.detectChanges();
+            }
+          );
       });
+  }
+
+  consultarAdicionalesTab() {
+    this.inicializarParametrosConsultaAdicional();
+    this.httpService.post(
+      'general/funcionalidad/lista/',
+      this.arrParametrosConsultaAdicional
+    ).subscribe((respuesta: any) => {
+      this.arrProgramacionAdicional = respuesta.registros;
+      this.changeDetectorRef.detectChanges();
+    })
   }
 
   inicializarParametrosConsulta() {
@@ -262,11 +264,12 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
+          this.isCheckedSeleccionarTodos = false;
         })
       )
-      .subscribe();
-    this.consultarDatos();
-    this.changeDetectorRef.detectChanges();
+      .subscribe((respuesta) => {
+        this.consultarDatos();
+      });
   }
 
   desgenerar() {
@@ -278,11 +281,13 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.desgenerando = false;
+          this.isCheckedSeleccionarTodos = false;
           this.dropdown.close();
         })
       )
-      .subscribe();
-    this.consultarDatos();
+      .subscribe(() => {
+        this.consultarDatos();
+      });
   }
 
   navegarEditar(id: number) {
@@ -560,8 +565,12 @@ export default class ProgramacionDetalleComponent
       this.registrosAEliminar.forEach((id) => {
         this.programacionDetalleService
           .eliminarRegistro(id, {})
+          .pipe(
+            finalize(() => {
+              this.isCheckedSeleccionarTodos = false;
+            })
+          )
           .subscribe(() => {
-            this.isCheckedSeleccionarTodos = false;
             this.alertaService.mensajaExitoso('Registro eliminado');
           });
       });
