@@ -33,6 +33,14 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
               errorCodigo = error.error.codigo;
               errorMensaje = error.error.mensaje;
             }
+            if (error.error.hasOwnProperty('validacion')) {
+              for (const key in error.error.validacion) {
+                if (error.error.validacion.hasOwnProperty(key)) {
+                  const value = error.error.validacion[key];
+                  errorMensaje += `<br/> ${key}: ${value} <br/>`;
+                }
+              }
+            }
             break;
           case 404:
             errorCodigo = 404;
@@ -61,14 +69,7 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
               errorCodigo = objError.codigo;
               errorMensaje = objError.mensaje;
             }
-            if (objError.hasOwnProperty('validaciones')) {
-              for (const key in objError.validaciones) {
-                if (objError.validaciones.hasOwnProperty(key)) {
-                  const value = objError.validaciones[key];
-                  errorMensaje += `<br/> ${key}: ${value} <br/>`;
-                }
-              }
-            }
+
             break;
         }
       }
