@@ -123,10 +123,9 @@ export default class ContratoFormularioComponent
       pago_vacacion: [true],
       pago_horas: [true],
       pago_auxilio_transporte: [true],
-      descuento_adicional_permanente: [true],
-      descuento_adicional_programacion: [true],
       descuento_credito: [true],
       descuento_embargo: [true],
+      adicional: [true],
       comentario: [null, Validators.compose([Validators.maxLength(500), cambiarVacioPorNulo.validar])],
     },
     {
@@ -241,12 +240,9 @@ export default class ContratoFormularioComponent
           pago_vacacion: respuesta.pago_vacacion,
           pago_horas: respuesta.pago_horas,
           pago_auxilio_transporte: respuesta.pago_auxilio_transporte,
-          descuento_adicional_permanente:
-            respuesta.descuento_adicional_permanente,
-          descuento_adicional_programacion:
-            respuesta.descuento_adicional_programacion,
           descuento_credito: respuesta.descuento_credito,
           descuento_embargo: respuesta.descuento_embargo,
+          adicional: respuesta.adicional,
           comentario: respuesta.comentario,
           dias: respuesta.dias,
           cantidad: respuesta.contratos

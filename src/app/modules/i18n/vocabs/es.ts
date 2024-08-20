@@ -502,6 +502,7 @@ export const locale = {
             HORAS: 'Horas',
             ADICIONALPERMANENTE: 'Adicional permanente',
             ADICIONALPROGRAMACION: 'Adicional programación',
+            ADICIONAL: 'Adicional',
             DESCUENTOCREDITO: 'Descuento crédito',
             DESCUENTOEMBARGO: 'Descuento embargo',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
@@ -512,7 +513,8 @@ export const locale = {
             FECHAHASTA: 'Fecha hasta',
             CODIGO: 'Id',
             NETO: 'Neto',
-            SALARIOINTEGRAL: 'Salario integral'
+            SALARIOINTEGRAL: 'Salario integral',
+            TOTAL: 'Total'
           },
           PAGO: {
             DESDE: 'Desde',
