@@ -517,7 +517,10 @@ export const locale = {
             CODIGO: 'Id',
             NETO: 'Neto',
             SALARIOINTEGRAL: 'Salario integral',
-            TOTAL: 'Total'
+            TOTAL: 'Total',
+            DEDUCCION: 'Deduccion',
+            DEVENGADO: 'Devengado',
+            CONTRATOS: 'Contratos',
           },
           PAGO: {
             DESDE: 'Desde',
