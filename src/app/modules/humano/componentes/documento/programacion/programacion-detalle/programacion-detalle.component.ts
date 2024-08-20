@@ -28,7 +28,14 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, finalize, forkJoin, tap, throttleTime } from 'rxjs';
+import {
+  asyncScheduler,
+  finalize,
+  forkJoin,
+  switchMap,
+  tap,
+  throttleTime,
+} from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @Component({
@@ -86,7 +93,8 @@ export default class ProgramacionDetalleComponent
     estado_electronico_enviado: false,
     estado_electronico_notificado: false,
   };
-
+  pago: any = {};
+  pagoDetalles: any = {};
   arrParametrosConsulta: any;
   arrParametrosConsultaAdicional: any;
   arrProgramacionDetalle: TablaRegistroLista[] = [];
@@ -568,5 +576,68 @@ export default class ProgramacionDetalleComponent
     this.registrosAEliminar = [];
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  abrirModalDeNominaProgramacionDetalleResumen(content: any, id: number) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+      //fullscreen: true
+    });
+    this.registroSeleccionado = id;
+    // this.iniciarFormularioEditarDetalles();
+    // this.inicializarParametrosConsultaProgramacionDetalle(id);
+    this.consultarNominaProgramacionDetalleResumen();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  consultarNominaProgramacionDetalleResumen() {
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [
+            {
+              operador: '',
+              propiedad: 'programacion_detalle_id',
+              valor1: this.registroSeleccionado,
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenDocumento',
+        }
+      )
+      .pipe(
+        switchMap((respuestaLista) => {
+          this.pago = respuestaLista.registros[0];
+
+          return this.httpService.post<{
+            cantidad_registros: number;
+            registros: any[];
+          }>('general/funcionalidad/lista/', {
+            filtros: [
+              {
+                operador: '',
+                propiedad: 'documento_id',
+                valor1: respuestaLista.registros[0].id,
+                valor2: '',
+              },
+            ],
+            limite: 10,
+            desplazar: 0,
+            ordenamientos: [],
+            limite_conteo: 10000,
+            modelo: 'GenDocumentoDetalle',
+          });
+        }),
+        tap((respuestaDetalle) => {
+          this.pagoDetalles = respuestaDetalle.registros
+        })
+      )
+      .subscribe();
   }
 }

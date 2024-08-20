@@ -33,6 +33,7 @@ export interface ProgramacionDetalleRegistro {
   dias: number;
   dias_transporte: number;
   neto: number;
+  total: number;
   ingreso: boolean;
 }
 
