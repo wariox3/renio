@@ -85,6 +85,7 @@ export const locale = {
         MOVIMIENTO: 'Movimiento',
         CONGRUPO: 'Grupo',
         GUIA: 'Guía',
+        NOMINA: 'Nomina'
       },
     },
     FORMULARIOS: {
