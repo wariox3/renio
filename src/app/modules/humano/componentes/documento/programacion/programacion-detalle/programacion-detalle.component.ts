@@ -590,7 +590,7 @@ export default class ProgramacionDetalleComponent
   abrirModalDeNominaProgramacionDetalleResumen(content: any, id: number) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
+      size: 'xl',
       //fullscreen: true
     });
     this.registroSeleccionado = id;

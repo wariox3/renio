@@ -522,10 +522,17 @@ export const locale = {
           PAGO: {
             DESDE: 'Desde',
             HASTA: 'Hasta',
-            EMPLEADO: 'Empleado'
+            EMPLEADO: 'Empleado',
+            IDENTIFICACION: 'Número identificación',
+            IBC: 'IBC',
+            IBP: 'IBP',
+            DEVENGADO: 'Devengado',
+            DEDUCCION: 'Deducción',
+            PAGO: 'Pago',
+            SALARIO: 'Salario'
           },
           PAGODETALLE: {
-            CODIGO: 'Código',
+            CODIGO: 'Cód',
             CONCEPTO: 'Concepto',
             DETALLE: 'Detalle',
             HORAS: 'Horas',
@@ -533,7 +540,11 @@ export const locale = {
             VALOR: 'Valor',
             PAGO: 'Pago',
             DESCUENTO: 'Descuento',
-            DEDUCCION: 'Deducción'
+            DEDUCCION: 'Deducción',
+            CREDITO: 'Cre',
+            DIAS: 'Dias',
+            VRHORA: 'Valor hora',
+            BASE: 'Base'
           }
         },
         CONTABILIDAD: {
@@ -637,6 +648,7 @@ export const locale = {
         DOCUMENTO_TIPO: 'Documento tipo',
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
+        CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         DOCUMENTOREFERENCIA: 'Documento referencia',
         ITEM: 'Item',
         ITEM_ID: 'Item id',
@@ -649,7 +661,7 @@ export const locale = {
         FECHA_CONTABLE: 'Fecha contable',
         BASE_IMPUESTO: 'Base impuesto',
         PENDIENTE: 'Saldo',
-        CONTACTO_ID: 'Contacto',
+        CONTACTO_ID: 'Cód',
         COMENTARIO: 'Comentario',
         ESTADO_ELECTRONICO: 'Electronico',
         ESTADO_ELECTRONICO_ENVIADO: 'Estado electronico enviado',
@@ -688,7 +700,13 @@ export const locale = {
         GRUPO_NOMBRE: 'Grupo',
         PAGO_TIPO_NOMBRE: 'Tipo',
         DIAS: 'Días',
-        CONTRATOS: 'Cantidad'
+        CONTRATOS: 'Cantidad',
+        DEDUCCION: 'Deducción',
+        DEVENGADO: 'Devengado',
+        SALARIO: 'Salario',
+        DESDE: 'Desde',
+        HASTA: 'Hasta',
+        EMPLEADO: 'Empleado'
       },
       ITEM: {
         ID: 'ID',

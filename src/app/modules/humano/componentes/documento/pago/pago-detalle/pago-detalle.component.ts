@@ -11,6 +11,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { HttpService } from '@comun/services/http.service';
 import { PagoService } from '@modulos/humano/servicios/pago.service';
 import {
   NgbDropdownModule,
@@ -59,7 +60,7 @@ export default class ProgramacionDetalleComponent
     estado_electronico_notificado: false,
   };
 
-  constructor(private pagoService: PagoService) {
+  constructor(private pagoService: PagoService, private httpService: HttpService) {
     super();
   }
 
@@ -84,4 +85,19 @@ export default class ProgramacionDetalleComponent
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  imprimir() {
+    this.httpService.descargarArchivo('general/documento/imprimir/', {
+      filtros: [],
+      limite: 50,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: '',
+      tipo: '',
+      documento_tipo_id: 1,
+      documento_id: this.detalle,
+    });
+  }
+
 }
