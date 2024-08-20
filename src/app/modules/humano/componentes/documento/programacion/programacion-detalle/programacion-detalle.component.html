@@ -173,6 +173,15 @@
             <ng-template ngbNavContent>
               <div class="d-flex justify-content-end mb-4">
                 <div class="btn-group" role="group">
+                  <button type="button" (click)="cargarContratos()" class="btn btn-sm btn-primary" [disabled]="cargandoContratos">
+                    @if (cargandoContratos) {
+                      <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Cargando...</span>
+                      </div>
+                      Cargando... } @else {
+                      {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
+                      }</button>
+
                   <button type="button" (click)="eliminarRegistros()" class="btn btn-sm btn-danger"
                     translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"></button>
                 </div>

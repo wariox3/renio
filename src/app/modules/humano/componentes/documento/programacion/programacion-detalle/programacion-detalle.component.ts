@@ -246,11 +246,11 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.cargandoContratos = false;
-          this.dropdown.close();
         })
       )
       .subscribe();
     this.consultarDatos();
+    this.changeDetectorRef.detectChanges();
   }
 
   generar() {
@@ -266,7 +266,7 @@ export default class ProgramacionDetalleComponent
       )
       .subscribe();
     this.consultarDatos();
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   desgenerar() {
@@ -635,7 +635,7 @@ export default class ProgramacionDetalleComponent
           });
         }),
         tap((respuestaDetalle) => {
-          this.pagoDetalles = respuestaDetalle.registros
+          this.pagoDetalles = respuestaDetalle.registros;
         })
       )
       .subscribe();
