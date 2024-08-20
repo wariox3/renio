@@ -1049,7 +1049,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'NETO',
+      nombre: 'TOTAL',
       campoTipo: 'FloatField',
       visibleTabla: true,
       visibleFiltro: false,

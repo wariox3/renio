@@ -24,8 +24,7 @@ export interface ProgramacionDetalleRegistro {
   descuento_pension: boolean;
   descuento_fondo_solidaridad: boolean;
   descuento_retencion_fuente: boolean;
-  descuento_adicional_permanente: boolean;
-  descuento_adicional_programacion: boolean;
+  adicional: boolean;
   descuento_credito: boolean;
   descuento_embargo: boolean;
   fecha_desde: Date;

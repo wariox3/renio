@@ -88,10 +88,10 @@
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTAPERIODO"></td>
             <td>{{ programacion.fecha_hasta_periodo }}</td>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.NETO">
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.TOTAL">
             </td>
             <td colspan="10" class="text-end">
-              {{ programacion.neto | number }}
+              {{ programacion.total | number }}
             </td>
           </tr>
           <tr>
@@ -134,14 +134,9 @@
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"></td>
             <td>{{ programacion.descuento_retencion_fuente ? "SI" : "NO" }}</td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPERMANENTE"></td>
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"></td>
             <td>
-              {{ programacion.descuento_adicional_permanente ? "SI" : "NO" }}
-            </td>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPROGRAMACION"></td>
-            <td>
-              {{ programacion.descuento_adicional_programacion ? "SI" : "NO" }}
+              {{ programacion.adicional ? "SI" : "NO" }}
             </td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"></td>
@@ -852,9 +847,9 @@
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
-              formControlName="descuento_adicional_permanente" />
+              formControlName="adicional" />
             <label class="form-check-label text-gray-700" for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPERMANENTE">
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL">
             </label>
           </div>
         </div>
@@ -872,9 +867,9 @@
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
-              formControlName="descuento_adicional_programacion" />
+              formControlName="pago_vacacion" />
             <label class="form-check-label text-gray-700" for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONALPROGRAMACION">
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION">
             </label>
           </div>
         </div>
@@ -924,17 +919,6 @@
               formControlName="descuento_embargo" />
             <label class="form-check-label text-gray-700" for="flexCheckDefault"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO">
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12 col-md-6">
-          <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
-              formControlName="pago_vacacion" />
-            <label class="form-check-label text-gray-700" for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION">
             </label>
           </div>
         </div>

@@ -64,12 +64,11 @@ export default class ProgramacionDetalleComponent
     nombre: '',
     cantidad: 0,
     dias: 0,
-    neto: 0,
+    total: 0,
     descuento_pension: false,
     descuento_salud: false,
     descuento_fondo_solidaridad: false,
-    descuento_adicional_permanente: false,
-    descuento_adicional_programacion: false,
+    adicional: false,
     descuento_credito: false,
     descuento_embargo: false,
     descuento_retencion_fuente: false,
@@ -362,10 +361,7 @@ export default class ProgramacionDetalleComponent
             descuento_pension: registro.descuento_pension,
             descuento_fondo_solidaridad: registro.descuento_fondo_solidaridad,
             descuento_retencion_fuente: registro.descuento_retencion_fuente,
-            descuento_adicional_permanente:
-              registro.descuento_adicional_permanente,
-            descuento_adicional_programacion:
-              registro.descuento_adicional_programacion,
+            adicional: registro.adicional,
             descuento_credito: registro.descuento_credito,
             descuento_embargo: registro.descuento_embargo,
           });
@@ -400,8 +396,7 @@ export default class ProgramacionDetalleComponent
       descuento_pension: [false],
       descuento_fondo_solidaridad: [false],
       descuento_retencion_fuente: [false],
-      descuento_adicional_permanente: [false],
-      descuento_adicional_programacion: [false],
+      adicional: [false],
       descuento_credito: [false],
       descuento_embargo: [false],
     });
