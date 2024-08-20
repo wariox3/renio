@@ -1,49 +1,35 @@
 <div class="d-flex mb-5 justify-content-between align-items-center">
   <div class="d-flex gap-2">
     <app-comun-btn-atras />
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="navegarEditar(programacion.id)"
-        [disabled]="arrEstados.estado_aprobado"
-      >
+    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarEditar(programacion.id)" [disabled]="arrEstados.estado_aprobado">
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
 
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="aprobar()"
-        [disabled]="arrEstados.estado_aprobado"
-      >
+      <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="generar()" [disabled]="generando">
+        @if (generando) {
+        <div class="spinner-border spinner-border-sm mx-4" role="status">
+          <span class="sr-only">Generando...</span>
+        </div>
+         } @else {
+        {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
+        }
+      </button>
+
+      <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="aprobar()" [disabled]="arrEstados.estado_aprobado">
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
 
-      <div
-        class="btn-group"
-        ngbDropdown
-        autoClose="outside"
-        #OpcionesDropdown="ngbDropdown"
-      >
-        <button
-          type="button"
-          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
+      <div class="btn-group" ngbDropdown autoClose="outside" #OpcionesDropdown="ngbDropdown">
+        <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1" ngbDropdownToggle>
           Opciones
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button
-            ngbDropdownItem
-            (click)="cargarContratos()"
-            [disabled]="cargandoContratos"
-          >
+          <button ngbDropdownItem (click)="cargarContratos()" [disabled]="cargandoContratos">
             @if (cargandoContratos) {
             <div class="spinner-border spinner-border-sm" role="status">
               <span class="sr-only">Cargando...</span>
@@ -52,20 +38,7 @@
             {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
             }
           </button>
-          <button ngbDropdownItem (click)="generar()" [disabled]="generando">
-            @if (generando) {
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only">Generando...</span>
-            </div>
-            Generando... } @else {
-            {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
-            }
-          </button>
-          <button
-            ngbDropdownItem
-            (click)="desgenerar()"
-            [disabled]="desgenerando"
-          >
+          <button ngbDropdownItem (click)="desgenerar()" [disabled]="desgenerando">
             @if (desgenerando) {
             <div class="spinner-border spinner-border-sm" role="status">
               <span class="sr-only">Desgenerando...</span>
@@ -89,131 +62,88 @@
       <table class="table table-bordered table-sm">
         <tbody>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.CODIGO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.CODIGO"></td>
             <td>{{ programacion.id }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.PAGOTIPO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.PAGOTIPO"></td>
             <td colspan="7">{{ programacion.pago_tipo_nombre }}</td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.NOMBRE"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.NOMBRE"></td>
             <td>{{ programacion.nombre }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.GRUPO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.GRUPO">
+            </td>
             <td colspan="7">{{ programacion.grupo_nombre }}</td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHADESDE"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHADESDE"></td>
             <td>{{ programacion.fecha_desde }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTA"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTA"></td>
             <td colspan="7">{{ programacion.fecha_hasta }}</td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTAPERIODO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FECHAHASTAPERIODO"></td>
             <td>{{ programacion.fecha_hasta_periodo }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.TOTAL"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.TOTAL">
+            </td>
             <td colspan="10" class="text-end">
               {{ programacion.total | number }}
             </td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"></td>
             <td colspan="5">{{ programacion.comentario }}</td>
           </tr>
           @if (mostrarMasDetalles) {
           <tr appAnimacionFadeInOut>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS">
+            </td>
             <td>{{ programacion.pago_horas ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"></td>
             <td>{{ programacion.pago_auxilio_transporte ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"></td>
             <td>{{ programacion.pago_incapacidad ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"></td>
             <td colspan="4">{{ programacion.pago_licencia ? "SI" : "NO" }}</td>
           </tr>
           <tr appAnimacionFadeInOut>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"></td>
             <td>{{ programacion.pago_vacacion ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"></td>
             <td>{{ programacion.descuento_salud ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"></td>
             <td>{{ programacion.descuento_pension ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO">
+            </td>
             <td colspan="4">
               {{ programacion.descuento_fondo_solidaridad ? "SI" : "NO" }}
             </td>
           </tr>
           <tr appAnimacionFadeInOut>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"></td>
             <td>{{ programacion.descuento_retencion_fuente ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"></td>
             <td>
               {{ programacion.adicional ? "SI" : "NO" }}
             </td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"></td>
             <td>{{ programacion.descuento_credito ? "SI" : "NO" }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"></td>
             <td>{{ programacion.descuento_embargo ? "SI" : "NO" }}</td>
           </tr>
           }
@@ -221,18 +151,12 @@
       </table>
     </div>
 
-    <button
-      class="d-flex align-items-center mb-4 border-0 bg-transparent arrow"
-      (click)="mostrarTodosLosDetalles()"
-    >
-      <div
-        class="text-primary fw-semibold"
-        translate="{{
+    <button class="d-flex align-items-center mb-4 border-0 bg-transparent arrow" (click)="mostrarTodosLosDetalles()">
+      <div class="text-primary fw-semibold" translate="{{
           mostrarMasDetalles
             ? 'FORMULARIOS.BOTONES.COMUNES.VERMENOS'
             : 'FORMULARIOS.BOTONES.COMUNES.VERMAS'
-        }}"
-      ></div>
+        }}"></div>
       @if (mostrarMasDetalles) {
       <app-keenicon name="up" class="fs-1 text-primary"></app-keenicon>
       } @else {
@@ -242,35 +166,19 @@
 
     <div class="row mb-5">
       <div class="col-12">
-        <ul
-          ngbNav
-          #nav="ngbNav"
-          [(activeId)]="active"
-          class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-        >
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6">
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-            <a
-              class="nav-link"
-              ngbNavLink
-              data-bs-toggle="tab"
-              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-            ></a>
+            <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"></a>
             <ng-template ngbNavContent>
               <div class="d-flex justify-content-end mb-4">
                 <div class="btn-group" role="group">
-                  <button
-                    type="button"
-                    (click)="eliminarRegistros()"
-                    class="btn btn-sm btn-danger"
-                    translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                  ></button>
+                  <button type="button" (click)="eliminarRegistros()" class="btn btn-sm btn-danger"
+                    translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"></button>
                 </div>
               </div>
               <div class="table-responsive">
-                <table
-                  id="tableDetalles"
-                  class="table table-bordered table-row-gray-500"
-                >
+                <table id="tableDetalles" class="table table-bordered table-row-gray-500">
                   <thead>
                     <tr>
                       <th class="bg-gray-100" style="width: 50px">Id</th>
@@ -336,10 +244,7 @@
                         </div>
                       </th>
                       <th class="bg-gray-100">
-                        <div
-                          placement="top"
-                          ngbTooltip="Extra festiva nocturna"
-                        >
+                        <div placement="top" ngbTooltip="Extra festiva nocturna">
                           EFN
                         </div>
                       </th>
@@ -349,18 +254,12 @@
                         </div>
                       </th>
                       <th class="bg-gray-100">
-                        <div
-                          placement="top"
-                          ngbTooltip="Recargo festivo diurno"
-                        >
+                        <div placement="top" ngbTooltip="Recargo festivo diurno">
                           RFD
                         </div>
                       </th>
                       <th class="bg-gray-100">
-                        <div
-                          placement="top"
-                          ngbTooltip="Recargo festivo nocturno"
-                        >
+                        <div placement="top" ngbTooltip="Recargo festivo nocturno">
                           RFN
                         </div>
                       </th>
@@ -371,57 +270,44 @@
                       <th class="bg-gray-100"></th>
                       <th class="text-center bg-gray-100">
                         <label for="seleccionarTodos">
-                          <i
-                            class="cursor-pointer"
-                            [ngClass]="
+                          <i class="cursor-pointer" [ngClass]="
                               isCheckedSeleccionarTodos
                                 ? 'fa-solid fa-square-check text-danger'
                                 : 'fa-regular fa-square text-gray-500'
-                            "
-                          >
+                            ">
                             <span class="path1"></span>
                             <span class="path2"></span>
                           </i>
 
-                          <input
-                            class="d-none"
-                            type="checkbox"
-                            #checkboxSelectAll
-                            id="seleccionarTodos"
-                            [checked]="isCheckedSeleccionarTodos"
-                            [value]="isCheckedSeleccionarTodos"
-                            (click)="toggleSelectAll($event)"
-                          />
+                          <input class="d-none" type="checkbox" #checkboxSelectAll id="seleccionarTodos"
+                            [checked]="isCheckedSeleccionarTodos" [value]="isCheckedSeleccionarTodos"
+                            (click)="toggleSelectAll($event)" />
                         </label>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container
-                      *ngFor="let programacionDetalle of arrProgramacionDetalle"
-                    >
+                    <ng-container *ngFor="let programacionDetalle of arrProgramacionDetalle">
                       <tr>
                         <td style="width: 50px">
                           {{ programacionDetalle.id }}
                         </td>
                         <td>
                           {{
-                            programacionDetalle.contrato_contacto_numero_identificacion
+                          programacionDetalle.contrato_contacto_numero_identificacion
                           }}
                         </td>
                         <td>
                           {{
-                            programacionDetalle.contrato_contacto_nombre_corto
+                          programacionDetalle.contrato_contacto_nombre_corto
                           }}
                         </td>
                         <td>
                           {{ programacionDetalle.contrato_id }}
                         </td>
-                        <td
-                          [ngClass]="{
+                        <td [ngClass]="{
                             'marcar-ingreso': programacionDetalle.ingreso
-                          }"
-                        >
+                          }">
                           {{ programacionDetalle.fecha_desde }}
                         </td>
                         <td>
@@ -457,15 +343,12 @@
                           {{ programacionDetalle.total | number }}
                         </td>
                         <td class="w-45px">
-                          <label
-                            class="cursor-pointer"
-                            (click)="
+                          <label class="cursor-pointer" (click)="
                               abrirModalDeEditarRegistro(
                                 contentModalEditarRegistro,
                                 programacionDetalle.id
                               )
-                            "
-                          >
+                            ">
                             <i class="ki-duotone ki-notepad-edit hover-primary">
                               <span class="path1"></span>
                               <span class="path2"></span>
@@ -473,15 +356,12 @@
                           </label>
                         </td>
                         <td class="w-45px">
-                          <label
-                            class="cursor-pointer"
-                            (click)="
+                          <label class="cursor-pointer" (click)="
                               abrirModalDeNominaProgramacionDetalleResumen(
                                 contentModalNominaProgramacionDetalleResumen,
                                 programacionDetalle.id
                               )
-                            "
-                          >
+                            ">
                             <i class="ki-duotone ki-notepad hover-primary">
                               <span class="path1"></span>
                               <span class="path2"></span>
@@ -493,28 +373,18 @@
                         </td>
                         <td class="w-20px">
                           <label [for]="programacionDetalle.id">
-                            <i
-                              class="cursor-pointer"
-                              [ngClass]="
+                            <i class="cursor-pointer" [ngClass]="
                                 checked.checked
                                   ? 'fa-solid fa-square-check text-danger'
                                   : 'fa-regular fa-square text-gray-500'
-                              "
-                            >
+                              ">
                               <span class="path1"></span>
                               <span class="path2"></span>
                             </i>
-                            <input
-                              #checked
-                              class="d-none"
-                              type="checkbox"
-                              [id]="programacionDetalle.id"
-                              [value]="programacionDetalle.id"
-                              [checked]="programacionDetalle.selected"
-                              (click)="
+                            <input #checked class="d-none" type="checkbox" [id]="programacionDetalle.id"
+                              [value]="programacionDetalle.id" [checked]="programacionDetalle.selected" (click)="
                                 agregarRegistrosEliminar(programacionDetalle.id)
-                              "
-                            />
+                              " />
                           </label>
                         </td>
                       </tr>
@@ -525,21 +395,13 @@
             </ng-template>
           </li>
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-            <a
-              class="nav-link"
-              ngbNavLink
-              data-bs-toggle="tab"
-              translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"
-            ></a>
+            <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"></a>
             <ng-template ngbNavContent>
               <div class="d-flex justify-content-end my-3">
                 <div class="btn-group contenedor-btn-group">
-                  <button
-                    (click)="abrirModal(content)"
-                    class="btn btn-sm btn-primary"
-                    type="button"
-                    translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
-                  ></button>
+                  <button (click)="abrirModal(content)" class="btn btn-sm btn-primary" type="button"
+                    translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"></button>
                 </div>
               </div>
               <div class="table-responsive-sm">
@@ -547,48 +409,28 @@
                   <thead>
                     <tr class="bg-gray-100">
                       <th class="bg-gray-100" style="width: 50px">Id</th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.COMUNES.IDENTIFICACION"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.CONCEPTO"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.COMUNES.HORAS"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.COMUNES.VALOR"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.DIALABORADO"
-                      ></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.IDENTIFICACION"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.CONCEPTO"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.HORAS"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.COMUNES.VALOR"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.DIALABORADO"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container
-                      *ngFor="
+                    <ng-container *ngFor="
                         let programacionAdicional of arrProgramacionAdicional
-                      "
-                    >
+                      ">
                       <tr>
                         <td class="w-40px">{{ programacionAdicional.id }}</td>
                         <td>
                           {{
-                            programacionAdicional.contrato_contacto_numero_identificacion
+                          programacionAdicional.contrato_contacto_numero_identificacion
                           }}
                         </td>
                         <td>
                           {{
-                            programacionAdicional.contrato_contacto_nombre_corto
+                          programacionAdicional.contrato_contacto_nombre_corto
                           }}
                         </td>
                         <td>
@@ -602,9 +444,9 @@
                         </td>
                         <td>
                           {{
-                            programacionAdicional.aplica_dia_laborado
-                              ? "SI"
-                              : "NO"
+                          programacionAdicional.aplica_dia_laborado
+                          ? "SI"
+                          : "NO"
                           }}
                         </td>
                       </tr>
@@ -625,33 +467,16 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioAdicionalProgramacion">
       <div class="row mb-5">
-        <div
-          class="col-12 col-md-12"
-          ngbDropdown
-          #ContratosDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
-          ></label>
+        <div class="col-12 col-md-12" ngbDropdown #ContratosDropdown="ngbDropdown">
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"></label>
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="contrato_nombre"
-              (focus)="consultarContratos($event); ContratosDropdown.open()"
-              (keyup)="consultarContratos($event)"
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="contrato_nombre"
+              (focus)="consultarContratos($event); ContratosDropdown.open()" (keyup)="consultarContratos($event)"
               [ngClass]="{
                 'is-invalid':
                   formularioAdicionalProgramacion.controls['contrato']
@@ -661,57 +486,33 @@
                   formularioAdicionalProgramacion.controls['contrato']
                     .touched &&
                   formularioAdicionalProgramacion.controls['contrato'].valid
-              }"
-            />
+              }" />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let contrato of arrContratos">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contrato', contrato)"
-                (pointerenter)="modificarCampoFormulario('contrato', contrato)"
-              >
+              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contrato', contrato)"
+                (pointerenter)="modificarCampoFormulario('contrato', contrato)">
                 {{ contrato.contrato_contacto_numero_identificacion }}
                 {{ contrato.contrato_contacto_nombre_corto }}
               </button>
             </ng-container>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicionalProgramacion.controls['contrato']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-12 col-md-12"
-          ngbDropdown
-          #ConceptoDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
-          ></label>
+        <div class="col-12 col-md-12" ngbDropdown #ConceptoDropdown="ngbDropdown">
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"></label>
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="concepto_nombre"
-              (focus)="consultarConceptos($event); ConceptoDropdown.open()"
-              (keyup)="consultarConceptos($event)"
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="concepto_nombre"
+              (focus)="consultarConceptos($event); ConceptoDropdown.open()" (keyup)="consultarConceptos($event)"
               [ngClass]="{
                 'is-invalid':
                   formularioAdicionalProgramacion.controls['concepto']
@@ -721,159 +522,97 @@
                   formularioAdicionalProgramacion.controls['concepto']
                     .touched &&
                   formularioAdicionalProgramacion.controls['concepto'].valid
-              }"
-            />
+              }" />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let concepto of arrConceptos">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('concepto', concepto)"
-                (pointerenter)="modificarCampoFormulario('concepto', concepto)"
-              >
+              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('concepto', concepto)"
+                (pointerenter)="modificarCampoFormulario('concepto', concepto)">
                 {{ concepto.concepto_nombre }}
               </button>
             </ng-container>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicionalProgramacion.controls['concepto']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="valor"
-            prefix="$ "
-            mask="separator.2"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"></label>
+          <input type="number" class="form-control" formControlName="valor" prefix="$ " mask="separator.2" [ngClass]="{
               'is-invalid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
                 formularioAdicionalProgramacion.controls['valor'].invalid,
               'is-valid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
                 formularioAdicionalProgramacion.controls['valor'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicionalProgramacion.controls['valor']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioAdicionalProgramacion.controls['valor']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.HORAS"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="horas"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.HORAS"></label>
+          <input type="number" class="form-control" formControlName="horas" [ngClass]="{
               'is-invalid':
                 formularioAdicionalProgramacion.controls['horas'].touched &&
                 formularioAdicionalProgramacion.controls['horas'].invalid,
               'is-valid':
                 formularioAdicionalProgramacion.controls['horas'].touched &&
                 formularioAdicionalProgramacion.controls['horas'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicionalProgramacion.controls['horas']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioAdicionalProgramacion.controls['horas']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
-          ></label>
+          <label class="form-label" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"></label>
 
-          <textarea
-            formControlName="detalle"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-            (blur)="modificarCampoFormulario('detalle', null)"
-            [ngClass]="{
+          <textarea formControlName="detalle" class="form-control" id="exampleFormControlTextarea1" rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)" [ngClass]="{
               'is-invalid':
                 formularioAdicionalProgramacion.controls['detalle'].touched &&
                 formularioAdicionalProgramacion.controls['detalle'].invalid,
               'is-valid':
                 formularioAdicionalProgramacion.controls['detalle'].touched &&
                 formularioAdicionalProgramacion.controls['detalle'].valid
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></textarea>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicionalProgramacion.controls['detalle']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="aplica_dia_laborado"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.APLICA_DIA_LABORADO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="aplica_dia_laborado" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.APLICA_DIA_LABORADO">
             </label>
           </div>
         </div>
@@ -881,11 +620,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-secondary"
-      (click)="cerrarModal()"
-    >
+    <button type="button" class="btn btn-outline-secondary" (click)="cerrarModal()">
       Guardar
     </button>
   </div>
@@ -895,30 +630,15 @@
 <ng-template #contentModalEditarRegistro let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Editar registro</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
 
   <div class="modal-body">
-    <form
-      [formGroup]="formularioEditarDetalleProgramacion"
-      (ngSubmit)="actualizarDetalleProgramacion()"
-    >
+    <form [formGroup]="formularioEditarDetalleProgramacion" (ngSubmit)="actualizarDetalleProgramacion()">
       <div class="row mb-5">
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.DIURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="diurna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.DIURNA"></label>
+          <input type="number" class="form-control" formControlName="diurna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['diurna']
                   .touched &&
@@ -927,27 +647,16 @@
                 formularioEditarDetalleProgramacion.controls['diurna']
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['diurna'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioEditarDetalleProgramacion.controls['diurna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.NOCTURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="nocturna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.NOCTURNA"></label>
+          <input type="number" class="form-control" formControlName="nocturna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['nocturna']
                   .touched &&
@@ -957,27 +666,16 @@
                 formularioEditarDetalleProgramacion.controls['nocturna']
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['nocturna'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioEditarDetalleProgramacion.controls['nocturna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.FESTIVADIURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="festiva_diurna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.FESTIVADIURNA"></label>
+          <input type="number" class="form-control" formControlName="festiva_diurna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['festiva_diurna']
                   .touched &&
@@ -988,30 +686,19 @@
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['festiva_diurna']
                   .valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls['festiva_diurna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.FESTIVANOCTURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="festiva_nocturna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.FESTIVANOCTURNA"></label>
+          <input type="number" class="form-control" formControlName="festiva_nocturna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['festiva_nocturna']
                   .touched &&
@@ -1022,28 +709,17 @@
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['festiva_nocturna']
                   .valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls['festiva_nocturna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.EXTRADIURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="extra_diurna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.EXTRADIURNA"></label>
+          <input type="number" class="form-control" formControlName="extra_diurna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['extra_diurna']
                   .touched &&
@@ -1054,28 +730,17 @@
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['extra_diurna']
                   .valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls['extra_diurna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.EXTRANOCTURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="extra_nocturna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.EXTRANOCTURNA"></label>
+          <input type="number" class="form-control" formControlName="extra_nocturna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['extra_nocturna']
                   .touched &&
@@ -1086,30 +751,19 @@
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['extra_nocturna']
                   .valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls['extra_nocturna']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVADIURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="extra_festiva_diurna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVADIURNA"></label>
+          <input type="number" class="form-control" formControlName="extra_festiva_diurna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_diurna'
@@ -1124,30 +778,19 @@
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_diurna'
                 ].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_diurna'
                 ]
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVANOCTURNA"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="extra_festiva_nocturna"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVANOCTURNA"></label>
+          <input type="number" class="form-control" formControlName="extra_festiva_nocturna" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_nocturna'
@@ -1162,30 +805,19 @@
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_nocturna'
                 ].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls[
                   'extra_festiva_nocturna'
                 ]
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVODIURNO"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="recargo_festivo_diurno"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVODIURNO"></label>
+          <input type="number" class="form-control" formControlName="recargo_festivo_diurno" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_diurno'
@@ -1200,32 +832,21 @@
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_diurno'
                 ].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_diurno'
                 ]
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-6">
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVONOCTURNO"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="recargo_festivo_nocturno"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVONOCTURNO"></label>
+          <input type="number" class="form-control" formControlName="recargo_festivo_nocturno" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_nocturno'
@@ -1240,30 +861,19 @@
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_nocturno'
                 ].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls[
                   'recargo_festivo_nocturno'
                 ]
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
         <div class="col-12 col-md-4">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.RECARGONOCTURNO"
-          ></label>
-          <input
-            type="number"
-            class="form-control"
-            formControlName="recargo_nocturno"
-            [ngClass]="{
+          <label class="form-label required" translate="FORMULARIOS.TITULOS.COMUNES.RECARGONOCTURNO"></label>
+          <input type="number" class="form-control" formControlName="recargo_nocturno" [ngClass]="{
               'is-invalid':
                 formularioEditarDetalleProgramacion.controls['recargo_nocturno']
                   .touched &&
@@ -1274,17 +884,13 @@
                   .touched &&
                 formularioEditarDetalleProgramacion.controls['recargo_nocturno']
                   .valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control:
                 formularioEditarDetalleProgramacion.controls['recargo_nocturno']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
 
@@ -1292,35 +898,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_horas"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_horas" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_salud"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_salud" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD">
             </label>
           </div>
         </div>
@@ -1328,35 +918,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_auxilio_transporte"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_auxilio_transporte" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_pension"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_pension" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION">
             </label>
           </div>
         </div>
@@ -1364,35 +938,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="adicional"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="adicional" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_fondo_solidaridad"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_fondo_solidaridad" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO">
             </label>
           </div>
         </div>
@@ -1400,35 +958,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_vacacion"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_vacacion" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_retencion_fuente"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_retencion_fuente" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION">
             </label>
           </div>
         </div>
@@ -1436,35 +978,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_incapacidad"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_incapacidad" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_credito"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_credito" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO">
             </label>
           </div>
         </div>
@@ -1472,35 +998,19 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="pago_licencia"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="pago_licencia" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA">
             </label>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="flexCheckDefault"
-              formControlName="descuento_embargo"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+              formControlName="descuento_embargo" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO">
             </label>
           </div>
         </div>
@@ -1508,11 +1018,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn btn-primary"
-      (click)="actualizarDetalleProgramacion()"
-    >
+    <button type="submit" class="btn btn-primary" (click)="actualizarDetalleProgramacion()">
       Guardar
     </button>
   </div>
@@ -1522,12 +1028,7 @@
 <ng-template #contentModalNominaProgramacionDetalleResumen let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Informacion general</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
 
   <div class="modal-body">
@@ -1535,52 +1036,30 @@
       <table class="table table-bordered table-sm">
         <tbody>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"></td>
             <td>{{ pago.numero }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.DESDE"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.DESDE"></td>
             <td>{{ pago.fecha }}</td>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.HASTA"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.HASTA"></td>
             <td>{{ pago.fecha_hasta }}</td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.EMPLEADO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.EMPLEADO"></td>
             <td>{{ pago.contacto_nombre_corto }}</td>
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.FACTURA.CUE"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.FACTURA.CUE"></td>
             @if(pago.cue) {
             <td colspan="5">
               {{ pago.cue }} -
-              <a
-                href="https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey={{
+              <a href="https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey={{
                   pago.cue
-                }}"
-                target="_blank"
-                >ver documento DIAN</a
-              >
+                }}" target="_blank">ver documento DIAN</a>
             </td>
             }
           </tr>
           <tr>
-            <td
-              class="fw-bold text-gray-800 fs-6 bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-            ></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"></td>
             <td colspan="5">{{ pago.comentario }}</td>
           </tr>
         </tbody>
@@ -1591,30 +1070,12 @@
         <thead>
           <tr>
             <th class="bg-gray-100" style="width: 50px">Id</th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.CODIGO"
-            ></th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.CONCEPTO"
-            ></th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DETALLE"
-            ></th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PORCENTAJE"
-            ></th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.HORAS"
-            ></th>
-            <th
-              class="bg-gray-100"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PAGO"
-            ></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.CODIGO"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.CONCEPTO"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DETALLE"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PORCENTAJE"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.HORAS"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PAGO"></th>
           </tr>
         </thead>
         <tbody>
@@ -1636,16 +1097,9 @@
 </ng-template>
 
 <!-- Errores -->
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
+<ng-template #formError let-control="control" let-message="message" let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>

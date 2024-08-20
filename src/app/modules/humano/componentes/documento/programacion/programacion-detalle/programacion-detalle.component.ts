@@ -262,11 +262,11 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
-          this.dropdown.close();
         })
       )
       .subscribe();
     this.consultarDatos();
+    this.changeDetectorRef.detectChanges()
   }
 
   desgenerar() {
