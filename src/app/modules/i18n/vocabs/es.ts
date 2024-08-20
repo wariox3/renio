@@ -504,7 +504,7 @@ export const locale = {
             HORAS: 'Horas',
             ADICIONALPERMANENTE: 'Adicional permanente',
             ADICIONALPROGRAMACION: 'Adicional programación',
-            ADICIONAL: 'Adicional',
+            ADICIONAL: 'Adicional (Deducción y/o devengado)',
             DESCUENTOCREDITO: 'Descuento crédito',
             DESCUENTOEMBARGO: 'Descuento embargo',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
