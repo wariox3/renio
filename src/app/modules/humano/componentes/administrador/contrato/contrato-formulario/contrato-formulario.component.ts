@@ -26,6 +26,7 @@ import {
   RegistroAutocompletarSucursal,
   RegistroAutocompletarTipoCotizante,
 } from '@interfaces/comunes/autocompletar';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -58,6 +59,7 @@ export default class ContratoFormularioComponent
   arrEmpleados: any[] = [];
   arrGrupo: any[] = [];
   arrContratoTipo: any[] = [];
+  ciudades: any[] = [];
   autocompletarRiesgo: RegistroAutocompletarRiesgo[] = [];
   autocompletarPension: RegistroAutocompletarPension[] = [];
   autocompletarSubtipoCotizante: RegistroAutocompletarSubtipoCotizante[] = [];
@@ -75,7 +77,8 @@ export default class ContratoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private contratoService: ContratoService
+    private contratoService: ContratoService,
+    private contenedorService: ContenedorService
   ) {
     super();
   }
@@ -136,6 +139,10 @@ export default class ContratoFormularioComponent
           '',
           [Validators.maxLength(300), cambiarVacioPorNulo.validar],
         ],
+        ciudad_contrato: ['', Validators.required],
+        ciudad_contrato_nombre: [''],
+        ciudad_labora: ['', Validators.required],
+        ciudad_labora_nombre: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -430,6 +437,20 @@ export default class ContratoFormularioComponent
       this.formularioContrato.get('cargo_nombre')?.setValue(dato.cargo_nombre);
     }
 
+    if (campo === 'ciudad_contrato') {
+      this.formularioContrato.get('ciudad_contrato')?.setValue(parseInt(dato.id));
+      this.formularioContrato
+        .get('ciudad_contrato_nombre')
+        ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+    }
+
+    if (campo === 'ciudad_labora') {
+      this.formularioContrato.get('ciudad_labora')?.setValue(parseInt(dato.id));
+      this.formularioContrato
+        .get('ciudad_labora_nombre')
+        ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -503,6 +524,52 @@ export default class ContratoFormularioComponent
         fecha_hasta: this.formularioContrato.get('fecha_desde')?.value,
       });
     }
+  }
+
+  limpiarCiudadLabora(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioContrato.controls['ciudad_labora'].setValue(null);
+      this.formularioContrato.controls['ciudad_labora_nombre'].setValue(null);
+    }
+  }
+
+  limpiarCiudadContrato(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioContrato.controls['ciudad_contrato'].setValue(null);
+      this.formularioContrato.controls['ciudad_contrato_nombre'].setValue(null);
+    }
+  }
+
+  consultarCiudad(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'CtnCiudad',
+    };
+    this.contenedorService
+      .listaCiudades(arrFiltros)
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta: any) => {
+          this.ciudades = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
   }
 
   consultarCargo(event: any) {

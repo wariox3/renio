@@ -179,6 +179,74 @@
 
         </div>
       </div>
+
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12" ngbDropdown #CiudadContratoDropdown="ngbDropdown">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CIUDADCONTRATO" class="form-label required"></label>
+          <div class="position-relative">
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="ciudad_contrato_nombre"
+              [ngClass]="{
+                  'is-invalid':
+                    formularioContrato.controls['ciudad_contrato'].touched &&
+                    formularioContrato.controls['ciudad_contrato'].invalid,
+                  'is-valid':
+                    formularioContrato.controls['ciudad_contrato'].touched &&
+                    formularioContrato.controls['ciudad_contrato'].valid
+                }" (focus)="consultarCiudad($event); CiudadContratoDropdown.open()" (keyup)="consultarCiudad($event)"
+              (blur)="limpiarCiudadContrato($event)" />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioContrato.controls['ciudad_contrato']
+              }"></ng-container>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button type="button" ngbDropdownItem *ngFor="let ciudad of ciudades; index as i" (click)="
+                  modificarCampoFormulario('ciudad_contrato', ciudad);
+                  CiudadContratoDropdown.close()
+                " (pointerenter)="modificarCampoFormulario('ciudad_contrato', ciudad)">
+              {{ ciudad.nombre }} - {{ciudad.estado_nombre}}
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12" ngbDropdown #CiudadLaboraDropdown="ngbDropdown">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CIUDADLABORA" class="form-label required"></label>
+          <div class="position-relative">
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="ciudad_labora_nombre"
+              [ngClass]="{
+                  'is-invalid':
+                    formularioContrato.controls['ciudad_labora'].touched &&
+                    formularioContrato.controls['ciudad_labora'].invalid,
+                  'is-valid':
+                    formularioContrato.controls['ciudad_labora'].touched &&
+                    formularioContrato.controls['ciudad_labora'].valid
+                }" (focus)="consultarCiudad($event); CiudadLaboraDropdown.open()" (keyup)="consultarCiudad($event)"
+              (blur)="limpiarCiudadLabora($event)" />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioContrato.controls['ciudad_labora']
+              }"></ng-container>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button type="button" ngbDropdownItem *ngFor="let ciudad of ciudades; index as i" (click)="
+                  modificarCampoFormulario('ciudad_labora', ciudad);
+                  CiudadLaboraDropdown.close()
+                " (pointerenter)="modificarCampoFormulario('ciudad_labora', ciudad)">
+              {{ ciudad.nombre }} - {{ciudad.estado_nombre}}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="row mb-5">
         <!-- Selector cargo -->
         <div class="col-md-6 col-sm-12" ngbDropdown container="body" #CargoDropdown="ngbDropdown">
@@ -231,15 +299,8 @@
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
+          <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"></label>
+          <textarea formControlName="comentario" class="form-control" id="exampleFormControlTextarea1" rows="3"
             [ngClass]="{
               'is-invalid':
                 formularioContrato.controls['comentario'].touched &&
@@ -247,50 +308,30 @@
               'is-valid':
                 formularioContrato.controls['comentario'].touched &&
                 formularioContrato.controls['comentario'].valid
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></textarea>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '300',
               control: formularioContrato.controls['comentario']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6 d-flex flex-column gap-2">
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="auxilio_transporte"
-              formControlName="auxilio_transporte"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.AUXILIOTRANSPORTE"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="auxilio_transporte"
+              formControlName="auxilio_transporte" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.AUXILIOTRANSPORTE">
             </label>
           </div>
           <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="salario_integral"
-              formControlName="salario_integral"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.SALARIOINTEGRAL"
-            >
+            <input class="form-check-input" type="checkbox" value="1" id="salario_integral"
+              formControlName="salario_integral" />
+            <label class="form-check-label text-gray-700" for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.SALARIOINTEGRAL">
             </label>
           </div>
         </div>

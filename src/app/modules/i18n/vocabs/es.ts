@@ -349,6 +349,8 @@ export const locale = {
           DIGITO: 'Digito',
           ID: 'Id',
           CUENTACLASE: 'Cuenta clase',
+          CIUDADLABORA: 'Ciudad labora',
+          CIUDADCONTRATO: 'Ciudad contrato',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
