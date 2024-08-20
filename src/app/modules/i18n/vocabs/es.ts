@@ -394,7 +394,7 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             GRUPO: 'Grupo',
-            CONTRATOTIPO: 'Contrato tipo',
+            CONTRATOTIPO: 'Tipo',
             RIESGO: 'Riesgo',
             COMENTARIO: 'Comentario',
             PENSION: 'Pensión',
@@ -836,6 +836,7 @@ export const locale = {
         CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
         CONTACTO: 'Contacto',
+        SALARIO: 'Salario'
       },
       CUENTA: {
         ID: 'ID',

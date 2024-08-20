@@ -438,17 +438,19 @@ export default class ContratoFormularioComponent
     }
 
     if (campo === 'ciudad_contrato') {
-      this.formularioContrato.get('ciudad_contrato')?.setValue(parseInt(dato.id));
+      this.formularioContrato
+        .get('ciudad_contrato')
+        ?.setValue(parseInt(dato.id));
       this.formularioContrato
         .get('ciudad_contrato_nombre')
-        ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+        ?.setValue(dato.nombre);
     }
 
     if (campo === 'ciudad_labora') {
       this.formularioContrato.get('ciudad_labora')?.setValue(parseInt(dato.id));
       this.formularioContrato
         .get('ciudad_labora_nombre')
-        ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+        ?.setValue(dato.nombre);
     }
 
     this.changeDetectorRef.detectChanges();
@@ -477,6 +479,10 @@ export default class ContratoFormularioComponent
           auxilio_transporte: respuesta.auxilio_transporte,
           salario_integral: respuesta.salario_integral,
           comentario: respuesta.comentario,
+          ciudad_contrato: respuesta.ciudad_contrato_id,
+          ciudad_contrato_nombre: respuesta.ciudad_contrato_nombre,
+          ciudad_labora: respuesta.ciudad_labora_id,
+          ciudad_labora_nombre: respuesta.ciudad_labora_nombre,
         });
 
         this.changeDetectorRef.detectChanges();

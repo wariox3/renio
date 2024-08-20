@@ -54,6 +54,10 @@ export default class ContratoDetalleComponent
     salud_nombre: '',
     pension_id: 0,
     pension_nombre: '',
+    ciudad_contrato: 0,
+    ciudad_contrato_nombre: '',
+    ciudad_labora: 0,
+    ciudad_labora_nombre: '',
   };
 
   ngOnInit() {

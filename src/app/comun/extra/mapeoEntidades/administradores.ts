@@ -461,6 +461,14 @@ export const mapeo: MapeoAdministrador = {
         modeloFk: 'HumGrupo',
       },
       {
+        nombre: 'SALARIO',
+        campoTipo: 'FloatField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        aplicaFormatoNumerico: true,
+        ordenable: false,
+      },
+      {
         nombre: 'ESTADO_TERMINADO',
         nombreAbreviado: 'ESTADO_TERMINADO_ABREVIATURA',
         campoTipo: 'Booleano',
