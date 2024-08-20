@@ -321,10 +321,10 @@ export const initialState: Menu = {
     },
     {
       nombre: 'venta',
-      menuOpen: true,
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'FACTURAVENTA',
@@ -358,6 +358,7 @@ export const initialState: Menu = {
         },
         {
           nombre: 'administracion',
+          menuOpen: false,
           children: [
             {
               nombre: 'CONTACTO',
@@ -393,6 +394,7 @@ export const initialState: Menu = {
         },
         {
           nombre: 'utilidad',
+          menuOpen: false,
           children: [
             {
               nombre: 'FACTURAELECTRONICA',
