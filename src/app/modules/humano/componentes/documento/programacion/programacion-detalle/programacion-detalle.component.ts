@@ -133,33 +133,30 @@ export default class ProgramacionDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.programacion = respuesta;
-        this.inicializarParametrosConsulta();     
+        this.inicializarParametrosConsulta();
         this.httpService
           .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
-          .subscribe(
-            (respuesta: any) => {
-              this.arrProgramacionDetalle = respuesta.registros.map(
-                (registro: TablaRegistroLista) => ({
-                  ...registro,
-                  selected: false,
-                })
-              );
-             
-              this.changeDetectorRef.detectChanges();
-            }
-          );
+          .subscribe((respuesta: any) => {
+            this.arrProgramacionDetalle = respuesta.registros.map(
+              (registro: TablaRegistroLista) => ({
+                ...registro,
+                selected: false,
+              })
+            );
+
+            this.changeDetectorRef.detectChanges();
+          });
       });
   }
 
   consultarAdicionalesTab() {
     this.inicializarParametrosConsultaAdicional();
-    this.httpService.post(
-      'general/funcionalidad/lista/',
-      this.arrParametrosConsultaAdicional
-    ).subscribe((respuesta: any) => {
-      this.arrProgramacionAdicional = respuesta.registros;
-      this.changeDetectorRef.detectChanges();
-    })
+    this.httpService
+      .post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)
+      .subscribe((respuesta: any) => {
+        this.arrProgramacionAdicional = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   inicializarParametrosConsulta() {
@@ -509,9 +506,11 @@ export default class ProgramacionDetalleComponent
   cerrarModal() {
     this.adicionalService
       .guardarAdicional(this.formularioAdicionalProgramacion.value)
-      .subscribe();
-    this.consultarDatos();
+      .subscribe(() => {
+        this.consultarAdicionalesTab();
+      });
     this.modalService.dismissAll();
+    this.changeDetectorRef.detectChanges();
   }
 
   // detalles visuales
