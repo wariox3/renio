@@ -73,16 +73,16 @@ export class BaseListaComponent extends General implements OnInit {
   consultarLista() {
     const { documento_clase } = this.parametrosUrl;
     const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-    const consulaHttp = localStorage.getItem('consultaHttp');
-    if (consulaHttp === 'si') {
-      if (filtroGuardado === null) {
-        this.arrParametrosConsulta.filtros = [
-          {
-            propiedad: 'documento_tipo__documento_clase_id',
-            valor1: documento_clase,
-          },
-        ];
-      } else {
+    let consultaHttp: string = localStorage.getItem('consultaHttp')!;
+
+    if (consultaHttp === 'si') {
+      this.arrParametrosConsulta.filtros = [
+        {
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: documento_clase,
+        },
+      ];
+      if (filtroGuardado !== null) {
         this.arrParametrosConsulta.filtros = [
           {
             propiedad: 'documento_tipo__documento_clase_id',
@@ -91,7 +91,6 @@ export class BaseListaComponent extends General implements OnInit {
           ...JSON.parse(filtroGuardado),
         ];
       }
-
       this.httpService
         .post<{
           registros: any;
@@ -104,12 +103,13 @@ export class BaseListaComponent extends General implements OnInit {
     } else {
       let baseUrl = 'general/funcionalidad/lista/';
       this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        ...{
-          modelo: documento_clase,
-        },
+        modelo: documento_clase,
       };
-
+      if (filtroGuardado !== null) {
+        this.arrParametrosConsulta.filtros = [
+          ...JSON.parse(filtroGuardado),
+        ];
+      }
       this.httpService
         .post<{
           cantidad_registros: number;
@@ -144,7 +144,7 @@ export class BaseListaComponent extends General implements OnInit {
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
 
@@ -155,20 +155,22 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      const consulaHttp = localStorage.getItem('consultaHttp');
-      if (consulaHttp === 'si') {
+      const consultaHttp = localStorage.getItem('consultaHttp');
+      if (consultaHttp === 'si') {
         this.httpService
-        .post('general/documento/eliminar/', { documentos: data })
-        .subscribe((respuesta: any) => {
-          this.alertaService.mensajaExitoso(respuesta.mensaje);
-          this.consultarLista();
-        });
+          .post('general/documento/eliminar/', { documentos: data })
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso(respuesta.mensaje);
+            this.consultarLista();
+          });
       } else {
-        let modelo = this.modelo.toLowerCase()
-        let modulo = localStorage.getItem('ruta')
-        let eliminarPrefijos = ['hum', 'gen', 'con', 'inv']
-        if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
-          modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
+        let modelo = this.modelo.toLowerCase();
+        let modulo = localStorage.getItem('ruta');
+        let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+        if (
+          eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
+        ) {
+          modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
         }
         const eliminarSolicitudes = data.map((id) => {
           return this.httpService.delete(
