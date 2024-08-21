@@ -421,7 +421,7 @@ export const locale = {
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
-            PAGOTIPO: 'Tipo de pago',
+            PAGOTIPO: 'Tipo',
           },
         },
         FACTURA: {
@@ -521,6 +521,7 @@ export const locale = {
             DEDUCCION: 'Deduccion',
             DEVENGADO: 'Devengado',
             CONTRATOS: 'Contratos',
+            DIAS: "Días"
           },
           PAGO: {
             DESDE: 'Desde',
