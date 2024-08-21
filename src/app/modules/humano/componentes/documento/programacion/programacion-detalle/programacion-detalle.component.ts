@@ -154,7 +154,7 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarAdicionalesTab() {
-    this.isCheckedSeleccionarTodosAdicional = false
+    this.isCheckedSeleccionarTodosAdicional = false;
     this.inicializarParametrosConsultaAdicional();
     this.httpService
       .post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)
@@ -229,7 +229,17 @@ export default class ProgramacionDetalleComponent
     };
   }
 
-  aprobar() {}
+  aprobar() {
+    this.httpService
+      .post('humano/programacion/aprobar/', { id: this.detalle })
+      .subscribe((respuesta: any) => {
+        this.alertaService.mensajaExitoso('Documento aprobado');
+        this.programacion = respuesta.documento;
+        this.arrEstados.estado_aprobado = true
+        this.consultarDatos();
+        this.changeDetectorRef.detectChanges();
+      });
+  }
 
   actualizarDetalleProgramacion() {
     if (this.formularioEditarDetalleProgramacion.valid) {
@@ -247,7 +257,7 @@ export default class ProgramacionDetalleComponent
 
   cargarContratos() {
     this.isCheckedSeleccionarTodos = false;
-    this.isCheckedSeleccionarTodosAdicional = false 
+    this.isCheckedSeleccionarTodosAdicional = false;
     this.cargandoContratos = true;
     this.programacionService
       .cargarContratos({
@@ -256,7 +266,6 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.cargandoContratos = false;
-          
         })
       )
       .subscribe();
@@ -343,7 +352,7 @@ export default class ProgramacionDetalleComponent
       aplica_dia_laborado: [false],
       valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
       programacion: [this.programacion.id],
-      permanente: [false]
+      permanente: [false],
     });
   }
 
@@ -587,7 +596,8 @@ export default class ProgramacionDetalleComponent
 
   toggleSelectAllAdicional(event: Event) {
     const seleccionarTodos = event.target as HTMLInputElement;
-    this.isCheckedSeleccionarTodosAdicional = !this.isCheckedSeleccionarTodosAdicional;
+    this.isCheckedSeleccionarTodosAdicional =
+      !this.isCheckedSeleccionarTodosAdicional;
     // Itera sobre todos los datos
     if (seleccionarTodos.checked) {
       this.arrProgramacionAdicional.forEach((item: TablaRegistroLista) => {
@@ -651,7 +661,7 @@ export default class ProgramacionDetalleComponent
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
-            this.consultarAdicionalesTab()
+            this.consultarAdicionalesTab();
           });
       });
     } else {
