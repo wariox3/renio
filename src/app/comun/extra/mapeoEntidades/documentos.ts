@@ -1337,6 +1337,7 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'FECHA_DESDE',
+      nombreAbreviado: 'DESDE',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1344,6 +1345,7 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'FECHA_HASTA',
+      nombreAbreviado: 'HASTA',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
