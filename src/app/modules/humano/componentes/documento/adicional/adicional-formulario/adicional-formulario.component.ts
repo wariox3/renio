@@ -62,8 +62,11 @@ export default class AdicionalFormularioComponent
       concepto_nombre: [''],
       contrato_nombre: [''],
       detalle: [null],
-      horas: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      horas: [0],
       aplica_dia_laborado: [false],
+      inactivo: [false],
+      inactivo_periodo: [false],
+      permanente: [true],
       valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
     });
   }
@@ -119,7 +122,9 @@ export default class AdicionalFormularioComponent
           detalle: respuesta.detalle,
           horas: respuesta.horas,
           valor: respuesta.valor,
-          aplica_dia_laborado: respuesta.aplica_dia_laborado
+          aplica_dia_laborado: respuesta.aplica_dia_laborado,
+          inactivo: respuesta.inactivo,
+          inactivo_periodo: respuesta.inactivo_periodo
         });
         this.changeDetectorRef.detectChanges();
       });
