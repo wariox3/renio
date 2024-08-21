@@ -67,7 +67,7 @@ export default class AdicionalFormularioComponent
       inactivo: [false],
       inactivo_periodo: [false],
       permanente: [true],
-      valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      valor: [0,Validators.compose([Validators.pattern(/^[0-9.]+$/), Validators.required])],
     });
   }
 
