@@ -40,6 +40,7 @@
         <div>
             {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
             {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
+            {{ pago.id }}
         </div>
     </section>
     <section card-propiedades></section>
@@ -62,7 +63,7 @@
                     <td class="fw-bold text-gray-800 fs-6 bg-gray-100"
                         translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.EMPLEADO">
                     </td>
-                    <td>{{ pago.contacto_nombre_corto }}</td>
+                    <td>{{ pago.contacto_numero_identificacion }} - {{ pago.contacto_nombre_corto }}</td>
                     <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.IBC">
                     </td>
                     <td class="text-end">{{ pago.base_cotizacion | number }}</td>
@@ -87,12 +88,22 @@
                     </td>
                     <td>{{ pago.fecha_hasta }}</td>
                     <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
-                    <td colspan="7"></td>
+                    <td></td>
+                    <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.CONTRATO"></td>
+                    <td>{{ pago.contacto_id }}</td>
+                    <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGO.PROGRAMACIONDETALLE"></td>
+                    <td class="text-end">{{ pago.programacion_detalle_id }}</td>
+                    <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
+                    <td class="text-end"></td>
                 </tr>
                 <tr>
                     <td class="fw-bold text-gray-800 fs-6 bg-gray-100" translate="FORMULARIOS.CAMPOS.FACTURA.CUE"></td>
                     @if(pago.cue) {
-                    <td colspan="5">{{ pago.cue }} - <a
+                    <td colspan="7">{{ pago.cue }} - <a
                             href="https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey={{ pago.cue }}"
                             target="_blank">ver documento DIAN</a></td>
                     }
@@ -137,11 +148,15 @@
                                                     H
                                                 </div>
                                             </th>
-                                            <th class="bg-gray-100"
-                                                translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DIAS">
+                                            <th class="bg-gray-100">
+                                                <div placement="top" ngbTooltip="Días">
+                                                    D
+                                                </div>
                                             </th>
-                                            <th class="bg-gray-100"
-                                                translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.VRHORA">
+                                            <th class="bg-gray-100">
+                                                <div placement="top" ngbTooltip="Valor hora">
+                                                    HORA
+                                                </div>
                                             </th>
                                             <th class="bg-gray-100">
                                                 <div placement="top" ngbTooltip="Operación">
@@ -177,13 +192,13 @@
                                                 <td class="text-end">{{ detalle.porcentaje }}</td>
                                                 <td class="text-end">{{ detalle.cantidad }}</td>
                                                 <td class="text-end">{{ detalle.dias }}</td>
-                                                <td class="text-end">{{ detalle.hora }}</td>
+                                                <td class="text-end">{{ detalle.hora | number }}</td>
                                                 <td>
                                                     <ng-container *ngIf="detalle.operacion === 1">Suma</ng-container>
                                                     <ng-container *ngIf="detalle.operacion === -1">Resta</ng-container>
                                                     <ng-container *ngIf="detalle.operacion === 0">Neutro</ng-container>
                                                 </td>
-                                                <td class="text-end">{{ detalle.pago | number}}</td>
+                                                <td class="text-end">{{ detalle.pago_operado | number}}</td>
                                                 <td class="text-end">{{ detalle.base_prestacion | number}}</td>
                                                 <td class="text-end">{{ detalle.base_cotizacion | number}}</td>
                                                 <td class="text-end">{{ detalle.base_impuesto | number}}</td>

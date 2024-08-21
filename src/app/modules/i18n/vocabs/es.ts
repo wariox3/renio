@@ -540,7 +540,9 @@ export const locale = {
             DEVENGADO: 'Devengado',
             DEDUCCION: 'Deducción',
             PAGO: 'Pago',
-            SALARIO: 'Salario'
+            SALARIO: 'Salario',
+            PROGRAMACIONDETALLE: 'Programación detalle',
+            CONTRATO: 'Contrato'
           },
           PAGODETALLE: {
             CODIGO: 'Cód',
