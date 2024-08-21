@@ -1067,14 +1067,16 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'DESDE',
+      nombre: 'FECHA_DESDE',
+      nombreAbreviado: 'DESDE',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
     },
     {
-      nombre: 'HASTA',
+      nombre: 'FECHA_HASTA',
+      nombreAbreviado: 'HASTA',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
