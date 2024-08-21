@@ -34,7 +34,8 @@ export interface ProgramacionDetalleRegistro {
   dias_transporte: number;
   neto: number;
   total: number;
-  ingreso: boolean;
+  ingreso: boolean
+  retiro: boolean;
 }
 
 export interface TablaRegistroLista extends ProgramacionDetalleRegistro {

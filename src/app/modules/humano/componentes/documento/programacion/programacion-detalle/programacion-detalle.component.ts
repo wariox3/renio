@@ -83,6 +83,8 @@ export default class ProgramacionDetalleComponent
     pago_incapacidad: false,
     pago_licencia: false,
     pago_vacacion: false,
+    estado_generado: false,
+    estado_aprobado: false,
   };
 
   arrEstados = {
@@ -262,6 +264,7 @@ export default class ProgramacionDetalleComponent
         finalize(() => {
           this.generando = false;
           this.isCheckedSeleccionarTodos = false;
+          this.changeDetectorRef.detectChanges();
         })
       )
       .subscribe((respuesta) => {
