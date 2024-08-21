@@ -721,7 +721,10 @@ export const locale = {
         PAGADO: 'Pagado',
         INACTIVO: 'Inactivo',
         INACTIVO_PERIODO: 'Inactivo periodo',
-        VALOR_CUOTA: 'Valor cuota'
+        VALOR_CUOTA: 'Valor cuota',
+        CUOTA_ACTUAL: 'Cuota actual',
+        ABONO: 'Abonos',
+        SALDO: 'Saldo'
       },
       ITEM: {
         ID: 'ID',
