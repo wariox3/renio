@@ -26,8 +26,13 @@ export default class CreditoDetalleComponent extends General {
       "fecha_inicio": "",
       "total": 0,
       "cuota": 0,
+      "abono": 0,
+      "saldo": 0,
       "cantidad_cuotas": 0,
       "validar_cuotas": false,
+      "pagado": false,
+      "inactivo": false,
+      "inactivo_periodo": false,
       "contrato": 0
   };
 

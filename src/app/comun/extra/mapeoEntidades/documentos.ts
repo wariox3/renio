@@ -1221,10 +1221,11 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CUOTA',
-      campoTipo: 'IntegerField',
-      alinearAlaIzquierda: true,
+      nombreAbreviado: 'VALOR_CUOTA',
+      campoTipo: 'FloatField',
       visibleTabla: true,
       visibleFiltro: true,
+      aplicaFormatoNumerico: true,
       ordenable: true,
     },
     {

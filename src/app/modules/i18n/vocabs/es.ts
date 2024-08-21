@@ -486,6 +486,7 @@ export const locale = {
             TOTAL: 'Total',
           },
           CREDITO: {
+            CODIGO: 'Cód',
             FECHAINICIO: 'Inicio',
             CONTRATO: 'Contrato',
             VALIDAR_CUOTAS: 'Validar cuotas',
@@ -493,7 +494,11 @@ export const locale = {
             TOTAL: 'Total',
             CUOTA: 'Valor cuota',
             INACTIVO: 'Inactivo',
-            INACTIVOPERIODO: 'Inactivo periodo'
+            INACTIVOPERIODO: 'Inactivo periodo',
+            CREDITO: 'Crédito',
+            ABONO: 'Abono',
+            SALDO: 'Saldo',
+            PAGADO: 'Pagado'
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Descuento salud',
@@ -715,7 +720,8 @@ export const locale = {
         EMPLEADO: 'Empleado',
         PAGADO: 'Pagado',
         INACTIVO: 'Inactivo',
-        INACTIVO_PERIODO: 'Inactivo periodo'
+        INACTIVO_PERIODO: 'Inactivo periodo',
+        VALOR_CUOTA: 'Valor cuota'
       },
       ITEM: {
         ID: 'ID',
