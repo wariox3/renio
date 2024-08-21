@@ -698,7 +698,7 @@ export const locale = {
         VALIDAR_CUOTAS: 'Validar cuotas',
         CANTIDAD_CUOTAS: 'Cantidad cuotas',
         VALIDAR_CUOTAS_ABREVIATURA: 'Validar cuotas',
-        APLICA_DIA_LABORADO_ABREVIATURA: 'Día laboral',
+        APLICA_DIA_LABORADO_ABREVIATURA: 'Día laborado',
         HORAS: 'Horas',
         VALOR: 'Valor',
         CONCEPTO_ID: 'Concepto',
