@@ -37,6 +37,7 @@ export default class CreditoFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrContratos: any[] = [];
+  arrConceptos: any;
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -62,7 +63,11 @@ export default class CreditoFormularioComponent
       total: ['', Validators.compose([Validators.required])],
       cuota: [0, Validators.compose([Validators.required])],
       cantidad_cuotas: ['', Validators.compose([Validators.required])],
+      concepto: ['', Validators.compose([Validators.required])],
+      concepto_nombre: [''],
       validar_cuotas: [false],
+      inactivo: [false],
+      inactivo_periodo: [false],
     });
   }
 
@@ -114,8 +119,10 @@ export default class CreditoFormularioComponent
           cuota: respuesta.cuota,
           cantidad_cuotas: respuesta.cantidad_cuotas,
           validar_cuotas: respuesta.validar_cuotas,
-
-
+          inactivo: respuesta.inactivo,
+          inactivo_periodo: respuesta.inactivo_periodo,
+          concepto: respuesta.concepto_id,
+          concepto_nombre: respuesta.concepto_nombre
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -153,6 +160,44 @@ export default class CreditoFormularioComponent
       .subscribe();
   }
 
+  consultarConceptos(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+        {
+          operador: '',
+          propiedad: 'concepto_tipo',
+          valor1: '8',
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumConcepto',
+    };
+
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrConceptos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
@@ -161,6 +206,12 @@ export default class CreditoFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+    }
+    if (campo === 'concepto') {
+      this.formularioAdicional.get(campo)?.setValue(dato.concepto_id);
+      this.formularioAdicional
+        .get('concepto_nombre')
+        ?.setValue(dato.concepto_nombre);
     }
     this.changeDetectorRef.detectChanges();
   }
