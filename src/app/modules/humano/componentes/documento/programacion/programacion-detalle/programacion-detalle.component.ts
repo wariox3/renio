@@ -106,7 +106,9 @@ export default class ProgramacionDetalleComponent
   arrContratos: any[] = [];
   registroSeleccionado: number;
   registrosAEliminar: number[] = [];
+  registrosAEliminarAdicionales: number[] = [];
   isCheckedSeleccionarTodos: boolean = false;
+  isCheckedSeleccionarTodosAdicional: boolean = false;
   cargandoContratos: boolean = false;
   generando: boolean = false;
   desgenerando: boolean = false;
@@ -152,11 +154,17 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarAdicionalesTab() {
+    this.isCheckedSeleccionarTodosAdicional = false
     this.inicializarParametrosConsultaAdicional();
     this.httpService
       .post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)
       .subscribe((respuesta: any) => {
-        this.arrProgramacionAdicional = respuesta.registros;
+        this.arrProgramacionAdicional = respuesta.registros.map(
+          (registro: TablaRegistroLista) => ({
+            ...registro,
+            selected: false,
+          })
+        );
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -239,6 +247,7 @@ export default class ProgramacionDetalleComponent
 
   cargarContratos() {
     this.isCheckedSeleccionarTodos = false;
+    this.isCheckedSeleccionarTodosAdicional = false 
     this.cargandoContratos = true;
     this.programacionService
       .cargarContratos({
@@ -247,6 +256,7 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.cargandoContratos = false;
+          
         })
       )
       .subscribe();
@@ -333,6 +343,7 @@ export default class ProgramacionDetalleComponent
       aplica_dia_laborado: [false],
       valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
       programacion: [this.programacion.id],
+      permanente: [false]
     });
   }
 
@@ -535,6 +546,18 @@ export default class ProgramacionDetalleComponent
     }
   }
 
+  agregarRegistrosEliminarAdicional(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const index = this.registrosAEliminarAdicionales.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
+    if (index !== -1) {
+      this.registrosAEliminarAdicionales.splice(index, 1);
+    } else {
+      // Si el registro no está en el array, lo agrega
+      this.registrosAEliminarAdicionales.push(id);
+    }
+  }
+
   toggleSelectAll(event: Event) {
     const seleccionarTodos = event.target as HTMLInputElement;
     this.isCheckedSeleccionarTodos = !this.isCheckedSeleccionarTodos;
@@ -562,6 +585,33 @@ export default class ProgramacionDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  toggleSelectAllAdicional(event: Event) {
+    const seleccionarTodos = event.target as HTMLInputElement;
+    this.isCheckedSeleccionarTodosAdicional = !this.isCheckedSeleccionarTodosAdicional;
+    // Itera sobre todos los datos
+    if (seleccionarTodos.checked) {
+      this.arrProgramacionAdicional.forEach((item: TablaRegistroLista) => {
+        // Establece el estado de selección de cada registro
+        item.selected = !item.selected;
+        // Busca el índice del registro en el array de registros a eliminar
+        const index = this.registrosAEliminarAdicionales.indexOf(item.id);
+        // Si el registro ya estaba en el array de registros a eliminar, lo elimina
+        if (index === -1) {
+          this.registrosAEliminarAdicionales.push(item.id);
+        } // Si el registro no estaba en el array de registros a eliminar, lo agrega
+      });
+    } else {
+      this.arrProgramacionAdicional.forEach((item: TablaRegistroLista) => {
+        // Establece el estado de selección de cada registro
+        item.selected = !item.selected;
+      });
+
+      this.registrosAEliminarAdicionales = [];
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
   eliminarRegistros() {
     if (this.registrosAEliminar.length > 0) {
       this.registrosAEliminar.forEach((id) => {
@@ -574,9 +624,9 @@ export default class ProgramacionDetalleComponent
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
+            this.consultarDatos();
           });
       });
-      this.consultarDatos();
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -585,6 +635,33 @@ export default class ProgramacionDetalleComponent
     }
 
     this.registrosAEliminar = [];
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  eliminarRegistrosAdicional() {
+    if (this.registrosAEliminarAdicionales.length > 0) {
+      this.registrosAEliminarAdicionales.forEach((id) => {
+        this.adicionalService
+          .eliminarAdicional(id)
+          .pipe(
+            finalize(() => {
+              this.isCheckedSeleccionarTodosAdicional = false;
+            })
+          )
+          .subscribe(() => {
+            this.alertaService.mensajaExitoso('Registro eliminado');
+            this.consultarAdicionalesTab()
+          });
+      });
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'No se han seleccionado registros para eliminar'
+      );
+    }
+
+    this.registrosAEliminarAdicionales = [];
 
     this.changeDetectorRef.detectChanges();
   }

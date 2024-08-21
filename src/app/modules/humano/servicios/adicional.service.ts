@@ -23,4 +23,8 @@ export class AdicionalService extends Subdominio {
     return this.httpService.put<any>(`humano/adicional/${id}/`, data);
   }
 
+  eliminarAdicional(id: number) {
+    return this.httpService.delete(`humano/adicional/${id}/`, {});
+  }
+
 }
