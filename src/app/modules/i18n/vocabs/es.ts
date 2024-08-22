@@ -317,6 +317,9 @@ export const locale = {
           DIALABORADO: 'Aplica dia laborado',
           CODIGO: 'Cód'
         },
+        HUMCREDITO: {
+          PAGOS: 'Pagos'
+        }
       },
       CAMPOS: {
         COMUNES: {
@@ -728,7 +731,8 @@ export const locale = {
         VALOR_CUOTA: 'Valor cuota',
         CUOTA_ACTUAL: 'Cuota actual',
         ABONO: 'Abonos',
-        SALDO: 'Saldo'
+        SALDO: 'Saldo',
+        CODIGO: 'Cód'
       },
       ITEM: {
         ID: 'ID',

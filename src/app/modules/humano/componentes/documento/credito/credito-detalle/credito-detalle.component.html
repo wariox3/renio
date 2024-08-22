@@ -53,5 +53,43 @@
         </tr>
       </tbody>
     </table>
+    <div class="row mb-5">
+      <div class="col-12">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6">
+          <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+            <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.HUMCREDITO.PAGOS"></a>
+            <ng-template ngbNavContent>
+              <div class="d-flex justify-content-end my-3">
+                <div class="btn-group contenedor-btn-group">
+                  
+                </div>
+              </div>
+              <div class="table-responsive-sm">
+                <table id="tableDetalles" class="table table-bordered table-sm">
+                  <thead>
+                    <tr class="bg-gray-100">
+                      <th class="bg-gray-100" style="width: 50px">Id</th>
+                      <th class="bg-gray-100" style="width: 10px">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="
+                        let creditoPago of arrCreditoPagos
+                      ">
+                      <tr>
+                        <td class="w-40px">{{ creditoPago.id }}</td>
+                        <td class="w-10px text-end">{{ creditoPago.pago | number }}</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
   </section>
 </app-card>

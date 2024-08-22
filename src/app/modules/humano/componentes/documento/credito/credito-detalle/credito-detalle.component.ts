@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { HttpService } from '@comun/services/http.service';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -16,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
+    NgbNavModule
   ],
   templateUrl: './credito-detalle.component.html',
   styleUrl: './credito-detalle.component.scss',
@@ -36,8 +39,12 @@ export default class CreditoDetalleComponent extends General {
       "contrato": 0
   };
 
+  arrCreditoPagos: any;
+  active: Number;
+
   constructor(
-    private creditoService: CreditoService
+    private creditoService: CreditoService,
+    private httpService: HttpService
   ) {
     super();
     this.consultardetalle();
@@ -48,6 +55,32 @@ export default class CreditoDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.credito = respuesta;
+        this.consultarCreditoPagos();
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  consultarCreditoPagos() {
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [
+            {
+              operador: '',
+              propiedad: 'credito_id',
+              valor1: this.credito.id,
+              valor2: '',
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenDocumentoDetalle',
+        }
+      ).subscribe((respuesta: any) => {
+        this.arrCreditoPagos = respuesta.registros
         this.changeDetectorRef.detectChanges();
       });
   }
