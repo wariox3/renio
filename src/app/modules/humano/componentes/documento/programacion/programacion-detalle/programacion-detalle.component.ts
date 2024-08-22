@@ -36,6 +36,7 @@ import {
   throttleTime,
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
+import { ImportarAdministradorComponent } from "../../../../../../comun/componentes/importar-administrador/importar-administrador.component";
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -52,7 +53,8 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     ReactiveFormsModule,
     NgbTooltipModule,
     AnimacionFadeInOutDirective,
-  ],
+    ImportarAdministradorComponent
+],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -60,6 +62,9 @@ export default class ProgramacionDetalleComponent
   extends General
   implements OnInit
 {
+solicitarConsultarTabla() {
+throw new Error('Method not implemented.');
+}
   active: Number;
 
   programacion: any = {
@@ -348,9 +353,9 @@ export default class ProgramacionDetalleComponent
       concepto_nombre: [''],
       contrato_nombre: [''],
       detalle: [null],
-      horas: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      horas: [0],
       aplica_dia_laborado: [false],
-      valor: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      valor: [0, Validators.compose([Validators.required, Validators.pattern(/^[0-9.]+$/)])],
       programacion: [this.programacion.id],
       permanente: [false],
     });
@@ -527,13 +532,18 @@ export default class ProgramacionDetalleComponent
   }
 
   cerrarModal() {
-    this.adicionalService
-      .guardarAdicional(this.formularioAdicionalProgramacion.value)
-      .subscribe(() => {
-        this.consultarAdicionalesTab();
-      });
-    this.modalService.dismissAll();
-    this.changeDetectorRef.detectChanges();
+    if (this.formularioAdicionalProgramacion.valid) {
+      this.adicionalService
+        .guardarAdicional(this.formularioAdicionalProgramacion.value)
+        .subscribe(() => {
+          this.consultarAdicionalesTab();
+        });
+      this.modalService.dismissAll();
+      this.changeDetectorRef.detectChanges();
+    } else {
+      // Marca todos los campos como tocados para activar las validaciones en la UI
+      this.formularioAdicionalProgramacion.markAllAsTouched();
+    }
   }
 
   // detalles visuales

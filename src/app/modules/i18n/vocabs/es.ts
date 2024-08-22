@@ -315,6 +315,7 @@ export const locale = {
           ADICIONAL: 'Adicionales',
           CONCEPTO: 'Concepto',
           DIALABORADO: 'Aplica dia laborado',
+          CODIGO: 'Cód'
         },
       },
       CAMPOS: {
@@ -542,7 +543,8 @@ export const locale = {
             PAGO: 'Pago',
             SALARIO: 'Salario',
             PROGRAMACIONDETALLE: 'Programación detalle',
-            CONTRATO: 'Contrato'
+            CONTRATO: 'Contrato',
+            TOTAL: 'Total'
           },
           PAGODETALLE: {
             CODIGO: 'Cód',
