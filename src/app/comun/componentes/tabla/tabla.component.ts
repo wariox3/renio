@@ -42,8 +42,8 @@ import { ImportarAdministradorComponent } from '../importar-administrador/import
     TranslateModule,
     ImportarComponent,
     AnimationFadeinUpDirective,
-    ImportarAdministradorComponent
-],
+    ImportarAdministradorComponent,
+  ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
@@ -161,9 +161,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
                 ? true
                 : false,
               alinearAlaIzquierda: this.columnasVibles[clave]
-              .alinearAlaIzquierda
-              ? true
-              : false,
+                .alinearAlaIzquierda
+                ? true
+                : false,
             };
           }
         }
@@ -245,7 +245,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       let valorInicial = evento.target.value;
       if (valorInicial.includes('-')) {
         let [limite, desplazamiento] = valorInicial.split('-');
-        limite = parseInt(limite)
+        limite = parseInt(limite);
         desplazamiento = desplazamiento - limite + 1;
         if (limite > 0) {
           limite -= 1;
@@ -341,7 +341,16 @@ export class TablaComponent extends General implements OnInit, OnChanges {
           // Convierte el valor booleano a 'Si' si es verdadero y a 'No' si es falso
           return valor ? 'SI' : 'NO';
         case 'Porcentaje':
-          return `${parseFloat(valor.replace(",", "."))}`;
+          // Verifica si `valor` es una cadena antes de aplicar `replace`
+          if (typeof valor === 'string') {
+            return `${parseFloat(valor.replace(',', '.'))}`;
+          } else if (valor !== null && valor !== undefined) {
+            // Convierte `valor` a cadena si no es null o undefined
+            return `${parseFloat(String(valor).replace(',', '.'))}`;
+          } else {
+            // Maneja el caso cuando `valor` es null o undefined
+            return '0'; // O algún valor predeterminado adecuado
+          }
         // En caso de que el tipo de campo no sea ninguno de los anteriores
         default:
           // Devuelve el valor sin modificar
@@ -409,7 +418,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     }
   }
 
-  solicitarConsultarTabla(){
+  solicitarConsultarTabla() {
     this.emitirConsultarLista.emit(true);
   }
 }
