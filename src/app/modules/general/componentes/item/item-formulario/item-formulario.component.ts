@@ -130,7 +130,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
               this.router.navigate([`/administrador/detalle`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
+                  detalle: respuesta.item.id,
                 },
               });
             });
@@ -149,7 +149,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
                   this.router.navigate([`/administrador/detalle`], {
                     queryParams: {
                       ...parametro,
-                      detalle: respuesta.id,
+                      detalle: respuesta.item.id,
                     },
                   });
                 });
