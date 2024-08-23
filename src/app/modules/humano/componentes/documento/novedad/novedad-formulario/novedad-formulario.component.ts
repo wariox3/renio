@@ -86,12 +86,14 @@ export default class CreditoFormularioComponent
           .actualizarDatoNovedad(this.detalle, this.formularioAdicional.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
-              },
-            });
+            this.activatedRoute.queryParams.subscribe((parametros) => {
+              this.router.navigate(['documento/detalle'], {
+                queryParams: {
+                  ...parametros,
+                  detalle: respuesta.id,
+                },
+              });
+            })
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -100,12 +102,14 @@ export default class CreditoFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
+              this.activatedRoute.queryParams.subscribe((parametros) => {
+                this.router.navigate(['documento/detalle'], {
+                  queryParams: {
+                    ...parametros,
+                    detalle: respuesta.id,
+                  },
+                });
+              })
             })
           )
           .subscribe();
