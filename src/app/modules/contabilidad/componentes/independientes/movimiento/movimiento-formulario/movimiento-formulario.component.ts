@@ -62,9 +62,8 @@ implements OnInit {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['documento/detalle'], {
               queryParams: {
-                documento_clase:
-                  this.activatedRoute.snapshot.queryParams['documento_clase'],
-                detalle: respuesta.id,
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
               },
             });
             this.changeDetectorRef.detectChanges();
@@ -77,9 +76,8 @@ implements OnInit {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase:
-                    this.activatedRoute.snapshot.queryParams['documento_clase'],
-                  detalle: respuesta.id,
+                  ...this.parametrosUrl,
+                  detalle: respuesta.documento.id,
                 },
               });
             })

@@ -27,40 +27,38 @@ import { TranslateModule } from '@ngx-translate/core';
 export class BtnAtrasComponent extends General {
   navegarAtras() {
     let tipo = window.location.pathname.split('/')[1];
+    let parametrosParaRemover: string[] = ['detalle'];
 
-    switch (tipo) {
-      case 'administrador':
-        this.activatedRoute.queryParams.subscribe((parametro) => {
-          if(parametro.parametro  || parametro.submodelo){
-            this.router.navigate([`/administrador/lista`], {
-              queryParams: {
-                modelo: parametro.modelo,
-                parametro: parametro.parametro,
-                submodelo: parametro.submodelo
-              },
-            });
-          } else {
-            this.router.navigate([`/administrador/lista`], {
-              queryParams: {
-                modelo: parametro.modelo
-              },
-            });
-          }
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+      let parametrosActuales = { ...parametros };
 
-        });
-        break;
-      case 'documento':
-        this.activatedRoute.queryParams.subscribe((parametro) => {
-          this.router.navigate([`/documento/lista`], {
-            queryParams: {
-              documento_clase: parametro.documento_clase,
-            },
+      // Eliminar los parámetros especificados en `parametrosParaRemover`
+      parametrosParaRemover.forEach((param: any) => {
+        if (parametrosActuales[param]) {
+          delete parametrosActuales[param];
+        }
+      });
+
+      switch (tipo) {
+        case 'administrador':
+          this.activatedRoute.queryParams.subscribe((parametro) => {
+            if (parametro.parametro || parametro.submodelo) {
+              this.router.navigate([`/administrador/lista`], {
+                queryParams: { ...parametrosActuales },
+              });
+            } else {
+              this.router.navigate([`/administrador/lista`], {
+                queryParams: { ...parametrosActuales },
+              });
+            }
           });
-        });
-        break;
-
-      default:
-        break;
-    }
+          break;
+        case 'documento':
+          this.router.navigate([`/documento/lista`], {
+            queryParams: { ...parametrosActuales },
+          });
+          break;
+      }
+    });
   }
 }

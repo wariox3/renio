@@ -222,14 +222,13 @@ export default class EmpleadoFormularioComponent
                   this.alertaService.mensajaExitoso(
                     'Se actualizó la información'
                   );
-                  this.router.navigate(['/administrador/detalle'], {
-                    queryParams: {
-                      modelo:
-                        this.activatedRoute.snapshot.queryParams['modelo'],
-                      submodelo:
-                        this.activatedRoute.snapshot.queryParams['submodelo'],
-                      detalle: respuestaFormulario.id,
-                    },
+                  this.activatedRoute.queryParams.subscribe((parametro) => {
+                    this.router.navigate([`/administrador/detalle`], {
+                      queryParams: {
+                        ...parametro,
+                        detalle: respuestaFormulario.id,
+                      },
+                    });
                   });
                 }
               })
@@ -243,13 +242,13 @@ export default class EmpleadoFormularioComponent
             )
             .subscribe((respuestaFormulario) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  submodelo:
-                    this.activatedRoute.snapshot.queryParams['submodelo'],
-                  detalle: respuestaFormulario.id,
-                },
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuestaFormulario.id,
+                  },
+                });
               });
             });
         }
@@ -280,13 +279,13 @@ export default class EmpleadoFormularioComponent
             tap((respuestaFormulario) => {
               if (respuestaFormulario !== null) {
                 this.alertaService.mensajaExitoso('Se guardó la información');
-                this.router.navigate(['/administrador/detalle'], {
-                  queryParams: {
-                    modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                    submodelo:
-                      this.activatedRoute.snapshot.queryParams['submodelo'],
-                    detalle: respuestaFormulario.id,
-                  },
+                this.activatedRoute.queryParams.subscribe((parametro) => {
+                  this.router.navigate([`/administrador/detalle`], {
+                    queryParams: {
+                      ...parametro,
+                      detalle: respuestaFormulario.id,
+                    },
+                  });
                 });
               }
             })

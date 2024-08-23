@@ -89,13 +89,13 @@ export default class ItemFormularioComponent extends General implements OnInit {
           .actualizarDatos(this.detalle, this.formularioConCuenta.value)
           .subscribe((respuesta: ConCuenta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                detalle: respuesta.id,
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
           });
       } else {
@@ -103,15 +103,13 @@ export default class ItemFormularioComponent extends General implements OnInit {
           .guardarCuenta(this.formularioConCuenta.value)
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.id,
-                accion: 'detalle',
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
           });
       }

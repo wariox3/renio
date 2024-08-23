@@ -56,13 +56,40 @@ export class General {
 
     this.activatedRoute.queryParams.subscribe((parametros) => {
       this.parametrosUrl = parametros;
-      if (localStorage.getItem('itemNombre')) {
-        this.modelo = localStorage.getItem('itemNombre')!;
+      if (parametros.itemNombre) {
+        this.modelo = parametros.itemNombre;
       }
       this.detalle = parametros.detalle;
       this.changeDetectorRef.detectChanges;
     });
     this.changeDetectorRef.detectChanges;
     //cambiosQueryParams.unsubscribe();
+  }
+
+  // this.activatedRoute.queryParams.subscribe((parametro) => {
+  //   this.router.navigate([`/documento/nuevo`], {
+  //     queryParams: {
+  //       ...parametro,
+  //     },
+  //   });
+  // });
+
+  navegarDocumentoNuevo() {
+    let parametrosParaRemover: string[] = ['detalle'];
+
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+      let parametrosActuales = { ...parametros };
+
+      // Eliminar los parámetros especificados en `parametrosParaRemover`
+      parametrosParaRemover.forEach((param: any) => {
+        if (parametrosActuales[param]) {
+          delete parametrosActuales[param];
+        }
+      });
+
+      this.router.navigate([`/documento/nuevo`], {
+        queryParams: { ...parametrosActuales },
+      });
+    });
   }
 }

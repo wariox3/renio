@@ -193,7 +193,7 @@ export default class EgresoFormularioComponent
               tap((respuesta) => {
                 this.router.navigate(['documento/detalle'], {
                   queryParams: {
-                    documento_clase: this.parametrosUrl.documento_clase,
+                    ...this.parametrosUrl,
                     detalle: respuesta.documento.id,
                   },
                 });
@@ -209,7 +209,7 @@ export default class EgresoFormularioComponent
             .subscribe((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase: this.parametrosUrl.documento_clase,
+                  ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });

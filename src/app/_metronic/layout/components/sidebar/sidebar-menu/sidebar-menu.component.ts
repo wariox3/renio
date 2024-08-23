@@ -110,26 +110,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-    switch (item.tipo) {
-      case 'Administrador':
-        localStorage.setItem('itemNombre', item.data?.modelo);
-        localStorage.setItem('itemTipo', item.nombre);
-        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
-        localStorage.setItem('esIndependiente', 'no');
-        break;
-      case 'Documento':
-        localStorage.setItem('itemNombre', item.nombre);
-        localStorage.setItem('itemTipo', 'DOCUMENTO');
-        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
-        localStorage.setItem('esIndependiente', 'no');
-        break;
-      case 'Independiente':
-        localStorage.setItem('itemNombre', item.nombre);
-        localStorage.setItem('itemTipo', item.nombre);
-        localStorage.setItem('consultaHttp', item.consultaHttp ? 'si' : 'no');
-        localStorage.setItem('esIndependiente', 'si');
-        break;
-    }
+    let parametros = this.construirParametros(item);
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     let url = [item.tipo?.toLocaleLowerCase(), 'lista'];
@@ -144,38 +125,69 @@ export class SidebarMenuComponent implements OnInit {
     this.router.navigate(url, {
       queryParams: {
         ...item.data,
+        ...parametros,
       },
     });
   }
 
   navegarNuevo(item: informacionMenuItem) {
-    switch (item.tipo) {
-      case 'Administrador':
-        localStorage.setItem('itemNombre', item.data?.modelo);
-        localStorage.setItem('itemTipo', item.nombre);
-        break;
-      case 'Documento':
-        localStorage.setItem('itemNombre', item.nombre);
-        localStorage.setItem('itemTipo', 'DOCUMENTO');
-        break;
-      case 'Independiente':
-        localStorage.setItem('itemNombre', item.nombre);
-        localStorage.setItem('itemTipo', item.nombre);
-        break;
-    }
+    let parametros = this.construirParametros(item);
+
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     let url = [item.tipo?.toLocaleLowerCase(), 'nuevo'];
     if (item.url !== undefined) {
       if (typeof item.url === 'string') {
-        // Check if item.url is a string
-        url = [item.url]; // If so, assign it as a single element array
+        url = [item.url];
       }
     }
     this.router.navigate(url, {
       queryParams: {
         ...item.data,
+        ...parametros,
       },
     });
+  }
+
+  construirParametros(item: any) {
+    console.log(item);
+
+    switch (item.tipo) {
+      case 'Administrador':
+        if(item.data?.submodelo){
+          return {
+            itemNombre: item.data?.modelo,
+            submodelo: item.data?.submodelo,
+            itemTipo: item.nombre,
+            consultaHttp: item.consultaHttp ? 'si' : 'no',
+            esIndependiente: 'no',
+          };
+        }
+        return {
+          itemNombre: item.data?.modelo,
+          itemTipo: item.nombre,
+          consultaHttp: item.consultaHttp ? 'si' : 'no',
+          esIndependiente: 'no',
+        };
+      case 'Documento':
+        return {
+          itemNombre: item.nombre,
+          itemTipo: 'DOCUMENTO',
+          consultaHttp: item.consultaHttp ? 'si' : 'no',
+          esIndependiente: 'no',
+        };
+      case 'Independiente':
+        return {
+          itemNombre: item.nombre,
+          itemTipo: 'DOCUMENTO',
+          consultaHttp: item.consultaHttp ? 'si' : 'no',
+          esIndependiente: 'no',
+        };
+      case 'informe':
+          return {
+            itemNombre: item.nombre,
+            itemTipo: 'DOCUMENTO',
+          };
+    }
   }
 }

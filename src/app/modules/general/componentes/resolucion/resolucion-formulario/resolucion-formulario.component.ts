@@ -146,17 +146,13 @@ export default class ResolucionFormularioComponent
             if (this.ocultarBtnAtras) {
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                  detalle: respuesta.id,
-                  accion: 'detalle',
-                  parametro:
-                    this.activatedRoute.snapshot.queryParams['parametro'],
-                },
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuesta.id,
+                  },
+                });
               });
             }
           });
@@ -171,17 +167,13 @@ export default class ResolucionFormularioComponent
             if (this.ocultarBtnAtras) {
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                  detalle: respuesta.id,
-                  accion: 'detalle',
-                  parametro:
-                    this.activatedRoute.snapshot.queryParams['parametro'],
-                },
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuesta.id,
+                  },
+                });
               });
             }
           });

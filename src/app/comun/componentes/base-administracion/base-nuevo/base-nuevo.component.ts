@@ -33,8 +33,8 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    this.modelo = localStorage.getItem('itemNombre')!;
     this.activatedRoute.queryParams.subscribe((parametros) => {
+        this.modelo = parametros.itemNombre;
        if (parametros.submodelo) {
         this.modelo = parametros.submodelo;
         this.changeDetectorRef.detectChanges()

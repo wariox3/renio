@@ -334,7 +334,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                 tap((respuesta) => {
                   this.router.navigate(['documento/detalle'], {
                     queryParams: {
-                      documento_clase: this.dataUrl.documento_clase,
+                      ...this.parametrosUrl,
                       detalle: respuesta.documento.id,
                     },
                   });
@@ -410,7 +410,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                   );
                   this.router.navigate(['documento/detalle'], {
                     queryParams: {
-                      documento_clase: this.dataUrl.documento_clase,
+                      ...this.parametrosUrl,
                       detalle: respuesta.documento.id,
                     },
                   });

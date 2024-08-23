@@ -106,15 +106,13 @@ export default class CuentaBancoFormularioComponent
               correo: respuesta.correo,
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.id,
-                accion: 'detalle',
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
           });
       } else {
@@ -122,15 +120,13 @@ export default class CuentaBancoFormularioComponent
           .guardarCuentaBanco(this.formularioCuentaBanco.value)
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                formulario: `${this.activatedRoute.snapshot.queryParams['formulario']}`,
-                detalle: respuesta.id,
-                accion: 'detalle',
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
           });
       }

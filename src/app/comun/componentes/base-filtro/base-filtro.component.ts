@@ -86,12 +86,10 @@ export class BaseFiltroComponent extends General implements OnInit {
       if(this.modeloPersonalizado !== ''){
         this.tipo = this.modeloPersonalizado
       } else {
-        this.tipo = localStorage.getItem('itemTipo')!;
+        this.tipo = parametro.itemTipo!;
       }
       let tipo = window.location.pathname.split('/')[1];
-      this.nombreFiltro = `${tipo}_${localStorage
-        .getItem('itemNombre')
-        ?.toLowerCase()}`;
+      this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!

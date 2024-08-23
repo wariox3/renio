@@ -59,7 +59,10 @@ export default class ComprobanteFormularioComponent
       ],
       codigo: [
         null,
-        Validators.compose([Validators.maxLength(20), cambiarVacioPorNulo.validar]),
+        Validators.compose([
+          Validators.maxLength(20),
+          cambiarVacioPorNulo.validar,
+        ]),
       ],
       permite_asiento: [false],
     });
@@ -72,13 +75,13 @@ export default class ComprobanteFormularioComponent
           .actualizarDatos(this.detalle, this.formularioComprobante.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                detalle: respuesta.id,
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
             this.changeDetectorRef.detectChanges();
           });
@@ -88,14 +91,13 @@ export default class ComprobanteFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  detalle: respuesta.id,
-                  accion: 'detalle',
-                },
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuesta.id,
+                  },
+                });
               });
             })
           )
@@ -113,7 +115,7 @@ export default class ComprobanteFormularioComponent
         this.formularioComprobante.patchValue({
           nombre: respuesta.nombre,
           codigo: respuesta.codigo,
-          permite_asiento: respuesta.permite_asiento
+          permite_asiento: respuesta.permite_asiento,
         });
         this.changeDetectorRef.detectChanges();
       });

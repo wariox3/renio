@@ -41,9 +41,7 @@ export class BaseListaComponent extends General implements OnInit {
   arrPropiedades: Listafiltros[];
   arrItems: any;
   cantidad_registros!: number;
-  nombreFiltro = `${localStorage.getItem('itemTipo')}_${localStorage.getItem(
-    'itemNombre'
-  )}`;
+  nombreFiltro: string;
   tipo = '';
   modelo = '';
   titulos: any = [];
@@ -59,10 +57,9 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `documento_${localStorage
-        .getItem('itemNombre')
-        ?.toLowerCase()}`;
-      this.modelo = localStorage.getItem('itemNombre')!;
+
+      this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
+      this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof documentos = parametro.documento_clase;
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
@@ -71,59 +68,62 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    const { documento_clase } = this.parametrosUrl;
-    const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-    let consultaHttp: string = localStorage.getItem('consultaHttp')!;
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      const { documento_clase } = parametro;
+      const filtroGuardado = localStorage.getItem(this.nombreFiltro);
+      let consultaHttp: string = parametro.consultaHttp!;
 
-    if (consultaHttp === 'si') {
-      this.arrParametrosConsulta.filtros = [
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: documento_clase,
-        },
-      ];
-      if (filtroGuardado !== null) {
+      if (consultaHttp === 'si') {
         this.arrParametrosConsulta.filtros = [
           {
             propiedad: 'documento_tipo__documento_clase_id',
             valor1: documento_clase,
           },
-          ...JSON.parse(filtroGuardado),
         ];
-      }
-      this.httpService
-        .post<{
-          registros: any;
-        }>('general/documento/lista/', this.arrParametrosConsulta)
-        .subscribe((respuesta: any) => {
-          this.cantidad_registros = respuesta.length;
-          this.arrItems = respuesta;
-          this.changeDetectorRef.detectChanges();
-        });
-    } else {
-      let baseUrl = 'general/funcionalidad/lista/';
-      this.arrParametrosConsulta = {
-        modelo: documento_clase,
-      };
-      if (filtroGuardado !== null) {
-        this.arrParametrosConsulta.filtros = [
-          ...JSON.parse(filtroGuardado),
-        ];
-      }
-      this.httpService
-        .post<{
-          cantidad_registros: number;
-          registros: any[];
-          propiedades: any[];
-        }>(baseUrl, this.arrParametrosConsulta)
-        .subscribe((respuesta: any) => {
-          this.cantidad_registros = respuesta.cantidad_registros;
-          this.arrItems = respuesta.registros;
-          this.arrPropiedades = respuesta.propiedades;
+        if (filtroGuardado !== null) {
+          this.arrParametrosConsulta.filtros = [
+            {
+              propiedad: 'documento_tipo__documento_clase_id',
+              valor1: documento_clase,
+            },
+            ...JSON.parse(filtroGuardado),
+          ];
+        }
+        this.httpService
+          .post<{
+            registros: any;
+          }>('general/documento/lista/', this.arrParametrosConsulta)
+          .subscribe((respuesta: any) => {
+            this.cantidad_registros = respuesta.length;
+            this.arrItems = respuesta;
+            this.changeDetectorRef.detectChanges();
+          });
+      } else {
+        let baseUrl = 'general/funcionalidad/lista/';
+        this.arrParametrosConsulta = {
+          modelo: documento_clase,
+        };
+        if (filtroGuardado !== null) {
+          this.arrParametrosConsulta.filtros = [
+            ...JSON.parse(filtroGuardado),
+          ];
+        }
+        this.httpService
+          .post<{
+            cantidad_registros: number;
+            registros: any[];
+            propiedades: any[];
+          }>(baseUrl, this.arrParametrosConsulta)
+          .subscribe((respuesta: any) => {
+            this.cantidad_registros = respuesta.cantidad_registros;
+            this.arrItems = respuesta.registros;
+            this.arrPropiedades = respuesta.propiedades;
 
-          this.changeDetectorRef.detectChanges();
-        });
-    }
+            this.changeDetectorRef.detectChanges();
+          });
+      }
+
+    });
   }
 
   obtenerFiltros(arrfiltros: any[]) {
@@ -155,36 +155,39 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      const consultaHttp = localStorage.getItem('consultaHttp');
-      if (consultaHttp === 'si') {
-        this.httpService
-          .post('general/documento/eliminar/', { documentos: data })
-          .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso(respuesta.mensaje);
+      this.activatedRoute.queryParams.subscribe((parametro) => {
+        const consultaHttp = parametro.consultaHttp;
+        if (consultaHttp === 'si') {
+          this.httpService
+            .post('general/documento/eliminar/', { documentos: data })
+            .subscribe((respuesta: any) => {
+              this.alertaService.mensajaExitoso(respuesta.mensaje);
+              this.consultarLista();
+            });
+        } else {
+          let modelo = this.modelo.toLowerCase();
+          let modulo = localStorage.getItem('ruta');
+          let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+          if (
+            eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
+          ) {
+            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+          }
+          const eliminarSolicitudes = data.map((id) => {
+            return this.httpService.delete(
+              `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
+              {}
+            );
+          });
+          combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Registro eliminado');
+            this.confirmacionRegistrosEliminado = true;
+            this.changeDetectorRef.detectChanges();
             this.consultarLista();
           });
-      } else {
-        let modelo = this.modelo.toLowerCase();
-        let modulo = localStorage.getItem('ruta');
-        let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-        if (
-          eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
-        ) {
-          modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
         }
-        const eliminarSolicitudes = data.map((id) => {
-          return this.httpService.delete(
-            `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
-            {}
-          );
-        });
-        combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
-          this.alertaService.mensajaExitoso('Registro eliminado');
-          this.confirmacionRegistrosEliminado = true;
-          this.changeDetectorRef.detectChanges();
-          this.consultarLista();
-        });
-      }
+      })
+
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -194,13 +197,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   navegarNuevo() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/nuevo`], {
-        queryParams: {
-          ...parametro,
-        },
-      });
-    });
+    this.navegarDocumentoNuevo()
   }
 
   navegarEditar(id: number) {

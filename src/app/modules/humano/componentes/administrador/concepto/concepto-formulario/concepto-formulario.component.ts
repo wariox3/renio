@@ -66,13 +66,13 @@ export default class ConceptoFormularioComponent
           .actualizarDatosConcepto(this.detalle, this.formularioConcepto.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.router.navigate(['/administrador/detalle'], {
-              queryParams: {
-                modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                detalle: respuesta.id,
-              },
+            this.activatedRoute.queryParams.subscribe((parametro) => {
+              this.router.navigate([`/administrador/detalle`], {
+                queryParams: {
+                  ...parametro,
+                  detalle: respuesta.id,
+                },
+              });
             });
             this.changeDetectorRef.detectChanges();
           });
@@ -82,14 +82,13 @@ export default class ConceptoFormularioComponent
           .pipe(
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
-              this.router.navigate(['/administrador/detalle'], {
-                queryParams: {
-                  modulo: this.activatedRoute.snapshot.queryParams['modulo'],
-                  modelo: this.activatedRoute.snapshot.queryParams['modelo'],
-                  tipo: this.activatedRoute.snapshot.queryParams['tipo'],
-                  detalle: respuesta.id,
-                  accion: 'detalle',
-                },
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuesta.id,
+                  },
+                });
               });
             })
           )

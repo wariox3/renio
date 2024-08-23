@@ -34,13 +34,14 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    this.modelo = localStorage.getItem('itemNombre')!;
     this.activatedRoute.queryParams.subscribe((parametros) => {
+      this.modelo = parametros.itemNombre!;
        if (parametros.submodelo) {
         this.modelo = parametros.submodelo;
         this.changeDetectorRef.detectChanges()
        }
     });
+
     let posicion: keyof typeof Componetes = this.modelo;
     let componete = await (await Componetes[posicion].detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);

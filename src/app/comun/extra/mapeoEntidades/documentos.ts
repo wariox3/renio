@@ -30,7 +30,7 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Contacto',
+      modeloFk: 'GenContacto',
     },
     {
       nombre: 'SUBTOTAL',
@@ -252,7 +252,7 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Contacto',
+      modeloFk: 'GenContacto',
     },
     {
       nombre: 'SUBTOTAL',

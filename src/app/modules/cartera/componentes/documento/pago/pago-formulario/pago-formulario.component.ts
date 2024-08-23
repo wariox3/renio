@@ -171,7 +171,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
               tap((respuesta) => {
                 this.router.navigate(['documento/detalle'], {
                   queryParams: {
-                    documento_clase: this.parametrosUrl.documento_clase,
+                    ...this.parametrosUrl,
                     detalle: respuesta.documento.id,
                   },
                 });
@@ -187,7 +187,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             .subscribe((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase: this.parametrosUrl.documento_clase,
+                  ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });

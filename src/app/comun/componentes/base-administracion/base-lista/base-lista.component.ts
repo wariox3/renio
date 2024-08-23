@@ -27,7 +27,7 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
     BaseFiltroComponent,
     TablaComponent,
     ImportarComponent,
-],
+  ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
@@ -50,7 +50,7 @@ export class BaseListaComponent extends General implements OnInit {
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
   documento_clase_id: string;
-  submodelo: string;
+  submodelo: string | undefined;
 
   constructor(
     private httpService: HttpService,
@@ -61,17 +61,17 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.nombreFiltro = `administrador_${localStorage
-        .getItem('itemNombre')
-        ?.toLowerCase()}`;
-      this.modelo = localStorage.getItem('itemNombre')!;
+      this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
+      this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof mapeo = this.modelo;
       this.modulo = mapeo[posicion].modulo;
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
+      console.log(parametro.submodelo);
+
       if (parametro.submodelo) {
-        this.submodelo = parametro.submodelo
+        this.submodelo = parametro.submodelo!;
         this.arrParametrosConsulta.filtros = [
           {
             operador: '',
@@ -80,8 +80,12 @@ export class BaseListaComponent extends General implements OnInit {
           },
         ];
       } else {
+        this.submodelo = undefined;
+
         this.arrParametrosConsulta.filtros = [];
       }
+      this.changeDetectorRef.detectChanges();
+
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
@@ -131,7 +135,7 @@ export class BaseListaComponent extends General implements OnInit {
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
 
@@ -142,16 +146,15 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      let modelo = this.modelo.toLowerCase()
-      let eliminarPrefijos = ['hum', 'gen', 'con', 'inv']
-      if(eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))){
-        modelo = this.modelo.toLowerCase().substring(3, this.modelo.length)
+      let modelo = this.modelo.toLowerCase();
+      let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+      if (
+        eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
+      ) {
+        modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
       }
       const eliminarSolicitudes = data.map((id) => {
-        return this.httpService.delete(
-          `${this.modulo}/${modelo}/${id}/`,
-          {}
-        );
+        return this.httpService.delete(`${this.modulo}/${modelo}/${id}/`, {});
       });
       combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Registro eliminado');
@@ -200,13 +203,14 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    let modelo = localStorage.getItem('itemTipo')!;
-    this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: 5000,
-      },
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      let modelo = parametro.itemTipo!;
+      this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
+        ...this.arrParametrosConsulta,
+        ...{
+          limite: 5000,
+        },
+      });
     });
   }
-
 }

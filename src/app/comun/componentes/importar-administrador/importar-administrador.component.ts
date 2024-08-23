@@ -129,67 +129,62 @@ export class ImportarAdministradorComponent extends General {
   }
 
   descargarExcelImportar() {
-    const { modelo } = this.parametrosUrl;
-    let fileUrl = `../../../../assets/ejemplos/modelo/${modelo}.xlsx`;
-    let nombreArchivo = `adminsitrador_${modelo}.xlsx`;
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.modelo}.xlsx`;
+      let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
+      let esIndependite = parametro.esIndependiente!;
+      if (esIndependite == 'si') {
+        fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
+          .getItem('ruta')!
+          .toLowerCase()
+          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
 
-    let esIndependite = localStorage.getItem('esIndependiente')!;
-    if (esIndependite == 'si') {
-      fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
-        .getItem('ruta')!
-        .toLowerCase()
-        .substring(0, 3)}_${localStorage
-        .getItem('itemNombre')
-        ?.toLocaleLowerCase()}.xlsx`;
+        nombreArchivo = `${localStorage
+          .getItem('ruta')!
+          .toLowerCase()
+          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+      }
 
-      nombreArchivo = `${localStorage
-        .getItem('ruta')!
-        .toLowerCase()
-        .substring(0, 3)}_${localStorage
-        .getItem('itemNombre')
-        ?.toLocaleLowerCase()}.xlsx`;
-    }
+      // Crear un enlace de descarga
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.download = nombreArchivo;
+      // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
+      document.body.appendChild(link);
+      link.click();
 
-    // Crear un enlace de descarga
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = nombreArchivo;
-    // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-    document.body.appendChild(link);
-    link.click();
-
-    // Eliminar el enlace del DOM
-    document.body.removeChild(link);
+      // Eliminar el enlace del DOM
+      document.body.removeChild(link);
+    });
   }
 
   descargarExcelError() {
-    const { modelo } = this.parametrosUrl;
-    let nombreArchivo = `errores_${modelo}.xlsx`;
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      let nombreArchivo = `errores_${parametro.modelo}.xlsx`;
 
-    let esIndependite = localStorage.getItem('esIndependiente')!;
-    if (esIndependite == 'si') {
-      nombreArchivo = `errores_${localStorage
-        .getItem('ruta')!
-        .toLowerCase()
-        .substring(0, 3)}_${localStorage
-        .getItem('itemNombre')
-        ?.toLocaleLowerCase()}.xlsx`;
-    }
+      let esIndependite = parametro.esIndependiente!;
+      if (esIndependite == 'si') {
+        nombreArchivo = `errores_${localStorage
+          .getItem('ruta')!
+          .toLowerCase()
+          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+      }
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-      this.errorImportar
-    );
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ['data'],
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+        this.errorImportar
+      );
+      const workbook: XLSX.WorkBook = {
+        Sheets: { data: worksheet },
+        SheetNames: ['data'],
+      };
+      const excelBuffer: any = XLSX.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
+      const data: Blob = new Blob([excelBuffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
     });
-    const data: Blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
   }
 }

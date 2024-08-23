@@ -175,7 +175,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
               tap((respuesta) => {
                 this.router.navigate(['documento/detalle'], {
                   queryParams: {
-                    documento_clase: this.parametrosUrl.documento_clase,
+                    ...this.parametrosUrl,
                     detalle: respuesta.documento.id,
                   },
                 });
@@ -191,7 +191,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
             .subscribe((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase: this.parametrosUrl.documento_clase,
+                  ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });

@@ -89,7 +89,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = localStorage.getItem('itemNombre')!;
+      this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof documentos = parseInt(
         parametro.documento_clase
       );

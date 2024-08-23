@@ -165,8 +165,6 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   }
 
   enviarFormulario() {
-    console.log(this.conceptoSelecionado);
-
     if (this.formularioConcepto.valid) {
       this.conceptoService
         .actualizarConceptoNomina(

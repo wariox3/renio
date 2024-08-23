@@ -705,6 +705,7 @@ export const locale = {
         VALIDAR_CUOTAS: 'Validar cuotas',
         CANTIDAD_CUOTAS: 'Cantidad cuotas',
         VALIDAR_CUOTAS_ABREVIATURA: 'Validar cuotas',
+        APLICA_DIA_LABORADO: 'Día laborado',
         APLICA_DIA_LABORADO_ABREVIATURA: 'Día laborado',
         HORAS: 'Horas',
         VALOR: 'Valor',

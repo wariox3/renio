@@ -61,12 +61,6 @@ export default class AdicionalDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/nuevo`], {
-        queryParams: {
-          documento_clase: parametro.documento_clase,
-        },
-      });
-    });
+    this.navegarDocumentoNuevo()
   }
 }

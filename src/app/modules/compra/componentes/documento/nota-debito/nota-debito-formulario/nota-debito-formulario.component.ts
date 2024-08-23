@@ -245,7 +245,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               tap((respuesta) => {
                 this.router.navigate(['documento/detalle'], {
                   queryParams: {
-                    documento_clase: this.dataUrl.documento_clase,
+                    ...this.parametrosUrl,
                     detalle: respuesta.documento.id,
                   },
                 });
@@ -302,7 +302,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
               );
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
-                  documento_clase: this.dataUrl.documento_clase,
+                  ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });
@@ -467,11 +467,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-  
+
     if (id != null) {
       this.arrDetallesEliminado.push(id);
     }
-    
+
     if (detalleFormGroup.value.impuestos.length > 0) {
       // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
       for (const impuestoEliminar of detalleFormGroup.value.impuestos) {
@@ -490,7 +490,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       }
     }
-  
+
     this.changeDetectorRef.detectChanges();
     this.detalles.removeAt(index);
     this.calcularTotales();
