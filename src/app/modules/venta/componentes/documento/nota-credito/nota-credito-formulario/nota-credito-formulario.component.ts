@@ -243,7 +243,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             .guardarFactura({
               ...this.formularioFactura.value,
               ...{
-                base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
                 documento_tipo: 2,
               },
