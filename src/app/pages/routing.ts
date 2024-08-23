@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ValidarPlanIdGuard } from '@guardias/validarPlanId.guard';
+import { validarRutaGuard } from '@guardias/validarRuta.guard';
 
 let redirectToValue: string = '/contenedor/lista';
 
@@ -18,6 +19,7 @@ function getRedirectTo(): string {
 const Routing: Routes = [
   {
     path: 'dashboard',
+    canActivate: [validarRutaGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
@@ -29,36 +31,43 @@ const Routing: Routes = [
   },
   {
     path: 'cartera',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/cartera/cartera-routing').then((r) => r.routes),
   },
   {
     path: 'compra',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/compra/compra-routing').then((r) => r.routes),
   },
   {
     path: 'contabilidad',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/contabilidad/contabilidad-routing').then((r) => r.routes),
   },
   {
     path: 'humano',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/humano/humano-routing').then((r) => r.routes),
   },
   {
     path: 'venta',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/venta/venta-routing').then((r) => r.routes),
   },
   {
     path: 'inventario',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: 'tesoreria',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
@@ -94,11 +103,13 @@ const Routing: Routes = [
   },
   {
     path: 'transporte',
+    canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/transporte/transporte-routing').then((r) => r.routes),
   },
   {
     path: 'administrador',
+    canActivateChild: [validarRutaGuard],
     children: [
       {
         path: 'lista',
@@ -132,6 +143,7 @@ const Routing: Routes = [
   },
   {
     path: 'documento',
+    canActivateChild: [validarRutaGuard],
     children: [
       {
         path: 'lista',
