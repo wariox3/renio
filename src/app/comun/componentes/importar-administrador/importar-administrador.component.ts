@@ -90,9 +90,11 @@ export class ImportarAdministradorComponent extends General {
 
   subirArchivo(archivo_base64: string) {
     let ruta = localStorage.getItem('ruta')!;
-    let esIndependite = localStorage.getItem('esIndependiente')!;
-    let modelo = '';
-    if (esIndependite == 'no') {
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+    let esIndependiente = parametros.esIndependiente!
+
+    let modelo = ''
+    if (esIndependiente == 'no') {
       modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
     } else {
       modelo = this.modelo.toLowerCase();
@@ -126,6 +128,9 @@ export class ImportarAdministradorComponent extends General {
         })
       )
       .subscribe();
+
+    }).unsubscribe();
+    
   }
 
   descargarExcelImportar() {
@@ -155,7 +160,7 @@ export class ImportarAdministradorComponent extends General {
 
       // Eliminar el enlace del DOM
       document.body.removeChild(link);
-    });
+    }).unsubscribe();
   }
 
   descargarExcelError() {
