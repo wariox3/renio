@@ -18,6 +18,8 @@ import { RouterLink } from '@angular/router';
 import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { Contenedor } from '@interfaces/usuario/contenedor';
 
 @Component({
   selector: 'app-login',
@@ -155,7 +157,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
             } else {
-              this.validarSubdominioYrediccionar();
+              this.validarSubdominioYrediccionar(respuesta);
             }
           }),
           switchMap(() => {
@@ -187,8 +189,34 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
   }
 
-  validarSubdominioYrediccionar() {
+  validarSubdominioYrediccionar(respuesta: Contenedor) {
+    console.log(respuesta);
+
     if (this.subdominioService.esSubdominioActual()) {
+      const contenedor: Contenedor = {
+        nombre: respuesta.nombre,
+        imagen: respuesta.imagen,
+        contenedor_id: respuesta.id,
+        subdominio: respuesta.subdominio,
+        id: respuesta.id,
+        usuario_id: 1,
+        seleccion: true,
+        rol: respuesta.rol,
+        plan_id: respuesta.plan_id,
+        plan_nombre: respuesta.plan_nombre,
+        usuarios: 1,
+        usuarios_base: 0,
+        ciudad: 0,
+        correo: '',
+        direccion: '',
+        identificacion: 0,
+        nombre_corto: '',
+        numero_identificacion: 0,
+        telefono: '',
+        acceso_restringido: respuesta.acceso_restringido,
+      };
+      this.store.dispatch(ContenedorActionInit({ contenedor }));
+
       this.store.dispatch(
         configuracionVisualizarAction({
           configuracion: {
