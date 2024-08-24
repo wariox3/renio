@@ -41,6 +41,10 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
                 }
               }
             }
+            if (error.error.hasOwnProperty('mensaje')) {
+              errorCodigo = error.error.codigo;
+              errorMensaje = error.error.mensaje;
+            }
             break;
           case 404:
             errorCodigo = 404;
@@ -65,11 +69,6 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
               errorCodigo = objError.codigo;
               errorMensaje = objError.error;
             }
-            if (objError.hasOwnProperty('mensaje')) {
-              errorCodigo = objError.codigo;
-              errorMensaje = objError.mensaje;
-            }
-
             break;
         }
       }

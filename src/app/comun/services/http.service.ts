@@ -92,8 +92,8 @@ export class HttpService extends Subdominio {
     this.alertaService.mensajaEspera('Cargando')
     this.http
       .post<HttpResponse<Blob>>(url, data, {
-        observe: 'response',
-        responseType: 'blob' as 'json',
+        // observe: 'response',
+        // responseType: 'blob' as 'json',
       })
       .subscribe((response) => {
         if (response !== null) {
