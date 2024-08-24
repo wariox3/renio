@@ -189,21 +189,21 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
   }
 
-  validarSubdominioYrediccionar(respuesta: Contenedor) {
+  validarSubdominioYrediccionar(respuesta: any) {
     console.log(respuesta);
 
     if (this.subdominioService.esSubdominioActual()) {
       const contenedor: Contenedor = {
-        nombre: respuesta.nombre,
-        imagen: respuesta.imagen,
-        contenedor_id: respuesta.id,
-        subdominio: respuesta.subdominio,
-        id: respuesta.id,
+        nombre: respuesta.empresa.nombre,
+        imagen: respuesta.empresa.imagen,
+        contenedor_id: respuesta.empresa.id,
+        subdominio: respuesta.empresa.subdominio,
+        id: respuesta.empresa.id,
         usuario_id: 1,
         seleccion: true,
-        rol: respuesta.rol,
-        plan_id: respuesta.plan_id,
-        plan_nombre: respuesta.plan_nombre,
+        rol: respuesta.empresa.rol,
+        plan_id: respuesta.empresa.plan_id,
+        plan_nombre: respuesta.empresa.plan_nombre,
         usuarios: 1,
         usuarios_base: 0,
         ciudad: 0,
@@ -213,7 +213,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         nombre_corto: '',
         numero_identificacion: 0,
         telefono: '',
-        acceso_restringido: respuesta.acceso_restringido,
+        acceso_restringido: respuesta.empresa.acceso_restringido,
       };
       this.store.dispatch(ContenedorActionInit({ contenedor }));
 
