@@ -733,7 +733,11 @@ export const locale = {
         CUOTA_ACTUAL: 'Cuota actual',
         ABONO: 'Abonos',
         SALDO: 'Saldo',
-        CODIGO: 'Cód'
+        CODIGO: 'Cód',
+        DEBITO: 'DEBITO',
+        CREDITO: 'CREDITO',
+        GRUPO: 'GRUPO',
+        COMPROBANTE: 'COMPROBANTE',
       },
       ITEM: {
         ID: 'ID',
