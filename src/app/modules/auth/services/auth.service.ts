@@ -79,12 +79,14 @@ export class AuthService implements OnDestroy {
     this.tokenService.eliminarRefreshToken();
     removeCookie('usuario', { path: '/', domain: environment.dominioApp });
     removeCookie('usuario', { path: '/' });
-    const empresaPatron = 'empresa-';
+    const patrones = ['empresa-', 'contenedor-', 'configuracion'];
     document.cookie.split(';').forEach(function (cookie) {
       const cookieNombre = cookie.split('=')[0].trim();
-      if (cookieNombre.startsWith(empresaPatron)) {
-        removeCookie(cookieNombre);
-      }
+      patrones.forEach(function (patron) {
+        if (cookieNombre.startsWith(patron)) {
+          removeCookie(cookieNombre);
+        }
+      });
     });
     if(environment.production){
       window.location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/inicio`;
