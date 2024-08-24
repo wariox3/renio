@@ -84,7 +84,10 @@ export class AuthService implements OnDestroy {
       const cookieNombre = cookie.split('=')[0].trim();
       patrones.forEach(function (patron) {
         if (cookieNombre.startsWith(patron)) {
+          console.log(cookieNombre);
           removeCookie(cookieNombre);
+          removeCookie(cookieNombre, { path: '/', domain: environment.dominioApp });
+
         }
       });
     });
