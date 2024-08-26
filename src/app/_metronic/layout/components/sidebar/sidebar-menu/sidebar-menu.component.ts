@@ -181,6 +181,11 @@ export class SidebarMenuComponent implements OnInit {
           consultaHttp: item.consultaHttp ? 'si' : 'no',
           esIndependiente: 'no',
         };
+        case 'utilidad':
+          return {
+            itemNombre: item.nombre,
+            itemTipo: 'DOCUMENTO',
+          };
       case 'informe':
           return {
             itemNombre: item.nombre,
