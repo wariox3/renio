@@ -1,3 +1,4 @@
+import { SubdominioService } from '@comun/services/subdominio.service';
 import { Component, OnInit } from '@angular/core';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
@@ -49,11 +50,21 @@ export class ContenedorListaComponent extends General implements OnInit {
   usuarioSaldo = 0;
   VisalizarMensajeBloqueo = false;
 
-  constructor(private contenedorService: ContenedorService) {
+  constructor(
+    private contenedorService: ContenedorService,
+    private subdominioService: SubdominioService
+  ) {
     super();
   }
 
   ngOnInit() {
+    if(this.subdominioService.esSubdominioActual()){
+      location.href = `${
+        environment.dominioHttp
+      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
+    }
+
+
     this.consultarLista();
     this.limpiarEmpresa();
 

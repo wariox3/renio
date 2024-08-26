@@ -207,7 +207,9 @@ export class AuthService implements OnDestroy {
       );
       this.router.navigate(['/dashboard']);
     } else {
-      this.router.navigate(['/contenedor/lista']);
+      location.href = `${
+        environment.dominioHttp
+      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
     }
   }
 
