@@ -69,7 +69,7 @@ export const documentos: Mapeo = {
       visibleTabla: true,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Item',
+      modeloFk: 'GenItem',
     },
     {
       nombre: 'CANTIDAD',
@@ -276,7 +276,7 @@ export const documentos: Mapeo = {
       visibleTabla: false,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Contacto'
+      modeloFk: 'GenContacto'
     },
     {
       nombre: 'ITEM_NOMBRE',
@@ -285,7 +285,7 @@ export const documentos: Mapeo = {
       visibleTabla: false,
       ordenable: false,
       esFk: true,
-      modeloFk: 'Item',
+      modeloFk: 'GenItem',
     },
     {
       nombre: 'SOPORTE',
