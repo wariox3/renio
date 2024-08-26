@@ -1,3 +1,4 @@
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { General } from '@comun/clases/general';
@@ -38,7 +39,8 @@ export class ImportarAdministradorComponent extends General {
 
   constructor(
     private modalService: NgbModal,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private descargarArchivosService: DescargarArchivosService,
   ) {
     super();
   }
@@ -130,36 +132,40 @@ export class ImportarAdministradorComponent extends General {
       .subscribe();
 
     }).unsubscribe();
-    
+
   }
 
   descargarExcelImportar() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.modelo}.xlsx`;
-      let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
-      let esIndependite = parametro.esIndependiente!;
-      if (esIndependite == 'si') {
-        fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
-          .getItem('ruta')!
-          .toLowerCase()
-          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+      this.descargarArchivosService.comprobarArchivoExiste(fileUrl).subscribe((archivoExiste)=> {
+        if(archivoExiste){
+          let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
+          let esIndependite = parametro.esIndependiente!;
+          if (esIndependite == 'si') {
+            fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
+              .getItem('ruta')!
+              .toLowerCase()
+              .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
 
-        nombreArchivo = `${localStorage
-          .getItem('ruta')!
-          .toLowerCase()
-          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-      }
+            nombreArchivo = `${localStorage
+              .getItem('ruta')!
+              .toLowerCase()
+              .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+          }
 
-      // Crear un enlace de descarga
-      const link = document.createElement('a');
-      link.href = fileUrl;
-      link.download = nombreArchivo;
-      // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-      document.body.appendChild(link);
-      link.click();
+          // Crear un enlace de descarga
+          const link = document.createElement('a');
+          link.href = fileUrl;
+          link.download = nombreArchivo;
+          // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
+          document.body.appendChild(link);
+          link.click();
 
-      // Eliminar el enlace del DOM
-      document.body.removeChild(link);
+          // Eliminar el enlace del DOM
+          document.body.removeChild(link);
+        }
+      })
     }).unsubscribe();
   }
 

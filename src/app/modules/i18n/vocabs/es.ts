@@ -737,7 +737,7 @@ export const locale = {
         DEBITO: 'DEBITO',
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
-        COMPROBANTE: 'COMPROBANTE',
+        COMPROBANTE: 'Comprobante',
       },
       ITEM: {
         ID: 'ID',
@@ -917,7 +917,7 @@ export const locale = {
         DEBITO: 'DEBITO',
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
-        COMPROBANTE: 'COMPROBANTE',
+        COMPROBANTE: 'Comprobante',
       },
       GUIA: {
         ID: 'ID',
