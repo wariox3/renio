@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateChildFn } from '@angular/router';
+import { environment } from '@env/environment';
 import { Store } from '@ngrx/store';
 import { obtenerContenedorSeleccion } from '@redux/selectors/contenedor.selectors';
 import {
@@ -33,7 +34,11 @@ export const validarRutaGuard: CanActivateChildFn = (childRoute, state) => {
   });
 
   if (!persimsos) {
-    router.navigate(['/contenedor/lista']);
+    //router.navigate(['/contenedor/lista']);
+    location.href = `${
+      environment.dominioHttp
+    }://${environment.dominioApp.slice(1)}/contenedor/lista`;
+
   }
 
   return persimsos;
