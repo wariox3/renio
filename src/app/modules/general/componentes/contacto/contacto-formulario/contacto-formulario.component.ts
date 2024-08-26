@@ -163,14 +163,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
           null,
           Validators.compose([
             Validators.required,
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         nombre2: [
           null,
           Validators.compose([
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         apellido1: [
@@ -178,14 +178,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         apellido2: [
           null,
           Validators.compose([
             Validators.maxLength(50),
-            Validators.pattern(/^[a-zA-Z]+$/),
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
         direccion: [
@@ -260,8 +260,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
     let valorPersonaTipo = parseInt($event.target.value);
     if (valorPersonaTipo === 1) {
       //1 es igual a juridico
-      this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
-      this.setValidators('apellido1', [Validators.pattern(/^[a-zA-Z]+$/)]);
+      this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
+      this.setValidators('apellido1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
@@ -276,11 +276,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
       //2 es natural
       this.setValidators('nombre1', [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z]+$/),
+        Validators.pattern(/^[a-zA-ZÑñ ]+$/),
       ]);
       this.setValidators('apellido1', [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z]+$/),
+        Validators.pattern(/^[a-zA-ZÑñ ]+$/),
       ]);
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
@@ -593,8 +593,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
-          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-Z]+$/)]);
-          this.setValidators('apellido1', [Validators.pattern(/^[a-zA-Z]+$/)]);
+          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
+          this.setValidators('apellido1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),

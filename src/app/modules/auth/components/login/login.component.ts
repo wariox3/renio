@@ -190,8 +190,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   }
 
   validarSubdominioYrediccionar(respuesta: any) {
-    console.log(respuesta);
-
     if (this.subdominioService.esSubdominioActual()) {
       const contenedor: Contenedor = {
         nombre: respuesta.empresa.nombre,

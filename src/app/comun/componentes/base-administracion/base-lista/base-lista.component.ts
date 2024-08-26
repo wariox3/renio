@@ -68,8 +68,6 @@ export class BaseListaComponent extends General implements OnInit {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
-      console.log(parametro.submodelo);
-
       if (parametro.submodelo) {
         this.submodelo = parametro.submodelo!;
         this.arrParametrosConsulta.filtros = [
