@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   ContenedorActionInit,
   ContenedorSeleccionAction,
+  ContenedorActionBorrarInformacion
 } from '../actions/contenedor.actions';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { getCookie } from 'typescript-cookie';
@@ -59,6 +60,33 @@ export const contendorReducer = createReducer(
     return {
       ...state,
       seleccion: seleccion,
+    };
+  }),
+  on(ContenedorActionBorrarInformacion, (state) => {
+    return {
+      ...state,
+      ...{
+        nombre: '',
+        imagen: '',
+        contenedor_id: 0,
+        id: 0,
+        subdominio: '',
+        usuario_id: 0,
+        seleccion: false,
+        rol: '',
+        plan_id: 0,
+        plan_nombre: null,
+        usuarios: 1,
+        usuarios_base: 0,
+        ciudad: 0,
+        correo: '',
+        direccion: '',
+        identificacion: 0,
+        nombre_corto: '',
+        numero_identificacion: 0,
+        telefono: '',
+        acceso_restringido: false
+      },
     };
   })
 );

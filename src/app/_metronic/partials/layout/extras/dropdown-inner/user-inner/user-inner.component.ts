@@ -22,6 +22,7 @@ import { General } from '@comun/clases/general';
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.actions';
 
 @Component({
     selector: 'app-user-inner',
@@ -123,6 +124,9 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarAmisContenedores() {
+
+    this.store.dispatch(ContenedorActionBorrarInformacion())
+
     if (this.esSubdominio) {
       location.href = `${
         environment.dominioHttp

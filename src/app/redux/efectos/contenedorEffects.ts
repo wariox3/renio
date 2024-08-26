@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { ContenedorActionBorrarInformacion, ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { tap } from 'rxjs/operators';
 import { setCookie } from 'typescript-cookie';
+import { removeCookie } from 'typescript-cookie';
 
 @Injectable()
 export class ContenedorEffects {
@@ -40,6 +41,23 @@ export class ContenedorEffects {
       ),
     { dispatch: false }
   );
+
+  eliminarContenedor$ = createEffect(() => this.actions$.pipe(
+    ofType(ContenedorActionBorrarInformacion),
+    tap(() => {
+      const patrones = ['contenedor-'];
+      document.cookie.split(';').forEach(function (cookie) {
+        const cookieNombre = cookie.split('=')[0].trim();
+        patrones.forEach(function (patron) {
+          if (cookieNombre.startsWith(patron)) {
+            removeCookie(cookieNombre);
+            removeCookie(cookieNombre, { path: '/', domain: environment.dominioApp });
+          }
+        });
+      });
+    })
+
+  ), { dispatch: false });
 
   constructor(private actions$: Actions) {}
 }

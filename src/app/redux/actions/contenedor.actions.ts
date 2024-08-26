@@ -15,3 +15,7 @@ export const ContenedorSeleccionAction = createAction(
   '[Contenedor] Seleccionar contenedor',
   props<{ seleccion: boolean }>()
 );
+
+export const ContenedorActionBorrarInformacion = createAction(
+  '[Contenedor] borrar informacion'
+);
