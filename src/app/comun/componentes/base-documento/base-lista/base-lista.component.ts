@@ -57,7 +57,6 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof documentos = parametro.documento_clase;
@@ -72,6 +71,7 @@ export class BaseListaComponent extends General implements OnInit {
       const { documento_clase } = parametro;
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
+      let ordemiento: string[] = parametro?.ordemaiento;
 
       if (consultaHttp === 'si') {
         this.arrParametrosConsulta.filtros = [
@@ -104,9 +104,10 @@ export class BaseListaComponent extends General implements OnInit {
           modelo: documento_clase,
         };
         if (filtroGuardado !== null) {
-          this.arrParametrosConsulta.filtros = [
-            ...JSON.parse(filtroGuardado),
-          ];
+          this.arrParametrosConsulta.filtros = [...JSON.parse(filtroGuardado)];
+        }
+        if (ordemiento !== undefined) {
+          this.arrParametrosConsulta.ordemientos = [ordemiento]
         }
         this.httpService
           .post<{
@@ -122,7 +123,6 @@ export class BaseListaComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       }
-
     });
   }
 
@@ -186,8 +186,7 @@ export class BaseListaComponent extends General implements OnInit {
             this.consultarLista();
           });
         }
-      })
-
+      });
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -197,7 +196,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 
   navegarEditar(id: number) {

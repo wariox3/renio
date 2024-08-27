@@ -150,6 +150,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   construirParametros(item: any) {
+
     switch (item.tipo) {
       case 'Administrador':
         if(item.data?.submodelo){

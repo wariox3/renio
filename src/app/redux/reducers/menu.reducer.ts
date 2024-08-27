@@ -13,8 +13,8 @@ export interface informacionMenuItem {
     lista?: string;
     nuevo?: string;
     detalle?: string;
-  },
-  menuOpen?: boolean
+  };
+  menuOpen?: boolean;
   visualiazarIconoDeracha?: boolean;
   consultaHttp?: boolean;
   esIndependiente?: boolean;
@@ -167,7 +167,7 @@ export const initialState: Menu = {
               nombre: 'MOVIMIENTO',
               tipo: 'Independiente',
               urlIndependientes: {
-                lista: 'contabilidad/movimiento'
+                lista: 'contabilidad/movimiento',
               },
               consultaHttp: false,
             },
@@ -175,7 +175,7 @@ export const initialState: Menu = {
               nombre: 'PERIODO',
               tipo: 'Independiente',
               urlIndependientes: {
-                lista: 'contabilidad/periodo'
+                lista: 'contabilidad/periodo',
               },
               consultaHttp: false,
             },
@@ -262,7 +262,10 @@ export const initialState: Menu = {
             {
               nombre: 'NOVEDAD',
               tipo: 'Documento',
-              data: { documento_clase: 'HumNovedad' },
+              data: {
+                documento_clase: 'HumNovedad',
+                ordemaiento: ['-fecha_desde'],
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
@@ -280,7 +283,6 @@ export const initialState: Menu = {
               consultaHttp: true,
             },
           ],
-
         },
         {
           nombre: 'administracion',
@@ -592,7 +594,7 @@ export const initialState: Menu = {
               nombre: 'GUIA',
               tipo: 'Independiente',
               urlIndependientes: {
-                lista: 'transporte/guia'
+                lista: 'transporte/guia',
               },
               consultaHttp: false,
             },
@@ -624,7 +626,7 @@ export const initialState: Menu = {
     'HUMANO',
     'INVENTARIO',
     'TESORERIA',
-    'TRANSPORTE'
+    'TRANSPORTE',
   ],
   dataMapeo: [],
 };
