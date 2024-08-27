@@ -37,6 +37,7 @@ export default class AdicionalFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
+  arrConceptosAdicional : any[] = [];
   arrContratos: any[] = [];
 
   constructor(
