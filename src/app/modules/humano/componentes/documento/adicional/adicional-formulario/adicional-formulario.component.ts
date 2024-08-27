@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,8 @@ import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-adicional-formulario',
@@ -27,9 +29,11 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
+    SelectDropDownModule,
   ],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
+  encapsulation: ViewEncapsulation.None // Cambia a None para desactivar el encapsulamiento de estilos
 })
 export default class AdicionalFormularioComponent
   extends General
@@ -37,8 +41,23 @@ export default class AdicionalFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
-  arrConceptosAdicional : any[] = [];
+  arrConceptosAdicional: any[] = [];
   arrContratos: any[] = [];
+
+  // Configuración del dropdown
+  config = {
+    displayKey: "concepto_nombre", // Campo a mostrar en la lista desplegable
+    search: true, // Habilitar búsqueda
+    height: 'auto', // Altura automática
+    placeholder: 'Selecciona una opción', // Texto del placeholder
+    limitTo: 0, // Limita las opciones (0 = sin límite)
+    moreText: 'más', // Texto cuando hay más opciones seleccionadas
+    noResultsFound: 'No se encontraron resultados!', // Texto cuando no se encuentran resultados
+    searchPlaceholder: 'Buscar', // Placeholder de búsqueda
+    searchOnKey: 'concepto_nombre' // Campo sobre el cual realizar la búsqueda (en caso de ser objetos)
+  };
+
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,8 +68,8 @@ export default class AdicionalFormularioComponent
   }
 
   ngOnInit() {
+    this.consultarInformacion()
     this.iniciarFormulario();
-
     if (this.detalle) {
       this.consultarDetalle();
     }
@@ -61,6 +80,8 @@ export default class AdicionalFormularioComponent
       concepto: ['', Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
+      conceptoAdicional: [''],
+      arrConceptosAdicional: [[]],
       contrato_nombre: [''],
       detalle: [null],
       horas: [0],
@@ -68,8 +89,49 @@ export default class AdicionalFormularioComponent
       inactivo: [false],
       inactivo_periodo: [false],
       permanente: [true],
-      valor: [0,Validators.compose([Validators.pattern(/^[0-9.]+$/), Validators.required])],
+      valor: [
+        0,
+        Validators.compose([
+          Validators.pattern(/^[0-9.]+$/),
+          Validators.required,
+        ]),
+      ],
     });
+  }
+
+    // Método para manejar cambios en la selección
+    seleccionarConceptoAdcional(item: any) {
+      console.log(item);
+
+      this.formularioAdicional.patchValue({
+        conceptoAdicional: item.value.concepto_id
+      })
+      this.changeDetectorRef.detectChanges()
+    }
+
+
+  consultarInformacion(){
+    this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              propiedad: 'adicional',
+              valor1: true,
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumConcepto',
+        }
+      )
+      .subscribe((respuesta: any) => {
+        this.arrConceptosAdicional = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   enviarFormulario() {
@@ -89,7 +151,7 @@ export default class AdicionalFormularioComponent
                   detalle: respuesta.id,
                 },
               });
-            })
+            });
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -105,7 +167,7 @@ export default class AdicionalFormularioComponent
                     detalle: respuesta.id,
                   },
                 });
-              })
+              });
             })
           )
           .subscribe();
@@ -129,7 +191,7 @@ export default class AdicionalFormularioComponent
           valor: respuesta.valor,
           aplica_dia_laborado: respuesta.aplica_dia_laborado,
           inactivo: respuesta.inactivo,
-          inactivo_periodo: respuesta.inactivo_periodo
+          inactivo_periodo: respuesta.inactivo_periodo,
         });
         this.changeDetectorRef.detectChanges();
       });

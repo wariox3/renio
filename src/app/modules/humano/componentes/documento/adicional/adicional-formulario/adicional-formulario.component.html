@@ -184,12 +184,26 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+          class="form-label required"
+          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTOADICIONAL"
+        ></label>
+          <ngx-select-dropdown
+            [config]="config"
+            [options]="arrConceptosAdicional"
+            formControlName="arrConceptosAdicional"
+            (change)="seleccionarConceptoAdcional($event)"
+          >
+          </ngx-select-dropdown>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-12 col-md-12">
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
           ></label>
-
           <textarea
             formControlName="detalle"
             class="form-control"
@@ -237,10 +251,18 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
-              formControlName="inactivo" />
-            <label class="form-check-label text-gray-700" for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVO">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="inactivo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVO"
+            >
             </label>
           </div>
         </div>
@@ -248,10 +270,18 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
-              formControlName="inactivo_periodo" />
-            <label class="form-check-label text-gray-700" for="flexCheckDefault"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVOPERIODO">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="flexCheckDefault"
+              formControlName="inactivo_periodo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="flexCheckDefault"
+              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVOPERIODO"
+            >
             </label>
           </div>
         </div>

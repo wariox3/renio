@@ -123,3 +123,21 @@ table {
     height: 23.406px;
   }
 }
+
+
+.ngx-dropdown-button{
+  padding: 0.775rem 1rem !important;
+  border-radius: 0.475rem;
+  border: 1px solid var(--bs-gray-300);
+ }
+ .available-item{
+   margin-bottom: 0.222rem;
+   font-size: 1rem;
+   &:hover{
+     background-color: var(--bs-blue);
+     // Selecciona el span hijo y cambia su color
+     span {
+       color: var(--bs-white);
+     }
+   }
+ }

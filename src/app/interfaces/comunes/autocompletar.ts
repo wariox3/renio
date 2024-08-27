@@ -49,3 +49,8 @@ export interface RegistroAutocompletarNovedadTipo {
   id: number;
   nombre: string;
 }
+
+export interface RegistroAutocompletarConceptoAdicional {
+  id: number;
+  nombre: string;
+}

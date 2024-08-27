@@ -484,6 +484,7 @@ export const locale = {
           ADICIONAL: {
             CONTRATO: 'Contrato',
             CONCEPTO: 'Concepto',
+            CONCEPTOADICIONAL: 'Concepto adicional',
             VALOR: 'Valor',
             HORAS: 'Horas',
             APLICA_DIA_LABORADO: 'Aplica día laborado',
