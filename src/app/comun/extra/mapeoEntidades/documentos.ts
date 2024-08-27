@@ -1106,6 +1106,14 @@ export const documentos: MapeoDocumentos = {
       aplicaFormatoNumerico: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   HumAdicional: [
     {

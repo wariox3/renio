@@ -241,7 +241,10 @@ export const initialState: Menu = {
             {
               nombre: 'PROGRAMACION',
               tipo: 'Documento',
-              data: { documento_clase: 'HumProgramacion' },
+              data: {
+                documento_clase: 'HumProgramacion',
+                ordemaiento: ['-fecha_desde'],
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
