@@ -187,6 +187,7 @@ export const locale = {
           RECARGONOCTURNO: 'Recargo nocturno',
           RECARGOFESTIVODIURNO: 'Recargo festivo diurno',
           RECARGOFESTIVONOCTURNO: 'Recargo festivo nocturno',
+          TIPO: ''
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -563,6 +564,14 @@ export const locale = {
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
             BASE: 'Base'
+          },
+          NOVEDAD: {
+            NOVEDADTIPO: 'Novedad tipo',
+            DIASDINERO: 'Días dinero',
+            DIASDISFRUTADOS: 'Días disfrutados',
+            DIASDISFRUTADOSREALES: 'Días disfrutados reales',
+            FECHADESDEPERIODO: 'Fecha desde periodo',
+            FECHAHASTAPERIODO: 'Fecha hasta periodo',
           }
         },
         CONTABILIDAD: {
@@ -738,6 +747,7 @@ export const locale = {
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
         COMPROBANTE: 'Comprobante',
+        TIPO: 'Tipo'
       },
       ITEM: {
         ID: 'ID',

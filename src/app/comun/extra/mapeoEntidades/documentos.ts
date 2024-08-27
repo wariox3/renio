@@ -1315,6 +1315,14 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'NOVEDAD_TIPO_NOMBRE',
+      nombreAbreviado: 'TIPO',
+      campoTipo: 'Fk',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
       nombre: 'CONTRATO_CONTACTO_ID',
       nombreAbreviado: 'CODIGO',
       campoTipo: 'CharField',
@@ -1360,6 +1368,7 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: true,
     },
+
   ],
   ConMovimiento: [
     {

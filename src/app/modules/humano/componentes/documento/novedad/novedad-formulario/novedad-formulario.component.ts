@@ -1,3 +1,10 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -13,6 +20,10 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarNovedadTipo,
+} from '@interfaces/comunes/autocompletar';
 import { NovedadService } from '@modulos/humano/servicios/novedad';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -32,6 +43,17 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   ],
   templateUrl: './novedad-formulario.component.html',
   styleUrl: './novedad-formulario.component.scss',
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+        })
+      ),
+      transition(':enter, :leave', [animate(600)]),
+    ]),
+  ],
 })
 export default class CreditoFormularioComponent
   extends General
@@ -39,6 +61,7 @@ export default class CreditoFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrContratos: any[] = [];
+  arrNovedadTipos: RegistroAutocompletarNovedadTipo[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -48,6 +71,7 @@ export default class CreditoFormularioComponent
   }
 
   ngOnInit() {
+    this.consultarInformacion();
     this.iniciarFormulario();
 
     if (this.detalle) {
@@ -69,6 +93,12 @@ export default class CreditoFormularioComponent
         ],
         contrato: ['', Validators.compose([Validators.required])],
         contrato_nombre: [''],
+        novedad_tipo: ['', Validators.compose([Validators.required])],
+        dias_dinero: [0],
+        dias_disfrutados: [0],
+        dias_disfrutados_reales: [0],
+        fecha_desde_periodo: [null],
+        fecha_hasta_periodo: [null],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -77,6 +107,33 @@ export default class CreditoFormularioComponent
         ),
       }
     );
+  }
+
+  consultarInformacion() {
+    this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarNovedadTipo>>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              id: '1692284537644-1688',
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: ``,
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumNovedadTipo',
+        }
+      )
+      .subscribe((respuesta: any) => {
+        this.arrNovedadTipos = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   enviarFormulario() {
@@ -93,7 +150,7 @@ export default class CreditoFormularioComponent
                   detalle: respuesta.id,
                 },
               });
-            })
+            });
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -109,7 +166,7 @@ export default class CreditoFormularioComponent
                     detalle: respuesta.id,
                   },
                 });
-              })
+              });
             })
           )
           .subscribe();
@@ -127,6 +184,12 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          novedad_tipo: respuesta.novedad_tipo_id,
+          dias_dinero: respuesta.dias_dinero,
+          dias_disfrutados: respuesta.dias_disfrutados,
+          dias_disfrutados_reales: respuesta.dias_disfrutados_reales,
+          fecha_desde_periodo: respuesta.fecha_desde_periodo,
+          fecha_hasta_periodo: respuesta.fecha_hasta_periodo,
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -176,8 +239,10 @@ export default class CreditoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-
-  fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
+  fechaDesdeMenorQueFechaHasta(
+    fechaDesde: string,
+    fechaHasta: string
+  ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;
@@ -188,5 +253,56 @@ export default class CreditoFormularioComponent
       }
       return null;
     };
+  }
+
+  novedadTipoSeleccionado($event: Event) {
+    let valorPersonaTipo = $event.target as HTMLInputElement;
+
+    if (parseInt(valorPersonaTipo.value) === 7) {
+      // 7 es igual a vacaciones
+      this.setValidators('dias_dinero', [Validators.required]);
+      this.setValidators('dias_disfrutados', [Validators.required]);
+      this.setValidators('dias_disfrutados_reales', [Validators.required]);
+      this.setValidators('fecha_desde_periodo', [Validators.required]);
+      this.setValidators('fecha_hasta_periodo', [Validators.required]);
+    } else {
+      this.formularioAdicional.get('dias_dinero')?.clearValidators();
+      this.formularioAdicional.get('dias_dinero')?.updateValueAndValidity();
+      this.formularioAdicional.get('dias_disfrutados')?.clearValidators();
+      this.formularioAdicional
+        .get('dias_disfrutados')
+        ?.updateValueAndValidity();
+      this.formularioAdicional
+        .get('dias_disfrutados_reales')
+        ?.clearValidators();
+      this.formularioAdicional
+        .get('dias_disfrutados_reales')
+        ?.updateValueAndValidity();
+      this.formularioAdicional.get('fecha_desde_periodo')?.clearValidators();
+      this.formularioAdicional
+        .get('fecha_desde_periodo')
+        ?.updateValueAndValidity();
+      this.formularioAdicional.get('fecha_hasta_periodo')?.clearValidators();
+      this.formularioAdicional
+        .get('fecha_hasta_periodo')
+        ?.updateValueAndValidity();
+
+      this.formularioAdicional.patchValue({
+        dias_dinero: 0,
+        dias_disfrutados: 0,
+        dias_disfrutados_reales: 0,
+        fecha_desde_periodo: null,
+        fecha_hasta_periodo: null,
+      });
+
+      this.changeDetectorRef.detectChanges();
+    }
+  }
+
+  private setValidators(fieldName: string, validators: any[]) {
+    const control = this.formularioAdicional.get(fieldName);
+    control?.clearValidators();
+    control?.setValidators(validators);
+    control?.updateValueAndValidity();
   }
 }
