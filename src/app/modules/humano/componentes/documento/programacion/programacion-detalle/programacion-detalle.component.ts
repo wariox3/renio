@@ -27,16 +27,11 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  asyncScheduler,
-  finalize,
-  forkJoin,
-  switchMap,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { asyncScheduler, finalize, forkJoin, switchMap, tap, throttleTime } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
-import { ImportarAdministradorComponent } from "../../../../../../comun/componentes/importar-administrador/importar-administrador.component";
+import { Select2Component } from '@comun/componentes/select2/select2.component';
+import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
+import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -53,8 +48,9 @@ import { ImportarAdministradorComponent } from "../../../../../../comun/componen
     ReactiveFormsModule,
     NgbTooltipModule,
     AnimacionFadeInOutDirective,
-    ImportarAdministradorComponent
-],
+    ImportarAdministradorComponent,
+    Select2Component,
+  ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -65,6 +61,8 @@ export default class ProgramacionDetalleComponent
 solicitarConsultarTabla() {
 throw new Error('Method not implemented.');
 }
+
+
   active: Number;
 
   programacion: any = {
@@ -118,6 +116,8 @@ throw new Error('Method not implemented.');
   generando: boolean = false;
   desgenerando: boolean = false;
   mostrarMasDetalles: boolean = false;
+  arrConceptosAdicional: any[] = [];
+
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
@@ -240,7 +240,7 @@ throw new Error('Method not implemented.');
       .subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Documento aprobado');
         this.programacion = respuesta.documento;
-        this.arrEstados.estado_aprobado = true
+        this.arrEstados.estado_aprobado = true;
         this.consultarDatos();
         this.changeDetectorRef.detectChanges();
       });
@@ -326,6 +326,27 @@ throw new Error('Method not implemented.');
   }
 
   abrirModal(content: any) {
+    this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              propiedad: 'adicional',
+              valor1: true,
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'HumConcepto',
+        }
+      )
+      .subscribe((respuesta: any) => {
+        this.arrConceptosAdicional = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -355,7 +376,13 @@ throw new Error('Method not implemented.');
       detalle: [null],
       horas: [0],
       aplica_dia_laborado: [false],
-      valor: [0, Validators.compose([Validators.required, Validators.pattern(/^[0-9.]+$/)])],
+      valor: [
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[0-9.]+$/),
+        ]),
+      ],
       programacion: [this.programacion.id],
       permanente: [false],
     });
@@ -508,12 +535,9 @@ throw new Error('Method not implemented.');
     this.formularioAdicionalProgramacion?.markAsDirty();
     this.formularioAdicionalProgramacion?.markAsTouched();
     if (campo === 'concepto') {
-      this.formularioAdicionalProgramacion
-        .get(campo)
-        ?.setValue(dato.concepto_id);
-      this.formularioAdicionalProgramacion
-        .get('concepto_nombre')
-        ?.setValue(dato.concepto_nombre);
+       this.formularioAdicionalProgramacion
+         .get(campo)
+         ?.setValue(dato);
     }
     if (campo === 'contrato') {
       this.formularioAdicionalProgramacion
