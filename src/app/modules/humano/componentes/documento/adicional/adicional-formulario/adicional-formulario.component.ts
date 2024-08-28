@@ -80,7 +80,6 @@ export default class AdicionalFormularioComponent
       concepto: ['', Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
-      conceptoAdicional: [''],
       arrConceptosAdicional: [[]],
       contrato_nombre: [''],
       detalle: [null],
@@ -101,10 +100,8 @@ export default class AdicionalFormularioComponent
 
     // Método para manejar cambios en la selección
     seleccionarConceptoAdcional(item: any) {
-      console.log(item);
-
       this.formularioAdicional.patchValue({
-        conceptoAdicional: item.value.concepto_id
+        concepto: item.value.concepto_id
       })
       this.changeDetectorRef.detectChanges()
     }
