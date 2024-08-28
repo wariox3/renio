@@ -72,10 +72,6 @@ export class BaseListaComponent extends General implements OnInit {
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
       let ordemientoFijo: any[] = parametro?.ordemaiento;
-      console.log(typeof parametro?.ordemaiento);
-      console.log(typeof ordemientoFijo);
-      console.log(parametro);
-
       if (consultaHttp === 'si') {
         this.arrParametrosConsulta.filtros = [
           {
@@ -111,12 +107,8 @@ export class BaseListaComponent extends General implements OnInit {
           this.arrParametrosConsulta.filtros = [...JSON.parse(filtroGuardado)];
         }
         if (ordemientoFijo !== undefined) {
-          console.log(parametro?.ordemaiento);
-
           this.arrParametrosConsulta.ordenamientos = [ordemientoFijo]
         }
-        console.log(this.arrParametrosConsulta);
-
         this.httpService
           .post<{
             cantidad_registros: number;
@@ -131,7 +123,7 @@ export class BaseListaComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       }
-    });
+    }).unsubscribe();
   }
 
   obtenerFiltros(arrfiltros: any[]) {
