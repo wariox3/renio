@@ -1376,7 +1376,13 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: true,
     },
-
+    {
+      nombre: 'DIAS',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
   ],
   ConMovimiento: [
     {
