@@ -27,11 +27,21 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, finalize, forkJoin, switchMap, tap, throttleTime } from 'rxjs';
+import {
+  asyncScheduler,
+  finalize,
+  forkJoin,
+  switchMap,
+  tap,
+  throttleTime,
+} from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
-import { Select2Component } from '@comun/componentes/select2/select2.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
-import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarConceptoAdicional,
+} from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -49,7 +59,7 @@ import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '
     NgbTooltipModule,
     AnimacionFadeInOutDirective,
     ImportarAdministradorComponent,
-    Select2Component,
+    NgSelectModule,
   ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -58,13 +68,7 @@ export default class ProgramacionDetalleComponent
   extends General
   implements OnInit
 {
-solicitarConsultarTabla() {
-throw new Error('Method not implemented.');
-}
-
-
   active: Number;
-
   programacion: any = {
     id: 0,
     fecha_desde: '',
@@ -117,7 +121,6 @@ throw new Error('Method not implemented.');
   desgenerando: boolean = false;
   mostrarMasDetalles: boolean = false;
   arrConceptosAdicional: any[] = [];
-
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
@@ -535,9 +538,7 @@ throw new Error('Method not implemented.');
     this.formularioAdicionalProgramacion?.markAsDirty();
     this.formularioAdicionalProgramacion?.markAsTouched();
     if (campo === 'concepto') {
-       this.formularioAdicionalProgramacion
-         .get(campo)
-         ?.setValue(dato);
+      this.formularioAdicionalProgramacion.get(campo)?.setValue(dato);
     }
     if (campo === 'contrato') {
       this.formularioAdicionalProgramacion
@@ -772,4 +773,8 @@ throw new Error('Method not implemented.');
       )
       .subscribe();
   }
+
+  solicitarConsultarTabla() {
+  }
+
 }

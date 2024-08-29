@@ -841,13 +841,16 @@
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
           ></label>
-          <app-comun-select2
-            [arrDatos]="arrConceptosAdicional"
-            [claveNombre]="'concepto_nombre'"
-            [claveId]="'concepto_id'"
-            (emitirClaveId)="modificarCampoFormulario('concepto', $event)"
+          <ng-select
+            [items]="arrConceptosAdicional"
+            bindLabel="concepto_nombre"
+            bindValue="concepto_id"
+            formControlName="concepto"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
           >
-          </app-comun-select2>
+          </ng-select>
         </div>
       </div>
       <div class="row mb-5">
