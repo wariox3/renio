@@ -1177,6 +1177,22 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'CONCEPTO_ID',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CONCEPTO_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
       nombre: 'CONTRATO',
       campoTipo: 'CharField',
       visibleTabla: false,
