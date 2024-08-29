@@ -10,6 +10,7 @@
 @import "./assets/plugins/keenicons/duotone/style.css";
 @import "./assets/plugins/keenicons/outline/style.css";
 @import "./assets/plugins/keenicons/solid/style.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 .h-100px {
   height: 100px;
@@ -124,20 +125,19 @@ table {
   }
 }
 
-
-.ngx-dropdown-button{
-  padding: 0.775rem 1rem !important;
-  border-radius: 0.475rem;
+.select2Custom {
   border: 1px solid var(--bs-gray-300);
- }
- .available-item{
-   margin-bottom: 0.222rem;
-   font-size: 1rem;
-   &:hover{
-     background-color: var(--bs-blue);
-     // Selecciona el span hijo y cambia su color
-     span {
-       color: var(--bs-white);
-     }
-   }
- }
+  border-radius: 0.475rem;
+  padding: 0.3rem !important;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.ng-select.select2Custom .ng-select-container {
+  border: 0px;
+  border-radius: 0.475rem;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+}

@@ -90,22 +90,22 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-12 col-md-6"
-          ngbDropdown
-          #ConceptoDropdown="ngbDropdown"
-        >
+        <div class="col-12 col-md-6">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
           ></label>
-          <ngx-select-dropdown
-            [config]="config"
-            [options]="arrConceptosAdicional"
-            formControlName="concepto_nombre"
+          <ng-select
+            [items]="arrConceptosAdicional"
+            bindLabel="concepto_nombre"
+            bindValue="concepto_id"
+            formControlName="concepto"
+            notFoundText="Sin elementos"
             (change)="seleccionarConceptoAdcional($event)"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
           >
-          </ngx-select-dropdown>
+          </ng-select>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

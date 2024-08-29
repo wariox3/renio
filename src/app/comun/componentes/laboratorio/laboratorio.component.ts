@@ -13,6 +13,8 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { series } from "./data";
+import { NgLabelTemplateDirective, NgOptionTemplateDirective, NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -37,9 +39,14 @@ export type areaChartOptions = {
 @Component({
   selector: 'app-laboratorio',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    NgApexchartsModule,
+    NgSelectModule,
+    FormsModule
+  ],
   templateUrl: './laboratorio.component.html',
-  styleUrl: './laboratorio.component.css',
+  styleUrl: './laboratorio.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaboratorioComponent {
@@ -48,6 +55,14 @@ export class LaboratorioComponent {
 
   @ViewChild('seires') seiresChart: ChartComponent;
   public areaChartOptions: Partial<areaChartOptions>;
+
+  items = [
+    { id: 1, name: 'Elemento 1' },
+    { id: 2, name: 'copenage' },
+    { id: 3, name: 'medellin' }
+  ];
+
+  selectedItem: any;
 
   constructor() {
     this.chartOptions = {
@@ -118,5 +133,6 @@ export class LaboratorioComponent {
         horizontalAlign: "left"
       }
     };
+
   }
 }

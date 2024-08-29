@@ -15,8 +15,8 @@ import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '@interfaces/comunes/autocompletar';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-adicional-formulario',
@@ -29,11 +29,10 @@ import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    SelectDropDownModule,
+    NgSelectModule,
   ],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
-  encapsulation: ViewEncapsulation.None // Cambia a None para desactivar el encapsulamiento de estilos
 })
 export default class AdicionalFormularioComponent
   extends General
@@ -43,20 +42,6 @@ export default class AdicionalFormularioComponent
   arrConceptos: any[] = [];
   arrConceptosAdicional: any[] = [];
   arrContratos: any[] = [];
-
-  // Configuración del dropdown
-  config = {
-    displayKey: "concepto_nombre", // Campo a mostrar en la lista desplegable
-    search: true, // Habilitar búsqueda
-    height: 'auto', // Altura automática
-    placeholder: 'Selecciona una opción', // Texto del placeholder
-    limitTo: 0, // Limita las opciones (0 = sin límite)
-    moreText: 'más', // Texto cuando hay más opciones seleccionadas
-    noResultsFound: 'No se encontraron resultados!', // Texto cuando no se encuentran resultados
-    searchPlaceholder: 'Buscar', // Placeholder de búsqueda
-    searchOnKey: 'concepto_nombre' // Campo sobre el cual realizar la búsqueda (en caso de ser objetos)
-  };
-
 
 
   constructor(
@@ -77,10 +62,10 @@ export default class AdicionalFormularioComponent
 
   iniciarFormulario() {
     this.formularioAdicional = this.formBuilder.group({
-      concepto: ['', Validators.compose([Validators.required])],
+      concepto: [null, Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
-      arrConceptosAdicional: [[]],
+      arrConceptosAdicional: [''],
       contrato_nombre: [''],
       detalle: [null],
       horas: [0],
