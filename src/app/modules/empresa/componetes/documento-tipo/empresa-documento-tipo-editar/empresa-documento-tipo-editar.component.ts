@@ -126,7 +126,7 @@ export class EmpresaDocumentoTipoEditarComponent
           valor2: '',
         },
         {
-          propiedad: 'venta',
+          propiedad: this.tipoRolucion,
           valor1: true,
         },
       ],

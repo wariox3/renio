@@ -25,6 +25,7 @@ export class DocumentoDocumentoTipoComponent extends General implements OnInit {
 
   arrDocumentosTipos: DocumentoTipo[] = []
   resolucionId: number
+  documentoTipoSeleccionado: any
 
   constructor(
     private empresaService: EmpresaService,
@@ -46,8 +47,9 @@ export class DocumentoDocumentoTipoComponent extends General implements OnInit {
       });
   }
 
-  navegarEditar(id: number, content: any){
-    this.resolucionId = id
+  navegarEditar(documentoTipo: any, content: any){
+    this.documentoTipoSeleccionado = documentoTipo
+    this.resolucionId = documentoTipo.id
     this.changeDetectorRef.detectChanges()
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',

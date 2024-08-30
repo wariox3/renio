@@ -41,10 +41,7 @@
               {{ documentoTipo.compra ? 'SI' : 'NO' }}
             </td>
             <td class="w-45px text-center">
-              <label
-                (click)="navegarEditar(documentoTipo.id, content)"
-                class="cursor-pointer"
-              >
+              <label (click)="navegarEditar(documentoTipo, content)" class="cursor-pointer">
                 <i class="ki-duotone ki-notepad-edit hover-primary">
                   <span class="path1"></span>
                   <span class="path2"></span>
@@ -58,14 +55,10 @@
     </div>
     <ng-template #content let-modal>
       <div class="modal-body">
-        <app-empresa-documento-tipo-editar
-          [ocultarBtnAtras]="true"
-          (emitirGuardoRegistro)="cerrarModal($event)"
+        <app-empresa-documento-tipo-editar [ocultarBtnAtras]="true" (emitirGuardoRegistro)="cerrarModal($event)"
           [tituloFijo]="true"
-          [tipoRolucion]="'venta'"
-          [idEditarInformacion]="resolucionId"
-          [editarInformacion]="true"
-        />
+          [tipoRolucion]="documentoTipoSeleccionado.venta ? 'venta' : documentoTipoSeleccionado.compra ? 'compra' : 'venta'"
+          [idEditarInformacion]="resolucionId" [editarInformacion]="true" />
       </div>
     </ng-template>
   </section>
