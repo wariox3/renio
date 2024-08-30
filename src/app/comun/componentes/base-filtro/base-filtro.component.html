@@ -19,12 +19,14 @@
                 <option
                   [value]="
                     propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) + '_id'
+                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                        '_id'
                       : propiedad.nombre.toLocaleLowerCase()
                   "
                   [attr.data-value]="
                     propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) + '_id'
+                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                        '_id'
                       : propiedad.nombre.toLocaleLowerCase()
                   "
                   [attr.data-tipo]="propiedad.campoTipo"
@@ -38,7 +40,8 @@
                       ? ("LISTAS." +
                           (tipo | uppercase) +
                           "." +
-                          (propiedad.modeloFk.substring(3) | uppercase) | translate)
+                          (propiedad.modeloFk.substring(3) | uppercase)
+                        | translate)
                       : ("LISTAS." +
                           (tipo | uppercase) +
                           "." +
@@ -57,7 +60,7 @@
                 {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
               </option>
               <option
-                *ngFor="let criterioBusqueda of criteriosBusqueda"
+                *ngFor="let criterioBusqueda of criteriosBusqueda[i]"
                 [value]="criterioBusqueda.valor"
                 (change)="seleccionarCriterio($event, i)"
               >
@@ -195,7 +198,8 @@
                         ? ("LISTAS." +
                             (tituloModal | uppercase) +
                             "." +
-                            (propiedad.modeloFk.substring(3) | uppercase) | translate)
+                            (propiedad.modeloFk.substring(3) | uppercase)
+                          | translate)
                         : ("LISTAS." +
                             (tituloModal.substring(3) | uppercase) +
                             "." +
@@ -293,8 +297,10 @@
               *ngFor="let key of arrRegistroBusquedaAvanzada[0] | keys"
             >
               {{
-                "LISTAS." + (tituloModal.substring(3) | uppercase) + "." + (key | uppercase)
-                  | translate
+                "LISTAS." +
+                  (tituloModal.substring(3) | uppercase) +
+                  "." +
+                  (key | uppercase) | translate
               }}
             </th>
             <td class="bg-gray-100"></td>

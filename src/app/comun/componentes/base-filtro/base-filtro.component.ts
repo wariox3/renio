@@ -33,7 +33,7 @@ import { KeysPipe } from '@pipe/keys.pipe';
     ReactiveFormsModule,
     SoloNumerosDirective,
     KeysPipe,
-],
+  ],
 })
 export class BaseFiltroComponent extends General implements OnInit {
   formularioFiltros: FormGroup;
@@ -58,7 +58,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     valor: string | number | boolean;
     texto: string;
     defecto?: boolean;
-  }[] = [];
+  }[][] = [];
   criteriosBusquedaModal: {
     valor: string | number | boolean;
     texto: string;
@@ -82,9 +82,8 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-
-      if(this.modeloPersonalizado !== ''){
-        this.tipo = this.modeloPersonalizado
+      if (this.modeloPersonalizado !== '') {
+        this.tipo = this.modeloPersonalizado;
       } else {
         this.tipo = parametro.itemTipo!;
       }
@@ -96,8 +95,8 @@ export class BaseFiltroComponent extends General implements OnInit {
         );
         this.formularioFiltros.reset();
         this.filtros.clear();
-        this.filtrosAplicados.map((propiedad) => {
-          this.filtros.push(this.crearControlFiltros(propiedad));
+        this.filtrosAplicados.map((propiedad, index) => {
+          this.filtros.push(this.crearControlFiltros(propiedad, index));
         });
       } else {
         this.formularioFiltros.reset();
@@ -111,7 +110,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             visualizarBtnAgregarFiltro: true,
           },
         ];
-        this.filtros.push(this.crearControlFiltros(null));
+        this.filtros.push(this.crearControlFiltros(null, 0));
         this.changeDetectorRef.detectChanges();
       }
     });
@@ -157,7 +156,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     return this.formularioFiltrosModal.get('filtros') as FormArray;
   }
 
-  private crearControlFiltros(propiedades: any | null) {
+  private crearControlFiltros(propiedades: any | null, index: number) {
     let valor1 = '';
     let valor2 = '';
     let propiedad = '';
@@ -171,11 +170,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad = propiedades.campo;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
-      this.store
+       this.store
         .select(obtenerCriteriosFiltro(propiedades.tipo))
-        .subscribe((respuesta) => {
-          this.criteriosBusqueda = respuesta;
-        });
+         .subscribe((respuesta) => {
+           this.criteriosBusqueda[index] = respuesta;
+         });
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
@@ -219,11 +218,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       this.filtrosAplicados = JSON.parse(
         localStorage.getItem(this.nombreFiltro)!
       );
-      this.filtrosAplicados.map((propiedad) => {
-        this.filtros.push(this.crearControlFiltros(propiedad));
+      this.filtrosAplicados.map((propiedad, index) => {
+        this.filtros.push(this.crearControlFiltros(propiedad, index));
       });
     } else {
-      this.filtros.push(this.crearControlFiltros(null));
+      this.filtros.push(this.crearControlFiltros(null, 0));
     }
   }
 
@@ -268,7 +267,7 @@ export class BaseFiltroComponent extends General implements OnInit {
               ...filtro,
               ...{
                 propiedad,
-                campo: filtro.propiedad ,
+                campo: filtro.propiedad,
               },
             };
           }
@@ -327,7 +326,11 @@ export class BaseFiltroComponent extends General implements OnInit {
   seleccionarPropiedad(evento: Event, index: number) {
     const propiedad = evento.target as HTMLSelectElement;
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
+
     const propiedadSeleccionada: any = propiedad.selectedOptions[0];
+
+    console.log(propiedadSeleccionada.getAttribute('data-tipo'));
+
     if (propiedadSeleccionada.getAttribute('data-tipo')) {
       this.store
         .select(
@@ -336,7 +339,9 @@ export class BaseFiltroComponent extends General implements OnInit {
           )
         )
         .subscribe((resultado) => {
-          this.criteriosBusqueda = resultado;
+          console.log(resultado);
+          this.criteriosBusqueda[index] = resultado;
+
           filtroPorActualizar.patchValue({
             tipo: propiedadSeleccionada.getAttribute('data-tipo'),
             busquedaAvanzada: propiedadSeleccionada.getAttribute(
