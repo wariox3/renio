@@ -643,6 +643,14 @@
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
                       ></th>
+                      <th class="bg-gray-100">
+                        <div
+                          placement="top"
+                          ngbTooltip="Código contrato"
+                          translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.CONTRATONUMEROABREVITADO"
+                        >
+                        </div>
+                      </th>
                       <th
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.CODIGO"
@@ -704,6 +712,9 @@
                             programacionAdicional.contrato_contacto_nombre_corto
                           }}
                         </td>
+                        <td>
+                          {{ programacionAdicional.contrato_id }}
+                        </td>
                         <td class="w-40px">
                           {{ programacionAdicional.concepto_id }}
                         </td>
@@ -720,6 +731,7 @@
                               : "NO"
                           }}
                         </td>
+
                         <td class="w-20px">
                           <label [for]="programacionAdicional.id">
                             <i
