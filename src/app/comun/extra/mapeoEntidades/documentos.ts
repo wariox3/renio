@@ -1173,7 +1173,6 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: false,
       visibleFiltro: false,
-      aplicaFormatoNumerico: true,
       ordenable: false,
     },
     {
@@ -1181,7 +1180,6 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
-      aplicaFormatoNumerico: true,
       ordenable: false,
     },
     {

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   URL_API_MUUP: 'http://reddocapi.online',
   URL_API_SUBDOMINIO: 'http://subdominio.reddocapi.online',
-  EMPRESA_LOCALHOST: 'demo',
+  EMPRESA_LOCALHOST: 'panela',
   dominioApp: '.reddoc.online',
   dominioHttp: 'http',
   appVersion: 'v8.1.8',
