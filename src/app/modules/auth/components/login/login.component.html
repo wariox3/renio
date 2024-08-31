@@ -105,6 +105,14 @@
         }"
       />
       <ng-container
+      [ngTemplateOutlet]="formError"
+      [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+        control: loginForm.controls['email']
+      }"
+    ></ng-container>
+      <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'pattern',
