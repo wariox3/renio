@@ -61,6 +61,8 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      console.log(parametro);
+
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof mapeo = this.modelo;
@@ -81,6 +83,15 @@ export class BaseListaComponent extends General implements OnInit {
         this.submodelo = undefined;
 
         this.arrParametrosConsulta.filtros = [];
+      }
+      if (parametro.resoluciontipo) {
+        this.arrParametrosConsulta.filtros = [
+          {
+            operador: '',
+            propiedad: parametro.resoluciontipo,
+            valor1: true,
+          },
+        ];
       }
       this.changeDetectorRef.detectChanges();
 

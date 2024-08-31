@@ -133,7 +133,7 @@ export const initialState: Menu = {
             {
               nombre: 'RESOLUCION',
               tipo: 'Administrador',
-              data: { modelo: 'GenResolucion', parametro: 'compra' },
+              data: { modelo: 'GenResolucion', resoluciontipo: 'compra' },
             },
           ],
         },
@@ -388,7 +388,7 @@ export const initialState: Menu = {
             {
               nombre: 'RESOLUCION',
               tipo: 'Administrador',
-              data: { modelo: 'GenResolucion', parametro: 'venta' },
+              data: { modelo: 'GenResolucion', resoluciontipo: 'venta' },
             },
             {
               nombre: 'CuentaBanco',
