@@ -12,15 +12,15 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [CommonModule, TranslateModule],
   template: `
     <div class="ayuda">
-      <a
+      <button
         (click)="navegarAtras()"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-icon-primary btn-text-primary"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
       >
-        <i class="bi bi-arrow-left fs-6 text-muted"
+        <i class="bi bi-arrow-left fs-6"
           ><span class="path1"></span><span class="path2"></span
         ></i>
         {{ 'FORMULARIOS.BOTONES.COMUNES.ATRAS' | translate }}
-      </a>
+      </button>
     </div>
   `,
 })
