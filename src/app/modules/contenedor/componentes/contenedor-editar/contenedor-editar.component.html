@@ -19,14 +19,7 @@
           translate="FORMULARIOS.TITULOS.CONTENEDOR.EDITAR"
           class="card-title"
         ></h3>
-        <button
-          type="button"
-          class="btn btn-bg-light btn-color-danger"
-          aria-label="Close"
-          (click)="modalRef.dismiss('Cross click')"
-        >
-          <i class="bi bi-x fs-2x"></i>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss()"></button>
       </div>
       <div class="card-body">
         <div class="row mb-10">
