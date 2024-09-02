@@ -19,6 +19,7 @@ import {
 } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -35,7 +36,10 @@ import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.componen
     CommonModule,
     UpperCasePipe,
     LowerCasePipe,
+    NgbTooltipModule
   ],
+    // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+    host: { class: 'd-block' },
 })
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;

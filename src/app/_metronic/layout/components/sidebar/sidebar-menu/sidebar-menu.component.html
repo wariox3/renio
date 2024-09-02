@@ -1,12 +1,28 @@
-<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true"
-  data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+<div
+  id="kt_app_sidebar_menu_wrapper"
+  class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
+  data-kt-scroll="true"
+  data-kt-scroll-activate="true"
+  data-kt-scroll-height="auto"
   data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
-  data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+  data-kt-scroll-wrappers="#kt_app_sidebar_menu"
+  data-kt-scroll-offset="5px"
+  data-kt-scroll-save-state="true"
+>
   <!--begin::Menu-->
-  <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true"
-    data-kt-menu-expand="false">
+  <div
+    class="menu menu-column menu-rounded menu-sub-indention px-3"
+    id="#kt_app_sidebar_menu"
+    data-kt-menu="true"
+    data-kt-menu-expand="false"
+  >
     <!-- Pages -->
-    <div id="menuApps" class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
+    <div
+      id="menuApps"
+      class="menu-item menu-accordion"
+      data-kt-menu-trigger="click"
+      routerLinkActive="here show"
+    >
       <span class="menu-link">
         <span class="menu-icon">
           <app-keenicon name="element-plus" class="fs-2"></app-keenicon>
@@ -14,21 +30,36 @@
         <span class="menu-title">Apps </span>
         <span class="menu-arrow"></span>
       </span>
-      <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <div
+        class="menu-sub menu-sub-accordion"
+        routerLinkActive="menu-active-bg"
+      >
         <div class="menu-item">
-          <a class="menu-link without-sub" routerLinkActive="active" routerLink="/dashboard"
-            (click)="seleccionarMenu('GENERAL')">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard"
+            (click)="seleccionarMenu('GENERAL')"
+          >
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
             <span class="menu-title" translate="MENU.DASHBOARD"></span>
           </a>
-          <a href="" class="menu-link without-sub" *ngFor="let item of arrMenuApps" routerLink="/{{ item | lowercase }}"
-            (click)="seleccionarMenu(item)">
+          <a
+            href=""
+            class="menu-link without-sub"
+            *ngFor="let item of arrMenuApps"
+            routerLink="/{{ item | lowercase }}"
+            (click)="seleccionarMenu(item)"
+          >
             <span class="menu-bullet">
               <span class="bullet bullet-dot"></span>
             </span>
-            <span class="menu-title" [translate]="'MENU.TITULOS.' + item"></span>
+            <span
+              class="menu-title"
+              [translate]="'MENU.TITULOS.' + item"
+            ></span>
           </a>
         </div>
       </div>
@@ -37,7 +68,10 @@
     <!-- Separator -->
     <div class="menu-item">
       <div class="menu-content pt-8 pb-2">
-        <span class="menu-heading fw-bold text-uppercase fs-7" [translate]="'MENU.TITULOS.' + modulo">
+        <span
+          class="menu-heading fw-bold text-uppercase fs-7"
+          [translate]="'MENU.TITULOS.' + modulo"
+        >
         </span>
       </div>
     </div>
@@ -48,7 +82,10 @@
       {
       <span class="menu-link">
         <span class="menu-icon">
-          <app-keenicon name="{{ obtenerIcono(children.nombre) }}" class="fs-2"></app-keenicon>
+          <app-keenicon
+            name="{{ obtenerIcono(children.nombre) }}"
+            class="fs-2"
+          ></app-keenicon>
         </span>
         <span
           class="menu-title"
@@ -60,39 +97,69 @@
         </span>
 
         @if(children.visualiazarIconoDeracha){
-        <a routerLink="{{ children.urlIndependientes.nuevo }}" (click)="navegarNuevo(children)">
+        <a
+          routerLink="{{ children.urlIndependientes.nuevo }}"
+          (click)="navegarNuevo(children)"
+          placement="end"
+          ngbTooltip="Tooltip on right"
+        >
           <span class="">
             <i class="bi bi-file-earmark-plus"></i>
           </span>
         </a>
+
         }
       </span>
       } } @else {
-      <div class="menu-item menu-accordion" [ngClass]="menu.menuOpen ? 'hover show' : ''"
-        data-kt-menu-trigger="click">
+      <div
+        class="menu-item menu-accordion"
+        [ngClass]="menu.menuOpen ? 'hover show' : ''"
+        data-kt-menu-trigger="click"
+      >
         <span class="menu-link">
           <span class="menu-icon">
-            <app-keenicon name="{{ obtenerIcono(menu.nombre) }}" class="fs-2"></app-keenicon>
+            <app-keenicon
+              name="{{ obtenerIcono(menu.nombre) }}"
+              class="fs-2"
+            ></app-keenicon>
           </span>
-          <span class="menu-title fw-bolder" [translate]="'MENU.COMUNES.' + (menu.nombre | uppercase)">
+          <span
+            class="menu-title fw-bolder"
+            [translate]="'MENU.COMUNES.' + (menu.nombre | uppercase)"
+          >
           </span>
           <span class="menu-arrow"></span>
         </span>
-        <div class="menu-sub menu-sub-accordion" *ngFor="let item of menu.children">
+        <div
+          class="menu-sub menu-sub-accordion"
+          *ngFor="let item of menu.children"
+        >
           <div class="d-flex justify-content-between align-items-center w-100">
             <div class="menu-item flex-grow-1">
-              <a class="menu-link without-sub" routerLink="{{ item.url }}" (click)="navegar(item)">
+              <a
+                class="menu-link without-sub"
+                routerLink="{{ item.url }}"
+                (click)="navegar(item)"
+              >
                 <span class="menu-bullet">
                   <span class="bullet bullet-dot"></span>
                 </span>
-                <span class="menu-title" [translate]="
+                <span
+                  class="menu-title"
+                  [translate]="
                     'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase)
-                  "></span>
+                  "
+                ></span>
               </a>
             </div>
             @if(item.visualiazarIconoDeracha){
             <a routerLink="{{ item.url }}" (click)="navegarNuevo(item)">
-              <span class="menu-bullet">
+              <span
+                class="menu-bullet"
+                placement="end"
+                container="body"
+                ngbTooltip="{{ 'FORMULARIOS.BOTONES.COMUNES.NUEVO'  | translate }}   {{  'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase) | translate | lowercase}}"
+              >
                 <i class="bi bi-file-earmark-plus"></i>
               </span>
             </a>
