@@ -19,7 +19,8 @@
         <td class="text-end">$ {{ movimiento.vr_total | number }}</td>
         <td class="text-center">
           <i
-            class="fa-solid fa-download"
+            placement="end" ngbTooltip="Descargar documento"
+            class="fa-solid fa-download cursorPointer"
             (click)="descargarDocumento(movimiento.id)"
           ></i>
         </td>

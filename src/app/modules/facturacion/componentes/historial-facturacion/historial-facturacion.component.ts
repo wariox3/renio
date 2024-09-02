@@ -7,13 +7,14 @@ import { switchMap, tap } from 'rxjs';
 import { Movimiento } from '@interfaces/facturacion/Facturacion';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpService } from '@comun/services/http.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-historial-facturacion',
   standalone: true,
   templateUrl: './historial-facturacion.component.html',
   styleUrls: ['./historial-facturacion.component.scss'],
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, NgbTooltipModule],
 })
 export class HistorialFacturacionComponent extends General implements OnInit {
   movientos: Movimiento[];
