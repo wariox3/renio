@@ -6,30 +6,34 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { General } from '@comun/clases/general';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { switchMap, tap } from 'rxjs';
-import { obtenerMenuModulos } from '@redux/selectors/menu.selectors';
+import {
+  obtenerMenuModulos,
+  obtenerMenuSeleccion,
+} from '@redux/selectors/menu.selectors';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLinkActive, RouterLink } from '@angular/router';
-import { NgIf, NgFor, LowerCasePipe } from '@angular/common';
+import { NgIf, NgFor, LowerCasePipe, NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-header-menu',
-    templateUrl: './header-menu.component.html',
-    styleUrls: ['./header-menu.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        RouterLinkActive,
-        RouterLink,
-        TranslateModule,
-        NgFor,
-        LowerCasePipe,
-    ],
+  selector: 'app-header-menu',
+  templateUrl: './header-menu.component.html',
+  styleUrls: ['./header-menu.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    RouterLinkActive,
+    RouterLink,
+    TranslateModule,
+    NgFor,
+    LowerCasePipe,
+    NgClass,
+  ],
 })
 export class HeaderMenuComponent extends General implements OnInit {
   arrMenuApps: string[];
-
   visualizarMenuApps = false;
+  ruta = '';
 
   constructor(
     private layout: LayoutService,
@@ -39,6 +43,16 @@ export class HeaderMenuComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams
+      .pipe(
+        switchMap(() => this.store.select(obtenerMenuSeleccion)),
+        tap((respuesta: any) => {
+          this.ruta = respuesta;
+          this.changeDetectorRef.detectChanges()
+        })
+      )
+      .subscribe();
+
     this.store
       .select(obtenerConfiguracionVisualizarApp)
       .pipe(

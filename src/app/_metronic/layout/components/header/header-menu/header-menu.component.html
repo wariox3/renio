@@ -8,11 +8,11 @@
       ><span class="menu-title" translate="MENU.DASHBOARD"></span
     ></a>
   </div>
-
   <div class="menu-item me-lg-1" *ngFor="let item of arrMenuApps">
     <a
-      class="menu-link py-3"
-      routerLinkActive="active menu-here"
+      class="menu-link py-3 menu-here"
+      [ngClass]="{'active': item === ruta}"
+      routerLinkActive="menu-here"
       routerLink="/{{ item | lowercase }}"
       (click)="seleccionarMenu(item)"
       ><span class="menu-title" [translate]="'MENU.TITULOS.'+item"></span></a
