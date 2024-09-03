@@ -61,8 +61,6 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      console.log(parametro);
-
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof mapeo = this.modelo;

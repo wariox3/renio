@@ -357,13 +357,9 @@ export class BaseFiltroComponent extends General implements OnInit {
           this.criteriosBusqueda[index] = resultado;
           resultado.find((item) => {
             if (item.defecto) {
-              console.log(item);
-
               const filtroPorActualizar = this.filtros.controls[
                 index
               ] as FormGroup;
-              console.log(filtroPorActualizar);
-
               filtroPorActualizar.patchValue({
                 tipo: propiedadSeleccionada.getAttribute('data-tipo'),
                 busquedaAvanzada: propiedadSeleccionada.getAttribute(
