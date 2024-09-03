@@ -48,6 +48,9 @@ export class HeaderMenuComponent extends General implements OnInit {
         switchMap(() => this.store.select(obtenerMenuSeleccion)),
         tap((respuesta: any) => {
           this.ruta = respuesta;
+          if(respuesta === 'GENERAL'){
+            this.ruta = 'Inicio';
+          }
           this.changeDetectorRef.detectChanges()
         })
       )

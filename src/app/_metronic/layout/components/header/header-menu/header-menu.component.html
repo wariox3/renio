@@ -2,12 +2,14 @@
   <div class="menu-item me-lg-1">
     <a
       class="menu-link py-3"
-      routerLinkActive="active menu-here"
+      [ngClass]="{'active': ruta === 'Inicio'}"
+      routerLinkActive="menu-here"
       routerLink="/dashboard"
       (click)="seleccionarMenu('GENERAL')"
       ><span class="menu-title" translate="MENU.DASHBOARD"></span
     ></a>
   </div>
+  <br>
   <div class="menu-item me-lg-1" *ngFor="let item of arrMenuApps">
     <a
       class="menu-link py-3 menu-here"
