@@ -4,129 +4,118 @@
       class="row mb-6"
       *ngFor="let filtro of filtros.controls; let i = index"
     >
-      <div class="col-12 col-md-11 mb-2" [formGroupName]="i">
-        <div class="row">
-          <div class="col-12 col-md-4 mb-2">
-            <select
-              class="form-control form-control-sm"
-              formControlName="propiedad"
-              (change)="seleccionarPropiedad($event, i)"
-            >
-              <option value="">
-                {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-              </option>
-              <ng-container *ngFor="let propiedad of arrPropiedades">
-                <option
-                  [value]="
-                    propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
-                        '_id'
-                      : propiedad.nombre.toLocaleLowerCase()
-                  "
-                  [attr.data-value]="
-                    propiedad.esFk
-                      ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
-                        '_id'
-                      : propiedad.nombre.toLocaleLowerCase()
-                  "
-                  [attr.data-tipo]="propiedad.campoTipo"
-                  [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
-                  [attr.data-modelo-busqueda-avanzada]="
-                    propiedad.modeloFk ? propiedad.modeloFk : ''
-                  "
-                >
-                  {{
-                    propiedad.esFk
-                      ? ("LISTAS." +
-                          (tipo | uppercase) +
-                          "." +
-                          (propiedad.modeloFk.substring(3) | uppercase)
-                        | translate)
-                      : ("LISTAS." +
-                          (tipo | uppercase) +
-                          "." +
-                          (propiedad.nombre | uppercase) | translate)
-                  }}
-                </option>
-              </ng-container>
-            </select>
-          </div>
-          <div class="col-12 col-md-4 mb-2">
-            <select
-              formControlName="operador"
-              class="form-control form-control-sm"
-            >
-              <option value="">
-                {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-              </option>
+      <div class="row align-items-center" [formGroupName]="i">
+        <div class="col-12 col-md-4 mb-2">
+          <select
+            class="form-select form-select-sm"
+            formControlName="propiedad"
+            (change)="seleccionarPropiedad($event, i)"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <ng-container *ngFor="let propiedad of arrPropiedades">
               <option
-                *ngFor="let criterioBusqueda of criteriosBusqueda[i]"
-                [value]="criterioBusqueda.valor"
-                (change)="seleccionarCriterio($event, i)"
+                [value]="
+                  propiedad.esFk
+                    ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                      '_id'
+                    : propiedad.nombre.toLocaleLowerCase()
+                "
+                [attr.data-value]="
+                  propiedad.esFk
+                    ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                      '_id'
+                    : propiedad.nombre.toLocaleLowerCase()
+                "
+                [attr.data-tipo]="propiedad.campoTipo"
+                [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
+                [attr.data-modelo-busqueda-avanzada]="
+                  propiedad.modeloFk ? propiedad.modeloFk : ''
+                "
               >
                 {{
-                  "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
-                    (criterioBusqueda.texto | uppercase) | translate
+                  propiedad.esFk
+                    ? ("LISTAS." +
+                        (tipo | uppercase) +
+                        "." +
+                        (propiedad.modeloFk.substring(3) | uppercase)
+                      | translate)
+                    : ("LISTAS." +
+                        (tipo | uppercase) +
+                        "." +
+                        (propiedad.nombre | uppercase) | translate)
                 }}
               </option>
-            </select>
-          </div>
-          <div class="col-12 col-md-4 mb-2">
-            <div class="input-group input-group-sm">
-              <input
-                #inputValor1
-                class="form-control form-control-sm"
-                [placeholder]="
-                  filtro.get('busquedaAvanzada')?.value !== 'true'
-                    ? 'Código'
-                    : 'Buscar...'
-                "
-                formControlName="valor1"
-                [ngClass]="{
+            </ng-container>
+          </select>
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+          <select formControlName="operador" class="form-select form-select-sm">
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let criterioBusqueda of criteriosBusqueda[i]"
+              [value]="criterioBusqueda.valor"
+              (change)="seleccionarCriterio($event, i)"
+            >
+              {{
+                "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+                  (criterioBusqueda.texto | uppercase) | translate
+              }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-3 mb-2">
+          <div class="input-group input-group-sm">
+            <input
+              #inputValor1
+              [id]="'inputValor1'+i"
+              class="form-control form-control-sm"
+              [placeholder]="
+                filtro.get('busquedaAvanzada')?.value !== 'true'
+                  ? 'Código'
+                  : 'Buscar...'
+              "
+              formControlName="valor1"
+              [ngClass]="{
                   'animate__animated animate__fadeOut': filtro.get('tipo')?.value  === 'Booleano',
                 }"
-                [type]="
-                  filtro.get('tipo')?.value === 'IntegerField'
-                    ? 'number'
-                    : filtro.get('tipo')?.value === 'DateField'
-                    ? 'date'
-                    : 'text'
-                "
-                [appSoloNumeros]="
-                  filtro.get('busquedaAvanzada')?.value === 'true'
-                "
-              />
-              <div
-                class="input-group-append"
-                *ngIf="filtro.get('busquedaAvanzada')?.value === 'true'"
+              [type]="
+                filtro.get('tipo')?.value === 'IntegerField'
+                  ? 'number'
+                  : filtro.get('tipo')?.value === 'DateField'
+                  ? 'date'
+                  : 'text'
+              "
+              [appSoloNumeros]="
+                filtro.get('busquedaAvanzada')?.value === 'true'
+              "
+            />
+            <div
+              class="input-group-append"
+              *ngIf="filtro.get('busquedaAvanzada')?.value === 'true'"
+            >
+              <button
+                style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+                class="btn btn-primary btn-sm rounded-left-0"
+                type="button"
+                (click)="abirModal(content, i)"
               >
-                <button
-                  style="
-                    border-top-left-radius: 0;
-                    border-bottom-left-radius: 0;
-                  "
-                  class="btn btn-primary btn-sm rounded-left-0"
-                  type="button"
-                  (click)="abirModal(content, i)"
-                >
-                  Busqueda
-                </button>
-              </div>
+                Busqueda
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-12 col-md-1" [formGroupName]="i">
-        <div class="d-flex justify-content-end">
-          <i
-            class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
-            (click)="agregarNuevoFiltro()"
-          ></i>
-          <i
-            (click)="eliminarFiltro(i)"
-            *ngIf="filtros.length > 1"
-            class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-          ></i>
+        <div class="col-12 col-md-1 mb-2" [@fadeInOut]>
+          <div class="d-flex justify-content-center align-self-center">
+            <i
+              (click)="eliminarFiltro(i)"
+              *ngIf="filtros.length > 1"
+              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+            ></i>
+          </div>
         </div>
       </div>
     </div>
@@ -136,8 +125,13 @@
       type="submit"
       class="btn btn-primary btn-sm"
       (click)="limpiarFormulario()"
-      *ngIf="filtros.length >= 1"
       translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"
+    ></button>
+    <button
+      type="submit"
+      class="btn btn-primary btn-sm"
+      (click)="agregarNuevoFiltro()"
+      translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
     ></button>
     <button
       translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
@@ -287,6 +281,7 @@
       >
         <thead>
           <tr
+            class="text-center"
             *ngIf="
               arrRegistroBusquedaAvanzada &&
               arrRegistroBusquedaAvanzada.length > 0
@@ -314,12 +309,15 @@
               </td>
               <ng-container *ngIf="last">
                 <td class="text-center">
-                  <a
+                  <button
+                    class="btn btn-active-light-primary p-1"
                     (click)="cerrarModal(item)"
-                    class="btn btn-primary btn-sm p-0"
+                    placement="top"
+                    ngbTooltip="Seleccionar registro"
+                    container="body"
                   >
-                    <i class="ki-solid ki-check fs-1 p-0"></i>
-                  </a>
+                    <i class="ki-duotone ki-check"></i>
+                  </button>
                 </td>
               </ng-container>
             </ng-container>

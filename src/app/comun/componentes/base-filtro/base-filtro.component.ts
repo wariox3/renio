@@ -16,10 +16,17 @@ import { General } from '@comun/clases/general';
 import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
 import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
 import { HttpService } from '@comun/services/http.service';
 import { KeysPipe } from '@pipe/keys.pipe';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-base-filtro',
@@ -33,6 +40,18 @@ import { KeysPipe } from '@pipe/keys.pipe';
     ReactiveFormsModule,
     SoloNumerosDirective,
     KeysPipe,
+    NgbTooltipModule,
+  ],
+  animations: [
+    trigger('fadeInOut', [
+      state(
+        'void',
+        style({
+          opacity: 0,
+        })
+      ),
+      transition(':enter, :leave', [animate(600)]),
+    ]),
   ],
 })
 export class BaseFiltroComponent extends General implements OnInit {
@@ -170,11 +189,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad = propiedades.campo;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
-       this.store
+      this.store
         .select(obtenerCriteriosFiltro(propiedades.tipo))
-         .subscribe((respuesta) => {
-           this.criteriosBusqueda[index] = respuesta;
-         });
+        .subscribe((respuesta) => {
+          this.criteriosBusqueda[index] = respuesta;
+        });
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
@@ -325,11 +344,7 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   seleccionarPropiedad(evento: Event, index: number) {
     const propiedad = evento.target as HTMLSelectElement;
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-
     const propiedadSeleccionada: any = propiedad.selectedOptions[0];
-
-    console.log(propiedadSeleccionada.getAttribute('data-tipo'));
 
     if (propiedadSeleccionada.getAttribute('data-tipo')) {
       this.store
@@ -339,23 +354,38 @@ export class BaseFiltroComponent extends General implements OnInit {
           )
         )
         .subscribe((resultado) => {
-          console.log(resultado);
           this.criteriosBusqueda[index] = resultado;
+          resultado.find((item) => {
+            if (item.defecto) {
+              console.log(item);
 
-          filtroPorActualizar.patchValue({
-            tipo: propiedadSeleccionada.getAttribute('data-tipo'),
-            busquedaAvanzada: propiedadSeleccionada.getAttribute(
-              'data-busqueda-avanzada'
-            ),
-            modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
-              'data-modelo-busqueda-avanzada'
-            ),
+              const filtroPorActualizar = this.filtros.controls[
+                index
+              ] as FormGroup;
+              console.log(filtroPorActualizar);
+
+              filtroPorActualizar.patchValue({
+                tipo: propiedadSeleccionada.getAttribute('data-tipo'),
+                busquedaAvanzada: propiedadSeleccionada.getAttribute(
+                  'data-busqueda-avanzada'
+                ),
+                modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
+                  'data-modelo-busqueda-avanzada'
+                ),
+                operador: item.valor,
+              });
+              if (
+                propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano'
+              ) {
+                filtroPorActualizar.patchValue({
+                  valor1: null,
+                });
+              }
+            }
           });
-          if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
-            filtroPorActualizar.patchValue({
-              valor1: null,
-            });
-          }
+          let inputValor1Modal: HTMLInputElement | null =
+            document.querySelector('#inputValor1' + index);
+          inputValor1Modal!.focus();
         });
     }
   }
