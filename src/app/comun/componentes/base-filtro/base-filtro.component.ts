@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,6 +42,8 @@ import {
     KeysPipe,
     NgbTooltipModule,
   ],
+  styleUrls: ['./base-filtro.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('fadeInOut', [
       state(

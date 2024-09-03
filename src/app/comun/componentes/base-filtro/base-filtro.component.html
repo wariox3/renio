@@ -112,6 +112,8 @@
           <div class="d-flex justify-content-center align-self-center">
             <i
               (click)="eliminarFiltro(i)"
+              ngbTooltip="Retirar este filtro"
+              tooltipClass="my-custom-class"
               *ngIf="filtros.length > 1"
               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
             ></i>
