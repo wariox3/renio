@@ -3,6 +3,9 @@
   background-color: var(--bs-danger);
   font-size: 125%;
   color: #fff;
+  padding: 3px 3.5px;
+  font-style: normal;
+  font-size: var(--bs-tooltip-font-size);
 }
 .my-custom-class.bs-tooltip-end .tooltip-arrow::before {
   border-right-color: var(--bs-danger);
