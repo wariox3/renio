@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 import { Resolucion } from '@interfaces/general/resolucion';
+import { AutocompletarRegistros, RegistroAutocompletarResolucion } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',
@@ -34,7 +35,7 @@ export class EmpresaDocumentoTipoEditarComponent
   implements OnInit
 {
   formularioDocumentoTipo: FormGroup;
-  arrResoluciones: any[] = []
+  arrResoluciones: RegistroAutocompletarResolucion[] = []
   @Input() ocultarBtnAtras: Boolean = false;
   @Input() tipoRolucion: 'compra' | 'venta' | null = null;
   @Input() tituloFijo: Boolean = false;
@@ -139,7 +140,7 @@ export class EmpresaDocumentoTipoEditarComponent
 
     zip(
       this.HttpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarResolucion>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       ),

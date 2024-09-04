@@ -19,6 +19,7 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarCargo,
+  RegistroAutocompletarContacto,
   RegistroAutocompletarPension,
   RegistroAutocompletarRiesgo,
   RegistroAutocompletarSalud,
@@ -395,7 +396,7 @@ export default class ContratoFormularioComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )

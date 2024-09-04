@@ -28,6 +28,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-documento-soporte-formulario',
@@ -760,18 +761,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         {
-          id: '1692284537644-1688',
           operador: '',
           propiedad: 'proveedor',
           valor1: 'True',
-          valor2: '',
         },
       ],
       limite: 10,
@@ -782,7 +779,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -800,7 +797,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,

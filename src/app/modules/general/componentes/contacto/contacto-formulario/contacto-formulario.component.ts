@@ -36,6 +36,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocompletarCuentaBancoTipo } from '@interfaces/comunes/autocompletar';
 
 
 @Component({
@@ -379,7 +380,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -400,7 +401,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: ``,
@@ -419,7 +419,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: ``,
@@ -438,7 +437,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: '',
@@ -457,7 +455,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: '',
@@ -476,7 +473,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre_corto__icontains',
               valor1: '',
@@ -495,7 +491,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: '',

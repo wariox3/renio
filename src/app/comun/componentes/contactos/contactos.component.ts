@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
+import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -58,12 +59,11 @@ export class ContactosComponent extends General {
 
   consultarContactos(event: any) {
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         {
           filtros: [
             {
-              id: '1692284537644-1688',
               operador: '__icontains',
               propiedad: 'nombre_corto__icontains',
               valor1: `${event?.target.value}`,
@@ -85,7 +85,7 @@ export class ContactosComponent extends General {
 
   aplicarFiltrosContactos(event: any) {
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         {
           filtros: [

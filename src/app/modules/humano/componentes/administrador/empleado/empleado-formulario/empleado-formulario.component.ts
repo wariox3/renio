@@ -14,6 +14,10 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarCiudad,
+} from '@interfaces/comunes/autocompletar';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -349,7 +353,7 @@ export default class EmpleadoFormularioComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -589,32 +593,29 @@ export default class EmpleadoFormularioComponent
         this.formularioEmpleado.get('numero_identificacion')!.setErrors(null);
       }
     } else {
-      if(this.formularioEmpleado.get(
-        'numero_identificacion'
-      )!.value !== ''){
+      if (this.formularioEmpleado.get('numero_identificacion')!.value !== '') {
         this.contactoService
-        .validarNumeroIdentificacion({
-          identificacion_id: parseInt(
-            this.formularioEmpleado.get('identificacion')!.value
-          ),
-          numero_identificacion: this.formularioEmpleado.get(
-            'numero_identificacion'
-          )!.value,
-        })
-        .subscribe((respuesta) => {
-          if (respuesta.validacion) {
-            this.formularioEmpleado
-              .get('numero_identificacion')!
-              .setErrors({ numeroIdentificacionExistente: true });
-          } else {
-            this.formularioEmpleado
-              .get('numero_identificacion')!
-              .setErrors(null);
-          }
-          this.changeDetectorRef.detectChanges();
-        });
+          .validarNumeroIdentificacion({
+            identificacion_id: parseInt(
+              this.formularioEmpleado.get('identificacion')!.value
+            ),
+            numero_identificacion: this.formularioEmpleado.get(
+              'numero_identificacion'
+            )!.value,
+          })
+          .subscribe((respuesta) => {
+            if (respuesta.validacion) {
+              this.formularioEmpleado
+                .get('numero_identificacion')!
+                .setErrors({ numeroIdentificacionExistente: true });
+            } else {
+              this.formularioEmpleado
+                .get('numero_identificacion')!
+                .setErrors(null);
+            }
+            this.changeDetectorRef.detectChanges();
+          });
       }
-
     }
   }
 

@@ -28,6 +28,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -243,7 +244,7 @@ export default class EgresoFormularioComponent
       modelo: 'GenContacto',
     };
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )

@@ -28,6 +28,7 @@ import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
+import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -240,7 +241,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
       modelo: 'GenContacto',
     };
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )

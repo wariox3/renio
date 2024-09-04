@@ -15,7 +15,7 @@ import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { AutocompletarRegistros, RegistroAutocompletarConceptoAdicional } from '@interfaces/comunes/autocompletar';
+import { AutocompletarRegistros, RegistroAutocompletarConcepto, RegistroAutocompletarConceptoAdicional, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
 import {NgSelectModule} from '@ng-select/ng-select';
 
 @Component({
@@ -94,7 +94,7 @@ export default class AdicionalFormularioComponent
 
   consultarInformacion(){
     this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
+      .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
         'general/funcionalidad/autocompletar/',
         {
           filtros: [
@@ -186,7 +186,6 @@ export default class AdicionalFormularioComponent
           operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -197,7 +196,7 @@ export default class AdicionalFormularioComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -229,7 +228,7 @@ export default class AdicionalFormularioComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )

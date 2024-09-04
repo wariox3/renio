@@ -15,12 +15,15 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
-import { ContratoService } from '@modulos/humano/servicios/contrato.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarHumGrupo,
+  RegistroAutocompletarHumPagoTipo,
+} from '@interfaces/comunes/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
-
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { tap, zip } from 'rxjs';
 
 @Component({
   selector: 'app-programacion-formulario',
@@ -83,95 +86,103 @@ export default class ContratoFormularioComponent
       .toString()
       .padStart(2, '0')}-${primerDiaMes.getDate().toString().padStart(2, '0')}`;
 
-    this.formularioProgramacion = this.formBuilder.group({
-      fecha_desde: [
-        fechaDesde,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      fecha_hasta: [
-        fechaDesde,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      fecha_hasta_periodo: [
-        fechaDesde,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
-      ],
-      pago_tipo: [1, Validators.compose([Validators.required])],
-      grupo: [1, Validators.compose([Validators.required])],
-      nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
-      descuento_salud: [true],
-      descuento_pension: [true],
-      descuento_fondo_solidaridad: [true],
-      descuento_retencion_fuente: [true],
-      pago_incapacidad: [true],
-      pago_licencia: [true],
-      pago_vacacion: [true],
-      pago_horas: [true],
-      pago_auxilio_transporte: [true],
-      descuento_credito: [true],
-      descuento_embargo: [true],
-      adicional: [true],
-      comentario: [null, Validators.compose([Validators.maxLength(500), cambiarVacioPorNulo.validar])],
-    },
-    {
-      validator: this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
-    }
-  );
+    this.formularioProgramacion = this.formBuilder.group(
+      {
+        fecha_desde: [
+          fechaDesde,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        fecha_hasta: [
+          fechaDesde,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        fecha_hasta_periodo: [
+          fechaDesde,
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(200),
+            Validators.pattern(/^[a-z-0-9.-_]*$/),
+          ]),
+        ],
+        pago_tipo: [1, Validators.compose([Validators.required])],
+        grupo: [1, Validators.compose([Validators.required])],
+        nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
+        descuento_salud: [true],
+        descuento_pension: [true],
+        descuento_fondo_solidaridad: [true],
+        descuento_retencion_fuente: [true],
+        pago_incapacidad: [true],
+        pago_licencia: [true],
+        pago_vacacion: [true],
+        pago_horas: [true],
+        pago_auxilio_transporte: [true],
+        descuento_credito: [true],
+        descuento_embargo: [true],
+        adicional: [true],
+        comentario: [
+          null,
+          Validators.compose([
+            Validators.maxLength(500),
+            cambiarVacioPorNulo.validar,
+          ]),
+        ],
+      },
+      {
+        validator: this.fechaDesdeMenorQueFechaHasta(
+          'fecha_desde',
+          'fecha_hasta'
+        ),
+      }
+    );
   }
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'HumPagoTipo',
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'HumGrupo',
-        }
-      )
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: ``,
+            valor2: '',
+          },
+        ],
+        limite: 0,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumPagoTipo',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarHumGrupo>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: ``,
+            valor2: '',
+          },
+        ],
+        limite: 0,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumGrupo',
+      })
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
@@ -196,7 +207,7 @@ export default class ContratoFormularioComponent
                   detalle: respuesta.id,
                 },
               });
-            })
+            });
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -212,7 +223,7 @@ export default class ContratoFormularioComponent
                     detalle: respuesta.id,
                   },
                 });
-              })
+              });
             })
           )
           .subscribe();
@@ -247,12 +258,11 @@ export default class ContratoFormularioComponent
           adicional: respuesta.adicional,
           comentario: respuesta.comentario,
           dias: respuesta.dias,
-          cantidad: respuesta.contratos
+          cantidad: respuesta.contratos,
         });
         this.changeDetectorRef.detectChanges();
       });
   }
-
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioProgramacion?.markAsDirty();
@@ -263,7 +273,10 @@ export default class ContratoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  fechaDesdeMenorQueFechaHasta(fechaDesde: string, fechaHasta: string): ValidatorFn {
+  fechaDesdeMenorQueFechaHasta(
+    fechaDesde: string,
+    fechaHasta: string
+  ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;

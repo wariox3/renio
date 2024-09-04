@@ -58,7 +58,6 @@ export class CuentasComponent extends General implements AfterViewInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'codigo__icontains',
           valor1: `${event?.target.value}`,
@@ -87,7 +86,6 @@ export class CuentasComponent extends General implements AfterViewInit {
     let arrFiltros = {
       filtros: [
         {
-          id: '1692284537644-1688',
           operador: '__icontains',
           propiedad: 'codigo__icontains',
           valor1: `${event?.target.value}`,

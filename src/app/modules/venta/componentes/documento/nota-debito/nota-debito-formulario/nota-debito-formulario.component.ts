@@ -12,7 +12,11 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -27,7 +31,8 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { Contacto } from '@interfaces/general/contacto';
-import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
+import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -49,8 +54,8 @@ import ContactoFormulario from "../../../../../general/componentes/contacto/cont
     BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
-    ContactoFormulario
-],
+    ContactoFormulario,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   informacionFormulario: any;
@@ -407,10 +412,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['compra'] = impuesto['impuesto_compra'];
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['impuesto_porcentaje_base'] = impuesto['impuesto_porcentaje_base'];
+        impuesto['impuesto_porcentaje_base'] =
+          impuesto['impuesto_porcentaje_base'];
         impuesto['id'] = null;
         impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
-        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra'];
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -559,7 +565,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-
   agregarImpuesto(
     impuesto: any,
     index: number,
@@ -609,7 +614,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre: [impuesto.nombre],
       porcentaje_base: [impuesto.impuesto_porcentaje_base],
       impuesto_venta: [impuesto.impuesto_venta],
-      impuesto_compra: [impuesto.impuesto_compra]
+      impuesto_compra: [impuesto.impuesto_compra],
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
@@ -723,7 +728,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [nuevoImpuesto.nombre],
         porcentaje_base: [nuevoImpuesto.porcentaje_base],
         impuesto_venta: [nuevoImpuesto.impuesto_venta],
-        impuesto_compra: [nuevoImpuesto.impuesto_compra]
+        impuesto_compra: [nuevoImpuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
@@ -760,7 +765,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
-
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
@@ -829,7 +833,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           propiedad: 'cliente',
           valor1: 'True',
           valor2: '',
-        }
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -839,7 +843,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -986,7 +990,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
 
-      // Suma los días a la fecha actual
+    // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
@@ -1018,7 +1022,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto)
+    this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
   }
 }

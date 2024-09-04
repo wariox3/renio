@@ -41,6 +41,7 @@ import { ImportarAdministradorComponent } from '@comun/componentes/importar-admi
 import {
   AutocompletarRegistros,
   RegistroAutocompletarConceptoAdicional,
+  RegistroAutocompletarHumContrato,
 } from '@interfaces/comunes/autocompletar';
 
 @Component({
@@ -488,7 +489,7 @@ export default class ProgramacionDetalleComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -520,7 +521,7 @@ export default class ProgramacionDetalleComponent
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )

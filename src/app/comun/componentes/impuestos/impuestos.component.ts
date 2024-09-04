@@ -15,6 +15,7 @@ import { Impuesto } from '@interfaces/general/impuesto';
 import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { tap, throttleTime } from 'rxjs';
+import { AutocompletarRegistros, RegistroAutocompletarImpuesto } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -126,7 +127,7 @@ export class ImpuestosComponent extends General implements OnChanges {
       ];
     }
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarImpuesto>>(
         'general/funcionalidad/autocompletar/',
         this.arrParametrosConsulta
       )

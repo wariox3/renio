@@ -44,6 +44,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarCiudad,
+  RegistroAutocompletarIdentificacion,
+  RegistroAutocompletarRegimen,
+  RegistroAutocompletarTipoPersona,
+} from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -104,63 +111,56 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
-        {
-          filtros: [
-            {
-              id: '1692284537644-1688',
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenIdentificacion',
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
-        {
-          filtros: [
-            {
-              id: '1692284537644-1688',
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenRegimen',
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
-        {
-          filtros: [
-            {
-              id: '1692284537644-1688',
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenTipoPersona',
-        }
-      ),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarIdentificacion>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: ``,
+          },
+        ],
+        limite: 0,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenIdentificacion',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarRegimen>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: ``,
+            valor2: '',
+          },
+        ],
+        limite: 0,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenRegimen',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoPersona>
+      >('general/funcionalidad/autocompletar/', {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: '',
+            valor2: '',
+          },
+        ],
+        limite: 0,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenTipoPersona',
+      }),
       this.empresaService.consultarDetalle(this.empresa_id)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -291,7 +291,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     };
 
     this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
+      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
         'general/funcionalidad/autocompletar/',
         arrFiltros
       )
@@ -319,7 +319,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
           ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
       }
     }
-    if(campo === 'ciudad_nombre'){
+    if (campo === 'ciudad_nombre') {
       this.formularioEmpresa.get('ciudad_nombre')?.setValue(dato);
     }
     if (campo === 'telefono') {

@@ -138,27 +138,4 @@ export default class ItemFormularioComponent extends General implements OnInit {
       });
   }
 
-  // consultarInformacion() {
-  //   this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-  //     'general/funcionalidad/autocompletar/',
-  //     {
-  //       filtros: [
-  //         {
-  //           id: '1692284537644-1688',
-  //           operador: '__icontains',
-  //           propiedad: 'nombre__icontains',
-  //           valor1: ``,
-  //           valor2: '',
-  //         },
-  //       ],
-  //       limite: 0,
-  //       desplazar: 0,
-  //       ordenamientos: [],
-  //       limite_conteo: 10000,
-  //       modelo: 'ConCuentaClase',
-  //     }
-  //   ).subscribe(respuesta => {
-  //     this.arrCuentaClase = respuesta
-  //   })
-  // }
 }
