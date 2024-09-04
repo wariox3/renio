@@ -88,6 +88,9 @@ export class BaseListaComponent extends General implements OnInit {
             ...JSON.parse(filtroGuardado),
           ];
         }
+        if (ordemientoFijo === undefined) {
+          this.arrParametrosConsulta.ordenamientos = []
+        }
         this.httpService
           .post<{
             registros: any;
@@ -108,6 +111,8 @@ export class BaseListaComponent extends General implements OnInit {
         }
         if (ordemientoFijo !== undefined) {
           this.arrParametrosConsulta.ordenamientos = [ordemientoFijo]
+        } else {
+          this.arrParametrosConsulta.ordenamientos = []
         }
         this.httpService
           .post<{
