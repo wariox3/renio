@@ -49,6 +49,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   habilitarContenedores = true;
   usuarioSaldo = 0;
   VisalizarMensajeBloqueo = false;
+  visualizarLoader: boolean[] = [];
 
   constructor(
     private contenedorService: ContenedorService,
@@ -58,12 +59,11 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    if(this.subdominioService.esSubdominioActual()){
+    if (this.subdominioService.esSubdominioActual()) {
       location.href = `${
         environment.dominioHttp
       }://${environment.dominioApp.slice(1)}/contenedor/lista`;
     }
-
 
     this.consultarLista();
     this.limpiarEmpresa();
@@ -91,6 +91,7 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargandoContederes = true;
+    //this.visualizarLoader = true;
     this.changeDetectorRef.detectChanges();
     this.store
       .select(obtenerUsuarioId)
@@ -99,6 +100,9 @@ export class ContenedorListaComponent extends General implements OnInit {
           this.contenedorService.lista(respuestaUsuarioId)
         ),
         tap((respuestaLista) => {
+          respuestaLista.contenedores.forEach(() =>
+            this.visualizarLoader.push(false)
+          );
           this.VisalizarMensajeBloqueo = !!respuestaLista.contenedores.find(
             (contenedor) => contenedor.acceso_restringido === true
           );
@@ -117,47 +121,55 @@ export class ContenedorListaComponent extends General implements OnInit {
       .subscribe();
   }
 
-  seleccionarEmpresa(empresaSeleccionada: Number) {
+  seleccionarEmpresa(empresaSeleccionada: number, i: number) {
+    this.visualizarLoader[i] = true;
     this.contenedorService
       .detalle(`${empresaSeleccionada}`)
-      .subscribe((respuesta) => {
-        const contenedor: Contenedor = {
-          nombre: respuesta.nombre,
-          imagen:
-            'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
-          contenedor_id: respuesta.id,
-          subdominio: respuesta.subdominio,
-          id: respuesta.id,
-          usuario_id: 1,
-          seleccion: true,
-          rol: respuesta.rol,
-          plan_id: respuesta.plan_id,
-          plan_nombre: respuesta.plan_nombre,
-          usuarios: 1,
-          usuarios_base: 0,
-          ciudad: 0,
-          correo: '',
-          direccion: '',
-          identificacion: 0,
-          nombre_corto: '',
-          numero_identificacion: 0,
-          telefono: '',
-          acceso_restringido: respuesta.acceso_restringido,
-        };
-        this.store.dispatch(ContenedorActionInit({ contenedor }));
-        this.store.dispatch(
-          configuracionVisualizarAction({
-            configuracion: {
-              visualizarApps: true,
-            },
-          })
-        );
-        if (environment.production) {
-          window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
-        } else {
-          this.router.navigateByUrl('/dashboard');
-        }
-      });
+      .pipe(
+        tap((respuesta) => {
+          const contenedor: Contenedor = {
+            nombre: respuesta.nombre,
+            imagen:
+              'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+            contenedor_id: respuesta.id,
+            subdominio: respuesta.subdominio,
+            id: respuesta.id,
+            usuario_id: 1,
+            seleccion: true,
+            rol: respuesta.rol,
+            plan_id: respuesta.plan_id,
+            plan_nombre: respuesta.plan_nombre,
+            usuarios: 1,
+            usuarios_base: 0,
+            ciudad: 0,
+            correo: '',
+            direccion: '',
+            identificacion: 0,
+            nombre_corto: '',
+            numero_identificacion: 0,
+            telefono: '',
+            acceso_restringido: respuesta.acceso_restringido,
+          };
+          this.store.dispatch(ContenedorActionInit({ contenedor }));
+          this.store.dispatch(
+            configuracionVisualizarAction({
+              configuracion: {
+                visualizarApps: true,
+              },
+            })
+          );
+          if (environment.production) {
+            window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
+          } else {
+            this.router.navigateByUrl('/dashboard');
+          }
+        }),
+        catchError(() => {
+          this.visualizarLoader[i] = false;
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   eliminarEmpresa(empresa_subdominio: string | null, empresa_id: Number) {

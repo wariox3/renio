@@ -16,8 +16,7 @@
           class="btn btn-primary align-self-center"
           [routerLink]="['../nuevo']"
           [disabled]="!habilitarContenedores"
-        >
-        </button>
+        ></button>
       </div>
       <div class="card-body">
         <!--begin::Table container-->
@@ -59,22 +58,26 @@
                     </ng-container>
                   </td>
                   <td>
-                      <p class="text-dark fw-bolder fs-6">
-                        {{ contenedor.nombre }}
+                    <p class="text-dark fw-bolder fs-6">
+                      {{ contenedor.nombre }}
+                    </p>
+                    <p class="text-muted fw-bold text-muted fs-7">
+                      {{ contenedor.subdominio }}{{ dominioApp }}
+                    </p>
+                    <div>
+                      <p class="badge badge-light-primary fs-8 fw-bold">
+                        {{ contenedor.rol }}
                       </p>
-                      <p class="text-muted fw-bold text-muted fs-7">
-                        {{ contenedor.subdominio }}{{ dominioApp }}
-                      </p>
-                      <div>
-                        <p class="badge badge-light-primary fs-8 fw-bold">{{
-                          contenedor.rol
-                        }}</p>
-                      </div>
+                    </div>
 
                     @if(contenedor.acceso_restringido){
-                      <p class="badge badge-light-danger fs-8 fw-bold text-wrap text-start">
-                        El acceso a este contenedor está temporalmente suspendido. Por favor, revise su cuenta o la del propietario para solucionar el inconveniente
-                      </p>
+                    <p
+                      class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
+                    >
+                      El acceso a este contenedor está temporalmente suspendido.
+                      Por favor, revise su cuenta o la del propietario para
+                      solucionar el inconveniente
+                    </p>
                     }
                   </td>
                   <td class="w-150px">
@@ -97,13 +100,31 @@
                     <div
                       class="h-100 d-flex flex-column justify-content-center"
                     >
+                      @if(visualizarLoader[i]){
+                      <button
+                        class="btn btn-sm btn-bg-primary btn-color-white"
+                        type="button"
+                        disabled
+                      >
+                        <span
+                          class="spinner-border spinner-border-sm me-1"
+                          aria-hidden="true"
+                        ></span>
+                        <span
+                          role="status"
+                          translate="LISTAS.COMUNES.CARGANDO"
+                        ></span>
+                      </button>
+                      } @else {
                       <button
                         translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
-                        href="#"
                         class="btn btn-bg-primary btn-color-white"
-                        (click)="seleccionarEmpresa(contenedor.contenedor_id)"
+                        (click)="
+                          seleccionarEmpresa(contenedor.contenedor_id, i)
+                        "
                         [disabled]="contenedor.acceso_restringido"
                       ></button>
+                      }
                     </div>
                   </td>
                   <td class="w-50px">
@@ -222,7 +243,9 @@
                       <div class="fs-2hx fw-bold text-gray-800">
                         <span class="me-2"> ¿Qué es un contenedor? </span>
                         <br />
-                        <span class="fw-semibold text-gray-600 fs-6 mb-8 d-block">
+                        <span
+                          class="fw-semibold text-gray-600 fs-6 mb-8 d-block"
+                        >
                           Imagina un contenedor como un espacio que va a
                           almacenar la información de tu empresa y todas las
                           aplicaciones que usas (ventas / facturación, compras,
