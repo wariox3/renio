@@ -1,4 +1,5 @@
 <app-card [visualizarTitulo]="false">
+
   <section card-body>
     <h3>Configuraciones</h3>
     <div class="d-flex overflow-auto h-55px">
@@ -10,15 +11,19 @@
             class="nav-link text-active-primary me-6 cursor-pointer"
             (click)="seleccionarConfiguracion('GENERAL')"
             [translate]="'MENU.TITULOS.GENERAL'"
+            [ngClass]="{'active': menuSeleccionado === 'GENERAL'}"
+
           >
           </a>
         </li>
+
         @for (item of arrMenuApps; track $index) {
         <li class="nav-item mb-2">
           <a
             class="nav-link text-active-primary cursor-pointer"
             (click)="seleccionarConfiguracion(item)"
             [translate]="'MENU.TITULOS.' + item"
+            [ngClass]="{'active': menuSeleccionado === item}"
           >
           </a>
         </li>
