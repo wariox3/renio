@@ -58,7 +58,6 @@
             <option
               *ngFor="let criterioBusqueda of criteriosBusqueda[i]"
               [value]="criterioBusqueda.valor"
-              (change)="seleccionarCriterio($event, i)"
             >
               {{
                 "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +

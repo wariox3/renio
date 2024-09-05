@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -357,11 +364,9 @@ export class BaseFiltroComponent extends General implements OnInit {
         )
         .subscribe((resultado) => {
           this.criteriosBusqueda[index] = resultado;
+          const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
           resultado.find((item) => {
             if (item.defecto) {
-              const filtroPorActualizar = this.filtros.controls[
-                index
-              ] as FormGroup;
               filtroPorActualizar.patchValue({
                 tipo: propiedadSeleccionada.getAttribute('data-tipo'),
                 busquedaAvanzada: propiedadSeleccionada.getAttribute(
@@ -372,25 +377,20 @@ export class BaseFiltroComponent extends General implements OnInit {
                 ),
                 operador: item.valor,
               });
-              if (
-                propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano'
-              ) {
-                filtroPorActualizar.patchValue({
-                  valor1: null,
-                });
-              }
             }
           });
+          if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
+            filtroPorActualizar.patchValue({
+              tipo: propiedadSeleccionada.getAttribute('data-tipo'),
+              valor1: null,
+              operador: "",
+            });
+          }
           let inputValor1Modal: HTMLInputElement | null =
             document.querySelector('#inputValor1' + index);
           inputValor1Modal!.focus();
         });
     }
-  }
-
-  seleccionarCriterio(evento: Event, index: number) {
-    const propiedad = evento.target as HTMLSelectElement;
-    const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
   }
 
   abirModal(content: any, index: number) {
