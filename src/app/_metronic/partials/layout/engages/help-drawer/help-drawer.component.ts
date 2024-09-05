@@ -3,12 +3,13 @@ import { environment } from 'src/environments/environment';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-help-drawer',
   templateUrl: './help-drawer.component.html',
   standalone: true,
-  imports: [TranslateModule, KeeniconComponent],
+  imports: [TranslateModule, KeeniconComponent, NgbTooltipModule],
 })
 export class HelpDrawerComponent extends General implements OnInit {
   appDocumentacion: string = environment.appDocumentacion;
@@ -28,5 +29,9 @@ export class HelpDrawerComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges()
       }
     })
+  }
+
+  tooltipTexto(): string {
+    return 'Ir a la documentación de: ' + this.translateService.instant('MENU.FUNCIONALIDAD.'+this.modelo);
   }
 }
