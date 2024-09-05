@@ -1,9 +1,15 @@
 <div class="row mb-4 justify-content-between gap-sm-5">
   <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
-    <i
+    <button
+      class="btn btn-sm btn-icon btn-secondary"
       (click)="disminuirDesplazamiento()"
-      class="bi bi-arrow-left fs-2x cursor-pointer"
-    ></i>
+    >
+      <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
+        ><span class="path1"></span><span class="path2"></span
+        ><span class="path3"></span><span class="path4"></span
+      ></i>
+    </button>
+
     <input
       type="text"
       class="form-control form-control-sm w-100px"
@@ -12,10 +18,15 @@
     />
     <span>de</span>
     <span>{{ cantidad_registros }}</span>
-    <i
+    <button
+      class="btn btn-sm btn-icon btn-secondary"
       (click)="aumentarDesplazamiento()"
-      class="bi bi-arrow-right fs-2x cursor-pointer"
-    ></i>
+    >
+      <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
+        ><span class="path1"></span><span class="path2"></span
+        ><span class="path3"></span><span class="path4"></span
+      ></i>
+    </button>
   </div>
   <div class="col-md-5 col-sm-12 d-flex justify-content-end">
     <div
