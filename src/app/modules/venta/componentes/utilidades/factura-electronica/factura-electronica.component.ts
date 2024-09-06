@@ -115,7 +115,6 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         this.arrParametrosConsultaNotificar
       )
     ).subscribe((respuesta: any) => {
-      console.log(respuesta);
       this.arrDocumentosEmitirCantidadRegistros = respuesta[0].length
       this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
         ...documento,
