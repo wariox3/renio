@@ -383,7 +383,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
               valor1: null,
-              operador: "",
+              operador: '',
             });
           }
           let inputValor1Modal: HTMLInputElement | null =
@@ -440,29 +440,44 @@ export class BaseFiltroComponent extends General implements OnInit {
 
   propiedadSeleccionadaModal(evento: Event, index: number) {
     const propiedad = evento.target as HTMLSelectElement;
-    //this.filtroCampoValor1 = '';
-    //this.filtroTipoModal[index] = event.target.value;
-    const selectedOption = propiedad.selectedOptions[0];
-    this.store
-      .select(obtenerCriteriosFiltro(propiedad.value))
-      .subscribe((resultado) => {
-        this.criteriosBusquedaModal[index] = resultado;
-        resultado.find((item) => {
-          if (item.defecto) {
-            const filtroPorActualizar = this.filtrosModal.controls[
-              index
-            ] as FormGroup;
+    const propiedadSeleccionada: any = propiedad.selectedOptions[0];
+
+    if (propiedadSeleccionada.getAttribute('data-tipo')) {
+      this.store
+        .select(
+          obtenerCriteriosFiltro(
+            propiedadSeleccionada.getAttribute('data-tipo')
+          )
+        )
+        .subscribe((resultado) => {
+          this.criteriosBusquedaModal[index] = resultado;
+          const filtroPorActualizar = this.filtrosModal.controls[index] as FormGroup;
+          resultado.find((item) => {
+            if (item.defecto) {
+              filtroPorActualizar.patchValue({
+                tipo: propiedadSeleccionada.getAttribute('data-tipo'),
+                busquedaAvanzada: propiedadSeleccionada.getAttribute(
+                  'data-busqueda-avanzada'
+                ),
+                modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
+                  'data-modelo-busqueda-avanzada'
+                ),
+                operador: item.valor,
+              });
+            }
+          });
+          if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
             filtroPorActualizar.patchValue({
-              propiedad: selectedOption.getAttribute('data-value'),
-              operador: item.valor,
+              tipo: propiedadSeleccionada.getAttribute('data-tipo'),
+              valor1: null,
+              operador: '',
             });
           }
+          let inputValor1Modal: HTMLInputElement | null =
+            document.querySelector('#inputValor1Modal' + index);
+            inputValor1Modal!.focus();
         });
-      });
-    let inputValor1Modal: HTMLInputElement | null = document.querySelector(
-      '#inputValor1Modal' + index
-    );
-    inputValor1Modal!.focus();
+    }
   }
 
   aplicarFiltroModal(modal: string) {
@@ -475,15 +490,29 @@ export class BaseFiltroComponent extends General implements OnInit {
         if (filtro.valor1 === '') {
           hayFiltrosSinValores = true;
         } else {
-          const nuevoFiltro = {
-            ...filtro,
-            ...{
-              propiedad:
-                filtro.propiedad + filtro.operador !== null
-                  ? filtro.propiedad + filtro.operador
-                  : '',
-            },
-          };
+          let nuevoFiltro = {};
+          if (filtro.tipo === 'Booleano') {
+            nuevoFiltro = {
+              ...filtro,
+              ...{
+                propiedad: `${filtro.propiedad}`,
+                campo: filtro.propiedad,
+                valor1: filtro.operador === 'true' ? true : false,
+              },
+            };
+          } else {
+            let propiedad = filtro.propiedad;
+            if (filtro.operador !== 'igual') {
+              propiedad = `${filtro.propiedad}${filtro.operador}`;
+            }
+            nuevoFiltro = {
+              ...filtro,
+              ...{
+                propiedad,
+                campo: filtro.propiedad,
+              },
+            };
+          }
           listaFiltros.push(nuevoFiltro);
         }
       } else {

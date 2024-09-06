@@ -70,7 +70,7 @@
           <div class="input-group input-group-sm">
             <input
               #inputValor1
-              [id]="'inputValor1'+i"
+              [id]="'inputValor1' + i"
               class="form-control form-control-sm"
               [placeholder]="
                 filtro.get('busquedaAvanzada')?.value !== 'true'
@@ -165,7 +165,7 @@
             <div class="col-12 col-md-4 mb-2">
               <select
                 class="form-control form-control-sm"
-                formArrayName="propiedad"
+                formControlName="propiedad"
                 (change)="propiedadSeleccionadaModal($event, i)"
               >
                 <option value="">
@@ -175,12 +175,19 @@
                   *ngFor="let propiedad of arrPropiedadBusquedaAvanzada"
                 >
                   <option
-                    [value]="propiedad.campoTipo"
-                    [attr.data-value]="
+                    [value]="
                       propiedad.esFk
-                        ? propiedad.modeloFk.toLocaleLowerCase() + '_id'
+                        ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                          '_id'
                         : propiedad.nombre.toLocaleLowerCase()
                     "
+                    [attr.data-value]="
+                      propiedad.esFk
+                        ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
+                          '_id'
+                        : propiedad.nombre.toLocaleLowerCase()
+                    "
+                    [attr.data-tipo]="propiedad.campoTipo"
                     [attr.data-busqueda-avanzada]="
                       propiedad.esFk ? true : false
                     "
@@ -247,11 +254,8 @@
             <div class="col-12 col-md-1">
               <div class="d-flex justify-content-end">
                 <i
-                  (click)="agregarNuevoFiltroModal()"
-                  class="bi bi-plus-lg fs-2x align-self-center cursor-pointer user-select-none text-hover-primary"
-                ></i>
-                <i
                   (click)="eliminarFiltroModal(i)"
+                  ngbTooltip="Retirar este filtro"
                   *ngIf="filtrosModal.length > 1"
                   class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                 ></i>
@@ -268,6 +272,12 @@
         (click)="limpiarFormularioModal(tituloModal)"
         *ngIf="filtrosModal.length >= 1"
         translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"
+      ></button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        (click)="agregarNuevoFiltroModal()"
+        translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
       ></button>
       <button
         translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
