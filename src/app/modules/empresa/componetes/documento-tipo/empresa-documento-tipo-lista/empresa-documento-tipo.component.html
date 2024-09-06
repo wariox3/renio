@@ -54,6 +54,15 @@
       </table>
     </div>
     <ng-template #content let-modal>
+      <div class="modal-header">
+        <h3>Editar documento tipo</h3>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
       <div class="modal-body">
         <app-empresa-documento-tipo-editar [ocultarBtnAtras]="true" (emitirGuardoRegistro)="cerrarModal($event)"
           [tituloFijo]="true"
