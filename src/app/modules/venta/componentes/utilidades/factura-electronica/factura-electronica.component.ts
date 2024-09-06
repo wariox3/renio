@@ -82,6 +82,8 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   paginacionNotificarDesde: number = 0;
   paginacionNotificarHasta: number = this.arrParametrosConsultaNotificar.limite;
   cantidad_registros: number = 0;
+  arrDocumentosEmitirCantidadRegistros : number = 0;
+  arrDocumentosNotificarCantidadRegistros : number = 0;
 
   constructor(private httpService: HttpService) {
     super();
@@ -113,12 +115,15 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         this.arrParametrosConsultaNotificar
       )
     ).subscribe((respuesta: any) => {
+      console.log(respuesta);
+      this.arrDocumentosEmitirCantidadRegistros = respuesta[0].length
       this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
         ...documento,
         ...{
           selected: false,
         },
       }));
+      this.arrDocumentosNotificarCantidadRegistros = respuesta[1].length
       this.arrDocumentosNotificar = respuesta[1].map((documento: any) => ({
         ...documento,
         ...{
