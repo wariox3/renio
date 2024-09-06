@@ -166,6 +166,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         }),
         catchError(() => {
           this.visualizarLoader[i] = false;
+          this.changeDetectorRef.detectChanges()
           return of(null);
         })
       )
