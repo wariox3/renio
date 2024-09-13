@@ -7,7 +7,7 @@ interface ConfiguracionExtraDocumento {
 }
 
 export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
-  715: {
+  702: {
     botones: [
       {
         componenteNombre: 'generar',

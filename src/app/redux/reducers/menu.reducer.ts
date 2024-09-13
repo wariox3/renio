@@ -289,7 +289,7 @@ export const initialState: Menu = {
             {
               nombre: 'NOMINAELECTRONICA',
               tipo: 'Documento',
-              data: { documento_clase: 715 },
+              data: { documento_clase: 702 },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
               configuracionExtra: true,

@@ -1037,7 +1037,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
   ],
-  715: [
+  702: [
     {
       nombre: 'ID',
       campoTipo: 'IntegerField',
@@ -1123,7 +1123,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'ELE',
+      nombre: 'ESTADO_ELECTRONICO',
       nombreAbreviado: 'ELE',
       campoTipo: 'Booleano',
       visibleTabla: true,
