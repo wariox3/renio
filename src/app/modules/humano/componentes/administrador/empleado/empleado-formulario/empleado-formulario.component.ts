@@ -371,38 +371,6 @@ export default class EmpleadoFormularioComponent
       .subscribe();
   }
 
-  consultarBancos(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenBanco',
-    };
-
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/autocompletar/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrBancos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
@@ -417,18 +385,6 @@ export default class EmpleadoFormularioComponent
           .get('ciudad_nombre')
           ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
         this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
-      }
-    }
-
-    if (campo === 'banco') {
-      if (dato === null) {
-        this.formularioEmpleado.get('banco_nombre')?.setValue(null);
-        this.formularioEmpleado.get('banco')?.setValue(null);
-        // this.ciudadSeleccionada = null;
-      } else {
-        // this.ciudadSeleccionada = dato.nombre;
-        this.formularioEmpleado.get('banco_nombre')?.setValue(dato.nombre);
-        this.formularioEmpleado.get('banco')?.setValue(dato.id);
       }
     }
 
@@ -547,6 +503,24 @@ export default class EmpleadoFormularioComponent
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
         }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/autocompletar/',
+        {
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
+            },
+          ],
+          limite: 0,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenBanco',
+        }
       )
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -555,6 +529,7 @@ export default class EmpleadoFormularioComponent
       this.arrPrecios = respuesta[3].registros;
       this.arrAsesores = respuesta[4].registros;
       this.arrPagos = respuesta[5].registros;
+      this.arrBancos = respuesta[6].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -677,15 +652,6 @@ export default class EmpleadoFormularioComponent
     if (!input.trim()) {
       this.formularioEmpleado.controls['ciudad'].setValue(null);
       this.formularioEmpleado.controls['ciudad_nombre'].setValue(null);
-    }
-  }
-
-  limpiarBanco(event: Event): void {
-    const input = (event.target as HTMLInputElement).value;
-
-    if (!input.trim()) {
-      this.formularioEmpleado.controls['banco'].setValue(null);
-      this.formularioEmpleado.controls['banco_nombre'].setValue(null);
     }
   }
 }

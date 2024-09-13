@@ -479,101 +479,7 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-2">
-        <div
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #BancosDropdown="ngbDropdown"
-        >
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
-            class="form-label required"
-          ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="banco_nombre"
-              [ngClass]="{
-                'is-invalid':
-                  formularioEmpleado.controls['banco'].touched &&
-                  formularioEmpleado.controls['banco'].invalid,
-                'is-valid':
-                  formularioEmpleado.controls['banco'].touched &&
-                  formularioEmpleado.controls['banco'].valid
-              }"
-              (focus)="consultarBancos($event); BancosDropdown.open()"
-              (keyup)="consultarBancos($event)"
-              (blur)="limpiarBanco($event)"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['banco']
-            }"
-          ></ng-container>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button
-              type="button"
-              ngbDropdownItem
-              *ngFor="let banco of arrBancos; index as i"
-              [ngClass]="{ item: selectedDateIndex === i }"
-              (click)="
-                modificarCampoFormulario('banco', banco);
-                BancosDropdown.close()
-              "
-              (pointerenter)="modificarCampoFormulario('banco', banco)"
-            >
-              {{ banco.nombre }}
-            </button>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROCUENTA"
-            class="form-label required"
-          ></label>
-          <input
-            formControlName="numero_cuenta"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioEmpleado.controls['numero_cuenta'].touched &&
-                formularioEmpleado.controls['numero_cuenta'].invalid,
-              'is-valid':
-                formularioEmpleado.controls['numero_cuenta'].touched &&
-                formularioEmpleado.controls['numero_cuenta'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '20',
-              control: formularioEmpleado.controls['numero_cuenta']
-            }"
-          ></ng-container>
-        </div>
-      </div>
+      
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
           <label
@@ -658,6 +564,86 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioEmpleado.controls['correo']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="banco"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpleado.controls['banco'].touched &&
+                formularioEmpleado.controls['banco'].invalid,
+              'is-valid':
+                formularioEmpleado.controls['banco'].touched &&
+                formularioEmpleado.controls['banco'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of arrBancos">
+              <option
+                [value]="banco.id"
+                [selected]="
+                  banco.id ===
+                  formularioEmpleado.value.banco
+                "
+              >
+                {{ banco.nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpleado.controls['banco']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROCUENTA"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="numero_cuenta"
+            class="form-control bg-transparent"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioEmpleado.controls['numero_cuenta'].touched &&
+                formularioEmpleado.controls['numero_cuenta'].invalid,
+              'is-valid':
+                formularioEmpleado.controls['numero_cuenta'].touched &&
+                formularioEmpleado.controls['numero_cuenta'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpleado.controls['numero_cuenta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioEmpleado.controls['numero_cuenta']
             }"
           ></ng-container>
         </div>
