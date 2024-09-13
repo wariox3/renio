@@ -21,6 +21,7 @@ export class ImportarComponent {
   @ViewChild('fileInput',  { read: ElementRef }) fileInput: ElementRef<HTMLInputElement>;
 
   @Input() modelo:string
+  @Input() esBotonFinal: boolean
   modalRef: any;
 
   constructor(private modalService: NgbModal) {}

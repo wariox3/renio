@@ -17,6 +17,7 @@ export interface informacionMenuItem {
   menuOpen?: boolean;
   visualiazarIconoDeracha?: boolean;
   consultaHttp?: boolean;
+  configuracionExtra?: boolean;
   esIndependiente?: boolean;
   data?: {
     [key: string]: any;
@@ -284,6 +285,14 @@ export const initialState: Menu = {
               data: { documento_clase: 701 },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
+            },
+            {
+              nombre: 'NOMINAELECTRONICA',
+              tipo: 'Documento',
+              data: { documento_clase: 715 },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+              configuracionExtra: true,
             },
           ],
         },

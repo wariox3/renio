@@ -16,6 +16,8 @@
           [modelo]="modelo"
           [datos]="arrItems"
           [encabezado]="titulos"
+          [visualizarBtnExtra]="botonGenerar"
+          [botonesExtras]="botonesExtras"
           [cantidad_registros]="cantidad_registros"
           [confirmacionRegistrosEliminado]="confirmacionRegistrosEliminado"
           (emitirDesplazamiento)="cambiarDesplazamiento($event)"
@@ -26,9 +28,26 @@
           (emitirNavegarNuevo)="navegarNuevo()"
           (emitirNavegarDetalle)="navegarDetalle($event)"
           (emitirNavegarEditar)="navegarEditar($event)"
+          (emitirClickBotonExtra)="abrirModal($event, content)"
         >
         </app-comun-tabla>
       </section>
     </app-card>
   </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        {{ tituloModal }}
+      </h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <app-modal-dinamico (emitirConsultaLista)="consultaListaModal()" [nombreComponente]="nombreComponente"></app-modal-dinamico>
+    </div>
+  </ng-template>
 </div>

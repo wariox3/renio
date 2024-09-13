@@ -85,7 +85,8 @@ export const locale = {
         MOVIMIENTO: 'Movimiento',
         CONGRUPO: 'Grupo',
         GUIA: 'Guía',
-        NOMINA: 'Nomina'
+        NOMINA: 'Nomina',
+        NOMINAELECTRONICA: 'Nomina electrónica',
       },
     },
     FORMULARIOS: {
@@ -749,7 +750,8 @@ export const locale = {
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
         COMPROBANTE: 'Comprobante',
-        TIPO: 'Tipo'
+        TIPO: 'Tipo',
+        ELE: 'Ele',
       },
       ITEM: {
         ID: 'ID',

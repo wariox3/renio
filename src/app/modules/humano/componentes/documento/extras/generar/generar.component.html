@@ -1,0 +1,61 @@
+<div>
+  <form [formGroup]="formularioVentaFacturaElectronica">
+    <div class="row mb-5">
+      <div class="col-md-12 col-sm-12">
+        <label class="form-label">Año</label>
+        <input placeholder="2024" formControlName="anio" class="form-control" type="number" [ngClass]="{
+          'is-invalid':
+            formularioVentaFacturaElectronica.controls['anio'].touched &&
+            formularioVentaFacturaElectronica.controls['anio'].invalid,
+          'is-valid':
+            formularioVentaFacturaElectronica.controls['anio'].touched &&
+            formularioVentaFacturaElectronica.controls['anio'].valid
+        }" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioVentaFacturaElectronica.controls['anio']
+            }"></ng-container>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12 col-sm-12">
+        <label class="form-label">Mes</label>
+        <input placeholder="2" formControlName="mes" class="form-control" type="number" min="1" max="12" [ngClass]="{
+          'is-invalid':
+            formularioVentaFacturaElectronica.controls['mes'].touched &&
+            formularioVentaFacturaElectronica.controls['mes'].invalid,
+          'is-valid':
+            formularioVentaFacturaElectronica.controls['mes'].touched &&
+            formularioVentaFacturaElectronica.controls['mes'].valid
+        }" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioVentaFacturaElectronica.controls['mes']
+        }"></ng-container>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      @if(generando) {
+      <button class="btn btn-primary btn-sm" type="button" disabled>
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+        <span role="status">Generando...</span>
+      </button>
+      } @else {
+      <button [disabled]="!formularioVentaFacturaElectronica.valid" type="button" (click)="formSubmit()"
+        class="btn btn-sm btn-flex btn-primary" #btnGuardar>Generar</button>
+      }
+    </div>
+  </form>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

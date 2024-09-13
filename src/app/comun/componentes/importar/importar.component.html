@@ -1,6 +1,7 @@
 <button
   type="button"
   class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary h-100 rounded-end-0"
+  [ngClass]="{'rounded-start-0': esBotonFinal }"
   (click)="open()"
 >
   {{ "FORMULARIOS.BOTONES.COMUNES.IMPORTAR" | translate }}

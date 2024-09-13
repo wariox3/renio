@@ -1,7 +1,7 @@
 import { DescargarArchivosService } from './../../../services/descargarArchivos.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
@@ -13,7 +13,12 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
+import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
+import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
+import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -26,11 +31,12 @@ import { combineLatest } from 'rxjs';
     BaseFiltroComponent,
     TablaComponent,
     ImportarComponent,
+    ModalDinamicoComponent
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
-export class BaseListaComponent extends General implements OnInit {
+export class BaseListaComponent extends General implements OnInit, OnDestroy {
   arrParametrosConsulta: any = {
     filtros: [],
     limite: 50,
@@ -47,10 +53,17 @@ export class BaseListaComponent extends General implements OnInit {
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
+  botonGenerar: boolean = false
+  private destroy$ = new Subject<void>()
+  botonesExtras: BotonesExtras[] = []
+  nombreComponente: string = ''
+  tituloModal: string = ''
 
   constructor(
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
+    private descargarArchivosService: DescargarArchivosService,
+    private modalService: NgbModal,
+    private modalDinamicoService: ModalDinamicoService
   ) {
     super();
   }
@@ -62,7 +75,13 @@ export class BaseListaComponent extends General implements OnInit {
       let posicion: keyof typeof documentos = parametro.documento_clase;
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
+      this.construirBotonesExtras(parametro)
     });
+
+    this.modalDinamicoService.event$.pipe(takeUntil(this.destroy$)).subscribe(respuesta => {
+      this.consultaListaModal()
+    })
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -131,6 +150,30 @@ export class BaseListaComponent extends General implements OnInit {
     }).unsubscribe();
   }
 
+  construirBotonesExtras (parametros: Params) {
+    let configuracionExtra: string = parametros.configuracionExtra!;
+    
+
+    if(configuracionExtra === 'si') {
+      let documentoClase: number = Number(parametros.documento_clase);
+      this.botonesExtras = configuracionExtraDocumento[documentoClase]?.botones || []
+    } else {
+      this.botonesExtras = []
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  abrirModal (datosBoton: BotonesExtras, content: any) {
+    this.nombreComponente = datosBoton.componenteNombre
+    const configuracionModal = datosBoton.configuracionModal
+    this.tituloModal = configuracionModal.titulo
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: configuracionModal.size,
+    });
+  }
+
   obtenerFiltros(arrfiltros: any[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
@@ -138,6 +181,11 @@ export class BaseListaComponent extends General implements OnInit {
       localStorage.removeItem(this.nombreFiltro);
     }
     this.changeDetectorRef.detectChanges();
+    this.consultarLista();
+  }
+
+  consultaListaModal() {
+    this.modalService.dismissAll()
     this.consultarLista();
   }
 
@@ -233,6 +281,11 @@ export class BaseListaComponent extends General implements OnInit {
         limite: 5000,
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.unsubscribe()
   }
 
   // imprimir() {

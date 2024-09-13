@@ -34,8 +34,18 @@
       data-toggle="buttons"
       [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
+    @if(botonesExtras.length > 0) {
+      @for(boton of botonesExtras; track $index) {
+        <button 
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      (click)="botonExtra(boton)"
+      >
+      {{ boton.nombreBoton}}
+    </button>
+      }
+    }
       @if(visualizarBtnImportar){ @if(ubicacion === 'documento'){
-      <app-importar modelo="{{ modelo }}"></app-importar>
+      <app-importar modelo="{{ modelo }}" [esBotonFinal]="botonesExtras.length ? true : false"></app-importar>
       } @if(ubicacion === 'administrador' || ubicacion === 'independiente'){
       <app-importar-administrador
         role="group"

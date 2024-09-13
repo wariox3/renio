@@ -27,6 +27,7 @@ import {
 } from '@redux/selectors/menu.selectors';
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
+import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -77,6 +78,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarBtnNuevo: boolean = true;
   @Input() visualizarBtnEliminar: boolean = true;
   @Input() visualizarBtnColumnas: boolean = true;
+  @Input() visualizarBtnExtra: boolean
+  @Input() botonesExtras: BotonesExtras[] = []
   @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
@@ -87,6 +90,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
   @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
+  @Output() emitirClickBotonExtra: EventEmitter<BotonesExtras> = new EventEmitter();
 
   constructor() {
     super();
@@ -212,6 +216,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
       this.emitirDesplazamiento.emit(this.lado);
     }
+  }
+  
+  botonExtra(nombreComponente: BotonesExtras) {
+    this.emitirClickBotonExtra.emit(nombreComponente)
   }
 
   validarCantidadMostrando() {
