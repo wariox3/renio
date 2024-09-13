@@ -13,12 +13,6 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
         await import(
           '../../../modules/humano/componentes/documento/extras/generar/generar.component'
         ),
-    },
-    prueba: {
-      componente: async () =>
-        await import(
-          '../../../modules/humano/componentes/documento/extras/prueba/prueba.component'
-        ),
     }
   },
 };
