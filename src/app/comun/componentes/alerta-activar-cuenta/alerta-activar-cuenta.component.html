@@ -46,6 +46,12 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h3>Confirmar</h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     @if(visualizarMensajeCorreoEnviado){

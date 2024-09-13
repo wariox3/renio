@@ -568,7 +568,7 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: false,
         esFk: true,
-        modeloFk: 'CUENTA_BANCO',
+        modeloFk: 'GenCuentaBanco',
       },
       {
         nombre: 'NOMBRE',

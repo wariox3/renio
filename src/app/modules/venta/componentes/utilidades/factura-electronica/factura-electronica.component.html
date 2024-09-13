@@ -41,7 +41,7 @@
                   (blur)="calcularValorMostrarEmitir($event)"
                 />
                 <span>de</span>
-                <span>{{ cantidad_registros }}</span>
+                <span>{{ arrDocumentosEmitirCantidadRegistros }}</span>
                 <i
                   (click)="aumentarDesplazamientoEmitir()"
                   class="bi bi-arrow-right fs-2x cursor-pointer"
@@ -118,7 +118,7 @@
                     <td class="text-end">
                       {{ documentoEmitir.total | number }}
                     </td>
-                    <td>
+                    <td class="text-center">
                       <ng-container
                         *ngIf="
                           documentoEmitir.estado_electronico_enviado === true;

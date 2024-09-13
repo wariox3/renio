@@ -87,14 +87,14 @@
             }"
         ></ng-container>
         <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '36',
           control: formularioDian.controls['set_pruebas']
         }"
-      ></ng-container>
+        ></ng-container>
         <div class="mt-2">
           <span
             >{{ "FORMULARIOS.TITULOS.EMPRESA.FACTURAELECTRONICABUSCARCODIGO" |
@@ -189,6 +189,15 @@
 </ng-template>
 
 <ng-template #modalEditarConfigutacion let-modal>
+  <div class="modal-header">
+    <h4>Cambiar correo</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
   <div class="modal-body">
     <form
       class="form w-100"

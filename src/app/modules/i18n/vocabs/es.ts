@@ -342,6 +342,7 @@ export const locale = {
           CELULAR: 'Celular',
           NUMEROIDENTIFICACION: 'Número de identificación',
           DIGITOVERIFICACION: 'Digito verificación',
+          DIGITOVERIFICACIONABREVIADO: 'DV',
           NOMBRECORTO: 'Nombre corto',
           NOMBRE1: 'Primer nombre',
           NOMBRE2: 'Segundo nombre',
@@ -869,6 +870,7 @@ export const locale = {
       },
       CUENTABANCO: {
         ID: 'ID',
+        CUENTABANCO: 'Cuenta banco',
         NOMBRE: 'Nombre',
         NUMERO_CUENTA: 'Cuenta',
         CUENTA_BANCO_TIPO_NOMBRE: 'Tipo',
