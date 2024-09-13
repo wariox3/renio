@@ -54,6 +54,7 @@ export default class EmpleadoFormularioComponent
   informacionEmpleado: any;
   ciudadSeleccionada: string | null;
   arrCiudades: any[];
+  arrBancos: any[];
   arrIdentificacion: any[];
   arrTipoPersona: any[];
   arrRegimen: any[];
@@ -153,6 +154,9 @@ export default class EmpleadoFormularioComponent
         ],
         ciudad_nombre: [''],
         ciudad: ['', Validators.compose([Validators.required])],
+        banco_nombre: [''],
+        banco: ['', Validators.compose([Validators.required])],
+        numero_cuenta: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
         telefono: [
           null,
           Validators.compose([Validators.required, Validators.maxLength(50)]),
@@ -367,6 +371,38 @@ export default class EmpleadoFormularioComponent
       .subscribe();
   }
 
+  consultarBancos(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'GenBanco',
+    };
+
+    this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
+        'general/funcionalidad/autocompletar/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrBancos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
@@ -383,6 +419,19 @@ export default class EmpleadoFormularioComponent
         this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
       }
     }
+
+    if (campo === 'banco') {
+      if (dato === null) {
+        this.formularioEmpleado.get('banco_nombre')?.setValue(null);
+        this.formularioEmpleado.get('banco')?.setValue(null);
+        // this.ciudadSeleccionada = null;
+      } else {
+        // this.ciudadSeleccionada = dato.nombre;
+        this.formularioEmpleado.get('banco_nombre')?.setValue(dato.nombre);
+        this.formularioEmpleado.get('banco')?.setValue(dato.id);
+      }
+    }
+
     if (campo === 'ciudad_nombre') {
       this.formularioEmpleado.get('ciudad_nombre')?.setValue(dato);
     }
@@ -535,6 +584,9 @@ export default class EmpleadoFormularioComponent
           apellido2: respuesta.apellido2,
           ciudad: respuesta.ciudad_id,
           ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.departamento_nombre}`,
+          banco_nombre: respuesta.banco_nombre,
+          banco: respuesta.banco_id,
+          numero_cuenta: respuesta.numero_cuenta,
           direccion: respuesta.direccion,
           telefono: respuesta.telefono,
           celular: respuesta.celular,
@@ -625,6 +677,15 @@ export default class EmpleadoFormularioComponent
     if (!input.trim()) {
       this.formularioEmpleado.controls['ciudad'].setValue(null);
       this.formularioEmpleado.controls['ciudad_nombre'].setValue(null);
+    }
+  }
+
+  limpiarBanco(event: Event): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (!input.trim()) {
+      this.formularioEmpleado.controls['banco'].setValue(null);
+      this.formularioEmpleado.controls['banco_nombre'].setValue(null);
     }
   }
 }

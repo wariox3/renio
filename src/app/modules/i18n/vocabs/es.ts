@@ -360,6 +360,8 @@ export const locale = {
           CUENTACLASE: 'Cuenta clase',
           CIUDADLABORA: 'Ciudad labora',
           CIUDADCONTRATO: 'Ciudad contrato',
+          BANCO: "Banco",
+          NUMEROCUENTA: "Número cuenta",
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -753,6 +755,9 @@ export const locale = {
         COMPROBANTE: 'Comprobante',
         TIPO: 'Tipo',
         ELE: 'Ele',
+        IBC: 'Ibc',
+        IBP: 'Ibp',
+        CONT: 'Cont',
       },
       ITEM: {
         ID: 'ID',
