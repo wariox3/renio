@@ -149,7 +149,7 @@
     </div>
   </div>
 </div>
-<div class="table-responsive table-loading">
+<div class="table-responsive">
   <table
     class="table table-hover table-bordered table-rounded border gy-2 gs-2"
   >
@@ -160,6 +160,7 @@
             (click)="item.ordenable && orderPor(item.nombre, i)"
             [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
           >
+          <div placement="top" [ngbTooltip]="('LISTAS.' + (tipo | uppercase) + '.' + (item.toolTip) | translate)" [disableTooltip]="!item.toolTip?.length">
             <div class="d-flex justify-content-between">
               <div style="flex: 1; text-align: center">
                 {{
@@ -195,6 +196,7 @@
                 </ng-template>
               </div>
             </div>
+          </div>
           </th>
         </ng-container>
         <th *ngIf="visualizarColumnaEditar"></th>

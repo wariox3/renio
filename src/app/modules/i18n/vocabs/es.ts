@@ -758,6 +758,9 @@ export const locale = {
         IBC: 'Ibc',
         IBP: 'Ibp',
         CONT: 'Cont',
+        INGRESOBASECOTIZACION: "Ingreso base cotización",
+        INGRESOBASEPRESTACION: "Ingreso base prestación",
+        ESTADOELECTRONICO: "Estado electrónico"
       },
       ITEM: {
         ID: 'ID',

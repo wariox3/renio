@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -44,6 +44,7 @@ import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
     ImportarComponent,
     AnimationFadeinUpDirective,
     ImportarAdministradorComponent,
+    NgbTooltipModule
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {

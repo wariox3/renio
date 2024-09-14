@@ -22,6 +22,7 @@ export type MapeoDocumentos = {
     ordenable: boolean;
     esFk?: boolean;
     modeloFk?: string;
+    toolTip?: string;
     aplicaFormatoNumerico?: boolean;
     alinearAlaIzquierda?: boolean;
     campoTipo: CampoTipo;
