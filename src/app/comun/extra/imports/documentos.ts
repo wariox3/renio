@@ -1,9 +1,4 @@
-type FormulariosYDetallesAsíncronos = {
-  [key: number | string]: {
-    detalle: () => Promise<{ default: any }>;
-    formulario: () => Promise<{ default: any }>;
-  };
-};
+import { FormulariosYDetallesAsíncronos } from '@interfaces/comunes/formulariosYDetallesAsíncronos';
 
 export const Componetes: FormulariosYDetallesAsíncronos = {
   100: {
@@ -144,6 +139,12 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
     formulario: async () =>
       await import(
         '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
+      ),
+  },
+  702: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/nomina-electronica/nominaElectronicaDetalle/nominaElectronicaDetalle.component'
       ),
   },
   HumProgramacion: {

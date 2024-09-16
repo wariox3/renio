@@ -27,14 +27,7 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  asyncScheduler,
-  finalize,
-  forkJoin,
-  switchMap,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { asyncScheduler, finalize, switchMap, tap, throttleTime } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
@@ -775,7 +768,5 @@ export default class ProgramacionDetalleComponent
       .subscribe();
   }
 
-  solicitarConsultarTabla() {
-  }
-
+  solicitarConsultarTabla() {}
 }

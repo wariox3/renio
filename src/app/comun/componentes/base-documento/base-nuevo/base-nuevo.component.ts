@@ -33,11 +33,14 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    let componete = await (
-      await Componetes[this.parametrosUrl.documento_clase].formulario()
-    ).default;
-    let componeteCargado = this.componenteDinamico.createComponent(componete);
-    componeteCargado.changeDetectorRef.detectChanges();
+    const componenteClase = Componetes[this.parametrosUrl.documento_clase];
+    if (componenteClase && componenteClase.formulario) {
+      let componete = await (await componenteClase.formulario()).default;
+      let componeteCargado = this.componenteDinamico.createComponent(componete);
+      componeteCargado.changeDetectorRef.detectChanges();
+    } else {
+      console.error('El componente o su método formulario es indefinido');
+    }
   }
 
   aprobar() {

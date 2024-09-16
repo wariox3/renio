@@ -41,14 +41,18 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    let componete = await (
-      await Componetes[this.parametrosUrl.documento_clase].detalle()
-    ).default;
-    let componeteCargado = this.componenteDinamico.createComponent(componete);
-    componeteCargado.changeDetectorRef.detectChanges();
-    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
-      this.documentoEstados$ = estadosDocumento;
-      this.changeDetectorRef.detectChanges();
-    });
+    const componenteClase = Componetes[this.parametrosUrl.documento_clase];
+    if (componenteClase && componenteClase.detalle) {
+      let componete = await (await componenteClase.detalle()).default;
+      let componeteCargado = this.componenteDinamico.createComponent(componete);
+      componeteCargado.changeDetectorRef.detectChanges();
+
+      this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
+        this.documentoEstados$ = estadosDocumento;
+        this.changeDetectorRef.detectChanges();
+      });
+    } else {
+      console.error('El componente o su método detalle es indefinido');
+    }
   }
 }
