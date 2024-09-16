@@ -1,7 +1,7 @@
+import { MenuItem } from '@interfaces/menu/menu';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Menu } from '../reducers/menu.reducer';
 
-const Menu = createFeatureSelector<Menu>('menu');
+const Menu = createFeatureSelector<MenuItem>('menu');
 
 export const obtenerMenuSeleccion = createSelector(
   Menu,

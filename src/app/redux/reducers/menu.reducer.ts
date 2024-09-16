@@ -4,37 +4,10 @@ import {
   ActualizarMapeo,
   selecionModuloAction,
 } from '../actions/menu.actions';
-
-export interface informacionMenuItem {
-  nombre: string;
-  tipo?: string;
-  url?: string;
-  urlIndependientes?: {
-    lista?: string;
-    nuevo?: string;
-    detalle?: string;
-  };
-  menuOpen?: boolean;
-  visualiazarIconoDeracha?: boolean;
-  consultaHttp?: boolean;
-  configuracionExtra?: boolean;
-  esIndependiente?: boolean;
-  data?: {
-    [key: string]: any;
-  };
-  children?: informacionMenuItem[];
-}
-
-export interface Menu {
-  seleccion: string;
-  informacion: informacionMenuItem[];
-  dataMapeo: any[];
-  modulos: string[];
-}
-
+import { MenuItem } from '@interfaces/menu/menu';
 let nombreSeleccion = localStorage.getItem('ruta');
 
-export const initialState: Menu = {
+export const initialState: MenuItem = {
   seleccion: nombreSeleccion == null ? 'GENERAL' : nombreSeleccion,
   informacion: [
     {

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLinkActive, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
-import { informacionMenuItem } from '@redux/reducers/menu.reducer';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerMenuInformacion,
@@ -20,6 +19,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { informacionMenuItem } from '@interfaces/menu/menu';
 
 @Component({
   selector: 'app-sidebar-menu',
