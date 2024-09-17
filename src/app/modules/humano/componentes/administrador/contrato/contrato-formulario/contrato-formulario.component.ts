@@ -205,168 +205,60 @@ export default class ContratoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumGrupo',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumContratoTipo',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarRiesgo>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'HumRiesgo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarPension>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'HumPension',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarSubtipoCotizante>
-      >('general/funcionalidad/listo/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
+      >('general/funcionalidad/lista/', {
         modelo: 'HumSubtipoCotizante',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumSalud',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumSucursal',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'HumTipoCotizante',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'HumCargo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       })
     ).subscribe((respuesta: any) => {
       this.arrGrupo = respuesta[0].registros;
@@ -402,7 +294,7 @@ export default class ContratoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -603,8 +495,7 @@ export default class ContratoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumCargo',
-      serializador: "ListaAutocompletar"
-
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService

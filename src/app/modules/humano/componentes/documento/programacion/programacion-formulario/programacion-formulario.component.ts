@@ -152,37 +152,15 @@ export default class ContratoFormularioComponent
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: ``,
-            valor2: '',
-          },
-        ],
-        limite: 0,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'HumPagoTipo',
         serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumGrupo>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: ``,
-            valor2: '',
-          },
-        ],
-        limite: 0,
-        desplazar: 0,
-        ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'HumGrupo',
+        serializador: "ListaAutocompletar"
       })
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
