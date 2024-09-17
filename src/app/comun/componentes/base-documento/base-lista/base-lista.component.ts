@@ -39,7 +39,7 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
   arrParametrosConsulta: any = {
     filtros: [],
-    modelo: 'GenDocumento',
+    modelo: '',
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -88,22 +88,22 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   consultarLista() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      const { documento_clase } = parametro;
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
       let ordemientoFijo: any[] = parametro?.ordemaiento;
       if (consultaHttp === 'si') {
-        this.arrParametrosConsulta.filtros = [
-          {
-            propiedad: 'documento_tipo__documento_clase_id',
-            valor1: documento_clase,
-          },
-        ];
+          this.arrParametrosConsulta.modelo = 'GenDocumento'
+          this.arrParametrosConsulta.filtros = [
+            {
+              propiedad: 'documento_tipo__documento_clase_id',
+              valor1: parametro.documento_clase,
+            },
+          ];
         if (filtroGuardado !== null) {
           this.arrParametrosConsulta.filtros = [
             {
               propiedad: 'documento_tipo__documento_clase_id',
-              valor1: documento_clase,
+              valor1: parametro.documento_clase,
             },
             ...JSON.parse(filtroGuardado),
           ];
@@ -116,7 +116,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         } else {
           delete this.arrParametrosConsulta.serializador
         }
-
         this.httpService
           .post<{
             registros: any;
@@ -129,7 +128,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       } else {
         let baseUrl = 'general/funcionalidad/lista/';
         this.arrParametrosConsulta = {
-          modelo: documento_clase,
+          modelo: parametro.documento_clase,
           ordenamientos: []
         };
         if (filtroGuardado !== null) {
