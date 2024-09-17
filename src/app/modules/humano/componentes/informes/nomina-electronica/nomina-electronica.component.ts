@@ -7,6 +7,8 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
+import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
+import { NominaElectronica } from '@interfaces/humano/nominaElectronica.';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
@@ -62,22 +64,22 @@ export class NominaElectronicaComponent extends General implements OnInit {
 
   consultarLista() {
     this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length;
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+      .post<AutocompletarRegistros<NominaElectronica>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.registros?.length;
+        this.arrDocumentos = respuesta.registros?.map((documento) => ({
           id: documento.id,
           numero: documento.numero,
-          fecha: documento.documento_fecha,
-          fecha_hasta: documento.documento_fecha,
+          fecha: documento.fecha,
+          fecha_hasta: documento.fecha_hasta,
           contacto_id: documento.contacto_id,
           contacto_numero_identificacion:
             documento.contacto_numero_identificacion,
           contacto_nombre_corto: documento.contacto_nombre_corto,
-          contrato_id: documento.contrato_id,
+          contrato_id: documento.contrato_id || 0,
           salario: documento.salario,
-          base_cotizacion: documento.base_cotizacion,
-          base_prestacion: documento.base_prestacion,
+          base_cotizacion: documento.base_cotizacion || 0,
+          base_prestacion: documento.base_prestacion || 0,
           devengado: documento.devengado,
           deduccion: documento.deduccion,
           total: documento.total,

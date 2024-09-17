@@ -753,6 +753,7 @@ export const locale = {
         DEBITO: 'DEBITO',
         CREDITO: 'CREDITO',
         GRUPO: 'GRUPO',
+        CRÉDITO: 'Crédito',
         COMPROBANTE: 'Comprobante',
         TIPO: 'Tipo',
         ELE: 'Ele',
@@ -761,7 +762,10 @@ export const locale = {
         CONT: 'Cont',
         INGRESOBASECOTIZACION: "Ingreso base cotización",
         INGRESOBASEPRESTACION: "Ingreso base prestación",
-        ESTADOELECTRONICO: "Estado electrónico"
+        ESTADOELECTRONICO: "Estado electrónico",
+        PORCENTAJE: "Porcentaje",
+        VALOR_HORA: "Valor hora",
+        OPERACION: "Operación",
       },
       ITEM: {
         ID: 'ID',
