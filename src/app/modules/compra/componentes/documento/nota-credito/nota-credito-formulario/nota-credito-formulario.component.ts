@@ -886,11 +886,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'Documento',
+      modelo: 'GenDocumento',
+      serializador: "Referencia"
     };
 
     this.httpService
-      .post<any>('general/documento/referencia/', {
+      .post<any>('general/funcionalidad/lista/', {
         ...arrFiltros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
         documento_clase_id: 300,
@@ -898,7 +899,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta;
+          this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
       )
