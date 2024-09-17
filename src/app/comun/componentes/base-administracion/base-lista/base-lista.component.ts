@@ -219,6 +219,6 @@ export class BaseListaComponent extends General implements OnInit {
           limite: 5000,
         },
       });
-    });
+    }).unsubscribe();
   }
 }
