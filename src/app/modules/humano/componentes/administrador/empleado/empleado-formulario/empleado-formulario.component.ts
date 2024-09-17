@@ -400,18 +400,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenIdentificacion',
           serializador: "ListaAutocompletar"
         }
@@ -419,18 +407,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenRegimen',
           serializador: "ListaAutocompletar"
         }
@@ -438,18 +414,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenTipoPersona',
           serializador: "ListaAutocompletar"
         }
@@ -457,18 +421,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPrecio',
           serializador: "ListaAutocompletar"
         }
@@ -476,18 +428,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre_corto__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenAsesor',
           serializador: "ListaAutocompletar"
         }
@@ -495,18 +435,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: "ListaAutocompletar"
         }
@@ -514,18 +442,6 @@ export default class EmpleadoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenBanco',
           serializador: "ListaAutocompletar"
         }
