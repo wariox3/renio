@@ -13,6 +13,32 @@ export const routes: Route[] = [
         (m) => m.DashboardModule
       ),
   },
+  {
+    path: 'informe',
+    children: [
+      {
+        path: 'nomina',
+        loadComponent: () =>
+          import(
+            './componentes/informes/nomina/nomina.component'
+          ).then((c) => c.NominaComponent),
+      },
+      {
+        path: 'nomina_detalle',
+        loadComponent: () =>
+          import(
+            './componentes/informes/nomina-detalle/nomina-detalle.component'
+          ).then((c) => c.NominaDetalleComponent),
+      },
+      {
+        path: 'nomina_electronica',
+        loadComponent: () =>
+          import(
+            './componentes/informes/nomina-electronica/nomina-electronica.component'
+          ).then((c) => c.NominaElectronicaComponent),
+      },
+    ],
+  },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },
 ];

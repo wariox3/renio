@@ -1,43 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
-  selector: 'app-ventas-items',
+  selector: 'app-nomina',
   standalone: true,
-  templateUrl: './ventas-items.component.html',
   imports: [
     CommonModule,
     CardComponent,
     TablaComponent,
     TranslateModule,
     BaseFiltroComponent,
-],
+  ],
+  templateUrl: './nomina.component.html',
 })
-export class VentasItemsComponent extends General implements OnInit {
+export class NominaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
   filtroPermanente = [
     {
-      propiedad: 'documento__documento_tipo__documento_clase__grupo',
-      valor1: 1,
-    },
+      "propiedad":"documento_tipo__documento_clase_id",
+      "valor1": 701
+    }
   ];
   arrParametrosConsulta: any = {
+    modelo: 'GenDocumento',
+    serializador: 'Nomina',
     filtros: this.filtroPermanente,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    documento_clase_id: 100,
+    documento_clase_id: 701,
   };
 
   constructor(
@@ -50,7 +52,7 @@ export class VentasItemsComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['ventas_items'] })
+        ActualizarMapeo({ dataMapeo: documentos['humano_nomina'] })
       );
       this.consultarLista();
     });
@@ -59,22 +61,24 @@ export class VentasItemsComponent extends General implements OnInit {
 
   consultarLista() {
     this.httpService
-      .post('general/documento_detalle/informe/', this.arrParametrosConsulta)
+      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.length;
         this.arrDocumentos = respuesta.map((documento: any) => ({
           id: documento.id,
-          documento_tipo: documento.documento_tipo_nombre,
-          documento__numero: documento.documento_numero,
-          documento__fecha: documento.documento_fecha,
-          contacto: documento.documento_contacto_nombre,
-          item_id: documento.item_id,
-          item_nombre: documento.item_nombre,
-          cantidad: documento.cantidad,
-          precio: documento.precio,
-          subtotal: documento.subtotal,
-          impuesto: documento.impuesto,
+          numero: documento.numero,
+          fecha: documento.documento_fecha,
+          fecha_hasta: documento.fecha_vence,
+          contacto_id: documento.contacto_id,
+          contacto_numero_identificacion:
+          documento.contacto_numero_identificacion,
+          contacto_nombre_corto: documento.contacto_nombre_corto,
+          salario: documento.salario,
+          devengado: documento.devengado,
+          deduccion: documento.deduccion,
           total: documento.total,
+          estado_aprobado: documento.estado_aprobado,
+          estado_anulado: documento.estado_anulado,
         }));
         this.changeDetectorRef.detectChanges();
       });

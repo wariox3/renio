@@ -218,7 +218,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.emitirDesplazamiento.emit(this.lado);
     }
   }
-  
+
   botonExtra(nombreComponente: BotonesExtras) {
     this.emitirClickBotonExtra.emit(nombreComponente)
   }

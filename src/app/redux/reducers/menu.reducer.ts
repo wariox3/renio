@@ -303,6 +303,24 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'informe',
+          children: [
+
+            {
+              nombre: 'NOMINA',
+              tipo: 'informe',
+              url: 'humano/informe/nomina',
+            },
+            {
+              nombre: 'NOMINADETALLE',
+              tipo: 'informe',
+              url: 'humano/informe/nomina_detalle',
+            },
+            {
+              nombre: 'NOMINAELECTRONICA',
+              tipo: 'informe',
+              url: 'humano/informe/nomina_electronica',
+            },
+          ],
         },
       ],
     },

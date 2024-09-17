@@ -34,18 +34,19 @@
       data-toggle="buttons"
       [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
-    @if(botonesExtras.length > 0) {
-      @for(boton of botonesExtras; track $index) {
-        <button 
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      (click)="botonExtra(boton)"
+      @if(botonesExtras.length > 0) { @for(boton of botonesExtras; track $index)
+      {
+      <button
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="botonExtra(boton)"
       >
-      {{ boton.nombreBoton}}
-    </button>
-      }
-    }
-      @if(visualizarBtnImportar){ @if(ubicacion === 'documento'){
-      <app-importar modelo="{{ modelo }}" [esBotonFinal]="botonesExtras.length ? true : false"></app-importar>
+        {{ boton.nombreBoton }}
+      </button>
+      } } @if(visualizarBtnImportar){ @if(ubicacion === 'documento'){
+      <app-importar
+        modelo="{{ modelo }}"
+        [esBotonFinal]="botonesExtras.length ? true : false"
+      ></app-importar>
       } @if(ubicacion === 'administrador' || ubicacion === 'independiente'){
       <app-importar-administrador
         role="group"
@@ -160,43 +161,49 @@
             (click)="item.ordenable && orderPor(item.nombre, i)"
             [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
           >
-          <div placement="top" [ngbTooltip]="('LISTAS.' + (tipo | uppercase) + '.' + (item.toolTip) | translate)" [disableTooltip]="!item.toolTip?.length">
-            <div class="d-flex justify-content-between">
-              <div style="flex: 1; text-align: center">
-                {{
-                  "LISTAS." +
-                    (tipo | uppercase) +
-                    "." +
-                    (item.nombreAbreviado
-                      ? (item.nombreAbreviado | uppercase)
-                      : (item.nombre | uppercase)) | translate
-                }}
-              </div>
-              <div *ngIf="item.ordenable">
-                <ng-container
-                  *ngIf="
-                    this.ordenadoTabla === item.nombre.toLowerCase() ||
-                      this.ordenadoTabla === '-' + item.nombre.toLowerCase();
-                    else iconopordefecto
-                  "
-                >
-                  <i
-                    class="ki-outline ki-arrow-up fs-2"
-                    *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
-                  ></i>
-                  <i
-                    class="ki-outline ki-arrow-down fs-2"
+            <div
+              placement="top"
+              [ngbTooltip]="
+                'LISTAS.' + (tipo | uppercase) + '.' + item.toolTip | translate
+              "
+              [disableTooltip]="!item.toolTip?.length"
+            >
+              <div class="d-flex justify-content-between">
+                <div style="flex: 1; text-align: center">
+                  {{
+                    "LISTAS." +
+                      (tipo | uppercase) +
+                      "." +
+                      (item.nombreAbreviado
+                        ? (item.nombreAbreviado | uppercase)
+                        : (item.nombre | uppercase)) | translate
+                  }}
+                </div>
+                <div *ngIf="item.ordenable">
+                  <ng-container
                     *ngIf="
-                      this.ordenadoTabla === '-' + item.nombre.toLowerCase()
+                      this.ordenadoTabla === item.nombre.toLowerCase() ||
+                        this.ordenadoTabla === '-' + item.nombre.toLowerCase();
+                      else iconopordefecto
                     "
-                  ></i>
-                </ng-container>
-                <ng-template #iconopordefecto>
-                  <i class="ki-outline ki-arrow-up-down fs-2"></i>
-                </ng-template>
+                  >
+                    <i
+                      class="ki-outline ki-arrow-up fs-2"
+                      *ngIf="this.ordenadoTabla === item.nombre.toLowerCase()"
+                    ></i>
+                    <i
+                      class="ki-outline ki-arrow-down fs-2"
+                      *ngIf="
+                        this.ordenadoTabla === '-' + item.nombre.toLowerCase()
+                      "
+                    ></i>
+                  </ng-container>
+                  <ng-template #iconopordefecto>
+                    <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                  </ng-template>
+                </div>
               </div>
             </div>
-          </div>
           </th>
         </ng-container>
         <th *ngIf="visualizarColumnaEditar"></th>

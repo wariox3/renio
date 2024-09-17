@@ -1,24 +1,6 @@
-type Mapeo = {
-  [key: string]: {
-    nombre: string;
-    nombreAbreviado?: string;
-    visibleFiltro: boolean;
-    visibleTabla: boolean;
-    ordenable: boolean;
-    esFk?: boolean;
-    modeloFk?: string;
-    aplicaFormatoNumerico?: boolean;
-    campoTipo:
-      | 'IntegerField'
-      | 'FloatField'
-      | 'CharField'
-      | 'DateField'
-      | 'Booleano'
-      | 'Fk';
-  }[];
-};
+import { MapeoDocumentos } from "@interfaces/mapeo/mapeo";
 
-export const documentos: Mapeo = {
+export const documentos: MapeoDocumentos = {
   ventas_items: [
     {
       nombre: 'ID',
@@ -344,5 +326,346 @@ export const documentos: Mapeo = {
       visibleTabla: false,
       ordenable: false,
     }
+  ],
+  humano_nomina: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA',
+      nombreAbreviado: 'DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA_HASTA',
+      nombreAbreviado: 'HASTA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_ID',
+      campoTipo: 'Fk',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+      esFk: true,
+    },
+    {
+      nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviado: 'EMPLEADO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'SALARIO',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DEVENGADO',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DEDUCCION',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'TOTAL',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
+  humano_nomina_detalle: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_ID',
+      campoTipo: 'Fk',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+      esFk: true,
+    },
+    {
+      nombre: 'DETALLE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'CREDITO',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'PORCENTAJE',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'HORAS',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DIAS',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'VALOR_HORA',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'OPERACION',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'PAGO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'IBP',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'IBC',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'BASE',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+  ],
+  humano_nomina_electronica: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'FECHA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_ID',
+      campoTipo: 'Fk',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+      esFk: true,
+    },
+    {
+      nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviado: 'EMPLEADO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTRATO_ID',
+      nombreAbreviado: 'CONT',
+      toolTip: 'CONTRATO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'SALARIO',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'BASE_COTIZACION',
+      nombreAbreviado: 'IBC',
+      toolTip: "INGRESOBASECOTIZACION",
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'BASE_PRESTACION',
+      nombreAbreviado: 'IBP',
+      toolTip: "INGRESOBASEPRESTACION",
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DEVENGADO',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DEDUCCION',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'TOTAL',
+      campoTipo: 'FloatField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_APROBADO',
+      nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
+      toolTip: "ESTADO_APROBADO",
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_ANULADO',
+      nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      toolTip: "ESTADO_ANULADO",
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_ELECTRONICO',
+      nombreAbreviado: 'ELE',
+      toolTip: "ESTADOELECTRONICO",
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
 };
