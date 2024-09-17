@@ -108,53 +108,18 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarIdentificacion>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: ``,
-          },
-        ],
-        limite: 0,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'GenIdentificacion',
         serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarRegimen>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: ``,
-            valor2: '',
-          },
-        ],
-        limite: 0,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'GenRegimen',
         serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarTipoPersona>
       >('general/funcionalidad/lista/', {
-        filtros: [
-          {
-            operador: '__icontains',
-            propiedad: 'nombre__icontains',
-            valor1: '',
-            valor2: '',
-          },
-        ],
-        limite: 0,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
         modelo: 'GenTipoPersona',
         serializador: "ListaAutocompletar"
       }),
