@@ -39,6 +39,7 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
   arrParametrosConsulta: any = {
     filtros: [],
+    modelo: 'GenDocumento',
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -87,6 +88,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   consultarLista() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+
       const { documento_clase } = parametro;
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
@@ -113,7 +115,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.httpService
           .post<{
             registros: any;
-          }>('general/documento/lista/', this.arrParametrosConsulta)
+          }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
           .subscribe((respuesta: any) => {
             this.cantidad_registros = respuesta.length;
             this.arrItems = respuesta;
@@ -152,7 +154,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   construirBotonesExtras (parametros: Params) {
     let configuracionExtra: string = parametros.configuracionExtra!;
-    
+
 
     if(configuracionExtra === 'si') {
       let documentoClase: number = Number(parametros.documento_clase);
