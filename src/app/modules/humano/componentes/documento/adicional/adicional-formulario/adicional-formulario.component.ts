@@ -103,10 +103,6 @@ export default class AdicionalFormularioComponent
               valor1: true,
             },
           ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumConcepto',
           serializador: "ListaAutocompletar"
         }
@@ -182,17 +178,17 @@ export default class AdicionalFormularioComponent
 
   consultarConceptos(event: any) {
     let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
+      // filtros: [
+      //   {
+      //     operador: '__icontains',
+      //     propiedad: 'nombre__icontains',
+      //     valor1: `${event?.target.value}`,
+      //   },
+      // ],
+      // limite: 10,
+      // desplazar: 0,
+      // ordenamientos: [],
+      // limite_conteo: 10000,
       modelo: 'HumConcepto',
       serializador: "ListaAutocompletar"
     };

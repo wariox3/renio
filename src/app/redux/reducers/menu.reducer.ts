@@ -262,7 +262,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOMINAELECTRONICA',
               tipo: 'Documento',
-              data: { documento_clase: 702 },
+              data: { documento_clase: 702, serializador: 'Nomina' },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
               configuracionExtra: true,

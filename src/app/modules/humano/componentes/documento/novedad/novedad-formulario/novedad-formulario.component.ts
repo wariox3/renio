@@ -114,18 +114,6 @@ export default class CreditoFormularioComponent
       .post<AutocompletarRegistros<RegistroAutocompletarNovedadTipo>>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumNovedadTipo',
           serializador: "ListaAutocompletar"
         }
