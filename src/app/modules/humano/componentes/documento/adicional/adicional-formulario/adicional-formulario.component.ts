@@ -95,7 +95,7 @@ export default class AdicionalFormularioComponent
   consultarInformacion(){
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -108,6 +108,7 @@ export default class AdicionalFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'HumConcepto',
+          serializador: "ListaAutocompletar"
         }
       )
       .subscribe((respuesta: any) => {
@@ -193,11 +194,12 @@ export default class AdicionalFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumConcepto',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -225,11 +227,12 @@ export default class AdicionalFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

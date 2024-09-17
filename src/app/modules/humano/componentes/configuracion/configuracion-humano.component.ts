@@ -123,7 +123,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -138,6 +138,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'HumConcepto',
+          serializador: "ListaAutocompletar"
         }
       )
       .subscribe((respuesta) => {

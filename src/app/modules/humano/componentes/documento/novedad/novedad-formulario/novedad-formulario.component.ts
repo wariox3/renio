@@ -112,7 +112,7 @@ export default class CreditoFormularioComponent
   consultarInformacion() {
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarNovedadTipo>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -127,6 +127,7 @@ export default class CreditoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'HumNovedadTipo',
+          serializador: "ListaAutocompletar"
         }
       )
       .subscribe((respuesta: any) => {
@@ -209,11 +210,12 @@ export default class CreditoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

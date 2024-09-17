@@ -239,10 +239,11 @@ export default class AsientoFormularioComponent extends General implements OnIni
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
+      serializador: "ListaAutocompletar"
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

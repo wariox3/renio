@@ -242,10 +242,11 @@ export default class EgresoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
+      serializador: "ListaAutocompletar"
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -321,12 +322,14 @@ export default class EgresoFormularioComponent
       }
     }
     this.httpService
-      .post('general/documento/adicionar/', {
+      .post('general/general/lista/', {
         filtros,
         limite: 50,
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
+        modelo: 'GenDocumento',
+        serializador: 'Adicionar',
       })
       .subscribe((respuesta: any) => {
         this.arrDocumentos = respuesta.map((documento: any) => ({

@@ -354,11 +354,12 @@ export default class EmpleadoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCiudad',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -397,7 +398,7 @@ export default class EmpleadoFormularioComponent
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -412,10 +413,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenIdentificacion',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -430,10 +432,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenRegimen',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -448,10 +451,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenTipoPersona',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -466,10 +470,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPrecio',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -484,10 +489,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenAsesor',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -502,10 +508,11 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -520,6 +527,7 @@ export default class EmpleadoFormularioComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenBanco',
+          serializador: "ListaAutocompletar"
         }
       )
     ).subscribe((respuesta: any) => {

@@ -1,4 +1,11 @@
-import { Ciudad } from '@interfaces/general/ciudad';
+import {
+  CommonModule,
+  LowerCasePipe,
+  NgClass,
+  NgFor,
+  NgTemplateOutlet,
+  TitleCasePipe,
+} from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,37 +19,13 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { Regimen } from '@interfaces/general/regimen';
-import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
-import { TipoPersona } from '@interfaces/general/tipoPersona';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
-import {
-  NgbDropdown,
-  NgbDropdownAnchor,
-  NgbDropdownMenu,
-  NgbDropdownItem,
-} from '@ng-bootstrap/ng-bootstrap';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import {
-  NgClass,
-  NgTemplateOutlet,
-  NgFor,
-  LowerCasePipe,
-  TitleCasePipe,
-  CommonModule,
-} from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
+import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
@@ -51,6 +34,21 @@ import {
   RegistroAutocompletarRegimen,
   RegistroAutocompletarTipoPersona,
 } from '@interfaces/comunes/autocompletar';
+import { Regimen } from '@interfaces/general/regimen';
+import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
+import { TipoPersona } from '@interfaces/general/tipoPersona';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import {
+  NgbDropdown,
+  NgbDropdownAnchor,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
+import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -61,17 +59,13 @@ import {
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    NgClass,
     NgTemplateOutlet,
-    NgFor,
     NgbDropdown,
     NgbDropdownAnchor,
     NgbDropdownMenu,
     NgbDropdownItem,
     NgxMaskDirective,
     CommonModule,
-    LowerCasePipe,
-    TitleCasePipe,
   ],
   providers: [provideNgxMask()],
 })
@@ -113,7 +107,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     zip(
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarIdentificacion>
-      >('general/funcionalidad/autocompletar/', {
+      >('general/funcionalidad/lista/', {
         filtros: [
           {
             operador: '__icontains',
@@ -126,10 +120,11 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'GenIdentificacion',
+        serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarRegimen>
-      >('general/funcionalidad/autocompletar/', {
+      >('general/funcionalidad/lista/', {
         filtros: [
           {
             operador: '__icontains',
@@ -143,10 +138,11 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'GenRegimen',
+        serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarTipoPersona>
-      >('general/funcionalidad/autocompletar/', {
+      >('general/funcionalidad/lista/', {
         filtros: [
           {
             operador: '__icontains',
@@ -160,6 +156,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'GenTipoPersona',
+        serializador: "ListaAutocompletar"
       }),
       this.empresaService.consultarDetalle(this.empresa_id)
     ).subscribe((respuesta: any) => {
@@ -288,11 +285,12 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCiudad',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

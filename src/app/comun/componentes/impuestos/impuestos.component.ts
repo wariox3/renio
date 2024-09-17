@@ -33,19 +33,11 @@ export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: any[] = [];
   arrImpuestoLista: any[];
   arrParametrosConsulta: any = {
-    filtros: [
-      {
-        operador: '__icontains',
-        propiedad: 'nombre__icontains',
-        valor1: '',
-        valor2: '',
-      },
-    ],
+    filtros: [],
     limite: 10,
-    desplazar: 0,
-    ordenamientos: [],
     limite_conteo: 10000,
     modelo: 'GenImpuesto',
+    serializador: "ListaAutocompletar"
   };
   @Input() arrLista: any[];
   @Input() estado_aprobado = false;
@@ -128,7 +120,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     }
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarImpuesto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         this.arrParametrosConsulta
       )
       .pipe(

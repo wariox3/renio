@@ -96,11 +96,12 @@ export class ProductosComponent extends General implements AfterViewInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenItem',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .subscribe((respuesta) => {
@@ -124,11 +125,12 @@ export class ProductosComponent extends General implements AfterViewInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenItem',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

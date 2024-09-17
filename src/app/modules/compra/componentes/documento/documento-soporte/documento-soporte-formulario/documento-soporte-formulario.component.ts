@@ -11,7 +11,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
@@ -181,25 +180,19 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
+          filtros: [],
           limite: 10,
           desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
+          serializador: "ListaAutocompletar"
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [],
           limite: 10,
@@ -207,6 +200,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
+          serializador: "ListaAutocompletar"
         }
       )
     ).subscribe((respuesta: any) => {
@@ -776,11 +770,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

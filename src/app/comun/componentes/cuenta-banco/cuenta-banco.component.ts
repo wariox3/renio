@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -8,18 +9,16 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
-import { TranslateModule } from '@ngx-translate/core';
-import {
-  NgbDropdown,
-  NgbDropdownModule,
-  NgbModal,
-} from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
+import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
+import {
+  NgbDropdown,
+  NgbDropdownModule
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import itemFormulario from '../../../modules/general/componentes/item/item-formulario/item-formulario.component';
 
 @Component({
   selector: 'app-comun-cuenta-banco',
@@ -29,9 +28,8 @@ import itemFormulario from '../../../modules/general/componentes/item/item-formu
   imports: [
     TranslateModule,
     NgbDropdownModule,
-    NgFor,
     CommonModule,
-    itemFormulario,
+    ItemFormularioComponent,
   ],
 })
 export class CuentaBancoComponent extends General implements AfterViewInit {
@@ -50,10 +48,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
-  constructor(
-    private httpService: HttpService,
-    private modalService: NgbModal
-  ) {
+  constructor(private httpService: HttpService) {
     super();
   }
 
@@ -87,11 +82,12 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCuentaBanco',
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .subscribe((respuesta) => {
@@ -115,11 +111,12 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCuentaBanco',
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -138,5 +135,4 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       this.emitirLineaVacia.emit();
     }
   }
-
 }

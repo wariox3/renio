@@ -325,7 +325,7 @@ export default class ProgramacionDetalleComponent
   abrirModal(content: any) {
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         {
           filtros: [
             {
@@ -338,6 +338,7 @@ export default class ProgramacionDetalleComponent
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'HumConcepto',
+          serializador: "ListaAutocompletar"
         }
       )
       .subscribe((respuesta: any) => {
@@ -479,11 +480,12 @@ export default class ProgramacionDetalleComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumConcepto',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -511,11 +513,12 @@ export default class ProgramacionDetalleComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

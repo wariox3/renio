@@ -253,10 +253,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
+      serializador: "ListaAutocompletar"
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -304,12 +305,14 @@ export default class PagoFormularioComponent extends General implements OnInit {
       }
     }
     this.httpService
-      .post('general/documento/adicionar/', {
+      .post('general/funcionalidad/lista/', {
         filtros,
         limite: 50,
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
+        modelo: 'GenDocumento',
+        serializador: 'Adicionar',
       })
       .subscribe((respuesta: any) => {
         this.arrDocumentos = respuesta.map((documento: any) => ({

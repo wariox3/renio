@@ -151,7 +151,7 @@ export default class ContratoFormularioComponent
     zip(
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
-      >('general/funcionalidad/autocompletar/', {
+      >('general/funcionalidad/lista/', {
         filtros: [
           {
             operador: '__icontains',
@@ -165,10 +165,11 @@ export default class ContratoFormularioComponent
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'HumPagoTipo',
+        serializador: "ListaAutocompletar"
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumGrupo>
-      >('general/funcionalidad/autocompletar/', {
+      >('general/funcionalidad/lista/', {
         filtros: [
           {
             operador: '__icontains',

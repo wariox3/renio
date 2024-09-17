@@ -148,11 +148,12 @@ export default class CreditoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -186,11 +187,12 @@ export default class CreditoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumConcepto',
+      serializador: "ListaAutocompletar"
     };
 
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(

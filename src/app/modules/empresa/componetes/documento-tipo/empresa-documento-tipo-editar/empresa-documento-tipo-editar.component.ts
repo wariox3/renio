@@ -136,12 +136,13 @@ export class EmpresaDocumentoTipoEditarComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenResolucion',
+      serializador: "ListaAutocompletar"
     };
 
     zip(
       this.HttpService
       .post<AutocompletarRegistros<RegistroAutocompletarResolucion>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       ),
       this.empresaService

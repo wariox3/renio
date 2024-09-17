@@ -1,42 +1,39 @@
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { General } from '@comun/clases/general';
 import {
+  FormBuilder,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  FormGroup,
-  FormBuilder,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
+  Validators
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpService } from '@comun/services/http.service';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
-import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocompletarCuentaBancoTipo } from '@interfaces/comunes/autocompletar';
+import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocompletarIdentificacion, RegistroAutocompletarPlazoPago, RegistroAutocompletarRegimen, RegistroAutocompletarTipoPersona } from '@interfaces/comunes/autocompletar';
+import { ContactoService } from '@modulos/general/servicios/contacto.service';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
 
 @Component({
@@ -381,7 +378,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/autocompletar/',
+        'general/funcionalidad/lista/',
         arrFiltros
       )
       .pipe(
@@ -396,112 +393,46 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarIdentificacion>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenIdentificacion',
+          serializador: 'ListaAutocompletar'
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarRegimen>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenRegimen',
+          serializador: 'ListaAutocompletar'
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarTipoPersona>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenTipoPersona',
+          serializador: 'ListaAutocompletar'
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<any>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPrecio',
+          serializador: 'ListaAutocompletar'
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<any>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre_corto__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenAsesor',
+          serializador: 'ListaAutocompletar'
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/autocompletar/',
+      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarPlazoPago>>(
+        'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
+          serializador:"ListaAutocompletar"
         }
       )
     ).subscribe((respuesta: any) => {
