@@ -88,7 +88,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   consultarLista() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-
       const { documento_clase } = parametro;
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
@@ -112,19 +111,21 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         if (ordemientoFijo === undefined) {
           this.arrParametrosConsulta.ordenamientos = []
         }
+        this.arrParametrosConsulta.serializador = "Nomina"
         this.httpService
           .post<{
             registros: any;
           }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
           .subscribe((respuesta: any) => {
             this.cantidad_registros = respuesta.length;
-            this.arrItems = respuesta;
+            this.arrItems = respuesta.registros;
             this.changeDetectorRef.detectChanges();
           });
       } else {
         let baseUrl = 'general/funcionalidad/lista/';
         this.arrParametrosConsulta = {
           modelo: documento_clase,
+          serializador: 'monina',
           ordenamientos: []
         };
         if (filtroGuardado !== null) {
