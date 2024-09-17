@@ -214,6 +214,7 @@ export class BaseListaComponent extends General implements OnInit {
       let modelo = parametro.itemTipo!;
       this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
         ...this.arrParametrosConsulta,
+        excel: true,
         ...{
           limite: 5000,
         },

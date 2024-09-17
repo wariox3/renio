@@ -288,6 +288,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   descargarExcel() {
     this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
+      excel: true,
       ...{
         limite: 5000,
       },

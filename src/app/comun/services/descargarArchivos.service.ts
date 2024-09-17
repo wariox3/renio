@@ -16,12 +16,12 @@ export class DescargarArchivosService {
 
   descargarExcelDocumentos(arrParametrosConsulta: any) {
     this.httpService
-      .descargarArchivo('general/documento/excel/', arrParametrosConsulta)
+      .descargarArchivo('general/funcionalidad/lista/', arrParametrosConsulta)
   }
 
   descargarExcelAdminsitrador(modelo: string, arrParametrosConsulta: any ) {
     this.httpService
-      .descargarArchivo(`general/${modelo.toLocaleLowerCase()}/excel/`, arrParametrosConsulta)
+      .descargarArchivo(`general/funcionalidad/lista/`, arrParametrosConsulta)
   }
 
   descargarExcelDocumentoDetalle(arrParametrosConsulta: any) {
