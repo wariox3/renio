@@ -111,7 +111,12 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         if (ordemientoFijo === undefined) {
           this.arrParametrosConsulta.ordenamientos = []
         }
-        this.arrParametrosConsulta.serializador = "Nomina"
+        if(parametro.serializador){
+          this.arrParametrosConsulta.serializador = parametro.serializador
+        } else {
+          delete this.arrParametrosConsulta.serializador
+        }
+
         this.httpService
           .post<{
             registros: any;
@@ -125,7 +130,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         let baseUrl = 'general/funcionalidad/lista/';
         this.arrParametrosConsulta = {
           modelo: documento_clase,
-          serializador: 'monina',
           ordenamientos: []
         };
         if (filtroGuardado !== null) {
@@ -135,6 +139,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           this.arrParametrosConsulta.ordenamientos = [ordemientoFijo]
         } else {
           this.arrParametrosConsulta.ordenamientos = []
+        }
+        if(parametro.serializador){
+          this.arrParametrosConsulta.serializador = parametro.serializador
+        } else {
+          delete this.arrParametrosConsulta.serializador
         }
         this.httpService
           .post<{
