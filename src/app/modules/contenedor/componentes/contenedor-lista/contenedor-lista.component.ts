@@ -59,6 +59,9 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.cargandoContederes = true;
+    this.changeDetectorRef.detectChanges();
+
     if (this.subdominioService.esSubdominioActual()) {
       location.href = `${
         environment.dominioHttp
