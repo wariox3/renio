@@ -31,6 +31,7 @@ import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.serv
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
@@ -47,6 +48,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownModule,
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
+    NgSelectModule
   ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
@@ -521,4 +523,12 @@ export default class ContratoFormularioComponent
       this.formularioContrato.controls['cargo'].setValue(null);
     }
   }
+
+     // Método para manejar cambios en la selección
+    seleccionarConceptoAdcional(item: any) {
+      this.formularioContrato.patchValue({
+        cargo: item.value?.cargo_id
+      })
+      this.changeDetectorRef.detectChanges()
+    }
 }

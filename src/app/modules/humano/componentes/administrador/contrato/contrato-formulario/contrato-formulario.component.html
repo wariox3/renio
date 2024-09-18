@@ -249,34 +249,30 @@
 
       <div class="row mb-5">
         <!-- Selector cargo -->
-        <div class="col-md-6 col-sm-12" ngbDropdown container="body" #CargoDropdown="ngbDropdown">
-          <label translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO" class="form-label required"></label>
-          <div class="position-relative">
-            <input type="text" class="form-control" ngbDropdownAnchor formControlName="cargo_nombre" [ngClass]="{
-              'is-invalid':
-                formularioContrato.controls['cargo'].touched &&
-                formularioContrato.controls['cargo'].invalid,
-              'is-valid':
-                formularioContrato.controls['cargo'].touched &&
-                formularioContrato.controls['cargo'].valid
-            }" (focus)="consultarCargo($event); CargoDropdown.open()" (keyup)="consultarCargo($event)"
-              (blur)="limpiarCargo($event)" />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContrato.controls['cargo']
-          }"></ng-container>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button type="button" ngbDropdownItem *ngFor="let cargo of autocompletarCargo; index as i"
-              (click)="modificarCampoFormulario('cargo', cargo); CargoDropdown.close()"
-              (pointerenter)="modificarCampoFormulario('cargo', cargo)">
-              {{ cargo.cargo_nombre }}
-            </button>
-          </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO"
+          ></label>
+          <ng-select
+            [items]="autocompletarCargo"
+            bindLabel="cargo_nombre"
+            bindValue="cargo_id"
+            formControlName="cargo"
+            notFoundText="Sin elementos"
+            (change)="seleccionarCargoAdcional($event)"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['cargo']
+            }"
+          ></ng-container>
         </div>
 
         <div class="col-12 col-md-6 ">
