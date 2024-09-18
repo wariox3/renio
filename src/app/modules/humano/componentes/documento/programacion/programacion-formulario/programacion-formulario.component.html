@@ -192,7 +192,12 @@
             type="date"
             autocomplete="off"
             [min]="formularioProgramacion.controls['fecha_desde'].value"
-            (change)="modificarCampoFormulario('fecha_hasta_periodo', formularioProgramacion.controls['fecha_hasta'].value)"
+            (change)="
+              modificarCampoFormulario(
+                'fecha_hasta_periodo',
+                formularioProgramacion.controls['fecha_hasta'].value
+              )
+            "
             [ngClass]="{
               'is-invalid':
                 (formularioProgramacion.controls['fecha_hasta'].touched &&
@@ -238,8 +243,8 @@
                 formularioProgramacion.controls['comentario'].touched &&
                 formularioProgramacion.controls['comentario'].invalid,
               'is-valid':
-              formularioProgramacion.controls['comentario'].touched &&
-              formularioProgramacion.controls['comentario'].valid
+                formularioProgramacion.controls['comentario'].touched &&
+                formularioProgramacion.controls['comentario'].valid
             }"
           ></textarea>
           <ng-container
@@ -261,12 +266,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'pago_horas'"
               formControlName="pago_horas"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="pago_horas"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
             >
             </label>
@@ -278,12 +283,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_salud'"
               formControlName="descuento_salud"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_salud"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
             >
             </label>
@@ -297,12 +302,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'pago_auxilio_transporte'"
               formControlName="pago_auxilio_transporte"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="pago_auxilio_transporte"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
             >
             </label>
@@ -314,12 +319,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_pension'"
               formControlName="descuento_pension"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_pension"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
             >
             </label>
@@ -333,12 +338,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'adicional'"
               formControlName="adicional"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="adicional"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"
             >
             </label>
@@ -350,12 +355,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_fondo_solidaridad'"
               formControlName="descuento_fondo_solidaridad"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_fondo_solidaridad"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
             >
             </label>
@@ -369,12 +374,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'pago_vacacion'"
               formControlName="pago_vacacion"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="pago_vacacion"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
             >
             </label>
@@ -386,12 +391,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_retencion_fuente'"
               formControlName="descuento_retencion_fuente"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_retencion_fuente"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
             >
             </label>
@@ -405,12 +410,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'pago_incapacidad'"
               formControlName="pago_incapacidad"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="pago_incapacidad"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
             >
             </label>
@@ -422,12 +427,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_credito'"
               formControlName="descuento_credito"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_credito"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
             >
             </label>
@@ -441,12 +446,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'pago_licencia'"
               formControlName="pago_licencia"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="pago_licencia"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
             >
             </label>
@@ -458,12 +463,12 @@
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="flexCheckDefault"
+              [id]="'descuento_embargo'"
               formControlName="descuento_embargo"
             />
             <label
               class="form-check-label text-gray-700"
-              for="flexCheckDefault"
+              for="descuento_embargo"
               translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
             >
             </label>
