@@ -526,7 +526,7 @@ export default class ContratoFormularioComponent
   }
 
      // Método para manejar cambios en la selección
-    seleccionarConceptoAdcional(item: any) {
+     seleccionarCargoAdcional(item: any) {
       this.formularioContrato.patchValue({
         cargo: item.value?.cargo_id
       })
