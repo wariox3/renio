@@ -36,7 +36,8 @@ export class CuentasCobrarComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    modulo: 'GenDocumento'
+    modelo: 'GenDocumento',
+    serializador: "Informe"
   };
 
   constructor(
@@ -61,7 +62,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
       .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.length;
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
