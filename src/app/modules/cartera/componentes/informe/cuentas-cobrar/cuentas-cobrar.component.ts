@@ -36,6 +36,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
+    modulo: 'GenDocumento'
   };
 
   constructor(
@@ -57,7 +58,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
 
   consultarLista() {
     this.httpService
-      .post('general/documento/informe/', this.arrParametrosConsulta)
+      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.length;
         this.arrDocumentos = respuesta.map((documento: any) => ({

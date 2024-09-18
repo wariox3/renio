@@ -48,6 +48,7 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
+    modelo: "GenDocumento"
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -82,11 +83,11 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   consultarLista() {
     zip(
       this.httpService.post(
-        'general/documento/lista/',
+        'general/funcionalidad/lista/',
         this.arrParametrosConsultaEmitir
       ),
     ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
+      this.arrDocumentosEmitir = respuesta[0].registros.map((documento: any) => ({
         ...documento,
         ...{
           selected: false,
