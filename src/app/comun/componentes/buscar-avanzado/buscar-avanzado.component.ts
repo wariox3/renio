@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
@@ -20,6 +20,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     KeysPipe,
     BaseFiltroComponent,
     TranslateModule,
+    NgbTooltipModule
 ],
   templateUrl: './buscar-avanzado.component.html',
   styleUrls: ['./buscar-avanzado.component.scss'],
@@ -78,7 +79,7 @@ export class BuscarAvanzadoComponent extends General {
     let baseUrl = 'general/';
     switch (this.consultarTipo) {
       case 'Administrador':
-        baseUrl += 'funcionalidad/lista-administrador/';
+        baseUrl += 'funcionalidad/lista/';
         break;
       case 'Documento':
         baseUrl += 'documento/lista/';

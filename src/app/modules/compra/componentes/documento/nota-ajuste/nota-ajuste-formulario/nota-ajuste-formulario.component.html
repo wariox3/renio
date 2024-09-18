@@ -93,7 +93,7 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
-                [consultarModelo]="'Contacto'"
+                [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
@@ -386,7 +386,7 @@
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
-                [consultarModelo]="'Documento'"
+                [consultarModelo]="'GenDocumento'"
                 [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')

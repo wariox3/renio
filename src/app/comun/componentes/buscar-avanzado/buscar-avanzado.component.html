@@ -4,7 +4,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      Buscar {{ consultarModelo | lowercase }}
+      Buscar {{ consultarModelo.substring(3) | lowercase }}
     </h4>
     <button
       type="button"
@@ -17,7 +17,7 @@
     <app-base-filtro
       (emitirFiltros)="obtenerFiltros($event)"
       [persistirFiltros]="false"
-      [modeloPersonalizado]="consultarModelo"
+      [modeloPersonalizado]="consultarModelo.substring(3)"
     ></app-base-filtro>
 
     <div class="table-responsive table-loading mt-5">
@@ -32,11 +32,12 @@
             >
               <div class="d-flex justify-content-between">
                 <span>
-                  {{
-                    "LISTAS" + "." + consultarModelo + "." + campo
-                      | uppercase
-                      | translate
-                  }}
+                {{
+                  "LISTAS." +
+                    (consultarModelo.substring(3) | uppercase) +
+                    "." +
+                    (campo | uppercase) | translate
+                }}
                 </span>
               </div>
             </th>
@@ -48,10 +49,16 @@
             <td *ngFor="let key of item | keys">
               {{ item[key] }}
             </td>
-            <td class="w-45px">
-              <a (click)="seleccionar(item)" class="btn btn-primary btn-sm p-0">
-                <i class="ki-solid ki-check fs-1 p-0"></i>
-              </a>
+            <td class="text-center">
+              <button
+                class="btn btn-active-light-primary p-1"
+                (click)="seleccionar(item)"
+                placement="top"
+                ngbTooltip="Seleccionar registro"
+                container="body"
+              >
+                <i class="ki-duotone ki-check"></i>
+              </button>
             </td>
           </tr>
         </tbody>
