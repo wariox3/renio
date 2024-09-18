@@ -62,6 +62,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
+    modelo: 'GenDocumento'
   };
   arrParametrosConsultaNotificar: any = {
     filtros: this.filtroPermanenteNotificar,
@@ -69,6 +70,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
+    modelo: 'GenDocumento',
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -107,23 +109,23 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   consultarLista() {
     zip(
       this.httpService.post(
-        'general/documento/lista/',
+        'general/funcionalidad/lista/',
         this.arrParametrosConsultaEmitir
       ),
       this.httpService.post(
-        'general/documento/lista/',
+        'general/funcionalidad/lista/',
         this.arrParametrosConsultaNotificar
       )
     ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitirCantidadRegistros = respuesta[0].length
-      this.arrDocumentosEmitir = respuesta[0].map((documento: any) => ({
+      this.arrDocumentosEmitirCantidadRegistros = respuesta[0]?.registros?.length
+      this.arrDocumentosEmitir = respuesta[0]?.registros?.map((documento: any) => ({
         ...documento,
         ...{
           selected: false,
         },
       }));
-      this.arrDocumentosNotificarCantidadRegistros = respuesta[1].length
-      this.arrDocumentosNotificar = respuesta[1].map((documento: any) => ({
+      this.arrDocumentosNotificarCantidadRegistros = respuesta[1]?.registros?.length
+      this.arrDocumentosNotificar = respuesta[1]?.registros?.map((documento: any) => ({
         ...documento,
         ...{
           selected: false,
