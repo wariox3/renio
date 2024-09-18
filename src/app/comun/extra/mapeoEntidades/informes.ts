@@ -455,7 +455,7 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'PORCENTAJE',
-      campoTipo: 'FloatField',
+      campoTipo: 'Porcentaje',
       visibleTabla: true,
       visibleFiltro: false,
       aplicaFormatoNumerico: true,
