@@ -1,3 +1,4 @@
+import { FiltrosAplicados } from './../../../interfaces/comunes/filtros';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbDatepickerModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +34,7 @@ export class BuscarAvanzadoComponent extends General {
   @Input() consultarModelo = '';
   @Input() campoLista: string[] = [];
   @Input() campoFiltros: string[] = [];
+  @Input() filtrosPermanentes: any = {};
   @Input() consultarTipo: 'Administrador' | 'Documento';
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
 
@@ -84,6 +86,10 @@ export class BuscarAvanzadoComponent extends General {
       case 'Documento':
         baseUrl += 'documento/lista/';
         break;
+    }
+
+    if(Object.keys(this.filtrosPermanentes).length > 0){
+      this.arrParametrosConsulta.filtros.push(this.filtrosPermanentes)
     }
 
     this.httpService
