@@ -152,14 +152,6 @@ export default class FacturaDetalleComponent extends General {
 
   imprimir() {
     this.httpService.descargarArchivo('general/documento/imprimir/', {
-      filtros: [],
-      limite: 50,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: '',
-      tipo: '',
-      documento_tipo_id: 1,
       documento_id: this.detalle,
     });
   }
