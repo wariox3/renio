@@ -115,7 +115,7 @@ export default class ResolucionFormularioComponent
   enviarFormulario() {
     if (this.formularioResolucion.valid) {
       let tipoResolucion: any = {};
-      tipoResolucion[this.parametrosUrl.parametro] = true;
+      tipoResolucion[this.parametrosUrl.resoluciontipo] = true;
 
       if (this.tipoRolucion != null) {
         tipoResolucion[this.tipoRolucion] = true;
