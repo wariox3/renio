@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Subdominio } from '@comun/clases/subdomino';
 import { AlertaService } from './alerta.service';
 
@@ -53,6 +53,13 @@ export class HttpService extends Subdominio {
         observe: 'response',
         responseType: 'blob' as 'json',
       })
+      .pipe(
+        catchError((error) => {
+          this.alertaService.cerrarMensajes()
+          this.alertaService.mensajeError(`Error 15`, "El documento no tiene un formato");
+          return of(null)
+        })
+      )
       .subscribe((response) => {
         if (response !== null) {
           const headers = response.headers as HttpHeaders;
