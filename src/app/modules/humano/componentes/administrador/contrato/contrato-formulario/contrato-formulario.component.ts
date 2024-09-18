@@ -76,6 +76,11 @@ export default class ContratoFormularioComponent
     'numero_identificacion',
     'nombre_corto',
   ];
+  filtrosPermanentesEmpleado = {
+    operador: '',
+    propiedad: 'empleado',
+    valor1: true,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -285,11 +290,7 @@ export default class ContratoFormularioComponent
           valor1: `${event?.target.value}`,
           valor2: '',
         },
-        {
-          operador: '',
-          propiedad: 'empleado',
-          valor1: true,
-        },
+        this.filtrosPermanentesEmpleado
       ],
       limite: 10,
       desplazar: 0,
