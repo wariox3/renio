@@ -71,7 +71,10 @@ export class BuscarAvanzadoComponent extends General {
   }
 
   obtenerFiltros(arrfiltros: any) {
-    this.arrParametrosConsulta.filtros = arrfiltros;
+    this.arrParametrosConsulta.filtros = [
+      ...this.arrParametrosConsulta.filtros,
+      ...arrfiltros
+    ];
     this.consultarLista();
   }
 
@@ -89,7 +92,7 @@ export class BuscarAvanzadoComponent extends General {
     }
 
     if(Object.keys(this.filtrosPermanentes).length > 0){
-      this.arrParametrosConsulta.filtros.push(this.filtrosPermanentes)
+      this.arrParametrosConsulta.filtros[0] =this.filtrosPermanentes
     }
 
     this.httpService
