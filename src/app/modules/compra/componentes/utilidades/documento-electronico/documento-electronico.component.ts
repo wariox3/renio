@@ -68,10 +68,6 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.modelo = parametro.itemNombre!;
-      let posicion: keyof typeof documentos = parseInt(
-        parametro.documento_clase
-      );
-      this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
     });
     this.store.dispatch(
