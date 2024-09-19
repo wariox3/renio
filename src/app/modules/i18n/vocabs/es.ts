@@ -540,7 +540,8 @@ export const locale = {
             DEDUCCION: 'Deduccion',
             DEVENGADO: 'Devengado',
             CONTRATOS: 'Contratos',
-            DIAS: "Días"
+            DIAS: "Días",
+            PERIODO: "Período"
           },
           PAGO: {
             DESDE: 'Desde',
