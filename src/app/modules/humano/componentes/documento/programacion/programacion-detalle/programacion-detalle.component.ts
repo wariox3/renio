@@ -333,10 +333,6 @@ export default class ProgramacionDetalleComponent
               valor1: true,
             },
           ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'HumConcepto',
           serializador: "ListaAutocompletar"
         }
@@ -367,7 +363,7 @@ export default class ProgramacionDetalleComponent
 
   iniciarFormulario() {
     this.formularioAdicionalProgramacion = this.formBuilder.group({
-      concepto: ['', Validators.compose([Validators.required])],
+      concepto: [null, Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
       contrato_nombre: [''],
