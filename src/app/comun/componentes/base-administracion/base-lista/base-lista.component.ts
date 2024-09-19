@@ -50,6 +50,8 @@ export class BaseListaComponent extends General implements OnInit {
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
   documento_clase_id: string;
+  visualizarBtnNuevo = true;
+  visualizarColumnaEditar = true;
   submodelo: string | undefined;
 
   constructor(
@@ -61,6 +63,9 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.visualizarColumnaEditar = parametro.visualizarColumnaEditar === 'no' ?  false : true
+      this.visualizarBtnNuevo =  parametro.visualizarBtnNuevo === 'no' ? false : true
+      this.changeDetectorRef.detectChanges();
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof mapeo = this.modelo;

@@ -292,7 +292,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'CONCEPTO',
               tipo: 'Administrador',
-              data: { modelo: 'HumConcepto' },
+              data: { modelo: 'HumConcepto', visualizarBtnNuevo: 'no', visualizarColumnaEditar: 'no' },
             },
           ],
         },
