@@ -19,6 +19,7 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarHumGrupo,
   RegistroAutocompletarHumPagoTipo,
+  RegistroAutocompletarHumPerido,
 } from '@interfaces/comunes/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -57,6 +58,7 @@ export default class ContratoFormularioComponent
 
   arrPagoTipo: any[];
   arrGrupo: any[];
+  arrPeriodo: any[]
 
   ngOnInit() {
     this.consultarInformacion();
@@ -117,6 +119,7 @@ export default class ContratoFormularioComponent
         ],
         pago_tipo: [1, Validators.compose([Validators.required])],
         grupo: [1, Validators.compose([Validators.required])],
+        periodo: [null],
         nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
         descuento_salud: [true],
         descuento_pension: [true],
@@ -153,18 +156,26 @@ export default class ContratoFormularioComponent
         AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
       >('general/funcionalidad/lista/', {
         modelo: 'HumPagoTipo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumGrupo>
       >('general/funcionalidad/lista/', {
         limite_conteo: 10000,
         modelo: 'HumGrupo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarHumPerido>
+      >('general/funcionalidad/lista/', {
+        limite_conteo: 10000,
+        modelo: 'HumPeriodo',
+        serializador: 'ListaAutocompletar',
       })
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
+      this.arrPeriodo = respuesta[2].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -238,6 +249,7 @@ export default class ContratoFormularioComponent
           comentario: respuesta.comentario,
           dias: respuesta.dias,
           cantidad: respuesta.contratos,
+          periodo: respuesta.periodo_id,
         });
         this.changeDetectorRef.detectChanges();
       });

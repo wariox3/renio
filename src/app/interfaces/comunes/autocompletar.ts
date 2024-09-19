@@ -128,3 +128,7 @@ export interface RegistroAutocompletarHumContrato {
   contrato_contacto_nombre_corto: string;
 }
 
+export interface RegistroAutocompletarHumPerido {
+  periodo_id: number;
+  periodo_nombre: string;
+}
