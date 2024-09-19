@@ -766,6 +766,7 @@ export const locale = {
         PORCENTAJE: "Porcentaje",
         VALOR_HORA: "Valor hora",
         OPERACION: "Operación",
+        PERIODO_NOMBRE: "Período",
       },
       ITEM: {
         ID: 'ID',

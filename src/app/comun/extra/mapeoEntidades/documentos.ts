@@ -1210,6 +1210,13 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'PERIODO_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
       nombre: 'FECHA_DESDE',
       nombreAbreviado: 'DESDE',
       campoTipo: 'DateField',
