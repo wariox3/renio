@@ -202,7 +202,9 @@
               'is-invalid':
                 (formularioProgramacion.controls['fecha_hasta'].touched &&
                   formularioProgramacion.controls['fecha_hasta'].invalid) ||
-                formularioProgramacion.errors?.fechaInvalida,
+                formularioProgramacion.errors?.fechaInvalida || 
+                formularioProgramacion.errors?.minimoDias
+                ,
               'is-valid':
                 formularioProgramacion.controls['fecha_hasta'].touched &&
                 formularioProgramacion.controls['fecha_hasta'].valid
@@ -221,6 +223,15 @@
               <div class="fv-help-block">
                 <span role="alert">
                   La fecha desde no puede ser mayor que la fecha hasta.
+                </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="formularioProgramacion.errors?.minimoDias">
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span *ngIf="grupoSeleccionado.grupo_periodo_dias" role="alert">
+                  Fecha hasta debe contener {{ grupoSeleccionado.grupo_periodo_dias }} días a partir de la fecha desde.
                 </span>
               </div>
             </div>

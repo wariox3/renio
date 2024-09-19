@@ -15,6 +15,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
+import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fechas.validator';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarHumGrupo,
@@ -55,6 +56,7 @@ export default class ContratoFormularioComponent
     super();
   }
 
+  grupoSeleccionado: any;
   arrPagoTipo: any[];
   arrGrupo: any[];
 
@@ -65,6 +67,34 @@ export default class ContratoFormularioComponent
       this.consultarDetalle();
     }
     this.changeDetectorRef.detectChanges();
+    this.inicializarCamposReactivos();
+  }
+
+  inicializarCamposReactivos() {
+    this.formularioProgramacion
+      .get('grupo')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
+            let valor = Number(value);
+            return grupo.grupo_id === valor;
+          });
+
+          this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
+          if (!this.detalle) {
+            this.actualizarFechaHasta(this.grupoSeleccionado.grupo_periodo_dias);
+          }
+        } else {
+          this.actualizarValidacion(0);
+        }
+      });
+  }
+
+  actualizarValidacion(dias: number) {
+    this.formularioProgramacion.setValidators([
+      this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
+      minimumDaysBetweenDates(dias),
+    ]);
   }
 
   iniciarFormulario() {
@@ -139,10 +169,9 @@ export default class ContratoFormularioComponent
         ],
       },
       {
-        validator: this.fechaDesdeMenorQueFechaHasta(
-          'fecha_desde',
-          'fecha_hasta'
-        ),
+        validator: [
+          this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
+        ],
       }
     );
   }
@@ -153,14 +182,14 @@ export default class ContratoFormularioComponent
         AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
       >('general/funcionalidad/lista/', {
         modelo: 'HumPagoTipo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       }),
       this.httpService.post<
         AutocompletarRegistros<RegistroAutocompletarHumGrupo>
       >('general/funcionalidad/lista/', {
         limite_conteo: 10000,
         modelo: 'HumGrupo',
-        serializador: "ListaAutocompletar"
+        serializador: 'ListaAutocompletar',
       })
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
@@ -267,4 +296,24 @@ export default class ContratoFormularioComponent
       return null;
     };
   }
+
+    // Actualiza la fecha_hasta sumando los días seleccionados a fecha_desde
+    actualizarFechaHasta(dias: number) {
+      const fechaDesdeValue = this.formularioProgramacion.get('fecha_desde')?.value;
+      
+      if (fechaDesdeValue) {
+        const fechaDesde = new Date(fechaDesdeValue);
+        const fechaHasta = new Date(fechaDesde); // Copiamos la fecha
+  
+        // Sumamos los días seleccionados a la fecha desde
+        fechaHasta.setDate(fechaHasta.getDate() + dias - 1);
+  
+        // Formateamos la fecha para que sea compatible con el input de tipo date
+        const fechaHastaISO = fechaHasta.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
+        
+        // Actualizamos el valor de fecha_hasta en el formulario
+        this.formularioProgramacion.get('fecha_hasta')?.setValue(fechaHastaISO);
+        this.changeDetectorRef.detectChanges()
+      }
+    }
 }
