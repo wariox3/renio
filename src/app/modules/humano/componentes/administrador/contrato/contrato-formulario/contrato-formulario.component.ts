@@ -48,7 +48,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownModule,
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
-    NgSelectModule
+    NgSelectModule,
   ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
@@ -138,7 +138,7 @@ export default class ContratoFormularioComponent
         salud: [1, Validators.required],
         sucursal: [''],
         tipo_cotizante: ['', Validators.required],
-        cargo: ['', Validators.required],
+        cargo: [null, Validators.required],
         cargo_nombre: [''],
         salario: ['', [Validators.required]],
         auxilio_transporte: [false],
@@ -290,7 +290,7 @@ export default class ContratoFormularioComponent
           valor1: `${event?.target.value}`,
           valor2: '',
         },
-        this.filtrosPermanentesEmpleado
+        this.filtrosPermanentesEmpleado,
       ],
       limite: 10,
       desplazar: 0,
@@ -525,11 +525,11 @@ export default class ContratoFormularioComponent
     }
   }
 
-     // Método para manejar cambios en la selección
-     seleccionarCargoAdcional(item: any) {
-      this.formularioContrato.patchValue({
-        cargo: item.value?.cargo_id
-      })
-      this.changeDetectorRef.detectChanges()
-    }
+  // Método para manejar cambios en la selección
+  seleccionarCargoAdcional(item: any) {
+    this.formularioContrato.patchValue({
+      cargo: item.cargo_id,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
 }
