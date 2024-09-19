@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,16 +7,14 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Impuesto } from '@interfaces/general/impuesto';
-import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { tap, throttleTime } from 'rxjs';
+import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros, RegistroAutocompletarImpuesto } from '@interfaces/comunes/autocompletar';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -102,7 +101,7 @@ export class ImpuestosComponent extends General implements OnChanges {
   consultarImpuesto() {
     if (this.visualizarImpuestosVenta) {
       this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
+        //...this.arrParametrosConsulta.filtros,
         {
           propiedad: 'venta',
           valor1: true,
@@ -111,7 +110,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     }
     if (this.visualizarImpuestosCompra) {
       this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
+        //...this.arrParametrosConsulta.filtros,
         {
           propiedad: 'compra',
           valor1: true,

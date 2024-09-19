@@ -397,6 +397,21 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
+    console.log('item', item);
+
+    if (item.impuestos) {
+      item.impuestos.map((impuesto: any) => {
+        impuesto['item_impuesto_id'] = null;
+        impuesto['nombre'] = impuesto['impuesto_nombre'];
+        impuesto['compra'] = impuesto['impuesto_compra'];
+        impuesto['venta'] = impuesto['impuesto_venta'];
+        impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
+        impuesto['id'] = null;
+        impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra'];
+        this.agregarImpuesto(impuesto, index, 'agregar');
+      });
+    }
     this.calcularTotales();
     this.formularioFactura.markAsTouched();
     this.formularioFactura.markAsDirty();
@@ -573,6 +588,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_id: [impuesto.impuesto_id],
       impuesto_nombre_extendido: [impuesto.nombre_extendido],
       impuesto_nombre: [impuesto.nombre],
+      porcentaje_base: [impuesto.impuesto_porcentaje_base],
+      impuesto_venta: [impuesto.impuesto_venta],
+      impuesto_compra: [impuesto.impuesto_compra],
     });
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();

@@ -527,7 +527,9 @@
                               (emitirLineaVacia)="
                                 eliminarProducto(i, detalle.value.id)
                               "
-                            ></app-comun-productos>
+                              [compra]="true"
+                              [venta]="false"
+                              ></app-comun-productos>
                           </td>
                           <td>
                             <input
