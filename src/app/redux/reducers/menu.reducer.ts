@@ -218,6 +218,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumProgramacion',
                 ordemaiento: '-fecha_desde',
+                modelo: 'HumProgramacionDetalle'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
