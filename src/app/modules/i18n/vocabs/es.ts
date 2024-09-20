@@ -900,6 +900,8 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
+        PERIODO_ID: 'Periodo',
+        PERIODO_DIAS: 'Días'
       },
       CONCEPTO: {
         ID: 'ID',

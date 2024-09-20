@@ -547,6 +547,20 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: true,
       },
+      {
+        nombre: 'PERIODO_ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'PERIODO_DIAS',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
     ],
   },
   GenCuentaBanco: {
