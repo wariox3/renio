@@ -496,6 +496,8 @@ export const locale = {
             APLICA_DIA_LABORADO: 'Aplica día laborado',
             DETALLE: 'Detalle',
             TOTAL: 'Total',
+            TIPOSALUD: "Tipo salud",
+            TIPOPENSION: "Tipo pensión",
             ENTIDADPENSION: "Entidad pensión",
             ENTIDADSALUD: "Entidad salud",
             ENTIDADCAJA: "Entidad caja",
