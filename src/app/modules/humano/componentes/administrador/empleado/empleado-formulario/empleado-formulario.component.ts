@@ -10,6 +10,7 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { BotonGuardarComponent } from '@comun/componentes/ui/boton-ver-mas/boton-guardar/boton-guardar.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
@@ -23,8 +24,11 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   asyncScheduler,
+  BehaviorSubject,
+  catchError,
   combineLatest,
   debounceTime,
+  finalize,
   of,
   switchMap,
   tap,
@@ -43,6 +47,7 @@ import {
     BtnAtrasComponent,
     TranslateModule,
     NgbDropdownModule,
+    BotonGuardarComponent,
   ],
   templateUrl: './empleado-formulario.component.html',
 })
@@ -61,6 +66,7 @@ export default class EmpleadoFormularioComponent
   arrAsesores: any[];
   arrPrecios: any[];
   arrPagos: any[];
+  guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   selectedDateIndex: number = -1;
 
@@ -156,7 +162,10 @@ export default class EmpleadoFormularioComponent
         ciudad: ['', Validators.compose([Validators.required])],
         banco_nombre: [''],
         banco: ['', Validators.compose([Validators.required])],
-        numero_cuenta: ['', Validators.compose([Validators.required, Validators.maxLength(20)])],
+        numero_cuenta: [
+          '',
+          Validators.compose([Validators.required, Validators.maxLength(20)]),
+        ],
         telefono: [
           null,
           Validators.compose([Validators.required, Validators.maxLength(50)]),
@@ -191,6 +200,7 @@ export default class EmpleadoFormularioComponent
 
   enviarFormulario() {
     if (this.formularioEmpleado.valid) {
+      this.guardando$.next(true);
       this.actualizarNombreCorto();
       if (this.detalle) {
         if (
@@ -239,7 +249,8 @@ export default class EmpleadoFormularioComponent
                     });
                   });
                 }
-              })
+              }),
+              finalize(() => this.guardando$.next(false))
             )
             .subscribe();
         } else {
@@ -296,7 +307,8 @@ export default class EmpleadoFormularioComponent
                   });
                 });
               }
-            })
+            }),
+            finalize(() => this.guardando$.next(false))
           )
           .subscribe();
       }
@@ -354,7 +366,7 @@ export default class EmpleadoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCiudad',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -401,49 +413,49 @@ export default class EmpleadoFormularioComponent
         'general/funcionalidad/lista/',
         {
           modelo: 'GenIdentificacion',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenRegimen',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenTipoPersona',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenPrecio',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenAsesor',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
           modelo: 'GenBanco',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {

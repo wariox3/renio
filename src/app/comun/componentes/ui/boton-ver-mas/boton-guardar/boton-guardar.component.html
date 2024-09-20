@@ -1,0 +1,9 @@
+@if (estaCargando) {
+<button class="btn btn-sm btn-bg-primary btn-color-white" type="button" disabled>
+    <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+    <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+</button>
+} @else {
+<button (click)="guardar()" type="submit" class="btn btn-primary btn-sm" #btnGuardar
+    translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"></button>
+}
