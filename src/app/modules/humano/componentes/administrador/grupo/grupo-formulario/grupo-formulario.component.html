@@ -61,6 +61,39 @@
             }"
           ></ng-container>
         </div>
+
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.PERIODO"
+          ></label>
+          <ng-select
+            [items]="listaPeriodos$ | async"
+            bindLabel="periodo_nombre"
+            bindValue="periodo_id"
+            formControlName="periodo"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+            [ngClass]="{
+              'is-invalid':
+                formularioGrupo.controls['periodo'].touched &&
+                formularioGrupo.controls['periodo'].invalid,
+              'is-valid':
+                formularioGrupo.controls['periodo'].touched &&
+                formularioGrupo.controls['periodo'].valid
+            }"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioGrupo.controls['periodo']
+            }"
+          ></ng-container>
+        </div>
       </div>
     </section>
   </app-card>

@@ -10,9 +10,15 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarHumPerido,
+} from '@interfaces/comunes/autocompletar';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-grupo',
@@ -24,6 +30,7 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
+    NgSelectModule,
   ],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',
@@ -33,16 +40,19 @@ export default class GrupoFormularioComponent
   implements OnInit
 {
   formularioGrupo: FormGroup;
+  listaPeriodos$: Observable<any> = new Observable();
 
   constructor(
     private formBuilder: FormBuilder,
-    private grupoService: GrupoService
+    private grupoService: GrupoService,
+    private httpService: HttpService
   ) {
     super();
   }
 
   ngOnInit() {
     this.iniciarFormulario();
+    this.consultarPeriodos();
 
     if (this.detalle) {
       this.consultarDetalle();
@@ -52,7 +62,21 @@ export default class GrupoFormularioComponent
   iniciarFormulario() {
     this.formularioGrupo = this.formBuilder.group({
       nombre: ['', Validators.compose([Validators.required])],
+      periodo: [null, Validators.compose([Validators.required])],
     });
+  }
+
+  consultarPeriodos() {
+    this.listaPeriodos$ = this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarHumPerido>>(
+        'general/funcionalidad/lista/',
+        {
+          limite_conteo: 10000,
+          modelo: 'HumPeriodo',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+      .pipe(map((respuesta) => respuesta.registros));
   }
 
   enviarFormulario() {
@@ -107,6 +131,7 @@ export default class GrupoFormularioComponent
       .subscribe((respuesta: any) => {
         this.formularioGrupo.patchValue({
           nombre: respuesta.nombre,
+          periodo: respuesta.periodo,
         });
 
         this.changeDetectorRef.detectChanges();

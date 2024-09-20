@@ -60,7 +60,6 @@ export default class ContratoFormularioComponent
   grupoSeleccionado: any;
   arrPagoTipo: any[];
   arrGrupo: any[];
-  arrPeriodo: any[]
 
   ngOnInit() {
     this.consultarInformacion();
@@ -193,18 +192,10 @@ export default class ContratoFormularioComponent
         limite_conteo: 10000,
         modelo: 'HumGrupo',
         serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarHumPerido>
-      >('general/funcionalidad/lista/', {
-        limite_conteo: 10000,
-        modelo: 'HumPeriodo',
-        serializador: 'ListaAutocompletar',
       })
     ).subscribe((respuesta: any) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
-      this.arrPeriodo = respuesta[2].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
