@@ -621,6 +621,7 @@
               <div class="d-flex justify-content-end my-3">
                 <div class="btn-group contenedor-btn-group">
                   <app-importar-administrador
+                    [estadoHabilitado]="programacion.estado_generado"
                     [modelo]="'HumAdicional'"
                     role="group"
                     (emitirDetallesAgregados)="solicitarConsultarTabla()"
