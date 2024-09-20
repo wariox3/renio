@@ -83,9 +83,9 @@ export default class ContratoFormularioComponent
           });
 
           this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
-          if (!this.detalle) {
-            this.actualizarFechaHasta(this.grupoSeleccionado.grupo_periodo_dias);
-          }
+          this.formularioProgramacion.patchValue({
+            periodo: this.grupoSeleccionado.grupo_periodo_id
+          })
         } else {
           this.actualizarValidacion(0);
         }
@@ -149,7 +149,7 @@ export default class ContratoFormularioComponent
         ],
         pago_tipo: [1, Validators.compose([Validators.required])],
         grupo: [1, Validators.compose([Validators.required])],
-        periodo: [null],
+        periodo: [null, Validators.compose([Validators.required])],
         nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
         descuento_salud: [true],
         descuento_pension: [true],
@@ -308,24 +308,4 @@ export default class ContratoFormularioComponent
       return null;
     };
   }
-
-    // Actualiza la fecha_hasta sumando los días seleccionados a fecha_desde
-    actualizarFechaHasta(dias: number) {
-      const fechaDesdeValue = this.formularioProgramacion.get('fecha_desde')?.value;
-      
-      if (fechaDesdeValue) {
-        const fechaDesde = new Date(fechaDesdeValue);
-        const fechaHasta = new Date(fechaDesde); // Copiamos la fecha
-  
-        // Sumamos los días seleccionados a la fecha desde
-        fechaHasta.setDate(fechaHasta.getDate() + dias - 1);
-  
-        // Formateamos la fecha para que sea compatible con el input de tipo date
-        const fechaHastaISO = fechaHasta.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
-        
-        // Actualizamos el valor de fecha_hasta en el formulario
-        this.formularioProgramacion.get('fecha_hasta')?.setValue(fechaHastaISO);
-        this.changeDetectorRef.detectChanges()
-      }
-    }
 }

@@ -94,6 +94,48 @@
         </div>
       </div>
       <div class="row mb-5">
+        
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="grupo"
+            [ngClass]="{
+              'is-invalid':
+                formularioProgramacion.controls['grupo'].touched &&
+                formularioProgramacion.controls['grupo'].invalid,
+              'is-valid':
+                formularioProgramacion.controls['grupo'].touched &&
+                formularioProgramacion.controls['grupo'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let grupo of arrGrupo"
+              [value]="grupo.grupo_id"
+              [selected]="
+                grupo.grupo_id === formularioProgramacion.controls.grupo_id
+              "
+            >
+              {{ grupo.grupo_nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioProgramacion.controls['grupo']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -140,47 +182,6 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="grupo"
-            [ngClass]="{
-              'is-invalid':
-                formularioProgramacion.controls['grupo'].touched &&
-                formularioProgramacion.controls['grupo'].invalid,
-              'is-valid':
-                formularioProgramacion.controls['grupo'].touched &&
-                formularioProgramacion.controls['grupo'].valid
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let grupo of arrGrupo"
-              [value]="grupo.grupo_id"
-              [selected]="
-                grupo.grupo_id === formularioProgramacion.controls.grupo_id
-              "
-            >
-              {{ grupo.grupo_nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioProgramacion.controls['grupo']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -237,39 +238,7 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.PERIODO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="periodo"
-            [ngClass]="{
-              'is-invalid':
-                formularioProgramacion.controls['periodo'].touched &&
-                formularioProgramacion.controls['periodo'].invalid,
-              'is-valid':
-                formularioProgramacion.controls['periodo'].touched &&
-                formularioProgramacion.controls['periodo'].valid
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let periodo of arrPeriodo"
-              [value]="periodo.periodo_id"
-              [selected]="
-                periodo.periodo_id ===
-                formularioProgramacion.controls.periodo.value
-              "
-            >
-              {{ periodo.periodo_nombre }}
-            </option>
-          </select>
-        </div>
-      </div>
+      </div> 
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
