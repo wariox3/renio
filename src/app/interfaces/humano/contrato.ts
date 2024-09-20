@@ -32,4 +32,12 @@ export interface ProgramacionContrato {
   ciudad_contrato_nombre: string;
   ciudad_labora: number;
   ciudad_labora_nombre: string;
+  entidad_caja_id: number;
+  entidad_caja_nombre: string;
+  entidad_cesantias_id: number;
+  entidad_cesantias_nombre: string
+  entidad_pension_id: number;
+  entidad_pension_nombre: string;
+  entidad_salud_id:number;
+    entidad_salud_nombre : string;
 }

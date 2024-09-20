@@ -651,7 +651,34 @@
             }"
           ></ng-container>
         </div>
-        <!-- Selector de pension -->
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.ENTIDADSALUD"
+          ></label>
+          <ng-select
+            [items]="arrEntidadSalud"
+            bindLabel="entidad_nombre"
+            bindValue="entidad_id"
+            formControlName="entidad_salud"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['entidad_salud']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <!-- Selector de pension -->
+
+      <div class="row mb-5">
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -692,7 +719,84 @@
             }"
           ></ng-container>
         </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.ENTIDADPENSION"
+          ></label>
+          <ng-select
+            [items]="arrEntidadPension"
+            bindLabel="entidad_nombre"
+            bindValue="entidad_id"
+            formControlName="entidad_pension"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContrato.controls['entidad_pension']
+          }"
+        ></ng-container>
+        </div>
       </div>
+
+      <!-- Selector de entidad -->
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.ENTIDADCAJA"
+          ></label>
+          <ng-select
+            [items]="arrEntidadCaja"
+            bindLabel="entidad_nombre"
+            bindValue="entidad_id"
+            formControlName="entidad_caja"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContrato.controls['entidad_caja']
+          }"
+        ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.ENTIDADCESANTIAS"
+          ></label>
+          <ng-select
+            [items]="arrEntidadCesantias"
+            bindLabel="entidad_nombre"
+            bindValue="entidad_id"
+            formControlName="entidad_cesantias"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContrato.controls['entidad_cesantias']
+          }"
+        ></ng-container>
+        </div>
+      </div>
+
       <div class="row mb-5">
         <!-- Selector de riesgo -->
         <div class="col-12 col-md-6">

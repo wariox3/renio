@@ -496,6 +496,10 @@ export const locale = {
             APLICA_DIA_LABORADO: 'Aplica día laborado',
             DETALLE: 'Detalle',
             TOTAL: 'Total',
+            ENTIDADPENSION: "Entidad pensión",
+            ENTIDADSALUD: "Entidad salud",
+            ENTIDADCAJA: "Entidad caja",
+            ENTIDADCESANTIAS: "Entidad cesantías",
           },
           CREDITO: {
             CODIGO: 'Cód',

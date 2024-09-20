@@ -63,6 +63,10 @@ export default class ContratoFormularioComponent
   arrGrupo: any[] = [];
   arrContratoTipo: any[] = [];
   ciudades: any[] = [];
+  arrEntidadSalud: any[] = [];
+  arrEntidadPension: any[] = [];
+  arrEntidadCesantias: any[] = [];
+  arrEntidadCaja: any[] = [];
   autocompletarRiesgo: RegistroAutocompletarRiesgo[] = [];
   autocompletarPension: RegistroAutocompletarPension[] = [];
   autocompletarSubtipoCotizante: RegistroAutocompletarSubtipoCotizante[] = [];
@@ -151,6 +155,10 @@ export default class ContratoFormularioComponent
         ciudad_contrato_nombre: [''],
         ciudad_labora: ['', Validators.required],
         ciudad_labora_nombre: [''],
+        entidad_salud: [null, Validators.required],
+        entidad_caja: [null, Validators.required],
+        entidad_pension: [null, Validators.required],
+        entidad_cesantias: [null, Validators.required],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -266,6 +274,34 @@ export default class ContratoFormularioComponent
       >('general/funcionalidad/lista/', {
         modelo: 'HumCargo',
         serializador: 'ListaAutocompletar',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/lista/', {
+        filtros: [{ propiedad: 'salud', valor1: true }],
+        modelo: 'HumEntidad',
+        serializador: 'ListaAutocompletar',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/lista/', {
+        filtros: [{ propiedad: 'pension', valor1: true }],
+        modelo: 'HumEntidad',
+        serializador: 'ListaAutocompletar',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/lista/', {
+        filtros: [{ propiedad: 'caja', valor1: true }],
+        modelo: 'HumEntidad',
+        serializador: 'ListaAutocompletar',
+      }),
+      this.httpService.post<
+        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
+      >('general/funcionalidad/lista/', {
+        filtros: [{ propiedad: 'cesantias', valor1: true }],
+        modelo: 'HumEntidad',
+        serializador: 'ListaAutocompletar',
       })
     ).subscribe((respuesta: any) => {
       this.arrGrupo = respuesta[0].registros;
@@ -277,6 +313,12 @@ export default class ContratoFormularioComponent
       this.autocompletarSucursal = respuesta?.[6]?.registros;
       this.autocompletarTipoCotizante = respuesta?.[7]?.registros;
       this.autocompletarCargo = respuesta?.[8]?.registros;
+
+      this.arrEntidadSalud =respuesta?.[9].registros
+      this.arrEntidadPension =respuesta?.[10].registros
+      this.arrEntidadCaja =respuesta?.[11].registros
+      this.arrEntidadCesantias =respuesta?.[12].registros
+
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -388,6 +430,10 @@ export default class ContratoFormularioComponent
           ciudad_contrato_nombre: respuesta.ciudad_contrato_nombre,
           ciudad_labora: respuesta.ciudad_labora_id,
           ciudad_labora_nombre: respuesta.ciudad_labora_nombre,
+          entidad_salud:  respuesta.entidad_salud_id,
+          entidad_caja: respuesta.entidad_caja_id,
+          entidad_pension: respuesta.entidad_pension_id,
+          entidad_cesantias: respuesta.entidad_cesantias_id,
         });
 
         this.changeDetectorRef.detectChanges();

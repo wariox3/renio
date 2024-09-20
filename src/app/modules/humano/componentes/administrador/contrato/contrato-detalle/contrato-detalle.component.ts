@@ -58,6 +58,14 @@ export default class ContratoDetalleComponent
     ciudad_contrato_nombre: '',
     ciudad_labora: 0,
     ciudad_labora_nombre: '',
+    entidad_caja_id: 0,
+    entidad_caja_nombre: '',
+    entidad_cesantias_id: 0,
+    entidad_cesantias_nombre: '',
+    entidad_pension_id: 0,
+    entidad_pension_nombre: '',
+    entidad_salud_id: 0,
+    entidad_salud_nombre : ''
   };
 
   ngOnInit() {
