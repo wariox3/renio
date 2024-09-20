@@ -178,6 +178,8 @@ export default class CreditoFormularioComponent
           dias_disfrutados_reales: respuesta.dias_disfrutados_reales,
           fecha_desde_periodo: respuesta.fecha_desde_periodo,
           fecha_hasta_periodo: respuesta.fecha_hasta_periodo,
+          fecha_desde: respuesta.fecha_desde,
+          fecha_hasta: respuesta.fecha_hasta,
         });
         this.changeDetectorRef.detectChanges();
       });
