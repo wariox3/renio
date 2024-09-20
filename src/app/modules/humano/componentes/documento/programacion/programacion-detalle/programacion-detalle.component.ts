@@ -135,6 +135,7 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarDatos() {
+    this.reiniciarSelectoresEliminar();
     this.programacionService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
@@ -236,7 +237,6 @@ export default class ProgramacionDetalleComponent
       .post('humano/programacion/aprobar/', { id: this.detalle })
       .subscribe((respuesta: any) => {
         this.alertaService.mensajaExitoso('Documento aprobado');
-        this.programacion = respuesta.documento;
         this.arrEstados.estado_aprobado = true;
         this.consultarDatos();
         this.changeDetectorRef.detectChanges();
@@ -257,9 +257,26 @@ export default class ProgramacionDetalleComponent
     }
   }
 
-  cargarContratos() {
-    this.isCheckedSeleccionarTodos = false;
+  reiniciarSelectoresEliminar() {
+    this.reiniciarSelectoresEliminarAdicional();
+    this.reiniciarSelectoresEliminarDetalles();
+    this.changeDetectorRef.detectChanges()
+  }
+
+  reiniciarSelectoresEliminarAdicional() {
     this.isCheckedSeleccionarTodosAdicional = false;
+    this.registrosAEliminarAdicionales = [];
+    this.isCheckedSeleccionarTodosAdicional = false;
+  }
+
+  reiniciarSelectoresEliminarDetalles() {
+    this.isCheckedSeleccionarTodos = false;
+    this.registrosAEliminar = [];
+    this.isCheckedSeleccionarTodos = false;
+  }
+
+  cargarContratos() {
+    this.reiniciarSelectoresEliminar();
     this.cargandoContratos = true;
     this.programacionService
       .cargarContratos({
@@ -268,14 +285,17 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.cargandoContratos = false;
+          this.changeDetectorRef.detectChanges();
         })
       )
-      .subscribe();
-    this.consultarDatos();
-    this.changeDetectorRef.detectChanges();
+      .subscribe(() => {
+        this.consultarDatos();
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   generar() {
+    this.reiniciarSelectoresEliminar();
     this.generando = true;
     this.programacionService
       .generar({
@@ -284,7 +304,6 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
-          this.isCheckedSeleccionarTodos = false;
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -302,8 +321,9 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.desgenerando = false;
-          this.isCheckedSeleccionarTodos = false;
+          this.reiniciarSelectoresEliminar();
           this.dropdown.close();
+          this.changeDetectorRef.detectChanges();
         })
       )
       .subscribe(() => {
@@ -334,7 +354,7 @@ export default class ProgramacionDetalleComponent
             },
           ],
           modelo: 'HumConcepto',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
       .subscribe((respuesta: any) => {
@@ -476,7 +496,7 @@ export default class ProgramacionDetalleComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumConcepto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -509,7 +529,7 @@ export default class ProgramacionDetalleComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -550,6 +570,7 @@ export default class ProgramacionDetalleComponent
   }
 
   cerrarModal() {
+    this.reiniciarSelectoresEliminar()
     if (this.formularioAdicionalProgramacion.valid) {
       this.adicionalService
         .guardarAdicional(this.formularioAdicionalProgramacion.value)
