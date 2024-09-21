@@ -218,7 +218,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumProgramacion',
                 ordemaiento: '-fecha_desde',
-                modelo: 'HumProgramacionDetalleAdicional'
+                modelo: 'HumProgramacionDetalleAdicional',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -226,7 +226,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'ADICIONAL',
               tipo: 'Documento',
-              data: { documento_clase: 'HumAdicional', ordemaiento: '-id', },
+              data: { documento_clase: 'HumAdicional', ordemaiento: '-id' },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
@@ -256,14 +256,29 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOMINA',
               tipo: 'Documento',
-              data: { documento_clase: 701 },
+              data: {
+                documento_clase: 701,
+                visualizarColumnaEditar: 'no',
+                visualizarBtnNuevo: 'no',
+                visualizarBtnEliminar: 'no',
+                visualizarColumnaSeleccionar: 'no',
+                visualizarBtnImportar: 'no'
+              },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
             },
             {
               nombre: 'NOMINAELECTRONICA',
               tipo: 'Documento',
-              data: { documento_clase: 702, serializador: 'Nomina' },
+              data: {
+                documento_clase: 702,
+                serializador: 'Nomina',
+                visualizarColumnaEditar: 'no',
+                visualizarBtnNuevo: 'no',
+                visualizarBtnEliminar: 'no',
+                visualizarColumnaSeleccionar: 'no',
+                visualizarBtnImportar: 'no'
+              },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
               configuracionExtra: true,
@@ -300,7 +315,6 @@ export const initialState: MenuItem = {
         {
           nombre: 'informe',
           children: [
-
             {
               nombre: 'NOMINA',
               tipo: 'informe',

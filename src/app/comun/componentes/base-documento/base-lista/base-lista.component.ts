@@ -59,6 +59,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   botonesExtras: BotonesExtras[] = []
   nombreComponente: string = ''
   tituloModal: string = ''
+  visualizarBtnNuevo = true;
+  visualizarColumnaEditar = true;
+  visualizarBtnEliminar = true;
+  visualizarColumnaSeleccionar = true;
+  visualizarBtnImportar = true;
 
   constructor(
     private httpService: HttpService,
@@ -71,6 +76,12 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.visualizarColumnaEditar = parametro.visualizarColumnaEditar === 'no' ?  false : true
+      this.visualizarBtnNuevo =  parametro.visualizarBtnNuevo === 'no' ? false : true
+      this.visualizarBtnEliminar =  parametro.visualizarBtnEliminar === 'no' ? false : true
+      this.visualizarColumnaSeleccionar =  parametro.visualizarColumnaSeleccionar === 'no' ? false : true
+      this.visualizarBtnImportar =  parametro.visualizarBtnImportar === 'no' ? false : true
+
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof documentos = parametro.documento_clase;
@@ -164,7 +175,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   construirBotonesExtras (parametros: Params) {
     let configuracionExtra: string = parametros.configuracionExtra!;
 
-
+    
     if(configuracionExtra === 'si') {
       let documentoClase: number = Number(parametros.documento_clase);
       this.botonesExtras = configuracionExtraDocumento[documentoClase]?.botones || []
