@@ -17,6 +17,9 @@ import { TranslateModule } from '@ngx-translate/core';
 export default class GrupoDetalleComponent extends General implements OnInit {
   grupo: Grupo = {
     nombre: '',
+    id: 0,
+    periodo_dias: 0,
+    periodo_id: ''
   };
 
   constructor(private grupoService: GrupoService) {
