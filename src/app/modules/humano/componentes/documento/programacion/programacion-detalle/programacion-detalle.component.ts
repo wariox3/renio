@@ -751,8 +751,6 @@ export default class ProgramacionDetalleComponent
               valor2: '',
             },
           ],
-          limite: 10,
-          desplazar: 0,
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenDocumento',
