@@ -32,6 +32,7 @@
       </ng-template>
     </section>
     <section card-body>
+      <pre>{{ formularioFactura.value | json }}</pre>
       <div class="row mb-5">
         <div class="col-16" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
@@ -575,10 +576,10 @@
                           <td>
                             <div class="position-relative">
                               <input
-                                formControlName="descuento"
-                                [value]="detalle.value.descuento"
+                                formControlName="porcentaje_descuento"
+                                [value]="detalle.value.porcentaje_descuento"
                                 (change)="
-                                  actualizarDetalle(i, 'descuento', $event)
+                                  actualizarDetalle(i, 'porcentaje_descuento', $event)
                                 "
                                 [attr.disabled]="estado_aprobado"
                                 [readonly]="estado_aprobado"

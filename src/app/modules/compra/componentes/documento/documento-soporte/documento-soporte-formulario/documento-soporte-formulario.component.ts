@@ -431,18 +431,23 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       const cantidad = detalleControl.get('cantidad')?.value || 0;
 
       const precio = detalleControl.get('precio')?.value || 0;
-      const porcentajeDescuento = detalleControl.get('descuento')?.value || 0;
-      let subtotal = cantidad * precio;
-      let descuento = (porcentajeDescuento * subtotal) / 100;
-      let subtotalFinal = subtotal - descuento;
+      const porcentajeDescuento = detalleControl.get('porcentaje_descuento')?.value || 0;
+      
+      let subtotal = this.redondear(cantidad * precio, 2);
+      let descuento = this.redondear((porcentajeDescuento * subtotal) / 100, 2);
+      let subtotalFinal = this.redondear(subtotal - descuento, 2);
 
+      
       const impuestos = detalleControl.get('impuestos')?.value || [];
+      let totalImpuestoDetalle = 0;
       impuestos.forEach((impuesto: any) => {
-        this.totalImpuestos += impuesto.total;
+        totalImpuestoDetalle += impuesto.total;
       });
 
-      let neto = detalleControl.get('neto')?.value || 0;
+      totalImpuestoDetalle = this.redondear(totalImpuestoDetalle, 2);
+      this.totalImpuestos += totalImpuestoDetalle;
 
+      let neto = this.redondear(subtotalFinal + totalImpuestoDetalle, 2);
       this.totalCantidad += parseInt(cantidad);
       this.totalDescuento += descuento;
       this.subtotalGeneral += subtotalFinal;
@@ -450,10 +455,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
       detalleControl.get('subtotal')?.patchValue(subtotalFinal);
       detalleControl.get('neto')?.patchValue(neto);
-      this.changeDetectorRef.detectChanges();
+      detalleControl.get('descuento')?.patchValue(descuento);
     });
 
-    this.totalGeneral = this.subtotalGeneral + this.totalImpuestos;
+    this.totalGeneral = this.redondear(this.subtotalGeneral + this.totalImpuestos, 2);
+
     this.formularioFactura.patchValue({
       total: this.totalGeneral,
       subtotal: this.subtotalGeneral,
@@ -505,7 +511,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (parseFloat(evento.target.value) < 0) {
         detalleFormGroup.get(campo)?.patchValue(0);
       } else {
-        detalleFormGroup.get(campo)?.patchValue(evento.target.value);
+        const valorRedondeado = this.redondear(evento.target.value, 2);
+        detalleFormGroup.get(campo)?.patchValue(valorRedondeado);
       }
     } else {
       detalleFormGroup.get(campo)?.patchValue(0);
@@ -523,7 +530,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     arrDetalleImpuestos.clear();
 
     impuestoTemporales.map((impuesto: any) => {
-      let totalImpuesto = (subtotal.value * impuesto.porcentaje) / 100;
+      let totalImpuesto = this.redondear((subtotal.value * impuesto.porcentaje) / 100, 2)
       let impuestoFormGrup = this.formBuilder.group({
         id: [impuesto.impuesto_id ? impuesto.id : null],
         impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id],
@@ -543,8 +550,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
       this.changeDetectorRef.detectChanges();
     });
-    neto.patchValue(subtotal.value + impuestoTotal);
-    total.patchValue(subtotal.value + impuestoTotal);
+
+    const subtotalValueRedondeado = this.redondear(subtotal.value, 2);
+    const impuestoTotalRedondeado = this.redondear(impuestoTotal, 2);
+
+    neto.patchValue(this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2));
+    total.patchValue(this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2));
     this.calcularTotales();
     this.changeDetectorRef.detectChanges();
   }
@@ -958,6 +969,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+  }
+
+  redondear(valor: number, decimales: number): number {
+    const factor = Math.pow(10, decimales);
+    return Math.round(valor * factor) / factor;
   }
 
   abrirModalContactoNuevo(content: any) {
