@@ -7,12 +7,19 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Documento } from '@interfaces/humano/nominaElectronica.';
 import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, tap, zip } from 'rxjs';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
   standalone: true,
-  imports: [CommonModule, BtnAtrasComponent, CardComponent, TranslateModule],
+  imports: [
+    CommonModule,
+    BtnAtrasComponent,
+    CardComponent,
+    TranslateModule,
+    NgbNavModule,
+  ],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
 })
@@ -20,6 +27,8 @@ export default class NominaElectronicaDetalleComponent
   extends General
   implements OnInit
 {
+  active: Number;
+
   nominaElectronica: Documento = {
     id: 0,
     numero: undefined,
@@ -67,8 +76,12 @@ export default class NominaElectronicaDetalleComponent
     detalles: [],
     pagos: [],
   };
+  arrNominas: any[] = []
 
-  constructor(private nominaElectronicaService: NominaElectronicaService, private httpService: HttpService) {
+  constructor(
+    private nominaElectronicaService: NominaElectronicaService,
+    private httpService: HttpService
+  ) {
     super();
   }
 
@@ -77,12 +90,20 @@ export default class NominaElectronicaDetalleComponent
   }
 
   consultarDetalle() {
-    this.nominaElectronicaService
-      .consultarDetalle(this.detalle)
-      .subscribe((respuesta) => {
-        this.nominaElectronica = respuesta.documento;
-        this.changeDetectorRef.detectChanges();
-      });
+    zip(
+      this.nominaElectronicaService.consultarDetalle(this.detalle),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>('general/funcionalidad/lista/', {
+        filtros: [
+          { propiedad: 'documento_referencia_id', valor1: this.detalle },
+        ],
+        modelo: 'GenDocumento',
+      })
+    ).subscribe((respuesta) => {
+      this.nominaElectronica = respuesta[0].documento;
+      this.arrNominas = respuesta[1].registros;
+
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   emitir() {
@@ -94,12 +115,13 @@ export default class NominaElectronicaDetalleComponent
       });
   }
 
-
   aprobar() {
     this.httpService
       .post('general/documento/aprobar/', { id: this.detalle })
       .pipe(
-        switchMap(() => this.nominaElectronicaService.consultarDetalle(this.detalle)),
+        switchMap(() =>
+          this.nominaElectronicaService.consultarDetalle(this.detalle)
+        ),
         tap((respuestaConsultaDetalle) => {
           this.nominaElectronica = respuestaConsultaDetalle.documento;
           this.changeDetectorRef.detectChanges();
