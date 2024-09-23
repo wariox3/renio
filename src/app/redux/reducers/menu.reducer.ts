@@ -138,18 +138,18 @@ export const initialState: MenuItem = {
           esIndependiente: true,
           children: [
             {
-              nombre: 'MOVIMIENTO',
-              tipo: 'Independiente',
-              urlIndependientes: {
-                lista: 'contabilidad/movimiento',
-              },
-              consultaHttp: false,
-            },
-            {
               nombre: 'PERIODO',
               tipo: 'Independiente',
               urlIndependientes: {
                 lista: 'contabilidad/periodo',
+              },
+              consultaHttp: false,
+            },
+            {
+              nombre: 'MOVIMIENTO',
+              tipo: 'Independiente',
+              urlIndependientes: {
+                lista: 'contabilidad/movimiento',
               },
               consultaHttp: false,
             },
