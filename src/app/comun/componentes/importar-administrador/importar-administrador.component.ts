@@ -94,13 +94,17 @@ export class ImportarAdministradorComponent extends General {
     let ruta = localStorage.getItem('ruta')!;
     this.activatedRoute.queryParams.subscribe((parametros) => {
     let esIndependiente = parametros.esIndependiente!
-
     let modelo = ''
-    if (esIndependiente == 'no') {
-      modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+    if(this.modelo === 'MOVIMIENTO'){
+      modelo = 'movimiento'
     } else {
-      modelo = this.modelo.toLowerCase();
+      if (esIndependiente == 'no') {
+        modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+      } else {
+        modelo = this.modelo.toLowerCase();
+      }
     }
+
 
     this.cargardoDocumento = true;
     this.changeDetectorRef.detectChanges();
