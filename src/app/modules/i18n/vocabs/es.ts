@@ -363,6 +363,10 @@ export const locale = {
           CIUDADCONTRATO: 'Ciudad contrato',
           BANCO: "Banco",
           NUMEROCUENTA: "Número cuenta",
+          CLASE: 'Clase',
+          NIVEL: 'Nivel',
+          GRUPO: 'Grupo',
+          SUBCUENTA: 'Subcuenta'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',

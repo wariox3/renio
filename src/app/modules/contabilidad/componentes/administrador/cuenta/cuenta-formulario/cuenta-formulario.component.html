@@ -32,20 +32,26 @@
       <div class="row mb-5">
         <!-- Codigo -->
         <div class="col-md-6 col-sm-12">
-          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label required">
           </label>
           <input formControlName="codigo" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
               'is-invalid':
-              formularioConCuenta.controls['codigo'].touched &&
-              formularioConCuenta.controls['codigo'].invalid,
+                formularioConCuenta.controls['codigo'].touched &&
+                formularioConCuenta.controls['codigo'].invalid,
               'is-valid':
-              formularioConCuenta.controls['codigo'].touched &&
-              formularioConCuenta.controls['codigo'].valid
+                formularioConCuenta.controls['codigo'].touched &&
+                formularioConCuenta.controls['codigo'].valid
             }" />
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '20',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '8',
+              control: formularioConCuenta.controls['codigo']
+            }"></ng-container>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'longitudImpar',
+              message: 'El código debe tener una longitud par.',
               control: formularioConCuenta.controls['codigo']
             }"></ng-container>
         </div>
@@ -54,11 +60,11 @@
           <label translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE" class="form-label required"></label>
           <input formControlName="nombre" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
               'is-invalid':
-              formularioConCuenta.controls['nombre'].touched &&
-              formularioConCuenta.controls['nombre'].invalid,
+                formularioConCuenta.controls['nombre'].touched &&
+                formularioConCuenta.controls['nombre'].invalid,
               'is-valid':
-              formularioConCuenta.controls['nombre'].touched &&
-              formularioConCuenta.controls['nombre'].valid
+                formularioConCuenta.controls['nombre'].touched &&
+                formularioConCuenta.controls['nombre'].valid
             }" />
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
@@ -86,66 +92,125 @@
             }"></ng-container>
         </div>
       </div>
-
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.CLASE" class="form-label">
+          </label>
+          <input formControlName="cuenta_clase" class="form-control bg-transparent" type="text" autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConCuenta.controls['cuenta_clase'].touched &&
+                formularioConCuenta.controls['cuenta_clase'].invalid,
+              'is-valid':
+                formularioConCuenta.controls['cuenta_clase'].touched &&
+                formularioConCuenta.controls['cuenta_clase'].valid
+            }" 
+            readonly />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.NIVEL" class="form-label"></label>
+          <input formControlName="nivel" class="form-control bg-transparent" type="text" autocomplete="off" [ngClass]="{
+              'is-invalid':
+                formularioConCuenta.controls['nivel'].touched &&
+                formularioConCuenta.controls['nivel'].invalid,
+              'is-valid':
+                formularioConCuenta.controls['nivel'].touched &&
+                formularioConCuenta.controls['nivel'].valid
+            }" readonly/>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.GRUPO" class="form-label">
+          </label>
+          <input formControlName="cuenta_grupo" class="form-control bg-transparent" type="text" autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConCuenta.controls['cuenta_grupo'].touched &&
+                formularioConCuenta.controls['cuenta_grupo'].invalid,
+              'is-valid':
+                formularioConCuenta.controls['cuenta_grupo'].touched &&
+                formularioConCuenta.controls['cuenta_grupo'].valid
+            }" readonly/>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioConCuenta.controls['cuenta_grupo']
+            }"></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label translate="FORMULARIOS.CAMPOS.COMUNES.SUBCUENTA" class="form-label"></label>
+          <input formControlName="cuenta_subcuenta" class="form-control bg-transparent" type="text" autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConCuenta.controls['cuenta_subcuenta'].touched &&
+                formularioConCuenta.controls['cuenta_subcuenta'].invalid,
+              'is-valid':
+                formularioConCuenta.controls['cuenta_subcuenta'].touched &&
+                formularioConCuenta.controls['cuenta_subcuenta'].valid
+            }" readonly/>
+        </div>
+      </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6 d-flex flex-column gap-2">
-
           <!-- Exige base check -->
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="exige_base" formControlName="exige_base"
               [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['exige_base'].touched &&
-                formularioConCuenta.controls['exige_base'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['exige_base'].touched &&
-                formularioConCuenta.controls['exige_base'].valid
-            }" />
+                'is-invalid':
+                  formularioConCuenta.controls['exige_base'].touched &&
+                  formularioConCuenta.controls['exige_base'].invalid,
+                'is-valid':
+                  formularioConCuenta.controls['exige_base'].touched &&
+                  formularioConCuenta.controls['exige_base'].valid
+              }" />
             <label class="form-check-label" for="exige_base">Exige base</label>
           </div>
           <!-- Exige tercero check -->
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="exige_tercero" formControlName="exige_tercero"
               [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['exige_tercero'].touched &&
-                formularioConCuenta.controls['exige_tercero'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['exige_tercero'].touched &&
-                formularioConCuenta.controls['exige_tercero'].valid
-            }" />
+                'is-invalid':
+                  formularioConCuenta.controls['exige_tercero'].touched &&
+                  formularioConCuenta.controls['exige_tercero'].invalid,
+                'is-valid':
+                  formularioConCuenta.controls['exige_tercero'].touched &&
+                  formularioConCuenta.controls['exige_tercero'].valid
+              }" />
             <label class="form-check-label" for="exige_tercero">Exige tercero</label>
           </div>
           <!-- Exige grupo check -->
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="exige_base" formControlName="exige_grupo"
               [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['exige_grupo'].touched &&
-                formularioConCuenta.controls['exige_grupo'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['exige_grupo'].touched &&
-                formularioConCuenta.controls['exige_grupo'].valid
-            }" />
+                'is-invalid':
+                  formularioConCuenta.controls['exige_grupo'].touched &&
+                  formularioConCuenta.controls['exige_grupo'].invalid,
+                'is-valid':
+                  formularioConCuenta.controls['exige_grupo'].touched &&
+                  formularioConCuenta.controls['exige_grupo'].valid
+              }" />
             <label class="form-check-label" for="exige_grupo">Exige grupo</label>
           </div>
           <!-- Permite movimiento check -->
           <div class="form-check form-check-custom form-check-solid">
             <input class="form-check-input" type="checkbox" value="1" id="permite_movimiento"
               formControlName="permite_movimiento" [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['permite_movimiento'].touched &&
-                formularioConCuenta.controls['permite_movimiento'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['permite_movimiento'].touched &&
-                formularioConCuenta.controls['permite_movimiento'].valid
-            }" />
+                'is-invalid':
+                  formularioConCuenta.controls['permite_movimiento'].touched &&
+                  formularioConCuenta.controls['permite_movimiento'].invalid,
+                'is-valid':
+                  formularioConCuenta.controls['permite_movimiento'].touched &&
+                  formularioConCuenta.controls['permite_movimiento'].valid
+              }" />
             <label class="form-check-label" for="permite_movimiento">Permite movimiento</label>
           </div>
-
         </div>
       </div>
-
     </section>
   </app-card>
 </form>
