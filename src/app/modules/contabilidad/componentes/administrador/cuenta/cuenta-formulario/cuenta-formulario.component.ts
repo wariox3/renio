@@ -67,52 +67,64 @@ export default class ItemFormularioComponent extends General implements OnInit {
       this.consultardetalle();
     }
 
-    this.formularioConCuenta.get('codigo')?.valueChanges.subscribe((value: string) => {
-      if (value && value.length > 0) {
-        this.formularioConCuenta.get('cuenta_clase')?.setValue(value.charAt(0));
-        this.validarCuentaClase(value.substring(0, 2))
+    this.formularioConCuenta
+      .get('codigo')
+      ?.valueChanges.subscribe((value: string) => {
+        if (value && value.length > 0) {
+          this.formularioConCuenta
+            .get('cuenta_clase')
+            ?.setValue(value.charAt(0));
+          this.validarCuentaClase(value.charAt(0));
 
-        if (value.length >= 2) {
-          this.formularioConCuenta.get('cuenta_grupo')?.setValue(value.substring(0, 2));
-          this.validarGrupo(value.substring(0, 2))
+          if (value.length >= 2) {
+            this.formularioConCuenta
+              .get('cuenta_grupo')
+              ?.setValue(value.substring(0, 2));
+            this.validarGrupo(value.substring(0, 2));
+          } else {
+            this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
+            this.validarGrupo(value.substring(0, 2));
+          }
+          if (value.length >= 4) {
+            this.formularioConCuenta
+              .get('cuenta_subcuenta')
+              ?.setValue(value.substring(0, 4));
+            this.validarSubCuenta(value.substring(0, 4));
+          } else {
+            this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
+          }
+
+          let nivel = 1;
+          if (value.length > 1 && value.length <= 2) {
+            nivel = 2;
+          } else if (value.length > 2 && value.length <= 4) {
+            nivel = 3;
+          } else if (value.length > 4 && value.length <= 6) {
+            nivel = 4;
+          } else if (value.length > 6 && value.length <= 8) {
+            nivel = 5;
+          }
+
+          this.formularioConCuenta.get('nivel')?.setValue(nivel);
         } else {
+          this.formularioConCuenta.get('cuenta_clase')?.setValue('');
           this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
-          this.validarGrupo(value.substring(0, 2))
-
-        }
-        if (value.length >= 4) {
-          this.formularioConCuenta.get('cuenta_subcuenta')?.setValue(value.substring(0, 4));
-          this.validarSubCuenta(value.substring(0, 2))
-
-        } else {
           this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
+          this.formularioConCuenta.get('nivel')?.setValue(null);
         }
-
-        let nivel = 1;
-        if (value.length > 1 && value.length <= 2) {
-          nivel = 2;
-        } else if (value.length > 2 && value.length <= 4) {
-          nivel = 3;
-        } else if (value.length > 4 && value.length <= 6) {
-          nivel = 4;
-        } else if (value.length > 6 && value.length <= 8) {
-          nivel = 5;
-        }
-
-        this.formularioConCuenta.get('nivel')?.setValue(nivel);
-
-      } else {
-        this.formularioConCuenta.get('cuenta_clase')?.setValue('');
-        this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
-        this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
-        this.formularioConCuenta.get('nivel')?.setValue(null);
-      }
-    });
+      });
   }
 
   iniciarFormulario() {
     this.formularioConCuenta = this.formBuilder.group({
-      codigo: [null, Validators.compose([Validators.maxLength(8), cambiarVacioPorNulo.validar, numeroPar.validarLongitudPar()])],
+      codigo: [
+        null,
+        Validators.compose([
+          Validators.maxLength(8),
+          cambiarVacioPorNulo.validar,
+          numeroPar.validarLongitudPar(),
+        ]),
+      ],
       nombre: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
@@ -138,10 +150,14 @@ export default class ItemFormularioComponent extends General implements OnInit {
       // Validar que los campos clase, grupo y subcuenta no estén vacíos
       const cuentaClase = this.formularioConCuenta.get('cuenta_clase')?.value;
       const cuentaGrupo = this.formularioConCuenta.get('cuenta_grupo')?.value;
-      const cuentaSubcuenta = this.formularioConCuenta.get('cuenta_subcuenta')?.value;
+      const cuentaSubcuenta =
+        this.formularioConCuenta.get('cuenta_subcuenta')?.value;
 
       if (!cuentaClase || !cuentaGrupo || !cuentaSubcuenta) {
-        this.alertaService.mensajeError('Error', 'Los campos de clase, grupo y subcuenta son obligatorios.');
+        this.alertaService.mensajeError(
+          'Error',
+          'Los campos de clase, grupo y subcuenta son obligatorios.'
+        );
         return;
       }
 
@@ -180,7 +196,6 @@ export default class ItemFormularioComponent extends General implements OnInit {
     }
   }
 
-
   limpiarFormulario() {
     this.formularioConCuenta.reset();
   }
@@ -201,53 +216,67 @@ export default class ItemFormularioComponent extends General implements OnInit {
       });
   }
 
-  validarCuentaClase(grupo: string){
+  validarCuentaClase(cuentaClase: string) {
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
+          filtros: [{ propiedad: 'id', valor1: cuentaClase }],
           modelo: 'ConCuenta',
         }
       )
       .subscribe((respuesta) => {
-        if(respuesta){
-          this.formularioConCuenta.get('cuenta_clase')?.setErrors({ grupoNoValido: true });
+        if (respuesta.registros.length > 0) {
+          this.formularioConCuenta.get('cuenta_clase')?.setErrors(null);
+        } else {
+          this.formularioConCuenta
+            .get('cuenta_clase')
+            ?.setErrors({ grupoNoValido: true });
           this.changeDetectorRef.detectChanges();
         }
       });
   }
 
-  validarGrupo(grupo: string){
+  validarGrupo(grupo: string) {
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
+          filtros: [{ propiedad: 'id', valor1: grupo }],
           modelo: 'ConCuenta',
         }
       )
       .subscribe((respuesta) => {
-        if(respuesta){
-          this.formularioConCuenta.get('cuenta_grupo')?.setErrors({ grupoNoValido: true });
+        if (respuesta.registros.length > 0) {
+          this.formularioConCuenta.get('cuenta_grupo')?.setErrors(null);
+        } else {
+          this.formularioConCuenta
+            .get('cuenta_grupo')
+            ?.setErrors({ grupoNoValido: true });
           this.changeDetectorRef.detectChanges();
         }
         this.changeDetectorRef.detectChanges();
       });
   }
 
-  validarSubCuenta(grupo: string){
+  validarSubCuenta(subClase: string) {
     this.httpService
       .post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
+          filtros: [{ propiedad: 'id', valor1: subClase }],
           modelo: 'ConCuenta',
         }
       )
       .subscribe((respuesta) => {
-        if(respuesta){
-          this.formularioConCuenta.get('cuenta_subcuenta')?.setErrors({ grupoNoValido: true });
+        if (respuesta.registros.length > 0) {
+          this.formularioConCuenta.get('cuenta_subcuenta')?.setErrors(null);
+        } else {
+          this.formularioConCuenta
+            .get('cuenta_subcuenta')
+            ?.setErrors({ grupoNoValido: true });
           this.changeDetectorRef.detectChanges();
         }
       });
   }
-
 }
