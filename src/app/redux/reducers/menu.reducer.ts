@@ -344,7 +344,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 100 },
+              data: { documento_clase: 100, ordenamiento: "-numero" },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
