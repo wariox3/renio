@@ -84,7 +84,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
-      if (parametro?.ordemaiento) {
+      if (parametro?.ordenamiento) {
         this.arrParametrosConsulta.ordenamientos[0] = parametro?.ordenamiento
       } else {
         this.arrParametrosConsulta.ordenamientos = []
@@ -107,7 +107,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
-      let ordemientoFijo: any[] = parametro?.ordemaiento;
+      let ordemientoFijo: any[] = parametro?.ordenamiento;
       if (consultaHttp === 'si') {
           this.arrParametrosConsulta.modelo = 'GenDocumento'
           this.arrParametrosConsulta.filtros = [

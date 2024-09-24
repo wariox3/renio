@@ -217,7 +217,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 'HumProgramacion',
-                ordemaiento: '-fecha_desde',
+                ordenamiento: '-fecha_desde',
                 modelo: 'HumProgramacionDetalleAdicional',
               },
               visualiazarIconoDeracha: true,
@@ -226,7 +226,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'ADICIONAL',
               tipo: 'Documento',
-              data: { documento_clase: 'HumAdicional', ordemaiento: '-id' },
+              data: { documento_clase: 'HumAdicional', ordenamiento: '-id' },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
@@ -242,7 +242,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 'HumNovedad',
-                ordemaiento: '-fecha_desde',
+                ordenamiento: '-fecha_desde',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
