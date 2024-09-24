@@ -84,6 +84,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
+      if (parametro?.ordemaiento) {
+        this.arrParametrosConsulta.ordenamientos[0] = parametro?.ordenamiento
+      } else {
+        this.arrParametrosConsulta.ordenamientos = []
+      }
       let posicion: keyof typeof documentos = parametro.documento_clase;
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
@@ -120,9 +125,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             ...JSON.parse(filtroGuardado),
           ];
         }
-        // if (ordemientoFijo === undefined) {
-        //   this.arrParametrosConsulta.ordenamientos = []
-        // }
         if(parametro.serializador){
           this.arrParametrosConsulta.serializador = parametro.serializador
         } else {
