@@ -184,8 +184,8 @@
             <td>{{ novedad.dias_disfrutados }}</td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
             <td></td>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
-            <td></td>
+            <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Total</td>
+            <td class="text-end">{{ novedad.total.toFixed(2) | number }}</td>
           </tr>
           <tr>
             <td
@@ -208,14 +208,6 @@
             <td></td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
             <td></td>
-          </tr>
-          <tr>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
-            <td></td>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100"></td>
-            <td></td>
-            <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Total</td>
-            <td class="text-end">{{ novedad.total.toFixed(2) | number }}</td>
           </tr>
           }
         </tbody>

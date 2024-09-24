@@ -8,10 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -52,33 +54,40 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cuentaService: CuentaService // private httpService: HttpService
+    private cuentaService: CuentaService,
+    private httpService: HttpService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.iniciarFormulario(); 
-    
+    this.iniciarFormulario();
 
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
-    
+
     this.formularioConCuenta.get('codigo')?.valueChanges.subscribe((value: string) => {
       if (value && value.length > 0) {
         this.formularioConCuenta.get('cuenta_clase')?.setValue(value.charAt(0));
+        this.validarCuentaClase(value.substring(0, 2))
+
         if (value.length >= 2) {
           this.formularioConCuenta.get('cuenta_grupo')?.setValue(value.substring(0, 2));
+          this.validarGrupo(value.substring(0, 2))
         } else {
-          this.formularioConCuenta.get('cuenta_grupo')?.setValue(''); 
+          this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
+          this.validarGrupo(value.substring(0, 2))
+
         }
         if (value.length >= 4) {
           this.formularioConCuenta.get('cuenta_subcuenta')?.setValue(value.substring(0, 4));
+          this.validarSubCuenta(value.substring(0, 2))
+
         } else {
           this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
         }
-  
+
         let nivel = 1;
         if (value.length > 1 && value.length <= 2) {
           nivel = 2;
@@ -89,9 +98,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
         } else if (value.length > 6 && value.length <= 8) {
           nivel = 5;
         }
-        
+
         this.formularioConCuenta.get('nivel')?.setValue(nivel);
-        
+
       } else {
         this.formularioConCuenta.get('cuenta_clase')?.setValue('');
         this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
@@ -130,12 +139,12 @@ export default class ItemFormularioComponent extends General implements OnInit {
       const cuentaClase = this.formularioConCuenta.get('cuenta_clase')?.value;
       const cuentaGrupo = this.formularioConCuenta.get('cuenta_grupo')?.value;
       const cuentaSubcuenta = this.formularioConCuenta.get('cuenta_subcuenta')?.value;
-  
+
       if (!cuentaClase || !cuentaGrupo || !cuentaSubcuenta) {
         this.alertaService.mensajeError('Error', 'Los campos de clase, grupo y subcuenta son obligatorios.');
         return;
       }
-  
+
       // Proceder con el guardado
       if (this.detalle) {
         this.cuentaService
@@ -170,7 +179,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
       this.formularioConCuenta.markAllAsTouched(); // Marcar todos los campos como tocados
     }
   }
-  
+
 
   limpiarFormulario() {
     this.formularioConCuenta.reset();
@@ -189,6 +198,55 @@ export default class ItemFormularioComponent extends General implements OnInit {
           permite_movimiento: respuesta.permite_movimiento,
         });
         this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  validarCuentaClase(grupo: string){
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'ConCuenta',
+        }
+      )
+      .subscribe((respuesta) => {
+        if(respuesta){
+          this.formularioConCuenta.get('cuenta_clase')?.setErrors({ grupoNoValido: true });
+          this.changeDetectorRef.detectChanges();
+        }
+      });
+  }
+
+  validarGrupo(grupo: string){
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'ConCuenta',
+        }
+      )
+      .subscribe((respuesta) => {
+        if(respuesta){
+          this.formularioConCuenta.get('cuenta_grupo')?.setErrors({ grupoNoValido: true });
+          this.changeDetectorRef.detectChanges();
+        }
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  validarSubCuenta(grupo: string){
+    this.httpService
+      .post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'ConCuenta',
+        }
+      )
+      .subscribe((respuesta) => {
+        if(respuesta){
+          this.formularioConCuenta.get('cuenta_subcuenta')?.setErrors({ grupoNoValido: true });
+          this.changeDetectorRef.detectChanges();
+        }
       });
   }
 

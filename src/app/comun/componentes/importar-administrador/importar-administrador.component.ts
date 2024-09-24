@@ -15,6 +15,7 @@ import { catchError, of, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-importar-administrador',
   standalone: true,
@@ -23,6 +24,7 @@ import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinle
     TranslateModule,
     AnimationFadeinUpDirective,
     AnimationFadeinLeftDirective,
+    FormsModule
   ],
   templateUrl: './importar-administrador.component.html',
   styleUrl: './importar-administrador.component.scss',
@@ -33,6 +35,8 @@ export class ImportarAdministradorComponent extends General {
   errorImportar: ErroresDato[] = [];
   inputFile: any = null;
   cargardoDocumento: boolean = false;
+  importarSoloNuevos: boolean = false;
+  soloNuevos: boolean;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
@@ -40,18 +44,25 @@ export class ImportarAdministradorComponent extends General {
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService,
+    private descargarArchivosService: DescargarArchivosService
   ) {
     super();
   }
 
   abrirModalContactoNuevo(content: any) {
-    this.archivoNombre = '';
-    this.errorImportar = [];
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'xl',
-    });
+    this.activatedRoute.queryParams
+      .subscribe((parametros) => {
+        this.importarSoloNuevos = parametros.importarSoloNuevos === 'si'? true : false
+        this.soloNuevos = false,
+        this.changeDetectorRef.detectChanges()
+        this.archivoNombre = '';
+        this.errorImportar = [];
+        this.modalService.open(content, {
+          ariaLabelledBy: 'modal-basic-title',
+          size: 'xl',
+        });
+      })
+      .unsubscribe();
   }
 
   cerrarModal() {
@@ -92,85 +103,96 @@ export class ImportarAdministradorComponent extends General {
 
   subirArchivo(archivo_base64: string) {
     let ruta = localStorage.getItem('ruta')!;
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-    let esIndependiente = parametros.esIndependiente!
-    let modelo = ''
-    if(this.modelo === 'MOVIMIENTO'){
-      modelo = 'movimiento'
-    } else {
-      if (esIndependiente == 'no') {
-        modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-      } else {
-        modelo = this.modelo.toLowerCase();
-      }
-    }
-
-
-    this.cargardoDocumento = true;
-    this.changeDetectorRef.detectChanges();
-    let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
-    this.httpService
-      .post<ImportarDetalles>(url, {
-        archivo_base64,
-      })
-      .pipe(
-        tap((respuesta) => {
-          this.alertaService.mensajaExitoso(
-            `Se guardo la información registros importados: ${respuesta.registros_importados}`
-          );
-          this.modalService.dismissAll();
-          this.errorImportar = [];
-          this.cargardoDocumento = false;
-          this.changeDetectorRef.detectChanges();
-          this.emitirDetallesAgregados.emit(respuesta);
-        }),
-        catchError((respuesta: ImportarDetallesErrores) => {
-          if (respuesta.errores_datos) {
-            this.errorImportar = respuesta.errores_datos;
+    this.activatedRoute.queryParams
+      .subscribe((parametros) => {
+        let esIndependiente = parametros.esIndependiente!;
+        let modelo = '';
+        if (this.modelo === 'MOVIMIENTO') {
+          modelo = 'movimiento';
+        } else {
+          if (esIndependiente == 'no') {
+            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+          } else {
+            modelo = this.modelo.toLowerCase();
           }
-          this.cargardoDocumento = false;
-          this.changeDetectorRef.detectChanges();
-          return of(null);
-        })
-      )
-      .subscribe();
+        }
 
-    }).unsubscribe();
-
+        this.cargardoDocumento = true;
+        this.changeDetectorRef.detectChanges();
+        let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
+        this.httpService
+          .post<ImportarDetalles>(url, {
+            archivo_base64,
+            solo_nuevos: this.soloNuevos
+          })
+          .pipe(
+            tap((respuesta) => {
+              this.alertaService.mensajaExitoso(
+                `Se guardo la información registros importados: ${respuesta.registros_importados}`
+              );
+              this.soloNuevos= false;
+              this.modalService.dismissAll();
+              this.errorImportar = [];
+              this.cargardoDocumento = false;
+              this.changeDetectorRef.detectChanges();
+              this.emitirDetallesAgregados.emit(respuesta);
+            }),
+            catchError((respuesta: ImportarDetallesErrores) => {
+              if (respuesta.errores_datos) {
+                this.errorImportar = respuesta.errores_datos;
+              }
+              this.cargardoDocumento = false;
+              this.changeDetectorRef.detectChanges();
+              return of(null);
+            })
+          )
+          .subscribe();
+      })
+      .unsubscribe();
   }
 
   descargarExcelImportar() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.modelo}.xlsx`;
-      this.descargarArchivosService.comprobarArchivoExiste(fileUrl).subscribe((archivoExiste)=> {
-        if(archivoExiste){
-          let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
-          let esIndependite = parametro.esIndependiente!;
-          if (esIndependite == 'si') {
-            fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
-              .getItem('ruta')!
-              .toLowerCase()
-              .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+    this.activatedRoute.queryParams
+      .subscribe((parametro) => {
+        let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.modelo}.xlsx`;
+        this.descargarArchivosService
+          .comprobarArchivoExiste(fileUrl)
+          .subscribe((archivoExiste) => {
+            if (archivoExiste) {
+              let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
+              let esIndependite = parametro.esIndependiente!;
+              if (esIndependite == 'si') {
+                fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
+                  .getItem('ruta')!
+                  .toLowerCase()
+                  .substring(
+                    0,
+                    3
+                  )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
 
-            nombreArchivo = `${localStorage
-              .getItem('ruta')!
-              .toLowerCase()
-              .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-          }
+                nombreArchivo = `${localStorage
+                  .getItem('ruta')!
+                  .toLowerCase()
+                  .substring(
+                    0,
+                    3
+                  )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+              }
 
-          // Crear un enlace de descarga
-          const link = document.createElement('a');
-          link.href = fileUrl;
-          link.download = nombreArchivo;
-          // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-          document.body.appendChild(link);
-          link.click();
+              // Crear un enlace de descarga
+              const link = document.createElement('a');
+              link.href = fileUrl;
+              link.download = nombreArchivo;
+              // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
+              document.body.appendChild(link);
+              link.click();
 
-          // Eliminar el enlace del DOM
-          document.body.removeChild(link);
-        }
+              // Eliminar el enlace del DOM
+              document.body.removeChild(link);
+            }
+          });
       })
-    }).unsubscribe();
+      .unsubscribe();
   }
 
   descargarExcelError() {
