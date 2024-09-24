@@ -99,6 +99,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   consultarLista() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+
       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
       let consultaHttp: string = parametro.consultaHttp!;
       let ordemientoFijo: any[] = parametro?.ordemaiento;
@@ -119,9 +120,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             ...JSON.parse(filtroGuardado),
           ];
         }
-        if (ordemientoFijo === undefined) {
-          this.arrParametrosConsulta.ordenamientos = []
-        }
+        // if (ordemientoFijo === undefined) {
+        //   this.arrParametrosConsulta.ordenamientos = []
+        // }
         if(parametro.serializador){
           this.arrParametrosConsulta.serializador = parametro.serializador
         } else {
@@ -175,7 +176,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   construirBotonesExtras (parametros: Params) {
     let configuracionExtra: string = parametros.configuracionExtra!;
 
-    
+
     if(configuracionExtra === 'si') {
       let documentoClase: number = Number(parametros.documento_clase);
       this.botonesExtras = configuracionExtraDocumento[documentoClase]?.botones || []
