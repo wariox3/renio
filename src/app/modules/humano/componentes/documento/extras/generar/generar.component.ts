@@ -54,7 +54,10 @@ export default class GenerarComponent extends General {
     this.generando = true;
     this.generalService
       .generarNominaElectronica(this.formularioVentaFacturaElectronica.value)
-      .pipe(finalize(() => (this.generando = false)))
+      .pipe(finalize(() => {
+        this.generando = false
+        this.changeDetectorRef.detectChanges()
+      }))
       .subscribe((respuesta) => {
         this.alertaService.mensajaExitoso(
           '¡Facturas electrónicas generadas exitosamente!'

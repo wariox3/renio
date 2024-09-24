@@ -1,20 +1,19 @@
-import { Subdominio } from './../../../clases/subdomino';
-import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { ImportarComponent } from '@comun/componentes/importar/importar.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { mapeo } from '@comun/extra/mapeoEntidades/administradores';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
-import { combineLatest } from 'rxjs';
-import { mapeo } from '@comun/extra/mapeoEntidades/administradores';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -53,6 +52,7 @@ export class BaseListaComponent extends General implements OnInit {
   visualizarBtnNuevo = true;
   visualizarColumnaEditar = true;
   submodelo: string | undefined;
+  cargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private httpService: HttpService,
@@ -63,8 +63,10 @@ export class BaseListaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.visualizarColumnaEditar = parametro.visualizarColumnaEditar === 'no' ?  false : true
-      this.visualizarBtnNuevo =  parametro.visualizarBtnNuevo === 'no' ? false : true
+      this.visualizarColumnaEditar =
+        parametro.visualizarColumnaEditar === 'no' ? false : true;
+      this.visualizarBtnNuevo =
+        parametro.visualizarBtnNuevo === 'no' ? false : true;
       this.changeDetectorRef.detectChanges();
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
@@ -104,6 +106,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
+    this.cargando$.next(true);
     let baseUrl = 'general/funcionalidad/lista/';
     this.arrParametrosConsulta = {
       ...this.arrParametrosConsulta,
@@ -118,6 +121,7 @@ export class BaseListaComponent extends General implements OnInit {
         registros: any[];
         propiedades: any[];
       }>(baseUrl, this.arrParametrosConsulta)
+      .pipe(finalize(() => this.cargando$.next(false)))
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
@@ -165,15 +169,22 @@ export class BaseListaComponent extends General implements OnInit {
       ) {
         modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
       }
+      this.cargando$.next(true);
       const eliminarSolicitudes = data.map((id) => {
         return this.httpService.delete(`${this.modulo}/${modelo}/${id}/`, {});
       });
-      combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Registro eliminado');
-        this.confirmacionRegistrosEliminado = true;
-        this.changeDetectorRef.detectChanges();
-        this.consultarLista();
-      });
+      forkJoin(eliminarSolicitudes)
+        .pipe(
+          finalize(() => {
+            this.cargando$.next(false);
+            this.consultarLista();
+          })
+        )
+        .subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+          this.confirmacionRegistrosEliminado = true;
+          this.changeDetectorRef.detectChanges();
+        });
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -215,15 +226,17 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      let modelo = parametro.itemTipo!;
-      this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
-        ...this.arrParametrosConsulta,
-        excel: true,
-        ...{
-          limite: 5000,
-        },
-      });
-    }).unsubscribe();
+    this.activatedRoute.queryParams
+      .subscribe((parametro) => {
+        let modelo = parametro.itemTipo!;
+        this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
+          ...this.arrParametrosConsulta,
+          excel: true,
+          ...{
+            limite: 5000,
+          },
+        });
+      })
+      .unsubscribe();
   }
 }

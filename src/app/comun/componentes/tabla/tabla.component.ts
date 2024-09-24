@@ -12,7 +12,10 @@ import {
 } from '@angular/core';
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -44,7 +47,7 @@ import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
     ImportarComponent,
     AnimationFadeinUpDirective,
     ImportarAdministradorComponent,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
@@ -67,6 +70,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   tipo: string;
   btnGrupoResponsive = false;
   @Input() encabezado: any;
+  @Input() cargando: boolean | null = false
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
@@ -80,7 +84,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarBtnEliminar: boolean = true;
   @Input() visualizarBtnColumnas: boolean = true;
   @Input() visualizarBtnExtra: boolean;
-  @Input() botonesExtras: BotonesExtras[] = []
+  @Input() botonesExtras: BotonesExtras[] = [];
   @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
@@ -91,7 +95,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
   @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
-  @Output() emitirClickBotonExtra: EventEmitter<BotonesExtras> = new EventEmitter();
+  @Output() emitirClickBotonExtra: EventEmitter<BotonesExtras> =
+    new EventEmitter();
 
   constructor() {
     super();
@@ -220,7 +225,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   botonExtra(nombreComponente: BotonesExtras) {
-    this.emitirClickBotonExtra.emit(nombreComponente)
+    this.emitirClickBotonExtra.emit(nombreComponente);
   }
 
   validarCantidadMostrando() {
@@ -297,31 +302,39 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   eliminarRegistros() {
     // Emite un evento con los registros a eliminar
     this.emitirRegistraEliminar.emit(this.arrRegistrosEliminar);
-    this.arrRegistrosEliminar = [];
     // Si todos los registros están seleccionados, deselecciona todos
-    if (this.selectAll) {
-      this.toggleSelectAll();
-    }
+    this.reiniciarSelectoresEliminar();
+  }
+
+  reiniciarSelectoresEliminar() {
+    this.arrRegistrosEliminar = [];
+    this.selectAll = false;
+    this.changeDetectorRef.detectChanges();
   }
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
-  toggleSelectAll() {
-    // Itera sobre todos los datos
-    this.datosFiltrados.forEach((item: any) => {
-      // Establece el estado de selección de cada registro
-      item.selected = !item.selected;
-      // Busca el índice del registro en el array de registros a eliminar
-      const index = this.arrRegistrosEliminar.indexOf(item.id);
-      // Si el registro ya estaba en el array de registros a eliminar, lo elimina
-      if (index !== -1) {
-        this.arrRegistrosEliminar.splice(index, 1);
-      } else {
-        // Si el registro no estaba en el array de registros a eliminar, lo agrega
-        this.arrRegistrosEliminar.push(item.id.valor);
-      }
-    });
-    // Alterna el estado de selección de todos los registros
+  toggleSelectAll(event: Event) {
+    const seleccionarTodos = event.target as HTMLInputElement;
     this.selectAll = !this.selectAll;
+
+    if (seleccionarTodos.checked) {
+      this.datosFiltrados.forEach((item: any) => {
+        item.selected = !item.selected;
+
+        const index = this.arrRegistrosEliminar.indexOf(item.id.valor);
+
+        if (index === -1) {
+          this.arrRegistrosEliminar.push(item.id.valor);
+        }
+      });
+    } else {
+      this.datosFiltrados.forEach((item: any) => {
+        item.selected = !item.selected;
+      });
+
+      this.arrRegistrosEliminar = [];
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
