@@ -14,4 +14,8 @@ export class PeriodoService extends Subdominio {
   consultarDetalle() {
     return this.httpService.getDetalle<ConPeriodo[]>(`contabilidad/periodo/`);
   }
+
+  crearPeriodo(data: any) {
+    return this.httpService.post<any>(`contabilidad/periodo/anio-nuevo/`, data);
+  }
 }
