@@ -102,7 +102,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto' },
+              data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
             },
             {
               nombre: 'RESOLUCION',
@@ -378,7 +378,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'CONTACTO',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto' },
+              data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
             },
             {
               nombre: 'ITEM',
@@ -484,7 +484,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto' },
+              data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
             },
             {
               nombre: 'Item',
