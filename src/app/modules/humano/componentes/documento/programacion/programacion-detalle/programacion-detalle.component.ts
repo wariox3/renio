@@ -184,7 +184,7 @@ export default class ProgramacionDetalleComponent
       ],
       limite: 10,
       desplazar: 0,
-      ordenamientos: [],
+      ordenamientos: ["contrato_id"],
       limite_conteo: 10000,
       modelo: 'HumProgramacionDetalle',
     };
