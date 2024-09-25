@@ -2,14 +2,20 @@
   <div class="col-sm-12 col-md-3">
     <app-card titulo="Periodos">
       <section card-propiedades>
-        <button (click)="abrirModalCrearNuevo(contenidoCrearNuevo)" class="btn btn-primary btn-sm rounded-left-0"
-          type="button">
+        <button
+          (click)="abrirModalCrearNuevo(contenidoCrearNuevo)"
+          class="btn btn-primary btn-sm rounded-left-0"
+          type="button"
+        >
           Nuevo
         </button>
       </section>
       <section card-body>
         @for(fecha of fechas; track $index) {
-        <button class="btn btn-light w-100 mb-3" (click)="seleccionarAnio(fecha)">
+        <button
+          class="btn btn-light w-100 mb-3"
+          (click)="seleccionarAnio(fecha)"
+        >
           {{ fecha }}
         </button>
         }
@@ -17,18 +23,26 @@
     </app-card>
   </div>
   @if (periodosFiltradosPorAnio.length) {
-  <div class="col-sm-12 col-md-4">
+  <div class="col-sm-12 col-md-9">
     <app-card>
       <section card-titulo>
         {{ anioSeleccionado }}
       </section>
       <section card-body>
-        <div style="max-height: 480px; overflow-y: scroll;">
-          @for(periodo of periodosFiltradosPorAnio; track $index) {
-          <button class="btn btn-light w-100 mb-3">
-            {{ deNumeroAMes(periodo.mes) }}
-          </button>
-          }
+        <div class="table-responsive">
+          <table
+            class="table table-hover table-bordered table-rounded border gy-2 gs-2 table-vertical-center"
+          >
+            <tbody>
+              @for(periodo of periodosFiltradosPorAnio; track $index) {
+              <tr>
+                <td>
+                  {{ deNumeroAMes(periodo.mes) }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </section>
     </app-card>
@@ -40,53 +54,87 @@
 <ng-template #contenidoCrearNuevo let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      {{ 'Nuevo Periodo' }}
+      {{ "Nuevo Periodo" }}
     </h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioPeriodo">
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label class="form-label">Año</label>
-          <input placeholder="2024" formControlName="anio" class="form-control" type="number" [ngClass]="{
+          <input
+            placeholder="2024"
+            formControlName="anio"
+            class="form-control"
+            type="number"
+            [ngClass]="{
               'is-invalid':
                 formularioPeriodo.controls['anio'].touched &&
                 formularioPeriodo.controls['anio'].invalid,
               'is-valid':
                 formularioPeriodo.controls['anio'].touched &&
                 formularioPeriodo.controls['anio'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'required',
-                  message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                  control: formularioPeriodo.controls['anio']
-                }"></ng-container>
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioPeriodo.controls['anio']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <button (click)="modal.dismiss('Cross click')" class="btn btn-secondary btn-sm me-2" type="button">
+        <button
+          (click)="modal.dismiss('Cross click')"
+          class="btn btn-secondary btn-sm me-2"
+          type="button"
+        >
           Cancelar
         </button>
         @if(creandoPeriodo$ | async) {
         <button class="btn btn-primary btn-sm" type="button" disabled>
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true"
+          ></span>
           <span role="status">Creando...</span>
         </button>
         } @else {
-        <button [disabled]="!formularioPeriodo.valid" type="button" (click)="crearPeriodo()"
-          class="btn btn-sm btn-flex btn-primary" #btnGuardar>Crear</button>
+        <button
+          [disabled]="!formularioPeriodo.valid"
+          type="button"
+          (click)="crearPeriodo()"
+          class="btn btn-sm btn-flex btn-primary"
+          #btnGuardar
+        >
+          Crear
+        </button>
         }
       </div>
     </form>
   </div>
-
 </ng-template>
 
 <!-- error template -->
-<ng-template #formError let-control="control" let-message="message" let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
