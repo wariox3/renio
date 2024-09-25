@@ -169,6 +169,8 @@
                       <th>Cod</th>
                       <th>Identificación</th>
                       <th>Empleado</th>
+                      <th>Base cotización</th>
+                      <th>Base prestación</th>
                       <th>Salario</th>
                       <th>Devengado</th>
                       <th>Deducción</th>
@@ -187,6 +189,8 @@
                         <td>{{nomina.contacto_id}}</td>
                         <td>{{nomina.contacto_numero_identificacion}}</td>
                         <td>{{nomina.contacto_nombre_corto}}</td>
+                        <td class="text-end">{{nomina.base_cotizacion | number:'1.2-2'}}</td>
+                        <td class="text-end">{{nomina.base_prestacion | number:'1.2-2'}}</td>
                         <td class="text-end">{{nomina.salario | number:'1.2-2'}}</td>
                         <td class="text-end">{{nomina.devengado | number:'1.2-2'}}</td>
                         <td class="text-end">{{nomina.deduccion | number:'1.2-2'}}</td>
