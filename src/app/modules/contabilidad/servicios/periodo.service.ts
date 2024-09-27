@@ -18,4 +18,31 @@ export class PeriodoService extends Subdominio {
   crearPeriodo(data: any) {
     return this.httpService.post<any>(`contabilidad/periodo/anio-nuevo/`, data);
   }
+
+  cerrar(id: number) {
+    return this.httpService.post<{ mensaje: string }>(
+      `contabilidad/periodo/cerrar/`,
+      {
+        id,
+      }
+    );
+  }
+
+  bloquear(id: number) {
+    return this.httpService.post<{ mensaje: string }>(
+      `contabilidad/periodo/bloquear/`,
+      {
+        id,
+      }
+    );
+  }
+
+  desbloquear(id: number) {
+    return this.httpService.post<{ mensaje: string }>(
+      `contabilidad/periodo/desbloquear/`,
+      {
+        id,
+      }
+    );
+  }
 }

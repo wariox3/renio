@@ -1,3 +1,15 @@
 :host {
   display: block;
 }
+
+.dropdown-toggle::after {
+  content: none; /* O también puedes utilizar content: ""; */
+}
+
+.cerrado {
+  background-color: rgba(132, 255, 128, 0.151)
+}
+
+.bloqueado {
+  background-color: rgba(255, 251, 23, 0.151);
+}

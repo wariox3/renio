@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,9 +13,18 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ConPeriodo } from '@interfaces/contabilidad/contabilidad-periodo.interface';
 import { PeriodoService } from '@modulos/contabilidad/servicios/periodo.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, finalize, map } from 'rxjs';
+import {
+  BehaviorSubject,
+  finalize,
+  map,
+  Observable,
+  of,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-movimiento-formulario',
@@ -30,19 +39,24 @@ import { BehaviorSubject, finalize, map } from 'rxjs';
     BtnAtrasComponent,
     AsyncPipe,
     ReactiveFormsModule,
+    NgbDropdownModule,
   ],
   templateUrl: './periodo-detalle.component.html',
   styleUrl: './periodo-detalle.component.scss',
 })
-export class PeriodoDetalleComponent extends General implements OnInit {
+export class PeriodoDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private formBuilder = inject(FormBuilder);
+  private _destroy$ = new Subject<void>();
 
   public formularioPeriodo: FormGroup;
   public creandoPeriodo$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-  periodos: ConPeriodo[];
+  periodos$: Observable<ConPeriodo[]>;
   fechas: number[];
-  periodosFiltradosPorAnio: ConPeriodo[] = [];
+  periodosFiltradosPorAnio$: Observable<ConPeriodo[]>;
   anioSeleccionado: number;
 
   constructor(
@@ -68,7 +82,10 @@ export class PeriodoDetalleComponent extends General implements OnInit {
     this.creandoPeriodo$.next(true);
     this.periodoService
       .crearPeriodo(this.formularioPeriodo.value)
-      .pipe(finalize(() => this.creandoPeriodo$.next(false)))
+      .pipe(
+        takeUntil(this._destroy$),
+        finalize(() => this.creandoPeriodo$.next(false))
+      )
       .subscribe(() => {
         this.modalService.dismissAll();
         this.alertaService.mensajaExitoso('Periodo creado exitosamente!');
@@ -78,10 +95,13 @@ export class PeriodoDetalleComponent extends General implements OnInit {
 
   seleccionarAnio(anio: number) {
     this.anioSeleccionado = anio;
-    this.periodosFiltradosPorAnio = this.periodos
-      .filter((item) => item.anio === anio)
-      .sort((a, b) => b.mes - a.mes);
-    this.changeDetectorRef.detectChanges();
+    this.periodosFiltradosPorAnio$ = this.periodos$.pipe(
+      map((respuesta) => {
+        return respuesta
+          .filter((item) => item.anio === anio)
+          .sort((a, b) => b.mes - a.mes);
+      })
+    );
   }
 
   abrirModalCrearNuevo(content: any) {
@@ -108,14 +128,47 @@ export class PeriodoDetalleComponent extends General implements OnInit {
     return meses[mes - 1] || '';
   }
 
+  bloquear(id: number) {
+    this.periodoService.bloquear(id).subscribe((respuesta) => {
+      this.alertaService.mensajaExitoso(respuesta.mensaje);
+      this.consultarDetalle();
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  desbloquear(id: number) {
+    this.periodoService.desbloquear(id).subscribe((respuesta) => {
+      this.alertaService.mensajaExitoso(respuesta.mensaje);
+      this.consultarDetalle();
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  cerrar(id: number) {
+    this.periodoService.cerrar(id).subscribe((respuesta) => {
+      this.alertaService.mensajaExitoso(respuesta.mensaje);
+      this.consultarDetalle();
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
   consultarDetalle() {
     this.periodoService
       .consultarDetalle()
-      .pipe(map((respuesta) => respuesta.sort((a, b) => b.anio - a.anio)))
+      .pipe(
+        takeUntil(this._destroy$),
+        map((respuesta) => respuesta.sort((a, b) => b.anio - a.anio))
+      )
       .subscribe((respuesta) => {
-        this.periodos = respuesta;
+        this.periodos$ = of(respuesta);
+        this.seleccionarAnio(this.anioSeleccionado);
         this.fechas = [...new Set(respuesta.map((item) => item.anio))];
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 }
