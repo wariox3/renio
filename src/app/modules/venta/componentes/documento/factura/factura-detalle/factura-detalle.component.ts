@@ -21,6 +21,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { KeysPipe } from '@pipe/keys.pipe';
 import { switchMap, tap } from 'rxjs';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
+import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -43,6 +44,7 @@ import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-
     BtnAtrasComponent,
     KeysPipe,
     LogElectronicoComponent,
+    DocumentoOpcionesComponent
   ],
 })
 export default class FacturaDetalleComponent extends General {

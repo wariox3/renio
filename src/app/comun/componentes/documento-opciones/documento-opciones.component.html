@@ -1,0 +1,54 @@
+<div ngbDropdown class="d-inline-block">
+  <button
+    type="button"
+    class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+    id="dropdownBasic1"
+    ngbDropdownToggle
+  >
+    Opciones
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <button ngbDropdownItem (click)="abirModal(content)">Contabilidad</button>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Buscar
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <app-comun-tabla
+      [modelo]="modelo"
+      [datos]="arrDocumentos"
+      [cantidad_registros]="cantidad_registros"
+      [visualizarColumnaEditar]="false"
+      [visualizarColumnaDetalle]="false"
+      [visualizarColumnaSeleccionar]="false"
+      [visualizarBtnImportar]="true"
+      [visualizarBtnExportar]="true"
+      [visualizarBtnNuevo]="false"
+      [visualizarBtnEliminar]="false"
+      [visualizarBtnImportar]="false"
+      [visualizarBtnColumnas]="false"
+      (emitirExportarExcel)="descargarExcel()"
+
+    >
+    </app-comun-tabla>
+    </div>
+    <!--
+          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+      (emitirOrdenamiento)="cambiarOrdemiento($event)"
+      (emitirPaginacion)="cambiarPaginacion($event)"
+      (emitirConsultarLista)="consultarLista()"
+    -->
+  </div>
+</ng-template>
