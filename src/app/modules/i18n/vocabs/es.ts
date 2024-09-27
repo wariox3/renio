@@ -698,6 +698,11 @@ export const locale = {
         METODO_PAGO: 'Metodo pago',
         CONTACTO_NOMBRE_CORTO: 'Contacto',
         CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
+        DOCUMENTO_CONTACTO_ID: 'Contacto',
+        DOCUMENTO_CONTACTO_NOMBRE: 'Nombre',
+        DOCUMENTO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
+        DOCUMENTO_ID: 'Cód',
+
         DOCUMENTOREFERENCIA: 'Documento referencia',
         ITEM: 'Item',
         ITEM_ID: 'Item id',

@@ -61,28 +61,23 @@ export class NominaDetalleComponent extends General  implements OnInit {
 
   consultarLista() {
     this.httpService
-      .post<AutocompletarRegistros<NominaDetalle>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      .post<AutocompletarRegistros<any>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.registros?.length;
         this.arrDocumentos = respuesta.registros?.map((documento) => ({
           id: documento.id,
           documento_id: documento.documento_id,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
-          documento_fecha: documento.documento_fecha,
-          documento_numero: documento.documento_numero,
+          documento_contacto_id:  documento.documento_contacto_id,
+          documento_contacto_numero_identificacion:  documento.documento_contacto_numero_identificacion,
           documento_contacto_nombre: documento.documento_contacto_nombre,
-          concepto_id: documento.concepto_id,
-          concepto_nombre: documento.concepto_nombre,
+          fecha_desde: documento.documento_fecha,
+          fecha_hasta: documento.documento_fecha_hasta,
           detalle: documento.detalle,
           porcentaje: documento.porcentaje,
-          cantidad: documento.cantidad,
           dias: documento.dias,
           hora: documento.hora,
           operacion: documento.operacion,
           pago: documento.pago,
-          pago_operado: documento.pago_operado,
-          devengado: documento.devengado,
-          deduccion: documento.deduccion,
           base_cotizacion: documento.base_cotizacion,
           base_prestacion: documento.base_prestacion,
           base_impuesto: documento.base_impuesto
