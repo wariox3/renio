@@ -124,7 +124,10 @@ export const locale = {
           EJEMPLO: 'Ejemplo',
           VERMAS: 'Ver Más',
           VERMENOS: 'Ver Menos',
-          DESGENERAR: 'Desgenerar'
+          DESGENERAR: 'Desgenerar',
+          BLOQUEAR: 'Bloquear',
+          DESBLOQUEAR: 'Desbloquear',
+          CERRAR: 'Cerrar',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
