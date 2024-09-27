@@ -87,7 +87,8 @@ export const locale = {
         GUIA: 'Guía',
         NOMINA: 'Nomina',
         NOMINAELECTRONICA: 'Nomina electrónica',
-        NOMINADETALLE: 'Nomina detalle'
+        NOMINADETALLE: 'Nomina detalle',
+        BALANCEPRUEBA: 'Balance de prueba',
       },
     },
     FORMULARIOS: {

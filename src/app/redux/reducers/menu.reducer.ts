@@ -202,6 +202,14 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'informe',
+          children: [
+            {
+              nombre: 'BALANCEPRUEBA',
+              tipo: 'informe',
+              url: 'contabilidad/informe/balance_prueba',
+            },
+          ]
+          
         },
       ],
     },

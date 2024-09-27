@@ -1,0 +1,45 @@
+<app-card [titulo]="'MENU.FUNCIONALIDAD.BALANCEPRUEBA'">
+    <section card-body>
+        @for (cuentaClase of cuentasAgrupadas$ | async | keyvalue; track $index) {
+        <h2 class="clase p-2">{{ cuentaClase.key }}</h2>
+
+        @for (cuentaGrupo of cuentaClase.value | keyvalue; track $index) {
+        <div class="">
+            <h5 class="indent bg-secondary p-2">{{cuentaGrupo.key}}</h5>
+
+            <div class="table-responsive double-indent">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="cuenta-col">
+                            <th>Cuenta</th>
+                            <th>Debito</th>
+                            <th>Credito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of cuentaGrupo.value | keyvalue; track $index) {
+                        @if(item.key !== 'total') {
+                        <tr>
+                            <td class="cuenta-col">{{item.key}}</td>
+                            <td>{{item.value.vr_credito | currency: '$' }}</td>
+                            <td>{{item.value.vr_debito | currency: '$'}}</td>
+                        </tr>
+                        }
+                        }
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="cuenta-col fw-bold">Total</td>
+                            <td class="fw-bold">{{cuentaGrupo.value.total.vr_credito | currency: '$'}}</td>
+                            <td class="fw-bold">{{cuentaGrupo.value.total.vr_debito | currency: '$' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        }
+        }
+    </section>
+</app-card>
