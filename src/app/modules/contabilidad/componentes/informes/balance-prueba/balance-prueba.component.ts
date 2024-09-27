@@ -49,7 +49,6 @@ export class BalancePruebaComponent extends General implements OnInit {
         map((response) => {
           return this.groupData(response.movimientos);
         }),
-        tap((response) => console.log(response))
       );
   }
 
