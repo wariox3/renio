@@ -27,6 +27,7 @@ import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interfac
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { numeroPar } from '@comun/validaciones/numeroPar';
+import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -74,8 +75,6 @@ export default class ItemFormularioComponent extends General implements OnInit {
           this.formularioConCuenta
             .get('cuenta_clase')
             ?.setValue(value.charAt(0));
-          this.validarCuentaClase(value.charAt(0));
-
           if (value.length >= 2) {
             this.formularioConCuenta
               .get('cuenta_grupo')
@@ -83,13 +82,11 @@ export default class ItemFormularioComponent extends General implements OnInit {
             this.validarGrupo(value.substring(0, 2));
           } else {
             this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
-            this.validarGrupo(value.substring(0, 2));
           }
           if (value.length >= 4) {
             this.formularioConCuenta
               .get('cuenta_subcuenta')
               ?.setValue(value.substring(0, 4));
-            this.validarSubCuenta(value.substring(0, 4));
           } else {
             this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
           }
@@ -161,36 +158,85 @@ export default class ItemFormularioComponent extends General implements OnInit {
         return;
       }
 
-      // Proceder con el guardado
-      if (this.detalle) {
-        this.cuentaService
-          .actualizarDatos(this.detalle, this.formularioConCuenta.value)
-          .subscribe((respuesta: ConCuenta) => {
-            this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
-                queryParams: {
-                  ...parametro,
-                  detalle: respuesta.id,
-                },
+        forkJoin([
+          this.validarCuentaClase(
+            this.formularioConCuenta.get('codigo')?.value.charAt(0)
+          ),
+          this.validarGrupo(
+            this.formularioConCuenta.get('codigo')?.value.substring(0, 2)
+          ),
+          this.validarSubCuenta(
+            this.formularioConCuenta.get('codigo')?.value.substring(0, 4)
+          ),
+        ])
+        .pipe(
+          map((respuesta) => {
+            let errores = false;
+            if (respuesta[0].registros.length > 0) {
+              this.formularioConCuenta.get('cuenta_clase')?.setErrors(null);
+            } else {
+              errores = true;
+              this.formularioConCuenta
+                .get('cuenta_clase')
+                ?.setErrors({ grupoNoValido: true });
+              this.changeDetectorRef.detectChanges();
+            }
+            if (respuesta[1].registros.length > 0) {
+              this.formularioConCuenta.get('cuenta_grupo')?.setErrors(null);
+            } else {
+              errores = true;
+              this.formularioConCuenta
+                .get('cuenta_grupo')
+                ?.setErrors({ grupoNoValido: true });
+              this.changeDetectorRef.detectChanges();
+            }
+            if (respuesta[2].registros.length > 0) {
+              this.formularioConCuenta
+                .get('cuenta_subcuenta')
+                ?.setErrors(null);
+            } else {
+              errores = true;
+              this.formularioConCuenta
+                .get('cuenta_subcuenta')
+                ?.setErrors({ grupoNoValido: true });
+              this.changeDetectorRef.detectChanges();
+            }
+            return errores;
+          }),
+          switchMap((respuestaErrores) => {
+            if (respuestaErrores === false) {
+              if (this.detalle) {
+                return this.cuentaService
+                .actualizarDatos(this.detalle, this.formularioConCuenta.value)
+              } else {
+                return this.cuentaService.guardarCuenta(
+                  this.formularioConCuenta.value
+                );
+              }
+            } else{
+              return of(null);
+            }
+          }),
+          tap((respuesta)=> {
+            if (respuesta) {
+              if (this.detalle) {
+                this.alertaService.mensajaExitoso('Se actualizó la información');
+              } else {
+                this.alertaService.mensajaExitoso('Se actualizó la información');
+              }
+              this.activatedRoute.queryParams.subscribe((parametro) => {
+                this.router.navigate([`/administrador/detalle`], {
+                  queryParams: {
+                    ...parametro,
+                    detalle: respuesta?.id,
+                  },
+                });
               });
-            });
-          });
-      } else {
-        this.cuentaService
-          .guardarCuenta(this.formularioConCuenta.value)
-          .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso('Se actualizó la información');
-            this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
-                queryParams: {
-                  ...parametro,
-                  detalle: respuesta.id,
-                },
-              });
-            });
-          });
-      }
+            }
+          })
+        )
+        .subscribe();
+
     } else {
       this.formularioConCuenta.markAllAsTouched(); // Marcar todos los campos como tocados
     }
@@ -217,66 +263,32 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   validarCuentaClase(cuentaClase: string) {
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [{ propiedad: 'id', valor1: cuentaClase }],
-          modelo: 'ConCuenta',
-        }
-      )
-      .subscribe((respuesta) => {
-        if (respuesta.registros.length > 0) {
-          this.formularioConCuenta.get('cuenta_clase')?.setErrors(null);
-        } else {
-          this.formularioConCuenta
-            .get('cuenta_clase')
-            ?.setErrors({ grupoNoValido: true });
-          this.changeDetectorRef.detectChanges();
-        }
-      });
+    return this.httpService.post<{
+      cantidad_registros: number;
+      registros: any[];
+    }>('general/funcionalidad/lista/', {
+      filtros: [{ propiedad: 'id', valor1: cuentaClase }],
+      modelo: 'ConCuentaClase',
+    });
   }
 
   validarGrupo(grupo: string) {
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [{ propiedad: 'id', valor1: grupo }],
-          modelo: 'ConCuenta',
-        }
-      )
-      .subscribe((respuesta) => {
-        if (respuesta.registros.length > 0) {
-          this.formularioConCuenta.get('cuenta_grupo')?.setErrors(null);
-        } else {
-          this.formularioConCuenta
-            .get('cuenta_grupo')
-            ?.setErrors({ grupoNoValido: true });
-          this.changeDetectorRef.detectChanges();
-        }
-        this.changeDetectorRef.detectChanges();
-      });
+    return this.httpService.post<{
+      cantidad_registros: number;
+      registros: any[];
+    }>('general/funcionalidad/lista/', {
+      filtros: [{ propiedad: 'id', valor1: grupo }],
+      modelo: 'ConCuentaGrupo',
+    });
   }
 
   validarSubCuenta(subClase: string) {
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [{ propiedad: 'id', valor1: subClase }],
-          modelo: 'ConCuenta',
-        }
-      )
-      .subscribe((respuesta) => {
-        if (respuesta.registros.length > 0) {
-          this.formularioConCuenta.get('cuenta_subcuenta')?.setErrors(null);
-        } else {
-          this.formularioConCuenta
-            .get('cuenta_subcuenta')
-            ?.setErrors({ grupoNoValido: true });
-          this.changeDetectorRef.detectChanges();
-        }
-      });
+    return this.httpService.post<{
+      cantidad_registros: number;
+      registros: any[];
+    }>('general/funcionalidad/lista/', {
+      filtros: [{ propiedad: 'id', valor1: subClase }],
+      modelo: 'ConCuentaSubcuenta',
+    });
   }
 }
