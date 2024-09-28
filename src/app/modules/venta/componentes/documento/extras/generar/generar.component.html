@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="formularioVentaFacturaElectronica">
+  <form>
     <div class="d-flex justify-content-end">
       @if(generando) {
       <button class="btn btn-primary btn-sm" type="button" disabled>
@@ -7,7 +7,7 @@
         <span role="status">Generando...</span>
       </button>
       } @else {
-      <button [disabled]="!formularioVentaFacturaElectronica.valid" type="button" (click)="formSubmit()"
+      <button type="button" (click)="formSubmit()"
         class="btn btn-sm btn-flex btn-primary" #btnGuardar>Generar</button>
       }
     </div>
