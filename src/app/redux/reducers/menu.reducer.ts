@@ -208,8 +208,7 @@ export const initialState: MenuItem = {
               tipo: 'informe',
               url: 'contabilidad/informe/balance_prueba',
             },
-          ]
-          
+          ],
         },
       ],
     },
@@ -270,7 +269,7 @@ export const initialState: MenuItem = {
                 visualizarBtnNuevo: 'no',
                 visualizarBtnEliminar: 'no',
                 visualizarColumnaSeleccionar: 'no',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
@@ -285,7 +284,7 @@ export const initialState: MenuItem = {
                 visualizarBtnNuevo: 'no',
                 visualizarBtnEliminar: 'no',
                 visualizarColumnaSeleccionar: 'no',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
@@ -352,7 +351,10 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURARECURRENTE',
               tipo: 'Documento',
-              data: { documento_clase: 103 },
+              data: {
+                documento_clase: 103,
+                visualizarBtnImportar: 'no',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
               configuracionExtra: true,
@@ -360,7 +362,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 100, ordenamiento: "-numero" },
+              data: { documento_clase: 100, ordenamiento: '-numero' },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -474,7 +476,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 100, ordenamiento: "-numero" },
+              data: { documento_clase: 100, ordenamiento: '-numero' },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
