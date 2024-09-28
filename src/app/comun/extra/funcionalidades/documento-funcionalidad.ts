@@ -7,6 +7,14 @@ interface ComponentesExtrasAsincronos {
 }
 
 export const ComponentesExtras: ComponentesExtrasAsincronos = {
+  103: {
+    generar: {
+      componente: async () =>
+        await import(
+          '../../../modules/venta/componentes/documento/extras/generar/generar.component'
+        ),
+    },
+  },
   702: {
     generar: {
       componente: async () =>

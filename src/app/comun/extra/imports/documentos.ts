@@ -31,6 +31,16 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/venta/componentes/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
       ),
   },
+  103: {
+    detalle: async () =>
+      await import(
+        '../../../modules/venta/componentes/documento/factura-recurrente/factura-recurrente-detalle/factura-recurrente-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/venta/componentes/documento/factura-recurrente/factura-recurrente-formulario/factura-recurrente-formulario.component'
+      ),
+  },
   200: {
     detalle: async () =>
       await import(

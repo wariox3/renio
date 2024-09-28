@@ -1,12 +1,24 @@
-import { BotonesExtras } from "@interfaces/comunes/configuracionExtra";
+import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
 
 interface ConfiguracionExtraDocumento {
-  [key: number | string]: { 
-    botones: BotonesExtras[]
-  }
+  [key: number | string]: {
+    botones: BotonesExtras[];
+  };
 }
 
 export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
+  103: {
+    botones: [
+      {
+        componenteNombre: 'generar',
+        nombreBoton: 'Generar',
+        configuracionModal: {
+          size: 'sm',
+          titulo: 'Generar masivo',
+        },
+      },
+    ],
+  },
   702: {
     botones: [
       {

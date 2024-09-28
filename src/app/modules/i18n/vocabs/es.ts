@@ -89,6 +89,7 @@ export const locale = {
         NOMINAELECTRONICA: 'Nomina electrónica',
         NOMINADETALLE: 'Nomina detalle',
         BALANCEPRUEBA: 'Balance de prueba',
+        FACTURARECURRENTE: 'Factura recurrente'
       },
     },
     FORMULARIOS: {

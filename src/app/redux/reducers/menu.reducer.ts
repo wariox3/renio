@@ -350,6 +350,14 @@ export const initialState: MenuItem = {
           menuOpen: true,
           children: [
             {
+              nombre: 'FACTURARECURRENTE',
+              tipo: 'Documento',
+              data: { documento_clase: 103 },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+              configuracionExtra: true,
+            },
+            {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
               data: { documento_clase: 100, ordenamiento: "-numero" },
