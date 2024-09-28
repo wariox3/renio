@@ -533,6 +533,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
+  
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const valor = parseFloat(evento.target.value);
