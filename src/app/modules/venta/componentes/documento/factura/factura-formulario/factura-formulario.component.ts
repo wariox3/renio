@@ -785,6 +785,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       base: [baseImpuestoRedondeada],
       porcentaje: [impuesto.porcentaje],
       total: [totalImpuesto],
+      total_operado: [totalImpuesto],
       nombre: [impuesto.nombre],
       nombre_extendido: [impuesto.nombre_extendido],
       impuesto_id: [impuesto.impuesto_id],
