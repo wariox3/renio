@@ -1,5 +1,4 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <pre>{{ formularioFactura.value | json }}</pre>
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
       class="btn-group btn-sm shadow-sm"
@@ -680,7 +679,7 @@
                     <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
                       <td class="text-end">{{ impuesto.key }}</td>
                       <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
+                        {{ impuesto.value.total_operado | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="totalDescuento > 0">
@@ -692,7 +691,7 @@
                         {{ totalDescuento | currency : "$" }}
                       </td>
                     </tr>
-                    <tr *ngIf="totalImpuestos > 0">
+                    <!-- <tr *ngIf="totalImpuestos > 0">
                       <td
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
@@ -700,7 +699,7 @@
                       <td class="text-end">
                         {{ totalImpuestos | currency : "$" }}
                       </td>
-                    </tr>
+                    </tr> -->
                     <tr class="border-top">
                       <td
                         class="text-end"
