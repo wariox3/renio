@@ -162,6 +162,7 @@ export class ContenedorListaComponent extends General implements OnInit {
             })
           );
           this.visualizarLoader[i] = false;
+          this.changeDetectorRef.detectChanges()
           if (environment.production) {
             window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
           } else {
