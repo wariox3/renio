@@ -153,7 +153,24 @@ export class AlertaService {
         popup: 'animate__animated animate__fadeOutUp',
       },
     }).then(() => {
-      window.location.href= '/'
+      window.location.href = '/';
     });
+  }
+
+  async confirmar(configuracion: {
+    titulo: string;
+    texto: string;
+    textoBotonCofirmacion: string;
+  }) {
+    return await Swal.fire({
+      title: configuracion.titulo,
+      icon: "warning",
+      text: configuracion.texto,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: configuracion.textoBotonCofirmacion,
+      cancelButtonText: 'Cancelar'
+    })
   }
 }

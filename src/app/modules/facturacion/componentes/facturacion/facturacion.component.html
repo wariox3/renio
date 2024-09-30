@@ -173,11 +173,12 @@
                                 (emitirActualizacion)="consultarDetalle()"
                               ></app-informacion-facturacion>
                             </div>
-
                             <i
+                              ngbTooltip="Eliminar"
+                              placement="right"
                               class="ki-duotone ki-trash fs-3x text-danger align-self-end me-3 mb-2"
                               (click)="
-                                eliminarInformacionFacturacion(informacion.id)
+                                confirmarEliminarFacturacion(informacion.id)
                               "
                               style="cursor: pointer"
                             >
