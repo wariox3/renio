@@ -494,8 +494,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       subtotal: this.subtotalGeneral,
     });
 
-    console.log(this.acumuladorImpuestos);
-    
+
   }
 
   eliminarProducto(index: number, id: number | null) {
@@ -550,6 +549,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const neto = detalleFormGroup.get('neto') as FormControl;
     const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
+    
     const base_impuesto = detalleFormGroup.get('base_impuesto') as FormControl;
     const detalleImpuesto = detalleFormGroup.get('impuesto') as FormControl;
     const detalleImpuestoOperado = detalleFormGroup.get('impuesto_operado') as FormControl;
@@ -587,6 +587,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_id: [impuesto.impuesto_id],
         impuesto_nombre_extendido: [impuesto.nombre_extendido],
         impuesto_nombre: [impuesto.nombre],
+        impuesto_operacion: [impuesto.impuesto_operacion],
         porcentaje_base: [impuesto.porcentaje_base],
         impuesto_venta: [impuesto.impuesto_venta],
         impuesto_compra: [impuesto.impuesto_compra],
@@ -595,6 +596,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       arrDetalleImpuestos.push(impuestoFormGrup);
       this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
         totalImpuesto - impuesto.total;
+        this.acumuladorImpuestos[impuesto.nombre_extendido].total_operado +=
+        totalImpuestoOperado - impuesto.total_operado;
       impuestoTotal += totalImpuesto;
       impuestoTotalOperado += totalImpuestoOperado;
       base_impuesto.setValue(baseImpuestoActualizar);
@@ -604,12 +607,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     const subtotalValueRedondeado = this.redondear(subtotal.value, 2);
     const impuestoTotalRedondeado = this.redondear(impuestoTotal, 2);
+    const impuestoTotalOperadoRedondeado = this.redondear(impuestoTotalOperado, 2);
 
     neto.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
+      this.redondear(subtotalValueRedondeado + impuestoTotalOperadoRedondeado, 2)
     );
     total.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
+      this.redondear(subtotalValueRedondeado + impuestoTotalOperadoRedondeado, 2)
     );
     detalleImpuesto.setValue(impuestoTotalRedondeado);
     detalleImpuestoOperado.setValue(impuestoTotalOperado);
