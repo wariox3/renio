@@ -789,6 +789,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         base: [this.redondear(baseImpuestoActualizar, 2)],
         porcentaje: [nuevoImpuesto.porcentaje],
         total: [totalImpuestoNuevo],
+        total_operado: [totalImpuestoNuevo],
         nombre: [nuevoImpuesto.nombre],
         nombre_extendido: [nuevoImpuesto.nombre_extendido],
         impuesto_id: [nuevoImpuesto.impuesto_id],
