@@ -315,7 +315,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         serializador: 'Adicionar',
       })
       .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
