@@ -11,6 +11,7 @@ import {
   NgbDropdownModule,
   NgbModalModule,
   NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,6 +43,7 @@ import { InformacionFacturacionComponent } from '../informacion-facturacion/info
     NgbDropdownModule,
     InformacionFacturacionComponent,
     NgbModalModule,
+    NgbTooltipModule
   ],
   providers: [NgbActiveModal],
 })
@@ -96,40 +98,53 @@ export class FacturacionComponent extends General implements OnInit {
 
   agregarRegistrosPagar(item: Factura, checkbox: HTMLInputElement) {
     if (this.informacionFacturacion === null || '') {
-      this.alertaService.mensajeError('Error', 'Debe seleccionar la información de facturación antes de realizar el pago');
+      this.alertaService.mensajeError(
+        'Error',
+        'Debe seleccionar la información de facturación antes de realizar el pago'
+      );
       checkbox.checked = false;
       return;
     }
-  
-    const index = this.arrFacturasSeleccionados.findIndex((documento) => documento.id === item.id);
+
+    const index = this.arrFacturasSeleccionados.findIndex(
+      (documento) => documento.id === item.id
+    );
     let valorActualPagar = this.totalPagar.getValue();
-  
+
     if (index !== -1) {
-      this.totalPagar.next(valorActualPagar - parseInt(item.vr_saldo_enmascarado));
+      this.totalPagar.next(
+        valorActualPagar - parseInt(item.vr_saldo_enmascarado)
+      );
       this.arrFacturasSeleccionados.splice(index, 1);
       this.changeDetectorRef.detectChanges();
     } else {
-      this.totalPagar.next(valorActualPagar + parseInt(item.vr_saldo_enmascarado));
+      this.totalPagar.next(
+        valorActualPagar + parseInt(item.vr_saldo_enmascarado)
+      );
       this.arrFacturasSeleccionados.push(item);
       this.changeDetectorRef.detectChanges();
     }
-  
+
     let referencia = '';
-    referencia = this.arrFacturasSeleccionados.map((factura: Factura, index: number, array: Factura[]) => {
-      if (index === array.length - 1) {
-        return factura.id;
-      } else {
-        return factura.id + '-';
-      }
-    }).join('');
-  
+    referencia = this.arrFacturasSeleccionados
+      .map((factura: Factura, index: number, array: Factura[]) => {
+        if (index === array.length - 1) {
+          return factura.id;
+        } else {
+          return factura.id + '-';
+        }
+      })
+      .join('');
+
     if (referencia !== '') {
-      this.contenedorServices.contenedorGenerarIntegridad({
-        referencia,
-        monto: `${this.totalPagar.getValue()}`,
-      }).subscribe((respuesta) => {
-        this.habitarBtnWompi(respuesta.hash, referencia);
-      });
+      this.contenedorServices
+        .contenedorGenerarIntegridad({
+          referencia,
+          monto: `${this.totalPagar.getValue()}`,
+        })
+        .subscribe((respuesta) => {
+          this.habitarBtnWompi(respuesta.hash, referencia);
+        });
     }
   }
 
@@ -183,8 +198,7 @@ export class FacturacionComponent extends General implements OnInit {
       .subscribe((respuesta) => {
         this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
         if (this.arrFacturacionInformacion.length > 0) {
-          this.informacionFacturacion =
-            this.arrFacturacionInformacion[0].id;
+          this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
         }
         this.changeDetectorRef.detectChanges();
       });
@@ -215,6 +229,20 @@ export class FacturacionComponent extends General implements OnInit {
     }
   }
 
+  confirmarEliminarFacturacion(informacion_id: any) {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro?',
+        texto: 'Esta operación no se puede revertir',
+        textoBotonCofirmacion: 'Confirmar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this.eliminarInformacionFacturacion(informacion_id);
+        }
+      });
+  }
+
   eliminarInformacionFacturacion(informacion_id: any) {
     this.facturacionService
       .eliminarInformacionFacturacion(informacion_id)
@@ -233,7 +261,7 @@ export class FacturacionComponent extends General implements OnInit {
               this.informacionFacturacion =
                 this.arrFacturacionInformacion[0].id;
             } else {
-              this.informacionFacturacion = null
+              this.informacionFacturacion = null;
             }
             this.changeDetectorRef.detectChanges();
           });
