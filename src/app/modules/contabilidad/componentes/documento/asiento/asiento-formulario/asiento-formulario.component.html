@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-6">
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
@@ -160,6 +160,34 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.SOPORTE"
+          ></label>
+          <input
+            formControlName="soporte"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioAsiento.controls['soporte'].touched &&
+                formularioAsiento.controls['soporte'].invalid,
+              'is-valid':
+                formularioAsiento.controls['soporte'].touched &&
+                formularioAsiento.controls['soporte'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAsiento.controls['soporte']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">

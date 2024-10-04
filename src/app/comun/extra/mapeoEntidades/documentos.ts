@@ -960,6 +960,13 @@ export const documentos: MapeoDocumentos = {
       esFk: true,
     },
     {
+      nombre: 'SOPORTE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
       nombre: 'SUBTOTAL',
       campoTipo: 'FloatField',
       visibleTabla: true,

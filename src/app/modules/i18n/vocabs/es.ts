@@ -461,6 +461,7 @@ export const locale = {
           FECHA: 'Fecha',
           ASESOR: 'Asesor',
           SEDE: 'Sede',
+          SOPORTE: 'Soporte',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

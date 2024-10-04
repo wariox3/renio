@@ -100,6 +100,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
 
     this.formularioAsiento = this.formBuilder.group({
       empresa: [1],
+      soporte: ['', Validators.compose([Validators.required])],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
       numero: [null],
@@ -129,6 +130,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total,
+          soporte: respuesta.documento.soporte
         });
 
         this.detalles.clear();
