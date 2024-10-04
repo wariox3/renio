@@ -77,7 +77,7 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
     descuento: '',
     documento_tipo_id: '',
     fecha: '',
-    fecha_vence: '',
+    // fecha_vence: '',
     id: null,
     impuesto: 0,
     base_impuesto: 0,
@@ -160,15 +160,15 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        fecha_vence: [
-          fechaVencimientoInicial,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),
-          ]),
-        ],
+        // fecha_vence: [
+        //   fechaVencimientoInicial,
+        //   Validators.compose([
+        //     Validators.required,
+        //     Validators.minLength(3),
+        //     Validators.maxLength(200),
+        //     Validators.pattern(/^[a-z-0-9.-_]*$/),
+        //   ]),
+        // ],
         metodo_pago: [1, Validators.compose([Validators.required])],
         metodo_pago_nombre: [''],
         total: [0],
@@ -264,26 +264,26 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
   }
 
   validarFecha(control: AbstractControl) {
-    const fecha = control.get('fecha')?.value;
-    const fecha_vence = control.get('fecha_vence')?.value;
+    // const fecha = control.get('fecha')?.value;
+    // const fecha_vence = control.get('fecha_vence')?.value;
 
-    if (fecha > fecha_vence) {
-      control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
-    } else {
-      if (control.get('fecha_vence')?.getError('fechaVenceInferiorNoValida')) {
-        control.get('fecha_vence')?.setErrors(null);
-      }
-    }
+    // if (fecha > fecha_vence) {
+    //   control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
+    // } else {
+    //   if (control.get('fecha_vence')?.getError('fechaVenceInferiorNoValida')) {
+    //     control.get('fecha_vence')?.setErrors(null);
+    //   }
+    // }
 
-    if (fecha_vence < fecha) {
-      control
-        .get('fecha_vence')
-        ?.setErrors({ fechaVenceInferiorNoValida: true });
-    } else {
-      if (control.get('fecha')?.getError('fechaSuperiorNoValida')) {
-        control.get('fecha')?.setErrors(null);
-      }
-    }
+    // if (fecha_vence < fecha) {
+    //   control
+    //     .get('fecha_vence')
+    //     ?.setErrors({ fechaVenceInferiorNoValida: true });
+    // } else {
+    //   if (control.get('fecha')?.getError('fechaSuperiorNoValida')) {
+    //     control.get('fecha')?.setErrors(null);
+    //   }
+    //}
   }
 
   get detalles() {
@@ -990,7 +990,7 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
           .toString()
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
-        this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+        // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       }
 
       if (
@@ -1126,7 +1126,7 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
           fecha: respuesta.documento.fecha,
-          fecha_vence: respuesta.documento.fecha_vence,
+          // fecha_vence: respuesta.documento.fecha_vence,
           metodo_pago: respuesta.documento.metodo_pago_id,
           metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
           orden_compra: respuesta.documento.orden_compra,
@@ -1198,7 +1198,7 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
 
     // Suma los días a la fecha actual
-    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
   capturarDias(event: any) {
@@ -1218,7 +1218,7 @@ export default class FacturaRecurrenteFormularioComponent extends General implem
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
     // Suma los días a la fecha actual
-    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
   validatePrecio(control: any) {
