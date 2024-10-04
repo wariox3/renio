@@ -13,7 +13,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { combineLatest, Subject, takeUntil } from 'rxjs';
+import { combineLatest, Subject, takeUntil, map } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
@@ -85,7 +85,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       if (parametro?.ordenamiento) {
-        this.arrParametrosConsulta.ordenamientos[0] = parametro?.ordenamiento
+        let ordenamientos = parametro.ordenamiento.split(',').map((palabra:string) => palabra.trim());
+        this.arrParametrosConsulta.ordenamientos = ordenamientos
       } else {
         this.arrParametrosConsulta.ordenamientos = []
       }

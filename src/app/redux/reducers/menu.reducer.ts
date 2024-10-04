@@ -78,7 +78,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'DOCUMENTOSOPORTE',
               tipo: 'Documento',
-              data: { documento_clase: 303 },
+              data: { documento_clase: 303, ordenamiento: 'numero, estado_aprobado' },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
