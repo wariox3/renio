@@ -20,7 +20,10 @@ export const initialState: MenuItem = {
             {
               nombre: 'PAGO',
               tipo: 'Documento',
-              data: { documento_clase: 200 },
+              data: {
+                documento_clase: 200,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -57,35 +60,50 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURACOMPRA',
               tipo: 'Documento',
-              data: { documento_clase: 300 },
+              data: {
+                documento_clase: 300,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
-              data: { documento_clase: 301 },
+              data: {
+                documento_clase: 301,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
-              data: { documento_clase: 302 },
+              data: {
+                documento_clase: 302,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'DOCUMENTOSOPORTE',
               tipo: 'Documento',
-              data: { documento_clase: 303, ordenamiento: 'numero, estado_aprobado' },
+              data: {
+                documento_clase: 303,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTAAJUSTE',
               tipo: 'Documento',
-              data: { documento_clase: 304 },
+              data: {
+                documento_clase: 304,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -144,6 +162,9 @@ export const initialState: MenuItem = {
                 lista: 'contabilidad/periodo',
               },
               consultaHttp: false,
+              data: {
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
             },
             {
               nombre: 'MOVIMIENTO',
@@ -152,6 +173,9 @@ export const initialState: MenuItem = {
                 lista: 'contabilidad/movimiento',
               },
               consultaHttp: false,
+              data: {
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
             },
           ],
         },
@@ -161,7 +185,10 @@ export const initialState: MenuItem = {
             {
               nombre: 'ASIENTO',
               tipo: 'Documento',
-              data: { documento_clase: 601 },
+              data: {
+                documento_clase: 601,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -233,14 +260,20 @@ export const initialState: MenuItem = {
             {
               nombre: 'ADICIONAL',
               tipo: 'Documento',
-              data: { documento_clase: 'HumAdicional', ordenamiento: '-id' },
+              data: {
+                documento_clase: 'HumAdicional',
+                ordenamiento: '-id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
             {
               nombre: 'CREDITO',
               tipo: 'Documento',
-              data: { documento_clase: 'HumCredito' },
+              data: {
+                documento_clase: 'HumCredito',
+                ordenamiento: '-id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
@@ -249,7 +282,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 'HumNovedad',
-                ordenamiento: '-fecha_desde',
+                ordenamiento: '-id',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -265,6 +298,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 701,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarColumnaEditar: 'no',
                 visualizarBtnNuevo: 'no',
                 visualizarBtnEliminar: 'no',
@@ -279,6 +313,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 702,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 serializador: 'Nomina',
                 visualizarColumnaEditar: 'no',
                 visualizarBtnNuevo: 'no',
@@ -353,6 +388,7 @@ export const initialState: MenuItem = {
               tipo: 'Documento',
               data: {
                 documento_clase: 103,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
@@ -362,28 +398,40 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 100, ordenamiento: '-numero' },
+              data: {
+                documento_clase: 100,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
-              data: { documento_clase: 101 },
+              data: {
+                documento_clase: 101,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTADEBITO',
               tipo: 'Documento',
-              data: { documento_clase: 102 },
+              data: {
+                documento_clase: 102,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
-              data: { documento_clase: 200 },
+              data: {
+                documento_clase: 200,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -476,21 +524,30 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               tipo: 'Documento',
-              data: { documento_clase: 100, ordenamiento: '-numero' },
+              data: {
+                documento_clase: 100,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'NOTACREDITO',
               tipo: 'Documento',
-              data: { documento_clase: 101 },
+              data: {
+                documento_clase: 101,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'PAGO',
               tipo: 'Documento',
-              data: { documento_clase: 200 },
+              data: {
+                documento_clase: 200,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -548,14 +605,20 @@ export const initialState: MenuItem = {
             {
               nombre: 'ENTRADA',
               tipo: 'Documento',
-              data: { documento_clase: 500 },
+              data: {
+                documento_clase: 500,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'SALIDA',
               tipo: 'Documento',
-              data: { documento_clase: 501 },
+              data: {
+                documento_clase: 501,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
@@ -592,7 +655,10 @@ export const initialState: MenuItem = {
             {
               nombre: 'EGRESO',
               tipo: 'Documento',
-              data: { documento_clase: 400 },
+              data: {
+                documento_clase: 400,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
