@@ -159,7 +159,9 @@
             ></a>
             <ng-template ngbNavContent>
               <div class="table-responsive-sm">
-                <table class="table table-hover table-bordered table-rounded border gy-2 gs-2">
+                <table
+                  class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+                >
                   <thead class="bg-gray-100">
                     <tr class="fw-bold text-gray-800">
                       <th>Id</th>
@@ -180,26 +182,41 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @for(nomina of arrNominas; track $index){
                     <tr>
-                      @for(nomina of arrNominas; track $index){
-                        <td>{{nomina.id}}</td>
-                        <td>{{nomina.numero}}</td>
-                        <td>{{nomina.fecha}}</td>
-                        <td>{{nomina.fecha_hasta}}</td>
-                        <td>{{nomina.contacto_id}}</td>
-                        <td>{{nomina.contacto_numero_identificacion}}</td>
-                        <td>{{nomina.contacto_nombre_corto}}</td>
-                        <td class="text-end">{{nomina.base_cotizacion | number:'1.2-2'}}</td>
-                        <td class="text-end">{{nomina.base_prestacion | number:'1.2-2'}}</td>
-                        <td class="text-end">{{nomina.salario | number:'1.2-2'}}</td>
-                        <td class="text-end">{{nomina.devengado | number:'1.2-2'}}</td>
-                        <td class="text-end">{{nomina.deduccion | number:'1.2-2'}}</td>
-                        <td class="text-end">{{nomina.total | number:'1.2-2'}}</td>
-                        <td class="text-center">{{nomina.estado_aprobado ? 'SI' : 'NO'}}</td>
-                        <td class="text-center">{{nomina.estado_anulado ? 'SI' : 'NO'}}</td>
-                      }
+                      <td>{{ nomina.id }}</td>
+                      <td>{{ nomina.numero }}</td>
+                      <td>{{ nomina.fecha }}</td>
+                      <td>{{ nomina.fecha_hasta }}</td>
+                      <td>{{ nomina.contacto_id }}</td>
+                      <td>{{ nomina.contacto_numero_identificacion }}</td>
+                      <td>{{ nomina.contacto_nombre_corto }}</td>
+                      <td class="text-end">
+                        {{ nomina.base_cotizacion | number : "1.2-2" }}
+                      </td>
+                      <td class="text-end">
+                        {{ nomina.base_prestacion | number : "1.2-2" }}
+                      </td>
+                      <td class="text-end">
+                        {{ nomina.salario | number : "1.2-2" }}
+                      </td>
+                      <td class="text-end">
+                        {{ nomina.devengado | number : "1.2-2" }}
+                      </td>
+                      <td class="text-end">
+                        {{ nomina.deduccion | number : "1.2-2" }}
+                      </td>
+                      <td class="text-end">
+                        {{ nomina.total | number : "1.2-2" }}
+                      </td>
+                      <td class="text-center">
+                        {{ nomina.estado_aprobado ? "SI" : "NO" }}
+                      </td>
+                      <td class="text-center">
+                        {{ nomina.estado_anulado ? "SI" : "NO" }}
+                      </td>
                     </tr>
-
+                    }
                   </tbody>
                 </table>
               </div>
