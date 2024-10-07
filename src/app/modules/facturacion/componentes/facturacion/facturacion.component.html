@@ -111,10 +111,6 @@
                 <div class="col-md-12 col-sm-12">
                   <div class="d-flex justify-content-between">
                     <h5 class="mb-4">Información de facturación</h5>
-                    <app-informacion-facturacion
-                      [validarNuevoEditar]="true"
-                      (emitirActualizacion)="consultarDetalle()"
-                    ></app-informacion-facturacion>
                   </div>
                   <br />
                   <div
@@ -159,7 +155,8 @@
                                 {{ informacion.direccion }}
                               </span>
                               <span class="fs-6 text-gray-800 d-block">
-                                {{ informacion.ciudad_nombre }} - {{ informacion.ciudad_estado_nombre }}
+                                {{ informacion.ciudad_nombre }} -
+                                {{ informacion.ciudad_estado_nombre }}
                               </span>
                             </div>
                           </div>
@@ -242,6 +239,19 @@
                           </i>
                         </div> -->
                       </label>
+                    </div>
+                    <div class="col">
+                      <label
+                        class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative active"
+                        data-kt-button="true"
+                        style="cursor: pointer"
+                      >
+                      <app-informacion-facturacion
+                      [validarNuevoEditar]="true"
+                      (emitirActualizacion)="consultarDetalle()"
+                    ></app-informacion-facturacion>
+                      </label>
+
                     </div>
                   </div>
                 </div>

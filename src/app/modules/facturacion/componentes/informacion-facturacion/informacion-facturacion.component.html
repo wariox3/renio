@@ -1,11 +1,17 @@
 <div class="menu-item">
   <a
-    class="btn btn-sm btn-dark cursor-pointer"
+    class="btn btn-sm cursor-pointer w-100"
+    [ngClass]="{' btn-dark': !validarNuevoEditar}"
     (click)="openModal()"
   >
-    @if (validarNuevoEditar) { {{
-    "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate }} } @else { {{
-    "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }} }
+    @if (validarNuevoEditar) {
+      <i class="ki-duotone ki-plus fs-5x"></i>
+      <br>
+      <span class="btn-text-primary">Agregar información facturación</span>
+     } @else {
+      {{
+    "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+    }
   </a>
 </div>
 <ng-template #dialogTemplate>
