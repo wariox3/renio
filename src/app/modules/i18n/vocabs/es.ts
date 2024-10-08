@@ -89,7 +89,9 @@ export const locale = {
         NOMINAELECTRONICA: 'Nomina electrónica',
         NOMINADETALLE: 'Nomina detalle',
         BALANCEPRUEBA: 'Balance de prueba',
-        FACTURARECURRENTE: 'Factura recurrente'
+        FACTURARECURRENTE: 'Factura recurrente',
+        CARGO: 'Cargo',
+        HUMCARGO: 'Cargo'
       },
     },
     FORMULARIOS: {
@@ -596,6 +598,10 @@ export const locale = {
             DIASDISFRUTADOSREALES: 'Días disfrutados reales',
             FECHADESDEPERIODO: 'Fecha desde periodo',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
+          },
+          CARGO:{
+            CODIGO: 'Código',
+            ESTADOINACTIVO: 'Estado inactivo',
           }
         },
         CONTABILIDAD: {
@@ -976,6 +982,13 @@ export const locale = {
       GUIA: {
         ID: 'ID',
       },
+      CARGO: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+        CODIGO: 'Código',
+        ESTADO_INACTIVO: 'Estado inactivo',
+        ESTADO_INACTIVO_ABREVIATURA: 'INA'
+      }
     },
     TEMA: {
       CLARO: 'Claro',

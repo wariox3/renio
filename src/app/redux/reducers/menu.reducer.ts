@@ -346,6 +346,11 @@ export const initialState: MenuItem = {
               tipo: 'Administrador',
               data: { modelo: 'HumGrupo' },
             },
+            {
+              nombre: 'CARGO',
+              tipo: 'Administrador',
+              data: { modelo: 'HumCargo' },
+            },
           ],
         },
         {

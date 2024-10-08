@@ -125,6 +125,18 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/humano/componentes/administrador/concepto/concepto-formulario/concepto-formulario.component'
       ),
   },
+  HumCargo: {
+    modulo: 'humano',
+    modelo: 'HumCargo',
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/cargo/cargo-detalle/cargo-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/administrador/cargo/cargo-formulario/cargo-formulario.component'
+      ),
+  },
   GenSede: {
     modulo: 'general',
     modelo: 'sede',

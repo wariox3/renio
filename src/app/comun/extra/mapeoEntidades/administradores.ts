@@ -563,6 +563,42 @@ export const mapeo: MapeoAdministrador = {
       },
     ],
   },
+  HumCargo: {
+    modulo: 'humano',
+    modelo: 'HumGrupo',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CODIGO',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'ESTADO_INACTIVO',
+        nombreAbreviado: 'ESTADO_INACTIVO_ABREVIATURA',
+        campoTipo: 'Booleano',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: false,
+      },
+    ]
+  },
   GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',

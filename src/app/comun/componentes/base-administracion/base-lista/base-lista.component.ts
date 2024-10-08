@@ -70,8 +70,13 @@ export class BaseListaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
+
       let posicion: keyof typeof mapeo = this.modelo;
+      console.log(this.modelo);
+
       this.modulo = mapeo[posicion].modulo;
+      console.log(this.modelo);
+
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
       );
