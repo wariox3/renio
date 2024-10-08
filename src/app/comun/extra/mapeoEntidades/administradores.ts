@@ -565,7 +565,7 @@ export const mapeo: MapeoAdministrador = {
   },
   HumCargo: {
     modulo: 'humano',
-    modelo: 'HumGrupo',
+    modelo: 'HumCargo',
     tipo: 'Administrador',
     datos: [
       {
