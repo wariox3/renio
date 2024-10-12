@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,46 +8,58 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { Item } from '@interfaces/general/item';
-import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   NgbDropdown,
-  NgbDropdownModule
+  NgbDropdownModule,
+  NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+import { HttpService } from '@comun/services/http.service';
+import { Item } from '@interfaces/general/item';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
+import { DocumentoDetalleFactura, RespuestaItem } from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
-  selector: 'app-comun-cuenta-banco',
+  selector: 'app-seleccionar-producto',
   standalone: true,
-  templateUrl: './cuenta-banco.component.html',
-  styleUrls: ['./cuenta-banco.component.scss'],
+  templateUrl: './seleccionar-producto.component.html',
+  styleUrls: ['./seleccionar-producto.component.scss'],
   imports: [
     TranslateModule,
     NgbDropdownModule,
+    NgFor,
     CommonModule,
     ItemFormularioComponent,
   ],
 })
-export class CuentaBancoComponent extends General implements AfterViewInit {
+export class SeleccionarProductoComponent
+  extends General
+  implements AfterViewInit
+{
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
   @Input() itemNombre: string = '';
-  @Input() estado_aprobado: boolean = false;
+  @Input() estadoAprobado: boolean = false;
   @Input() campoInvalido: any = false;
   @Input() venta: boolean = true;
   @Input() compra: boolean = false;
 
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
+  @Output() emitirItemSeleccionado: EventEmitter<DocumentoDetalleFactura> =
+    new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private httpService: HttpService,
+    private modalService: NgbModal
+  ) {
     super();
   }
 
@@ -64,7 +75,16 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       this.campoInvalido = false;
       this.changeDetectorRef.detectChanges();
     }
-    this.emitirArrItems.emit(item);
+
+    this.httpService
+      .post<RespuestaItem>(`general/item/detalle/`, {
+        id: item.item_id,
+        venta: this.venta,
+        compra: this.compra,
+      })
+      .subscribe((respuesta) => {
+        this.emitirItemSeleccionado.emit(respuesta.item);
+      });
   }
 
   consultarItems(event: any) {
@@ -81,7 +101,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'GenCuentaBanco',
+      modelo: 'GenItem',
       serializador: 'ListaAutocompletar',
     };
 
@@ -110,7 +130,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
-      modelo: 'GenCuentaBanco',
+      modelo: 'GenItem',
       serializador: 'ListaAutocompletar',
     };
 
@@ -134,5 +154,20 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     if (this.itemSeleccionado === null) {
       this.emitirLineaVacia.emit();
     }
+  }
+
+  abrirModalNuevoItem(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  cerrarModalNuevoItem(respuestaItem: any): void {
+    this.emitirItemSeleccionado.emit(respuestaItem.item);
+    this.changeDetectorRef.detectChanges();
+    this.modalService.dismissAll();
+    this.changeDetectorRef.detectChanges();
   }
 }

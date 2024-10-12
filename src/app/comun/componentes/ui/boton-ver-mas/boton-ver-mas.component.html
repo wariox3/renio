@@ -1,0 +1,10 @@
+<button class="d-flex align-items-center border-0 bg-transparent arrow" (click)="onClick()">
+  <div class="text-primary fw-semibold"
+    translate="{{ expandido ? 'FORMULARIOS.BOTONES.COMUNES.VERMENOS' : 'FORMULARIOS.BOTONES.COMUNES.VERMAS'}}">
+  </div>
+  @if (expandido) {
+  <app-keenicon name="up" class="fs-1 text-primary"></app-keenicon>
+  } @else {
+  <app-keenicon name="down" class="fs-1 text-primary"></app-keenicon>
+  }
+</button>

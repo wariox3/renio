@@ -1,21 +1,21 @@
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { General } from '@comun/clases/general';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { HttpService } from '@comun/services/http.service';
+import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { switchMap, tap } from 'rxjs';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-electronico.component";
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { HttpService } from '@comun/services/http.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'app-nota-credito-detalle',
@@ -36,7 +36,7 @@ import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-
         SoloNumerosDirective,
         CardComponent,
         BtnAtrasComponent,
-        LogElectronicoComponent
+        LogElectronicoComponent,
     ]
 })
 export default class FacturaDetalleComponent extends General {

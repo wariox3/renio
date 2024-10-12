@@ -1,0 +1,28 @@
+<div class="form-control form-control-sm">
+  <div class="row justify-content-between">
+    <div class="col-8 d-flex flex-wrap align-items-start gap-1">
+      <ng-container *ngFor="let impuesto of impuestos">
+        <span (click)="removerItem(impuesto)" class="badge badge-primary badge-sm" title="{{ impuesto.impuesto_nombre_extendido }}">
+          {{ impuesto.impuesto_nombre }}
+          <i class="bi bi-x fs-1x text-white cursor-pointer"
+            title="Retirar {{ impuesto.impuesto_nombre_extendido }}" *ngIf="!estadoAprobado"></i>
+        </span>
+      </ng-container>
+    </div>
+    <div class="col-4 d-flex align-items-end flex-column justify-content-center">
+      <div ngbDropdown container="body" #ImpuestoDropdown="ngbDropdown" class="d-inline-flex gap-1 align-self-start">
+        <input type="text" formControlName="impuestos" ngbDropdownAnchor class="cursor-pointer w-100"
+          (focus)="consultarImpuesto(); ImpuestoDropdown.open()" appSoloNumeros />
+        <i class="ki-duotone ki-down fs-2" (click)="consultarImpuesto(); ImpuestoDropdown.open()"></i>
+
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu z-3 position-absolute p-3 rounded-3">
+          <ng-container *ngFor="let impuesto of listaDeImpuestosSeleccionables$ | async">
+            <button (click)="agregarImpuesto(impuesto)" type="button" ngbDropdownItem>
+              {{ impuesto.impuesto_nombre_extendido }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
