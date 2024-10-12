@@ -1,0 +1,9 @@
+.dropdown-menu-custom-width {
+  width: 500px;
+}
+
+@media (max-width: 986px) {
+  .dropdown-menu-custom-width {
+    width: 100%;
+  }
+}

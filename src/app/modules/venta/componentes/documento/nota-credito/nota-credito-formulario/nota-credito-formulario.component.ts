@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -36,6 +36,9 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar';
+import { FechasService } from '@comun/services/fechas.service';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -58,9 +61,12 @@ import {
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
+    FormularioProductosComponent
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
+  private _fechasService = inject(FechasService);
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -100,6 +106,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  public modoEdicion: boolean = false;
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+  public mostrarDocumentoReferencia: boolean = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -111,25 +121,24 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarInformacion();
-    this.initForm();
+    this._initForm();
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      this.modoEdicion = true;
+      // this.consultardetalle();
+    } else {
+      this.modoEdicion = false;
     }
     this.changeDetectorRef.detectChanges();
   }
 
-  initForm() {
-    const fechaActual = new Date(); // Obtener la fecha actual
-    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
-      fechaActual.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+  private _initForm() {
+    const fechaVencimientoInicial =
+      this._fechasService.getFechaVencimientoInicial();
 
     this.formularioFactura = this.formBuilder.group(
       {
@@ -137,6 +146,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         contacto: ['', Validators.compose([Validators.required])],
         contactoNombre: [''],
         numero: [null],
+        totalCantidad: [0],
         fecha: [
           fechaVencimientoInicial,
           Validators.compose([
@@ -167,6 +177,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         documento_referencia_numero: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
+        detalles_eliminados: this.formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
@@ -174,6 +185,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     );
   }
 
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
+  }
+
+  // TODO: sacar
   consultarInformacion() {
     zip(
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
@@ -192,7 +208,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
@@ -204,7 +220,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -214,6 +230,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
   }
 
+  // TODO: sacar
   validarFecha(control: AbstractControl) {
     const fecha = control.get('fecha')?.value;
     const fecha_vence = control.get('fecha_vence')?.value;
@@ -243,93 +260,53 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioFactura.value,
-              ...{
-                numero: null,
-                documento_tipo: 2,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              })
-            )
-            .subscribe();
-        }
+      if (this.detalle !== undefined) {
+        this._actualizarFactura();
       } else {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
-              this.detalles.clear();
-              respuesta.documento.detalles.forEach(
-                (detalle: any, indexDetalle: number) => {
-                  const detalleFormGroup = this.formBuilder.group({
-                    item: [detalle.item],
-                    cantidad: [detalle.cantidad],
-                    precio: [detalle.precio],
-                    porcentaje_descuento: [detalle.porcentaje_descuento],
-                    descuento: [detalle.descuento],
-                    subtotal: [detalle.subtotal],
-                    total_bruto: [detalle.total_bruto],
-                    total: [detalle.total],
-                    neto: [detalle.total],
-                    base_impuesto: [detalle.base_impuesto],
-                    impuesto: [detalle.impuesto],
-                    item_nombre: [detalle.item_nombre],
-                    impuestos: this.formBuilder.array([]),
-                    impuestos_eliminados: this.formBuilder.array([]),
-                    id: [detalle.id],
-                  });
-
-                  if (detalle.impuestos.length === 0) {
-                    const cantidad = detalleFormGroup.get('cantidad')?.value;
-                    const precio = detalleFormGroup.get('precio')?.value;
-                    const neto = cantidad * precio;
-                    detalleFormGroup.get('neto')?.setValue(neto);
-                  }
-
-                  this.detalles.push(detalleFormGroup);
-
-                  detalle.impuestos.forEach((impuesto: any, index: number) => {
-                    this.agregarImpuesto(
-                      impuesto,
-                      indexDetalle,
-                      'actualizacion'
-                    );
-                  });
-                }
-              );
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
-              // this.detalle = respuesta.documento.id;
-              // this.arrDetallesEliminado = [];
-              // this.calcularTotales();
-              // this.formularioFactura.markAsPristine();
-              // this.formularioFactura.markAsUntouched();
-              // this.changeDetectorRef.detectChanges();
-            });
-        }
+        this._guardarFactura();
       }
     } else {
       this.formularioFactura.markAllAsTouched();
       this.validarCamposDetalles();
+    }
+  }
+
+  private _guardarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .guardarFactura({
+          ...this.formularioFactura.value,
+          ...{
+            numero: null,
+            documento_tipo: 2,
+          },
+        })
+        .pipe(
+          tap((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  private _actualizarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
+        .subscribe((respuesta) => {
+          this.router.navigate(['documento/detalle'], {
+            queryParams: {
+              ...this.parametrosUrl,
+              detalle: respuesta.documento.id,
+            },
+          });
+        });
     }
   }
 
@@ -533,7 +510,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.detalles.removeAt(index);
     this.calcularTotales();
   }
-  
+
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const valor = parseFloat(evento.target.value);
@@ -909,7 +886,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService

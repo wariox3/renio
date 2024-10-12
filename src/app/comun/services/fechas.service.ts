@@ -159,4 +159,14 @@ export class FechasService {
     );
   }
   
+  getFechaVencimientoInicial() {
+    const fechaActual = new Date();
+    const fullAnio = fechaActual.getFullYear();
+    const mes = fechaActual.getMonth() + 1;
+
+    return `${fullAnio}-${mes.toString().padStart(2, '0')}-${fechaActual
+      .getDate()
+      .toString()
+      .padStart(2, '0')}`;
+  }
 }

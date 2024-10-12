@@ -1,0 +1,64 @@
+<div>
+  <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+    <div>
+      <input
+        #inputItem
+        type="text"
+        formControlName="impuestos"
+        ngbDropdownAnchor
+        class="cursor-pointer form-select form-select-sm w-100"
+        (focus)="consultarItems($event); ItemDropdown.open()"
+        (keyup)="aplicarFiltrosItems($event); ItemDropdown.open()"
+        [disabled]="estadoAprobado"
+        [readonly]="estadoAprobado"
+        [ngClass]="{ 'disabled-cursor': estadoAprobado }"
+        [value]="itemNombre"
+        [ngClass]="{
+          'is-invalid': campoInvalido,
+          'is-valid': itemSeleccionado !== null
+        }"
+      />
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu dropdown-menu-custom-width"
+      >
+        <ng-container *ngFor="let item of arrItemsLista">
+          <button
+            class="text-wrap"
+            (click)="agregarItem(item)"
+            type="button"
+            ngbDropdownItem
+          >
+            {{ item.item_nombre }}
+          </button>
+        </ng-container>
+        <div class="dropdown-divider"></div>
+
+        <spam
+          class="dropdown-item"
+          (click)="abrirModalNuevoItem(content)"
+          ngbDropdownItem
+          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+        >
+        </spam>
+      </div>
+    </div>
+  </div>
+  <div class="fv-plugins-message-container" *ngIf="campoInvalido">
+    <div class="fv-help-block">
+      <span role="alert"
+        >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+      </span>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <app-item-formulario
+      [ocultarBtnAtras]="true"
+      (emitirGuardoRegistro)="cerrarModalNuevoItem($event)"
+      [tituloFijo]="true"
+    />
+  </div>
+</ng-template>

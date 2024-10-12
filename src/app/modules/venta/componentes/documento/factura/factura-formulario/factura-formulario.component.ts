@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -10,30 +10,34 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import {
-  NgbDropdownModule,
-  NgbModal,
-  NgbNavModule,
-} from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { FechasService } from '@comun/services/fechas.service';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { Contacto } from '@interfaces/general/contacto';
-import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { asyncScheduler, BehaviorSubject, catchError, of, tap, throttleTime, zip } from 'rxjs';
+import { FacturaFormularioDocumentoComponent } from '../factura-formulario-documento/factura-formulario-documento/factura-formulario-documento.component';
+import {
+  AcumuladorImpuestos,
+  PagoFormulario,
+} from '@interfaces/comunes/factura/factura.interface';
+import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { HttpService } from '@comun/services/http.service';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -45,7 +49,6 @@ import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfac
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    NgbDropdownModule,
     NgbNavModule,
     TablaComponent,
     ImpuestosComponent,
@@ -57,98 +60,84 @@ import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfac
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     CuentaBancoComponent,
+    FormularioProductosComponent,
+    FacturaFormularioDocumentoComponent,
+    FacturaFormularioPagosComponent,
+    NgbDropdownModule,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
-  informacionFormulario: any;
-  formularioFactura: FormGroup;
-  active: Number;
-  totalCantidad: number = 0;
-  totalDescuento: number = 0;
-  totalImpuestos: number = 0;
-  totalBase: number = 0;
-  totalGeneral: number = 0;
-  subtotalGeneral: number = 0;
-  totalNetoGeneral: number = 0;
-  totalAfectado: number = 0;
-  informacionDetalle: any = {
-    contacto_id: '',
-    porcetanje_descuento: '',
-    descuento: '',
-    documento_tipo_id: '',
-    fecha: '',
-    fecha_vence: '',
-    id: null,
-    impuesto: 0,
-    base_impuesto: 0,
-    numero: null,
-    subtotal: 0,
-    total: 0,
-    total_bruto: 0,
-    metodo_pago: null,
-    detalles: [],
-    pagos: [],
-  };
-  acumuladorImpuestos: any[] = [];
-  arrMovimientosClientes: any[] = [];
-  arrMetodosPago: any[] = [];
-  arrPlazoPago: any[] = [];
-  arrAsesor: any[] = [];
-  arrSede: any[] = [];
-  arrDetallesEliminado: number[] = [];
-  arrImpuestosEliminado: number[] = [];
-  arrPagosEliminado: number[] = [];
-  estado_aprobado: false;
-  dataUrl: any;
-  plazo_pago_dias: any = 0;
-  visualizarCampoDocumentoReferencia = false;
-  btnGuardarDisabled = false;
-  requiereAsesor = false;
-  requiereSede = false;
-  theme_value = localStorage.getItem('kt_theme_mode_value');
-  camposBuscarAvanzado = [
+  private _fechasService = inject(FechasService);
+  private _formBuilder = inject(FormBuilder);
+  private _facturaService = inject(FacturaService);
+  private _httpService = inject(HttpService);
+  private _empresaService = inject(EmpresaService);
+  private _modalService = inject(NgbModal);
+
+  public formularioFactura: FormGroup;
+  public active: Number;
+  public estado_aprobado: false;
+  public dataUrl: any;
+  public visualizarCampoDocumentoReferencia = false;
+  public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
+
+  public plazo_pago_dias: any = 0;
+  public arrMovimientosClientes: any[] = [];
+  public arrMetodosPago: any[] = [];
+  public arrPlazoPago: any[] = [];
+  public arrAsesor: any[] = [];
+  public arrSede: any[] = [];
+  public requiereAsesor: boolean = false;
+  public requiereSede: boolean = false;
+  public camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
     'numero_identificacion',
     'nombre_corto',
   ];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private httpService: HttpService,
-    private facturaService: FacturaService,
-    private empresaService: EmpresaService,
-    private modalService: NgbModal
-  ) {
+  public modoEdicion: boolean = false;
+  public theme_value = localStorage.getItem('kt_theme_mode_value');
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+
+  constructor() {
     super();
+    this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
   }
 
   ngOnInit() {
-    this.consultarInformacion();
-    this.initForm();
-    this.active = 1;
+    this._consultarInformacion()
+    this._initForm();
+    this.active = 1; // navigation tab
+
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
     }
+
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      this.modoEdicion = true;
+      // this.consultardetalle();
+    } else {
+      this.modoEdicion = false;
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
-  initForm() {
-    const fechaActual = new Date(); // Obtener la fecha actual
-    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
-      fechaActual.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
+  }
 
-    this.formularioFactura = this.formBuilder.group(
+  private _initForm() {
+    const fechaVencimientoInicial =
+      this._fechasService.getFechaVencimientoInicial();
+
+    this.formularioFactura = this._formBuilder.group(
       {
         empresa: [1],
         contacto: ['', Validators.compose([Validators.required])],
+        totalCantidad: [0],
         contactoNombre: [''],
         numero: [null],
         fecha: [
@@ -185,8 +174,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         sede: [''],
         sede_nombre: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
-        detalles: this.formBuilder.array([]),
-        pagos: this.formBuilder.array([]),
+        detalles: this._formBuilder.array([]),
+        pagos: this._formBuilder.array([]),
+        detalles_eliminados: this._formBuilder.array([]),
+        pagos_eliminados: this._formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
@@ -194,75 +185,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     );
   }
 
-  consultarInformacion() {
-    zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenMetodoPago',
-          serializador: "ListaAutocompletar"
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenAsesor',
-          serializador: "ListaAutocompletar"
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenSede',
-          serializador: "ListaAutocompletar"
-        }
-      ),
-      this.empresaService.obtenerConfiguracionEmpresa(1)
-    ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
-      this.requiereAsesor = respuesta[4].venta_asesor;
-      this.requiereSede = respuesta[4].venta_sede;
-      this.changeDetectorRef.detectChanges();
-    });
-  }
-
+  // TODO: Mover a validaciones custom
   validarFecha(control: AbstractControl) {
     const fecha = control.get('fecha')?.value;
     const fecha_vence = control.get('fecha_vence')?.value;
@@ -294,154 +217,121 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     return this.formularioFactura.get('pagos') as FormArray;
   }
 
+  enviarFormulario() {}
+
+  private _esValidoValorPago(): boolean {
+    for (let pago of this.pagos.controls) {
+      if (pago.get('pago')?.value === 0) {
+        this.alertaService.mensajeError(
+          'Error',
+          'Los pagos agregados no pueden tener pagos en cero'
+        );
+        return false; // Detiene la ejecución al encontrar un pago en cero
+      }
+    }
+
+    return true;
+  }
+
+  private _esValidaLogicaDeFacturacion(): boolean {
+    if (this.totalAfectado > this.totalGeneral) {
+      this.alertaService.mensajeError(
+        'Error',
+        'Los pagos agregados son superiores al total de la factura'
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
+  private _formularioInvalido() {
+    this.formularioFactura.markAllAsTouched();
+    this.pagos.markAllAsTouched();
+    this.botonGuardarDeshabilitado$.next(false);
+    this.validarCamposDetalles();
+  }
+
+  // Enviar formulario
   formSubmit() {
-    this.btnGuardarDisabled = true;
-    this.changeDetectorRef.detectChanges();
-    let errores = false
-    if (this.formularioFactura.valid) {
-      if (this.pagos.length > 0) {
-        this.pagos.controls.map((pago)=>{
-          if(pago.get('pago')?.value === 0){
-            this.alertaService.mensajeError(
-              'Error',
-              'Los pagos agregados no puede tener pagos en cero '
-            );
-            errores = true;
-            this.btnGuardarDisabled = false;
-            return null;
-          }
-          this.btnGuardarDisabled = false;
-          this.changeDetectorRef.detectChanges();
-          return null;
-        })
-        if (this.totalAfectado > this.totalGeneral) {
-          this.alertaService.mensajeError(
-            'Error',
-            'Los pagos agregados son superiores al total de la factura'
-          );
-          this.btnGuardarDisabled = false;
-          this.changeDetectorRef.detectChanges();
-          return null;
-        }
+    this.botonGuardarDeshabilitado$.next(true);
+
+    if (!this.formularioFactura.valid) {
+      this._formularioInvalido();
+      return null;
+    }
+
+    if (this.pagos.length > 0) {
+      const campoPagoEsValido =
+        this._esValidoValorPago() && this._esValidaLogicaDeFacturacion();
+
+      if (!campoPagoEsValido) {
+        this.botonGuardarDeshabilitado$.next(false);
+        return null;
       }
-      if(!errores){
-        if (this.detalle == undefined) {
-          if (this.validarCamposDetalles() === false) {
-            this.facturaService
-              .guardarFactura({
-                ...this.formularioFactura.value,
-                ...{
-                  numero: null,
-                  documento_tipo: 1,
-                },
-              })
-              .pipe(
-                tap((respuesta) => {
-                  this.router.navigate(['documento/detalle'], {
-                    queryParams: {
-                      ...this.parametrosUrl,
-                      detalle: respuesta.documento.id,
-                    },
-                  });
-                }),
-                catchError(() => {
-                  this.btnGuardarDisabled = false;
-                  this.changeDetectorRef.detectChanges();
-                  return of(null);
-                })
-              )
-              .subscribe();
-          } else {
-            this.btnGuardarDisabled = false;
-            this.changeDetectorRef.detectChanges();
-          }
-        } else {
-          if (this.validarCamposDetalles() === false) {
-            this.facturaService
-              .actualizarDatosFactura(this.detalle, {
-                ...this.formularioFactura.value,
-                ...{
-                  detalles_eliminados: this.arrDetallesEliminado,
-                  pagos_eliminados: this.arrPagosEliminado,
-                },
-              })
-              .pipe(
-                tap((respuesta) => {
-                  this.detalles.clear();
-                  respuesta.documento.detalles.forEach(
-                    (detalle: any, indexDetalle: number) => {
-                      const detalleFormGroup = this.formBuilder.group(
-                        {
-                          item: [detalle.item],
-                          cantidad: [detalle.cantidad],
-                          precio: [detalle.precio],
-                          porcentaje_descuento: [detalle.porcentaje_descuento],
-                          descuento: [detalle.descuento],
-                          subtotal: [detalle.subtotal],
-                          total_bruto: [detalle.total_bruto],
-                          total: [detalle.total],
-                          neto: [detalle.total],
-                          base_impuesto: [detalle.base_impuesto],
-                          impuesto: [detalle.impuesto],
-                          item_nombre: [detalle.item_nombre],
-                          impuestos: this.formBuilder.array([]),
-                          impuestos_eliminados: this.formBuilder.array([]),
-                          id: [detalle.id],
-                        },
-                        {
-                          validator: [this.validatePrecio],
-                        }
-                      );
+    }
 
-                      if (detalle.impuestos.length === 0) {
-                        const cantidad = detalleFormGroup.get('cantidad')?.value;
-                        const precio = detalleFormGroup.get('precio')?.value;
-                        const neto = cantidad * precio;
-                        detalleFormGroup.get('neto')?.setValue(neto);
-                      }
-
-                      this.detalles.push(detalleFormGroup);
-
-                      detalle.impuestos.forEach(
-                        (impuesto: any, index: number) => {
-                          this.agregarImpuesto(
-                            impuesto,
-                            indexDetalle,
-                            'actualizacion'
-                          );
-                        }
-                      );
-                    }
-                  );
-                  this.router.navigate(['documento/detalle'], {
-                    queryParams: {
-                      ...this.parametrosUrl,
-                      detalle: respuesta.documento.id,
-                    },
-                  });
-                }),
-                catchError(() => {
-                  this.btnGuardarDisabled = false;
-                  this.changeDetectorRef.detectChanges();
-                  return of(null);
-                })
-              )
-              .subscribe();
-          }
-        }
-      }
-
+    if (this.detalle !== undefined) {
+      this._actualizarFactura();
     } else {
-      this.formularioFactura.markAllAsTouched();
-      this.pagos.markAllAsTouched();
-      setTimeout(() => {
-        this.btnGuardarDisabled = false;
-        this.changeDetectorRef.detectChanges();
-      }, 50);
-      this.validarCamposDetalles();
+      this._guardarFactura();
     }
   }
 
+  private _actualizarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this._facturaService
+        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
+        .pipe(
+          tap((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          }),
+          catchError(() => {
+            this.botonGuardarDeshabilitado$.next(false);
+            return of(null);
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  private _guardarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this._facturaService
+        .guardarFactura({
+          ...this.formularioFactura.value,
+          ...{
+            numero: null,
+            documento_tipo: 1,
+          },
+        })
+        .pipe(
+          tap((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          }),
+          catchError(() => {
+            this.botonGuardarDeshabilitado$.next(false);
+            return of(null);
+          })
+        )
+        .subscribe();
+    } else {
+      this.botonGuardarDeshabilitado$.next(false);
+    }
+  }
+
+  // TODO: mover a validaciones en caso de que sea una validacion custom
   validarCamposDetalles() {
     let errores = false;
     Object.values(this.detalles.controls).find((control: any) => {
@@ -474,39 +364,232 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     return errores;
   }
 
-  agregarProductos() {
-    const detalleFormGroup = this.formBuilder.group({
-      item: [null, Validators.compose([Validators.required])],
-      item_nombre: [null],
-      cantidad: [0],
-      precio: [0, Validators.compose([this.validatePrecio])],
-      porcentaje_descuento: [0],
-      descuento: [0],
-      subtotal: [0],
-      total_bruto: [0],
-      total: [0],
-      neto: [0],
-      base_impuesto: [0],
-      impuesto: [0],
-      impuestos: this.formBuilder.array([]),
-      impuestos_eliminados: this.formBuilder.array([]),
-      id: [null],
-    });
-    this.formularioFactura?.markAsDirty();
-    this.formularioFactura?.markAsTouched();
+  // TODO: mover cuando se logre una solucion
+  // TODO: Eliminar
+  redondear(valor: number, decimales: number): number {
+    const factor = Math.pow(10, decimales);
+    return Math.round(valor * factor) / factor;
+  }
 
-    this.detalles.push(detalleFormGroup);
+  // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
+  agregarPago() {
+    if (this.detalles.length > 0) {
+      const pagoFormGroup = this._formBuilder.group({
+        cuenta_banco: [null, Validators.compose([Validators.required])],
+        cuenta_banco_nombre: [null],
+        pago: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        pagos_eliminados: this._formBuilder.array([]),
+        id: [null],
+      });
+      this.pagos.push(pagoFormGroup);
+      this.pagos?.markAllAsTouched();
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.alertaService.mensajeError('Error', 'Se requieren agragar detalles');
+    }
+  }
+
+  // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
+  eliminarPago(index: number, id: number | null) {
+    if (id !== null) {
+      this.pagosEliminados.value.push(id);
+    }
+
+    this.pagos.removeAt(index);
+    this._limpiarTotalAfectado();
+    this._calcularTotalPagos();
     this.changeDetectorRef.detectChanges();
   }
 
-  onImpuestoBlur(index: number, estado_aprobado: boolean) {
-    if (!estado_aprobado) {
-      if (this.detalles.controls[index].get('item')?.value) {
-        if (index === this.detalles.length - 1) {
-          this.agregarProductos();
+  // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
+  agregarPagoSeleccionado(item: any, index: number) {
+    this.pagos.controls[index].patchValue({
+      cuenta_banco: item.cuenta_banco_id,
+      cuenta_banco_nombre: item.cuenta_banco_nombre,
+    });
+    const pagoFormGroup = this.pagos.at(index) as FormGroup;
+
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
+  actualizarDetallePago(index: number, campo: string, evento: any) {
+    const pagoFormGroup = this.pagos.at(index) as FormGroup;
+    const valor = parseFloat(evento.target.value);
+
+    if (evento.target.value !== '') {
+      if (valor < 0) {
+        pagoFormGroup.get(campo)?.patchValue(0);
+      } else {
+        const valorRedondeado = this.redondear(valor, 2);
+        if (valorRedondeado <= this.totalGeneral.value) {
+          pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
+        } else {
+          this.alertaService.mensajeError(
+            'Error',
+            'El valor ingresado del pago es mayor al total general'
+          );
         }
       }
+    } else {
+      pagoFormGroup.get(campo)?.patchValue(0);
     }
+
+    this._limpiarTotalAfectado();
+    this._calcularTotalPagos();
+    this.changeDetectorRef.detectChanges();
+
+    if (this.totalAfectado.value > this.totalGeneral.value) {
+      this.alertaService.mensajeError(
+        'Error',
+        'Los pagos agregados son superiores al total de la factura'
+      );
+
+      pagoFormGroup.get('pago')?.setErrors({ valorCero: true });
+      this.changeDetectorRef.detectChanges();
+    }
+  }
+
+  private _calcularTotalPagos() {
+    let total: number = 0;
+    this.pagos.value.forEach((pagoRealizado: PagoFormulario) => {
+      total += pagoRealizado.pago;
+    });
+
+    this.totalAfectado.setValue(total);
+  }
+
+  private _limpiarTotalAfectado() {
+    this.totalAfectado.setValue(0);
+  }
+
+  get totalGeneral() {
+    return this.formularioFactura.get('total') as FormControl;
+  }
+
+  get totalAfectado() {
+    return this.formularioFactura.get('afectado') as FormControl;
+  }
+
+  get pagosEliminados() {
+    return this.formularioFactura.get('pagos_eliminados') as FormArray;
+  }
+
+  consultarCliente(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'nombre_corto__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+        {
+          operador: '',
+          propiedad: 'cliente',
+          valor1: 'True',
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'GenContacto',
+      serializador: 'ListaAutocompletar',
+    };
+
+    this._httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
+        'general/funcionalidad/lista/',
+        arrFiltros
+      )
+      .pipe(
+        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrMovimientosClientes = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  consultarDocumentoReferencia(event: any) {
+    let arrFiltros = {
+      filtros: [
+        {
+          operador: '__icontains',
+          propiedad: 'numero__icontains',
+          valor1: `${event?.target.value}`,
+          valor2: '',
+        },
+      ],
+      limite: 5,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'Documento',
+    };
+
+    this._httpService
+      .post<any>('general/documento/referencia/', {
+        ...arrFiltros,
+        contacto_id: this.formularioFactura.get('contacto')?.value,
+        documento_clase_id: 1,
+      })
+      .pipe(
+        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
+        tap((respuesta) => {
+          this.arrMovimientosClientes = respuesta;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  capturarDias(event: any) {
+    // Obtener el valor del atributo data-dias del option seleccionado
+    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
+    this.plazo_pago_dias =
+      event.target.selectedOptions[0].getAttribute('data-dias');
+
+    const diasNumero = parseInt(this.plazo_pago_dias, 10);
+
+    // Sumar los días a la fechde la factura
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
+
+    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
+      fechaFactura.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
+    // Suma los días a la fecha actual
+    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+  }
+
+  cambiarFechaVence(event: any) {
+    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
+    this.formularioFactura.get('plazo_pago')?.value;
+    const diasNumero = parseInt(this.plazo_pago_dias, 10);
+    // Sumar los días a la fechde la factura
+    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
+    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
+      fechaFactura.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
+
+    // Suma los días a la fecha actual
+    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
   actualizarFormulario(dato: any, campo: string) {
@@ -523,443 +606,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarItemSeleccionado(item: any, index: number) {
-    this.detalles.controls[index].patchValue({
-      precio: item.precio,
-      item: item.id,
-      cantidad: 1,
-      subtotal: item.precio * 1,
-      item_nombre: item.nombre,
-      total: item.precio * 1,
-    });
-    //limpiar impuesto
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    arrDetalleImpuestos.clear();
-    //validar si tiene impuestos y agregarlos
-    if (item.impuestos) {
-      item.impuestos.map((impuesto: any) => {
-        impuesto['item_impuesto_id'] = null;
-        impuesto['nombre'] = impuesto['impuesto_nombre'];
-        impuesto['compra'] = impuesto['impuesto_compra'];
-        impuesto['venta'] = impuesto['impuesto_venta'];
-        impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['impuesto_porcentaje_base'] =
-          impuesto['impuesto_porcentaje_base'];
-        impuesto['id'] = null;
-        impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
-        impuesto['impuesto_compra'] = impuesto['impuesto_compra'];
-        this.agregarImpuesto(impuesto, index, 'agregar');
-      });
-    }
-    this.calcularTotales();
-    this.formularioFactura.markAsTouched();
-    this.formularioFactura.markAsDirty();
-    this.changeDetectorRef.detectChanges();
-  }
-
-  calcularTotales() {
-    this.totalDescuento = 0;
-    this.totalImpuestos = 0;
-    this.totalBase = 0;
-    this.totalGeneral = 0;
-    this.subtotalGeneral = 0;
-    this.totalNetoGeneral = 0;
-    this.totalCantidad = 0;
-    this.totalAfectado = 0;
-    let totalBaseImpuesto = 0;
-
-    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
-    detallesArray.controls.forEach((detalleControl) => {
-      const cantidad = detalleControl.get('cantidad')?.value || 0;
-      const precio = detalleControl.get('precio')?.value || 0;
-      const porcentajeDescuento =
-        detalleControl.get('porcentaje_descuento')?.value || 0;
-
-      let subtotal = this.redondear(cantidad * precio, 2);
-      let descuento = this.redondear((porcentajeDescuento * subtotal) / 100, 2);
-      let subtotalFinal = this.redondear(subtotal - descuento, 2);
-
-      const impuestos = detalleControl.get('impuestos')?.value || [];
-      let totalImpuestoDetalle = 0;
-      impuestos.forEach((impuesto: any) => {
-        totalImpuestoDetalle += impuesto.total;
-      });
-
-      totalImpuestoDetalle = this.redondear(totalImpuestoDetalle, 2);
-      this.totalImpuestos += totalImpuestoDetalle;
-
-      let neto = this.redondear(subtotalFinal + totalImpuestoDetalle, 2);
-      this.totalCantidad += parseInt(cantidad);
-      this.totalDescuento += descuento;
-      this.subtotalGeneral += subtotalFinal;
-      this.totalNetoGeneral += neto;
-
-      detalleControl.get('subtotal')?.patchValue(subtotalFinal);
-      detalleControl.get('neto')?.patchValue(neto);
-      detalleControl.get('descuento')?.patchValue(descuento);
-
-      totalBaseImpuesto += detalleControl.get('base_impuesto')?.value || 0;
-      this.changeDetectorRef.detectChanges();
-    });
-
-    this.pagos.controls.forEach((detallePago) => {
-      const pago = detallePago.get('pago')?.value || 0;
-      this.totalAfectado += parseInt(pago);
-    });
-
-    // Redondear subtotalGeneral
-    this.subtotalGeneral = this.redondear(this.subtotalGeneral, 2);
-
-    totalBaseImpuesto = this.redondear(totalBaseImpuesto, 2);
-    this.totalGeneral = this.redondear(
-      this.subtotalGeneral + this.redondear(this.totalImpuestos, 2),
-      2
-    );
-
-    this.formularioFactura.patchValue({
-      base_impuesto: totalBaseImpuesto,
-      impuesto: this.redondear(this.totalImpuestos, 2),
-      total: this.totalGeneral,
-      subtotal: this.subtotalGeneral,
-      afectado: this.totalAfectado,
+  abrirModalContactoNuevo(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
     });
   }
 
-  eliminarProducto(index: number, id: number | null) {
-    this.formularioFactura?.markAsDirty();
-    this.formularioFactura?.markAsTouched();
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-
-    if (id != null) {
-      this.arrDetallesEliminado.push(id);
-    }
-
-    if (detalleFormGroup.value.impuestos.length > 0) {
-      // Itera sobre cada impuesto que se desea eliminar del detalle del formulario.
-      for (const impuestoEliminar of detalleFormGroup.value.impuestos) {
-        // Verifica que impuestosEliminar no sea undefined y tenga la propiedad total.
-        if (impuestoEliminar && impuestoEliminar.hasOwnProperty('total')) {
-          const { total, nombre_extendido } = impuestoEliminar;
-          // Busca el impuesto correspondiente en el acumuladorImpuestos por nombre_extendido.
-          if (this.acumuladorImpuestos[nombre_extendido]?.total != null) {
-            // Resta el total del impuesto eliminado del acumuladorImpuestos.
-            this.acumuladorImpuestos[nombre_extendido].total -= total;
-            // Si el total del impuesto acumulado es menor o igual a 0 después de la resta, elimínalo del acumulador.
-            if (this.acumuladorImpuestos[nombre_extendido].total <= 0) {
-              delete this.acumuladorImpuestos[nombre_extendido];
-            }
-          }
-        }
-      }
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this.detalles.removeAt(index);
-    this.calcularTotales();
-  }
-
-  actualizarDetalle(index: number, campo: string, evento: any) {
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const valor = parseFloat(evento.target.value);
-
-    if (evento.target.value !== '') {
-      if (valor < 0) {
-        detalleFormGroup.get(campo)?.patchValue(0);
-      } else {
-        const valorRedondeado = this.redondear(valor, 2);
-        detalleFormGroup.get(campo)?.patchValue(valorRedondeado);
-      }
-    } else {
-      detalleFormGroup.get(campo)?.patchValue(0);
-    }
-
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
-    const neto = detalleFormGroup.get('neto') as FormControl;
-    const total = detalleFormGroup.get('total') as FormControl;
-    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    const base_impuesto = detalleFormGroup.get('base_impuesto') as FormControl;
-    const detalleImpuesto = detalleFormGroup.get('impuesto') as FormControl;
-
-    let impuestoTotal = 0;
-    this.calcularTotales();
-
-    let impuestoTemporales = arrDetalleImpuestos.value;
-    arrDetalleImpuestos.clear();
-
-    impuestoTemporales.forEach((impuesto: any) => {
-      let baseImpuestoActualizar = this.redondear(
-        (subtotal.value * impuesto.porcentaje_base) / 100,
-        2
-      );
-      let totalImpuesto = this.redondear(
-        (((subtotal.value * impuesto.porcentaje) / 100) *
-          impuesto.porcentaje_base) /
-          100,
-        2
-      );
-
-      let impuestoFormGrup = this.formBuilder.group({
-        id: [impuesto.impuesto_id ? impuesto.id : null],
-        impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id],
-        base: [baseImpuestoActualizar],
-        porcentaje: [impuesto.porcentaje],
-        total: [totalImpuesto],
-        total_operado: [totalImpuesto],
-        nombre: [impuesto.nombre],
-        nombre_extendido: [impuesto.nombre_extendido],
-        impuesto_id: [impuesto.impuesto_id],
-        impuesto_nombre_extendido: [impuesto.nombre_extendido],
-        impuesto_nombre: [impuesto.nombre],
-        porcentaje_base: [impuesto.porcentaje_base],
-        impuesto_venta: [impuesto.impuesto_venta],
-        impuesto_compra: [impuesto.impuesto_compra],
-      });
-
-      arrDetalleImpuestos.push(impuestoFormGrup);
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
-        totalImpuesto - impuesto.total;
-      impuestoTotal += totalImpuesto;
-      base_impuesto.setValue(baseImpuestoActualizar);
-    });
-
-    this.changeDetectorRef.detectChanges();
-
-    const subtotalValueRedondeado = this.redondear(subtotal.value, 2);
-    const impuestoTotalRedondeado = this.redondear(impuestoTotal, 2);
-
-    neto.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
-    );
-    total.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
-    );
-    detalleImpuesto.setValue(impuestoTotalRedondeado);
-
-    this.calcularTotales();
-    this.changeDetectorRef.detectChanges();
-  }
-
-  agregarImpuesto(
-    impuesto: any,
-    index: number,
-    accion: 'actualizacion' | 'agregar'
-  ) {
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
-    const neto = detalleFormGroup.get('neto') as FormControl;
-    const total = detalleFormGroup.get('total') as FormControl;
-    const baseImpuesto = detalleFormGroup.get('base_impuesto') as FormControl;
-    const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
-    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    let impuestoAcumuladoDetalle = 0;
-    impuesto = {
-      ...impuesto,
-      index,
-    };
-    let totalImpuesto = impuesto.total;
-    if (accion == 'agregar') {
-      totalImpuesto =
-        (((subtotal.value * impuesto.impuesto_porcentaje) / 100) *
-          impuesto.impuesto_porcentaje_base) /
-        100;
-
-      // Redondear el totalImpuesto
-      totalImpuesto = this.redondear(totalImpuesto, 2);
-    }
-
-    if (impuesto.hasOwnProperty('impuesto_nombre')) {
-      impuesto['nombre'] = impuesto['impuesto_nombre'];
-    }
-    if (impuesto.hasOwnProperty('impuesto_nombre_extendido')) {
-      impuesto['nombre_extendido'] = impuesto['impuesto_nombre_extendido'];
-    }
-    if (impuesto.hasOwnProperty('impuesto_porcentaje')) {
-      impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-    }
-    let baseImpuestoActualizar =
-      (subtotal.value * impuesto.impuesto_porcentaje_base) / 100;
-    let baseImpuestoRedondeada = this.redondear(baseImpuestoActualizar, 2);
-    let impuestoFormGrup = this.formBuilder.group({
-      id: [accion === 'actualizacion' ? impuesto.id : null], //id tabla intermedia entre documento y impuesto
-      impuesto: [impuesto.impuesto_id ? impuesto.impuesto_id : impuesto.id], //id
-      base: [baseImpuestoRedondeada],
-      porcentaje: [impuesto.porcentaje],
-      total: [totalImpuesto],
-      total_operado: [totalImpuesto],
-      nombre: [impuesto.nombre],
-      nombre_extendido: [impuesto.nombre_extendido],
-      impuesto_id: [impuesto.impuesto_id],
-      impuesto_nombre_extendido: [impuesto.nombre_extendido],
-      impuesto_nombre: [impuesto.nombre],
-      porcentaje_base: [impuesto.impuesto_porcentaje_base],
-      impuesto_venta: [impuesto.impuesto_venta],
-      impuesto_compra: [impuesto.impuesto_compra],
-    });
-    impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
-    baseImpuesto.setValue(
-      baseImpuestoRedondeada === null ? 0 : baseImpuestoRedondeada
-    );
-    arrDetalleImpuestos.push(impuestoFormGrup);
-    this.changeDetectorRef.detectChanges();
-
-    if (!this.acumuladorImpuestos[impuesto.nombre_extendido]) {
-      this.acumuladorImpuestos[impuesto.nombre_extendido] = {
-        total: totalImpuesto,
-        data: [impuesto],
-      };
-    } else {
-      const existingData =
-        this.acumuladorImpuestos[impuesto.nombre_extendido].data;
-
-      const impuestoExistente = existingData.find(
-        (item: any) => item.index === impuesto.index
-      );
-
-      if (!impuestoExistente) {
-        this.acumuladorImpuestos[impuesto.nombre_extendido].total +=
-          totalImpuesto;
-        this.acumuladorImpuestos[impuesto.nombre_extendido].data.push(impuesto);
-      }
-    }
-    let netoTemporal = total.value;
-    if (accion == 'actualizacion') {
-      if (detalleFormGroup.value.impuestos.length == 1) {
-        netoTemporal = subtotal.value;
-        netoTemporal += totalImpuesto;
-      } else {
-        netoTemporal = neto.value;
-        netoTemporal += totalImpuesto;
-      }
-    }
-
-    if (netoTemporal == 0 || netoTemporal == null) {
-      netoTemporal = subtotal.value + totalImpuesto;
-    }
-
-    if (accion == 'agregar') {
-      netoTemporal += totalImpuesto;
-    }
-
-    netoTemporal = this.redondear(netoTemporal, 2);
-
-    neto.patchValue(netoTemporal);
-    total.patchValue(netoTemporal);
-    this.calcularTotales();
-    detalleFormGroup.patchValue({
-      base_impuesto: baseImpuestoRedondeada,
-      impuesto: impuestoAcumuladoDetalle,
-    });
-    this.formularioFactura.markAsTouched();
-    this.formularioFactura.markAsDirty();
-    this.changeDetectorRef.detectChanges();
-  }
-
-  removerImpuesto(impuesto: any, index: number) {
-    this.formularioFactura.markAsTouched();
-    this.formularioFactura.markAsDirty();
-
-    const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const subtotal = detalleFormGroup.get('subtotal') as FormControl;
-    const total = detalleFormGroup.get('total') as FormControl;
-    const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
-    const arrDetalleImpuestosEliminado = detalleFormGroup.get(
-      'impuestos_eliminados'
-    ) as FormArray;
-    const neto = detalleFormGroup.get('neto') as FormControl;
-    const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
-
-    let nuevosImpuestos = arrDetalleImpuestos.value.filter(
-      (item: any) => item.impuesto_id !== impuesto.impuesto_id
-    );
-
-    let totalImpuesto =
-      (((subtotal.value * impuesto.porcentaje) / 100) *
-        impuesto.porcentaje_base) /
-      100;
-
-    // Redondear el totalImpuesto
-    totalImpuesto = this.redondear(totalImpuesto, 2);
-
-    // Limpiar el FormArray actual
-    arrDetalleImpuestos.clear();
-
-    if (nuevosImpuestos.length >= 1) {
-      detalleFormGroup.patchValue({
-        impuesto: impuestoDetalle.value - impuesto.total,
-      });
-    } else {
-      detalleFormGroup.patchValue({
-        base_impuesto: 0,
-        impuesto: 0,
-      });
-    }
-
-    // Agregar los impuestos filtrados de nuevo al FormArray
-    nuevosImpuestos.forEach((nuevoImpuesto: any) => {
-      let totalImpuestoNuevo =
-        (((subtotal.value * nuevoImpuesto.porcentaje) / 100) *
-          nuevoImpuesto.porcentaje_base) /
-        100;
-
-      // Redondear el totalImpuestoNuevo
-      totalImpuestoNuevo = this.redondear(totalImpuestoNuevo, 2);
-
-      let baseImpuestoActualizar =
-        (subtotal.value * nuevoImpuesto.porcentaje_base) / 100;
-
-      const nuevoDetalle = this.formBuilder.group({
-        id: [nuevoImpuesto.id],
-        impuesto: [nuevoImpuesto.impuesto],
-        base: [this.redondear(baseImpuestoActualizar, 2)],
-        porcentaje: [nuevoImpuesto.porcentaje],
-        total: [totalImpuestoNuevo],
-        total_operado: [totalImpuestoNuevo],
-        nombre: [nuevoImpuesto.nombre],
-        nombre_extendido: [nuevoImpuesto.nombre_extendido],
-        impuesto_id: [nuevoImpuesto.impuesto_id],
-        impuesto_nombre_extendido: [nuevoImpuesto.nombre_extendido],
-        impuesto_nombre: [nuevoImpuesto.nombre],
-        porcentaje_base: [nuevoImpuesto.porcentaje_base],
-        impuesto_venta: [nuevoImpuesto.impuesto_venta],
-        impuesto_compra: [nuevoImpuesto.impuesto_compra],
-      });
-
-      arrDetalleImpuestos.push(nuevoDetalle);
-    });
-
-    if (impuesto.id) {
-      arrDetalleImpuestosEliminado.push(this.formBuilder.control(impuesto.id));
-    }
-
-    this.acumuladorImpuestos[impuesto.nombre_extendido].data =
-      this.acumuladorImpuestos[impuesto.nombre_extendido].data.filter(
-        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
-      );
-
-    if (this.acumuladorImpuestos[impuesto.nombre_extendido].data.length === 0) {
-      delete this.acumuladorImpuestos[impuesto.nombre_extendido];
-      this.changeDetectorRef.detectChanges();
-    }
-
-    if (
-      this.acumuladorImpuestos[impuesto.nombre_extendido]?.total !== undefined
-    ) {
-      this.acumuladorImpuestos[impuesto.nombre_extendido].total -=
-        impuesto.total;
-    }
-
-    let netoTemporal = neto.value;
-
-    if (netoTemporal > 0) {
-      netoTemporal = this.redondear(netoTemporal - totalImpuesto, 2);
-    }
-
-    neto.patchValue(netoTemporal);
-    total.patchValue(netoTemporal);
-
-    this.calcularTotales();
-    this.changeDetectorRef.detectChanges();
+  cerrarModal(contacto: Contacto) {
+    this.modificarCampoFormulario('contacto', contacto);
+    this._modalService.dismissAll();
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -1029,295 +685,72 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarCliente(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-        {
-          operador: '',
-          propiedad: 'cliente',
-          valor1: 'True',
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
-    };
-
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
+  private _consultarInformacion() {
+    zip(
+      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
-  consultarDocumentoReferencia(event: any) {
-    let arrFiltros = {
-      filtros: [
         {
-          operador: '__icontains',
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'Documento',
-    };
-
-    this.httpService
-      .post<any>('general/documento/referencia/', {
-        ...arrFiltros,
-        contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 1,
-      })
-      .pipe(
-        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
-  actualizarDatos(event: any, campo: string) {
-    let data: any = {
-      documento_tipo: this.dataUrl.documento_tipo,
-    };
-
-    data[campo] = event.target.innerText;
-    this.facturaService.actualizarDatosFactura(this.detalle, data);
-  }
-
-  consultardetalle() {
-    this.facturaService
-      .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
-        this.informacionDetalle = respuesta.documento;
-        this.estado_aprobado = respuesta.documento.estado_aprobado;
-
-        this.store.dispatch(
-          documentosEstadosAction({
-            estados: {
-              estado_aprobado: respuesta.documento.estado_aprobado,
-              estado_emitido: respuesta.documento.estado_aprobado,
+          filtros: [
+            {
+              operador: '__icontains',
+              propiedad: 'nombre__icontains',
+              valor1: '',
+              valor2: '',
             },
-          })
-        );
-        this.formularioFactura.patchValue({
-          contacto: respuesta.documento.contacto_id,
-          contactoNombre: respuesta.documento.contacto_nombre_corto,
-          fecha: respuesta.documento.fecha,
-          fecha_vence: respuesta.documento.fecha_vence,
-          metodo_pago: respuesta.documento.metodo_pago_id,
-          metodo_pago_nombre: respuesta.documento.metodo_pago_nombre,
-          orden_compra: respuesta.documento.orden_compra,
-          comentario: respuesta.documento.comentario,
-          plazo_pago: respuesta.documento.plazo_pago_id,
-          asesor: respuesta.documento.asesor,
-          asesor_nombre_corto: respuesta.documento.asesor_nombre_corto,
-          sede: respuesta.documento.sede,
-          sede_nombre: respuesta.documento.sede_nombre,
-        });
-
-        this.detalles.clear();
-        respuesta.documento.detalles.forEach(
-          (detalle: any, indexDetalle: number) => {
-            const detalleFormGroup = this.formBuilder.group({
-              item: [detalle.item],
-              item_nombre: [detalle.item_nombre],
-              cantidad: [detalle.cantidad],
-              precio: [detalle.precio],
-              porcentaje_descuento: [detalle.porcentaje_descuento],
-              descuento: [detalle.descuento],
-              subtotal: [detalle.subtotal],
-              total_bruto: [detalle.total_bruto],
-              total: [detalle.total],
-              neto: [detalle.neto],
-              base_impuesto: [detalle.base_impuesto],
-              impuesto: [0],
-              impuestos: this.formBuilder.array([]),
-              impuestos_eliminados: this.formBuilder.array([]),
-              id: [detalle.id],
-            });
-            this.detalles.push(detalleFormGroup);
-
-            detalle.impuestos.forEach((impuesto: any) => {
-              this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
-            });
-          }
-        );
-        respuesta.documento.pagos.forEach((pago: any, indexPago: number) => {
-          const pagoFormGroup = this.formBuilder.group({
-            id: pago.id,
-            cuenta_banco: pago.cuenta_banco_id,
-            cuenta_banco_nombre: pago.cuenta_banco_nombre,
-            pago: pago.pago,
-          });
-          this.pagos.push(pagoFormGroup);
-        });
-        if (respuesta.documento.estado_aprobado) {
-          this.formularioFactura.disable();
-        } else {
-          this.formularioFactura.markAsPristine();
-          this.formularioFactura.markAsUntouched();
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenMetodoPago',
+          serializador: 'ListaAutocompletar',
         }
-        this.calcularTotales();
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
-  cambiarFechaVence(event: any) {
-    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
-    this.formularioFactura.get('plazo_pago')?.value;
-    const diasNumero = parseInt(this.plazo_pago_dias, 10);
-    // Sumar los días a la fechde la factura
-    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
-    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
-      fechaFactura.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
-
-    // Suma los días a la fecha actual
-    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
-  }
-
-  capturarDias(event: any) {
-    // Obtener el valor del atributo data-dias del option seleccionado
-    const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
-    this.plazo_pago_dias =
-      event.target.selectedOptions[0].getAttribute('data-dias');
-
-    const diasNumero = parseInt(this.plazo_pago_dias, 10);
-
-    // Sumar los días a la fechde la factura
-    fechaFactura.setDate(fechaFactura.getDate() + (diasNumero + 1));
-
-    const fechaVencimiento = `${fechaFactura.getFullYear()}-${(
-      fechaFactura.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
-    // Suma los días a la fecha actual
-    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
-  }
-
-  validatePrecio(control: any) {
-    if (control.value === 0) {
-      return { valorCero: true };
-    }
-    return null;
-  }
-
-  abrirModalContactoNuevo(content: any) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'xl',
-    });
-  }
-
-  cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto);
-    this.modalService.dismissAll();
-  }
-
-  redondear(valor: number, decimales: number): number {
-    const factor = Math.pow(10, decimales);
-    return Math.round(valor * factor) / factor;
-  }
-
-  agregarPago() {
-    if (this.detalles.length > 0) {
-      const pagoFormGroup = this.formBuilder.group({
-        cuenta_banco: [null, Validators.compose([Validators.required])],
-        cuenta_banco_nombre: [null],
-        pago: [0],
-        pagos_eliminados: this.formBuilder.array([]),
-        id: [null],
-      });
-      this.pagos.push(pagoFormGroup);
-      this.formularioFactura?.markAsDirty();
-      this.formularioFactura?.markAsTouched();
+      ),
+      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenPlazoPago',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenAsesor',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'GenSede',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._empresaService.obtenerConfiguracionEmpresa(1)
+    ).subscribe((respuesta: any) => {
+      this.arrMetodosPago = respuesta[0].registros;
+      this.arrPlazoPago = respuesta[1].registros;
+      this.arrAsesor = respuesta[2].registros;
+      this.arrSede = respuesta[3].registros;
+      this.requiereAsesor = respuesta[4].venta_asesor;
+      this.requiereSede = respuesta[4].venta_sede;
       this.changeDetectorRef.detectChanges();
-    } else {
-      this.alertaService.mensajeError('Error', 'Se requieren agragar detalles');
-    }
-  }
-
-  eliminarPago(index: number, id: number | null) {
-    if (id != null) {
-      this.arrPagosEliminado.push(id);
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this.pagos.removeAt(index);
-    this.calcularTotales();
-  }
-
-  agregarPagoSeleccionado(item: any, index: number) {
-    this.pagos.controls[index].patchValue({
-      cuenta_banco: item.cuenta_banco_id,
-      cuenta_banco_nombre: item.cuenta_banco_nombre,
     });
-    const pagoFormGroup = this.pagos.at(index) as FormGroup;
-
-    this.formularioFactura.markAsTouched();
-    this.formularioFactura.markAsDirty();
-    this.changeDetectorRef.detectChanges();
-  }
-
-  actualizarDetallePago(index: number, campo: string, evento: any) {
-    const pagoFormGroup = this.pagos.at(index) as FormGroup;
-    const valor = parseFloat(evento.target.value);
-
-    if (evento.target.value !== '') {
-      if (valor < 0) {
-        pagoFormGroup.get(campo)?.patchValue(0);
-      } else {
-        const valorRedondeado = this.redondear(valor, 2);
-        if (valorRedondeado <= this.totalGeneral) {
-          pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
-        } else {
-          this.alertaService.mensajeError(
-            'Error',
-            'El valor ingresado del pago es mayor al total general'
-          );
-        }
-      }
-    } else {
-      pagoFormGroup.get(campo)?.patchValue(0);
-    }
-
-    this.calcularTotales();
-    if (this.totalAfectado > this.totalGeneral) {
-      this.alertaService.mensajeError(
-        'Error',
-        'Los pagos agregados son superiores al total de la factura'
-      );
-    }
-
-    this.changeDetectorRef.detectChanges();
   }
 }

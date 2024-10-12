@@ -1,0 +1,64 @@
+<div [formGroup]="formularioFactura">
+    <div class="d-flex justify-content-end mb-2" *ngIf="!estadoAprobado">
+        <button (click)="agregarPago()" class="btn btn-sm btn-primary" type="button"
+            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"></button>
+    </div>
+    <div class="table-responsive-sm">
+        <table id="tableDetalles" class="table table-bordered table-sm">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="w-40px">Id</th>
+                    <th>Cuenta banco</th>
+                    <th class="w-50px">Pago</th>
+                    <th class="w-100px text-center"></th>
+                </tr>
+            </thead>
+            <tbody formArrayName="pagos">
+                <ng-container *ngFor="let pago of pagos.controls; let i = index" [formGroupName]="i">
+                    <tr>
+                        <td class="w-40px">{{ pago.value.id }}</td>
+                        <td class="">
+                            <app-comun-cuenta-banco [itemNombre]="pago.value.cuenta_banco_nombre"
+                                [estado_aprobado]="estadoAprobado" [campoInvalido]="
+                      pago.get('cuenta_banco')?.touched &&
+                      pago.get('cuenta_banco')?.invalid
+                    " (emitirArrItems)="
+                      agregarPagoSeleccionado($event, i)
+                    "></app-comun-cuenta-banco>
+                        </td>
+                        <td>
+                            <input type="number" min="0" formControlName="pago" (change)="
+                      actualizarDetallePago(i, 'pago', $event)
+                    " [attr.disabled]="estadoAprobado" [readonly]="estadoAprobado" class="form-control-sm" [ngClass]="{
+                      'disabled-cursor bg-transparent':
+                        estadoAprobado,
+                      'text-white':
+                        themeValue === 'dark' && estadoAprobado,
+                      'is-invalid':
+                        pago.get('pago')?.touched &&
+                        pago.get('pago')?.value === 0
+                    }" rows="1" spellcheck="true" appSoloNumeros />
+                            <div *ngIf="
+                      pago.get('pago')?.touched &&
+                      pago.get('pago')?.hasError('valorCero') || pago.get('cantidad')?.invalid
+                    ">
+                                <div class="fv-plugins-message-container">
+                                    <div class="fv-help-block">
+                                        <span role="alert">
+                                            Valor no permitido.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center" *ngIf="!estadoAprobado">
+                            <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                                (click)="eliminarPago(i, pago.value.id)"></i>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

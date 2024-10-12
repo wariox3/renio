@@ -1,18 +1,9 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
+    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
       <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-sm btn-flex btn-primary"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-        *ngIf="!estado_aprobado"
-      ></button>
+      <button type="submit" class="btn btn-sm btn-flex btn-primary" #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR" *ngIf="!estado_aprobado"></button>
     </div>
   </div>
   <app-card>
@@ -20,13 +11,13 @@
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
       </ng-container>
       <ng-template #tituloDetalle>
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
         {{
-          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
         {{ detalle }}
       </ng-template>
@@ -34,159 +25,93 @@
     <section card-body>
       <div class="row mb-5">
         <div class="col-16" ngbDropdown #ClienteDropdown="ngbDropdown">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
-          ></label>
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"></label>
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="contactoNombre"
-              (focus)="consultarCliente($event); ClienteDropdown.open()"
-              (keyup)="consultarCliente($event)"
-              [ngClass]="{
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()" (keyup)="consultarCliente($event)" [ngClass]="{
                 'is-invalid':
                   formularioFactura.controls['contacto'].touched &&
                   formularioFactura.controls['contacto'].invalid,
                 'is-valid':
                   formularioFactura.controls['contacto'].touched &&
                   formularioFactura.controls['contacto'].valid
-              }"
-            />
+              }" />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
-              >
+              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contacto', contacto)"
+                (pointerenter)="modificarCampoFormulario('contacto', contacto)">
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
-            <span
-              type="button"
-              ngbDropdownItem
-              (click)="abrirModalContactoNuevo(content)"
-            >
+            <span type="button" ngbDropdownItem (click)="abrirModalContactoNuevo(content)">
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
               <ng-template #content let-modal>
                 <div class="modal-body">
-                  <app-contacto-formulario
-                    [ocultarBtnAtras]="true"
-                    (emitirGuardoRegistro)="cerrarModal($event)"
-                    [tituloFijo]="true"
-                  />
+                  <app-contacto-formulario [ocultarBtnAtras]="true" (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituloFijo]="true" />
                 </div>
               </ng-template>
             </span>
             <button type="button" ngbDropdownItem>
-              <app-comun-buscar-avanzado
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
+              <app-comun-buscar-avanzado [consultarModelo]="'GenContacto'" [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
-                "
-              >
+                ">
               </app-comun-buscar-avanzado>
             </button>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioFactura.controls['contacto']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-12 col-md-3"
-          [ngClass]="
+        <div class="col-12 col-md-3" [ngClass]="
             dataUrl.documento_clase === '1' ? 'col-12 col-3' : 'col-12 col-md-6'
-          "
-        >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
-          ></label>
-          <input
-            formControlName="fecha"
-            class="form-control"
-            type="date"
-            autocomplete="off"
-            [ngClass]="{
+          ">
+          <label class="form-label required" translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"></label>
+          <input formControlName="fecha" class="form-control" type="date" autocomplete="off" [ngClass]="{
               'is-invalid':
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].invalid,
               'is-valid':
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid
-            }"
-            (change)="cambiarFechaVence($event)"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }" (change)="cambiarFechaVence($event)" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioFactura.controls['fecha']
-            }"
-          ></ng-container>
-          <div
-            *ngIf="
+            }"></ng-container>
+          <div *ngIf="
               formularioFactura.controls.fecha?.touched &&
               formularioFactura.controls.fecha?.hasError(
                 'fechaSuperiorNoValida'
               )
-            "
-          >
+            ">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
+                <span translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO" role="alert">
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="col-md-6 col-sm-12"
-          appAnimacionFadeInOut
-          ngbDropdown
-          #DocumentoReferenciaDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
-          ></label>
+        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
+          <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"></label>
           <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="documento_referencia_numero"
+            <input type="text" class="form-control" ngbDropdownAnchor formControlName="documento_referencia_numero"
               (focus)="
                 consultarDocumentoReferencia($event);
                 DocumentoReferenciaDropdown.open()
-              "
-              (keyup)="consultarDocumentoReferencia($event)"
-              [ngClass]="{
+              " (keyup)="consultarDocumentoReferencia($event)" [ngClass]="{
                 'is-invalid':
                   formularioFactura.controls['documento_referencia_numero']
                     .touched &&
@@ -197,102 +122,70 @@
                     .touched &&
                   formularioFactura.controls['documento_referencia_numero']
                     .valid
-              }"
-            />
+              }" />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let referencia of arrMovimientosClientes">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="
+              <button type="button" ngbDropdownItem (click)="
                   modificarCampoFormulario('documento_referencia', referencia)
-                "
-              >
+                ">
                 {{ referencia.numero }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
-              <app-comun-buscar-avanzado
-                [consultarModelo]="'GenDocumento'"
-                [consultarTipo]="'Documento'"
+              <app-comun-buscar-avanzado [consultarModelo]="'GenDocumento'" [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
-                "
-              >
+                ">
               </app-comun-buscar-avanzado>
             </button>
           </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
               control: formularioFactura.controls['documento_referencia']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
+          <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"></label>
+          <textarea formControlName="comentario" class="form-control" id="exampleFormControlTextarea1"
+            (blur)="modificarCampoFormulario('comentario', null)" rows="3" [ngClass]="{
               'is-invalid':
                 formularioFactura.controls['comentario'].touched &&
                 formularioFactura.controls['comentario'].invalid,
               'is-valid':
                 formularioFactura.controls['comentario'].touched &&
                 formularioFactura.controls['comentario'].valid
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
+            }"></textarea>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
               control: formularioFactura.controls['comentario']
-            }"
-          ></ng-container>
+            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12">
-          <ul
-            ngbNav
-            #nav="ngbNav"
-            [(activeId)]="active"
-            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
-          >
-            <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-              <a
-                class="nav-link"
-                ngbNavLink
-                data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-              ></a>
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6">
+            <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
+              <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"></a>
               <ng-template ngbNavContent>
-                <div class="d-flex justify-content-end my-3">
+                <app-formulario-productos [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
+                  (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
+                  [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
+                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"></app-formulario-productos>
+                <!-- <div class="d-flex justify-content-end my-3">
                   <div class="btn-group contenedor-btn-group">
                     <button
                       (click)="agregarProductos()"
@@ -495,30 +388,63 @@
                       </ng-container>
                     </tbody>
                   </table>
-                </div>
+                </div> -->
                 <div class="d-flex justify-content-end mb-5">
                   <table>
-                    <tr *ngIf="totalCantidad > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                      ></td>
+                    <tr *ngIf="formularioFactura.value.totalCantidad > 0">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"></td>
+                      <td class="text-end">{{ formularioFactura.value.totalCantidad }}</td>
+                    </tr>
+                    <tr *ngIf="formularioFactura.value.subtotal > 0">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"></td>
+                      <td class="text-end">
+                        {{ formularioFactura.value.subtotal | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="formularioFactura.value.base_impuesto > 0">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALBASE"></td>
+                      <td class="text-end">
+                        {{ formularioFactura.value.base_impuesto | currency : "$" }}
+                      </td>
+                    </tr>
+                    @for (impuesto of acumuladorImpuesto | keyvalue; track $index) {
+                    <tr>
+                      <td class="text-end">{{ impuesto.key }}</td>
+                      <td class="text-end">
+                        {{ impuesto.value.total | currency : "$" }}
+                      </td>
+                    </tr>
+                    }
+                    <tr *ngIf="(acumuladorImpuesto | keyvalue).length">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"></td>
+                      <td class="text-end">
+                        {{ formularioFactura.value.impuesto | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr class="border-top">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"></td>
+                      <td class="text-end" style="padding-left: 24px">
+                        {{ formularioFactura.value.total | currency : "$" }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="formularioFactura.value.afectado > 0">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"></td>
+                      <td class="text-end" style="padding-left: 24px">
+                        {{ formularioFactura.value.afectado | currency : "$" }}
+                      </td>
+                    </tr>
+                    <!-- <tr *ngIf="totalCantidad > 0">
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"></td>
                       <td class="text-end">{{ totalCantidad }}</td>
                     </tr>
                     <tr *ngIf="subtotalGeneral > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                      ></td>
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"></td>
                       <td class="text-end">
                         {{ subtotalGeneral | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="totalBase > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALBASE"
-                      ></td>
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALBASE"></td>
                       <td class="text-end">
                         {{ totalBase | currency : "$" }}
                       </td>
@@ -530,43 +456,30 @@
                       </td>
                     </tr>
                     <tr *ngIf="totalDescuento > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                      ></td>
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"></td>
                       <td class="text-end">
                         {{ totalDescuento | currency : "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="totalImpuestos > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                      ></td>
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"></td>
                       <td class="text-end">
                         {{ totalImpuestos | currency : "$" }}
                       </td>
                     </tr>
                     <tr class="border-top">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                      ></td>
+                      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"></td>
                       <td class="text-end" style="padding-left: 24px">
                         {{ totalGeneral | currency : "$" }}
                       </td>
-                    </tr>
+                    </tr> -->
                   </table>
                 </div>
               </ng-template>
             </li>
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-              <a
-                class="nav-link"
-                ngbNavLink
-                data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-              ></a>
+              <a class="nav-link" ngbNavLink data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"></a>
               <ng-template ngbNavContent> </ng-template>
             </li>
           </ul>
@@ -576,16 +489,9 @@
     </section>
   </app-card>
 </form>
-<ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
+<ng-template #formError let-control="control" let-message="message" let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>

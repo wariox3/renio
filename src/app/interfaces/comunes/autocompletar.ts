@@ -78,6 +78,7 @@ export interface RegistroAutocompletarImpuesto {
   impuesto_compra: boolean;
   impuesto_venta: boolean;
   impuesto_porcentaje_base: number;
+  impuesto_operacion: number;
 }
 
 export interface RegistroAutocompletarIdentificacion {
