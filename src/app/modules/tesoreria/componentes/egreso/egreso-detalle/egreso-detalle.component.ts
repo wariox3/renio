@@ -1,12 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -18,11 +29,17 @@ import { TranslateModule } from '@ngx-translate/core';
     CardComponent,
     TranslateModule,
     NgbNavModule,
-],
+    NgSelectModule,
+    NgbDropdownModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './egreso-detalle.component.html',
 })
-export default class EgresoDetalleComponent extends General {
+export default class EgresoDetalleComponent extends General implements OnInit {
+  public formularioGenerarArchivoPlano: FormGroup;
+  private _formBuilder = inject(FormBuilder);
 
+  public tituloModal: string = '';
   pago: any = {
     contacto_id: '',
     descuento: '',
@@ -38,13 +55,50 @@ export default class EgresoDetalleComponent extends General {
     detalles: [],
     impuestos: [],
   };
-  tabActive = 1
+  tabActive = 1;
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
+    private modalService: NgbModal
   ) {
     super();
     this.consultardetalle();
+  }
+
+  ngOnInit(): void {
+    this._initForm();
+  }
+
+  private _initForm() {
+    this.formularioGenerarArchivoPlano = this._formBuilder.group({
+      id: [this.detalle],
+      tipo_plano: [1, Validators.required],
+    });
+  }
+
+  generarArchivoPlano() {
+    if (this.formularioGenerarArchivoPlano.valid) {
+      const tipoPlano = Number(
+        this.formularioGenerarArchivoPlano.get('tipo_plano')?.value
+      );
+      this.formularioGenerarArchivoPlano.patchValue({
+        tipo_plano: tipoPlano,
+      });
+      this.httpService.descargarArchivo(
+        'general/documento/plano-banco/',
+        this.formularioGenerarArchivoPlano.value
+      );
+    }
+
+    this.modalService.dismissAll()
+  }
+
+  abrirModal(content: any) {
+    this.tituloModal = 'Archivo plano';
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'md',
+    });
   }
 
   consultardetalle() {
@@ -79,7 +133,7 @@ export default class EgresoDetalleComponent extends General {
     });
   }
 
-  anular(){
+  anular() {
     this.httpService
       .post('general/documento/anular/', { id: this.detalle })
       .subscribe((respuesta: any) => {
@@ -87,5 +141,4 @@ export default class EgresoDetalleComponent extends General {
         this.alertaService.mensajaExitoso('Documento anulado');
       });
   }
-
- }
+}
