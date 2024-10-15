@@ -671,7 +671,13 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'administracion',
-          children: [],
+          children: [
+            {
+              nombre: 'CuentaBanco',
+              tipo: 'Administrador',
+              data: { modelo: 'GenCuentaBanco' },
+            },
+          ],
         },
         {
           nombre: 'utilidad',
