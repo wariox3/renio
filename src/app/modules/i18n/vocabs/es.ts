@@ -376,7 +376,8 @@ export const locale = {
           GRUPO: 'Grupo',
           SUBCUENTA: 'Subcuenta',
           CONTACTO: 'Contacto',
-          MOSTRARTERCEROS: "Mostrar terceros"
+          MOSTARTODOSLOSCONTACTOS: "Mostrar todos los contactos",
+          CUENTA: "Cuenta"
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -468,6 +469,7 @@ export const locale = {
           ASESOR: 'Asesor',
           SEDE: 'Sede',
           SOPORTE: 'Soporte',
+          CUENTA: 'Cuenta'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

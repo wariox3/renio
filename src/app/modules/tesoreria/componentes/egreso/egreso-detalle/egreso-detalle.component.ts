@@ -141,4 +141,16 @@ export default class EgresoDetalleComponent extends General implements OnInit {
         this.alertaService.mensajaExitoso('Documento anulado');
       });
   }
+
+  navegarEditar(id: number) {
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.router.navigate([`/documento/editar`], {
+        queryParams: {
+          ...parametro,
+          detalle: id,
+        },
+      });
+    });
+  }
+
 }

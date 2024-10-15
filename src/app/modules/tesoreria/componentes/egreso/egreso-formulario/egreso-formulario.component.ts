@@ -99,7 +99,7 @@ export default class EgresoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          modelo: 'GenBanco',
+          modelo: 'GenCuentaBanco',
           serializador: 'ListaAutocompletar',
         }
       )
@@ -159,7 +159,8 @@ export default class EgresoFormularioComponent
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
             numero: [detalle.documento_afectado_numero],
-            contacto: [detalle.documento_afectado_contacto_nombre_corto],
+            contacto: [detalle.documento_afectado_contacto_id],
+            contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
             seleccionado: [false],
             cuenta: detalle.cuenta,
@@ -377,7 +378,8 @@ export default class EgresoFormularioComponent
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          contacto: documento.contacto_nombre_corto,
+          contacto: documento.contacto_id,
+          contacto_nombre: documento.contacto_nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
@@ -399,6 +401,7 @@ export default class EgresoFormularioComponent
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
+      contacto_nombre: [null],
       pago: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
@@ -510,6 +513,7 @@ export default class EgresoFormularioComponent
         documento_afectado: [documento.id],
         numero: [documento.numero],
         contacto: [documento.contacto],
+        contacto_nombre: [documento.contacto_nombre],
         pago: [documento.pendiente],
         seleccionado: [false],
         cuenta: [documento.cuenta],

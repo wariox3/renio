@@ -156,7 +156,7 @@
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
             class="form-label required"
           ></label>
           <select
@@ -174,13 +174,13 @@
             <option value="">Seleccionar...</option>
             <ng-container *ngFor="let banco of arrBancos">
               <option
-                [value]="banco.id"
+                [value]="banco.cuenta_banco_id"
                 [selected]="
-                  banco.id ===
+                  banco.cuenta_banco_id ===
                   formularioEgreso.value.cuenta_banco
                 "
               >
-                {{ banco.nombre }}
+                {{ banco.cuenta_banco_nombre }}
               </option>
             </ng-container>
           </select>
@@ -319,7 +319,7 @@
                             {{ detalle.value.numero }}
                           </td>
                           <td>
-                            {{ detalle.value.contacto }}
+                            {{ detalle.value.contacto_nombre }}
                           </td>
                           <td>
                             <app-comun-cuentas
@@ -509,7 +509,7 @@
           <label
             class="form-check-label text-gray-700"
             for="descuento_fondo_solidaridad"
-            translate="FORMULARIOS.CAMPOS.COMUNES.MOSTRARTERCEROS"
+            translate="FORMULARIOS.CAMPOS.COMUNES.MOSTARTODOSLOSCONTACTOS"
           >
           </label>
         </div>
@@ -577,7 +577,7 @@
               {{ item["fecha_vence"] }}
             </td>
             <td>
-              {{ item["contacto"] }}
+              {{ item["contacto_nombre"] }}
             </td>
             <td class="text-end">
               {{ item["subtotal"] | number }}
