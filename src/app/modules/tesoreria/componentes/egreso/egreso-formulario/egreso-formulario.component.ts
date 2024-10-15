@@ -24,11 +24,14 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -65,9 +68,12 @@ export default class EgresoFormularioComponent
   agregarDocumentoSeleccionarTodos = false;
   arrContactos: any[] = [];
   arrDocumentos: any[] = [];
+  arrBancos: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrDocumentosSeleccionados: any[] = [];
   arrRegistrosEliminar: number[] = [];
+
+  public mostrarTodasCuentasPorPagar: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,11 +86,27 @@ export default class EgresoFormularioComponent
 
   ngOnInit() {
     this.inicializarFormulario();
+    this.consultarInformacion();
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  consultarInformacion() {
+    zip(
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'GenBanco',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+    ).subscribe((respuesta: any) => {
+      this.arrBancos = respuesta[0]?.registros;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   inicializarFormulario() {
@@ -99,6 +121,8 @@ export default class EgresoFormularioComponent
       empresa: [1],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
+      cuenta_banco_nombre: [''],
+      cuenta_banco: ['', Validators.compose([Validators.required])],
       numero: [null],
       fecha: [
         fechaVencimientoInicial,
@@ -126,6 +150,8 @@ export default class EgresoFormularioComponent
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total,
+          cuenta_banco: respuesta.documento.cuenta_banco_id,
+          cuenta_banco_nombre: respuesta.documento.cuenta_banco_nombre,
         });
 
         respuesta.documento.detalles.forEach((detalle: any) => {
@@ -242,7 +268,7 @@ export default class EgresoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
@@ -257,6 +283,12 @@ export default class EgresoFormularioComponent
         })
       )
       .subscribe();
+  }
+
+  toggleMostrarTodasCuentasPorPagar() {
+    this.mostrarTodasCuentasPorPagar = !this.mostrarTodasCuentasPorPagar;
+    this.consultarDocumentos(null);
+    this.changeDetectorRef.detectChanges();
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -288,15 +320,23 @@ export default class EgresoFormularioComponent
   }
 
   consultarDocumentos(arrFiltrosExtra: any) {
-    let filtros = [
-      {
-        propiedad: 'contacto_id',
-        valor1: this.formularioEgreso.get('contacto')?.value,
-        tipo: 'CharField',
-      },
-      { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 3 },
-      { propiedad: 'pendiente__gt', valor1: 0 },
-    ];
+    let filtros = [];
+    if (this.mostrarTodasCuentasPorPagar) {
+      filtros = [
+        { propiedad: 'documento_tipo__pagar', valor1: true },
+        { propiedad: 'pendiente__gt', valor1: 0 },
+      ];
+    } else
+      filtros = [
+        {
+          propiedad: 'contacto_id',
+          valor1: this.formularioEgreso.get('contacto')?.value,
+          tipo: 'CharField',
+        },
+        { propiedad: 'documento_tipo__pagar', valor1: true },
+        { propiedad: 'pendiente__gt', valor1: 0 },
+      ];
+
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
         filtros = [
@@ -305,7 +345,7 @@ export default class EgresoFormularioComponent
             valor1: this.formularioEgreso.get('contacto')?.value,
             tipo: 'CharField',
           },
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 3 },
+          { propiedad: 'documento_tipo__pagar', valor1: true },
           { propiedad: 'pendiente__gt', valor1: 0 },
           ...arrFiltrosExtra,
         ];
@@ -316,13 +356,13 @@ export default class EgresoFormularioComponent
             valor1: this.formularioEgreso.get('contacto')?.value,
             tipo: 'CharField',
           },
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 3 },
+          { propiedad: 'documento_tipo__pagar', valor1: true },
           { propiedad: 'pendiente__gt', valor1: 0 },
         ];
       }
     }
     this.httpService
-      .post('general/general/lista/', {
+      .post('general/funcionalidad/lista/', {
         filtros,
         limite: 50,
         desplazar: 0,
@@ -332,7 +372,7 @@ export default class EgresoFormularioComponent
         serializador: 'Adicionar',
       })
       .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+        this.arrDocumentos = respuesta?.registros?.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
@@ -419,6 +459,7 @@ export default class EgresoFormularioComponent
   }
 
   agregarDocumentosToggleSelectAll() {
+    this.mostrarTodasCuentasPorPagar = false;
     this.arrDocumentos.forEach((item: any) => {
       item.selected = !item.selected;
       const index = this.arrDocumentosSeleccionados.find(

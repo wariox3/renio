@@ -31,7 +31,7 @@
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
             class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CONTACTO"
           ></label>
           <div class="position-relative">
             <input
@@ -108,7 +108,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-6">
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
@@ -151,6 +151,47 @@
               </div>
             </div>
           </div>
+        </div>  
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="cuenta_banco"
+            [ngClass]="{
+              'is-invalid':
+                formularioEgreso.controls['cuenta_banco'].touched &&
+                formularioEgreso.controls['cuenta_banco'].invalid,
+              'is-valid':
+                formularioEgreso.controls['cuenta_banco'].touched &&
+                formularioEgreso.controls['cuenta_banco'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of arrBancos">
+              <option
+                [value]="banco.id"
+                [selected]="
+                  banco.id ===
+                  formularioEgreso.value.cuenta_banco
+                "
+              >
+                {{ banco.nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEgreso.controls['cuenta_banco']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -455,7 +496,24 @@
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
     ></app-base-filtro>
-    <div class="d-flex justify-content-end my-3">
+    <div class="d-flex justify-content-between my-3">
+      <div class="col-12 col-md-6">
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="mostrarTodasCuentasPorPagar"
+            (click)="toggleMostrarTodasCuentasPorPagar()"
+            [id]="'descuento_fondo_solidaridad'"
+          />
+          <label
+            class="form-check-label text-gray-700"
+            for="descuento_fondo_solidaridad"
+            translate="FORMULARIOS.CAMPOS.COMUNES.MOSTRARTERCEROS"
+          >
+          </label>
+        </div>
+      </div>
       <button
         (click)="agregarDocumentosPago()"
         class="btn btn-sm btn-primary"

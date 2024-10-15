@@ -131,7 +131,7 @@ export const locale = {
           DESGENERAR: 'Desgenerar',
           BLOQUEAR: 'Bloquear',
           DESBLOQUEAR: 'Desbloquear',
-          CERRAR: 'Cerrar',
+          ARCHIVOPLANO: 'Archivo plano',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -376,6 +376,7 @@ export const locale = {
           GRUPO: 'Grupo',
           SUBCUENTA: 'Subcuenta',
           CONTACTO: 'Contacto',
+          MOSTRARTERCEROS: "Mostrar terceros"
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
