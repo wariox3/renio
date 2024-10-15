@@ -69,7 +69,7 @@ const Routing: Routes = [
     path: 'tesoreria',
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/tesoreria/tesoreria-routing').then((r) => r.routes),
   },
   {
     path: 'contenedor',

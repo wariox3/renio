@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
-
-import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
-  selector: 'app-cuentas-cobrar',
+  selector: 'app-cuentas-pagar',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,16 +19,20 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     TablaComponent,
     TranslateModule,
     BaseFiltroComponent,
-],
-  templateUrl: './cuentas-cobrar.component.html',
+  ],
+  templateUrl: './cuentas-pagar.component.html',
+  styleUrl: './cuentas-pagar.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CuentasCobrarComponent extends General implements OnInit {
+export class CuentasPagarComponent extends General implements OnInit { 
+
   arrDocumentos: any = [];
   cantidad_registros!: number;
   filtroPermanente = [
-    { propiedad: 'documento_tipo__cobrar', valor1: true },
+    { propiedad: 'documento_tipo__pagar', valor1: true },
     { propiedad: 'pendiente__gt', valor1: 0 },
   ];
+
   arrParametrosConsulta: any = {
     filtros: this.filtroPermanente,
     limite: 50,
@@ -50,7 +53,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
+        ActualizarMapeo({ dataMapeo: documentos['cuentas_pagar'] })
       );
       this.consultarLista();
     });
@@ -137,4 +140,5 @@ export class CuentasCobrarComponent extends General implements OnInit {
       },
     });
   }
+
 }

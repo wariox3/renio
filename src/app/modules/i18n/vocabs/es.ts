@@ -91,7 +91,8 @@ export const locale = {
         BALANCEPRUEBA: 'Balance de prueba',
         FACTURARECURRENTE: 'Factura recurrente',
         CARGO: 'Cargo',
-        HUMCARGO: 'Cargo'
+        HUMCARGO: 'Cargo',
+        CUENTASPAGAR: 'Cuentas por pagar'
       },
     },
     FORMULARIOS: {

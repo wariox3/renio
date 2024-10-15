@@ -687,6 +687,13 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'informe',
+          children: [
+            {
+              nombre: 'CUENTASPAGAR',
+              tipo: 'informe',
+              url: 'tesoreria/informe/cuentas_pagar',
+            },
+          ],
         },
       ],
     },
