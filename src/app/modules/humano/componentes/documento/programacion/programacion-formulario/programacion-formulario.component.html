@@ -105,7 +105,7 @@
             formControlName="grupo"
             [ngClass]="{
               'is-invalid':
-                formularioProgramacion.controls['grupo'].touched &&
+                  formularioProgramacion.controls['grupo'].touched &&
                 formularioProgramacion.controls['grupo'].invalid,
               'is-valid':
                 formularioProgramacion.controls['grupo'].touched &&
@@ -119,7 +119,7 @@
               *ngFor="let grupo of arrGrupo"
               [value]="grupo.grupo_id"
               [selected]="
-                grupo.grupo_id === formularioProgramacion.controls.grupo_id
+                grupo.grupo_id === formularioProgramacion.controls['grupo']!.value ? formularioProgramacion.controls['grupo']!.value : ''
               "
             >
               {{ grupo.grupo_nombre }}
@@ -231,8 +231,8 @@
           <div *ngIf="formularioProgramacion.errors?.minimoDias">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span *ngIf="grupoSeleccionado.grupo_periodo_dias" role="alert">
-                  Fecha hasta debe contener {{ grupoSeleccionado.grupo_periodo_dias }} días a partir de la fecha desde.
+                <span *ngIf="grupoSeleccionado?.grupo_periodo_dias" role="alert">
+                  Fecha hasta debe contener {{ grupoSeleccionado?.grupo_periodo_dias }} días a partir de la fecha desde.
                 </span>
               </div>
             </div>

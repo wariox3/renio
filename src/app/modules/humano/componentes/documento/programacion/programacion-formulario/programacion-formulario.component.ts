@@ -76,7 +76,7 @@ export default class ContratoFormularioComponent
       .get('grupo')
       ?.valueChanges.subscribe((value) => {
         if (value) {
-          this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
+          this.grupoSeleccionado = this.arrGrupo?.find((grupo) => {
             let valor = Number(value);
             return grupo.grupo_id === valor;
           });
@@ -88,6 +88,8 @@ export default class ContratoFormularioComponent
         } else {
           this.actualizarValidacion(0);
         }
+
+        this.changeDetectorRef.detectChanges()
       });
   }
 
@@ -147,7 +149,7 @@ export default class ContratoFormularioComponent
           ]),
         ],
         pago_tipo: [1, Validators.compose([Validators.required])],
-        grupo: [1, Validators.compose([Validators.required])],
+        grupo: ['', Validators.compose([Validators.required])],
         periodo: [null, Validators.compose([Validators.required])],
         nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
         descuento_salud: [true],
