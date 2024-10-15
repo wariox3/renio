@@ -438,7 +438,8 @@ export const locale = {
             ID: 'ID',
             NOMBRE: 'Nombre',
             NUMEROCUENTA: 'Número cuenta',
-            CUENTABANCOTIPO: 'Cuenta tipo',
+            CUENTABANCOTIPO: 'Tipo',
+            CUENTABANCOCLASE: 'Clase',
           },
           PROGRAMACION: {
             FECHADESDE: 'Fecha desde',
@@ -917,6 +918,7 @@ export const locale = {
         NOMBRE: 'Nombre',
         NUMERO_CUENTA: 'Cuenta',
         CUENTA_BANCO_TIPO_NOMBRE: 'Tipo',
+        CUENTA_BANCO_CLASE_NOMBRE: 'Clase',
       },
       GRUPO: {
         ID: 'ID',
