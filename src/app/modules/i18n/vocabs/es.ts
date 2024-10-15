@@ -373,7 +373,8 @@ export const locale = {
           CLASE: 'Clase',
           NIVEL: 'Nivel',
           GRUPO: 'Grupo',
-          SUBCUENTA: 'Subcuenta'
+          SUBCUENTA: 'Subcuenta',
+          CONTACTO: 'Contacto',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
