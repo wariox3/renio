@@ -134,6 +134,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,
+        excel: true
       },
     });
   }

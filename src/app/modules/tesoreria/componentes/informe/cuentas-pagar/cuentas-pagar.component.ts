@@ -24,7 +24,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   styleUrl: './cuentas-pagar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CuentasPagarComponent extends General implements OnInit { 
+export class CuentasPagarComponent extends General implements OnInit {
 
   arrDocumentos: any = [];
   cantidad_registros!: number;
@@ -137,6 +137,7 @@ export class CuentasPagarComponent extends General implements OnInit {
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,
+        excel: true
       },
     });
   }
