@@ -13,6 +13,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { CuentaBancoService } from '@modulos/general/servicios/cuentaBanco.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
@@ -27,6 +28,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     BtnAtrasComponent,
     CardComponent,
     NgbDropdownModule,
+    NgSelectModule,
   ],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',
@@ -38,6 +40,7 @@ export default class CuentaBancoFormularioComponent
 {
   formularioCuentaBanco: FormGroup;
   arrCuentasTipos: any[];
+  arrCuentasBancos: any[];
   selectedDateIndex: number = -1;
   visualizarCampoNumeroCuenta = false;
   public ciudadDropdown: NgbDropdown;
@@ -53,9 +56,16 @@ export default class CuentaBancoFormularioComponent
   ngOnInit() {
     this.consultarInformacion();
     this.iniciarFormulario();
+
     if (this.detalle) {
       this.consultarDetalle();
     }
+
+    this.formularioCuentaBanco
+    .get('cuenta_banco_tipo')
+    ?.valueChanges.subscribe((valor) => {
+      this.modificarCampoFormulario('cuenta_banco_tipo', valor);
+    });
   }
 
   consultarInformacion() {
@@ -63,24 +73,20 @@ export default class CuentaBancoFormularioComponent
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
         'general/funcionalidad/lista/',
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: ``,
-              valor2: '',
-            },
-          ],
-          limite: 0,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenCuentaBancoTipo',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'GenCuentaBancoClase',
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
       this.arrCuentasTipos = respuesta[0].registros;
+      this.arrCuentasBancos = respuesta[1].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -89,8 +95,8 @@ export default class CuentaBancoFormularioComponent
     this.formularioCuentaBanco = this.formBuilder.group({
       nombre: [null, Validators.compose([Validators.required])],
       numero_cuenta: [null, Validators.compose([Validators.maxLength(50)])],
-      cuenta_banco_tipo_nombre: [''],
-      cuenta_banco_tipo: ['', Validators.compose([Validators.required])],
+      cuenta_banco_tipo: [null, Validators.compose([Validators.required])],
+      cuenta_banco_clase: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -141,7 +147,7 @@ export default class CuentaBancoFormularioComponent
       .subscribe((respuesta: any) => {
         this.formularioCuentaBanco.patchValue({
           cuenta_banco_tipo: respuesta.cuenta_banco_tipo_id,
-          cuenta_banco_tipo_nombre: respuesta.cuenta_banco_tipo_nombre,
+          cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
           nombre: respuesta.nombre,
           numero_cuenta: respuesta.numero_cuenta,
         });
@@ -151,8 +157,18 @@ export default class CuentaBancoFormularioComponent
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.required]);
+          this.formularioCuentaBanco
+            .get('cuenta_banco_clase')
+            ?.setValidators([Validators.required]);
+
           this.changeDetectorRef.detectChanges();
         } else {
+          this.formularioCuentaBanco
+            .get('cuenta_banco_clase')
+            ?.clearValidators();
+          this.formularioCuentaBanco
+            .get('cuenta_banco_clase')
+            ?.updateValueAndValidity();
           this.formularioCuentaBanco.get('numero_cuenta')?.clearValidators();
           this.formularioCuentaBanco
             .get('numero_cuenta')
@@ -178,7 +194,7 @@ export default class CuentaBancoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCuentaBancoTipo',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -202,14 +218,11 @@ export default class CuentaBancoFormularioComponent
 
     if (campo === 'cuenta_banco_tipo') {
       if (dato === null) {
-        this.formularioCuentaBanco
-          .get('cuenta_banco_tipo_nombre')
-          ?.setValue(null);
         this.formularioCuentaBanco.get('cuenta_banco_tipo')?.setValue(null);
         this.visualizarCampoNumeroCuenta = false;
         this.changeDetectorRef.detectChanges();
       } else {
-        if (dato.cuenta_banco_tipo_id !== 3) {
+        if (dato !== 3) {
           this.visualizarCampoNumeroCuenta = true;
           this.formularioCuentaBanco
             .get('numero_cuenta')
@@ -226,12 +239,6 @@ export default class CuentaBancoFormularioComponent
             ?.setValidators([Validators.maxLength(50)]);
           this.changeDetectorRef.detectChanges();
         }
-        this.formularioCuentaBanco
-          .get('cuenta_banco_tipo_nombre')
-          ?.setValue(dato.cuenta_banco_tipo_nombre);
-        this.formularioCuentaBanco
-          .get('cuenta_banco_tipo')
-          ?.setValue(dato.cuenta_banco_tipo_id);
       }
     }
     this.changeDetectorRef.detectChanges();

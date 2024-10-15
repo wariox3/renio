@@ -22,6 +22,9 @@ export default class CuentaBancoDetalleComponent
     numero_cuenta: '',
     cuenta_banco_tipo_id: '',
     cuenta_banco_tipo_nombre: '',
+    cuenta_banco_clase: '',
+    cuenta_banco_clase_id: '',
+    cuenta_banco_clase_nombre:""
   };
 
   constructor(private cuentaBancoService: CuentaBancoService) {
