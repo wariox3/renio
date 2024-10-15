@@ -62,10 +62,10 @@ export default class CuentaBancoFormularioComponent
     }
 
     this.formularioCuentaBanco
-    .get('cuenta_banco_tipo')
-    ?.valueChanges.subscribe((valor) => {
-      this.modificarCampoFormulario('cuenta_banco_tipo', valor);
-    });
+      .get('cuenta_banco_tipo')
+      ?.valueChanges.subscribe((valor) => {
+        this.modificarCampoFormulario('cuenta_banco_tipo', valor);
+      });
   }
 
   consultarInformacion() {
@@ -227,17 +227,25 @@ export default class CuentaBancoFormularioComponent
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.required]);
+            this.formularioCuentaBanco
+            .get('cuenta_banco_clase')
+            ?.setValidators([Validators.required]);
           this.changeDetectorRef.detectChanges();
         } else {
+          this.visualizarCampoNumeroCuenta = false;
           this.formularioCuentaBanco.get('numero_cuenta')?.clearValidators();
+          this.formularioCuentaBanco
+            .get('cuenta_banco_clase')
+            ?.clearValidators();
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.updateValueAndValidity();
-          this.visualizarCampoNumeroCuenta = false;
+
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.maxLength(50)]);
           this.changeDetectorRef.detectChanges();
+          this.formularioCuentaBanco.get('cuenta_banco_clase')?.setValue(null);
         }
       }
     }
