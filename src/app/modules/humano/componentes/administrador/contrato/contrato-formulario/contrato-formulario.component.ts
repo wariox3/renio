@@ -140,7 +140,7 @@ export default class ContratoFormularioComponent
         pension: [1, Validators.required],
         subtipo_cotizante: [1, Validators.required],
         salud: [1, Validators.required],
-        sucursal: [''],
+        sucursal: ['', Validators.compose([Validators.required])],
         tipo_cotizante: [1, Validators.required],
         cargo: [null, Validators.required],
         cargo_nombre: [''],
