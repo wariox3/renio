@@ -32,7 +32,12 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -55,9 +60,14 @@ import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfac
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
+    FormularioProductosComponent,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
+  public mostrarDocumentoReferencia: boolean = true;
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+  public modoEdicion: boolean = false;
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -111,23 +121,25 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '301'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([Validators.maxLength(50)]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
+      // if (this.dataUrl.documento_clase === '301') {
+      //   let orden_compra = this.formularioFactura.get('orden_compra');
+      //   orden_compra?.clearValidators();
+      //   orden_compra?.setValidators([Validators.maxLength(50)]);
+      //   orden_compra?.updateValueAndValidity();
+      //   let metodo_pago = this.formularioFactura.get('metodo_pago');
+      //   metodo_pago?.clearValidators();
+      //   metodo_pago?.clearValidators();
+      //   metodo_pago?.updateValueAndValidity();
+      // }
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      this.modoEdicion = true;
+      // this.consultardetalle();
+    } else {
+      this.modoEdicion = false;
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -145,6 +157,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         contacto: ['', Validators.compose([Validators.required])],
         contactoNombre: [''],
         numero: [null],
+        totalCantidad: [0],
         fecha: [
           fechaVencimientoInicial,
           Validators.compose([
@@ -163,21 +176,25 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
-        metodo_pago: ['', Validators.compose([Validators.required])],
-        metodo_pago_nombre: [''],
+        base_impuesto: [0],
+        impuesto: [0],
         total: [0],
         subtotal: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
-        orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
+        detalles_eliminados: this.formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
       }
     );
+  }
+
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
   }
 
   consultarInformacion() {
@@ -198,7 +215,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
@@ -210,7 +227,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -247,86 +264,52 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
+  private _guardarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .guardarFactura({
+          ...this.formularioFactura.value,
+          ...{
+            // base_impuesto: this.formularioFactura.value.subtotal,
+            numero: null,
+            documento_tipo: 6,
+          },
+        })
+        .pipe(
+          tap((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  private _actualizarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
+        .subscribe((respuesta) => {
+          this.router.navigate(['documento/detalle'], {
+            queryParams: {
+              ...this.parametrosUrl,
+              detalle: respuesta.documento.id,
+            },
+          });
+        });
+    }
+  }
+
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioFactura.value,
-              ...{
-                base_impuesto: this.formularioFactura.value.subtotal,
-                numero: null,
-                documento_tipo: 6,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              })
-            )
-            .subscribe();
-        }
+      if (this.detalle !== undefined) {
+        this._actualizarFactura();
       } else {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
-              this.detalles.clear();
-              respuesta.documento.detalles.forEach(
-                (detalle: any, indexDetalle: number) => {
-                  const detalleFormGroup = this.formBuilder.group({
-                    item: [detalle.item],
-                    cantidad: [detalle.cantidad],
-                    precio: [detalle.precio],
-                    porcentaje_descuento: [detalle.porcentaje_descuento],
-                    descuento: [detalle.descuento],
-                    subtotal: [detalle.subtotal],
-                    total_bruto: [detalle.total_bruto],
-                    total: [detalle.total],
-                    neto: [detalle.total],
-                    base_impuesto: [detalle.base_impuesto],
-                    impuesto: [detalle.impuesto],
-                    item_nombre: [detalle.item_nombre],
-                    impuestos: this.formBuilder.array([]),
-                    impuestos_eliminados: this.formBuilder.array([]),
-                    id: [detalle.id],
-                  });
-
-                  if (detalle.impuestos.length === 0) {
-                    const cantidad = detalleFormGroup.get('cantidad')?.value;
-                    const precio = detalleFormGroup.get('precio')?.value;
-                    const neto = cantidad * precio;
-                    detalleFormGroup.get('neto')?.setValue(neto);
-                  }
-
-                  this.detalles.push(detalleFormGroup);
-
-                  detalle.impuestos.forEach((impuesto: any, index: number) => {
-                    this.agregarImpuesto(
-                      impuesto,
-                      indexDetalle,
-                      'actualizacion'
-                    );
-                  });
-                }
-              );
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
-            });
-        }
+        this._guardarFactura();
       }
     } else {
       this.formularioFactura.markAllAsTouched();
@@ -421,10 +404,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto['compra'] = impuesto['impuesto_compra'];
         impuesto['venta'] = impuesto['impuesto_venta'];
         impuesto['porcentaje'] = impuesto['impuesto_porcentaje'];
-        impuesto['impuesto_porcentaje_base'] = impuesto['impuesto_porcentaje_base'];
+        impuesto['impuesto_porcentaje_base'] =
+          impuesto['impuesto_porcentaje_base'];
         impuesto['id'] = null;
         impuesto['impuesto_venta'] = impuesto['impuesto_venta'];
-        impuesto['impuesto_compra'] = impuesto['impuesto_compra']
+        impuesto['impuesto_compra'] = impuesto['impuesto_compra'];
         this.agregarImpuesto(impuesto, index, 'agregar');
       });
     }
@@ -622,7 +606,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       impuesto_nombre: [impuesto.nombre],
       porcentaje_base: [impuesto.impuesto_porcentaje_base],
       impuesto_venta: [impuesto.impuesto_venta],
-      impuesto_compra: [impuesto.impuesto_compra]
+      impuesto_compra: [impuesto.impuesto_compra],
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
@@ -736,7 +720,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         impuesto_nombre: [nuevoImpuesto.nombre],
         porcentaje_base: [nuevoImpuesto.porcentaje_base],
         impuesto_venta: [nuevoImpuesto.impuesto_venta],
-        impuesto_compra: [nuevoImpuesto.impuesto_compra]
+        impuesto_compra: [nuevoImpuesto.impuesto_compra],
       });
       arrDetalleImpuestos.push(nuevoDetalle);
     });
@@ -854,7 +838,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -881,20 +865,28 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: `${event?.target.value}`,
           valor2: '',
         },
+        {
+          operador: '',
+          propiedad: 'contacto_id',
+          valor1: this.formularioFactura.get('contacto')?.value,
+        },
+        {
+          operador: '',
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: 300,
+        },
       ],
       limite: 5,
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenDocumento',
-      serializador: "Referencia"
+      serializador: 'Referencia',
     };
 
     this.httpService
       .post<any>('general/funcionalidad/lista/', {
         ...arrFiltros,
-        contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 300,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),

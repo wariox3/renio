@@ -62,6 +62,7 @@ export class FormularioProductosComponent
   implements OnDestroy, OnInit
 {
   @Input({ required: true }) formularioFactura!: FormGroup;
+  @Input() formularioTipo: 'venta' | 'compra' = 'venta';
   @Input({ required: true }) modoEdicion: boolean = false;
   @Input() mostrarDocumentoReferencia: boolean = false;
   @Input() estadoAprobado: boolean = false;

@@ -332,7 +332,7 @@
                 <app-formulario-productos (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
                   (emitirEnviarFormulario)="enviarFormulario()" [modoEdicion]="modoEdicion"
-                  [formularioFactura]="formularioFactura"></app-formulario-productos>
+                  [formularioFactura]="formularioFactura" [formularioTipo]="'venta'"></app-formulario-productos>
                 <!-- <div
                   class="d-flex justify-content-end mb-2"
                   *ngIf="!estado_aprobado"

@@ -12,7 +12,11 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -27,8 +31,13 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { Contacto } from '@interfaces/general/contacto';
-import ContactoFormulario from "../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component";
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
@@ -50,10 +59,15 @@ import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfac
     BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
-    ContactoFormulario
-],
+    ContactoFormulario,
+    FormularioProductosComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+  public modoEdicion: boolean = false;
+  public mostrarDocumentoReferencia: boolean = true;
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -106,26 +120,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '6' ||
-        this.dataUrl.documento_clase === '7'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([
-          Validators.maxLength(50),
-        ]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      // this.consultardetalle();
+    } else {
+      this.modoEdicion = false;
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -142,6 +144,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         empresa: [1],
         contacto: ['', Validators.compose([Validators.required])],
         contactoNombre: [''],
+        totalCantidad: [0],
         numero: [null],
         fecha: [
           fechaVencimientoInicial,
@@ -165,17 +168,24 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
+        base_impuesto: [0],
+        impuesto: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
+        detalles_eliminados: this.formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
       }
     );
+  }
+
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
   }
 
   consultarInformacion() {
@@ -196,7 +206,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
@@ -208,7 +218,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -253,7 +263,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             .guardarFactura({
               ...this.formularioFactura.value,
               ...{
-                base_impuesto: this.formularioFactura.value.subtotal,
                 numero: null,
                 documento_tipo: 12,
               },
@@ -273,48 +282,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       } else {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
+            .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
             .subscribe((respuesta) => {
-              this.detalles.clear();
-              respuesta.documento.detalles.forEach(
-                (detalle: any, indexDetalle: number) => {
-                  const detalleFormGroup = this.formBuilder.group({
-                    item: [detalle.item],
-                    cantidad: [detalle.cantidad],
-                    precio: [detalle.precio],
-                    porcentaje_descuento: [detalle.porcentaje_descuento],
-                    descuento: [detalle.descuento],
-                    subtotal: [detalle.subtotal],
-                    total_bruto: [detalle.total_bruto],
-                    total: [detalle.total],
-                    neto: [detalle.total],
-                    item_nombre: [detalle.item_nombre],
-                    impuestos: this.formBuilder.array([]),
-                    impuestos_eliminados: this.formBuilder.array([]),
-                    id: [detalle.id],
-                  });
-
-                  if (detalle.impuestos.length === 0) {
-                    const cantidad = detalleFormGroup.get('cantidad')?.value;
-                    const precio = detalleFormGroup.get('precio')?.value;
-                    const neto = cantidad * precio;
-                    detalleFormGroup.get('neto')?.setValue(neto);
-                  }
-
-                  this.detalles.push(detalleFormGroup);
-
-                  detalle.impuestos.forEach((impuesto: any, index: number) => {
-                    this.agregarImpuesto(
-                      impuesto,
-                      indexDetalle,
-                      'actualizacion'
-                    );
-                  });
-                }
-              );
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   ...this.parametrosUrl,
@@ -709,7 +678,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_proveedor_id);
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(dato.plazo_pago_proveedor_id);
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
@@ -781,8 +752,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
-
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -809,20 +779,28 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: `${event?.target.value}`,
           valor2: '',
         },
+        {
+          operador: '',
+          propiedad: 'contacto_id',
+          valor1: this.formularioFactura.get('contacto')?.value,
+          },
+          {
+          operador: '',
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: 303,
+        },
       ],
       limite: 5,
       desplazar: 0,
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenDocumento',
-      serializador: "Referencia"
+      serializador: 'Referencia',
     };
 
     this.httpService
       .post<any>('general/funcionalidad/lista/', {
         ...arrFiltros,
-        contacto_id: this.formularioFactura.get('contacto')?.value,
-        documento_clase_id: 303,
       })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
@@ -871,9 +849,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           plazo_pago: respuesta.documento.plazo_pago_id,
         });
 
-        if (
-          this.parametrosUrl.documento_clase == 304
-        ) {
+        if (this.parametrosUrl.documento_clase == 304) {
           this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,
@@ -930,7 +906,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .toString()
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
 
-      // Suma los días a la fecha actual
+    // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
@@ -962,7 +938,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto)
+    this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
   }
 }

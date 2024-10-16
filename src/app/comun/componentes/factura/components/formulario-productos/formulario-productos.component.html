@@ -26,7 +26,7 @@
                 [campoInvalido]="
                     detalle.get('item')?.touched &&
                     detalle.get('item')?.invalid
-                  " (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"></app-seleccionar-producto>
+                  " (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)" [formularioTipo]="formularioTipo"></app-seleccionar-producto>
             </td>
             <td>
               <input type="number" [value]="detalle.value.cantidad" formControlName="cantidad"
@@ -81,7 +81,7 @@
                   }" readonly [value]="detalle.value.subtotal" />
             </td>
             <td>
-              <app-seleccionar-impuestos [visualizarImpuestosVenta]="true"
+              <app-seleccionar-impuestos [visualizarImpuestosVenta]="true" [formularioTipo]="formularioTipo"
                 (emitirImpuestosModificados)="recibirImpuestosModificados($event, i)"
                 [impuestosSeleccionados]="detalles.controls[i].value.impuestos"></app-seleccionar-impuestos>
             </td>

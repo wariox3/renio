@@ -20,7 +20,10 @@ import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
-import { DocumentoDetalleFactura, RespuestaItem } from '@interfaces/comunes/factura/factura.interface';
+import {
+  DocumentoDetalleFactura,
+  RespuestaItem,
+} from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
   selector: 'app-seleccionar-producto',
@@ -46,6 +49,7 @@ export class SeleccionarProductoComponent
   @Input() campoInvalido: any = false;
   @Input() venta: boolean = true;
   @Input() compra: boolean = false;
+  @Input() formularioTipo: 'venta' | 'compra' = 'venta';
 
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
@@ -70,18 +74,35 @@ export class SeleccionarProductoComponent
   }
 
   agregarItem(item: any) {
+    let parametrosConsulta = {
+      id: item.item_id,
+      venta: false,
+      compra: false,
+    };
+
     this.itemSeleccionado = item;
     if (this.campoInvalido) {
       this.campoInvalido = false;
       this.changeDetectorRef.detectChanges();
     }
 
+    switch (this.formularioTipo) {
+      case 'compra':
+        parametrosConsulta = {
+          ...parametrosConsulta,
+          compra: true,
+        };
+        break;
+      case 'venta':
+        parametrosConsulta = {
+          ...parametrosConsulta,
+          venta: true,
+        };
+        break;
+    }
+
     this.httpService
-      .post<RespuestaItem>(`general/item/detalle/`, {
-        id: item.item_id,
-        venta: this.venta,
-        compra: this.compra,
-      })
+      .post<RespuestaItem>(`general/item/detalle/`, parametrosConsulta)
       .subscribe((respuesta) => {
         this.emitirItemSeleccionado.emit(respuesta.item);
       });

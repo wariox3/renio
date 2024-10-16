@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -35,6 +35,9 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
+import { FechasService } from '@comun/services/fechas.service';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -57,9 +60,15 @@ import {
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
+    FormularioProductosComponent,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
+  private _fechasService = inject(FechasService);
+
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+  public modoEdicion: boolean = false;
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -109,44 +118,49 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarInformacion();
-    this.initForm();
+    this._initForm();
     this.active = 1;
+
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '6' ||
-        this.dataUrl.documento_clase === '7'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([Validators.maxLength(50)]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
+
+      // TODO: para que es esto
+      // if ( 
+      //   this.dataUrl.documento_clase === '6' ||
+      //   this.dataUrl.documento_clase === '7'
+      // ) {
+      //   let orden_compra = this.formularioFactura.get('orden_compra');
+      //   orden_compra?.clearValidators();
+      //   orden_compra?.setValidators([Validators.maxLength(50)]);
+      //   orden_compra?.updateValueAndValidity();
+      //   let metodo_pago = this.formularioFactura.get('metodo_pago');
+      //   metodo_pago?.clearValidators();
+      //   metodo_pago?.clearValidators();
+      //   metodo_pago?.updateValueAndValidity();
+      // }
     }
+
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      this.modoEdicion = true;
+      // this.consultardetalle();
+    } else {
+      this.modoEdicion = false;
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
-  initForm() {
-    const fechaActual = new Date(); // Obtener la fecha actual
-    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
-      fechaActual.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+  private _initForm() {
+    const fechaVencimientoInicial =
+      this._fechasService.getFechaVencimientoInicial();
 
     this.formularioFactura = this.formBuilder.group(
       {
         empresa: [1],
         contacto: ['', Validators.compose([Validators.required])],
         contactoNombre: [''],
+        totalCantidad: [0],
         numero: [null],
         fecha: [
           fechaVencimientoInicial,
@@ -178,11 +192,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         documento_referencia_numero: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
+        detalles_eliminados: this.formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
       }
     );
+  }
+
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
   }
 
   consultarInformacion() {
@@ -203,7 +222,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       ),
       this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
@@ -215,7 +234,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -252,86 +271,52 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
+  private _guardarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .guardarFactura({
+          ...this.formularioFactura.value,
+          ...{
+            // base_impuesto: this.formularioFactura.value.subtotal,
+            numero: null,
+            documento_tipo: 5,
+          },
+        })
+        .pipe(
+          tap((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          })
+        )
+        .subscribe();
+    }
+  }
+
+  private _actualizarFactura() {
+    if (this.validarCamposDetalles() === false) {
+      this.facturaService
+        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
+        .subscribe((respuesta) => {
+          this.router.navigate(['documento/detalle'], {
+            queryParams: {
+              ...this.parametrosUrl,
+              detalle: respuesta.documento.id,
+            },
+          });
+        });
+    }
+  }
+
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioFactura.value,
-              ...{
-                base_impuesto: this.formularioFactura.value.subtotal,
-                numero: null,
-                documento_tipo: 5,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              })
-            )
-            .subscribe();
-        }
+      if (this.detalle !== undefined) {
+        this._actualizarFactura();
       } else {
-        if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
-              this.detalles.clear();
-              respuesta.documento.detalles.forEach(
-                (detalle: any, indexDetalle: number) => {
-                  const detalleFormGroup = this.formBuilder.group({
-                    item: [detalle.item],
-                    cantidad: [detalle.cantidad],
-                    precio: [detalle.precio],
-                    porcentaje_descuento: [detalle.porcentaje_descuento],
-                    descuento: [detalle.descuento],
-                    subtotal: [detalle.subtotal],
-                    total_bruto: [detalle.total_bruto],
-                    total: [detalle.total],
-                    neto: [detalle.total],
-                    base_impuesto: [detalle.base_impuesto],
-                    impuesto: [detalle.impuesto],
-                    item_nombre: [detalle.item_nombre],
-                    impuestos: this.formBuilder.array([]),
-                    impuestos_eliminados: this.formBuilder.array([]),
-                    id: [detalle.id],
-                  });
-
-                  if (detalle.impuestos.length === 0) {
-                    const cantidad = detalleFormGroup.get('cantidad')?.value;
-                    const precio = detalleFormGroup.get('precio')?.value;
-                    const neto = cantidad * precio;
-                    detalleFormGroup.get('neto')?.setValue(neto);
-                  }
-
-                  this.detalles.push(detalleFormGroup);
-
-                  detalle.impuestos.forEach((impuesto: any, index: number) => {
-                    this.agregarImpuesto(
-                      impuesto,
-                      indexDetalle,
-                      'actualizacion'
-                    );
-                  });
-                }
-              );
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
-            });
-        }
+        this._guardarFactura();
       }
     } else {
       this.formularioFactura.markAllAsTouched();
@@ -862,7 +847,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService

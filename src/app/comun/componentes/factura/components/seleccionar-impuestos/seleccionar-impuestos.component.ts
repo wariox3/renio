@@ -56,6 +56,7 @@ export class SeleccionarImpuestosComponent
     serializador: 'ListaAutocompletar',
   };
   @Input() arrLista: any[];
+  @Input() formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() estadoAprobado = false;
   @Input() visualizarImpuestosVenta = false;
   @Input() visualizarImpuestosCompra = false;
@@ -151,7 +152,7 @@ export class SeleccionarImpuestosComponent
   }
 
   removerItem(impuesto: ImpuestoRespuestaConsulta) {
-    if(!this.estadoAprobado) {
+    if (!this.estadoAprobado) {
       this.impuestos = this.impuestos.filter((i) => i !== impuesto);
       this.emitirImpuestosModificados.emit(this.impuestos);
     }
@@ -164,23 +165,25 @@ export class SeleccionarImpuestosComponent
   }
 
   consultarImpuesto() {
-    if (this.visualizarImpuestosVenta) {
-      this.arrParametrosConsulta.filtros = [
-        //...this.arrParametrosConsulta.filtros,
-        {
-          propiedad: 'venta',
-          valor1: true,
-        },
-      ];
-    }
-    if (this.visualizarImpuestosCompra) {
-      this.arrParametrosConsulta.filtros = [
-        //...this.arrParametrosConsulta.filtros,
-        {
-          propiedad: 'compra',
-          valor1: true,
-        },
-      ];
+    switch (this.formularioTipo) {
+      case 'compra':
+        this.arrParametrosConsulta.filtros = [
+          //...this.arrParametrosConsulta.filtros,
+          {
+            propiedad: 'compra',
+            valor1: true,
+          },
+        ];
+        break;
+      case 'venta':
+        this.arrParametrosConsulta.filtros = [
+          //...this.arrParametrosConsulta.filtros,
+          {
+            propiedad: 'venta',
+            valor1: true,
+          },
+        ];
+        break;
     }
 
     this.listaDeImpuestosSeleccionables$ = this.httpService

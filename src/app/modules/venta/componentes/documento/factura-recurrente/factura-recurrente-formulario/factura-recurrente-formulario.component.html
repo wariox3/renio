@@ -300,7 +300,7 @@
               <ng-template ngbNavContent>
                 <app-formulario-productos (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"></app-formulario-productos>
+                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura" [formularioTipo]="'venta'"></app-formulario-productos>
                 <!-- <div
                   class="d-flex justify-content-end mb-2"
                   *ngIf="!estado_aprobado"

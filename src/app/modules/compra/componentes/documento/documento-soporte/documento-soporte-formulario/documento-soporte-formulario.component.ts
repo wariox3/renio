@@ -35,6 +35,8 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
   selector: 'app-documento-soporte-formulario',
@@ -57,9 +59,13 @@ import {
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
+    FormularioProductosComponent
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
+  public modoEdicion: boolean = false;
+  public acumuladorImpuesto: AcumuladorImpuestos = {};
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -114,24 +120,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
-      if (
-        this.dataUrl.documento_clase === '6' ||
-        this.dataUrl.documento_clase === '7'
-      ) {
-        let orden_compra = this.formularioFactura.get('orden_compra');
-        orden_compra?.clearValidators();
-        orden_compra?.setValidators([Validators.maxLength(50)]);
-        orden_compra?.updateValueAndValidity();
-        let metodo_pago = this.formularioFactura.get('metodo_pago');
-        metodo_pago?.clearValidators();
-        metodo_pago?.clearValidators();
-        metodo_pago?.updateValueAndValidity();
-      }
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.consultardetalle();
+      this.modoEdicion = true;
+    } else {
+      this.modoEdicion = false;
     }
+    
     this.changeDetectorRef.detectChanges();
   }
 
@@ -149,6 +145,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         contacto: ['', Validators.compose([Validators.required])],
         contactoNombre: [''],
         numero: [null],
+        totalCantidad: [0],
+
         fecha: [
           fechaVencimientoInicial,
           Validators.compose([
@@ -171,17 +169,25 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
+        // TODO: preguntar por agregados
+        base_impuesto: [0],
+        impuesto: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
         documento_referencia_numero: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
         detalles: this.formBuilder.array([]),
+        detalles_eliminados: this.formBuilder.array([]),
       },
       {
         validator: this.validarFecha,
       }
     );
+  }
+
+  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
+    this.acumuladorImpuesto = impuestosAcumulados;
   }
 
   consultarInformacion() {
