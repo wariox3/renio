@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -36,6 +36,7 @@ import {
   RegistroAutocompletarConceptoAdicional,
   RegistroAutocompletarHumContrato,
 } from '@interfaces/comunes/autocompletar';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -62,6 +63,8 @@ export default class ProgramacionDetalleComponent
   extends General
   implements OnInit
 {
+  private _descargarArchivosService = inject(DescargarArchivosService);
+
   active: Number;
   programacion: any = {
     id: 0,
@@ -184,7 +187,7 @@ export default class ProgramacionDetalleComponent
       ],
       limite: 1000,
       desplazar: 0,
-      ordenamientos: ["contrato_id"],
+      ordenamientos: ['contrato_id'],
       limite_conteo: 10000,
       modelo: 'HumProgramacionDetalle',
     };
@@ -260,7 +263,7 @@ export default class ProgramacionDetalleComponent
   reiniciarSelectoresEliminar() {
     this.reiniciarSelectoresEliminarAdicional();
     this.reiniciarSelectoresEliminarDetalles();
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   reiniciarSelectoresEliminarAdicional() {
@@ -570,7 +573,7 @@ export default class ProgramacionDetalleComponent
   }
 
   cerrarModal() {
-    this.reiniciarSelectoresEliminar()
+    this.reiniciarSelectoresEliminar();
     if (this.formularioAdicionalProgramacion.valid) {
       this.adicionalService
         .guardarAdicional(this.formularioAdicionalProgramacion.value)
@@ -791,5 +794,57 @@ export default class ProgramacionDetalleComponent
     this.httpService.descargarArchivo('humano/programacion/imprimir/', {
       id: this.detalle,
     });
+  }
+
+  descargarExcelDetalle() {
+    const modelo = 'HumProgramacionDetalle';
+    const params = {
+      modelo,
+      serializador: 'Nomina',
+      excel: true,
+      filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
+    };
+
+    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this.dropdown.close();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  descargarExcelNomina() {
+    const modelo = 'GenDocumento';
+    const params = {
+      modelo,
+      serializador: 'Nomina',
+      excel: true,
+      filtros: [
+        {
+          propiedad: 'programacion_detalle__programacion_id',
+          valor1: this.programacion.id,
+        },
+      ],
+    };
+
+    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this.dropdown.close();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  descargarExcelNominaDetalle() {
+    const modelo = 'GenDocumentoDetalle';
+    const params = {
+      modelo,
+      serializador: 'Nomina',
+      excel: true,
+      filtros: [
+        {
+          propiedad: 'documento__programacion_detalle__programacion_id',
+          valor1: this.programacion.id,
+        },
+      ],
+    };
+
+    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this.dropdown.close();
+    this.changeDetectorRef.detectChanges();
   }
 }

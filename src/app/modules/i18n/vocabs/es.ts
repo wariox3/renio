@@ -132,6 +132,8 @@ export const locale = {
           BLOQUEAR: 'Bloquear',
           DESBLOQUEAR: 'Desbloquear',
           ARCHIVOPLANO: 'Archivo plano',
+          NOMINA: 'Nomina',
+          NOMINADETALLE: 'Nomina detalle',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
