@@ -104,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-12" *ngIf="mostrarDocumentoReferencia" appAnimacionFadeInOut ngbDropdown
+        <div class="col-md-6 col-sm-12" *ngIf="formularioFactura.controls['contacto'].value" appAnimacionFadeInOut ngbDropdown
           #DocumentoReferenciaDropdown="ngbDropdown">
           <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"></label>
           <div class="position-relative">

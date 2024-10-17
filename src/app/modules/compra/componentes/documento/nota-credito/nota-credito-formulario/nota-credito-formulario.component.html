@@ -104,7 +104,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
+        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut *ngIf="formularioFactura.controls['contacto'].value"
+          ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
           <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"></label>
           <div class="position-relative">
             <input type="text" class="form-control" ngbDropdownAnchor formControlName="documento_referencia_numero"
@@ -184,7 +185,8 @@
                 <app-formulario-productos [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
                   (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura" [formularioTipo]="'compra'"></app-formulario-productos>
+                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"
+                  [formularioTipo]="'compra'"></app-formulario-productos>
                 <!-- <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"

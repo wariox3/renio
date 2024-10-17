@@ -59,6 +59,7 @@ export default class FacturaDetalleComponent extends General {
   totalImpuestos: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
+  totalBase: number = 0;
   totalNetoGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -94,6 +95,8 @@ export default class FacturaDetalleComponent extends General {
           const precio = item.precio;
           const porcentajeDescuento = item.descuento;
           const total = item.total;
+          const baseImpuesto = item.base_impuesto;
+          
           let subtotal = cantidad * precio;
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
@@ -110,6 +113,7 @@ export default class FacturaDetalleComponent extends General {
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
           this.totalGeneral += total;
+          this.totalBase += baseImpuesto;
           this.changeDetectorRef.detectChanges();
         });
         this.arrEstados = {
