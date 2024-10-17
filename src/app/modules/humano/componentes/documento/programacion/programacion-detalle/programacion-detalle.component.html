@@ -1177,10 +1177,8 @@
             <th class="bg-gray-100">
               <div placement="top" ngbTooltip="Valor hora">Hora</div>
             </th>
-            <th class="bg-gray-100">
-              <div placement="top" ngbTooltip="Operación">OP</div>
-            </th>
-            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PAGO"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEVENGADO"></th>
+            <th class="bg-gray-100" translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEDUCCION"></th>
             <th class="bg-gray-100">
               <div placement="top" ngbTooltip="Ingreso base prestación">
                 IBP
@@ -1206,12 +1204,8 @@
               <td class="text-end">{{ detalle.cantidad }}</td>
               <td class="text-end">{{ detalle.dias }}</td>
               <td class="text-end">{{ detalle.hora | number : "1.0-0" }}</td>
-              <td>
-                <ng-container *ngIf="detalle.operacion === 1">Suma</ng-container>
-                <ng-container *ngIf="detalle.operacion === -1">Resta</ng-container>
-                <ng-container *ngIf="detalle.operacion === 0">Neutro</ng-container>
-              </td>
-              <td class="text-end">{{ detalle.pago_operado | number }}</td>
+              <td class="text-end">{{ detalle.devengado | number }}</td>
+              <td class="text-end">{{ detalle.deducion | number }}</td>
               <td class="text-end">{{ detalle.base_prestacion | number }}</td>
               <td class="text-end">{{ detalle.base_cotizacion | number }}</td>
               <td class="text-end">{{ detalle.base_impuesto | number }}</td>

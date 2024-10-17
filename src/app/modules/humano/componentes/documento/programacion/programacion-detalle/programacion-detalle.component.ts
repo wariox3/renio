@@ -800,7 +800,7 @@ export default class ProgramacionDetalleComponent
     const modelo = 'HumProgramacionDetalle';
     const params = {
       modelo,
-      serializador: 'Nomina',
+      serializador: '',
       excel: true,
       filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
     };
@@ -814,7 +814,7 @@ export default class ProgramacionDetalleComponent
     const modelo = 'GenDocumento';
     const params = {
       modelo,
-      serializador: 'Nomina',
+      serializador: 'NominaExcel',
       excel: true,
       filtros: [
         {
@@ -833,7 +833,7 @@ export default class ProgramacionDetalleComponent
     const modelo = 'GenDocumentoDetalle';
     const params = {
       modelo,
-      serializador: 'Nomina',
+      serializador: 'NominaExcel',
       excel: true,
       filtros: [
         {

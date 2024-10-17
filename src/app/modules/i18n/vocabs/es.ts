@@ -594,6 +594,7 @@ export const locale = {
             PAGO: 'Pago',
             DESCUENTO: 'Descuento',
             DEDUCCION: 'Deducción',
+            DEVENGADO: 'Devengado',
             CREDITO: 'Crédito',
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
