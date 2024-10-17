@@ -19,8 +19,20 @@
     <ng-container *ngIf="nominaElectronica.estado_aprobado">
       <span class="badge badge-success">Aprobado</span>
     </ng-container>
-    <ng-container *ngIf="nominaElectronica.estado_electronico_enviado">
-      <span class="badge badge-secondary">Enviado</span>
+    <ng-container *ngIf="nominaElectronica.estado_anulado">
+      <span class="badge badge-danger">Anulado</span>
+    </ng-container>
+    <ng-container *ngIf="nominaElectronica.estado_electronico">
+      <span class="badge badge-success">Electrónico</span>
+    </ng-container>
+    <ng-container *ngIf="
+        nominaElectronica.estado_electronico_enviado === true &&
+        nominaElectronica.estado_electronico === false
+      ">
+      <span class="badge badge-success">Enviado DIAN (Esperando respuesta)</span>
+    </ng-container>
+    <ng-container *ngIf="nominaElectronica.estado_electronico_notificado">
+      <span class="badge badge-success">Notificado</span>
     </ng-container>
   </div>
 </div>
