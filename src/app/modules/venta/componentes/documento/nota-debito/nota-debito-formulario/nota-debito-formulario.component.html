@@ -167,7 +167,7 @@
         </div>
         <div
           class="col-md-6 col-sm-12"
-          *ngIf="visualizarCampoDocumentoReferencia"
+          *ngIf="formularioFactura.controls['contactoNombre'].value"
           appAnimacionFadeInOut
           ngbDropdown
           #DocumentoReferenciaDropdown="ngbDropdown"
