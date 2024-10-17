@@ -802,7 +802,7 @@ export default class ProgramacionDetalleComponent
     const modelo = 'HumProgramacionDetalle';
     const params = {
       modelo,
-      serializador: '',
+      serializador: 'Excel',
       excel: true,
       filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
     };

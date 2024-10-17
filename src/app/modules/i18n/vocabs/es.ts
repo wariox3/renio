@@ -462,6 +462,7 @@ export const locale = {
           TIPOOPERACION: 'Operación tipo',
           METODOPAGO: 'Método de pago',
           CUE: 'Cue',
+          CUNE: 'Cune',
           NUMERO: 'Número',
           ORDENCOMPRA: 'Orden compra',
           DOCUMENTOREFERENCIA: 'Documento referencia',
