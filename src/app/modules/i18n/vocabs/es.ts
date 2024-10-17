@@ -503,8 +503,8 @@ export const locale = {
         },
         HUMANO: {
           CONCEPTO: {
-            INGRESOBASECOTIZACION: 'Ingreso base cotización',
-            INGRESOBASEPRESTACION: 'Ingreso base prestación',
+            INGRESOBASECOTIZACION: 'Base cotización',
+            INGRESOBASEPRESTACION: 'Base prestación',
             PORCENTAJE: 'Porcentaje',
             ORDEN: 'Orden',
           },
@@ -798,8 +798,8 @@ export const locale = {
         IBC: 'Ibc',
         IBP: 'Ibp',
         CONT: 'Cont',
-        INGRESOBASECOTIZACION: "Ingreso base cotización",
-        INGRESOBASEPRESTACION: "Ingreso base prestación",
+        INGRESOBASECOTIZACION: "Base cotización",
+        INGRESOBASEPRESTACION: "Base prestación",
         ESTADOELECTRONICO: "Estado electrónico",
         PORCENTAJE: "Porcentaje",
         VALOR_HORA: "Valor hora",
