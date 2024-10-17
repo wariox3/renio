@@ -41,8 +41,9 @@ export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
 
 export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(
   Menu,
-  (Menu) =>
-    Menu.dataMapeo.filter((titulo: any) => titulo.visibleFiltro === true)
+  (Menu) =>{
+    return Menu?.dataMapeo?.filter((titulo: any) => titulo.visibleFiltro === true)
+  }
 );
 
 export const obtenerMenuDataMapeoBuscarCampo = (valorBusqueda: string) =>
