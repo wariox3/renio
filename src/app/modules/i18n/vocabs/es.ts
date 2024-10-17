@@ -134,6 +134,7 @@ export const locale = {
           ARCHIVOPLANO: 'Archivo plano',
           NOMINA: 'Nomina',
           NOMINADETALLE: 'Nomina detalle',
+          TERMINAR: 'Terminar',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
