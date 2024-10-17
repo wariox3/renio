@@ -1407,9 +1407,9 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'CONTRATO_CONTACTO_ID',
+      nombre: 'DETALLE',
       campoTipo: 'CharField',
-      visibleTabla: false,
+      visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
     },
@@ -1442,14 +1442,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
-    },
-    {
-      nombre: 'DETALLE',
-      campoTipo: 'CharField',
-      visibleTabla: true,
-      visibleFiltro: false,
-      ordenable: false,
-    },
+    }
   ],
   HumCredito: [
     {
