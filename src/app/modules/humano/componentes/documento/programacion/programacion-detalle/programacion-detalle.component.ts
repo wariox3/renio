@@ -118,6 +118,7 @@ export default class ProgramacionDetalleComponent
   desgenerando: boolean = false;
   mostrarMasDetalles: boolean = false;
   arrConceptosAdicional: any[] = [];
+  ordenadoTabla: string = '';
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
@@ -134,6 +135,7 @@ export default class ProgramacionDetalleComponent
   }
 
   ngOnInit(): void {
+    this.inicializarParametrosConsulta();
     this.consultarDatos();
   }
 
@@ -143,7 +145,6 @@ export default class ProgramacionDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.programacion = respuesta;
-        this.inicializarParametrosConsulta();
         this.httpService
           .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
           .subscribe((respuesta: any) => {
@@ -181,7 +182,7 @@ export default class ProgramacionDetalleComponent
         {
           operador: '',
           propiedad: 'programacion_id',
-          valor1: this.programacion.id,
+          valor1: this.detalle,
           valor2: '',
         },
       ],
@@ -191,6 +192,7 @@ export default class ProgramacionDetalleComponent
       limite_conteo: 10000,
       modelo: 'HumProgramacionDetalle',
     };
+    this.changeDetectorRef.detectChanges();
   }
 
   inicializarParametrosConsultaProgramacionDetalle(id: number) {
@@ -847,4 +849,18 @@ export default class ProgramacionDetalleComponent
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }
+
+  orderPor(nombre: string, i: number) {
+    if (this.ordenadoTabla.charAt(0) == '-') {
+      this.ordenadoTabla = nombre.toLowerCase();
+    } else {
+      this.ordenadoTabla = `-${nombre.toLowerCase()}`;
+    }
+    this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla
+    this.consultarDatos();
+    this.changeDetectorRef.detectChanges();
+    console.log(this.arrParametrosConsulta);
+    
+  }
+
 }

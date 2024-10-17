@@ -265,13 +265,50 @@
                       <th class="bg-gray-100">
                         <div>Identificación</div>
                       </th>
-                      <th class="bg-gray-100">
-                        <div>Nombre</div>
+                      <th (click)="orderPor('contrato__contacto__nombre_corto', 0)"
+                        [ngClass]="{ 'cursor-pointer user-select-none': true }" class="bg-gray-100">
+                        <div class="d-flex justify-content-between">
+                          <div style="flex: 1; text-align: center">Nombre</div>
+                        <div>
+                          <ng-container *ngIf="
+                              this.ordenadoTabla === 'contrato__contacto__nombre_corto' ||
+                                this.ordenadoTabla === '-contrato__contacto__nombre_corto' ;
+                              else iconopordefecto
+                            ">
+                            <i class="ki-outline ki-arrow-up fs-2"
+                              *ngIf="this.ordenadoTabla === 'contrato__contacto__nombre_corto'"></i>
+                            <i class="ki-outline ki-arrow-down fs-2" *ngIf="
+                                this.ordenadoTabla === '-contrato__contacto__nombre_corto'
+                              "></i>
+                          </ng-container>
+                          <ng-template #iconopordefecto>
+                            <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                          </ng-template>
+                        </div>
+                      </div>
                       </th>
-                      <th class="bg-gray-100">
-                        <div placement="top" ngbTooltip="Código contrato">
+                      <th (click)="orderPor('contrato_id', 0)" [ngClass]="{ 'cursor-pointer user-select-none': true }"
+                        class="bg-gray-100">
+                        <div class="d-flex justify-content-between">
+                        <div style="flex: 1; text-align: center" placement="top" ngbTooltip="Código contrato">
                           Ctn
                         </div>
+                        <div>
+                          <ng-container *ngIf="
+                              this.ordenadoTabla === 'contrato_id' ||
+                                this.ordenadoTabla === '-contrato_id' ;
+                              else iconopordefecto
+                            ">
+                            <i class="ki-outline ki-arrow-up fs-2" *ngIf="this.ordenadoTabla === 'contrato_id'"></i>
+                            <i class="ki-outline ki-arrow-down fs-2" *ngIf="
+                                this.ordenadoTabla === '-contrato_id'
+                              "></i>
+                          </ng-container>
+                          <ng-template #iconopordefecto>
+                            <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                          </ng-template>
+                        </div>
+                      </div>
                       </th>
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Fecha desde contrato">
