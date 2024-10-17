@@ -116,21 +116,17 @@ export class NominaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-  // descargarExcel() {
-  //   this.descargarArchivosService.descargarExcelDocumentoDetalle({
-  //     ...this.arrParametrosConsulta,
-  //     ...{
-  //       limite: 5000,
-  //     },
-  //   });
-  // }
-
   descargarExcel() {
     const params = {
       modelo : 'GenDocumento',
       serializador: 'NominaExcel',
       excel: true,
-      filtros: [],
+      filtros: [
+        {
+          "propiedad":"documento_tipo__documento_clase_id",
+          "valor1": 701
+        }
+      ],
     };
 
     this._descargarArchivosService.descargarExcelDocumentos(params);
