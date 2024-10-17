@@ -520,15 +520,37 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarContratos(event: any) {
+    const valor = event?.target.value;
+    let filtros = {};
+
+    if (!valor.length) {
+      filtros = {
+        ...filtros,
+        operador: '',
+        propiedad: 'contacto__nombre_corto__icontains',
+        valor1: `${event?.target.value}`,
+        valor2: '',
+      };
+    } else if (isNaN(Number(valor))) {
+      filtros = {
+        ...filtros,
+        operador: '',
+        propiedad: 'contacto__nombre_corto__icontains',
+        valor1: `${event?.target.value}`,
+        valor2: '',
+      };
+    } else {
+      filtros = {
+        ...filtros,
+        operador: '',
+        propiedad: 'contacto__numero_identificacion__icontains',
+        valor1: `${Number(event?.target.value)}`,
+        valor2: '',
+      };
+    }
+
     let arrFiltros = {
-      filtros: [
-        {
-          operador: '',
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
+      filtros: [filtros],
       limite: 1000,
       desplazar: 0,
       ordenamientos: [],
@@ -856,11 +878,9 @@ export default class ProgramacionDetalleComponent
     } else {
       this.ordenadoTabla = `-${nombre.toLowerCase()}`;
     }
-    this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla
+    this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla;
     this.consultarDatos();
     this.changeDetectorRef.detectChanges();
     console.log(this.arrParametrosConsulta);
-    
   }
-
 }
