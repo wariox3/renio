@@ -42,8 +42,7 @@
           </div>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
-              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)">
+              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contacto', contacto)">
                 {{ contacto.contacto_nombre_corto }}
               </button>
             </ng-container>
@@ -104,7 +103,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut *ngIf="formularioFactura.controls['contactoNombre'].value" ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
+        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut *ngIf="formularioFactura.controls['contactoNombre'].value"
+          ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
           <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"></label>
           <div class="position-relative">
             <input type="text" class="form-control" ngbDropdownAnchor formControlName="documento_referencia_numero"
@@ -140,7 +140,8 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenDocumento'" [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
-                ">
+                " [campoLista]="['id', 'numero', 'contacto_numero_identificacion', 'contacto_nombre_corto']"
+                [filtrosPermanentes]="filtrosPermanentesNotaCredito">
               </app-comun-buscar-avanzado>
             </button>
           </div>
@@ -184,7 +185,8 @@
                 <app-formulario-productos [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
                   (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura" [formularioTipo]="'venta'"></app-formulario-productos>
+                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"
+                  [formularioTipo]="'venta'"></app-formulario-productos>
                 <!-- <div class="d-flex justify-content-end my-3">
                   <div class="btn-group contenedor-btn-group">
                     <button

@@ -1,7 +1,11 @@
 import { FiltrosAplicados } from './../../../interfaces/comunes/filtros';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbDatepickerModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDatepickerModule,
+  NgbModal,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
@@ -21,8 +25,8 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     KeysPipe,
     BaseFiltroComponent,
     TranslateModule,
-    NgbTooltipModule
-],
+    NgbTooltipModule,
+  ],
   templateUrl: './buscar-avanzado.component.html',
   styleUrls: ['./buscar-avanzado.component.scss'],
 })
@@ -59,9 +63,7 @@ export class BuscarAvanzadoComponent extends General {
     this.consultarLista();
     let posicion: keyof typeof mapeo = this.consultarModelo;
 
-    this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: mapeo[posicion] })
-    );
+    this.store.dispatch(ActualizarMapeo({ dataMapeo: mapeo[posicion] }));
 
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -73,7 +75,7 @@ export class BuscarAvanzadoComponent extends General {
   obtenerFiltros(arrfiltros: any) {
     this.arrParametrosConsulta.filtros = [
       ...this.arrParametrosConsulta.filtros,
-      ...arrfiltros
+      ...arrfiltros,
     ];
     this.consultarLista();
   }
@@ -87,12 +89,16 @@ export class BuscarAvanzadoComponent extends General {
         baseUrl += 'funcionalidad/lista/';
         break;
       case 'Documento':
-        baseUrl += 'documento/lista/';
+        baseUrl += 'funcionalidad/lista/';
         break;
     }
 
-    if(Object.keys(this.filtrosPermanentes).length > 0){
-      this.arrParametrosConsulta.filtros[0] =this.filtrosPermanentes
+    if (Array.isArray(this.filtrosPermanentes)) {
+      this.arrParametrosConsulta.filtros = this.filtrosPermanentes;
+    } else {
+      if (Object.keys(this.filtrosPermanentes).length > 0) {
+        this.arrParametrosConsulta.filtros[0] = this.filtrosPermanentes;
+      }
     }
 
     this.httpService

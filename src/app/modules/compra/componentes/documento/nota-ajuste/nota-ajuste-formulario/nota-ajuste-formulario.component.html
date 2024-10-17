@@ -207,7 +207,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-md-6 col-sm-12" appAnimacionFadeInOut ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
+        <div class="col-md-6 col-sm-12" *ngIf="formularioFactura.controls['contactoNombre'].value" appAnimacionFadeInOut ngbDropdown #DocumentoReferenciaDropdown="ngbDropdown">
           <label class="form-label" translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"></label>
           <div class="position-relative">
             <input type="text" class="form-control" ngbDropdownAnchor formControlName="documento_referencia_numero"
@@ -243,7 +243,8 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenDocumento'" [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
-                ">
+                " [filtrosPermanentes]="filtrosPermanentesNotaCredito"
+                [campoLista]="['id', 'numero', 'contacto_numero_identificacion', 'contacto_nombre_corto']">
               </app-comun-buscar-avanzado>
             </button>
           </div>

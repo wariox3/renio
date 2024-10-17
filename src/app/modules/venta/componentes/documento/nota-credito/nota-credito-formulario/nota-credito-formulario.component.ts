@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   AbstractControl,
   FormArray,
@@ -61,11 +61,13 @@ import { FormularioProductosComponent } from '@comun/componentes/factura/compone
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
-    FormularioProductosComponent
+    FormularioProductosComponent,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _fechasService = inject(FechasService);
+
+  public filtrosPermanentesNotaCredito = {};
 
   informacionFormulario: any;
   formularioFactura: FormGroup;
@@ -372,6 +374,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     if (campo === 'documento_referencia') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura
+        .get('documento_referencia_numero')
+        ?.setValue(dato.numero);
     }
 
     this.formularioFactura?.markAsDirty();
@@ -814,10 +819,32 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  private _inicializarFormulario(contactoId:string) {
+    this.filtrosPermanentesNotaCredito = [
+      {
+        operador: '',
+        propiedad: 'contacto_id',
+        valor1: contactoId,
+      },
+      {
+        operador: '',
+        propiedad: 'documento_tipo__documento_clase_id',
+        valor1: 100,
+      },
+      {
+        operador: '',
+        propiedad: 'estado_aprobado',
+        valor1: true,
+      },
+    ]
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
+    
     if (campo === 'contacto') {
+      this._inicializarFormulario(dato.contacto_id)
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
@@ -901,13 +928,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.changeDetectorRef.detectChanges();
         })
       )
-      .subscribe();
+      .subscribe(() => {
+
+      });
   }
 
   consultarDocumentoReferencia(event: any) {
     let arrFiltros = {
       filtros: [
-        {
+        { 
           operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
@@ -917,8 +946,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           operador: '',
           propiedad: 'contacto_id',
           valor1: this.formularioFactura.get('contacto')?.value,
-          },
-          {
+        },
+        {
           operador: '',
           propiedad: 'documento_tipo__documento_clase_id',
           valor1: 100,

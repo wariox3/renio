@@ -141,7 +141,8 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenDocumento'" [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                 actualizarFormulario($event, 'documento_referencia')
-              ">
+              " [filtrosPermanentes]="filtrosPermanentesNotaCredito"
+                [campoLista]="['id', 'numero', 'contacto_numero_identificacion', 'contacto_nombre_corto']">
               </app-comun-buscar-avanzado>
             </button>
           </div>

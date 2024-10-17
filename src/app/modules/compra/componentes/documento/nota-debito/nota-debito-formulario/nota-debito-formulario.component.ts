@@ -68,6 +68,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public mostrarDocumentoReferencia: boolean = true;
 
+  public filtrosPermanentesNotaCredito = {};
+
   informacionFormulario: any;
   formularioFactura: FormGroup;
   active: Number;
@@ -368,6 +370,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
     if (campo === 'documento_referencia') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura
+        .get('documento_referencia_numero')
+        ?.setValue(dato.numero);
     }
 
     this.formularioFactura?.markAsDirty();
@@ -746,10 +751,32 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  private _inicializarFormulario(contactoId:string) {
+    this.filtrosPermanentesNotaCredito = [
+      {
+        operador: '',
+        propiedad: 'contacto_id',
+        valor1: contactoId,
+      },
+      {
+        operador: '',
+        propiedad: 'documento_tipo__documento_clase_id',
+        valor1: 300,
+      },
+      {
+        operador: '',
+        propiedad: 'estado_aprobado',
+        valor1: true,
+      },
+    ]
+  }
+
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
+      this._inicializarFormulario(dato.contacto_id)
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
