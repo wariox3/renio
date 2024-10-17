@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -24,6 +24,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
   templateUrl: './nomina.component.html',
 })
 export class NominaComponent extends General implements OnInit {
+  private _descargarArchivosService = inject(DescargarArchivosService);
   arrDocumentos: any = [];
   cantidad_registros!: number;
   filtroPermanente = [
@@ -115,12 +116,24 @@ export class NominaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
+  // descargarExcel() {
+  //   this.descargarArchivosService.descargarExcelDocumentoDetalle({
+  //     ...this.arrParametrosConsulta,
+  //     ...{
+  //       limite: 5000,
+  //     },
+  //   });
+  // }
+
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentoDetalle({
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: 5000,
-      },
-    });
+    const params = {
+      modelo : 'GenDocumento',
+      serializador: 'NominaExcel',
+      excel: true,
+      filtros: [],
+    };
+
+    this._descargarArchivosService.descargarExcelDocumentos(params);
+    this.changeDetectorRef.detectChanges();
   }
 }
