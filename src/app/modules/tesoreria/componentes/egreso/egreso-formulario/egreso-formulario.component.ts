@@ -143,6 +143,7 @@ export default class EgresoFormularioComponent
     this.facturaService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        // Asignar valores principales
         this.estado_aprobado = respuesta.documento.estado_aprobado;
         this.formularioEgreso.patchValue({
           contacto: respuesta.documento.contacto_id,
@@ -153,12 +154,13 @@ export default class EgresoFormularioComponent
           cuenta_banco: respuesta.documento.cuenta_banco_id,
           cuenta_banco_nombre: respuesta.documento.cuenta_banco_nombre,
         });
-
+  
         respuesta.documento.detalles.forEach((detalle: any) => {
+          const numero = detalle.documento_afectado_numero ? detalle.documento_afectado_numero : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
-            numero: [detalle.documento_afectado_numero],
+            numero: [numero], 
             contacto: [detalle.documento_afectado_contacto_id],
             contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
@@ -167,15 +169,19 @@ export default class EgresoFormularioComponent
             cuenta_codigo: detalle.cuenta_codigo,
             naturaleza: detalle.naturaleza,
           });
+  
           this.detalles.push(detalleFormGroup);
         });
+  
         if (respuesta.documento.estado_aprobado) {
           this.formularioEgreso.disable();
         } else {
           this.formularioEgreso.markAsPristine();
           this.formularioEgreso.markAsUntouched();
         }
+  
         this.calcularTotales();
+  
         this.changeDetectorRef.detectChanges();
       });
   }
