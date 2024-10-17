@@ -56,6 +56,7 @@ export default class EgresoDetalleComponent extends General implements OnInit {
     impuestos: [],
   };
   tabActive = 1;
+  detalles: any[] = []; 
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService,
@@ -106,8 +107,23 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.pago = respuesta.documento;
+        this.detalles = this.pago.detalles;  // Almacenamos los detalles de la factura
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  // Obtener total de débitos
+  getTotalDebito(): number {
+    return this.detalles
+      .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
+      .reduce((total, detalle) => total + detalle.pago, 0); // Acumular los valores de 'pago'
+  }
+
+  // Obtener total de créditos
+  getTotalCredito(): number {
+    return this.detalles
+      .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
+      .reduce((total, detalle) => total + detalle.pago, 0); // Acumular los valores de 'pago'
   }
 
   aprobar() {
