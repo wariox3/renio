@@ -151,7 +151,7 @@
               </div>
             </div>
           </div>
-        </div>  
+        </div>
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
@@ -174,8 +174,7 @@
               <option
                 [value]="banco.cuenta_banco_id"
                 [selected]="
-                  banco.cuenta_banco_id ===
-                  formularioEgreso.value.cuenta_banco
+                  banco.cuenta_banco_id === formularioEgreso.value.cuenta_banco
                 "
               >
                 {{ banco.cuenta_banco_nombre }}
@@ -317,7 +316,15 @@
                             {{ detalle.value.numero }}
                           </td>
                           <td>
-                            {{ detalle.value.contacto_nombre }}
+                            <app-comun-contactos
+                              [contactoNombre]="
+                                detalle.value.contacto_nombre
+                              "
+                              (emitirContacto)="
+                                agregarContactoSeleccionado($event, i)
+                              "
+                            >
+                            </app-comun-contactos>
                           </td>
                           <td>
                             <app-comun-cuentas

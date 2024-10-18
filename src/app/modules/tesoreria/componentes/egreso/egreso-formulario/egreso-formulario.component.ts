@@ -32,6 +32,8 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -52,6 +54,8 @@ import {
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
+    NgSelectModule,
+    ContactosComponent,
   ],
 })
 export default class EgresoFormularioComponent
@@ -67,6 +71,7 @@ export default class EgresoFormularioComponent
   documentoDetalleSeleccionarTodos = false;
   agregarDocumentoSeleccionarTodos = false;
   arrContactos: any[] = [];
+  arrContactosDetalle: any[] = [];
   arrDocumentos: any[] = [];
   arrBancos: any[] = [];
   arrDetallesEliminado: number[] = [];
@@ -154,34 +159,34 @@ export default class EgresoFormularioComponent
           cuenta_banco: respuesta.documento.cuenta_banco_id,
           cuenta_banco_nombre: respuesta.documento.cuenta_banco_nombre,
         });
-  
+
         respuesta.documento.detalles.forEach((detalle: any) => {
-          const numero = detalle.documento_afectado_numero ? detalle.documento_afectado_numero : null;
+          const numero = detalle.documento_afectado_numero
+            ? detalle.documento_afectado_numero
+            : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
-            numero: [numero], 
-            contacto: [detalle.documento_afectado_contacto_id],
-            contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
+            numero: [numero],
+            contacto: [detalle.contacto_id],
+            contacto_nombre: [detalle.contacto_nombre_corto],
             pago: [detalle.pago],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
             naturaleza: detalle.naturaleza,
           });
-  
           this.detalles.push(detalleFormGroup);
         });
-  
         if (respuesta.documento.estado_aprobado) {
           this.formularioEgreso.disable();
         } else {
           this.formularioEgreso.markAsPristine();
           this.formularioEgreso.markAsUntouched();
         }
-  
+
         this.calcularTotales();
-  
+
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -551,5 +556,12 @@ export default class EgresoFormularioComponent
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  agregarContactoSeleccionado(contacto: any, index: number) {
+    this.detalles.controls[index].patchValue({
+      contacto: contacto.contacto_id,
+      contacto_nombre: contacto.contacto_nombre_corto
+    });
   }
 }
