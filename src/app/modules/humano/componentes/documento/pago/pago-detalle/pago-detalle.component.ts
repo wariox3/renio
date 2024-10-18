@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
@@ -36,7 +34,8 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     ReactiveFormsModule,
     NgbTooltipModule,
     AnimacionFadeInOutDirective,
-  ],
+    BaseEstadosComponent
+],
   templateUrl: './pago-detalle.component.html',
   styleUrl: './pago-detalle.component.scss',
 })

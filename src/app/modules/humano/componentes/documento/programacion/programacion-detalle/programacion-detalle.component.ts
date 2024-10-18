@@ -37,6 +37,7 @@ import {
   RegistroAutocompletarHumContrato,
 } from '@interfaces/comunes/autocompletar';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -55,7 +56,8 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
     AnimacionFadeInOutDirective,
     ImportarAdministradorComponent,
     NgSelectModule,
-  ],
+    BaseEstadosComponent
+],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })

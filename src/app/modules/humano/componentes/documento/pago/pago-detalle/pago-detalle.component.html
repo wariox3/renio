@@ -23,28 +23,7 @@
       </div> -->
   </div>
   <div class="d-flex justify-content-end gap-2">
-    <ng-container *ngIf="arrEstados.estado_aprobado">
-      <span class="badge badge-success">Aprobado</span>
-    </ng-container>
-    <ng-container *ngIf="arrEstados.estado_anulado">
-      <span class="badge badge-danger">Anulado</span>
-    </ng-container>
-    <ng-container *ngIf="arrEstados.estado_electronico">
-      <span class="badge badge-success">Electrónico</span>
-    </ng-container>
-    <ng-container
-      *ngIf="
-        arrEstados.estado_electronico_enviado === true &&
-        arrEstados.estado_electronico === false
-      "
-    >
-      <span class="badge badge-success"
-        >Enviado DIAN (Esperando respuesta)</span
-      >
-    </ng-container>
-    <ng-container *ngIf="arrEstados.estado_electronico_notificado">
-      <span class="badge badge-success">Notificado</span>
-    </ng-container>
+    <app-base-estados [documento]="pago"></app-base-estados>
   </div>
 </div>
 <app-card>

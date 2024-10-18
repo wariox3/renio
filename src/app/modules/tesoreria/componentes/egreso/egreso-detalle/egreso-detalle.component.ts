@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
@@ -32,7 +33,8 @@ import { TranslateModule } from '@ngx-translate/core';
     NgSelectModule,
     NgbDropdownModule,
     ReactiveFormsModule,
-  ],
+    BaseEstadosComponent
+],
   templateUrl: './egreso-detalle.component.html',
 })
 export default class EgresoDetalleComponent extends General implements OnInit {
@@ -56,7 +58,7 @@ export default class EgresoDetalleComponent extends General implements OnInit {
     impuestos: [],
   };
   tabActive = 1;
-  detalles: any[] = []; 
+  detalles: any[] = [];
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService,

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { HttpService } from '@comun/services/http.service';
-
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     NgbNavModule,
     NgbDropdownModule,
+    BaseEstadosComponent
 ],
   templateUrl: './asiento-detalle.component.html',
 })
