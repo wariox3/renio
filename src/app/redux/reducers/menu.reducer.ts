@@ -266,7 +266,7 @@ export const initialState: MenuItem = {
                 filtros: [
                   {
                     propiedad: 'permanente',
-                    valor1: false
+                    valor1: true
                   }
                 ]
               },

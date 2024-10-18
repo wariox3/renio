@@ -445,7 +445,7 @@ export const locale = {
             NOMBRE: 'Nombre',
             NUMEROCUENTA: 'Número cuenta',
             CUENTABANCOTIPO: 'Tipo',
-            CUENTABANCOCLASE: 'Clase',
+            CUENTABANCOCLASE: 'Clase de cuenta',
           },
           PROGRAMACION: {
             FECHADESDE: 'Fecha desde',
