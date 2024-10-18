@@ -883,6 +883,5 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla;
     this.consultarDatos();
     this.changeDetectorRef.detectChanges();
-    console.log(this.arrParametrosConsulta);
   }
 }
