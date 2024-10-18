@@ -1,27 +1,28 @@
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { HttpService } from '@comun/services/http.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { General } from '@comun/clases/general';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { HttpService } from '@comun/services/http.service';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { switchMap, tap } from 'rxjs';
-import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
-import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -44,8 +45,9 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     BtnAtrasComponent,
     KeysPipe,
     LogElectronicoComponent,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+    DetallesTotalesComponent,
+  ],
 })
 export default class FacturaRecurrenteDetalleComponent extends General {
   active: Number;
@@ -72,7 +74,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
   totalAfectado: number = 0;
-  acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
   arrEventos: any[] = [];
@@ -256,6 +257,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 }

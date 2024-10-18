@@ -16,6 +16,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { switchMap, tap } from 'rxjs';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
   selector: 'app-nota-credito-detalle',
@@ -37,8 +38,9 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     CardComponent,
     BtnAtrasComponent,
     LogElectronicoComponent,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+    DetallesTotalesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

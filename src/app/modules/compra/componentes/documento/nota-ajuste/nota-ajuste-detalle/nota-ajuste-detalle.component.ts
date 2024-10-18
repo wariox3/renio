@@ -16,6 +16,7 @@ import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { switchMap, tap } from 'rxjs';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
   selector: 'app-nota-ajuste-detalle',
@@ -36,7 +37,8 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
-    BaseEstadosComponent
+    BaseEstadosComponent,
+    DetallesTotalesComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {
@@ -58,6 +60,7 @@ export default class FacturaDetalleComponent extends General {
   };
   totalCantidad: number = 0;
   totalDescuento: number = 0;
+  totalBase: number = 0;
   totalImpuestos: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
@@ -96,13 +99,19 @@ export default class FacturaDetalleComponent extends General {
           const precio = item.precio;
           const porcentajeDescuento = item.descuento;
           const total = item.total;
+          const baseImpuesto = item.base_impuesto;
+
           let subtotal = cantidad * precio;
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
 
           const impuestos = item.impuestos;
           impuestos.forEach((impuesto: any) => {
-            this.totalImpuestos += impuesto.total;
+            if (impuesto.impuesto_operacion > 0) {
+              this.totalImpuestos += impuesto.total;
+            } else {
+              this.totalImpuestos -= impuesto.total;
+            }
           });
 
           let neto = item.neto || 0;
@@ -112,6 +121,7 @@ export default class FacturaDetalleComponent extends General {
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
           this.totalGeneral += total;
+          this.totalBase += baseImpuesto;
           this.changeDetectorRef.detectChanges();
         });
         this.arrEstados = {

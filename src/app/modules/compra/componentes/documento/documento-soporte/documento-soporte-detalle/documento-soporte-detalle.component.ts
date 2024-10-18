@@ -15,6 +15,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { switchMap, tap } from 'rxjs';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
   selector: 'app-documento-soporte-detalle',
@@ -35,6 +36,7 @@ import { switchMap, tap } from 'rxjs';
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
+    DetallesTotalesComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {
@@ -59,6 +61,7 @@ export default class FacturaDetalleComponent extends General {
   totalImpuestos: number = 0;
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
+  totalBase: number = 0;
   totalNetoGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -94,6 +97,8 @@ export default class FacturaDetalleComponent extends General {
           const precio = item.precio;
           const porcentajeDescuento = item.descuento;
           const total = item.total;
+          const baseImpuesto = item.base_impuesto;
+
           let subtotal = cantidad * precio;
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
@@ -110,6 +115,7 @@ export default class FacturaDetalleComponent extends General {
           this.subtotalGeneral += subtotalFinal;
           this.totalNetoGeneral += neto;
           this.totalGeneral += total;
+          this.totalBase += baseImpuesto;
           this.changeDetectorRef.detectChanges();
         });
         this.arrEstados = {

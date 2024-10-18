@@ -23,6 +23,7 @@ import { switchMap, tap } from 'rxjs';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -46,7 +47,8 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     KeysPipe,
     LogElectronicoComponent,
     DocumentoOpcionesComponent,
-    BaseEstadosComponent
+    BaseEstadosComponent,
+    DetallesTotalesComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {

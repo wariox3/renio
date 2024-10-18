@@ -15,15 +15,16 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { switchMap, tap } from 'rxjs';
-import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-electronico.component";
+import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
-    selector: 'app-nota-debito-detalle',
-    standalone: true,
-    templateUrl: './nota-debito-detalle.component.html',
-    styleUrls: ['./nota-debito-detalle.component.scss'],
-    imports: [
+  selector: 'app-nota-debito-detalle',
+  standalone: true,
+  templateUrl: './nota-debito-detalle.component.html',
+  styleUrls: ['./nota-debito-detalle.component.scss'],
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -38,8 +39,9 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     CardComponent,
     BtnAtrasComponent,
     LogElectronicoComponent,
-    BaseEstadosComponent
-]
+    BaseEstadosComponent,
+    DetallesTotalesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -183,6 +185,6 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 }

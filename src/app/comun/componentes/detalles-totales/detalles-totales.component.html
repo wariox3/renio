@@ -1,0 +1,48 @@
+<table>
+    <tr *ngIf="totalCantidad > 0">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"></td>
+      <td class="text-end">{{ totalCantidad }}</td>
+    </tr>
+    <tr *ngIf="subtotalGeneral > 0">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"></td>
+      <td class="text-end">
+        {{ subtotalGeneral | currency : "$" }}
+      </td>
+    </tr>
+    <tr *ngIf="totalBase > 0">
+      <td class="text-end">Total base</td>
+      <td class="text-end">
+        {{ totalBase | currency : "$" }}
+      </td>
+    </tr>
+    <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
+      <td class="text-end">{{ impuesto.key }}</td>
+      <td class="text-end">
+        {{ impuesto.value.total | currency : "$" }}
+      </td>
+    </tr>
+    <tr *ngIf="totalDescuento > 0">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"></td>
+      <td class="text-end">
+        {{ totalDescuento | currency : "$" }}
+      </td>
+    </tr>
+    <tr *ngIf="totalImpuestos">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"></td>
+      <td class="text-end">
+        {{ totalImpuestos | currency : "$" }}
+      </td>
+    </tr>
+    <tr class="border-top">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"></td>
+      <td class="text-end" style="padding-left: 24px">
+        {{ totalGeneral | currency : "$" }}
+      </td>
+    </tr>
+    <tr *ngIf="totalAfectado > 0">
+      <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"></td>
+      <td class="text-end" style="padding-left: 24px">
+        {{ totalAfectado | currency : "$" }}
+      </td>
+    </tr>
+  </table>

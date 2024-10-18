@@ -16,6 +16,7 @@ import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { switchMap, tap } from 'rxjs';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 
 @Component({
   selector: 'app-nota-debito-detalle',
@@ -36,8 +37,9 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+    DetallesTotalesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
