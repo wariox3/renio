@@ -72,9 +72,9 @@ export class NominaComponent extends General implements OnInit {
           fecha: documento.fecha,
           fecha_hasta: documento.fecha_hasta,
           contacto_id: documento.contacto_id,
-          contacto_numero_identificacion:
+          contacto__numero_identificacion:
           documento.contacto_numero_identificacion,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
+          contacto__nombre_corto: documento.contacto_nombre_corto,
           salario: documento.salario,
           devengado: documento.devengado,
           deduccion: documento.deduccion,
