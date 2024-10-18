@@ -1,50 +1,43 @@
 <form [formGroup]="formularioFiltros">
   <div formArrayName="filtros">
-    <div
-      class="row mb-6"
-      *ngFor="let filtro of filtros.controls; let i = index"
-    >
+    <div class="row mb-6" *ngFor="let filtro of filtros.controls; let i = index">
       <div class="row align-items-center" [formGroupName]="i">
         <div class="col-12 col-md-4 mb-2">
-          <select
-            class="form-select form-select-sm"
-            formControlName="propiedad"
-            (change)="seleccionarPropiedad($event, i)"
-          >
+          <select class="form-select form-select-sm" formControlName="propiedad"
+            (change)="seleccionarPropiedad($event, i)">
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
             <ng-container *ngFor="let propiedad of arrPropiedades">
-              <option
-                [value]="
+              <option [value]="
                   propiedad.esFk
                     ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
                       '_id'
                     : propiedad.nombre.toLocaleLowerCase()
-                "
-                [attr.data-value]="
+                " [attr.data-value]="
                   propiedad.esFk
                     ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
                       '_id'
                     : propiedad.nombre.toLocaleLowerCase()
-                "
-                [attr.data-tipo]="propiedad.campoTipo"
-                [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
+                " [attr.data-tipo]="propiedad.campoTipo" [attr.data-busqueda-avanzada]="propiedad.esFk ? true : false"
                 [attr.data-modelo-busqueda-avanzada]="
                   propiedad.modeloFk ? propiedad.modeloFk : ''
-                "
-              >
+                ">
                 {{
-                  propiedad.esFk
-                    ? ("LISTAS." +
-                        (tipo | uppercase) +
-                        "." +
-                        (propiedad.modeloFk.substring(3) | uppercase)
-                      | translate)
-                    : ("LISTAS." +
-                        (tipo | uppercase) +
-                        "." +
-                        (propiedad.nombre | uppercase) | translate)
+                propiedad.esFk
+                ? ("LISTAS." +
+                (tipo | uppercase) +
+                "." +
+                (propiedad.modeloFk.substring(3) | uppercase)
+                | translate)
+                :
+                (propiedad.nombreAbreviadoFiltro? ("LISTAS." +
+                (tipo | uppercase) +
+                "." +
+                (propiedad.nombreAbreviadoFiltro | uppercase) | translate): ("LISTAS." +
+                (tipo | uppercase) +
+                "." +
+                (propiedad.nombre | uppercase) | translate))
                 }}
               </option>
             </ng-container>
@@ -55,53 +48,34 @@
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
-            <option
-              *ngFor="let criterioBusqueda of criteriosBusqueda[i]"
-              [value]="criterioBusqueda.valor"
-            >
+            <option *ngFor="let criterioBusqueda of criteriosBusqueda[i]" [value]="criterioBusqueda.valor">
               {{
-                "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
-                  (criterioBusqueda.texto | uppercase) | translate
+              "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+              (criterioBusqueda.texto | uppercase) | translate
               }}
             </option>
           </select>
         </div>
         <div class="col-12 col-md-3 mb-2">
           <div class="input-group input-group-sm">
-            <input
-              #inputValor1
-              [id]="'inputValor1' + i"
-              class="form-control form-control-sm"
-              [placeholder]="
+            <input #inputValor1 [id]="'inputValor1' + i" class="form-control form-control-sm" [placeholder]="
                 filtro.get('busquedaAvanzada')?.value !== 'true'
                   ? 'Código'
                   : 'Buscar...'
-              "
-              formControlName="valor1"
-              [ngClass]="{
+              " formControlName="valor1" [ngClass]="{
                   'animate__animated animate__fadeOut': filtro.get('tipo')?.value  === 'Booleano',
-                }"
-              [type]="
+                }" [type]="
                 filtro.get('tipo')?.value === 'IntegerField'
                   ? 'number'
                   : filtro.get('tipo')?.value === 'DateField'
                   ? 'date'
                   : 'text'
-              "
-              [appSoloNumeros]="
+              " [appSoloNumeros]="
                 filtro.get('busquedaAvanzada')?.value === 'true'
-              "
-            />
-            <div
-              class="input-group-append"
-              *ngIf="filtro.get('busquedaAvanzada')?.value === 'true'"
-            >
-              <button
-                style="border-top-left-radius: 0; border-bottom-left-radius: 0"
-                class="btn btn-primary btn-sm rounded-left-0"
-                type="button"
-                (click)="abirModal(content, i)"
-              >
+              " />
+            <div class="input-group-append" *ngIf="filtro.get('busquedaAvanzada')?.value === 'true'">
+              <button style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+                class="btn btn-primary btn-sm rounded-left-0" type="button" (click)="abirModal(content, i)">
                 Busqueda
               </button>
             </div>
@@ -109,37 +83,24 @@
         </div>
         <div class="col-12 col-md-1 mb-2" [@fadeInOut]>
           <div class="d-flex justify-content-center align-self-center">
-            <i
-              (click)="eliminarFiltro(i)"
-              ngbTooltip="Retirar este filtro"
-              tooltipClass="my-custom-class"
+            <i (click)="eliminarFiltro(i)" ngbTooltip="Retirar este filtro" tooltipClass="my-custom-class"
               *ngIf="filtros.length > 1"
-              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-            ></i>
+              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"></i>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="d-flex justify-content-end gap-2">
-    <button
-      type="submit"
-      class="btn btn-primary btn-sm"
-      (click)="limpiarFormulario()"
-      translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"
-    ></button>
-    <button
-      type="submit"
-      class="btn btn-primary btn-sm"
-      (click)="agregarNuevoFiltro()"
-      translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-    ></button>
-    <button
-      translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
-      type="submit"
-      class="btn btn-primary btn-sm"
-      (click)="aplicarFiltro()"
-    ></button>
+    <div class="btn-group contenedor-btn-group">
+      <button type="submit" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary" (click)="limpiarFormulario()"
+      translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"></button>
+    <button type="submit" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary" (click)="agregarNuevoFiltro()"
+      translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"></button>
+    <button translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR" type="submit" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      (click)="aplicarFiltro()"></button>
+    </div>
+
   </div>
 </form>
 <ng-template #content let-modal>
@@ -147,85 +108,60 @@
     <h4 class="modal-title" id="modal-basic-title">
       Buscar {{ tituloModal.substring(3) | lowercase }}
     </h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioFiltrosModal">
       <div formArrayName="filtros">
-        <ng-container
-          *ngFor="let filtro of filtrosModal.controls; let i = index"
-          [formGroupName]="i"
-        >
+        <ng-container *ngFor="let filtro of filtrosModal.controls; let i = index" [formGroupName]="i">
           <div class="row">
             <div class="col-12 col-md-4 mb-2">
-              <select
-                class="form-control form-control-sm"
-                formControlName="propiedad"
-                (change)="propiedadSeleccionadaModal($event, i)"
-              >
+              <select class="form-control form-control-sm" formControlName="propiedad"
+                (change)="propiedadSeleccionadaModal($event, i)">
                 <option value="">
                   {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
                 </option>
-                <ng-container
-                  *ngFor="let propiedad of arrPropiedadBusquedaAvanzada"
-                >
-                  <option
-                    [value]="
+                <ng-container *ngFor="let propiedad of arrPropiedadBusquedaAvanzada">
+                  <option [value]="
                       propiedad.esFk
                         ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
                           '_id'
                         : propiedad.nombre.toLocaleLowerCase()
-                    "
-                    [attr.data-value]="
+                    " [attr.data-value]="
                       propiedad.esFk
                         ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
                           '_id'
                         : propiedad.nombre.toLocaleLowerCase()
-                    "
-                    [attr.data-tipo]="propiedad.campoTipo"
-                    [attr.data-busqueda-avanzada]="
+                    " [attr.data-tipo]="propiedad.campoTipo" [attr.data-busqueda-avanzada]="
                       propiedad.esFk ? true : false
-                    "
-                    [attr.data-modelo-busqueda-avanzada]="
+                    " [attr.data-modelo-busqueda-avanzada]="
                       propiedad.modeloFk ? propiedad.modeloFk : ''
-                    "
-                  >
+                    ">
                     {{
-                      propiedad.esFk
-                        ? ("LISTAS." +
-                            (tituloModal | uppercase) +
-                            "." +
-                            (propiedad.modeloFk.substring(3) | uppercase)
-                          | translate)
-                        : ("LISTAS." +
-                            (tituloModal.substring(3) | uppercase) +
-                            "." +
-                            (propiedad.nombre | uppercase) | translate)
+                    propiedad.esFk
+                    ? ("LISTAS." +
+                    (tituloModal | uppercase) +
+                    "." +
+                    (propiedad.modeloFk.substring(3) | uppercase)
+                    | translate)
+                    : ("LISTAS." +
+                    (tituloModal.substring(3) | uppercase) +
+                    "." +
+                    (propiedad.nombre | uppercase) | translate)
                     }}
                   </option>
                 </ng-container>
               </select>
             </div>
             <div class="col-12 col-md-4 mb-2">
-              <select
-                formControlName="operador"
-                class="form-control form-control-sm"
-              >
+              <select formControlName="operador" class="form-control form-control-sm">
                 <option value="" selected hidden>Seleccionar</option>
                 <ng-container *ngIf="criteriosBusquedaModal[i]">
-                  <option
-                    *ngFor="let criterioBusqueda of criteriosBusquedaModal[i]"
-                    [value]="criterioBusqueda.valor"
-                    [selected]="criterioBusqueda.defecto === true"
-                  >
+                  <option *ngFor="let criterioBusqueda of criteriosBusquedaModal[i]" [value]="criterioBusqueda.valor"
+                    [selected]="criterioBusqueda.defecto === true">
                     {{
-                      "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
-                        (criterioBusqueda.texto | uppercase) | translate
+                    "FORMULARIOS.CAMPOS.FILTROS.OPERADORES." +
+                    (criterioBusqueda.texto | uppercase) | translate
                     }}
                   </option>
                 </ng-container>
@@ -233,32 +169,22 @@
             </div>
             <div class="col-12 col-md-3 mb-2">
               <div class="input-group input-group-sm">
-                <input
-                  [id]="'inputValor1Modal' + i"
-                  formControlName="valor1"
-                  class="form-control form-control-sm"
-                  placeholder="Código"
-                  [ngClass]="{
+                <input [id]="'inputValor1Modal' + i" formControlName="valor1" class="form-control form-control-sm"
+                  placeholder="Código" [ngClass]="{
                 'animate__animated animate__fadeOut': filtrosModal.get('tipo')?.value  === 'Booleano',
-              }"
-                  [type]="
+              }" [type]="
                     filtrosModal.get('tipo')?.value === 'IntegerField'
                       ? 'number'
                       : filtrosModal.get('tipo')?.value === 'DateField'
                       ? 'date'
                       : 'text'
-                  "
-                />
+                  " />
               </div>
             </div>
             <div class="col-12 col-md-1">
               <div class="d-flex justify-content-end">
-                <i
-                  (click)="eliminarFiltroModal(i)"
-                  ngbTooltip="Retirar este filtro"
-                  *ngIf="filtrosModal.length > 1"
-                  class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                ></i>
+                <i (click)="eliminarFiltroModal(i)" ngbTooltip="Retirar este filtro" *ngIf="filtrosModal.length > 1"
+                  class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"></i>
               </div>
             </div>
           </div>
@@ -266,47 +192,26 @@
       </div>
     </form>
     <div class="d-flex justify-content-end gap-2">
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        (click)="limpiarFormularioModal(tituloModal)"
-        *ngIf="filtrosModal.length >= 1"
-        translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"
-      ></button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        (click)="agregarNuevoFiltroModal()"
-        translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-      ></button>
-      <button
-        translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
-        type="submit"
-        class="btn btn-primary btn-sm"
-        (click)="aplicarFiltroModal(tituloModal)"
-      ></button>
+      <button type="submit" class="btn btn-primary btn-sm" (click)="limpiarFormularioModal(tituloModal)"
+        *ngIf="filtrosModal.length >= 1" translate="FORMULARIOS.TITULOS.COMUNES.LIMPIAR"></button>
+      <button type="submit" class="btn btn-primary btn-sm" (click)="agregarNuevoFiltroModal()"
+        translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"></button>
+      <button translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR" type="submit" class="btn btn-primary btn-sm"
+        (click)="aplicarFiltroModal(tituloModal)"></button>
     </div>
     <div class="table-responsive table-loading mt-5">
-      <table
-        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-      >
+      <table class="table table-hover table-bordered table-rounded border gy-2 gs-2">
         <thead>
-          <tr
-            class="text-center"
-            *ngIf="
+          <tr class="text-center" *ngIf="
               arrRegistroBusquedaAvanzada &&
               arrRegistroBusquedaAvanzada.length > 0
-            "
-          >
-            <th
-              class="bg-gray-100"
-              *ngFor="let key of arrRegistroBusquedaAvanzada[0] | keys"
-            >
+            ">
+            <th class="bg-gray-100" *ngFor="let key of arrRegistroBusquedaAvanzada[0] | keys">
               {{
-                "LISTAS." +
-                  (tituloModal.substring(3) | uppercase) +
-                  "." +
-                  (key | uppercase) | translate
+              "LISTAS." +
+              (tituloModal.substring(3) | uppercase) +
+              "." +
+              (key | uppercase) | translate
               }}
             </th>
             <td class="bg-gray-100"></td>
@@ -320,13 +225,8 @@
               </td>
               <ng-container *ngIf="last">
                 <td class="text-center">
-                  <button
-                    class="btn btn-active-light-primary p-1"
-                    (click)="cerrarModal(item)"
-                    placement="top"
-                    ngbTooltip="Seleccionar registro"
-                    container="body"
-                  >
+                  <button class="btn btn-active-light-primary p-1" (click)="cerrarModal(item)" placement="top"
+                    ngbTooltip="Seleccionar registro" container="body">
                     <i class="ki-duotone ki-check"></i>
                   </button>
                 </td>

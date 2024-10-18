@@ -2,6 +2,7 @@ export type MapeoIndependientes = {
   [key: number | string]: {
     nombre: string;
     nombreAbreviado?: string;
+    nombreAbreviadoFiltro?: string;
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
@@ -17,6 +18,7 @@ export type MapeoDocumentos = {
   [key: number | string]: {
     nombre: string;
     nombreAbreviado?: string;
+    nombreAbreviadoFiltro?: string;
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
@@ -37,6 +39,7 @@ export type MapeoAdministrador = {
     datos: {
       nombre: string;
       nombreAbreviado?: string;
+      nombreAbreviadoFiltro?: string;
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;
