@@ -520,7 +520,7 @@ export default class EmpleadoFormularioComponent
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
-          cuenta_banco_clase: respuesta.cuenta_banco_clase
+          cuenta_banco_clase: respuesta.cuenta_banco_clase_id
         });
 
         this.changeDetectorRef.detectChanges();
