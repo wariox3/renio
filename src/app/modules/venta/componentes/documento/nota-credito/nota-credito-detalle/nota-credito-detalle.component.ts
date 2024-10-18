@@ -2,42 +2,43 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { LogElectronicoComponent } from "@comun/componentes/log-electronico/log-electronico.component";
+import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { switchMap, tap } from 'rxjs';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 
 @Component({
-    selector: 'app-nota-credito-detalle',
-    standalone: true,
-    templateUrl: './nota-credito-detalle.component.html',
-    styleUrls: ['./nota-credito-detalle.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgbDropdownModule,
-        NgbNavModule,
-        TablaComponent,
-        ImpuestosComponent,
-        ProductosComponent,
-        BuscarAvanzadoComponent,
-        SoloNumerosDirective,
-        CardComponent,
-        BtnAtrasComponent,
-        LogElectronicoComponent,
-    ]
+  selector: 'app-nota-credito-detalle',
+  standalone: true,
+  templateUrl: './nota-credito-detalle.component.html',
+  styleUrls: ['./nota-credito-detalle.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    TablaComponent,
+    ImpuestosComponent,
+    ProductosComponent,
+    BuscarAvanzadoComponent,
+    SoloNumerosDirective,
+    CardComponent,
+    BtnAtrasComponent,
+    LogElectronicoComponent,
+    BaseEstadosComponent
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -181,6 +182,6 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 }

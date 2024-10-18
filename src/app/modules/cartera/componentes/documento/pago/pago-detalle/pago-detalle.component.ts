@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CardComponent,
     TranslateModule,
     NgbNavModule,
+    BaseEstadosComponent
 ],
   templateUrl: './pago-detalle.component.html',
 })

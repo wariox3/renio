@@ -1,0 +1,13 @@
+@if(documento.estado_aprobado){
+<span class="badge badge-success">Aprobado</span>
+} @if(documento.estado_anulado){
+<span class="badge badge-danger">Anulado</span>
+} @if(documento.estado_electronico){
+<span class="badge badge-success">Electrónico</span>
+} @if( documento.estado_electronico_enviado === true &&
+documento.estado_electronico === false){
+<span class="badge badge-success">Enviado DIAN (Esperando respuesta)</span>
+} @if(documento.estado_electronico_notificado) {
+  <span class="badge badge-success">Notificado</span>
+}
+
