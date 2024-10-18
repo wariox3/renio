@@ -70,7 +70,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   tipo: string;
   btnGrupoResponsive = false;
   @Input() encabezado: any;
-  @Input() cargando: boolean | null = false
+  @Input() cargando: boolean | null = false;
   @Input() modelo: string;
   @Input() datos: any[] = [];
   @Input() cantidad_registros!: number;
@@ -430,12 +430,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   exportarExcel() {
     this.emitirExportarExcel.emit(true);
   }
-
+  
   visualizarBtnEstado(item: any) {
     // Verificar si item tiene la propiedad estado_aprobado
     if (item.hasOwnProperty('estado_aprobado')) {
       return !item['estado_aprobado'].valor;
-    } else {
+      } else if (item.hasOwnProperty('estado_terminado')) {
+      return !item['estado_terminado'].valor;
+      } else {
       return true;
     }
   }

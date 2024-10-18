@@ -1,17 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { FechasService } from '@comun/services/fechas.service';
+import { HttpService } from '@comun/services/http.service';
 import { ProgramacionContrato } from '@interfaces/humano/contrato';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contrato-detalle',
   standalone: true,
-  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule],
+  imports: [
+    CommonModule,
+    CardComponent,
+    BtnAtrasComponent,
+    TranslateModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +40,14 @@ export default class ContratoDetalleComponent
   extends General
   implements OnInit
 {
+  private _formBuilder = inject(FormBuilder);
+  private _modalService = inject(NgbModal);
+  private _fechasService = inject(FechasService);
+  private _httpService = inject(HttpService);
+
+  public formularioTerminar: FormGroup;
+  public tituloModal: string = '';
+
   constructor(private contratoService: ContratoService) {
     super();
   }
@@ -65,11 +93,47 @@ export default class ContratoDetalleComponent
     entidad_pension_id: 0,
     entidad_pension_nombre: '',
     entidad_salud_id: 0,
-    entidad_salud_nombre : ''
+    entidad_salud_nombre: '',
   };
 
   ngOnInit() {
     this.consultardetalle();
+    this._initForm();
+  }
+
+  private _initForm() {
+    this.formularioTerminar = this._formBuilder.group({
+      id: [this.detalle],
+      fecha_terminacion: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(200),
+          Validators.pattern(/^[a-z-0-9.-_]*$/),
+        ]),
+      ],
+    });
+  }
+
+  abrirModal(content: any) {
+    this.tituloModal = 'Archivo plano';
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'md',
+    });
+  }
+
+  evniarFormularioTerminar() {
+    if (this.formularioTerminar.valid) {
+      this._httpService
+        .post('humano/contrato/terminar/', this.formularioTerminar.value)
+        .subscribe(() => {
+          this.consultardetalle();
+          this._modalService.dismissAll();
+          this.alertaService.mensajaExitoso('Contrato terminado!');
+        });
+    }
   }
 
   consultardetalle() {
@@ -77,6 +141,11 @@ export default class ContratoDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta) => {
         this.contrato = respuesta;
+
+        this.formularioTerminar.patchValue({
+          fecha_terminacion: this.contrato.fecha_hasta,
+        });
+        
         this.changeDetectorRef.detectChanges();
       });
   }
