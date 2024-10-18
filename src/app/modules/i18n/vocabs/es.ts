@@ -92,7 +92,7 @@ export const locale = {
         FACTURARECURRENTE: 'Factura recurrente',
         CARGO: 'Cargo',
         HUMCARGO: 'Cargo',
-        CUENTASPAGAR: 'Cuentas por pagar'
+        CUENTASPAGAR: 'Cuentas por pagar',
       },
     },
     FORMULARIOS: {
@@ -200,7 +200,7 @@ export const locale = {
           RECARGONOCTURNO: 'Recargo nocturno',
           RECARGOFESTIVODIURNO: 'Recargo festivo diurno',
           RECARGOFESTIVONOCTURNO: 'Recargo festivo nocturno',
-          TIPO: ''
+          TIPO: '',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -330,11 +330,11 @@ export const locale = {
           CONCEPTO: 'Concepto',
           DIALABORADO: 'Aplica dia laborado',
           CODIGO: 'Cód',
-          CONTRATONUMEROABREVITADO: 'Ctn'
+          CONTRATONUMEROABREVITADO: 'Ctn',
         },
         HUMCREDITO: {
-          PAGOS: 'Pagos'
-        }
+          PAGOS: 'Pagos',
+        },
       },
       CAMPOS: {
         COMUNES: {
@@ -372,15 +372,15 @@ export const locale = {
           CUENTACLASE: 'Cuenta clase',
           CIUDADLABORA: 'Ciudad labora',
           CIUDADCONTRATO: 'Ciudad contrato',
-          BANCO: "Banco",
-          NUMEROCUENTA: "Número cuenta",
+          BANCO: 'Banco',
+          NUMEROCUENTA: 'Número cuenta',
           CLASE: 'Clase',
           NIVEL: 'Nivel',
           GRUPO: 'Grupo',
           SUBCUENTA: 'Subcuenta',
           CONTACTO: 'Contacto',
-          MOSTARTODOSLOSCONTACTOS: "Mostrar todos los contactos",
-          CUENTA: "Cuenta"
+          MOSTARTODOSLOSCONTACTOS: 'Mostrar todos los contactos',
+          CUENTA: 'Cuenta',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -437,8 +437,8 @@ export const locale = {
             AUXILIOTRANSPORTE: 'Auxilio transporte',
             SALARIOINTEGRAL: 'Salario integral',
             ESTADOTERMINADO: 'Estado terminado',
-            INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social'
-
+            INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social',
+            FECHATERMINACION: 'Fecha terminación',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -473,7 +473,7 @@ export const locale = {
           ASESOR: 'Asesor',
           SEDE: 'Sede',
           SOPORTE: 'Soporte',
-          CUENTA: 'Cuenta'
+          CUENTA: 'Cuenta',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -518,12 +518,12 @@ export const locale = {
             APLICA_DIA_LABORADO: 'Aplica día laborado',
             DETALLE: 'Detalle',
             TOTAL: 'Total',
-            TIPOSALUD: "Tipo salud",
-            TIPOPENSION: "Tipo pensión",
-            ENTIDADPENSION: "Entidad pensión",
-            ENTIDADSALUD: "Entidad salud",
-            ENTIDADCAJA: "Entidad caja",
-            ENTIDADCESANTIAS: "Entidad cesantías",
+            TIPOSALUD: 'Tipo salud',
+            TIPOPENSION: 'Tipo pensión',
+            ENTIDADPENSION: 'Entidad pensión',
+            ENTIDADSALUD: 'Entidad salud',
+            ENTIDADCAJA: 'Entidad caja',
+            ENTIDADCESANTIAS: 'Entidad cesantías',
           },
           CREDITO: {
             CODIGO: 'Cód',
@@ -538,7 +538,7 @@ export const locale = {
             CREDITO: 'Crédito',
             ABONO: 'Abono',
             SALDO: 'Saldo',
-            PAGADO: 'Pagado'
+            PAGADO: 'Pagado',
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Descuento salud',
@@ -568,8 +568,8 @@ export const locale = {
             DEDUCCION: 'Deduccion',
             DEVENGADO: 'Devengado',
             CONTRATOS: 'Contratos',
-            DIAS: "Días",
-            PERIODO: "Período"
+            DIAS: 'Días',
+            PERIODO: 'Período',
           },
           PAGO: {
             DESDE: 'Desde',
@@ -584,7 +584,7 @@ export const locale = {
             SALARIO: 'Salario',
             PROGRAMACIONDETALLE: 'Programación detalle',
             CONTRATO: 'Contrato',
-            TOTAL: 'Total'
+            TOTAL: 'Total',
           },
           PAGODETALLE: {
             CODIGO: 'Cód',
@@ -600,7 +600,7 @@ export const locale = {
             CREDITO: 'Crédito',
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
-            BASE: 'Base'
+            BASE: 'Base',
           },
           NOVEDAD: {
             NOVEDADTIPO: 'Novedad tipo',
@@ -610,10 +610,10 @@ export const locale = {
             FECHADESDEPERIODO: 'Fecha desde periodo',
             FECHAHASTAPERIODO: 'Fecha hasta periodo',
           },
-          CARGO:{
+          CARGO: {
             CODIGO: 'Código',
             ESTADOINACTIVO: 'Estado inactivo',
-          }
+          },
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento',
@@ -622,7 +622,7 @@ export const locale = {
           FACTOR: 'Factor',
           AUXILIOTRANSPORTE: 'Auxilio transporte',
           SALARIOMINIMO: 'Salario mínimo',
-          CONCEPTO: 'Concepto'
+          CONCEPTO: 'Concepto',
         },
         CONFIGURACIONGENREAL: {
           UVT: 'UVT',
@@ -799,13 +799,13 @@ export const locale = {
         IBC: 'Ibc',
         IBP: 'Ibp',
         CONT: 'Cont',
-        INGRESOBASECOTIZACION: "Base cotización",
-        INGRESOBASEPRESTACION: "Base prestación",
-        ESTADOELECTRONICO: "Estado electrónico",
-        PORCENTAJE: "Porcentaje",
-        VALOR_HORA: "Valor hora",
-        OPERACION: "Operación",
-        PERIODO_NOMBRE: "Período",
+        INGRESOBASECOTIZACION: 'Base cotización',
+        INGRESOBASEPRESTACION: 'Base prestación',
+        ESTADOELECTRONICO: 'Estado electrónico',
+        PORCENTAJE: 'Porcentaje',
+        VALOR_HORA: 'Valor hora',
+        OPERACION: 'Operación',
+        PERIODO_NOMBRE: 'Período',
       },
       ITEM: {
         ID: 'ID',
@@ -934,7 +934,7 @@ export const locale = {
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
         PERIODO_ID: 'Periodo',
-        PERIODO_DIAS: 'Días'
+        PERIODO_DIAS: 'Días',
       },
       CONCEPTO: {
         ID: 'ID',
@@ -958,7 +958,7 @@ export const locale = {
         CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTACTO_NOMBRE_CORTO: 'Nombre',
         CONTACTO: 'Contacto',
-        SALARIO: 'Salario'
+        SALARIO: 'Salario',
       },
       CUENTA: {
         ID: 'ID',
@@ -999,8 +999,8 @@ export const locale = {
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
         ESTADO_INACTIVO: 'Estado inactivo',
-        ESTADO_INACTIVO_ABREVIATURA: 'INA'
-      }
+        ESTADO_INACTIVO_ABREVIATURA: 'INA',
+      },
     },
     TEMA: {
       CLARO: 'Claro',
