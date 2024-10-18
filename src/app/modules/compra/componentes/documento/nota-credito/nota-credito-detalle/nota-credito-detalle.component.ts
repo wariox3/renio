@@ -106,7 +106,11 @@ export default class FacturaDetalleComponent extends General {
 
           const impuestos = item.impuestos;
           impuestos.forEach((impuesto: any) => {
-            this.totalImpuestos += impuesto.total;
+            if (impuesto.impuesto_operacion > 0) {
+              this.totalImpuestos += impuesto.total;
+            } else {
+              this.totalImpuestos -= impuesto.total;
+            }
           });
 
           let neto = item.neto || 0;
