@@ -334,7 +334,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto', submodelo: 'GenEmpleado' },
+              data: { modelo: 'GenContacto', submodelo: 'GenEmpleado', ordenamiento: '-id' },
             },
             {
               nombre: 'CONTRATO',
