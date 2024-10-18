@@ -1347,6 +1347,14 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'CONTRATO_CONTACTO_ID',
+      nombreAbreviado: 'CODIGO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
       nombre: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1356,6 +1364,15 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
       campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTRATO_ID',
+      nombreAbreviado: 'CONT',
+      campoTipo: 'IntegerField',
+      toolTip: 'CONTRATO',
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
@@ -1390,9 +1407,9 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'CONTRATO_CONTACTO_ID',
+      nombre: 'DETALLE',
       campoTipo: 'CharField',
-      visibleTabla: false,
+      visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
     },
@@ -1425,14 +1442,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
-    },
-    {
-      nombre: 'DETALLE',
-      campoTipo: 'CharField',
-      visibleTabla: true,
-      visibleFiltro: false,
-      ordenable: false,
-    },
+    }
   ],
   HumCredito: [
     {
