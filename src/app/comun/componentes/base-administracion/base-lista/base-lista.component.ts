@@ -70,12 +70,8 @@ export class BaseListaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
-
       let posicion: keyof typeof mapeo = this.modelo;
-      console.log(this.modelo);
-
       this.modulo = mapeo[posicion].modulo;
-      console.log(this.modelo);
 
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
@@ -112,28 +108,36 @@ export class BaseListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargando$.next(true);
-    let baseUrl = 'general/funcionalidad/lista/';
-    this.arrParametrosConsulta = {
-      ...this.arrParametrosConsulta,
-      ...{
-        modelo: this.modelo,
-      },
-    };
+    this.activatedRoute.queryParams.subscribe((parametro) => {
+      let baseUrl = 'general/funcionalidad/lista/';
+      let ordenamientoFijo: any[] = parametro?.ordenamiento;
+      if (ordenamientoFijo !== undefined) {
+        this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo]
+      } else {
+        this.arrParametrosConsulta.ordenamientos = []
+      }
+      this.arrParametrosConsulta = {
+        ...this.arrParametrosConsulta,
+        ...{
+          modelo: this.modelo,
+        },
+      };
 
-    this.httpService
-      .post<{
-        cantidad_registros: number;
-        registros: any[];
-        propiedades: any[];
-      }>(baseUrl, this.arrParametrosConsulta)
-      .pipe(finalize(() => this.cargando$.next(false)))
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrItems = respuesta.registros;
-        this.arrPropiedades = respuesta.propiedades;
+      this.httpService
+        .post<{
+          cantidad_registros: number;
+          registros: any[];
+          propiedades: any[];
+        }>(baseUrl, this.arrParametrosConsulta)
+        .pipe(finalize(() => this.cargando$.next(false)))
+        .subscribe((respuesta: any) => {
+          this.cantidad_registros = respuesta.cantidad_registros;
+          this.arrItems = respuesta.registros;
+          this.arrPropiedades = respuesta.propiedades;
 
-        this.changeDetectorRef.detectChanges();
-      });
+          this.changeDetectorRef.detectChanges();
+        });
+    })
   }
 
   obtenerFiltros(arrfiltros: any[]) {
