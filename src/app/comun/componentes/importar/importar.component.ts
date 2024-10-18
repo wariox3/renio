@@ -112,17 +112,8 @@ export class ImportarComponent extends General {
     let ruta = localStorage.getItem('ruta')!;
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        let esIndependiente = parametros.esIndependiente!;
-        let modelo = '';
-        if (this.modelo === 'MOVIMIENTO') {
-          modelo = 'movimiento';
-        } else {
-          if (esIndependiente == 'no') {
-            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-          } else {
-            modelo = this.modelo.toLowerCase();
-          }
-        }
+        let modelo = this.modelo.toLowerCase();
+        
 
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
@@ -179,7 +170,7 @@ export class ImportarComponent extends General {
 
   descargarExcelError() {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      let nombreArchivo = `errores_${parametro.modelo}.xlsx`;
+      let nombreArchivo = `errores_${parametro.documento_clase}.xlsx`;
 
       let esIndependite = parametro.esIndependiente!;
       if (esIndependite == 'si') {
