@@ -263,10 +263,12 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumAdicional',
                 ordenamiento: '-id',
-                filtros: {
-                  propiedad: 'permanente',
-                  valor1: false
-                }
+                filtros: [
+                  {
+                    propiedad: 'permanente',
+                    valor1: false
+                  }
+                ]
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,

@@ -114,6 +114,11 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
+
+    if(item?.data?.filtros){
+      this.construirFiltros(item)
+    }
+
     let parametros = this.construirParametros(item);
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
@@ -135,6 +140,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
+
     let parametros = this.construirParametros(item);
 
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
@@ -154,7 +160,6 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   construirParametros(item: any) {
-
     switch (item.tipo) {
       case 'Administrador':
         if(item.data?.submodelo){
@@ -197,6 +202,17 @@ export class SidebarMenuComponent implements OnInit {
             itemNombre: item.nombre,
             itemTipo: 'DOCUMENTO',
           };
+    }
+  }
+
+  construirFiltros(item: any){
+    //let tipo = window.location.pathname.split('/')[1];
+    let nombreFiltro = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_fijo`
+    if (localStorage.getItem(nombreFiltro) === null) {
+      localStorage.setItem(
+        nombreFiltro,
+        JSON.stringify(item?.data?.filtros)
+      );
     }
   }
 }

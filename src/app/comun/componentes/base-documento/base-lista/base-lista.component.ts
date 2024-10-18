@@ -31,7 +31,7 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
     BaseFiltroComponent,
     TablaComponent,
     ImportarComponent,
-    ModalDinamicoComponent
+    ModalDinamicoComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -54,11 +54,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   titulos: any = [];
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
-  botonGenerar: boolean = false
-  private destroy$ = new Subject<void>()
-  botonesExtras: BotonesExtras[] = []
-  nombreComponente: string = ''
-  tituloModal: string = ''
+  botonGenerar: boolean = false;
+  private destroy$ = new Subject<void>();
+  botonesExtras: BotonesExtras[] = [];
+  nombreComponente: string = '';
+  tituloModal: string = '';
   visualizarBtnNuevo = true;
   visualizarColumnaEditar = true;
   visualizarBtnEliminar = true;
@@ -76,124 +76,152 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.visualizarColumnaEditar = parametro.visualizarColumnaEditar === 'no' ?  false : true
-      this.visualizarBtnNuevo =  parametro.visualizarBtnNuevo === 'no' ? false : true
-      this.visualizarBtnEliminar =  parametro.visualizarBtnEliminar === 'no' ? false : true
-      this.visualizarColumnaSeleccionar =  parametro.visualizarColumnaSeleccionar === 'no' ? false : true
-      this.visualizarBtnImportar =  parametro.visualizarBtnImportar === 'no' ? false : true
+      this.visualizarColumnaEditar =
+        parametro.visualizarColumnaEditar === 'no' ? false : true;
+      this.visualizarBtnNuevo =
+        parametro.visualizarBtnNuevo === 'no' ? false : true;
+      this.visualizarBtnEliminar =
+        parametro.visualizarBtnEliminar === 'no' ? false : true;
+      this.visualizarColumnaSeleccionar =
+        parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
+      this.visualizarBtnImportar =
+        parametro.visualizarBtnImportar === 'no' ? false : true;
 
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       if (parametro?.ordenamiento) {
-        let ordenamientos = parametro.ordenamiento.split(',').map((palabra:string) => palabra.trim());
-        this.arrParametrosConsulta.ordenamientos = ordenamientos
+        let ordenamientos = parametro.ordenamiento
+          .split(',')
+          .map((palabra: string) => palabra.trim());
+        this.arrParametrosConsulta.ordenamientos = ordenamientos;
       } else {
-        this.arrParametrosConsulta.ordenamientos = []
+        this.arrParametrosConsulta.ordenamientos = [];
       }
       let posicion: keyof typeof documentos = parametro.documento_clase;
       this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
       this.consultarLista();
-      this.construirBotonesExtras(parametro)
+      this.construirBotonesExtras(parametro);
     });
 
-    this.modalDinamicoService.event$.pipe(takeUntil(this.destroy$)).subscribe(respuesta => {
-      this.consultaListaModal()
-    })
+    this.modalDinamicoService.event$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((respuesta) => {
+        this.consultaListaModal();
+      });
 
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
+    this.activatedRoute.queryParams
+      .subscribe((parametro) => {
+        const filtroGuardado = localStorage.getItem(this.nombreFiltro);
+        console.log();
 
-      const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-      let consultaHttp: string = parametro.consultaHttp!;
-      let ordenamientoFijo: any[] = parametro?.ordenamiento;
-      if (consultaHttp === 'si') {
-          this.arrParametrosConsulta.modelo = 'GenDocumento'
+        const filtroPermanenteStr = localStorage.getItem(`${this.nombreFiltro}_filtro_fijo`);
+
+        let consultaHttp: string = parametro.consultaHttp!;
+        let ordenamientoFijo: any[] = parametro?.ordenamiento;
+        let filtroPermamente: any = []
+        if (filtroPermanenteStr !== null) {
+          filtroPermamente = JSON.parse(filtroPermanenteStr);
+        }
+
+        if (consultaHttp === 'si') {
+          this.arrParametrosConsulta.modelo = 'GenDocumento';
           this.arrParametrosConsulta.filtros = [
             {
               propiedad: 'documento_tipo__documento_clase_id',
               valor1: parametro.documento_clase,
             },
           ];
-        if (filtroGuardado !== null) {
-          this.arrParametrosConsulta.filtros = [
-            {
-              propiedad: 'documento_tipo__documento_clase_id',
-              valor1: parametro.documento_clase,
-            },
-            ...JSON.parse(filtroGuardado),
-          ];
-        }
-        if(parametro.serializador){
-          this.arrParametrosConsulta.serializador = parametro.serializador
+          if (filtroGuardado !== null) {
+            this.arrParametrosConsulta.filtros = [
+              {
+                propiedad: 'documento_tipo__documento_clase_id',
+                valor1: parametro.documento_clase,
+              },
+              ...filtroPermamente,
+              ...JSON.parse(filtroGuardado),
+            ];
+          }
+          if (parametro.serializador) {
+            this.arrParametrosConsulta.serializador = parametro.serializador;
+          } else {
+            delete this.arrParametrosConsulta.serializador;
+          }
+          this.httpService
+            .post<{
+              registros: any;
+            }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+            .subscribe((respuesta: any) => {
+              this.cantidad_registros = respuesta.length;
+              this.arrItems = respuesta.registros;
+              this.changeDetectorRef.detectChanges();
+            });
         } else {
-          delete this.arrParametrosConsulta.serializador
-        }
-        this.httpService
-          .post<{
-            registros: any;
-          }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
-          .subscribe((respuesta: any) => {
-            this.cantidad_registros = respuesta.length;
-            this.arrItems = respuesta.registros;
-            this.changeDetectorRef.detectChanges();
-          });
-      } else {
-        let baseUrl = 'general/funcionalidad/lista/';
-        this.arrParametrosConsulta = {
-          modelo: parametro.documento_clase,
-          ordenamientos: []
-        };
-        if (filtroGuardado !== null) {
-          this.arrParametrosConsulta.filtros = [...JSON.parse(filtroGuardado)];
-        }
-        if (ordenamientoFijo !== undefined) {
-          this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo]
-        } else {
-          this.arrParametrosConsulta.ordenamientos = []
-        }
-        if(parametro.serializador){
-          this.arrParametrosConsulta.serializador = parametro.serializador
-        } else {
-          delete this.arrParametrosConsulta.serializador
-        }
-        this.httpService
-          .post<{
-            cantidad_registros: number;
-            registros: any[];
-            propiedades: any[];
-          }>(baseUrl, this.arrParametrosConsulta)
-          .subscribe((respuesta: any) => {
-            this.cantidad_registros = respuesta.cantidad_registros;
-            this.arrItems = respuesta.registros;
-            this.arrPropiedades = respuesta.propiedades;
+          let baseUrl = 'general/funcionalidad/lista/';
+          this.arrParametrosConsulta = {
+            modelo: parametro.documento_clase,
+            ordenamientos: [],
+          };
 
-            this.changeDetectorRef.detectChanges();
-          });
-      }
-    }).unsubscribe();
+          if (filtroGuardado !== null) {
+            this.arrParametrosConsulta.filtros = [
+              ...filtroPermamente, // Combinar el array parseado de filtros permanentes
+              ...JSON.parse(filtroGuardado), // y el array de filtros guardados
+            ];
+          } else {
+            this.arrParametrosConsulta.filtros = [
+              ...filtroPermamente, // Combinar el array parseado de filtros permanentes
+            ];
+          }
+          if (ordenamientoFijo !== undefined) {
+            this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
+          } else {
+            this.arrParametrosConsulta.ordenamientos = [];
+          }
+          if (parametro.serializador) {
+            this.arrParametrosConsulta.serializador = parametro.serializador;
+          } else {
+            delete this.arrParametrosConsulta.serializador;
+          }
+          this.httpService
+            .post<{
+              cantidad_registros: number;
+              registros: any[];
+              propiedades: any[];
+            }>(baseUrl, this.arrParametrosConsulta)
+            .subscribe((respuesta: any) => {
+              this.cantidad_registros = respuesta.cantidad_registros;
+              this.arrItems = respuesta.registros;
+              this.arrPropiedades = respuesta.propiedades;
+
+              this.changeDetectorRef.detectChanges();
+            });
+        }
+      })
+      .unsubscribe();
   }
 
-  construirBotonesExtras (parametros: Params) {
+  construirBotonesExtras(parametros: Params) {
     let configuracionExtra: string = parametros.configuracionExtra!;
 
-
-    if(configuracionExtra === 'si') {
+    if (configuracionExtra === 'si') {
       let documentoClase: number = Number(parametros.documento_clase);
-      this.botonesExtras = configuracionExtraDocumento[documentoClase]?.botones || []
+      this.botonesExtras =
+        configuracionExtraDocumento[documentoClase]?.botones || [];
     } else {
-      this.botonesExtras = []
+      this.botonesExtras = [];
     }
 
     this.changeDetectorRef.detectChanges();
   }
 
-  abrirModal (datosBoton: BotonesExtras, content: any) {
-    this.nombreComponente = datosBoton.componenteNombre
-    const configuracionModal = datosBoton.configuracionModal
-    this.tituloModal = configuracionModal.titulo
+  abrirModal(datosBoton: BotonesExtras, content: any) {
+    this.nombreComponente = datosBoton.componenteNombre;
+    const configuracionModal = datosBoton.configuracionModal;
+    this.tituloModal = configuracionModal.titulo;
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: configuracionModal.size,
@@ -211,7 +239,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   consultaListaModal() {
-    this.modalService.dismissAll()
+    this.modalService.dismissAll();
     this.consultarLista();
   }
 
@@ -311,8 +339,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next()
-    this.destroy$.unsubscribe()
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   // imprimir() {
