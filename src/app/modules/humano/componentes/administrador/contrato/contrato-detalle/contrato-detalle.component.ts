@@ -117,7 +117,7 @@ export default class ContratoDetalleComponent
   }
 
   abrirModal(content: any) {
-    this.tituloModal = 'Archivo plano';
+    this.tituloModal = 'Terminar contrato';
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'md',
