@@ -10,10 +10,7 @@
             </option>
             <ng-container *ngFor="let propiedad of arrPropiedades">
               <option [value]="
-                  propiedad.esFk
-                    ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +
-                      '_id'
-                    : propiedad.nombre.toLocaleLowerCase()
+                  obtenerValorFiltro(propiedad)
                 " [attr.data-value]="
                   propiedad.esFk
                     ? propiedad.modeloFk.toLocaleLowerCase().substring(3) +

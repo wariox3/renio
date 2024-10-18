@@ -3,6 +3,7 @@ export type MapeoIndependientes = {
     nombre: string;
     nombreAbreviado?: string;
     nombreAbreviadoFiltro?: string;
+    nombreFiltroRelacion?: string;
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
@@ -19,6 +20,7 @@ export type MapeoDocumentos = {
     nombre: string;
     nombreAbreviado?: string;
     nombreAbreviadoFiltro?: string;
+    nombreFiltroRelacion?: string;
     visibleTabla: boolean;
     visibleFiltro: boolean;
     ordenable: boolean;
@@ -40,6 +42,7 @@ export type MapeoAdministrador = {
       nombre: string;
       nombreAbreviado?: string;
       nombreAbreviadoFiltro?: string;
+      nombreFiltroRelacion?: string;
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;

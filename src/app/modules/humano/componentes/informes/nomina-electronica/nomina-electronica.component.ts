@@ -74,9 +74,9 @@ export class NominaElectronicaComponent extends General implements OnInit {
           fecha: documento.fecha,
           fecha_hasta: documento.fecha_hasta,
           contacto_id: documento.contacto_id,
-          contacto__numero_identificacion:
+          contacto_numero_identificacion:
             documento.contacto_numero_identificacion,
-          contacto__nombre_corto: documento.contacto_nombre_corto,
+          contacto_nombre_corto: documento.contacto_nombre_corto,
           contrato_id: documento.contrato_id || 0,
           salario: documento.salario,
           base_cotizacion: documento.base_cotizacion || 0,
