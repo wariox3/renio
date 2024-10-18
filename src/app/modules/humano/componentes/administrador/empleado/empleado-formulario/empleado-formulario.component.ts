@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -25,8 +25,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   asyncScheduler,
   BehaviorSubject,
-  catchError,
-  combineLatest,
   debounceTime,
   finalize,
   of,
@@ -67,6 +65,7 @@ export default class EmpleadoFormularioComponent
   arrPrecios: any[];
   arrPagos: any[];
   guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  arrCuentasBancos: any[];
 
   selectedDateIndex: number = -1;
 
@@ -191,6 +190,7 @@ export default class EmpleadoFormularioComponent
         cliente: [false],
         proveedor: [false],
         empleado: [true],
+        cuenta_banco_clase: ['', Validators.compose([Validators.required])],
       },
       {
         validator: [MultiplesEmailValidator.validarCorreos],
@@ -457,6 +457,13 @@ export default class EmpleadoFormularioComponent
           modelo: 'GenBanco',
           serializador: 'ListaAutocompletar',
         }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          modelo: 'GenCuentaBancoClase',
+          serializador: 'ListaAutocompletar',
+        }
       )
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -466,6 +473,7 @@ export default class EmpleadoFormularioComponent
       this.arrAsesores = respuesta[4].registros;
       this.arrPagos = respuesta[5].registros;
       this.arrBancos = respuesta[6].registros;
+      this.arrCuentasBancos = respuesta[7].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -512,6 +520,7 @@ export default class EmpleadoFormularioComponent
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
+          cuenta_banco_clase: respuesta.cuenta_banco_clase
         });
 
         this.changeDetectorRef.detectChanges();
