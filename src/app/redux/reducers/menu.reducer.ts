@@ -323,8 +323,6 @@ export const initialState: MenuItem = {
                 serializador: 'Nomina',
                 visualizarColumnaEditar: 'no',
                 visualizarBtnNuevo: 'no',
-                visualizarBtnEliminar: 'no',
-                visualizarColumnaSeleccionar: 'no',
                 visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: false,
