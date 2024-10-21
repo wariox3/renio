@@ -36,10 +36,10 @@ import { informacionMenuItem } from '@interfaces/menu/menu';
     CommonModule,
     UpperCasePipe,
     LowerCasePipe,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
-    // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-    host: { class: 'd-block' },
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  host: { class: 'd-block' },
 })
 export class SidebarMenuComponent implements OnInit {
   MenuSeleccion: string | null = null;
@@ -114,9 +114,8 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-
-    if(item?.data?.filtros){
-      this.construirFiltros(item)
+    if (item?.data?.filtrosLista) {
+      this.construirFiltros(item);
     }
 
     let parametros = this.construirParametros(item);
@@ -140,9 +139,7 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
-
     let parametros = this.construirParametros(item);
-
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
     let url = [item.tipo?.toLocaleLowerCase(), 'nuevo'];
@@ -159,10 +156,10 @@ export class SidebarMenuComponent implements OnInit {
     });
   }
 
-  construirParametros(item: any) {
+  construirParametros(item: informacionMenuItem) {
     switch (item.tipo) {
       case 'Administrador':
-        if(item.data?.submodelo){
+        if (item.data?.submodelo) {
           return {
             itemNombre: item.data?.modelo,
             submodelo: item.data?.submodelo,
@@ -192,27 +189,35 @@ export class SidebarMenuComponent implements OnInit {
           consultaHttp: item.consultaHttp ? 'si' : 'no',
           esIndependiente: 'no',
         };
-        case 'utilidad':
-          return {
-            itemNombre: item.nombre,
-            itemTipo: 'DOCUMENTO',
-          };
+      case 'utilidad':
+        return {
+          itemNombre: item.nombre,
+          itemTipo: 'DOCUMENTO',
+        };
       case 'informe':
-          return {
-            itemNombre: item.nombre,
-            itemTipo: 'DOCUMENTO',
-          };
+        return {
+          itemNombre: item.nombre,
+          itemTipo: 'DOCUMENTO',
+        };
     }
   }
 
-  construirFiltros(item: any){
-    //let tipo = window.location.pathname.split('/')[1];
-    let nombreFiltro = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_fijo`
-    if (localStorage.getItem(nombreFiltro) === null) {
-      localStorage.setItem(
-        nombreFiltro,
-        JSON.stringify(item?.data?.filtros)
-      );
+  construirFiltros(item: informacionMenuItem) {
+    if (item.tipo !== undefined) {
+      let nombreFiltroLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_lista_fijo`;
+      let nombreImportarLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_importar_fijo`;
+      if (localStorage.getItem(nombreFiltroLista) === null) {
+        localStorage.setItem(
+          nombreFiltroLista,
+          JSON.stringify(item?.data?.filtrosLista)
+        );
+      }
+      if (localStorage.getItem(nombreImportarLista) === null) {
+        localStorage.setItem(
+          nombreImportarLista,
+          JSON.stringify(item?.data?.filtrosImportar)
+        );
+      }
     }
   }
 }

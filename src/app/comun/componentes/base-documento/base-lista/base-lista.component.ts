@@ -116,7 +116,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
         const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-        const filtroPermanenteStr = localStorage.getItem(`${this.nombreFiltro}_filtro_fijo`);
+        const filtroPermanenteStr = localStorage.getItem(`${this.nombreFiltro}_filtro_lista_fijo`);
 
         let consultaHttp: string = parametro.consultaHttp!;
         let ordenamientoFijo: any[] = parametro?.ordenamiento;

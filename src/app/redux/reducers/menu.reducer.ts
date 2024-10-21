@@ -263,10 +263,16 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumAdicional',
                 ordenamiento: '-id',
-                filtros: [
+                filtrosLista: [
                   {
                     propiedad: 'permanente',
                     valor1: true
+                  }
+                ],
+                filtrosImportar: [
+                  {
+                    propiedad: 'permanente',
+                    valor1: false
                   }
                 ]
               },

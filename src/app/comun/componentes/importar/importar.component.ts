@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { ErroresDato, ImportarDetalles, ImportarDetallesErrores } from '@interfaces/comunes/importar-detalles.';
+import {
+  ErroresDato,
+  ImportarDetalles,
+  ImportarDetallesErrores,
+} from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
@@ -26,7 +25,7 @@ import { saveAs } from 'file-saver';
     TranslateModule,
     AnimationFadeinUpDirective,
     AnimationFadeinLeftDirective,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './importar.component.html',
   styleUrls: ['./importar.component.scss'],
@@ -56,9 +55,9 @@ export class ImportarComponent extends General {
   abrirModalContactoNuevo(content: any) {
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        this.importarSoloNuevos = parametros.importarSoloNuevos === 'si'? true : false
-        this.soloNuevos = false,
-        this.changeDetectorRef.detectChanges()
+        this.importarSoloNuevos =
+          parametros.importarSoloNuevos === 'si' ? true : false;
+        (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
         this.archivoNombre = '';
         this.errorImportar = [];
         this.modalService.open(content, {
@@ -101,7 +100,7 @@ export class ImportarComponent extends General {
           }
         })
       )
-      .subscribe()
+      .subscribe();
   }
 
   async guardarArchivo() {
@@ -110,25 +109,43 @@ export class ImportarComponent extends General {
 
   subirArchivo(archivo_base64: string) {
     let ruta = localStorage.getItem('ruta')!;
+
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         let modelo = this.modelo.toLowerCase();
-
-
+        let nombreFiltro = `documento_${parametros.itemNombre?.toLowerCase()}`;
+        let filtroPermamente: any = [];
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
         let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
+
+        let data: any = {
+          archivo_base64,
+        };
+
+        if (this.soloNuevos) {
+          data['solo_nuevos'] = this.soloNuevos;
+        }
+
+        const filtroPermanenteStr = localStorage.getItem(
+          `${nombreFiltro}_filtro_importar_fijo`
+        );
+        if (filtroPermanenteStr !== null) {
+          filtroPermamente = JSON.parse(filtroPermanenteStr);
+          Object.keys(filtroPermamente).forEach((key) => {
+            const filtro = filtroPermamente[key];
+            data[filtro.propiedad] = filtro.valor1;
+          });
+        }
+
         this.httpService
-          .post<ImportarDetalles>(url, {
-            archivo_base64,
-            solo_nuevos: this.soloNuevos
-          })
+          .post<ImportarDetalles>(url, data)
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
                 `Se guardo la información registros importados: ${respuesta.registros_importados}`
               );
-              this.soloNuevos= false;
+              this.soloNuevos = false;
               this.modalService.dismissAll();
               this.errorImportar = [];
               this.cargardoDocumento = false;
