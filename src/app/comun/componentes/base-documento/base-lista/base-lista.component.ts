@@ -291,7 +291,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             this.consultarLista();
           });
         }
-      });
+      }).unsubscribe();
     } else {
       this.alertaService.mensajeError(
         'Error',
