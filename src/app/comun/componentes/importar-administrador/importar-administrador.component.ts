@@ -1,6 +1,12 @@
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
 import { HttpService } from '@comun/services/http.service';
@@ -11,7 +17,7 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, of, Subject, switchMap, tap, takeUntil } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
@@ -24,12 +30,15 @@ import { FormsModule } from '@angular/forms';
     TranslateModule,
     AnimationFadeinUpDirective,
     AnimationFadeinLeftDirective,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './importar-administrador.component.html',
   styleUrl: './importar-administrador.component.scss',
 })
-export class ImportarAdministradorComponent extends General {
+export class ImportarAdministradorComponent
+  extends General
+  implements OnDestroy
+{
   archivoNombre: string = '';
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];
@@ -40,6 +49,7 @@ export class ImportarAdministradorComponent extends General {
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
+  private _unsubscribe$ = new Subject<void>();
 
   constructor(
     private modalService: NgbModal,
@@ -52,9 +62,9 @@ export class ImportarAdministradorComponent extends General {
   abrirModalContactoNuevo(content: any) {
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        this.importarSoloNuevos = parametros.importarSoloNuevos === 'si'? true : false
-        this.soloNuevos = false,
-        this.changeDetectorRef.detectChanges()
+        this.importarSoloNuevos =
+          parametros.importarSoloNuevos === 'si' ? true : false;
+        (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
         this.archivoNombre = '';
         this.errorImportar = [];
         this.modalService.open(content, {
@@ -123,14 +133,14 @@ export class ImportarAdministradorComponent extends General {
         this.httpService
           .post<ImportarDetalles>(url, {
             archivo_base64,
-            solo_nuevos: this.soloNuevos
+            solo_nuevos: this.soloNuevos,
           })
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
                 `Se guardo la información registros importados: ${respuesta.registros_importados}`
               );
-              this.soloNuevos= false;
+              this.soloNuevos = false;
               this.modalService.dismissAll();
               this.errorImportar = [];
               this.cargardoDocumento = false;
@@ -153,46 +163,39 @@ export class ImportarAdministradorComponent extends General {
 
   descargarExcelImportar() {
     this.activatedRoute.queryParams
-      .subscribe((parametro) => {
-        let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.modelo}.xlsx`;
-        this.descargarArchivosService
-          .comprobarArchivoExiste(fileUrl)
-          .subscribe((archivoExiste) => {
-            if (archivoExiste) {
-              let nombreArchivo = `adminsitrador_${parametro.modelo}.xlsx`;
-              let esIndependite = parametro.esIndependiente!;
-              if (esIndependite == 'si') {
-                fileUrl = `../../../../assets/ejemplos/independiente/${localStorage
-                  .getItem('ruta')!
-                  .toLowerCase()
-                  .substring(
-                    0,
-                    3
-                  )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-
-                nombreArchivo = `${localStorage
-                  .getItem('ruta')!
-                  .toLowerCase()
-                  .substring(
-                    0,
-                    3
-                  )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-              }
-
-              // Crear un enlace de descarga
-              const link = document.createElement('a');
-              link.href = fileUrl;
-              link.download = nombreArchivo;
-              // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-              document.body.appendChild(link);
-              link.click();
-
-              // Eliminar el enlace del DOM
-              document.body.removeChild(link);
-            }
-          });
-      })
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        tap((parametro) => {
+          let nombreArchivo = '';
+          if (this.ubicacion === 'administrador') {
+            nombreArchivo = `${parametro.itemNombre}`;
+          }
+          if (this.ubicacion === 'independiente') {
+            nombreArchivo = `${localStorage
+              .getItem('ruta')!
+              .substring(0, 1)
+              .toUpperCase()}${localStorage
+              .getItem('ruta')!
+              .substring(1, 3)
+              .toLocaleLowerCase()}${parametro.itemNombre[0].toUpperCase()}${parametro.itemNombre
+              .substring(1, parametro.itemNombre.length)
+              .toLocaleLowerCase()}`;
+          }
+          this.descargarArchivosService
+            .descargarArchivoLocal(
+              `assets/ejemplos/modelo/${nombreArchivo}.xlsx`
+            )
+            .pipe(takeUntil(this._unsubscribe$))
+            .subscribe();
+        })
+      )
+      .subscribe()
       .unsubscribe();
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 
   descargarExcelError() {

@@ -113,7 +113,7 @@ export class ImportarComponent extends General {
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         let modelo = this.modelo.toLowerCase();
-        
+
 
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
