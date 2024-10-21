@@ -721,7 +721,6 @@ export const locale = {
         DOCUMENTO_CONTACTO_NOMBRE: 'Nombre',
         DOCUMENTO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         DOCUMENTO_ID: 'Cód',
-
         DOCUMENTOREFERENCIA: 'Documento referencia',
         ITEM: 'Item',
         ITEM_ID: 'Item id',
@@ -806,6 +805,8 @@ export const locale = {
         VALOR_HORA: 'Valor hora',
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
+        CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
+        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación'
       },
       ITEM: {
         ID: 'ID',

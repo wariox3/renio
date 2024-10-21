@@ -131,11 +131,23 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'CONTACTO',
+      nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
-      visibleFiltro: false,
+      visibleTabla: false,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
+      campoTipo: 'CharField',
       visibleTabla: true,
-      ordenable: false,
+      visibleFiltro: true,
+      ordenable: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -250,15 +262,6 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: false,
       visibleTabla: false,
       ordenable: false,
-    },
-    {
-      nombre: 'CONTACTO_NOMBRE_CORTO',
-      campoTipo: 'CharField',
-      visibleFiltro: true,
-      visibleTabla: false,
-      ordenable: false,
-      esFk: true,
-      modeloFk: 'GenContacto'
     },
     {
       nombre: 'ITEM_NOMBRE',
