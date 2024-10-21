@@ -206,18 +206,14 @@ export class SidebarMenuComponent implements OnInit {
     if (item.tipo !== undefined) {
       let nombreFiltroLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_lista_fijo`;
       let nombreImportarLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_importar_fijo`;
-      if (localStorage.getItem(nombreFiltroLista) === null) {
-        localStorage.setItem(
-          nombreFiltroLista,
-          JSON.stringify(item?.data?.filtrosLista)
-        );
-      }
-      if (localStorage.getItem(nombreImportarLista) === null) {
-        localStorage.setItem(
-          nombreImportarLista,
-          JSON.stringify(item?.data?.filtrosImportar)
-        );
-      }
+      localStorage.setItem(
+        nombreFiltroLista,
+        JSON.stringify(item?.data?.filtrosLista)
+      );
+      localStorage.setItem(
+        nombreImportarLista,
+        JSON.stringify(item?.data?.filtrosImportar)
+      );
     }
   }
 }

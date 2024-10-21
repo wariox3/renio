@@ -272,7 +272,7 @@ export const initialState: MenuItem = {
                 filtrosImportar: [
                   {
                     propiedad: 'permanente',
-                    valor1: false
+                    valor1: true
                   }
                 ]
               },
