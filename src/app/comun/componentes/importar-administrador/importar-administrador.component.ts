@@ -47,6 +47,7 @@ export class ImportarAdministradorComponent
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
   @Input() estadoHabilitado: boolean = false;
+  @Input() detalle: any;
   @Input() modelo: string;
   @Input() filtrosExternos: any;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
@@ -161,6 +162,13 @@ export class ImportarAdministradorComponent
           });
         }
 
+        if(this.detalle != undefined){
+          Object.keys(this.detalle).forEach((key) => {
+            const filtro = this.detalle[key];
+            data[filtro.idNombre] = filtro.idValor;
+          });
+        }
+
         this.httpService
           .post<ImportarDetalles>(url, data)
           .pipe(
@@ -209,6 +217,11 @@ export class ImportarAdministradorComponent
               .substring(1, parametro.itemNombre.length)
               .toLocaleLowerCase()}`;
           }
+
+          if(this.detalle != undefined){
+            nombreArchivo = parametro.modelo
+          }
+
           this.descargarArchivosService
             .descargarArchivoLocal(
               `assets/ejemplos/modelo/${nombreArchivo}.xlsx`

@@ -729,6 +729,10 @@
                   <app-importar-administrador
                     [estadoHabilitado]="programacion.estado_generado"
                     [modelo]="'HumAdicional'"
+                    [detalle]="[{
+                      idNombre: 'programacion_id',
+                      idValor: programacion.id
+                    }]"
                     [filtrosExternos]="[
                       { propiedad: 'permanente', valor1: false }
                     ]"
