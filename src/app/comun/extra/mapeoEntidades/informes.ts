@@ -39,19 +39,21 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'ITEM_ID',
+      nombreAbreviadoFiltro: 'ITEM_ID_FILTRO',
+      nombreFiltroRelacion: 'ITEM__ID',
       campoTipo: 'CharField',
-      visibleFiltro: false,
+      visibleFiltro: true,
       visibleTabla: true,
       ordenable: false,
     },
     {
       nombre: 'ITEM_NOMBRE',
-      campoTipo: 'Fk',
-      visibleFiltro: true,
+      nombreAbreviadoFiltro: 'ITEM_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'ITEM__ID',
+      campoTipo: 'CharField',
       visibleTabla: true,
-      ordenable: false,
-      esFk: true,
-      modeloFk: 'GenItem',
+      visibleFiltro: true,
+      ordenable: true,
     },
     {
       nombre: 'CANTIDAD',
@@ -736,7 +738,7 @@ export const documentos: MapeoDocumentos = {
       aplicaFormatoNumerico: true,
       ordenable: false,
     },
-    
+
     {
       nombre: 'DIAS',
       campoTipo: 'IntegerField',
