@@ -430,7 +430,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   exportarExcel() {
     this.emitirExportarExcel.emit(true);
   }
-  
+
   visualizarBtnEstado(item: any) {
     // Verificar si item tiene la propiedad estado_aprobado
     if (item.hasOwnProperty('estado_aprobado')) {
