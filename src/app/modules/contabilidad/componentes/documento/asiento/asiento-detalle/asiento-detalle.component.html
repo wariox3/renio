@@ -157,7 +157,15 @@
               </div>
               <div class="d-flex justify-content-end mb-5">
                 <table>
-                  <tr *ngIf="asiento.total > 0">
+                  <tr *ngIf="getTotalDebito() > 0">
+                    <td class="text-end">Débito:</td>
+                    <td class="text-end">{{ getTotalDebito() | currency: '$' }}</td>
+                  </tr>
+                  <tr *ngIf="getTotalCredito() > 0">
+                    <td class="text-end">Crédito:</td>
+                    <td class="text-end">{{ getTotalCredito() | currency: '$' }}</td>
+                  </tr>
+                  <tr>
                     <td
                       class="text-end"
                       translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"

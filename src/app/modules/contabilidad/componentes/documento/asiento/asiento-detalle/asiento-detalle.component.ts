@@ -43,6 +43,7 @@ export default class PagoDetalleComponent extends General {
     estado_aprobado: false,
     estado_anulado: false,
   };
+  detalles: any[] = [];
   tabActive = 1
   constructor(
     private httpService: HttpService,
@@ -57,6 +58,7 @@ export default class PagoDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.asiento = respuesta.documento;
+        this.detalles = this.asiento.detalles;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -107,4 +109,18 @@ export default class PagoDetalleComponent extends General {
   navegarNuevo() {
     this.navegarDocumentoNuevo()
   }
+
+    // Obtener total de débitos
+    getTotalDebito(): number {
+      return this.detalles
+        .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
+        .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+    }
+  
+    // Obtener total de créditos
+    getTotalCredito(): number {
+      return this.detalles
+        .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
+        .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+    }
 }
