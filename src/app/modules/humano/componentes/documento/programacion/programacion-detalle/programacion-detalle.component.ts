@@ -896,8 +896,6 @@ export default class ProgramacionDetalleComponent
       .subscribe();
   }
 
-  solicitarConsultarTabla() {}
-
   imprimir() {
     this.httpService.descargarArchivo('humano/programacion/imprimir/', {
       id: this.detalle,
