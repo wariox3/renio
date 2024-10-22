@@ -611,7 +611,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
-      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -621,7 +621,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
       nombreAbreviado: 'EMPLEADO',
-      nombreAbreviadoFiltro: 'CONTACTO_EMPLEADO_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -696,7 +696,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'documento_contacto_numero_identificacion',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
-      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -706,7 +706,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'documento_contacto_nombre_corto',
       nombreAbreviado: 'EMPLEADO',
-      nombreAbreviadoFiltro: 'CONTACTO_EMPLEADO_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NOMBRE_CORTO',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -836,7 +836,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
-      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -846,7 +846,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
       nombreAbreviado: 'EMPLEADO',
-      nombreAbreviadoFiltro: 'CONTACTO_EMPLEADO_FILTRO',
+      nombreAbreviadoFiltro: 'EMPLEADO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
       campoTipo: 'CharField',
       visibleTabla: true,
