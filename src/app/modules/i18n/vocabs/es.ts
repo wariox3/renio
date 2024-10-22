@@ -524,6 +524,7 @@ export const locale = {
             ENTIDADSALUD: 'Entidad salud',
             ENTIDADCAJA: 'Entidad caja',
             ENTIDADCESANTIAS: 'Entidad cesantías',
+            BUSCARCONTRATO: 'Buscar contrato'
           },
           CREDITO: {
             CODIGO: 'Cód',

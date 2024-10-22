@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,10 +8,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarConceptoAdicional,
+  RegistroAutocompletarHumContrato,
+} from '@interfaces/comunes/autocompletar';
 import {
   ProgramacionDetalleRegistro,
   TablaRegistroLista,
@@ -26,18 +34,20 @@ import {
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, finalize, switchMap, tap, throttleTime } from 'rxjs';
-import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
+import { TranslateModule } from '@ngx-translate/core';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarConceptoAdicional,
-  RegistroAutocompletarHumContrato,
-} from '@interfaces/comunes/autocompletar';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
-import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+  asyncScheduler,
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  Subject,
+  switchMap,
+  tap,
+  throttleTime,
+} from 'rxjs';
+import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -56,14 +66,14 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
     AnimacionFadeInOutDirective,
     ImportarAdministradorComponent,
     NgSelectModule,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+  ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
 export default class ProgramacionDetalleComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private _descargarArchivosService = inject(DescargarArchivosService);
 
@@ -122,6 +132,10 @@ export default class ProgramacionDetalleComponent
   arrConceptosAdicional: any[] = [];
   ordenadoTabla: string = '';
 
+  private _unsubscribe$ = new Subject<void>();
+  public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
+  public busquedaContrato = new Subject<string>();
+
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
 
@@ -134,11 +148,38 @@ export default class ProgramacionDetalleComponent
     private programacionDetalleService: ProgramacionDetalleService
   ) {
     super();
+    this._inicializarBusqueda();
   }
 
   ngOnInit(): void {
     this.inicializarParametrosConsulta();
     this.consultarDatos();
+  }
+
+  private _inicializarBusqueda() {
+    this.busquedaContrato
+      .pipe(
+        debounceTime(600),
+        distinctUntilChanged(),
+        switchMap((valor: string) => {
+          return this.consultarContratosPorNombre(valor);
+        })
+      )
+      .subscribe();
+  }
+
+  onSearch(event: any) {
+    const searchTerm = event.target.value;
+    if (!searchTerm) {
+      this.reiniciarCamposBusqueda();
+    }
+    this.busquedaContrato.next(searchTerm);
+  }
+
+  reiniciarCamposBusqueda() {
+    this.formularioAdicionalProgramacion.get('identificacion')?.setValue('');
+    this.formularioAdicionalProgramacion.get('contrato_nombre')?.setValue('');
+    this.formularioAdicionalProgramacion.get('contrato')?.setValue('');
   }
 
   consultarDatos() {
@@ -237,6 +278,10 @@ export default class ProgramacionDetalleComponent
       limite_conteo: 10000,
       modelo: 'HumAdicional',
     };
+  }
+
+  validarCampoContrato() {
+    this.formularioAdicionalProgramacion.get('contrato')?.markAsTouched();
   }
 
   aprobar() {
@@ -390,10 +435,11 @@ export default class ProgramacionDetalleComponent
 
   iniciarFormulario() {
     this.formularioAdicionalProgramacion = this.formBuilder.group({
+      identificacion: ['', Validators.required],
       concepto: [null, Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       concepto_nombre: [''],
-      contrato_nombre: [''],
+      contrato_nombre: ['', Validators.required],
       detalle: [null],
       horas: [0],
       aplica_dia_laborado: [false],
@@ -521,8 +567,7 @@ export default class ProgramacionDetalleComponent
       .subscribe();
   }
 
-  consultarContratos(event: any) {
-    const valor = event?.target.value;
+  consultarContratosPorNombre(valor: string) {
     let filtros = {};
 
     if (!valor.length) {
@@ -530,7 +575,7 @@ export default class ProgramacionDetalleComponent
         ...filtros,
         operador: '',
         propiedad: 'contacto__nombre_corto__icontains',
-        valor1: `${event?.target.value}`,
+        valor1: `${valor}`,
         valor2: '',
       };
     } else if (isNaN(Number(valor))) {
@@ -538,7 +583,7 @@ export default class ProgramacionDetalleComponent
         ...filtros,
         operador: '',
         propiedad: 'contacto__nombre_corto__icontains',
-        valor1: `${event?.target.value}`,
+        valor1: `${valor}`,
         valor2: '',
       };
     } else {
@@ -546,10 +591,43 @@ export default class ProgramacionDetalleComponent
         ...filtros,
         operador: '',
         propiedad: 'contacto__numero_identificacion__icontains',
-        valor1: `${Number(event?.target.value)}`,
+        valor1: `${Number(valor)}`,
         valor2: '',
       };
     }
+
+    let arrFiltros = {
+      filtros: [filtros],
+      limite: 1000,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumContrato',
+      serializador: 'ListaAutocompletar',
+    };
+
+    return this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
+        'general/funcionalidad/lista/',
+        arrFiltros
+      )
+      .pipe(
+        tap((respuesta) => {
+          this.arrContratos = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        }),
+        finalize(() => this.cargandoEmpleados$.next(false))
+      );
+  }
+
+  consultarContratos(valor: string, propiedad: string) {
+    this.cargandoEmpleados$.next(true);
+    let filtros = {
+      operador: '',
+      propiedad,
+      valor1: valor,
+      valor2: '',
+    };
 
     let arrFiltros = {
       filtros: [filtros],
@@ -567,11 +645,11 @@ export default class ProgramacionDetalleComponent
         arrFiltros
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrContratos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
+        finalize(() => this.cargandoEmpleados$.next(false))
       )
       .subscribe();
   }
@@ -589,6 +667,10 @@ export default class ProgramacionDetalleComponent
       this.formularioAdicionalProgramacion
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+      this.formularioAdicionalProgramacion
+        .get('identificacion')
+        ?.setValue(dato.contrato_contacto_numero_identificacion);
+      this.busquedaContrato.next(dato.contrato_contacto_nombre_corto);
     }
     if (campo === 'detalle') {
       if (this.formularioAdicionalProgramacion.get(campo)?.value === '') {
@@ -883,5 +965,10 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla;
     this.consultarDatos();
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 }

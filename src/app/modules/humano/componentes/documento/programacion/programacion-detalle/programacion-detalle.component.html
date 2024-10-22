@@ -264,46 +264,46 @@
                         [ngClass]="{ 'cursor-pointer user-select-none': true }" class="bg-gray-100">
                         <div class="d-flex justify-content-between">
                           <div style="flex: 1; text-align: center">Nombre</div>
-                        <div>
-                          <ng-container *ngIf="
+                          <div>
+                            <ng-container *ngIf="
                               this.ordenadoTabla === 'contrato__contacto__nombre_corto' ||
                                 this.ordenadoTabla === '-contrato__contacto__nombre_corto' ;
                               else iconopordefecto
                             ">
-                            <i class="ki-outline ki-arrow-up fs-2"
-                              *ngIf="this.ordenadoTabla === 'contrato__contacto__nombre_corto'"></i>
-                            <i class="ki-outline ki-arrow-down fs-2" *ngIf="
+                              <i class="ki-outline ki-arrow-up fs-2"
+                                *ngIf="this.ordenadoTabla === 'contrato__contacto__nombre_corto'"></i>
+                              <i class="ki-outline ki-arrow-down fs-2" *ngIf="
                                 this.ordenadoTabla === '-contrato__contacto__nombre_corto'
                               "></i>
-                          </ng-container>
-                          <ng-template #iconopordefecto>
-                            <i class="ki-outline ki-arrow-up-down fs-2"></i>
-                          </ng-template>
+                            </ng-container>
+                            <ng-template #iconopordefecto>
+                              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                            </ng-template>
+                          </div>
                         </div>
-                      </div>
                       </th>
                       <th (click)="orderPor('contrato_id', 0)" [ngClass]="{ 'cursor-pointer user-select-none': true }"
                         class="bg-gray-100">
                         <div class="d-flex justify-content-between">
-                        <div style="flex: 1; text-align: center" placement="top" ngbTooltip="Código contrato">
-                          Ctn
-                        </div>
-                        <div>
-                          <ng-container *ngIf="
+                          <div style="flex: 1; text-align: center" placement="top" ngbTooltip="Código contrato">
+                            Ctn
+                          </div>
+                          <div>
+                            <ng-container *ngIf="
                               this.ordenadoTabla === 'contrato_id' ||
                                 this.ordenadoTabla === '-contrato_id' ;
                               else iconopordefecto
                             ">
-                            <i class="ki-outline ki-arrow-up fs-2" *ngIf="this.ordenadoTabla === 'contrato_id'"></i>
-                            <i class="ki-outline ki-arrow-down fs-2" *ngIf="
+                              <i class="ki-outline ki-arrow-up fs-2" *ngIf="this.ordenadoTabla === 'contrato_id'"></i>
+                              <i class="ki-outline ki-arrow-down fs-2" *ngIf="
                                 this.ordenadoTabla === '-contrato_id'
                               "></i>
-                          </ng-container>
-                          <ng-template #iconopordefecto>
-                            <i class="ki-outline ki-arrow-up-down fs-2"></i>
-                          </ng-template>
+                            </ng-container>
+                            <ng-template #iconopordefecto>
+                              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                            </ng-template>
+                          </div>
                         </div>
-                      </div>
                       </th>
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Fecha desde contrato">
@@ -635,12 +635,19 @@
   <div class="modal-body">
     <form [formGroup]="formularioAdicionalProgramacion">
       <div class="row mb-5">
-        <div class="col-12 col-md-12" ngbDropdown #ContratosDropdown="ngbDropdown">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"></label>
-          <div class="position-relative">
-            <input type="text" class="form-control" ngbDropdownAnchor formControlName="contrato_nombre"
-              (focus)="consultarContratos($event); ContratosDropdown.open()" (keyup)="consultarContratos($event)"
-              [ngClass]="{
+        <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.BUSCARCONTRATO"></label>
+        <div class="col-md-12">
+          <div class="input-group">
+            <span class="input-group-text">{{ formularioAdicionalProgramacion.get('contrato')?.value || 'ID' }}</span>
+            <span class="input-group-text">{{ formularioAdicionalProgramacion.get('identificacion')?.value ||
+              'Identifiación' }}</span>
+            <span class="input-group-text">{{ formularioAdicionalProgramacion.get('contrato_nombre')?.value ||
+              'Empleado' }}</span>
+            <div class="dropdown" ngbDropdown #NombreDropdown="ngbDropdown">
+              <input [value]="busquedaContrato | async" (input)="onSearch($event)"
+                class="form-control dropdown-busqueda" ngbDropdownAnchor (blur)="validarCampoContrato()"
+                (focus)="consultarContratos('','contacto__nombre_corto__icontains'); NombreDropdown.open()"
+                placeholder="Buscar empleado..." type="text" [ngClass]="{
                 'is-invalid':
                   formularioAdicionalProgramacion.controls['contrato']
                     .touched &&
@@ -650,24 +657,29 @@
                     .touched &&
                   formularioAdicionalProgramacion.controls['contrato'].valid
               }" />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
+                @if (arrContratos.length > 0) {
+                <ng-container *ngFor="let contrato of arrContratos">
+                  <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contrato', contrato)">
+                    {{ contrato.contrato_contacto_numero_identificacion }}
+                    {{ contrato.contrato_contacto_nombre_corto }}
+                  </button>
+                </ng-container>
+                } @else {
+                @if (cargandoEmpleados$ | async) {
+                <button type="button" ngbDropdownItem>
+                  Cargando...
+                </button>
+                } @else {
+                <button type="button" ngbDropdownItem>
+                  No hay resultados
+                </button>
+                }
+                }
+              </div>
             </div>
+
           </div>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
-            <ng-container *ngFor="let contrato of arrContratos">
-              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contrato', contrato)"
-                (pointerenter)="modificarCampoFormulario('contrato', contrato)">
-                {{ contrato.contrato_contacto_numero_identificacion }}
-                {{ contrato.contrato_contacto_nombre_corto }}
-              </button>
-            </ng-container>
-          </div>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicionalProgramacion.controls['contrato']
-            }"></ng-container>
         </div>
       </div>
       <div class="row mb-5">
