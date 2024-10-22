@@ -808,8 +808,8 @@ export const locale = {
         PERIODO_NOMBRE: 'Período',
         CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
         CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        CONTACTO_EMPLEADO_FILTRO: '[Contacto] empleado',
         ITEM_NOMBRE_FILTRO: '[ÍTEM] nombre',
-
       },
       ITEM: {
         ID: 'ID',
