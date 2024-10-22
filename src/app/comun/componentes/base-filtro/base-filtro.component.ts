@@ -198,6 +198,8 @@ export class BaseFiltroComponent extends General implements OnInit {
       propiedad = propiedades.campo;
       operador = propiedades.operador;
       tipo = propiedades.tipo;
+      busquedaAvanzada = propiedades.busquedaAvanzada;
+      modeloBusquedaAvanzada = propiedades.modeloBusquedaAvanzada;
       this.store
         .select(obtenerCriteriosFiltro(propiedades.tipo))
         .subscribe((respuesta) => {
@@ -431,7 +433,7 @@ export class BaseFiltroComponent extends General implements OnInit {
       }>('general/funcionalidad/lista/', {
         modelo,
         filtros: listaFiltros,
-        serializador: 'ListaBuscar'
+        serializador: 'ListaBuscar',
       })
       .subscribe((respuesta) => {
         this.arrRegistroBusquedaAvanzada = respuesta.registros;
@@ -452,7 +454,9 @@ export class BaseFiltroComponent extends General implements OnInit {
         )
         .subscribe((resultado) => {
           this.criteriosBusquedaModal[index] = resultado;
-          const filtroPorActualizar = this.filtrosModal.controls[index] as FormGroup;
+          const filtroPorActualizar = this.filtrosModal.controls[
+            index
+          ] as FormGroup;
           resultado.find((item) => {
             if (item.defecto) {
               filtroPorActualizar.patchValue({
@@ -476,7 +480,7 @@ export class BaseFiltroComponent extends General implements OnInit {
           }
           let inputValor1Modal: HTMLInputElement | null =
             document.querySelector('#inputValor1Modal' + index);
-            inputValor1Modal!.focus();
+          inputValor1Modal!.focus();
         });
     }
   }
@@ -530,17 +534,18 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
   }
 
-  obtenerValorFiltro(propiedad:any){
+  obtenerValorFiltro(propiedad: any) {
     let valorFiltro = '';
-    if(propiedad.esFk){
-      valorFiltro =  propiedad.modeloFk.toLocaleLowerCase().substring(3) + '__id'
+    if (propiedad.esFk) {
+      valorFiltro =
+        propiedad.modeloFk.toLocaleLowerCase().substring(3) + '__id';
     } else {
-      if(propiedad.nombreFiltroRelacion){
-        valorFiltro =  propiedad.nombreFiltroRelacion
+      if (propiedad.nombreFiltroRelacion) {
+        valorFiltro = propiedad.nombreFiltroRelacion;
       } else {
-        valorFiltro =  propiedad.nombre
+        valorFiltro = propiedad.nombre;
       }
     }
-    return valorFiltro.toLocaleLowerCase()
+    return valorFiltro.toLocaleLowerCase();
   }
 }
