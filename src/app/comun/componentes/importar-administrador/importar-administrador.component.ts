@@ -48,6 +48,7 @@ export class ImportarAdministradorComponent
   soloNuevos: boolean;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
+  @Input() filtrosExternos: any;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
 
@@ -116,6 +117,9 @@ export class ImportarAdministradorComponent
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         let esIndependiente = parametros.esIndependiente!;
+        let nombreFiltro = `documento_${parametros.itemNombre?.toLowerCase()}`;
+        let filtroPermamente: any = [];
+
         let modelo = '';
         if (this.modelo === 'MOVIMIENTO') {
           modelo = 'movimiento';
@@ -130,11 +134,35 @@ export class ImportarAdministradorComponent
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
         let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
+
+        let data: any = {
+          archivo_base64,
+        };
+
+        if (this.soloNuevos) {
+          data['solo_nuevos'] = this.soloNuevos;
+        }
+
+        const filtroPermanenteStr = localStorage.getItem(
+          `${nombreFiltro}_filtro_importar_fijo`
+        );
+        if (filtroPermanenteStr !== null) {
+          filtroPermamente = JSON.parse(filtroPermanenteStr);
+          Object.keys(filtroPermamente).forEach((key) => {
+            const filtro = filtroPermamente[key];
+            data[filtro.propiedad] = filtro.valor1;
+          });
+        }
+
+        if (this.filtrosExternos !== undefined) {
+          Object.keys(this.filtrosExternos).forEach((key) => {
+            const filtro = this.filtrosExternos[key];
+            data[filtro.propiedad] = filtro.valor1;
+          });
+        }
+
         this.httpService
-          .post<ImportarDetalles>(url, {
-            archivo_base64,
-            solo_nuevos: this.soloNuevos,
-          })
+          .post<ImportarDetalles>(url, data)
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
