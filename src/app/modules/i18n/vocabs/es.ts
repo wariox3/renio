@@ -807,7 +807,9 @@ export const locale = {
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
         CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
-        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación'
+        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        ITEM_NOMBRE_FILTRO: '[ÍTEM] nombre',
+
       },
       ITEM: {
         ID: 'ID',
