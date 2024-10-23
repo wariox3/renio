@@ -210,6 +210,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    console.log(campo, dato);
+    
     if (campo === 'contacto') {
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
@@ -217,7 +219,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         ?.setValue(dato.contacto_nombre_corto);
     }
     if (campo === 'contacto-vermas') {
-      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contacto')?.setValue(dato.id);
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.nombre_corto);
