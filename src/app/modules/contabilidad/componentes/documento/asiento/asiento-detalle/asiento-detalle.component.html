@@ -1,11 +1,9 @@
-<div class="d-flex mb-5 justify-content-between align-items-center">
-  <div class="d-flex gap-2">
-    <app-comun-btn-atras />
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
+<div class="encabezadoDetalle">
+  <section class="encabezadoDetalleBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -47,11 +45,10 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
     </div>
-  </div>
-  <div class="d-flex justify-content-end gap-2">
+  </section>
+  <section class="encabezadoDetalleEstados">
     <app-base-estados [documento]="asiento"></app-base-estados>
-
-  </div>
+  </section>
 </div>
 <app-card>
   <section card-titulo>
@@ -159,11 +156,15 @@
                 <table>
                   <tr *ngIf="getTotalDebito() > 0">
                     <td class="text-end">Débito:</td>
-                    <td class="text-end">{{ getTotalDebito() | currency: '$' }}</td>
+                    <td class="text-end">
+                      {{ getTotalDebito() | currency : "$" }}
+                    </td>
                   </tr>
                   <tr *ngIf="getTotalCredito() > 0">
                     <td class="text-end">Crédito:</td>
-                    <td class="text-end">{{ getTotalCredito() | currency: '$' }}</td>
+                    <td class="text-end">
+                      {{ getTotalCredito() | currency : "$" }}
+                    </td>
                   </tr>
                   <tr>
                     <td
