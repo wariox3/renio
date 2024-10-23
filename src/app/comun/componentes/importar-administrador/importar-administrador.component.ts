@@ -1,14 +1,17 @@
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
 import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   ErroresDato,
@@ -17,11 +20,9 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, of, Subject, switchMap, tap, takeUntil } from 'rxjs';
-import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
-import { FormsModule } from '@angular/forms';
+import { catchError, of, Subject, tap } from 'rxjs';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-importar-administrador',
   standalone: true,
@@ -37,7 +38,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ImportarAdministradorComponent
   extends General
-  implements OnDestroy
+  implements OnDestroy, OnInit
 {
   archivoNombre: string = '';
   archivo_base64: string = '';
@@ -52,6 +53,7 @@ export class ImportarAdministradorComponent
   @Input() filtrosExternos: any;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
+  private _parametrosUrl: any;
 
   constructor(
     private modalService: NgbModal,
@@ -59,6 +61,20 @@ export class ImportarAdministradorComponent
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    this._inicializarRuta();
+  }
+
+  private _inicializarRuta() {
+    this.activatedRoute.queryParams
+      .pipe(
+        tap((respuesta) => {
+          this._parametrosUrl = respuesta;
+        })
+      )
+      .subscribe();
   }
 
   abrirModalContactoNuevo(content: any) {
@@ -162,7 +178,7 @@ export class ImportarAdministradorComponent
           });
         }
 
-        if(this.detalle != undefined){
+        if (this.detalle != undefined) {
           Object.keys(this.detalle).forEach((key) => {
             const filtro = this.detalle[key];
             data[filtro.idNombre] = filtro.idValor;
@@ -198,40 +214,15 @@ export class ImportarAdministradorComponent
   }
 
   descargarExcelImportar() {
-    this.activatedRoute.queryParams
-      .pipe(
-        takeUntil(this._unsubscribe$),
-        tap((parametro) => {
-          let nombreArchivo = '';
-          if (this.ubicacion === 'administrador') {
-            nombreArchivo = `${parametro.itemNombre}`;
-          }
-          if (this.ubicacion === 'independiente') {
-            nombreArchivo = `${localStorage
-              .getItem('ruta')!
-              .substring(0, 1)
-              .toUpperCase()}${localStorage
-              .getItem('ruta')!
-              .substring(1, 3)
-              .toLocaleLowerCase()}${parametro.itemNombre[0].toUpperCase()}${parametro.itemNombre
-              .substring(1, parametro.itemNombre.length)
-              .toLocaleLowerCase()}`;
-          }
+    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+      this._parametrosUrl,
+      this.ubicacion,
+      this.detalle
+    );
 
-          if(this.detalle != undefined){
-            nombreArchivo = parametro.modelo
-          }
-
-          this.descargarArchivosService
-            .descargarArchivoLocal(
-              `assets/ejemplos/modelo/${nombreArchivo}.xlsx`
-            )
-            .pipe(takeUntil(this._unsubscribe$))
-            .subscribe();
-        })
-      )
-      .subscribe()
-      .unsubscribe();
+    this.descargarArchivosService
+      .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+      .subscribe();
   }
 
   ngOnDestroy(): void {

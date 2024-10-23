@@ -3,13 +3,13 @@ import { HttpService } from './http.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { General } from '@comun/clases/general';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DescargarArchivosService {
   private httpService = inject(HttpService);
-  private activatedRoute = inject(ActivatedRoute);
   private httpClient = inject(HttpClient);
 
   constructor() {}
@@ -59,9 +59,43 @@ export class DescargarArchivosService {
           link.click();
           // Eliminar el enlace del DOM
           document.body.removeChild(link);
-          return true
+          return true;
         }
       })
     );
+  }
+
+  _construirNombreArchivo(
+    parametro: any,
+    ubicacion: string,
+    detalle: string | undefined
+  ) {
+    let nombreArchivo = '';
+
+    if (ubicacion === 'administrador') {
+      nombreArchivo = `${parametro.itemNombre}`;
+    }
+
+    if (ubicacion === 'documento') {
+      nombreArchivo = `${parametro.documento_clase}`;
+    }
+
+    if (ubicacion === 'independiente') {
+      nombreArchivo = `${localStorage
+        .getItem('ruta')!
+        .substring(0, 1)
+        .toUpperCase()}${localStorage
+        .getItem('ruta')!
+        .substring(1, 3)
+        .toLocaleLowerCase()}${parametro.itemNombre[0].toUpperCase()}${parametro.itemNombre
+        .substring(1, parametro.itemNombre.length)
+        .toLocaleLowerCase()}`;
+    }
+
+    if (detalle != undefined) {
+      nombreArchivo = parametro.modelo;
+    }
+
+    return nombreArchivo;
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
@@ -30,7 +30,7 @@ import { saveAs } from 'file-saver';
   templateUrl: './importar.component.html',
   styleUrls: ['./importar.component.scss'],
 })
-export class ImportarComponent extends General {
+export class ImportarComponent extends General implements OnInit {
   archivoNombre: string = '';
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];
@@ -44,12 +44,28 @@ export class ImportarComponent extends General {
   @Input() esBotonFinal: boolean;
   modalRef: any;
 
+  private _parametrosUrl: any;
+
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    this._inicializarRuta();
+  }
+
+  private _inicializarRuta() {
+    this.activatedRoute.queryParams
+      .pipe(
+        tap((respuesta) => {
+          this._parametrosUrl = respuesta;
+        })
+      )
+      .subscribe();
   }
 
   abrirModalContactoNuevo(content: any) {
@@ -73,33 +89,14 @@ export class ImportarComponent extends General {
   }
 
   descargarEjemploImportar() {
-    this.activatedRoute.queryParams
-      .pipe(
-        switchMap((parametro) => {
-          let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.documento_clase}.xlsx`;
+    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+      this._parametrosUrl,
+      this.ubicacion,
+      undefined
+    );
 
-          return this.descargarArchivosService
-            .comprobarArchivoExiste(fileUrl)
-            .pipe(
-              map((archivoExiste) => ({ archivoExiste, parametro })) // Devolvemos un objeto que contiene ambos
-            );
-        }),
-        tap(({ archivoExiste, parametro }) => {
-          // Accedemos a los parámetros aquí
-          if (archivoExiste) {
-            // Crear un enlace de descarga
-            let fileUrl = `../../../../assets/ejemplos/modelo/${parametro.documento_clase}.xlsx`;
-            const link = document.createElement('a');
-            link.href = fileUrl;
-            link.download = parametro.documento_clase;
-            // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-            document.body.appendChild(link);
-            link.click();
-            // Eliminar el enlace del DOM
-            document.body.removeChild(link);
-          }
-        })
-      )
+    this.descargarArchivosService
+      .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
       .subscribe();
   }
 
