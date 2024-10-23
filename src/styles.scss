@@ -16,6 +16,10 @@
   height: 100px;
 }
 
+.w-100 {
+  width: 100%;
+}
+
 .input-wrapper {
   position: relative;
   display: flex;
@@ -144,4 +148,57 @@ table {
 
 .cursorPointer {
   cursor: pointer;
+}
+
+.encabezadoDetalle {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-template-areas: ". .";
+  margin-bottom: 1.25rem !important;
+
+  .encabezadoDetalleBotonera {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem !important;
+  }
+
+  .encabezadoDetalleEstados {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Cambiamos a una sola columna
+    grid-template-areas: ".";
+
+    .encabezadoDetalleBotonera {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0 !important;
+
+      .btn-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100% !important;
+      }
+
+      * {
+        width: 100% !important;
+      }
+    }
+
+    .encabezadoDetalleEstados {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      margin-top: 5px;
+    }
+  }
 }
