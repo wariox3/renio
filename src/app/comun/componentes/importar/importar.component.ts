@@ -30,7 +30,7 @@ import { saveAs } from 'file-saver';
   templateUrl: './importar.component.html',
   styleUrls: ['./importar.component.scss'],
 })
-export class ImportarComponent extends General implements OnInit {
+export class ImportarComponent extends General {
   archivoNombre: string = '';
   archivo_base64: string = '';
   errorImportar: ErroresDato[] = [];

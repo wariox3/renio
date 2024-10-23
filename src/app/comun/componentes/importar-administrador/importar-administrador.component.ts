@@ -38,7 +38,7 @@ import * as XLSX from 'xlsx';
 })
 export class ImportarAdministradorComponent
   extends General
-  implements OnDestroy, OnInit
+  implements OnDestroy
 {
   archivoNombre: string = '';
   archivo_base64: string = '';
@@ -53,7 +53,7 @@ export class ImportarAdministradorComponent
   @Input() filtrosExternos: any;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
-  
+
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
