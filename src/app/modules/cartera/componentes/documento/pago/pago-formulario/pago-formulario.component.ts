@@ -210,8 +210,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(campo, dato);
-    
     if (campo === 'contacto') {
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
