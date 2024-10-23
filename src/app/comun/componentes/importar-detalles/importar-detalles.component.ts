@@ -14,6 +14,7 @@ import { catchError, of, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
+import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 @Component({
   selector: 'app-importar-detalles',
   standalone: true,
@@ -38,13 +39,14 @@ export class ImportarDetallesComponent extends General {
 
   constructor(
     private modalService: NgbModal,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private descargarArchivosService: DescargarArchivosService
   ) {
     super();
   }
 
   abrirModalContactoNuevo(content: any) {
-    this.errorImportar = []
+    this.errorImportar = [];
     this.archivoNombre = '';
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -54,15 +56,15 @@ export class ImportarDetallesComponent extends General {
 
   cerrarModal() {
     this.modalService.dismissAll();
-    this.errorImportar = []
+    this.errorImportar = [];
     this.archivoNombre = '';
   }
 
   archivoSeleccionado(event: any) {
-    this.inputFile = event.target.files[0]
+    this.inputFile = event.target.files[0];
     const selectedFile = event.target.files[0];
     this.archivoNombre = selectedFile.name;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   async toBase64(file: File) {
@@ -119,7 +121,7 @@ export class ImportarDetallesComponent extends General {
           this.emitirDetallesAgregados.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
-          if(respuesta.errores_datos){
+          if (respuesta.errores_datos) {
             this.errorImportar = respuesta.errores_datos;
           }
           this.cargardoDocumento = false;
@@ -131,28 +133,18 @@ export class ImportarDetallesComponent extends General {
   }
 
   descargarExcelImportar() {
-    const { documento_clase: documento_clase } = this.parametrosUrl;
-    let fileUrl = '';
-    switch (this.ubicacion) {
-      case 'documento':
-        fileUrl = `../../../../assets/ejemplos/documentoDetalle/${documento_clase}.xlsx`;
-        break;
-      case 'administrador':
-        fileUrl = `../../../../assets/ejemplos/modelo/${documento_clase}.xlsx`;
-        break;
-    }
+    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+      this.parametrosUrl,
+      this.ubicacion,
+      undefined
+    );
 
-    // Crear un enlace de descarga
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = `documentoDetalle_${documento_clase}.xlsx`; // Nombre del archivo
-
-    // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
-    document.body.appendChild(link);
-    link.click();
-
-    // Eliminar el enlace del DOM
-    document.body.removeChild(link);
+    this.descargarArchivosService
+      .descargarArchivoLocal(
+        `assets/ejemplos/documentoDetalle/${nombreArchivo}.xlsx`,
+        `documentoDetalle_${this.parametrosUrl.documento_clase}`
+      )
+      .subscribe();
   }
 
   descargarExcelError() {

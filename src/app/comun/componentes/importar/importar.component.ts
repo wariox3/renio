@@ -44,7 +44,6 @@ export class ImportarComponent extends General implements OnInit {
   @Input() esBotonFinal: boolean;
   modalRef: any;
 
-  private _parametrosUrl: any;
 
   constructor(
     private modalService: NgbModal,
@@ -52,20 +51,6 @@ export class ImportarComponent extends General implements OnInit {
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
-  }
-
-  ngOnInit(): void {
-    this._inicializarRuta();
-  }
-
-  private _inicializarRuta() {
-    this.activatedRoute.queryParams
-      .pipe(
-        tap((respuesta) => {
-          this._parametrosUrl = respuesta;
-        })
-      )
-      .subscribe();
   }
 
   abrirModalContactoNuevo(content: any) {
@@ -90,7 +75,7 @@ export class ImportarComponent extends General implements OnInit {
 
   descargarEjemploImportar() {
     const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
-      this._parametrosUrl,
+      this.parametrosUrl,
       this.ubicacion,
       undefined
     );

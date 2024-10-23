@@ -53,28 +53,13 @@ export class ImportarAdministradorComponent
   @Input() filtrosExternos: any;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
-  private _parametrosUrl: any;
-
+  
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
-  }
-
-  ngOnInit(): void {
-    this._inicializarRuta();
-  }
-
-  private _inicializarRuta() {
-    this.activatedRoute.queryParams
-      .pipe(
-        tap((respuesta) => {
-          this._parametrosUrl = respuesta;
-        })
-      )
-      .subscribe();
   }
 
   abrirModalContactoNuevo(content: any) {
@@ -215,7 +200,7 @@ export class ImportarAdministradorComponent
 
   descargarExcelImportar() {
     const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
-      this._parametrosUrl,
+      this.parametrosUrl,
       this.ubicacion,
       this.detalle
     );

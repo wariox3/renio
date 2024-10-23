@@ -44,16 +44,20 @@ export class DescargarArchivosService {
     );
   }
 
-  descargarArchivoLocal(fileUrl: string) {
+  descargarArchivoLocal(fileUrl: string, descargarConNombrePersonalizado?: string) {
     return this.comprobarArchivoExiste(fileUrl).pipe(
       tap((archivoExiste) => {
-        const fileName = fileUrl.split('/');
+        let nombreArchivo: string[] | string = fileUrl.split('/');
+        nombreArchivo = nombreArchivo[nombreArchivo.length - 1]
+        if(descargarConNombrePersonalizado !== undefined){
+          nombreArchivo = descargarConNombrePersonalizado
+        }
         // Accedemos a los parámetros aquí
         if (archivoExiste) {
           // Crear un enlace de descarga
           const link = document.createElement('a');
           link.href = fileUrl;
-          link.download = fileName[fileName.length - 1];
+          link.download = nombreArchivo;
           // Añadir el enlace al DOM y hacer clic en él para iniciar la descarga
           document.body.appendChild(link);
           link.click();
