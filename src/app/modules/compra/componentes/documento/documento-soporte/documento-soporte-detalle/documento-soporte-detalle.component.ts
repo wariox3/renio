@@ -16,6 +16,7 @@ import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { switchMap, tap } from 'rxjs';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 
 @Component({
   selector: 'app-documento-soporte-detalle',
@@ -36,7 +37,8 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
     SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
-    DetallesTotalesComponent
+    DetallesTotalesComponent,
+    BaseEstadosComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {
