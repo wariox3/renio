@@ -111,6 +111,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public mostrarDocumentoReferencia: boolean = true;
 
+  public filtrosPermanentes = [
+    {
+      operador: '',
+      propiedad: 'cliente',
+      valor1: 'True',
+      valor2: '',
+    },
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,

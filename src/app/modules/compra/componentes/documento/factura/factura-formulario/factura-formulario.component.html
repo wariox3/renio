@@ -61,7 +61,8 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenContacto'" [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
-                ">
+                " [campoLista]="['id', 'numero_identificacion', 'nombre_corto']"
+                [filtrosPermanentes]="filtrosPermanentes">
               </app-comun-buscar-avanzado>
             </button>
           </div>
@@ -288,7 +289,8 @@
               <ng-template ngbNavContent>
                 <app-formulario-productos (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura" [formularioTipo]="'compra'"></app-formulario-productos>
+                  [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"
+                  [formularioTipo]="'compra'"></app-formulario-productos>
                 <!-- <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"

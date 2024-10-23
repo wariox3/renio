@@ -914,7 +914,7 @@
       <div class="row mb-5">
         <label
           class="form-label required"
-          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.BUSCARCONTRATO"
+          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
         ></label>
         <div class="col-md-12">
           <div class="input-group">
@@ -923,11 +923,7 @@
             }}</span>
             <span class="input-group-text">{{
               formularioAdicionalProgramacion.get("identificacion")?.value ||
-                "Identifiación"
-            }}</span>
-            <span class="input-group-text">{{
-              formularioAdicionalProgramacion.get("contrato_nombre")?.value ||
-                "Empleado"
+                "Identificación"
             }}</span>
             <div class="dropdown" ngbDropdown #NombreDropdown="ngbDropdown">
               <input
@@ -940,7 +936,7 @@
                   consultarContratos('', 'contacto__nombre_corto__icontains');
                   NombreDropdown.open()
                 "
-                placeholder="Buscar empleado..."
+                placeholder="Buscar contrato..."
                 type="text"
                 [ngClass]="{
                   'is-invalid':

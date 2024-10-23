@@ -134,6 +134,15 @@ export default class FacturaRecurrenteFormularioComponent
     'nombre_corto',
   ];
 
+  public filtrosPermanentes = [
+    {
+      operador: '',
+      propiedad: 'cliente',
+      valor1: 'True',
+      valor2: '',
+    },
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,

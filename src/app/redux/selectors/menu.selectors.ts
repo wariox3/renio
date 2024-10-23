@@ -36,7 +36,7 @@ export const obtenerMenuModulos = (plan_id: number) =>
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,
-  (Menu) => Menu.dataMapeo.filter((titulo: any) => titulo.visibleTabla === true)
+  (Menu) => Menu.dataMapeo?.filter((titulo: any) => titulo.visibleTabla === true)
 );
 
 export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(

@@ -88,16 +88,17 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
-                [consultarModelo]="'Contacto'"
+                [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
-                  modificarCampoFormulario($event, 'contacto')
+                  modificarCampoFormulario('contacto-vermas', $event)
                 "
+                [campoLista]="['id', 'numero_identificacion', 'nombre_corto']"
               >
               </app-comun-buscar-avanzado>
             </button>
           </div>
-          <ng-container
+          <ng-container 
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',

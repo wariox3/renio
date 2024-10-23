@@ -60,6 +60,7 @@ export class BuscarAvanzadoComponent extends General {
   }
 
   abirModal(content: any) {
+    this.arrParametrosConsulta.filtros = [];
     this.consultarLista();
     let posicion: keyof typeof mapeo = this.consultarModelo;
 
@@ -73,10 +74,7 @@ export class BuscarAvanzadoComponent extends General {
   }
 
   obtenerFiltros(arrfiltros: any) {
-    this.arrParametrosConsulta.filtros = [
-      ...this.arrParametrosConsulta.filtros,
-      ...arrfiltros,
-    ];
+    this.arrParametrosConsulta.filtros = [...arrfiltros];
     this.consultarLista();
   }
 
@@ -94,7 +92,10 @@ export class BuscarAvanzadoComponent extends General {
     }
 
     if (Array.isArray(this.filtrosPermanentes)) {
-      this.arrParametrosConsulta.filtros = this.filtrosPermanentes;
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...this.filtrosPermanentes,
+      ];
     } else {
       if (Object.keys(this.filtrosPermanentes).length > 0) {
         this.arrParametrosConsulta.filtros[0] = this.filtrosPermanentes;

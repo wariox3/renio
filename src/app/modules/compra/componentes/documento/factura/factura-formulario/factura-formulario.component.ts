@@ -107,6 +107,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  public filtrosPermanentes = [
+    {
+      operador: '',
+      propiedad: 'proveedor',
+      valor1: 'True',
+    },
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -125,7 +133,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.dataUrl = this.parametrosUrl;
 
       // TODO: para que es esto
-      // if ( 
+      // if (
       //   this.dataUrl.documento_clase === '6' ||
       //   this.dataUrl.documento_clase === '7'
       // ) {

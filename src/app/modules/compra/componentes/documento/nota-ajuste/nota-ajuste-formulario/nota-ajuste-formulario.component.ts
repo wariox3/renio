@@ -106,6 +106,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  public filtrosPermanentes = [
+    {
+      operador: '',
+      propiedad: 'proveedor',
+      valor1: 'True',
+      valor2: '',
+    },
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,

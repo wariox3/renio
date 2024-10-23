@@ -95,6 +95,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     'numero_identificacion',
     'nombre_corto',
   ];
+  public filtrosPermanentes = [
+    {
+      operador: '',
+      propiedad: 'cliente',
+      valor1: 'True',
+      valor2: '',
+    },
+  ];
 
   public modoEdicion: boolean = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');

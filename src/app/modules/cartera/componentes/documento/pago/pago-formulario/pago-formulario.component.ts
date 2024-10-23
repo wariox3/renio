@@ -216,10 +216,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
     }
+    if (campo === 'contacto-vermas') {
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura
+        .get('contactoNombre')
+        ?.setValue(dato.nombre_corto);
+    }
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarDocumento(content: any) {
+  agregarDocumento(content: any) {  
     if (this.formularioFactura.get('contacto')?.value !== '') {
       this.consultarDocumentos(null);
       this.store.dispatch(
