@@ -330,7 +330,7 @@ export const locale = {
           CONCEPTO: 'Concepto',
           DIALABORADO: 'Aplica dia laborado',
           CODIGO: 'Cód',
-          CONTRATONUMEROABREVITADO: 'Ctn',
+          CONTRATONUMEROABREVITADO: 'Cont',
         },
         HUMCREDITO: {
           PAGOS: 'Pagos',
