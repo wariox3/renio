@@ -9,6 +9,7 @@ import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-elect
 import { TranslateModule } from '@ngx-translate/core';
 import { switchMap, tap, zip } from 'rxjs';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { BaseEstadosComponent } from "../../../../../../comun/componentes/base-estados/base-estados.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -19,7 +20,8 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     CardComponent,
     TranslateModule,
     NgbNavModule,
-  ],
+    BaseEstadosComponent
+],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
 })

@@ -1,7 +1,9 @@
-<div class="d-flex mb-5 justify-content-between align-items-center">
-  <div class="d-flex gap-2">
-    <app-comun-btn-atras />
-    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
+<div class="encabezadoDetalle">
+  <section class="encabezadoDetalleBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
       <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()" [disabled]="nominaElectronica.estado_aprobado">
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
@@ -14,27 +16,10 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
       </button>
     </div>
-  </div>
-  <div class="d-flex justify-content-end gap-2">
-    <ng-container *ngIf="nominaElectronica.estado_aprobado">
-      <span class="badge badge-success">Aprobado</span>
-    </ng-container>
-    <ng-container *ngIf="nominaElectronica.estado_anulado">
-      <span class="badge badge-danger">Anulado</span>
-    </ng-container>
-    <ng-container *ngIf="nominaElectronica.estado_electronico">
-      <span class="badge badge-success">Electrónico</span>
-    </ng-container>
-    <ng-container *ngIf="
-        nominaElectronica.estado_electronico_enviado === true &&
-        nominaElectronica.estado_electronico === false
-      ">
-      <span class="badge badge-success">Enviado DIAN (Esperando respuesta)</span>
-    </ng-container>
-    <ng-container *ngIf="nominaElectronica.estado_electronico_notificado">
-      <span class="badge badge-success">Notificado</span>
-    </ng-container>
-  </div>
+  </section>
+  <section class="encabezadoDetalleEstados">
+    <app-base-estados [documento]="nominaElectronica"></app-base-estados>
+  </section>
 </div>
 <app-card>
   <section card-titulo>

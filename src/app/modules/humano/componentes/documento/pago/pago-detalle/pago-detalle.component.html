@@ -1,11 +1,9 @@
-<div class="d-flex mb-5 justify-content-between align-items-center">
-  <div class="d-flex gap-2">
-    <app-comun-btn-atras />
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
+<div class="encabezadoDetalle">
+  <section class="encabezadoDetalleBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
       <button
         type="submit"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -16,15 +14,10 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
     </div>
-    <!-- <div class="btn-group ml-2 shadow-sm">
-        <app-log-electronico [estado_electronico_notificado]="
-            arrEstados.estado_electronico_notificado
-          " [estado_anulado]="arrEstados.estado_anulado" (emitirRenotificar)="consultardetalle()"></app-log-electronico>
-      </div> -->
-  </div>
-  <div class="d-flex justify-content-end gap-2">
+  </section>
+  <section class="encabezadoDetalleEstados">
     <app-base-estados [documento]="pago"></app-base-estados>
-  </div>
+  </section>
 </div>
 <app-card>
   <section card-titulo>

@@ -1,11 +1,9 @@
-<div class="d-flex mb-5 justify-content-between align-items-center">
-  <div class="d-flex gap-2">
-    <app-comun-btn-atras />
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
+<div class="encabezadoDetalle">
+  <section class="encabezadoDetalleBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -18,7 +16,6 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
-
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -94,11 +91,10 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="d-flex justify-content-end gap-2">
+  </section>
+  <section class="encabezadoDetalleEstados">
     <app-base-estados [documento]="programacion"></app-base-estados>
-  </div>
+  </section>
 </div>
 
 <app-card>
@@ -729,10 +725,12 @@
                   <app-importar-administrador
                     [estadoHabilitado]="programacion.estado_generado"
                     [modelo]="'HumAdicional'"
-                    [detalle]="[{
-                      idNombre: 'programacion_id',
-                      idValor: programacion.id
-                    }]"
+                    [detalle]="[
+                      {
+                        idNombre: 'programacion_id',
+                        idValor: programacion.id
+                      }
+                    ]"
                     [filtrosExternos]="[
                       { propiedad: 'permanente', valor1: false }
                     ]"
@@ -792,7 +790,7 @@
                         translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.DIALABORADO"
                       ></th>
                       @if(!programacion.estado_generado){
-                        <th class="text-center bg-gray-100"></th>
+                      <th class="text-center bg-gray-100"></th>
                       }
                       <th class="text-center bg-gray-100">
                         <label for="seleccionarTodos">
@@ -859,20 +857,25 @@
                           }}
                         </td>
                         @if(!programacion.estado_generado){
-                          <td class="w-20px">
-                            <label
-                              class="cursor-pointer"
-                              (click)="abrirModalDeEditarAdicional(contentModalAdicionalEditar, programacionAdicional.id)"
-                            >
-                              <i class="ki-duotone ki-notepad-edit hover-primary">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                              </i>
-                            </label>
-                          </td>
+                        <td class="w-20px">
+                          <label
+                            class="cursor-pointer"
+                            (click)="
+                              abrirModalDeEditarAdicional(
+                                contentModalAdicionalEditar,
+                                programacionAdicional.id
+                              )
+                            "
+                          >
+                            <i class="ki-duotone ki-notepad-edit hover-primary">
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                          </label>
+                        </td>
                         }
                         <td class="w-20px">
-                          <label [for]="programacionAdicional.id" >
+                          <label [for]="programacionAdicional.id">
                             <i
                               class="cursor-pointer"
                               [ngClass]="
