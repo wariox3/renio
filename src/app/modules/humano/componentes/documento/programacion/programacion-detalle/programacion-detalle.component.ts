@@ -121,6 +121,7 @@ export default class ProgramacionDetalleComponent
   arrConceptos: any[] = [];
   arrContratos: any[] = [];
   registroSeleccionado: number;
+  registroAdicionalSeleccionado: number;
   registrosAEliminar: number[] = [];
   registrosAEliminarAdicionales: number[] = [];
   isCheckedSeleccionarTodos: boolean = false;
@@ -262,6 +263,30 @@ export default class ProgramacionDetalleComponent
     };
   }
 
+  inicializarParametrosConsultaAdicionalDetalle(id: number) {
+    this.arrParametrosConsulta = {
+      filtros: [
+        {
+          operador: '',
+          propiedad: 'programacion_id',
+          valor1: this.programacion.id,
+          valor2: '',
+        },
+        {
+          operador: '',
+          propiedad: 'id',
+          valor1: id,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumAdicional',
+    };
+  }
+
   inicializarParametrosConsultaAdicional() {
     this.arrParametrosConsultaAdicional = {
       filtros: [
@@ -303,6 +328,21 @@ export default class ProgramacionDetalleComponent
           this.formularioEditarDetalleProgramacion.value
         )
         .subscribe(() => {
+          this.alertaService.mensajaExitoso('Se actualizó la información');
+          this.modalService.dismissAll();
+        });
+    }
+  }
+
+  actualizarDetalleAdicional() {
+    if (this.formularioAdicionalProgramacion.valid) {
+      this.adicionalService
+        .actualizarDatosAdicional(
+          this.registroAdicionalSeleccionado,
+          this.formularioAdicionalProgramacion.value
+        )
+        .subscribe(() => {
+          this.consultarAdicionalesTab();
           this.alertaService.mensajaExitoso('Se actualizó la información');
           this.modalService.dismissAll();
         });
@@ -433,6 +473,40 @@ export default class ProgramacionDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  abrirModalDeEditarAdicional(content: any, id: number) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.registroAdicionalSeleccionado = id;
+    this._consultarConceptosAdicionales();
+    this.iniciarFormulario();
+    this.inicializarParametrosConsultaAdicionalDetalle(id);
+    this.consultarRegistroDetalleAdicional();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _consultarConceptosAdicionales() {
+    this.httpService
+      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [
+            {
+              propiedad: 'adicional',
+              valor1: true,
+            },
+          ],
+          modelo: 'HumConcepto',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+      .subscribe((respuesta: any) => {
+        this.arrConceptosAdicional = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
   iniciarFormulario() {
     this.formularioAdicionalProgramacion = this.formBuilder.group({
       identificacion: ['', Validators.required],
@@ -496,6 +570,34 @@ export default class ProgramacionDetalleComponent
             adicional: registro.adicional,
             descuento_credito: registro.descuento_credito,
             descuento_embargo: registro.descuento_embargo,
+          });
+        }
+      });
+  }
+
+  consultarRegistroDetalleAdicional() {
+    this.httpService
+      .post<{
+        registros: any[];
+        cantidad_registros: number;
+      }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      .subscribe((respuesta) => {
+        console.log(respuesta);
+        if (respuesta.registros.length) {
+          const { registros } = respuesta;
+          const registro = registros[0];
+          this.formularioAdicionalProgramacion.patchValue({
+            identificacion: registro.contrato_contacto_numero_identificacion,
+            concepto: registro.concepto_id,
+            contrato: registro.contrato_id,
+            concepto_nombre: registro.concepto_nombre,
+            contrato_nombre: registro.contrato_contacto_nombre_corto,
+            detalle: registro.detalle,
+            horas: registro.horas,
+            aplica_dia_laborado: registro.aplica_dia_laborado,
+            valor: registro.valor,
+            programacion: registro.programacion_id,
+            permanente: registro.permanente,
           });
         }
       });
@@ -670,7 +772,6 @@ export default class ProgramacionDetalleComponent
       this.formularioAdicionalProgramacion
         .get('identificacion')
         ?.setValue(dato.contrato_contacto_numero_identificacion);
-      this.busquedaContrato.next(dato.contrato_contacto_nombre_corto);
     }
     if (campo === 'detalle') {
       if (this.formularioAdicionalProgramacion.get(campo)?.value === '') {
