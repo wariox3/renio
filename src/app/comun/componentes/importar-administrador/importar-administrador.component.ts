@@ -51,6 +51,7 @@ export class ImportarAdministradorComponent
   @Input() detalle: any;
   @Input() modelo: string;
   @Input() filtrosExternos: any;
+  @Input() exportarArchivoFijo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
 
@@ -199,11 +200,14 @@ export class ImportarAdministradorComponent
   }
 
   descargarExcelImportar() {
-    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
       this.ubicacion,
       this.detalle
     );
+    if(this.exportarArchivoFijo){
+      nombreArchivo = this.exportarArchivoFijo
+    }
 
     this.descargarArchivosService
       .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
