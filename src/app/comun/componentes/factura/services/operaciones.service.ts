@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/comunes/factura/factura.interface';
+import {
+  DocumentoFactura,
+  DocumentoFacturaDetalleRespuesta,
+} from '@interfaces/comunes/factura/factura.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +28,13 @@ export class OperacionesService {
 
   sumarTotales(
     detalle: DocumentoFacturaDetalleRespuesta[],
-    llave: 'total' | 'subtotal' | 'impuesto' | 'base_impuesto' | 'cantidad'
+    llave:
+      | 'total'
+      | 'subtotal'
+      | 'impuesto'
+      | 'base_impuesto'
+      | 'cantidad'
+      | 'total_bruto'
   ) {
     return this.redondear(
       detalle.reduce((acc, curVal) => {

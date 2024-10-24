@@ -213,6 +213,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago: [1, Validators.compose([Validators.required])],
         metodo_pago_nombre: [''],
         total: [0],
+        total_bruto: [0],
         subtotal: [0],
         base_impuesto: [0],
         impuesto: [0],

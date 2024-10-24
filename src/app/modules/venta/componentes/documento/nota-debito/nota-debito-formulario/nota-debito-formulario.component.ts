@@ -211,6 +211,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         ],
         metodo_pago: [''],
         metodo_pago_nombre: [''],
+        total_bruto: [0],
         total: [0],
         subtotal: [0],
         impuesto: [0],
