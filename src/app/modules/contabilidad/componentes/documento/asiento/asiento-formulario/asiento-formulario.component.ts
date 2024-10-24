@@ -28,7 +28,10 @@ import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
@@ -51,10 +54,13 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
     CuentasComponent,
     ContactDetalleComponent,
     ContactosComponent,
-    ImportarDetallesComponent
-],
+    ImportarDetallesComponent,
+  ],
 })
-export default class AsientoFormularioComponent extends General implements OnInit {
+export default class AsientoFormularioComponent
+  extends General
+  implements OnInit
+{
   formularioAsiento: FormGroup;
   active: Number;
   arrContactos: any[] = [];
@@ -146,7 +152,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total,
-          soporte: respuesta.documento.soporte
+          soporte: respuesta.documento.soporte,
         });
 
         this.detalles.clear();
@@ -238,9 +244,16 @@ export default class AsientoFormularioComponent extends General implements OnIni
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
     }
+
+    if (campo === 'contacto-ver-mas') {
+      this.formularioAsiento.get('contacto')?.setValue(dato.id);
+      this.formularioAsiento
+        .get('contactoNombre')
+        ?.setValue(dato.nombre_corto);
+    }
+
     this.changeDetectorRef.detectChanges();
   }
-
 
   consultarCliente(event: any) {
     let arrFiltros = {
@@ -257,7 +270,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
@@ -350,7 +363,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
       total: [0, Validators.compose([Validators.required])],
       detalle: [null],
       seleccionado: [false],
-      base_impuesto: [0]
+      base_impuesto: [0],
     });
     this.detalles.push(detalleFormGroup);
   }
@@ -370,7 +383,7 @@ export default class AsientoFormularioComponent extends General implements OnIni
   agregarContactoSeleccionado(contacto: any, index: number) {
     this.detalles.controls[index].patchValue({
       contacto: contacto.contacto_id,
-      contacto_nombre_corto: contacto.contacto_nombre_corto
+      contacto_nombre_corto: contacto.contacto_nombre_corto,
     });
 
     this.formularioAsiento.markAsTouched();

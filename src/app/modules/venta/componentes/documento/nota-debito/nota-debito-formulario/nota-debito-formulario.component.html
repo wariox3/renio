@@ -298,7 +298,7 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
-                <app-formulario-productos [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
+                <app-formulario-productos (emitirDocumentoDetalle)="recibirDocumentoDetalle($event)" [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
                   (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
                   [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura" [formularioTipo]="'venta'"></app-formulario-productos>

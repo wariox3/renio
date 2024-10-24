@@ -61,8 +61,7 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenContacto'" [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
-                " [campoLista]="campoListaContacto"
-                [filtrosPermanentes]="filtrosPermanentes">
+                " [campoLista]="campoListaContacto" [filtrosPermanentes]="filtrosPermanentes">
               </app-comun-buscar-avanzado>
             </button>
           </div>
@@ -142,8 +141,7 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenDocumento'" [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
-                " [filtrosPermanentes]="filtrosPermanentesNotaCredito"
-                [campoLista]="campoListaDocReferencia">
+                " [filtrosPermanentes]="filtrosPermanentesNotaCredito" [campoLista]="campoListaDocReferencia">
               </app-comun-buscar-avanzado>
             </button>
           </div>
@@ -185,7 +183,8 @@
               <a class="nav-link" ngbNavLink data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"></a>
               <ng-template ngbNavContent>
-                <app-formulario-productos [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
+                <app-formulario-productos (emitirDocumentoDetalle)="recibirDocumentoDetalle($event)"
+                  [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
                   (emitirImpuestosAcumulados)="actualizarImpuestosAcumulados($event)"
                   [acumuladorImpuestos]="acumuladorImpuesto" [estadoAprobado]="estado_aprobado"
                   [modoEdicion]="modoEdicion" [formularioFactura]="formularioFactura"

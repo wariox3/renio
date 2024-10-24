@@ -19,7 +19,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { General } from '@comun/clases/general';
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   DocumentoDetalleFactura,
@@ -29,14 +30,12 @@ import {
   ImpuestoRespuestaConsulta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
+import { TranslateModule } from '@ngx-translate/core';
+import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { Subject, takeUntil } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
-import { OperacionesService } from '../../services/operaciones.service';
 import { FacturaService } from '../../services/factura.service';
-import { General } from '@comun/clases/general';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
 
@@ -70,6 +69,7 @@ export class FormularioProductosComponent
     [string: string]: { operado: number; total: number };
   } = {};
   @Output() emitirEnviarFormulario: EventEmitter<void>;
+  @Output() emitirDocumentoDetalle: EventEmitter<DocumentoFacturaRespuesta>;
   @Output() emitirImpuestosAcumulados: EventEmitter<{
     [string: string]: { operado: number; total: number };
   }>;
@@ -79,10 +79,8 @@ export class FormularioProductosComponent
   private _operaciones = inject(OperacionesService);
   private _keyValue = inject(KeyValuePipe);
   private _facturaService = inject(FacturaService);
-  private _route = inject(ActivatedRoute);
   private _changeDetector = inject(ChangeDetectorRef);
   private _unsubscribe$ = new Subject<void>();
-  private _formularioId: string = '';
   private _impuestoCache: {
     [string: string]: { operado: number; total: number };
   }[] = [];
@@ -93,6 +91,7 @@ export class FormularioProductosComponent
     super();
     this.emitirEnviarFormulario = new EventEmitter<void>();
     this.emitirImpuestosAcumulados = new EventEmitter();
+    this.emitirDocumentoDetalle = new EventEmitter();
   }
 
   ngOnInit(): void {
@@ -593,6 +592,7 @@ export class FormularioProductosComponent
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((respuesta) => {
         this._guardarEstados(respuesta.documento);
+        this.emitirDocumentoDetalle.emit(respuesta.documento)
         this._poblarFormulario(respuesta.documento);
       });
   }

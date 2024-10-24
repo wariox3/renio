@@ -91,8 +91,9 @@
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
-                  modificarCampoFormulario($event, 'contacto')
+                  actualizarFormulario($event, 'contacto')
                 "
+                [campoLista]="campoLista"
               >
               </app-comun-buscar-avanzado>
             </button>
