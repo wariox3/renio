@@ -201,8 +201,12 @@
                       </th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.PAGO"
+                        translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEVENGADO"
                       ></th>
+                      <th
+                      class="bg-gray-100"
+                      translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEDUCCION"
+                    ></th>
                       <th class="bg-gray-100">
                         <div
                           placement="top"
@@ -251,7 +255,10 @@
                           >
                         </td>
                         <td class="text-end">
-                          {{ detalle.pago_operado | number }}
+                          {{ detalle.devengado | number }}
+                        </td>
+                        <td class="text-end">
+                          {{ detalle.deduccion | number }}
                         </td>
                         <td class="text-end">
                           {{ detalle.base_prestacion | number }}
