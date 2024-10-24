@@ -46,6 +46,7 @@ import { FacturaFormularioDocumentoComponent } from '../../factura/factura-formu
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -132,6 +133,20 @@ export default class FacturaRecurrenteFormularioComponent
     'identificacion_abreviatura',
     'numero_identificacion',
     'nombre_corto',
+  ];
+  public campoLista: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
   ];
 
   public filtrosPermanentes = [

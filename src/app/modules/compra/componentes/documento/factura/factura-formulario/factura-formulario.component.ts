@@ -38,6 +38,7 @@ import {
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 import { FechasService } from '@comun/services/fechas.service';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -107,6 +108,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  public campoListaContacto: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
+  ];
   public filtrosPermanentes = [
     {
       operador: '',

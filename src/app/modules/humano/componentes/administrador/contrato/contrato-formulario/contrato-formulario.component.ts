@@ -27,6 +27,7 @@ import {
   RegistroAutocompletarSucursal,
   RegistroAutocompletarTipoCotizante,
 } from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 
@@ -79,6 +80,21 @@ export default class ContratoFormularioComponent
     'identificacion_abreviatura',
     'numero_identificacion',
     'nombre_corto',
+  ];
+
+  public campoListaContacto: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
   ];
   filtrosPermanentesEmpleado = {
     operador: '',

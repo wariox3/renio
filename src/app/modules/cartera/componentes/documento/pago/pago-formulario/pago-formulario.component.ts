@@ -29,7 +29,11 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { Contacto } from '@interfaces/general/contacto';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -69,6 +73,21 @@ export default class PagoFormularioComponent extends General implements OnInit {
   totalDebito: number = 0;
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+
+  public campoLista: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -136,7 +155,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             documento_afectado: [detalle.documento_afectado_id],
             numero: [detalle.documento_afectado_numero],
             contacto: [detalle.documento_afectado_contacto_id],
-            contacto_nombre : [detalle.documento_afectado_contacto_nombre_corto],
+            contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
             seleccionado: [false],
             cuenta: detalle.cuenta,
@@ -218,14 +237,12 @@ export default class PagoFormularioComponent extends General implements OnInit {
     }
     if (campo === 'contacto-vermas') {
       this.formularioFactura.get('contacto')?.setValue(dato.id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarDocumento(content: any) {  
+  agregarDocumento(content: any) {
     if (this.formularioFactura.get('contacto')?.value !== '') {
       this.consultarDocumentos(null);
       this.store.dispatch(
@@ -259,7 +276,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenContacto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(

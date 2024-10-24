@@ -848,6 +848,7 @@ export const locale = {
         REGIMEN_NOMBRE: 'Régimen',
         BARRIO: 'Barrio',
         CODIGO_CIUU: 'CIUU',
+        IDENTIFICACION: 'Identificación',
       },
       RESOLUCION: {
         ID: 'ID',

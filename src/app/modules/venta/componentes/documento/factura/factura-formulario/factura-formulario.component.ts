@@ -38,6 +38,7 @@ import { HttpService } from '@comun/services/http.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 import { Contacto } from '@interfaces/general/contacto';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -94,6 +95,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     'identificacion_abreviatura',
     'numero_identificacion',
     'nombre_corto',
+  ];
+  public campoListaContacto: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
   ];
   public filtrosPermanentes = [
     {

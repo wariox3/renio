@@ -14,6 +14,7 @@ import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -36,7 +37,7 @@ export class BuscarAvanzadoComponent extends General {
   ordenadoTabla: string = '';
   arrItems: any[];
   @Input() consultarModelo = '';
-  @Input() campoLista: string[] = [];
+  @Input() campoLista: CampoLista[] = [];
   @Input() campoFiltros: string[] = [];
   @Input() filtrosPermanentes: any = {};
   @Input() consultarTipo: 'Administrador' | 'Documento';
@@ -116,8 +117,8 @@ export class BuscarAvanzadoComponent extends General {
           // Itera sobre cada campo en this.campoLista
           this.campoLista.forEach((campo) => {
             // Si el campo existe en el registro, agrégalo al objeto valores
-            if (registro[campo] !== undefined) {
-              valores[campo] = registro[campo];
+            if (registro[campo.propiedad] !== undefined) {
+              valores[campo.propiedad] = registro[campo.propiedad];
             }
           });
           // Si el objeto valores no está vacío (tiene al menos un campo), devuélvelo

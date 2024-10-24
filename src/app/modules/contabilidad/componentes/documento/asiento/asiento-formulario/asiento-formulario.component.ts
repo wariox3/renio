@@ -29,6 +29,7 @@ import ContactDetalleComponent from '@modulos/general/componentes/contacto/conta
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -70,6 +71,21 @@ export default class AsientoFormularioComponent extends General implements OnIni
   totalDebito: number = 0;
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+
+  public campoListaContacto: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,

@@ -98,7 +98,7 @@
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
-                [campoLista]="['id', 'numero_identificacion', 'nombre_corto']"
+                [campoLista]="campoListaContacto"
                 [filtrosPermanentes]="filtrosPermanentes" 
               >
               </app-comun-buscar-avanzado>
@@ -230,7 +230,7 @@
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
                 "
-                [campoLista]="['id', 'numero', 'contacto_numero_identificacion', 'contacto_nombre_corto']"
+                [campoLista]="campoListaDocReferencia"
                 [filtrosPermanentes]="filtrosPermanentesNotaCredito"
               >
               </app-comun-buscar-avanzado>

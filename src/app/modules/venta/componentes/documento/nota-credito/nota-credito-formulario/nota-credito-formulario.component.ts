@@ -39,6 +39,7 @@ import {
 import { FechasService } from '@comun/services/fechas.service';
 import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -111,6 +112,38 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public modoEdicion: boolean = false;
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public mostrarDocumentoReferencia: boolean = true;
+  public campoListaDocReferencia: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero',
+      titulo: 'numero',
+    },
+    {
+      propiedad: 'contacto_numero_identificacion',
+      titulo: 'contacto_numero_identificacion',
+    },
+    {
+      propiedad: 'contacto_nombre_corto',
+      titulo: 'contacto_nombre_corto',
+    },
+  ];
+  public campoListaContacto: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
+  ];
   public filtrosPermanentes = [
     {
       operador: '',

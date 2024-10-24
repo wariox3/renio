@@ -61,7 +61,7 @@
               <app-comun-buscar-avanzado [consultarModelo]="'GenContacto'" [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
-                " [campoLista]="['id', 'numero_identificacion', 'nombre_corto']"
+                " [campoLista]="campoListaContacto"
                 [filtrosPermanentes]="filtrosPermanentes">
               </app-comun-buscar-avanzado>
             </button>
@@ -143,7 +143,7 @@
                 (emitirRegistroSeleccionado)="
                 actualizarFormulario($event, 'documento_referencia')
               " [filtrosPermanentes]="filtrosPermanentesNotaCredito"
-                [campoLista]="['id', 'numero', 'contacto_numero_identificacion', 'contacto_nombre_corto']">
+                [campoLista]="campoListaDocReferencia">
               </app-comun-buscar-avanzado>
             </button>
           </div>
