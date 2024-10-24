@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -40,7 +41,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-  ],
+    BuscarContratoComponent
+],
   templateUrl: './novedad-formulario.component.html',
   styleUrl: './novedad-formulario.component.scss',
   animations: [
@@ -93,6 +95,7 @@ export default class CreditoFormularioComponent
         ],
         contrato: ['', Validators.compose([Validators.required])],
         contrato_nombre: [''],
+        contrato_identificacion: [''],
         novedad_tipo: ['', Validators.compose([Validators.required])],
         dias_dinero: [0],
         dias_disfrutados: [0],
@@ -172,6 +175,7 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          contrato_identificacion: respuesta.contrato_contacto_numero_identificacion,
           novedad_tipo: respuesta.novedad_tipo_id,
           dias_dinero: respuesta.dias_dinero,
           dias_disfrutados: respuesta.dias_disfrutados,
