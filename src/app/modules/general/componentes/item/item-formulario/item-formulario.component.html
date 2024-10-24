@@ -38,7 +38,7 @@
     </section>
     <section card-body>
       <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-12 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
             class="form-label required"
@@ -94,6 +94,9 @@
             }"
           ></ng-container>
         </div>
+
+      </div>
+      <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
@@ -148,69 +151,6 @@
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioItem.controls['codigo']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="costo"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            prefix="$ "
-            mask="separator.2"
-            (blur)="modificarCampoFormulario('costo', 0)"
-            [thousandSeparator]="','"
-            [decimalMarker]="'.'"
-            [ngClass]="{
-              'is-invalid':
-                formularioItem.controls['costo'].touched &&
-                formularioItem.controls['costo'].invalid,
-              'is-valid':
-                formularioItem.controls['costo'].touched &&
-                formularioItem.controls['costo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-              cantidadCaracteres: '3',
-              control: formularioItem.controls['costo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioItem.controls['costo']
             }"
           ></ng-container>
         </div>
@@ -430,6 +370,67 @@
             [estado_aprobado]="true"
             [visualizarImpuestosCompra]="true"
           ></app-comun-impuestos>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.COSTO"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="costo"
+            class="form-control bg-transparent"
+            type="text"
+            autocomplete="off"
+            prefix="$ "
+            mask="separator.2"
+            (blur)="modificarCampoFormulario('costo', 0)"
+            [thousandSeparator]="','"
+            [decimalMarker]="'.'"
+            [ngClass]="{
+              'is-invalid':
+                formularioItem.controls['costo'].touched &&
+                formularioItem.controls['costo'].invalid,
+              'is-valid':
+                formularioItem.controls['costo'].touched &&
+                formularioItem.controls['costo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioItem.controls['costo']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioItem.controls['costo']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: '3',
+              control: formularioItem.controls['costo']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioItem.controls['costo']
+            }"
+          ></ng-container>
         </div>
       </div>
     </section>
