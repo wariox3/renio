@@ -34,6 +34,7 @@ import {
 } from '@interfaces/comunes/autocompletar';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -79,6 +80,20 @@ export default class EgresoFormularioComponent
   arrRegistrosEliminar: number[] = [];
 
   public mostrarTodasCuentasPorPagar: boolean = false;
+  public campoLista: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+    },
+    {
+      propiedad: 'numero_identificacion',
+      titulo: 'identificacion',
+    },
+    {
+      propiedad: 'nombre_corto',
+      titulo: 'nombre_corto',
+    },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -561,7 +576,18 @@ export default class EgresoFormularioComponent
   agregarContactoSeleccionado(contacto: any, index: number) {
     this.detalles.controls[index].patchValue({
       contacto: contacto.contacto_id,
-      contacto_nombre: contacto.contacto_nombre_corto
+      contacto_nombre: contacto.contacto_nombre_corto,
     });
+  }
+
+  actualizarFormulario(dato: any, campo: string) {
+    if (campo === 'contacto') {
+      this.formularioEgreso.get(campo)?.setValue(dato.id);
+      this.formularioEgreso.get('contactoNombre')?.setValue(dato.nombre_corto);
+    } 
+
+    this.formularioEgreso?.markAsDirty();
+    this.formularioEgreso?.markAsTouched();
+    this.changeDetectorRef.detectChanges();
   }
 }

@@ -37,7 +37,10 @@ import {
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar';
 import { FechasService } from '@comun/services/fechas.service';
-import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
+import {
+  AcumuladorImpuestos,
+  DocumentoFacturaRespuesta,
+} from '@interfaces/comunes/factura/factura.interface';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
@@ -410,6 +413,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   actualizarFormulario(dato: any, campo: string) {
     if (campo === 'contacto') {
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
       this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
@@ -860,7 +865,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  private _inicializarFormulario(contactoId:string) {
+  private _inicializarFormulario(contactoId: string) {
     this.filtrosPermanentesNotaCredito = [
       {
         operador: '',
@@ -877,15 +882,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         propiedad: 'estado_aprobado',
         valor1: true,
       },
-    ]
+    ];
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    
+
     if (campo === 'contacto') {
-      this._inicializarFormulario(dato.contacto_id)
+      this._inicializarFormulario(dato.contacto_id);
+      this._limpiarDocumentoReferencia(dato.contacto_id);
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
@@ -969,15 +975,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.changeDetectorRef.detectChanges();
         })
       )
-      .subscribe(() => {
-
-      });
+      .subscribe(() => {});
   }
 
   consultarDocumentoReferencia(event: any) {
     let arrFiltros = {
       filtros: [
-        { 
+        {
           operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
@@ -1201,5 +1205,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   redondear(valor: number, decimales: number): number {
     const factor = Math.pow(10, decimales);
     return Math.round(valor * factor) / factor;
+  }
+
+  recibirDocumentoDetalle(documento: DocumentoFacturaRespuesta) {
+    this._inicializarFormulario(`${documento.contacto_id}`);
+  }
+
+  private _limpiarDocumentoReferencia(contactoId: string) {
+    const formularioContactoId = this.formularioFactura.get('contacto')?.value;
+    if (formularioContactoId !== contactoId)
+      this.formularioFactura.patchValue({
+        documento_referencia_numero: null,
+        documento_referencia: null,
+      });
   }
 }
