@@ -434,7 +434,8 @@ export class FormularioProductosComponent
   private _agregarImpuestoItem(
     impuesto: ImpuestoFormulario,
     indexFormulario: number,
-    impuestoCalculado: number
+    impuestoCalculado: number,
+    impuestoOperado: number
   ) {
     const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
     const subtotal = formularioDetalle.get('subtotal')?.value;
@@ -457,7 +458,7 @@ export class FormularioProductosComponent
       const impuestoConTotales: ImpuestoFormulario = {
         ...impuesto,
         total: impuestoCalculado,
-        total_operado: impuestoCalculado,
+        total_operado: impuestoOperado,
         base: baseCalculada,
       };
       impuestoFormulario.push(
@@ -503,7 +504,12 @@ export class FormularioProductosComponent
       impuesto.impuesto_operacion
     );
 
-    this._agregarImpuestoItem(impuesto, indexFormulario, impuestoCalculado);
+    this._agregarImpuestoItem(
+      impuesto,
+      indexFormulario,
+      impuestoCalculado,
+      impuestoOperado
+    );
   }
 
   private _cacularTotalItem(indexFormulario: number) {
