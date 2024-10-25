@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { ValidarPlanIdGuard } from '@guardias/validarPlanId.guard';
 import { validarRutaGuard } from '@guardias/validarRuta.guard';
 
-let redirectToValue: string = '/contenedor/lista';
+let redirectToValue: string = '/inicio';
 
 function getRedirectTo(): string {
   // Aquí puedes agregar tu lógica para determinar el valor de redirección
