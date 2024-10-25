@@ -221,6 +221,8 @@ export default class FacturaRecurrenteFormularioComponent
         subtotal: [0],
         base_impuesto: [0],
         impuesto: [0],
+        impuesto_operado: [0],
+        impuesto_retencion: [0],
         afectado: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],

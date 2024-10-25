@@ -32,6 +32,8 @@ export class OperacionesService {
       | 'total'
       | 'subtotal'
       | 'impuesto_operado'
+      | 'impuesto'
+      | 'impuesto_retencion'
       | 'base_impuesto'
       | 'cantidad'
       | 'total_bruto'

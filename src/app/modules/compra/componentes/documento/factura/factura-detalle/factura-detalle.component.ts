@@ -93,6 +93,7 @@ export default class FacturaDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
+        this.totalImpuestos = respuesta.documento.impuesto_operado;
 
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
@@ -102,15 +103,6 @@ export default class FacturaDetalleComponent extends General {
           let subtotal = cantidad * precio;
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
-
-          const impuestos = item.impuestos;
-          impuestos.forEach((impuesto: any) => {
-            if (impuesto.impuesto_operacion > 0) {
-              this.totalImpuestos += impuesto.total;
-            } else {
-              this.totalImpuestos -= impuesto.total;
-            }
-          });
 
           let neto = item.neto || 0;
 

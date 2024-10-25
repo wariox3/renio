@@ -177,6 +177,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   base_impuesto: number;
   impuesto: number;
   impuesto_operado: number;
+  impuesto_retencion: number;
   total: number;
   hora: number;
   dias: number;

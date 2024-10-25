@@ -216,10 +216,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         metodo_pago_nombre: [''],
         total: [0],
         subtotal: [0],
-        // TODO: preguntar por agregados
         base_impuesto: [0],
         total_bruto: [0],
         impuesto: [0],
+        impuesto_operado: [0],
+        impuesto_retencion: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],
         orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
         documento_referencia: [null],
