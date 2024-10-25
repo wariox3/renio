@@ -1,9 +1,17 @@
 <form [formGroup]="formularioAdicional" (ngSubmit)="enviarFormulario()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
+    >
       <app-comun-btn-atras />
-      <button type="submit" class="btn btn-primary btn-sm" #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"></button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
     </div>
   </div>
   <app-card>
@@ -11,161 +19,220 @@
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
         {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
         {{
-        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
       </ng-container>
       <ng-template #tituloDetalle>
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
         {{
-        "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+          "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
         }}
         {{ detalle }}
       </ng-template>
     </section>
     <section card-body>
-      <div class="row mb-5">
-        <div class="col-12 col-md-12" ngbDropdown #ContratosDropdown="ngbDropdown">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"></label>
-          <div class="position-relative">
-            <input type="text" class="form-control" ngbDropdownAnchor formControlName="contrato_nombre"
-              (focus)="consultarContratos($event); ContratosDropdown.open()" (keyup)="consultarContratos($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioAdicional.controls['contrato'].touched &&
-                  formularioAdicional.controls['contrato'].invalid,
-                'is-valid':
-                  formularioAdicional.controls['contrato'].touched &&
-                  formularioAdicional.controls['contrato'].valid
-              }" />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
-            <ng-container *ngFor="let contrato of arrContratos">
-              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('contrato', contrato)"
-                (pointerenter)="modificarCampoFormulario('contrato', contrato)">
-                {{ contrato.contrato_contacto_numero_identificacion }}
-                {{ contrato.contrato_contacto_nombre_corto }}
-              </button>
-            </ng-container>
-          </div>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['contrato']
-            }"></ng-container>
-        </div>
+      <div class="mb-5">
+        <app-buscar-contrato
+          (emitirContrato)="modificarCampoFormulario('contrato', $event)"
+          [requerido]="true"
+          [informacionContrato]="{
+            identificacion: formularioAdicional.value.contrato_identificacion,
+            contrato: formularioAdicional.value.contrato,
+            contrato_nombre: formularioAdicional.value.contrato_nombre
+          }"
+          [formularioError]="
+            (formularioAdicional.controls['contrato'].hasError('required') &&
+              formularioAdicional.controls['contrato'].dirty) ||
+            formularioAdicional.controls['contrato'].touched
+          "
+        >
+        </app-buscar-contrato>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-6" ngbDropdown #ConceptoDropdown="ngbDropdown">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"></label>
+        <div
+          class="col-12 col-md-6"
+          ngbDropdown
+          #ConceptoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
           <div class="position-relative">
-            <input type="text" class="form-control" ngbDropdownAnchor formControlName="concepto_nombre"
-              (focus)="consultarConceptos($event); ConceptoDropdown.open()" (keyup)="consultarConceptos($event)"
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="concepto_nombre"
+              (focus)="consultarConceptos($event); ConceptoDropdown.open()"
+              (keyup)="consultarConceptos($event)"
               [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['concepto'].touched &&
-                formularioAdicional.controls['concepto'].invalid,
-              'is-valid':
-                formularioAdicional.controls['concepto'].touched &&
-                formularioAdicional.controls['concepto'].valid
-            }" />
+                'is-invalid':
+                  formularioAdicional.controls['concepto'].touched &&
+                  formularioAdicional.controls['concepto'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['concepto'].touched &&
+                  formularioAdicional.controls['concepto'].valid
+              }"
+            />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
               <i class="bi bi-search fs-2"></i>
             </div>
           </div>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
             <ng-container *ngFor="let concepto of arrConceptos">
-              <button type="button" ngbDropdownItem (click)="modificarCampoFormulario('concepto', concepto)"
-                (pointerenter)="modificarCampoFormulario('concepto', concepto)">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('concepto', concepto)"
+                (pointerenter)="modificarCampoFormulario('concepto', concepto)"
+              >
                 {{ concepto.concepto_nombre }}
               </button>
             </ng-container>
           </div>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioAdicional.controls['concepto']
-          }"></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['concepto']
+            }"
+          ></ng-container>
         </div>
         <div class="col-12 col-md-6">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.FECHAINICIO"></label>
-          <input formControlName="fecha_inicio" class="form-control" type="date" id="fecha_inicio" [ngClass]="{
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.FECHAINICIO"
+          ></label>
+          <input
+            formControlName="fecha_inicio"
+            class="form-control"
+            type="date"
+            id="fecha_inicio"
+            [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['fecha_inicio'].touched &&
                 formularioAdicional.controls['fecha_inicio'].invalid,
               'is-valid':
                 formularioAdicional.controls['fecha_inicio'].touched &&
                 formularioAdicional.controls['fecha_inicio'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicional.controls['fecha_inicio']
-            }"></ng-container>
+            }"
+          ></ng-container>
         </div>
-
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.TOTAL"></label>
-          <input type="number" class="form-control" formControlName="total" [ngClass]="{
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.TOTAL"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="total"
+            [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['total'].touched &&
                 formularioAdicional.controls['total'].invalid,
               'is-valid':
                 formularioAdicional.controls['total'].touched &&
                 formularioAdicional.controls['total'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicional.controls['total']
-            }"></ng-container>
+            }"
+          ></ng-container>
         </div>
         <div class="col-12 col-md-6">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.CUOTA"></label>
-          <input type="text" class="form-control" formControlName="cuota" [ngClass]="{
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.CUOTA"
+          ></label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="cuota"
+            [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['cuota'].touched &&
                 formularioAdicional.controls['cuota'].invalid,
               'is-valid':
                 formularioAdicional.controls['cuota'].touched &&
                 formularioAdicional.controls['cuota'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicional.controls['cuota']
-            }"></ng-container>
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label class="form-label required" translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.CANTIDAD_CUOTAS"></label>
-          <input type="number" class="form-control" formControlName="cantidad_cuotas" [ngClass]="{
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.CANTIDAD_CUOTAS"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="cantidad_cuotas"
+            [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['cantidad_cuotas'].touched &&
                 formularioAdicional.controls['cantidad_cuotas'].invalid,
               'is-valid':
                 formularioAdicional.controls['cantidad_cuotas'].touched &&
                 formularioAdicional.controls['cantidad_cuotas'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAdicional.controls['cantidad_cuotas']
-            }"></ng-container>
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="validar_cuotas"
-              formControlName="validar_cuotas" />
-            <label class="form-check-label text-gray-700" for="validar_cuotas"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.VALIDAR_CUOTAS">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="validar_cuotas"
+              formControlName="validar_cuotas"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="validar_cuotas"
+              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.VALIDAR_CUOTAS"
+            >
             </label>
           </div>
         </div>
@@ -173,10 +240,18 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="inactivo"
-              formControlName="inactivo" />
-            <label class="form-check-label text-gray-700" for="inactivo"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVO">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="inactivo"
+              formControlName="inactivo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="inactivo"
+              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVO"
+            >
             </label>
           </div>
         </div>
@@ -184,10 +259,18 @@
       <div class="row mb-5">
         <div class="col-12 col-md-6">
           <div class="form-check form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" id="inactivo_periodo"
-              formControlName="inactivo_periodo" />
-            <label class="form-check-label text-gray-700" for="inactivo_periodo"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVOPERIODO">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="inactivo_periodo"
+              formControlName="inactivo_periodo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="inactivo_periodo"
+              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVOPERIODO"
+            >
             </label>
           </div>
         </div>
@@ -195,9 +278,16 @@
     </section>
   </app-card>
 </form>
-<ng-template #formError let-control="control" let-message="message" let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>

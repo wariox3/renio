@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,14 +9,15 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
+import { AutocompletarRegistros, RegistroAutocompletarConcepto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { AutocompletarRegistros, RegistroAutocompletarConcepto, RegistroAutocompletarConceptoAdicional, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
-import {NgSelectModule} from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-adicional-formulario',
@@ -30,7 +31,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
     TranslateModule,
     NgbDropdownModule,
     NgSelectModule,
-  ],
+    BuscarContratoComponent
+],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
 })

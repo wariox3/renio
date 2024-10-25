@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
@@ -28,7 +29,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-  ],
+    BuscarContratoComponent
+],
   templateUrl: './credito-formulario.component.html',
   styleUrl: './credito-formulario.component.scss',
 })

@@ -31,63 +31,22 @@
       </ng-template>
     </section>
     <section card-body>
-      <div class="row mb-5">
-        <div
-          class="col-12 col-md-12"
-          ngbDropdown
-          #ContratosDropdown="ngbDropdown"
+      <div class="mb-5">
+        <app-buscar-contrato
+          (emitirContrato)="modificarCampoFormulario('contrato', $event)"
+          [requerido]="true"
+          [informacionContrato]="{
+            identificacion: formularioAdicional.value.contrato_identificacion,
+            contrato: formularioAdicional.value.contrato,
+            contrato_nombre: formularioAdicional.value.contrato_nombre
+          }"
+          [formularioError]="
+            (formularioAdicional.controls['contrato'].hasError('required') &&
+              formularioAdicional.controls['contrato'].dirty) ||
+            formularioAdicional.controls['contrato'].touched
+          "
         >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
-          ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="contrato_nombre"
-              (focus)="consultarContratos($event); ContratosDropdown.open()"
-              (keyup)="consultarContratos($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioAdicional.controls['contrato'].touched &&
-                  formularioAdicional.controls['contrato'].invalid,
-                'is-valid':
-                  formularioAdicional.controls['contrato'].touched &&
-                  formularioAdicional.controls['contrato'].valid
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-          >
-            <ng-container *ngFor="let contrato of arrContratos">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contrato', contrato)"
-                (pointerenter)="modificarCampoFormulario('contrato', contrato)"
-              >
-                {{ contrato.contrato_contacto_numero_identificacion }}
-                {{ contrato.contrato_contacto_nombre_corto }}
-              </button>
-            </ng-container>
-          </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['contrato']
-            }"
-          ></ng-container>
-        </div>
+        </app-buscar-contrato>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
