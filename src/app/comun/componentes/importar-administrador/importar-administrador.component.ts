@@ -21,7 +21,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
-import { catchError, of, Subject, tap } from 'rxjs';
+import { catchError, of, Subject, switchMap, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-importar-administrador',
@@ -47,6 +47,8 @@ export class ImportarAdministradorComponent
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
+  inhabilitarBtnEjemploImportar: boolean = false;
+
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -64,19 +66,36 @@ export class ImportarAdministradorComponent
   }
 
   abrirModalContactoNuevo(content: any) {
-    this.activatedRoute.queryParams
-      .subscribe((parametros) => {
-        this.importarSoloNuevos =
-          parametros.importarSoloNuevos === 'si' ? true : false;
-        (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-        this.archivoNombre = '';
-        this.errorImportar = [];
-        this.modalService.open(content, {
-          ariaLabelledBy: 'modal-basic-title',
-          size: 'xl',
-        });
-      })
-      .unsubscribe();
+    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+      this.parametrosUrl,
+      this.ubicacion,
+      this.detalle
+    );
+    if (this.exportarArchivoFijo) {
+      nombreArchivo = this.exportarArchivoFijo;
+    }
+    this.descargarArchivosService
+      .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+      .pipe(
+        tap((validacionArchivoExiste) => {
+          if (validacionArchivoExiste === false) {
+            this.inhabilitarBtnEjemploImportar = true;
+            this.changeDetectorRef.detectChanges();
+          }
+        }),
+        tap(() => {
+          this.importarSoloNuevos =
+            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
+          (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+          this.archivoNombre = '';
+          this.errorImportar = [];
+          this.modalService.open(content, {
+            ariaLabelledBy: 'modal-basic-title',
+            size: 'xl',
+          });
+        })
+      )
+      .subscribe();
   }
 
   cerrarModal() {
@@ -205,8 +224,8 @@ export class ImportarAdministradorComponent
       this.ubicacion,
       this.detalle
     );
-    if(this.exportarArchivoFijo){
-      nombreArchivo = this.exportarArchivoFijo
+    if (this.exportarArchivoFijo) {
+      nombreArchivo = this.exportarArchivoFijo;
     }
 
     this.descargarArchivosService

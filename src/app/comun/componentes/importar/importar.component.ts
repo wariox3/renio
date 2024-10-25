@@ -37,13 +37,13 @@ export class ImportarComponent extends General {
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
+  inhabilitarBtnEjemploImportar: boolean = false;
   soloNuevos: boolean;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   @Input() esBotonFinal: boolean;
   modalRef: any;
-
 
   constructor(
     private modalService: NgbModal,
@@ -54,19 +54,34 @@ export class ImportarComponent extends General {
   }
 
   abrirModalContactoNuevo(content: any) {
-    this.activatedRoute.queryParams
-      .subscribe((parametros) => {
-        this.importarSoloNuevos =
-          parametros.importarSoloNuevos === 'si' ? true : false;
-        (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-        this.archivoNombre = '';
-        this.errorImportar = [];
-        this.modalService.open(content, {
-          ariaLabelledBy: 'modal-basic-title',
-          size: 'xl',
-        });
-      })
-      .unsubscribe();
+    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+      this.parametrosUrl,
+      this.ubicacion,
+      undefined
+    );
+
+    this.descargarArchivosService
+      .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+      .pipe(
+        tap((validacionArchivoExiste) => {
+          if (validacionArchivoExiste === false) {
+            this.inhabilitarBtnEjemploImportar = true;
+            this.changeDetectorRef.detectChanges();
+          }
+        }),
+        tap(() => {
+          this.importarSoloNuevos =
+            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
+          (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+          this.archivoNombre = '';
+          this.errorImportar = [];
+          this.modalService.open(content, {
+            ariaLabelledBy: 'modal-basic-title',
+            size: 'xl',
+          });
+        })
+      )
+      .subscribe();
   }
 
   cerrarModal() {

@@ -78,6 +78,7 @@
         class="btn btn-sm btn-primary me-2"
         (click)="descargarEjemploImportar()"
         translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
+        [disabled]="inhabilitarBtnEjemploImportar"
       ></button>
       <div>
         @if(!cargardoDocumento){

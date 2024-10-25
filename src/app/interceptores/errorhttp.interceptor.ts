@@ -14,6 +14,7 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
 
   return next(request).pipe(
     catchError((error: HttpErrorResponse) => {
+
       let errorCodigo: number;
       let errorMensaje: string = '';
       if (error.error instanceof ErrorEvent) {
@@ -73,7 +74,9 @@ export const errorHttpInterceptor: HttpInterceptorFn = (
         }
       }
       return throwError(() => {
-        alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje);
+        if(!error.url?.includes('asset')){
+          alertService.mensajeError(`Error ${errorCodigo}`, errorMensaje);
+        }
         return error.error;
       });
     })
