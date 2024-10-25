@@ -187,6 +187,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         subtotal: [0],
         base_impuesto: [0],
         impuesto: [0],
+        impuesto_operado: [0],
+        impuesto_retencion: [0],
         afectado: [0],
         total_bruto: [0],
         comentario: [null, Validators.compose([Validators.maxLength(500)])],

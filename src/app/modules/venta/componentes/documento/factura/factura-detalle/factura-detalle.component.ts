@@ -48,8 +48,8 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
     LogElectronicoComponent,
     DocumentoOpcionesComponent,
     BaseEstadosComponent,
-    DetallesTotalesComponent
-],
+    DetallesTotalesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -109,6 +109,8 @@ export default class FacturaDetalleComponent extends General {
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
         this.totalAfectado = respuesta.documento.afectado;
+        this.totalImpuestos = respuesta.documento.impuesto_operado;
+
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
           const precio = item.precio;
@@ -117,11 +119,6 @@ export default class FacturaDetalleComponent extends General {
           let subtotal = cantidad * precio;
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
-
-          const impuestos = item.impuestos;
-          impuestos.forEach((impuesto: any) => {
-            this.totalImpuestos += impuesto.total;
-          });
 
           let neto = item.neto || 0;
 
@@ -260,6 +257,6 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 }

@@ -185,6 +185,8 @@ export class FormularioProductosComponent
       subtotal: [0],
       total: [0],
       impuesto: [0],
+      impuesto_operado: [0],
+      impuesto_retencion: [0],
       total_bruto: [0],
       neto: [0],
       base_impuesto: [0],
@@ -339,15 +341,18 @@ export class FormularioProductosComponent
   private _actualizarFormulario() {
     let total = this.formularioFactura.get('total')?.value;
     let subtotal = this.formularioFactura.get('subtotal')?.value;
-    let impuesto = this.formularioFactura.get('impuesto')?.value;
+    let impuestoOperado = this.formularioFactura.get('impuesto_operado')?.value;
     let baseImpuesto = this.formularioFactura.get('base_impuesto')?.value;
     let totalCantidad = this.formularioFactura.get('totalCantidad')?.value;
     let totalBruto = this.formularioFactura.get('total_bruto')?.value;
 
     total += this._operaciones.sumarTotales(this.detalles.value, 'total');
     subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
-    totalBruto += this._operaciones.sumarTotales(this.detalles.value, 'total_bruto');
-    impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
+    totalBruto += this._operaciones.sumarTotales(
+      this.detalles.value,
+      'total_bruto'
+    );
+    impuestoOperado += this._operaciones.sumarTotales(this.detalles.value, 'impuesto_operado');
     totalCantidad += this._operaciones.sumarTotales(
       this.detalles.value,
       'cantidad'
@@ -363,7 +368,7 @@ export class FormularioProductosComponent
       totalCantidad,
       total,
       subtotal,
-      impuesto,
+      impuesto_operado: impuestoOperado,
       total_bruto: totalBruto,
       base_impuesto: baseImpuesto,
     });
@@ -372,7 +377,7 @@ export class FormularioProductosComponent
   private _limpiarFormularioTotales() {
     this.formularioFactura.get('total')?.setValue(0);
     this.formularioFactura.get('subtotal')?.setValue(0);
-    this.formularioFactura.get('impuesto')?.setValue(0);
+    this.formularioFactura.get('impuesto_operado')?.setValue(0);
     this.formularioFactura.get('base_impuesto')?.setValue(0);
     this.formularioFactura.get('total_bruto')?.setValue(0);
     this.formularioFactura.get('totalCantidad')?.setValue(0);
@@ -455,7 +460,8 @@ export class FormularioProductosComponent
         impuesto.porcentaje_base
       );
 
-      const brutoCalculado = this._calcularBruto(impuesto, impuestoOperado) + neto;
+      const brutoCalculado =
+        this._calcularBruto(impuesto, impuestoOperado) + neto;
 
       formularioDetalle.patchValue({
         base_impuesto: baseCalculada,
@@ -474,9 +480,12 @@ export class FormularioProductosComponent
     }
   }
 
-  private _calcularBruto(impuesto: ImpuestoFormulario, impuestoOperado: number): number {
+  private _calcularBruto(
+    impuesto: ImpuestoFormulario,
+    impuestoOperado: number
+  ): number {
     if (impuesto.impuesto_operacion > 0) {
-      return impuestoOperado
+      return impuestoOperado;
     }
 
     return 0;
@@ -487,7 +496,7 @@ export class FormularioProductosComponent
     impuesto: ImpuestoFormulario
   ) {
     const detalleFormulario = this._obtenerDetalleFormulario(indexFormulario);
-    const impuestoAcumulado = detalleFormulario.get('impuesto')?.value;
+    const impuestoOperadoAcumulado = detalleFormulario.get('impuesto_operado')?.value;
     const subtotal = detalleFormulario.get('subtotal')?.value;
 
     const baseCalculada = this._operaciones.calcularBase(
@@ -504,12 +513,12 @@ export class FormularioProductosComponent
     );
 
     const impuestTotal = this._operaciones.redondear(
-      impuestoOperado + impuestoAcumulado,
+      impuestoOperado + impuestoOperadoAcumulado,
       2
     );
 
     detalleFormulario.patchValue({
-      impuesto: impuestTotal,
+      impuesto_operado: impuestTotal,
     });
 
     this._actualizarImpuestosEnCache(
@@ -529,13 +538,16 @@ export class FormularioProductosComponent
 
   private _cacularTotalItem(indexFormulario: number) {
     const detalleFormulario = this._obtenerDetalleFormulario(indexFormulario);
-    const impuesto = detalleFormulario.get('impuesto')?.value;
+    const impuestoOperado = detalleFormulario.get('impuesto_operado')?.value;
     const subtotal = detalleFormulario.get('subtotal')?.value;
     const totalBruto = detalleFormulario.get('total_bruto')?.value;
     const baseImpuesto = detalleFormulario.get('base_impuesto')?.value;
 
-    const totalCalculado = this._operaciones.calcularTotal(subtotal, impuesto);
-    const totalBrutoCalculado = this._operaciones.calcularTotal(subtotal, totalBruto);
+    const totalCalculado = this._operaciones.calcularTotal(subtotal, impuestoOperado);
+    const totalBrutoCalculado = this._operaciones.calcularTotal(
+      subtotal,
+      totalBruto
+    );
 
     detalleFormulario.patchValue({
       total: totalCalculado,
@@ -548,8 +560,8 @@ export class FormularioProductosComponent
   private _limpiarImpuestos(indexFormulario: number) {
     const impuestos = this._obtenerImpuestoFormulario(indexFormulario);
     const impuestoDetalle = this._obtenerDetalleFormulario(indexFormulario);
-    this.formularioFactura.get('impuesto')?.setValue(0);
-    impuestoDetalle.get('impuesto')?.setValue(0);
+    this.formularioFactura.get('impuesto_operado')?.setValue(0);
+    impuestoDetalle.get('impuesto_operado')?.setValue(0);
     impuestoDetalle.get('base_impuesto')?.setValue(0);
     impuestoDetalle.get('total_bruto')?.setValue(0);
     impuestos.clear();

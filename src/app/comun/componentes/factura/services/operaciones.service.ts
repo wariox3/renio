@@ -31,7 +31,7 @@ export class OperacionesService {
     llave:
       | 'total'
       | 'subtotal'
-      | 'impuesto'
+      | 'impuesto_operado'
       | 'base_impuesto'
       | 'cantidad'
       | 'total_bruto'
