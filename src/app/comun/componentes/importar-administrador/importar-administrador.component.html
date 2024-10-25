@@ -78,7 +78,7 @@
         class="btn btn-sm btn-primary me-2"
         (click)="descargarExcelImportar()"
         translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
-        [disabled]="inhabilitarBtnEjemploImportar"x
+        [disabled]="inhabilitarBtnEjemploImportar"
       ></button>
       <div>
         @if(!cargardoDocumento){
@@ -86,7 +86,7 @@
           translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
           type="submit"
           class="btn btn-sm btn-primary"
-          [disabled]="archivoNombre === ''"
+          [disabled]="archivoNombre === '' || inhabilitarBtnEjemploImportar"
           (click)="guardarArchivo()"
         ></button>
         } @else {
