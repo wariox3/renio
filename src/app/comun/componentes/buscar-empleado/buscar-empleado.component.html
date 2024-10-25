@@ -1,0 +1,66 @@
+<form [formGroup]="formularioEmpleado">
+  <div class="row">
+    <label
+      class="form-label"
+      translate="FORMULARIOS.CAMPOS.COMUNES.EMPLEADO"
+      [ngClass]="{ required: requerido }"
+    ></label>
+    <div class="col-md-12">
+      <div class="input-group">
+        <span class="input-group-text">{{
+          formularioEmpleado.get("identificacion")?.value || "Identificación"
+        }}</span>
+        <div class="dropdown" ngbDropdown #NombreDropdown="ngbDropdown">
+          <div class="position-relative">
+            <input
+              formControlName="empleado_nombre"
+              (input)="onSearch($event)"
+              class="form-control dropdown-busqueda"
+              ngbDropdownAnchor
+              (blur)="validarCampoEmpleado()"
+              (focus)="
+                consultarEmpleados('', 'nombre_corto__icontains');
+                NombreDropdown.open()
+              "
+              placeholder="Buscar empleado..."
+              type="text"
+              [ngClass]="{
+                'is-invalid':
+                  formularioEmpleado.controls['empleado'].touched &&
+                  formularioEmpleado.controls['empleado'].invalid,
+                'is-valid':
+                  formularioEmpleado.controls['empleado'].touched &&
+                  formularioEmpleado.controls['empleado'].valid
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            @if (arrEmpleados.length > 0) {
+            <ng-container *ngFor="let empleado of arrEmpleados">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contrato', empleado)"
+              >
+                {{ empleado.contrato_contacto_numero_identificacion }}
+                {{ empleado.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            } @else { @if (cargandoEmpleados$ | async) {
+            <button type="button" ngbDropdownItem>Cargando...</button>
+            } @else {
+            <button type="button" ngbDropdownItem>No hay resultados</button>
+            } }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

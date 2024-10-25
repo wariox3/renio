@@ -35,6 +35,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { BuscarEmpleadoComponent } from "../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component";
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -50,7 +51,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
     NgSelectModule,
-  ],
+    BuscarEmpleadoComponent
+],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -132,6 +134,7 @@ export default class ContratoFormularioComponent
       {
         contacto: ['', Validators.compose([Validators.required])],
         contacto_nombre: [''],
+        contacto_numero_identificacion: [''],
         fecha_desde: [
           fechaVencimientoInicial,
           Validators.compose([
@@ -426,6 +429,7 @@ export default class ContratoFormularioComponent
         this.formularioContrato.patchValue({
           contacto: respuesta.contacto_id,
           contacto_nombre: respuesta.contacto_nombre_corto,
+          contacto_numero_identificacion: respuesta.contacto_numero_identificacion,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
           grupo: respuesta.grupo_id,

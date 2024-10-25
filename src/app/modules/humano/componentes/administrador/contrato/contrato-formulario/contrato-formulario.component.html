@@ -1,3 +1,6 @@
+<pre>
+
+</pre>
 <form [formGroup]="formularioContrato" (ngSubmit)="enviarFormulario()">
   <div class="d-flex mb-5 justify-content-between align-items-center">
     <div
@@ -31,78 +34,21 @@
       </ng-template>
     </section>
     <section card-body>
-      <div class="row mb-5">
-        <div
-          class="col-12"
-          ngbDropdown
-          container="body"
-          #ClienteDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.EMPLEADO"
-          ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="contacto_nombre"
-              (focus)="consultarEmpleado($event); ClienteDropdown.open()"
-              (keyup)="consultarEmpleado($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContrato.controls['contacto'].touched &&
-                  formularioContrato.controls['contacto'].invalid,
-                'is-valid':
-                  formularioContrato.controls['contacto'].touched &&
-                  formularioContrato.controls['contacto'].valid
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
-          <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
-            ngbDropdownToggle
-          >
-            <ng-container *ngFor="let empleado of arrEmpleados">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="modificarCampoFormulario('contacto', empleado)"
-                (pointerenter)="modificarCampoFormulario('contacto', empleado)"
-              >
-                {{ empleado.contacto_nombre_corto }}
-              </button>
-            </ng-container>
-            <div class="dropdown-divider"></div>
-            <button type="button" ngbDropdownItem>
-              <app-comun-buscar-avanzado
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
-                (emitirRegistroSeleccionado)="
-                  actualizarFormulario($event, 'contacto')
-                "
-                [campoLista]="campoListaContacto"
-                [campoFiltros]="camposBuscarAvanzado"
-                [filtrosPermanentes]="filtrosPermanentesEmpleado"
-              >
-              </app-comun-buscar-avanzado>
-            </button>
-          </div>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['contacto']
-            }"
-          ></ng-container>
-        </div>
+      <div class="mb-5">
+        <app-buscar-empleado
+          (emitirEmpleado)="modificarCampoFormulario('contacto', $event)"
+          [requerido]="true"
+          [informacionEmpleado]="{
+            identificacion: formularioContrato.value.contacto_numero_identificacion,
+            empleado: formularioContrato.value.contacto,
+            empleado_nombre: formularioContrato.value.contacto_nombre
+          }"
+          [formularioError]="
+            (formularioContrato.controls['contacto'].hasError('required') &&
+            formularioContrato.controls['contacto'].dirty) ||
+            formularioContrato.controls['contacto'].touched
+          "
+        ></app-buscar-empleado>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
@@ -735,13 +681,13 @@
           >
           </ng-select>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContrato.controls['entidad_pension']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['entidad_pension']
+            }"
+          ></ng-container>
         </div>
       </div>
 
@@ -763,13 +709,13 @@
           >
           </ng-select>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContrato.controls['entidad_caja']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['entidad_caja']
+            }"
+          ></ng-container>
         </div>
         <div class="col-12 col-md-6">
           <label
@@ -787,13 +733,13 @@
           >
           </ng-select>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioContrato.controls['entidad_cesantias']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['entidad_cesantias']
+            }"
+          ></ng-container>
         </div>
       </div>
 
