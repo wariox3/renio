@@ -150,10 +150,15 @@ export default class PagoFormularioComponent extends General implements OnInit {
         });
 
         respuesta.documento.detalles.forEach((detalle: any) => {
+          const numero = detalle.documento_afectado_numero
+            ? detalle.documento_afectado_numero
+            : detalle.numero
+            ? detalle.numero
+            : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
-            numero: [detalle.documento_afectado_numero],
+            numero: [numero],
             contacto: [detalle.documento_afectado_contacto_id],
             contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
             pago: [detalle.pago],
