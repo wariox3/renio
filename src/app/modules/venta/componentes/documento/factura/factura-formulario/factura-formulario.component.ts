@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -21,24 +20,39 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { FechasService } from '@comun/services/fechas.service';
-import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, BehaviorSubject, catchError, of, tap, throttleTime, zip } from 'rxjs';
-import { FacturaFormularioDocumentoComponent } from '../factura-formulario-documento/factura-formulario-documento/factura-formulario-documento.component';
+import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { HttpService } from '@comun/services/http.service';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
-import { HttpService } from '@comun/services/http.service';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
 import { Contacto } from '@interfaces/general/contacto';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import {
+  asyncScheduler,
+  BehaviorSubject,
+  catchError,
+  of,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
+import { FacturaFormularioDocumentoComponent } from '../factura-formulario-documento/factura-formulario-documento/factura-formulario-documento.component';
+import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -68,12 +82,12 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
-  private _fechasService = inject(FechasService);
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
   private _empresaService = inject(EmpresaService);
   private _modalService = inject(NgbModal);
+  private _formularioFacturaService = inject(FormularioFacturaService);
 
   public formularioFactura: FormGroup;
   public active: Number;
@@ -126,11 +140,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   constructor() {
     super();
     this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
+    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
-    this._consultarInformacion()
-    this._initForm();
+    this._consultarInformacion();
     this.active = 1; // navigation tab
 
     if (this.parametrosUrl) {
@@ -140,7 +154,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion = true;
-      // this.consultardetalle();
     } else {
       this.modoEdicion = false;
     }
@@ -150,89 +163,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
     this.acumuladorImpuesto = impuestosAcumulados;
-  }
-
-  private _initForm() {
-    const fechaVencimientoInicial =
-      this._fechasService.getFechaVencimientoInicial();
-
-    this.formularioFactura = this._formBuilder.group(
-      {
-        empresa: [1],
-        contacto: ['', Validators.compose([Validators.required])],
-        totalCantidad: [0],
-        contactoNombre: [''],
-        numero: [null],
-        fecha: [
-          fechaVencimientoInicial,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),
-          ]),
-        ],
-        fecha_vence: [
-          fechaVencimientoInicial,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),
-          ]),
-        ],
-        metodo_pago: [1, Validators.compose([Validators.required])],
-        metodo_pago_nombre: [''],
-        total: [0],
-        subtotal: [0],
-        base_impuesto: [0],
-        impuesto: [0],
-        impuesto_operado: [0],
-        impuesto_retencion: [0],
-        afectado: [0],
-        total_bruto: [0],
-        comentario: [null, Validators.compose([Validators.maxLength(500)])],
-        orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
-        documento_referencia: [null],
-        documento_referencia_numero: [null],
-        asesor: [''],
-        asesor_nombre_corto: [null],
-        sede: [''],
-        sede_nombre: [null],
-        plazo_pago: [1, Validators.compose([Validators.required])],
-        detalles: this._formBuilder.array([]),
-        pagos: this._formBuilder.array([]),
-        detalles_eliminados: this._formBuilder.array([]),
-        pagos_eliminados: this._formBuilder.array([]),
-      },
-      {
-        validator: this.validarFecha,
-      }
-    );
-  }
-
-  // TODO: Mover a validaciones custom
-  validarFecha(control: AbstractControl) {
-    const fecha = control.get('fecha')?.value;
-    const fecha_vence = control.get('fecha_vence')?.value;
-
-    if (fecha > fecha_vence) {
-      control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
-    } else {
-      if (control.get('fecha_vence')?.getError('fechaVenceInferiorNoValida')) {
-        control.get('fecha_vence')?.setErrors(null);
-      }
-    }
-
-    if (fecha_vence < fecha) {
-      control
-        .get('fecha_vence')
-        ?.setErrors({ fechaVenceInferiorNoValida: true });
-    } else {
-      if (control.get('fecha')?.getError('fechaSuperiorNoValida')) {
-        control.get('fecha')?.setErrors(null);
-      }
-    }
   }
 
   get detalles() {

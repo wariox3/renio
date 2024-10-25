@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -12,36 +11,37 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { General } from '@comun/clases/general';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import {
+  AcumuladorImpuestos,
+  DocumentoFacturaRespuesta,
+} from '@interfaces/comunes/factura/factura.interface';
+import { Contacto } from '@interfaces/general/contacto';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { Contacto } from '@interfaces/general/contacto';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar';
-import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import {
-  AcumuladorImpuestos,
-  DocumentoFacturaRespuesta,
-} from '@interfaces/comunes/factura/factura.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -71,6 +71,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public modoEdicion: boolean = false;
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public mostrarDocumentoReferencia: boolean = true;
+  private _formularioFacturaService = inject(FormularioFacturaService);
 
   public filtrosPermanentesNotaCredito = {};
 
@@ -160,11 +161,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     private modalService: NgbModal
   ) {
     super();
+    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
     this.consultarInformacion();
-    this.initForm();
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
@@ -177,62 +178,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
 
     this.changeDetectorRef.detectChanges();
-  }
-
-  initForm() {
-    const fechaActual = new Date(); // Obtener la fecha actual
-    const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
-      fechaActual.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
-
-    this.formularioFactura = this.formBuilder.group(
-      {
-        empresa: [1],
-        contacto: ['', Validators.compose([Validators.required])],
-        contactoNombre: [''],
-        numero: [null],
-        totalCantidad: [0],
-        fecha: [
-          fechaVencimientoInicial,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),
-          ]),
-        ],
-        fecha_vence: [
-          fechaVencimientoInicial,
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(200),
-            Validators.pattern(/^[a-z-0-9.-_]*$/),
-          ]),
-        ],
-        metodo_pago: [''],
-        metodo_pago_nombre: [''],
-        total: [0],
-        subtotal: [0],
-        base_impuesto: [0],
-        total_bruto: [0],
-        impuesto: [0],
-        impuesto_operado: [0],
-        impuesto_retencion: [0],
-        comentario: [null, Validators.compose([Validators.maxLength(500)])],
-        orden_compra: [null, Validators.compose([Validators.maxLength(50)])],
-        documento_referencia: [null],
-        documento_referencia_numero: [null],
-        plazo_pago: [1, Validators.compose([Validators.required])],
-        detalles: this.formBuilder.array([]),
-        detalles_eliminados: this.formBuilder.array([]),
-      },
-      {
-        validator: this.validarFecha,
-      }
-    );
   }
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
@@ -279,29 +224,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
   }
 
-  validarFecha(control: AbstractControl) {
-    const fecha = control.get('fecha')?.value;
-    const fecha_vence = control.get('fecha_vence')?.value;
-
-    if (fecha > fecha_vence) {
-      control.get('fecha')?.setErrors({ fechaSuperiorNoValida: true });
-    } else {
-      if (control.get('fecha_vence')?.getError('fechaVenceInferiorNoValida')) {
-        control.get('fecha_vence')?.setErrors(null);
-      }
-    }
-
-    if (fecha_vence < fecha) {
-      control
-        .get('fecha_vence')
-        ?.setErrors({ fechaVenceInferiorNoValida: true });
-    } else {
-      if (control.get('fecha')?.getError('fechaSuperiorNoValida')) {
-        control.get('fecha')?.setErrors(null);
-      }
-    }
-  }
-
   get detalles() {
     return this.formularioFactura.get('detalles') as FormArray;
   }
@@ -333,10 +255,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       } else {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
+            .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
             .subscribe((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
