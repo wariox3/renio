@@ -548,7 +548,8 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'PERIODO_ID',
+        nombre: 'PERIODO_NOMBRE',
+        nombreAbreviado: 'PERIODO_ID',
         campoTipo: 'IntegerField',
         visibleTabla: true,
         visibleFiltro: false,
