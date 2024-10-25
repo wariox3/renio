@@ -129,6 +129,7 @@ export default class ProgramacionDetalleComponent
   cargandoContratos: boolean = false;
   generando: boolean = false;
   desgenerando: boolean = false;
+  notificando: boolean = false;
   mostrarMasDetalles: boolean = false;
   arrConceptosAdicional: any[] = [];
   ordenadoTabla: string = '';
@@ -1065,6 +1066,23 @@ export default class ProgramacionDetalleComponent
     this.consultarDatos();
     this.changeDetectorRef.detectChanges();
   }
+
+  notificar() {
+    this.notificando = true;
+    this.programacionDetalleService
+      .notificar(this.detalle)
+      .pipe(
+        finalize(() => {
+          this.notificando = false;
+          this.dropdown.close();
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe(() => {
+        this.consultarDatos();
+      });
+  }
+
 
   ngOnDestroy(): void {
     this._unsubscribe$.next();

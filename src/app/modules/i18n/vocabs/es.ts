@@ -135,6 +135,8 @@ export const locale = {
           NOMINA: 'Nomina',
           NOMINADETALLE: 'Nomina detalle',
           TERMINAR: 'Terminar',
+          NOTIFICAR: 'Notificar',
+          NOTIFICANDO: 'Notificando',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

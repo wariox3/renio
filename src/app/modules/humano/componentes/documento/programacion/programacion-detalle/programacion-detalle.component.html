@@ -88,6 +88,24 @@
             {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
             }
           </button>
+          @if(programacion.estado_aprobado){
+            <button
+              (click)="notificar()"
+              ngbDropdownItem
+              [disabled]="
+              notificando
+            "
+            >
+            @if(notificando){
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only"></span>
+              </div>
+              {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
+            }@else {
+              {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
+            }
+            </button>
+          }
         </div>
       </div>
     </div>

@@ -19,4 +19,8 @@ export class ProgramacionDetalleService extends Subdominio {
   eliminarRegistro(id: number, data: any) {
     return this.httpService.delete(`humano/programacion_detalle/${id}/`, {});
   }
+
+  notificar(id: number){
+    return this.httpService.post('humano/programacion/notificar/', {id})
+  }
 }
