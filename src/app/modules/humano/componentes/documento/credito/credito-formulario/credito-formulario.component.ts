@@ -63,6 +63,7 @@ export default class CreditoFormularioComponent
       fecha_inicio: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
+      contrato_numero_identificacion: [''],
       total: ['', Validators.compose([Validators.required])],
       cuota: [0, Validators.compose([Validators.required])],
       cantidad_cuotas: ['', Validators.compose([Validators.required])],
@@ -122,6 +123,7 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          contrato_numero_identificacion: respuesta.contrato_contacto_numero_identificacion,
           total: respuesta.total,
           cuota: respuesta.cuota,
           cantidad_cuotas: respuesta.cantidad_cuotas,
@@ -208,6 +210,8 @@ export default class CreditoFormularioComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
+    console.log(dato);
+
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
     if (campo === 'contrato') {
@@ -215,6 +219,11 @@ export default class CreditoFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+
+        this.formularioAdicional
+        .get('contrato_numero_identificacion')
+        ?.setValue(dato.contrato_contacto_numero_identificacion);
+
     }
     if (campo === 'concepto') {
       this.formularioAdicional.get(campo)?.setValue(dato.concepto_id);

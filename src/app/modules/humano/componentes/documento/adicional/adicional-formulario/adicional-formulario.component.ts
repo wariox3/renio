@@ -12,7 +12,11 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarConcepto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarConcepto,
+  RegistroAutocompletarHumContrato,
+} from '@interfaces/comunes/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -31,8 +35,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     NgSelectModule,
-    BuscarContratoComponent
-],
+    BuscarContratoComponent,
+  ],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
 })
@@ -45,7 +49,6 @@ export default class AdicionalFormularioComponent
   arrConceptosAdicional: any[] = [];
   arrContratos: any[] = [];
 
-
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
@@ -55,7 +58,7 @@ export default class AdicionalFormularioComponent
   }
 
   ngOnInit() {
-    this.consultarInformacion()
+    this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
@@ -66,9 +69,10 @@ export default class AdicionalFormularioComponent
     this.formularioAdicional = this.formBuilder.group({
       concepto: [null, Validators.compose([Validators.required])],
       contrato: ['', Validators.compose([Validators.required])],
+      contrato_nombre: [''],
+      contrato_numero_identificacion: [''],
       concepto_nombre: [''],
       arrConceptosAdicional: [''],
-      contrato_nombre: [''],
       detalle: [null],
       horas: [0],
       aplica_dia_laborado: [false],
@@ -85,16 +89,15 @@ export default class AdicionalFormularioComponent
     });
   }
 
-    // Método para manejar cambios en la selección
-    seleccionarConceptoAdcional(item: any) {
-      this.formularioAdicional.patchValue({
-        concepto: item.value.concepto_id
-      })
-      this.changeDetectorRef.detectChanges()
-    }
+  // Método para manejar cambios en la selección
+  seleccionarConceptoAdcional(item: any) {
+    this.formularioAdicional.patchValue({
+      concepto: item.value.concepto_id,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
 
-
-  consultarInformacion(){
+  consultarInformacion() {
     this.httpService
       .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
         'general/funcionalidad/lista/',
@@ -106,7 +109,7 @@ export default class AdicionalFormularioComponent
             },
           ],
           modelo: 'HumConcepto',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
       .subscribe((respuesta: any) => {
@@ -167,6 +170,8 @@ export default class AdicionalFormularioComponent
           concepto_nombre: respuesta.concepto_nombre,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          contrato_numero_identificacion:
+            respuesta.contrato_contacto_numero_identificacion,
           detalle: respuesta.detalle,
           horas: respuesta.horas,
           valor: respuesta.valor,
@@ -192,7 +197,7 @@ export default class AdicionalFormularioComponent
       // ordenamientos: [],
       // limite_conteo: 10000,
       modelo: 'HumConcepto',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -225,7 +230,7 @@ export default class AdicionalFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     this.httpService
@@ -257,6 +262,9 @@ export default class AdicionalFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+      this.formularioAdicional
+        .get('contrato_numero_identificacion')
+        ?.setValue(dato.contrato_contacto_numero_identificacion);
     }
     if (campo === 'detalle') {
       if (this.formularioAdicional.get(campo)?.value === '') {
