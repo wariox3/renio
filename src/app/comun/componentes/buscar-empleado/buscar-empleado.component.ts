@@ -170,6 +170,8 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
 
 
   modificarCampoFormulario(campo: string, dato: any) {
+    console.log(dato);
+
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
     if (campo === 'contrato') {
@@ -181,7 +183,7 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
         ?.setValue(dato.contrato_contacto_nombre_corto);
       this.formularioEmpleado
         .get('identificacion')
-        ?.setValue(dato.contrato_contacto_numero_identificacion);
+        ?.setValue(dato.numero_identificacion);
       this.emitirEmpleado.emit(dato)
     }
     this.changeDetectorRef.detectChanges();

@@ -396,6 +396,9 @@ export default class ContratoFormularioComponent
       this.formularioContrato
         .get('contacto_nombre')
         ?.setValue(dato.contacto_nombre_corto);
+        this.formularioContrato
+        .get('contacto_numero_identificacion')
+        ?.setValue(dato.numero_identificacion);
     }
 
     if (campo === 'cargo') {
