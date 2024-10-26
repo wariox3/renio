@@ -210,8 +210,6 @@ export default class CreditoFormularioComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(dato);
-
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
     if (campo === 'contrato') {

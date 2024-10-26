@@ -170,8 +170,6 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
 
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(dato);
-
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
     if (campo === 'contrato') {
