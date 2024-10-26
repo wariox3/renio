@@ -164,7 +164,7 @@ export default class ContratoFormularioComponent
         cargo: [null, Validators.required],
         cargo_nombre: [''],
         salario: ['', [Validators.required]],
-        auxilio_transporte: [false],
+        auxilio_transporte: [true],
         salario_integral: [false],
         comentario: [
           '',
