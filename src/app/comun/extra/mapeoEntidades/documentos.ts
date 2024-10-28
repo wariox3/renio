@@ -621,7 +621,7 @@ export const documentos: MapeoDocumentos = {
       aplicaFormatoNumerico: true,
     },
     {
-      nombre: 'TOTAL',
+      nombre: 'TOTAL_BRUTO',
       campoTipo: 'FloatField',
       visibleTabla: true,
       visibleFiltro: false,
@@ -639,6 +639,15 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_ELECTRONICO',
+      nombreAbreviado: 'ELE',
+      toolTip: "ESTADOELECTRONICO",
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,

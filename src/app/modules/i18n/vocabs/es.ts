@@ -816,6 +816,7 @@ export const locale = {
         EMPLEADO_NOMBRE_FILTRO: '[Empleado] nombre',
         ITEM_NOMBRE_FILTRO: '[Ítem] nombre',
         ITEM_ID_FILTRO: '[Ítem] id',
+        TOTAL_BRUTO: 'Total'
       },
       ITEM: {
         ID: 'ID',
