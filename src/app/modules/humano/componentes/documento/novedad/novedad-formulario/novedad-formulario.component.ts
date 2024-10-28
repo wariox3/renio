@@ -230,6 +230,9 @@ export default class CreditoFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
+        this.formularioAdicional
+        .get('contrato_identificacion')
+        ?.setValue(dato.contrato_contacto_numero_identificacion);
     }
     this.changeDetectorRef.detectChanges();
   }
