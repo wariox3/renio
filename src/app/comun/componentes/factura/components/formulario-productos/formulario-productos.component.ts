@@ -346,13 +346,16 @@ export class FormularioProductosComponent
     let totalCantidad = this.formularioFactura.get('totalCantidad')?.value;
     let totalBruto = this.formularioFactura.get('total_bruto')?.value;
     let impuesto = this.formularioFactura.get('impuesto')?.value;
-    let impuestoRetencion = this.formularioFactura.get('impuesto_retencion')?.value;
-
+    let impuestoRetencion =
+      this.formularioFactura.get('impuesto_retencion')?.value;
 
     total += this._operaciones.sumarTotales(this.detalles.value, 'total');
     subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
     impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
-    impuestoRetencion += this._operaciones.sumarTotales(this.detalles.value, 'impuesto_retencion');
+    impuestoRetencion += this._operaciones.sumarTotales(
+      this.detalles.value,
+      'impuesto_retencion'
+    );
     totalBruto += this._operaciones.sumarTotales(
       this.detalles.value,
       'total_bruto'
@@ -380,7 +383,7 @@ export class FormularioProductosComponent
       total_bruto: totalBruto,
       base_impuesto: baseImpuesto,
       impuesto,
-      impuesto_retencion: impuestoRetencion
+      impuesto_retencion: impuestoRetencion,
     });
   }
 
@@ -475,8 +478,13 @@ export class FormularioProductosComponent
       const brutoCalculado =
         this._calcularBruto(impuesto, impuestoOperado) + neto;
 
+      this._asignarBaseImpuestoDetalle(
+        impuesto,
+        baseCalculada,
+        formularioDetalle
+      );
+
       formularioDetalle.patchValue({
-        base_impuesto: baseCalculada,
         total_bruto: brutoCalculado,
       });
 
@@ -489,6 +497,18 @@ export class FormularioProductosComponent
       impuestoFormulario.push(
         this._formBuilder.control<ImpuestoFormulario>(impuestoConTotales)
       );
+    }
+  }
+
+  private _asignarBaseImpuestoDetalle(
+    impuesto: ImpuestoFormulario,
+    baseCalculada: number,
+    formularioDetalle: FormGroup
+  ) {
+    if (impuesto.impuesto_operacion > 0) {
+      formularioDetalle.patchValue({
+        base_impuesto: baseCalculada,
+      });
     }
   }
 
@@ -745,6 +765,7 @@ export class FormularioProductosComponent
       orden_compra: documentoFactura.orden_compra,
       comentario: documentoFactura.comentario,
       plazo_pago: documentoFactura.plazo_pago_id,
+      numero: documentoFactura.numero,
     });
   }
 
