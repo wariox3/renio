@@ -450,6 +450,16 @@ export const initialState: MenuItem = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
+            {
+              nombre: 'CUENTADECOBRO',
+              tipo: 'Documento',
+              data: {
+                documento_clase: 104,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
           ],
         },
         {

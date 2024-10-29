@@ -93,6 +93,7 @@ export const locale = {
         CARGO: 'Cargo',
         HUMCARGO: 'Cargo',
         CUENTASPAGAR: 'Cuentas por pagar',
+        CUENTADECOBRO: 'Cuenta de cobro'
       },
     },
     FORMULARIOS: {
