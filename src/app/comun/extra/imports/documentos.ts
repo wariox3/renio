@@ -44,7 +44,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   104: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/factura-recurrente/factura-recurrente-detalle/factura-recurrente-detalle.component'
+        '../../../modules/venta/componentes/documento/cuenta-cobro/cuenta-cobro-detalle/cuenta-cobro-detalle.component'
       ),
     formulario: async () =>
       await import(
