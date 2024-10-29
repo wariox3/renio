@@ -14,38 +14,6 @@
     ></button>
   </div>
   <div class="row mb-5">
-    <div class="col-md-12 col-sm-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.EMPRESA.FORMATOFACTURA"
-        class="form-label required"
-      ></label>
-      <select
-        class="form-select"
-        formControlName="formato_factura"
-        [ngClass]="{
-          'is-invalid':
-            formularioEmpresa.controls['formato_factura'].touched &&
-            formularioEmpresa.controls['formato_factura'].invalid,
-          'is-valid':
-            formularioEmpresa.controls['formato_factura'].touched &&
-            formularioEmpresa.controls['formato_factura'].valid
-        }"
-      >
-        <option value="">Seleccionar...</option>
-        <option value="F">Factura</option>
-        <option value="C">Cuenta de cobro</option>
-      </select>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioEmpresa.controls['formato_factura']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
     <div class="col-12">
       <label
         translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURASUPERIOR"

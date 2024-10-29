@@ -42,7 +42,6 @@ export class ConfiguracionVentaComponent extends General implements OnInit {
 
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
-      formato_factura: ['', Validators.required],
       informacion_factura: [
         null,
         Validators.compose([Validators.maxLength(2000)]),
@@ -61,7 +60,6 @@ export class ConfiguracionVentaComponent extends General implements OnInit {
       .obtenerConfiguracionEmpresa(1)
       .subscribe((respuesta: any) => {
         this.formularioEmpresa.patchValue({
-          formato_factura: respuesta.formato_factura,
           informacion_factura: respuesta.informacion_factura,
           informacion_factura_superior: respuesta.informacion_factura_superior,
           venta_asesor: respuesta.venta_asesor,
