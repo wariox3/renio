@@ -1011,6 +1011,7 @@ export default class ProgramacionDetalleComponent
       serializador: 'Excel',
       excel: true,
       filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
+      limite: 10000
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -1030,6 +1031,7 @@ export default class ProgramacionDetalleComponent
           valor1: this.programacion.id,
         },
       ],
+      limite: 10000
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -1049,6 +1051,7 @@ export default class ProgramacionDetalleComponent
           valor1: this.programacion.id,
         },
       ],
+      limite: 10000
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
