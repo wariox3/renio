@@ -113,6 +113,7 @@ export default class ProgramacionDetalleComponent
   pago: any = {};
   pagoDetalles: any = {};
   arrParametrosConsulta: any;
+  arrParametrosConsultaDetalle: any;
   arrParametrosConsultaAdicional: any;
   arrProgramacionDetalle: TablaRegistroLista[] = [];
   arrProgramacionAdicional: any;
@@ -242,6 +243,30 @@ export default class ProgramacionDetalleComponent
 
   inicializarParametrosConsultaProgramacionDetalle(id: number) {
     this.arrParametrosConsulta = {
+      filtros: [
+        {
+          operador: '',
+          propiedad: 'programacion_id',
+          valor1: this.programacion.id,
+          valor2: '',
+        },
+        {
+          operador: '',
+          propiedad: 'id',
+          valor1: id,
+          valor2: '',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'HumProgramacionDetalle',
+    };
+  }
+
+  inicializarParametrosConsultaProgramacionDetalleEditar(id: number) {
+    this.arrParametrosConsultaDetalle = {
       filtros: [
         {
           operador: '',
@@ -469,7 +494,7 @@ export default class ProgramacionDetalleComponent
     });
     this.registroSeleccionado = id;
     this.iniciarFormularioEditarDetalles();
-    this.inicializarParametrosConsultaProgramacionDetalle(id);
+    this.inicializarParametrosConsultaProgramacionDetalleEditar(id);
     this.consultarRegistroDetalleProgramacion();
     this.changeDetectorRef.detectChanges();
   }
@@ -535,7 +560,7 @@ export default class ProgramacionDetalleComponent
       .post<{
         registros: ProgramacionDetalleRegistro[];
         cantidad_registros: number;
-      }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      }>('general/funcionalidad/lista/', this.arrParametrosConsultaDetalle)
       .subscribe((respuesta) => {
         if (respuesta.registros.length) {
           const { registros } = respuesta;
