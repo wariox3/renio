@@ -11,6 +11,9 @@
           <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
           <th class="w-50px" translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"></th>
           <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
+          <th class="w-100px">
+            <div placement="top" ngbTooltip="Porcentaje descuento">{{ 'FORMULARIOS.TITULOS.FACTURACION.DESCUENTO' | translate }}</div>
+          </th>
           <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"></th>
           <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"></th>
           <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.NETO"></th>
@@ -26,7 +29,8 @@
                 [campoInvalido]="
                     detalle.get('item')?.touched &&
                     detalle.get('item')?.invalid
-                  " (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)" [formularioTipo]="formularioTipo"></app-seleccionar-producto>
+                  " (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
+                [formularioTipo]="formularioTipo"></app-seleccionar-producto>
             </td>
             <td>
               <input type="number" [value]="detalle.value.cantidad" formControlName="cantidad"
@@ -62,6 +66,27 @@
               <div *ngIf="
                     detalle.get('precio')?.touched && detalle.get('precio')?.hasError('valorCero') || detalle.get('precio')?.invalid
                   ">
+                <div class="fv-plugins-message-container">
+                  <div class="fv-help-block">
+                    <span role="alert">
+                      Valor no permitido.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <input type="number" min="0" max="100" [value]="detalle.value.porcentaje_descuento"
+                formControlName="porcentaje_descuento" (focus)="onDescuentoChange(i)" class="form-control-sm"
+                [attr.disabled]="estadoAprobado" [readonly]="estadoAprobado" [ngClass]="{
+                    'disabled-cursor bg-transparent':
+                      estadoAprobado,
+                    'text-white':
+                    themeValue === 'dark' && estadoAprobado
+                  }" rows="1" spellcheck="true" appSoloNumeros min="0" />
+              <div *ngIf="
+                  detalle.get('porcentaje_descuento')?.touched && detalle.get('porcentaje_descuento')?.hasError('valorCero') || detalle.get('porcentaje_descuento')?.invalid
+                ">
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <span role="alert">

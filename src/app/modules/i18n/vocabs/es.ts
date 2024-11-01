@@ -281,7 +281,7 @@ export const locale = {
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
           PRECIO: 'Precio',
-          DESCUENTO: 'Descuento',
+          DESCUENTO: 'Desc %',
           IMPUESTO: 'Impuesto',
           IMPINCLUIDOS: 'Imp Incluidos',
           AGREGARITEM: 'Agregar ítem',

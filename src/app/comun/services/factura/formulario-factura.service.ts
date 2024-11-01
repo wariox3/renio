@@ -56,6 +56,7 @@ export class FormularioFacturaService {
         asesor: [''],
         asesor_nombre_corto: [null],
         sede: [''],
+        descuento: [0],
         sede_nombre: [null],
         plazo_pago: [1, Validators.required],
         detalles: this._formBuilder.array([]),

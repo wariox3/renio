@@ -38,6 +38,8 @@ import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
+import { validarDescuento } from '@comun/validaciones/validar-descuento.validate';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -50,6 +52,7 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
     TranslateModule,
     SeleccionarImpuestosComponent,
     SeleccionarProductoComponent,
+    NgbTooltipModule,
   ],
   providers: [KeyValuePipe],
   templateUrl: './formulario-productos.component.html',
@@ -121,6 +124,18 @@ export class FormularioProductosComponent
       });
   }
 
+  onDescuentoChange(i: number) {
+    this.detalles.controls[i]
+      .get('porcentaje_descuento')
+      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+      .subscribe((valor: number | null) => {
+        const nuevoValor = valor || 0;
+        if (nuevoValor >= 0) {
+          this._actualizarDescuentoItem(i, Number(nuevoValor));
+        }
+      });
+  }
+
   eliminarItem(indexFormulario: number) {
     const itemsActualizados = this.detalles.value.filter(
       (detalleFormulario: any, index: number) => {
@@ -180,7 +195,15 @@ export class FormularioProductosComponent
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
-      porcentaje_descuento: [0],
+      porcentaje_descuento: [
+        0,
+        [
+          Validators.min(0),
+          Validators.max(100),
+          validarDescuento(),
+          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+        ],
+      ],
       descuento: [0],
       subtotal: [0],
       total: [0],
@@ -217,6 +240,7 @@ export class FormularioProductosComponent
       item: item.id,
       cantidad: 1,
       subtotal,
+      porcentaje_descuento: 0,
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
@@ -348,8 +372,11 @@ export class FormularioProductosComponent
     let impuesto = this.formularioFactura.get('impuesto')?.value;
     let impuestoRetencion =
       this.formularioFactura.get('impuesto_retencion')?.value;
+    let descuento =
+      this.formularioFactura.get('descuento')?.value;
 
     total += this._operaciones.sumarTotales(this.detalles.value, 'total');
+    descuento += this._operaciones.sumarTotales(this.detalles.value, 'descuento');
     subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
     impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
     impuestoRetencion += this._operaciones.sumarTotales(
@@ -376,6 +403,7 @@ export class FormularioProductosComponent
     // impuesto total
 
     this.formularioFactura.patchValue({
+      descuento,
       totalCantidad,
       total,
       subtotal,
@@ -391,6 +419,7 @@ export class FormularioProductosComponent
     this.formularioFactura.get('total')?.setValue(0);
     this.formularioFactura.get('subtotal')?.setValue(0);
     this.formularioFactura.get('impuesto_operado')?.setValue(0);
+    this.formularioFactura.get('descuento')?.setValue(0);
     this.formularioFactura.get('base_impuesto')?.setValue(0);
     this.formularioFactura.get('total_bruto')?.setValue(0);
     this.formularioFactura.get('totalCantidad')?.setValue(0);
@@ -403,17 +432,8 @@ export class FormularioProductosComponent
     indexFormulario: number,
     nuevaCantidad: number
   ) {
-    const precio = this.detalles.controls[indexFormulario].get('precio')?.value;
-    const subtotalCalculado = this._operaciones.calcularSubtotal(
-      nuevaCantidad,
-      precio
-    );
     const impuestos =
       this.detalles.controls[indexFormulario].get('impuestos')?.value;
-
-    this.detalles.controls[indexFormulario].patchValue({
-      subtotal: subtotalCalculado,
-    });
 
     this._actualizarImpuestoItem(impuestos, indexFormulario);
     this._limpiarFormularioTotales();
@@ -422,18 +442,8 @@ export class FormularioProductosComponent
   }
 
   private _actualizarPrecioItem(indexFormulario: number, nuevoPrecio: number) {
-    const cantidad =
-      this.detalles.controls[indexFormulario].get('cantidad')?.value;
-    const subtotalCalculado = this._operaciones.calcularSubtotal(
-      cantidad,
-      nuevoPrecio
-    );
     const impuestos =
       this.detalles.controls[indexFormulario].get('impuestos')?.value;
-
-    this.detalles.controls[indexFormulario].patchValue({
-      subtotal: subtotalCalculado,
-    });
 
     this._actualizarImpuestoItem(impuestos, indexFormulario);
     this._limpiarFormularioTotales();
@@ -441,17 +451,84 @@ export class FormularioProductosComponent
     this._actualizarFormulario();
   }
 
+  private _actualizarDescuentoItem(
+    indexFormulario: number,
+    nuevoDescuento: number
+  ) {
+    const impuestos =
+      this.detalles.controls[indexFormulario].get('impuestos')?.value;
+
+    this._actualizarImpuestoItem(impuestos, indexFormulario);
+    this._limpiarFormularioTotales();
+    this._limpiarImpuestosAcumulados();
+    this._actualizarFormulario();
+  }
+
+  private _calcularSubtotal(
+    indexFormulario: number,
+    nuevaCantidad?: number,
+    nuevoPrecio?: number
+  ) {
+    const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
+    const cantidad =
+      nuevaCantidad ||
+      this.detalles.controls[indexFormulario].get('cantidad')?.value;
+    const precio =
+      nuevoPrecio ||
+      this.detalles.controls[indexFormulario].get('precio')?.value;
+
+    const subtotalCalculado = this._operaciones.calcularSubtotal(
+      cantidad,
+      precio
+    );
+
+    formularioDetalle.patchValue({
+      subtotal: subtotalCalculado,
+    });
+  }
+
   private _actualizarImpuestoItem(
     impuestos: ImpuestoFormulario[],
     indexFormulario: number
   ) {
     this._limpiarImpuestos(indexFormulario);
+    this._calcularSubtotal(indexFormulario);
+    this._calcularDescuento(indexFormulario);
+    this._calcularSubtotalConDescuento(indexFormulario);
 
     impuestos.forEach((impuesto) => {
       this._calcularImpuestoTotalItem(indexFormulario, impuesto);
     });
 
     this._cacularTotalItem(indexFormulario);
+  }
+
+  private _calcularSubtotalConDescuento(indexFormulario: number) {
+    const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
+    const subtotal = formularioDetalle.get('subtotal')?.value;
+    const descuento = formularioDetalle.get('descuento')?.value || 0;
+
+    const subtotalConDescuentoCalculado = subtotal - descuento;
+
+    formularioDetalle.patchValue({
+      subtotal: subtotalConDescuentoCalculado,
+    });
+  }
+
+  private _calcularDescuento(indexFormulario: number) {
+    const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
+    const subtotal = formularioDetalle.get('subtotal')?.value;
+    const porcentajeDescuento =
+      formularioDetalle.get('porcentaje_descuento')?.value || 0;
+
+    const descuentoCalculado = this._operaciones.calcularDescuento(
+      subtotal,
+      porcentajeDescuento
+    );
+
+    formularioDetalle.patchValue({
+      descuento: descuentoCalculado,
+    });
   }
 
   private _agregarImpuestoItem(

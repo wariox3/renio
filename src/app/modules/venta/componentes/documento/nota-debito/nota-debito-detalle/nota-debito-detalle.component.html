@@ -90,6 +90,7 @@
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"></th>
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
+                      <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"></th>
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"></th>
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"></th>
                       <th class="bg-gray-100" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"></th>
@@ -107,6 +108,10 @@
                         </td>
                         <td class="text-end">
                           {{ detalle.precio | number }}
+                        </td>
+                        <td class="text-end" style="width: 10rem">
+                          {{ detalle.porcentaje_descuento }}
+                          <i class="bi bi-percent"></i>
                         </td>
                         <td class="text-end">
                           {{ detalle.subtotal | number }}
@@ -130,9 +135,8 @@
               <div class="row">
                 <div class="d-flex justify-content-end mb-5">
                   <app-detalles-totales *ngIf="documento.detalles.length" [detalles]="documento.detalles"
-                  [totalBase]="totalBase" [subtotalGeneral]="subtotalGeneral" [totalImpuestos]="totalImpuestos"
-                  [totalGeneral]="totalGeneral"
-                  [totalCantidad]="totalCantidad"></app-detalles-totales>
+                    [totalBase]="totalBase" [subtotalGeneral]="subtotalGeneral" [totalImpuestos]="totalImpuestos"
+                    [totalGeneral]="totalGeneral" [totalCantidad]="totalCantidad"></app-detalles-totales>
                 </div>
               </div>
             </ng-template>

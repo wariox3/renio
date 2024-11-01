@@ -26,6 +26,10 @@ export class OperacionesService {
     return this.redondear(impuestoCalculado * operacion, 2);
   }
 
+  calcularDescuento(subtotal: number, porcentajeDescuento: number) {
+    return this.redondear((subtotal * porcentajeDescuento) / 100, 2);
+  }
+
   sumarTotales(
     detalle: DocumentoFacturaDetalleRespuesta[],
     llave:
@@ -37,6 +41,7 @@ export class OperacionesService {
       | 'base_impuesto'
       | 'cantidad'
       | 'total_bruto'
+      | 'descuento'
   ) {
     return this.redondear(
       detalle.reduce((acc, curVal) => {
