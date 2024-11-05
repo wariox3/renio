@@ -188,7 +188,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         ],
         direccion: [
           null,
-          Validators.compose([Validators.required, Validators.maxLength(50)]),
+          Validators.compose([Validators.required, Validators.maxLength(255)]),
         ],
         correo: [
           null,
