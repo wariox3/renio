@@ -190,8 +190,8 @@ export class FormularioProductosComponent
       precio: [
         0,
         [
-          validarPrecio(),
-          Validators.min(1),
+          validarPrecio(),  
+          Validators.min(0.1),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
