@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import Swal from 'sweetalert2';
+import { from, Observable } from 'rxjs';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
@@ -170,7 +171,24 @@ export class AlertaService {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: configuracion.textoBotonCofirmacion,
-      cancelButtonText: 'Cancelar'
-    })
+      cancelButtonText: 'Cancelar',
+    });
+  }
+
+  confirmarSinReversa(): Observable<SweetAlertResult> {
+    return from(
+      Swal.fire({
+        title: '¿Está seguro de aprobar el registro?',
+        text: ' Esta acción no se puede reversa',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#1B84FF',
+        cancelButtonColor: '#F8285A',
+        reverseButtons: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Cancelar`,
+      })
+    );
   }
 }
