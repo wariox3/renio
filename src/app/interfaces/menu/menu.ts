@@ -36,6 +36,8 @@ export interface informacionMenuItem {
     visualizarBtnEliminar?: string;
     visualizarColumnaSeleccionar?: string;
     visualizarBtnImportar?: string;
+    visualizarBtnExportarExcel?: string;
+    visualizarBtnExportarZip?: string;
     resoluciontipo?: string;
     serializador?: string;
     submodelo?: string;

@@ -80,12 +80,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarColumnaSeleccionar: boolean = true;
   @Input() visualizarBtnImportar: boolean = true;
   @Input() visualizarBtnExportar: boolean = true;
+  @Input() visualizarBtnExportarZip: boolean = true;
   @Input() visualizarBtnNuevo: boolean = true;
   @Input() visualizarBtnEliminar: boolean = true;
   @Input() visualizarBtnColumnas: boolean = true;
   @Input() visualizarBtnExtra: boolean;
   @Input() botonesExtras: BotonesExtras[] = [];
   @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
+  @Output() emitirExportarZip: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
@@ -429,6 +431,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   exportarExcel() {
     this.emitirExportarExcel.emit(true);
+  }
+
+  exportarZip(){
+    this.emitirExportarZip.emit(true);
   }
 
   visualizarBtnEstado(item: any) {

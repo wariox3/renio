@@ -64,6 +64,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarBtnEliminar = true;
   visualizarColumnaSeleccionar = true;
   visualizarBtnImportar = true;
+  visualizarBtnExportarZip: boolean;
 
   constructor(
     private httpService: HttpService,
@@ -87,6 +88,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
       this.visualizarBtnImportar =
         parametro.visualizarBtnImportar === 'no' ? false : true;
+      this.visualizarBtnExportarZip =
+      parametro.visualizarBtnExportarZip === 'si' ?  true : false;
 
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
@@ -337,26 +340,19 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     });
   }
 
+  descargarZip(){
+    this.descargarArchivosService.descargarZipDocumentos({
+      ...this.arrParametrosConsulta,
+      zip: true,
+      ...{
+        limite: 5000,
+      },
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 
-  // imprimir() {
-  //   this.httpService
-  //     .descargarArchivo(
-  //       'general/documento/imprimir/',
-  //       this.arrParametrosConsulta
-  //     )
-  //     .subscribe((data) => {
-  //       const blob = new Blob([data], { type: 'application/pdf' });
-  //       const url = window.URL.createObjectURL(blob);
-  //       const a = document.createElement('a');
-  //       a.href = url;
-  //       a.download = `${this.activatedRoute.snapshot.queryParams['modelo']}.pdf`;
-  //       document.body.appendChild(a);
-  //       a.click();
-  //       window.URL.revokeObjectURL(url);
-  //     });
-  // }
 }

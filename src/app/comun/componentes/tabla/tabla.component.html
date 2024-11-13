@@ -75,6 +75,11 @@
           <button ngbDropdownItem (click)="exportarExcel()">
             {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
           </button>
+          @if (visualizarBtnExportarZip) {
+            <button ngbDropdownItem (click)="exportarZip()">
+              {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+            </button>
+          }
         </div>
       </div>
       <button

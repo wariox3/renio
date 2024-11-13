@@ -253,6 +253,7 @@ export const initialState: MenuItem = {
                 documento_clase: 'HumProgramacion',
                 ordenamiento: '-fecha_desde',
                 modelo: 'HumProgramacionDetalleAdicional',
+                visualizarBtnExportarZip: 'si',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -302,6 +303,23 @@ export const initialState: MenuItem = {
           ],
         },
         {
+          nombre: 'seguridadSocial',
+          menuOpen: true,
+          children: [
+            {
+              nombre: 'APORTE',
+              tipo: 'Documento',
+              data: {
+                documento_clase: 'HumAporte',
+                ordenamiento: '-fecha_desde',
+                modelo: 'HumAporte',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: false,
+            }
+          ],
+        },
+        {
           nombre: 'documento',
           menuOpen: false,
           children: [
@@ -316,6 +334,7 @@ export const initialState: MenuItem = {
                 visualizarBtnEliminar: 'no',
                 visualizarColumnaSeleccionar: 'no',
                 visualizarBtnImportar: 'no',
+                visualizarBtnExportarZip: 'si'
               },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
@@ -416,6 +435,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 100,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnExportarZip: 'si',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
