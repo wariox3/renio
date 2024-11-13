@@ -88,6 +88,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'map';
       case 'nomina':
         return 'dollar';
+      case 'seguridadSocial':
+        return 'people';
     }
   }
 
