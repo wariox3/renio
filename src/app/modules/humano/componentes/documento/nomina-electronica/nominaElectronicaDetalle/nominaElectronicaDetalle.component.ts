@@ -7,7 +7,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Documento } from '@interfaces/humano/nominaElectronica.';
 import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { switchMap, tap, zip } from 'rxjs';
+import { EMPTY, switchMap, tap, zip } from 'rxjs';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaseEstadosComponent } from "../../../../../../comun/componentes/base-estados/base-estados.component";
 
@@ -118,19 +118,30 @@ export default class NominaElectronicaDetalleComponent
   }
 
   aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
-      .pipe(
-        switchMap(() =>
-          this.nominaElectronicaService.consultarDetalle(this.detalle)
-        ),
-        tap((respuestaConsultaDetalle) => {
-          this.nominaElectronica = respuestaConsultaDetalle.documento;
+    this.alertaService
+    .confirmarSinReversa()
+    .pipe(
+      switchMap((respuesta) => {
+        if (respuesta.isConfirmed) {
+          return this.httpService.post('general/documento/aprobar/', {
+            id: this.detalle,
+          });
+        }
+        return EMPTY;
+      }),
+      switchMap((respuesta) =>
+        respuesta ? this.nominaElectronicaService.consultarDetalle(this.detalle) : EMPTY
+      ),
+      tap((respuestaConsultaDetalle: any) => {
+        this.nominaElectronica = respuestaConsultaDetalle.documento
+        if (respuestaConsultaDetalle) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+          );
           this.changeDetectorRef.detectChanges();
-          this.alertaService.mensajaExitoso('Documento aprobado');
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
+        }
+      })
+    )
+    .subscribe();
   }
 }

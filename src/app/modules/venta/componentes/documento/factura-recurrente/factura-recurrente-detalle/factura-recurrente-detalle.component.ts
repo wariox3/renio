@@ -22,7 +22,7 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { switchMap, tap } from 'rxjs';
+import { EMPTY, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -141,16 +141,30 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   }
 
   aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
+    this.alertaService
+      .confirmarSinReversa()
       .pipe(
-        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
         tap((respuestaConsultaDetalle: any) => {
-          this.documento = respuestaConsultaDetalle.documento;
-          this.arrEstados.estado_aprobado =
-            respuestaConsultaDetalle.documento.estado_aprobado;
-          this.alertaService.mensajaExitoso('Documento aprobado');
-          this.changeDetectorRef.detectChanges();
+          if (respuestaConsultaDetalle) {
+            this.documento = respuestaConsultaDetalle.documento;
+            this.arrEstados.estado_aprobado =
+              respuestaConsultaDetalle.documento.estado_aprobado;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
         })
       )
       .subscribe();

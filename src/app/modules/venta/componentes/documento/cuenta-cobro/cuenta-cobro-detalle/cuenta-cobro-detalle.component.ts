@@ -19,7 +19,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { switchMap, tap } from 'rxjs';
+import { EMPTY, switchMap, tap } from 'rxjs';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
@@ -144,16 +144,30 @@ export default class CuentaCobroDetalleComponent extends General {
   }
 
   aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
+    this.alertaService
+      .confirmarSinReversa()
       .pipe(
-        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
         tap((respuestaConsultaDetalle: any) => {
-          this.documento = respuestaConsultaDetalle.documento;
-          this.arrEstados.estado_aprobado =
-            respuestaConsultaDetalle.documento.estado_aprobado;
-          this.alertaService.mensajaExitoso('Documento aprobado');
-          this.changeDetectorRef.detectChanges();
+          if (respuestaConsultaDetalle) {
+            this.documento = respuestaConsultaDetalle.documento;
+            this.arrEstados.estado_aprobado =
+              respuestaConsultaDetalle.documento.estado_aprobado;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
         })
       )
       .subscribe();

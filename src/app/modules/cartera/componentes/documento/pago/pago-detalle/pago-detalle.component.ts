@@ -9,6 +9,7 @@ import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { EMPTY, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-pago-detalle',
@@ -62,12 +63,33 @@ export default class PagoDetalleComponent extends General {
   }
 
   aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento aprobado');
-      });
+    this.alertaService
+    .confirmarSinReversa()
+    .pipe(
+      switchMap((respuesta) => {
+        if (respuesta.isConfirmed) {
+          return this.httpService.post('general/documento/aprobar/', {
+            id: this.detalle,
+          });
+        }
+        return EMPTY;
+      }),
+      switchMap((respuesta) =>
+        respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+      ),
+      tap((respuestaConsultaDetalle: any) => {
+        if (respuestaConsultaDetalle) {
+          this.pago = respuestaConsultaDetalle.documento;
+          this.arrEstados.estado_aprobado =
+            respuestaConsultaDetalle.documento.estado_aprobado;
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+          );
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    )
+    .subscribe();
   }
 
   imprimir() {

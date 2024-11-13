@@ -41,6 +41,7 @@ import {
   BehaviorSubject,
   debounceTime,
   distinctUntilChanged,
+  EMPTY,
   finalize,
   Subject,
   switchMap,
@@ -336,14 +337,32 @@ export default class ProgramacionDetalleComponent
   }
 
   aprobar() {
-    this.httpService
-      .post('humano/programacion/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Documento aprobado');
-        this.arrEstados.estado_aprobado = true;
-        this.consultarDatos();
-        this.changeDetectorRef.detectChanges();
-      });
+
+    this.alertaService
+    .confirmarSinReversa()
+    .pipe(
+      switchMap((respuesta) => {
+        if (respuesta.isConfirmed) {
+          return this.httpService.post('humano/programacion/aprobar/', {
+            id: this.detalle,
+          });
+        }
+        return EMPTY;
+      }),
+      switchMap((respuesta) =>
+        respuesta ? this.programacion.consultarDetalle(this.detalle) : EMPTY
+      ),
+      tap((respuestaConsultaDetalle: any) => {
+        this.programacion = respuestaConsultaDetalle.documento
+        if (respuestaConsultaDetalle) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+          );
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    )
+    .subscribe();
   }
 
   actualizarDetalleProgramacion() {

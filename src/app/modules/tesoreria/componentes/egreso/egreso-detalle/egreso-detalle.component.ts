@@ -20,6 +20,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { EMPTY, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-egreso-detalle',
@@ -129,12 +130,31 @@ export default class EgresoDetalleComponent extends General implements OnInit {
   }
 
   aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento aprobado');
-      });
+    this.alertaService
+    .confirmarSinReversa()
+    .pipe(
+      switchMap((respuesta) => {
+        if (respuesta.isConfirmed) {
+          return this.httpService.post('general/documento/aprobar/', {
+            id: this.detalle,
+          });
+        }
+        return EMPTY;
+      }),
+      switchMap((respuesta) =>
+        respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+      ),
+      tap((respuestaConsultaDetalle: any) => {
+        this.pago = respuestaConsultaDetalle.documento
+        if (respuestaConsultaDetalle) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+          );
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    )
+    .subscribe();
   }
 
   imprimir() {
