@@ -8,7 +8,7 @@ import { Observable, map, of, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class FechasService {
-  protected meses = {
+  meses = {
     es: [
       'enero',
       'febrero',
@@ -134,31 +134,31 @@ export class FechasService {
         } else {
           arrMeses = this.meses.en;
         }
-  
+
         const fechaActual = new Date();
         const primerDiaDelMes = new Date(
           fechaActual.getFullYear(),
           fechaActual.getMonth(),
           1
         );
-  
+
         const diaActual = fechaActual.getDate();
         const primerDia = primerDiaDelMes.getDate();
         const mesActual = arrMeses[fechaActual.getMonth() - 1];
         const anioActual = fechaActual.getFullYear();
-  
+
         let mensaje: string;
         if (idioma === 'es') {
           mensaje = `Resumen del mes hasta la fecha ${primerDia} al ${diaActual} de ${mesActual} de ${anioActual}.`;
         } else {
           mensaje = `Month-to-date Summary ${mesActual} ${primerDia} - ${diaActual}, ${anioActual}.`;
         }
-  
+
         return mensaje;
       })
     );
   }
-  
+
   getFechaVencimientoInicial() {
     const fechaActual = new Date();
     const fullAnio = fechaActual.getFullYear();
