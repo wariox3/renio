@@ -350,11 +350,11 @@ export default class ProgramacionDetalleComponent
         return EMPTY;
       }),
       switchMap((respuesta) =>
-        respuesta ? this.programacion.consultarDetalle(this.detalle) : EMPTY
+        respuesta ? this.programacionService.consultarDetalle(this.detalle) : EMPTY
       ),
       tap((respuestaConsultaDetalle: any) => {
-        this.programacion = respuestaConsultaDetalle.documento
         if (respuestaConsultaDetalle) {
+          this.programacion = respuestaConsultaDetalle
           this.alertaService.mensajaExitoso(
             this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
           );
