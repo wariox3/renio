@@ -1727,6 +1727,36 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
   ],
+  HumAporte: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'MES',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'ANIO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'SUCURSAL_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
   ConMovimiento: [
     {
       nombre: 'ID',

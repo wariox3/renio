@@ -207,4 +207,14 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/humano/componentes/documento/novedad/novedad-formulario/novedad-formulario.component'
       ),
   },
+  HumAporte: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/aporte/aporte-detalle/aporte-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/componentes/documento/aporte/aporte-formulario/aporte-formulario.component'
+      ),
+  }
 };
