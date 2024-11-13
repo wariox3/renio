@@ -25,6 +25,7 @@ export const locale = {
         PROCESO: 'Proceso',
         INFORME: 'Informe',
         NOMINA: 'Nomina',
+        SEGURIDADSOCIAL: 'Seguridad social',
       },
       FUNCIONALIDAD: {
         PERIODO: 'Periodo',
@@ -93,7 +94,8 @@ export const locale = {
         CARGO: 'Cargo',
         HUMCARGO: 'Cargo',
         CUENTASPAGAR: 'Cuentas por pagar',
-        CUENTADECOBRO: 'Cuenta de cobro'
+        CUENTADECOBRO: 'Cuenta de cobro',
+        APORTE: 'Aporte',
       },
     },
     FORMULARIOS: {
@@ -138,6 +140,7 @@ export const locale = {
           TERMINAR: 'Terminar',
           NOTIFICAR: 'Notificar',
           NOTIFICANDO: 'Notificando',
+          ZIP: 'Zip'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -204,6 +207,8 @@ export const locale = {
           RECARGOFESTIVODIURNO: 'Recargo festivo diurno',
           RECARGOFESTIVONOCTURNO: 'Recargo festivo nocturno',
           TIPO: '',
+          MES: 'Mes',
+          ANIO: 'Año'
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -618,6 +623,9 @@ export const locale = {
             CODIGO: 'Código',
             ESTADOINACTIVO: 'Estado inactivo',
           },
+          APORTE: {
+            SUCURSAL: 'Sucursal'
+          }
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento',
@@ -817,7 +825,10 @@ export const locale = {
         EMPLEADO_NOMBRE_FILTRO: '[Empleado] nombre',
         ITEM_NOMBRE_FILTRO: '[Ítem] nombre',
         ITEM_ID_FILTRO: '[Ítem] id',
-        TOTAL_BRUTO: 'Total'
+        TOTAL_BRUTO: 'Total',
+        MES: 'Mes',
+        ANIO: 'Año',
+        SUCURSAL_NOMBRE: 'Sucursal'
       },
       ITEM: {
         ID: 'ID',
@@ -1164,6 +1175,10 @@ export const locale = {
       NOMINA: 'Nómina',
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
+    },
+    MENSAJES:{
+      DOCUMENTOAPROBADO: 'Documento aprobado',
+      Cargando: 'Cargando'
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',
