@@ -43,15 +43,6 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
     }
   }
 
-  aprobar() {
-    this.httpService
-      .post('general/documento/aprobar/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Documento aprobado');
-        window.location.reload();
-      });
-  }
-
   emitir() {
     this.httpService
       .post('general/documento/emitir/', { id: this.detalle })
