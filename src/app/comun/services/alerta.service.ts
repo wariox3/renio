@@ -178,8 +178,8 @@ export class AlertaService {
   confirmarSinReversa(): Observable<SweetAlertResult> {
     return from(
       Swal.fire({
-        title: '¿Está seguro de aprobar el registro?',
-        text: ' Esta acción no se puede reversa',
+        title: '¿Está seguro de que desea aprobar el registro?',
+        text: ' Esta acción es irreversible.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#1B84FF',
