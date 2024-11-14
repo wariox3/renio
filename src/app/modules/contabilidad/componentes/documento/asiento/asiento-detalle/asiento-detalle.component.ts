@@ -20,8 +20,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     TranslateModule,
     NgbNavModule,
     NgbDropdownModule,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+  ],
   templateUrl: './asiento-detalle.component.html',
 })
 export default class PagoDetalleComponent extends General {
@@ -45,7 +45,7 @@ export default class PagoDetalleComponent extends General {
     estado_anulado: false,
   };
   detalles: any[] = [];
-  tabActive = 1
+  tabActive = 1;
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService
@@ -66,30 +66,30 @@ export default class PagoDetalleComponent extends General {
 
   aprobar() {
     this.alertaService
-    .confirmarSinReversa()
-    .pipe(
-      switchMap((respuesta) => {
-        if (respuesta.isConfirmed) {
-          return this.httpService.post('general/documento/aprobar/', {
-            id: this.detalle,
-          });
-        }
-        return EMPTY;
-      }),
-      switchMap((respuesta) =>
-        respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
-      ),
-      tap((respuestaConsultaDetalle: any) => {
-        if (respuestaConsultaDetalle) {
-          this.asiento = respuestaConsultaDetalle.documento;
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      })
-    )
-    .subscribe();
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
+        tap((respuestaConsultaDetalle: any) => {
+          if (respuestaConsultaDetalle) {
+            this.asiento = respuestaConsultaDetalle.documento;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 
   imprimir() {
@@ -106,12 +106,14 @@ export default class PagoDetalleComponent extends General {
     });
   }
 
-  anular(){
+  anular() {
     this.httpService
       .post('general/documento/anular/', { id: this.detalle })
       .subscribe((respuesta: any) => {
         this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento anulado');
+        this.alertaService.mensajaExitoso(
+          this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+        );
       });
   }
 
@@ -127,20 +129,20 @@ export default class PagoDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 
-    // Obtener total de débitos
-    getTotalDebito(): number {
-      return this.detalles
-        .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
-        .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
-    }
+  // Obtener total de débitos
+  getTotalDebito(): number {
+    return this.detalles
+      .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
+      .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+  }
 
-    // Obtener total de créditos
-    getTotalCredito(): number {
-      return this.detalles
-        .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
-        .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
-    }
+  // Obtener total de créditos
+  getTotalCredito(): number {
+    return this.detalles
+      .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
+      .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+  }
 }

@@ -20,8 +20,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbNavModule,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+  ],
   templateUrl: './pago-detalle.component.html',
 })
 export default class PagoDetalleComponent extends General {
@@ -44,7 +44,7 @@ export default class PagoDetalleComponent extends General {
     estado_aprobado: false,
     estado_anulado: false,
   };
-  tabActive = 1
+  tabActive = 1;
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService
@@ -64,32 +64,32 @@ export default class PagoDetalleComponent extends General {
 
   aprobar() {
     this.alertaService
-    .confirmarSinReversa()
-    .pipe(
-      switchMap((respuesta) => {
-        if (respuesta.isConfirmed) {
-          return this.httpService.post('general/documento/aprobar/', {
-            id: this.detalle,
-          });
-        }
-        return EMPTY;
-      }),
-      switchMap((respuesta) =>
-        respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
-      ),
-      tap((respuestaConsultaDetalle: any) => {
-        if (respuestaConsultaDetalle) {
-          this.pago = respuestaConsultaDetalle.documento;
-          this.arrEstados.estado_aprobado =
-            respuestaConsultaDetalle.documento.estado_aprobado;
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      })
-    )
-    .subscribe();
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
+        tap((respuestaConsultaDetalle: any) => {
+          if (respuestaConsultaDetalle) {
+            this.pago = respuestaConsultaDetalle.documento;
+            this.arrEstados.estado_aprobado =
+              respuestaConsultaDetalle.documento.estado_aprobado;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 
   imprimir() {
@@ -106,12 +106,14 @@ export default class PagoDetalleComponent extends General {
     });
   }
 
-  anular(){
+  anular() {
     this.httpService
       .post('general/documento/anular/', { id: this.detalle })
       .subscribe((respuesta: any) => {
         this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento anulado');
+        this.alertaService.mensajaExitoso(
+          this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+        );
       });
   }
 
@@ -127,6 +129,6 @@ export default class PagoDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.navegarDocumentoNuevo();
   }
 }

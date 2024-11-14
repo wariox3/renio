@@ -1178,6 +1178,7 @@ export const locale = {
     },
     MENSAJES:{
       DOCUMENTOAPROBADO: 'Documento aprobado',
+      DOCUMENTOANULADO: 'Documento anulado',
       Cargando: 'Cargando'
     },
     PAGOS: {

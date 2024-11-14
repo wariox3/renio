@@ -187,7 +187,9 @@ export default class CuentaCobroDetalleComponent extends General {
           this.totalGeneral = 0;
           this.arrEstados.estado_anulado =
             respuestaConsultaDetalle.documento.estado_anulado;
-          this.alertaService.mensajaExitoso('Documento anulado');
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+          );
           this.changeDetectorRef.detectChanges();
         })
       )

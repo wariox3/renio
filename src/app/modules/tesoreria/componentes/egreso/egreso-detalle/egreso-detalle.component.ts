@@ -34,8 +34,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     NgSelectModule,
     NgbDropdownModule,
     ReactiveFormsModule,
-    BaseEstadosComponent
-],
+    BaseEstadosComponent,
+  ],
   templateUrl: './egreso-detalle.component.html',
 })
 export default class EgresoDetalleComponent extends General implements OnInit {
@@ -94,7 +94,7 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       );
     }
 
-    this.modalService.dismissAll()
+    this.modalService.dismissAll();
   }
 
   abrirModal(content: any) {
@@ -110,7 +110,7 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.pago = respuesta.documento;
-        this.detalles = this.pago.detalles;  // Almacenamos los detalles de la factura
+        this.detalles = this.pago.detalles; // Almacenamos los detalles de la factura
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -131,30 +131,30 @@ export default class EgresoDetalleComponent extends General implements OnInit {
 
   aprobar() {
     this.alertaService
-    .confirmarSinReversa()
-    .pipe(
-      switchMap((respuesta) => {
-        if (respuesta.isConfirmed) {
-          return this.httpService.post('general/documento/aprobar/', {
-            id: this.detalle,
-          });
-        }
-        return EMPTY;
-      }),
-      switchMap((respuesta) =>
-        respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
-      ),
-      tap((respuestaConsultaDetalle: any) => {
-        this.pago = respuestaConsultaDetalle.documento
-        if (respuestaConsultaDetalle) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      })
-    )
-    .subscribe();
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
+        tap((respuestaConsultaDetalle: any) => {
+          this.pago = respuestaConsultaDetalle.documento;
+          if (respuestaConsultaDetalle) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 
   imprimir() {
@@ -176,7 +176,9 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       .post('general/documento/anular/', { id: this.detalle })
       .subscribe((respuesta: any) => {
         this.consultardetalle();
-        this.alertaService.mensajaExitoso('Documento anulado');
+        this.alertaService.mensajaExitoso(
+          this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+        );
       });
   }
 
@@ -190,5 +192,4 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       });
     });
   }
-
 }
