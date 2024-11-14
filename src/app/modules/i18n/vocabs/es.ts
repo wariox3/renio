@@ -162,6 +162,11 @@ export const locale = {
         EMPRESA: {
           ACTIVAR: 'Activar',
         },
+        ELECTRONICO: {
+          LOGNOTIFICAR: 'Log noficar',
+          EVENTOSDIAN:'Eventos DIAN',
+          RENOTIFICAR:'Re-notificar'
+        }
       },
       TITULOS: {
         COMUNES: {

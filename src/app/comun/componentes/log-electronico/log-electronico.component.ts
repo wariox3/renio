@@ -69,4 +69,17 @@ export class LogElectronicoComponent extends General {
         this.emitirRenotificar.emit(true)
       });
   }
+
+  verEventosDian(content: any){
+    this.httpService
+    .post('general/documento/evento-dian/', {
+      id: this.detalle,
+    }).subscribe((respuesta: any)=> {
+      console.log(respuesta);
+    });
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
 }
