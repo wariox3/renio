@@ -24,7 +24,11 @@
         type="button"
         class="btn btn-sm btn-danger"
         (click)="anular()"
-        [disabled]="pago.estado_aprobado || pago.estado_electronico_enviado"
+        [disabled]="
+          !pago.estado_aprobado ||
+          pago.estado_anulado ||
+          pago.estado_electronico_enviado
+        "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
       </button>

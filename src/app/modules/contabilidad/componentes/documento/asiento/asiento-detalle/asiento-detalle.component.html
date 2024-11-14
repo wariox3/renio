@@ -32,7 +32,9 @@
         class="btn btn-sm btn-danger"
         (click)="anular()"
         [disabled]="
-          asiento.estado_aprobado || asiento.estado_electronico_enviado
+          !asiento.estado_aprobado ||
+          asiento.estado_anulado ||
+          asiento.estado_electronico_enviado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}

@@ -174,24 +174,36 @@ export default class FacturaDetalleComponent extends General {
   }
 
   anular() {
-    this.httpService
-      .post('general/documento/anular/', { id: this.detalle })
+    this.alertaService
+      .confirmarSinReversa()
       .pipe(
-        switchMap(() => this.facturaService.consultarDetalle(this.detalle)),
-        tap((respuestaConsultaDetalle: any) => {
-          this.documento = respuestaConsultaDetalle.documento;
-          this.totalCantidad = 0;
-          this.subtotalGeneral = 0;
-          this.totalDescuento = 0;
-          this.totalImpuestos = 0;
-          this.totalGeneral = 0;
-          this.totalBase = 0;
-          this.arrEstados.estado_anulado =
-            respuestaConsultaDetalle.documento.estado_anulado;
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
-          );
-          this.changeDetectorRef.detectChanges();
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/anular/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+        ),
+        tap((respuesta: any) => {
+          if (respuesta) {
+            this.documento = respuesta.documento;
+            this.totalCantidad = 0;
+            this.subtotalGeneral = 0;
+            this.totalDescuento = 0;
+            this.totalImpuestos = 0;
+            this.totalGeneral = 0;
+            this.totalBase = 0;
+            this.arrEstados.estado_anulado =
+            respuesta.documento.estado_anulado;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
         })
       )
       .subscribe();

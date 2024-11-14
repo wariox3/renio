@@ -107,14 +107,27 @@ export default class PagoDetalleComponent extends General {
   }
 
   anular() {
-    this.httpService
-      .post('general/documento/anular/', { id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso(
-          this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
-        );
-      });
+    this.alertaService
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/anular/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        tap((respuesta: any) => {
+          if (respuesta) {
+            this.consultardetalle();
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 
   navegarEditar(id: number) {
