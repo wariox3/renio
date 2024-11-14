@@ -190,7 +190,7 @@ export class FormularioProductosComponent
       precio: [
         0,
         [
-          validarPrecio(),  
+          validarPrecio(),
           Validators.min(0.1),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
@@ -843,6 +843,7 @@ export class FormularioProductosComponent
       comentario: documentoFactura.comentario,
       plazo_pago: documentoFactura.plazo_pago_id,
       numero: documentoFactura.numero,
+      cue: documentoFactura.cue
     });
   }
 

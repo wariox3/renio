@@ -61,6 +61,7 @@ export class FormularioFacturaService {
         plazo_pago: [1, Validators.required],
         detalles: this._formBuilder.array([]),
         pagos: this._formBuilder.array([]),
+        cue: [null],
         detalles_eliminados: this._formBuilder.array([]),
         pagos_eliminados: this._formBuilder.array([]),
       },

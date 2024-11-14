@@ -1,45 +1,43 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
+import { Contacto } from '@interfaces/general/contacto';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
-import { Contacto } from '@interfaces/general/contacto';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar';
-import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
-import { FechasService } from '@comun/services/fechas.service';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 
 @Component({
   selector: 'app-factura-formulario',
