@@ -185,6 +185,7 @@ export default class CuentaCobroDetalleComponent extends General {
           this.totalDescuento = 0;
           this.totalImpuestos = 0;
           this.totalGeneral = 0;
+          this.totalBase = 0;
           this.arrEstados.estado_anulado =
             respuestaConsultaDetalle.documento.estado_anulado;
           this.alertaService.mensajaExitoso(

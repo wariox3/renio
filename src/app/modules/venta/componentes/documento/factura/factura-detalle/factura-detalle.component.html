@@ -300,8 +300,8 @@
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
         <div class="d-flex justify-content-end mb-5">
+          @if(documento.detalles.length || !documento.estado_anulado){
           <app-detalles-totales
-            *ngIf="documento.detalles.length"
             [detalles]="documento.detalles"
             [totalBase]="totalBase"
             [subtotalGeneral]="subtotalGeneral"
@@ -310,6 +310,7 @@
             [totalAfectado]="totalAfectado"
             [totalCantidad]="totalCantidad"
           ></app-detalles-totales>
+          }
         </div>
       </div>
     </div>
