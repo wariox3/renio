@@ -31,7 +31,11 @@
         type="button"
         class="btn btn-sm btn-danger"
         (click)="anular()"
-        [disabled]="!arrEstados.estado_aprobado || arrEstados.estado_anulado"
+        [disabled]="
+          !arrEstados.estado_aprobado ||
+          arrEstados.estado_anulado ||
+          arrEstados.estado_electronico_enviado
+        "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
       </button>
