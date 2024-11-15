@@ -209,11 +209,11 @@ export const initialState: MenuItem = {
               tipo: 'Administrador',
               data: { modelo: 'ConCuenta' },
             },
-            {
-              nombre: 'COMPROBANTE',
-              tipo: 'Administrador',
-              data: { modelo: 'ConComprobante' },
-            },
+            // {
+            //   nombre: 'COMPROBANTE',
+            //   tipo: 'Administrador',
+            //   data: { modelo: 'ConComprobante' },
+            // },
             {
               nombre: 'GRUPO',
               tipo: 'Administrador',
