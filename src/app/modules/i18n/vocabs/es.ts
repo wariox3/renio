@@ -96,6 +96,7 @@ export const locale = {
         CUENTASPAGAR: 'Cuentas por pagar',
         CUENTADECOBRO: 'Cuenta de cobro',
         APORTE: 'Aporte',
+        EVENTOSDIAN: 'Eventos DIAN'
       },
     },
     FORMULARIOS: {
