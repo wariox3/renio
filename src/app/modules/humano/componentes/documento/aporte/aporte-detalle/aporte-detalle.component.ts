@@ -152,28 +152,20 @@ export default class AporteDetalleComponent extends General implements OnInit {
 
   generar() {
     //this.reiniciarSelectoresEliminar();
-    this.alertaService
-      .confirmarSinReversa()
+    this.generando = true;
+    this.aporteService
+      .generar({
+        id: this.aporte.id,
+      })
       .pipe(
-        switchMap((respuesta) => {
-          if (respuesta.isConfirmed) {
-            return this.aporteService.generar({
-              id: this.aporte.id,
-            });
-          }
-          return of(false);
-        }),
-        tap((respuesta) => {
-          if (respuesta !== false) {
-            this.consultarDatos();
-          }
-        }),
         finalize(() => {
           this.generando = false;
           this.changeDetectorRef.detectChanges();
         })
       )
-      .subscribe();
+      .subscribe((respuesta) => {
+        this.consultarDatos();
+      });
   }
 
   desgenerar() {
