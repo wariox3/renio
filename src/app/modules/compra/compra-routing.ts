@@ -23,6 +23,13 @@ export const routes: Route[] = [
             './componentes/utilidades/documento-electronico/documento-electronico.component'
           ).then((c) => c.DocumentoElectronicoComponent),
       },
+      {
+        path: 'eventos_dian',
+        loadComponent: () =>
+          import(
+            './componentes/utilidades/eventos-dian/eventos-dian.component'
+          ).then((c) => c.EventosDianComponent),
+      },
     ],
   },
   {

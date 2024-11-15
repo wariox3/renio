@@ -137,6 +137,11 @@ export const initialState: MenuItem = {
               tipo: 'utilidad',
               url: 'compra/utilidad/documento_electronico',
             },
+            {
+              nombre: 'EVENTOSDIAN',
+              tipo: 'utilidad',
+              url: 'compra/utilidad/eventos_dian',
+            },
           ],
         },
         {

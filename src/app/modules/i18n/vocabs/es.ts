@@ -836,7 +836,8 @@ export const locale = {
         TOTAL_BRUTO: 'Total',
         MES: 'Mes',
         ANIO: 'Año',
-        SUCURSAL_NOMBRE: 'Sucursal'
+        SUCURSAL_NOMBRE: 'Sucursal',
+        PROVEEDOR: 'Proveedor'
       },
       ITEM: {
         ID: 'ID',
