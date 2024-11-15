@@ -75,7 +75,13 @@ export class LogElectronicoComponent extends General {
     .post('general/documento/evento-dian/', {
       id: this.detalle,
     }).subscribe((respuesta: any)=> {
-      console.log(respuesta);
+      const { correos, eventos, validaciones } = respuesta.eventos;
+      this.arrEventos = eventos.map((evento: any) => ({
+        fecha: evento.fecha,
+        codigo: evento.codigo,
+        nombre: evento.nombre
+      }));
+
     });
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',

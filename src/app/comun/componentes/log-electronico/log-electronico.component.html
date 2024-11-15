@@ -30,7 +30,11 @@
 <!-- modalVerlog-->
 <ng-template #contentModalVerlog let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Log</h4>
+    <h4
+      class="modal-title"
+      id="modal-basic-title"
+      translate="FORMULARIOS.BOTONES.ELECTRONICO.LOG"
+    ></h4>
     <button
       type="button"
       class="btn-close"
@@ -155,7 +159,7 @@
     <h4
       class="modal-title"
       id="modal-basic-title"
-      translate="FORMULARIOS.BOTONES.ELECTRONICO.EVENTOSDIAN"
+      translate="FORMULARIOS.BOTONES.ELECTRONICO.LOG"
     ></h4>
     <button
       type="button"
@@ -217,23 +221,24 @@
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
-          <tr *ngIf="arrEventos && arrEventos.length > 0">
-            <th class="bg-gray-100" *ngFor="let key of arrEventos[0] | keys">
+          @if(arrEventos && arrEventos.length > 0){
+          <tr>
+            @for(key of arrEventos[0] | keys; track $index ){
+            <th class="bg-gray-100">
               {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
             </th>
+            }
           </tr>
+          }
         </thead>
         <tbody>
           @for (evento of arrEventos; track $index) {
           <tr>
             <td>
-              {{ evento.codigoEventoPk }}
+              {{ evento.codigo }}
             </td>
-            <td>{{ evento.evento }}</td>
-            <td>{{ evento.correo }}</td>
             <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
-            <td>{{ evento.ipEnvio }}</td>
-            <td>{{ evento.idmensaje }}</td>
+            <td>{{ evento.nombre }}</td>
           </tr>
           }
         </tbody>
