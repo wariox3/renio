@@ -39,6 +39,8 @@ export default class PagoDetalleComponent extends General {
     metodo_pago: null,
     detalles: [],
     impuestos: [],
+    comprobante: 0,
+    comprobante_nombre: ''
   };
   arrEstados = {
     estado_aprobado: false,

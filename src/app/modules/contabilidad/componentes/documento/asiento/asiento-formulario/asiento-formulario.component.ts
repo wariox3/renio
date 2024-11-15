@@ -20,7 +20,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
@@ -77,6 +77,8 @@ export default class AsientoFormularioComponent
   totalDebito: number = 0;
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+  arrComprobantes: any = [];
+  arrGrupo: any = [];
 
   public campoListaContacto: CampoLista[] = [
     {
@@ -103,6 +105,7 @@ export default class AsientoFormularioComponent
   }
 
   ngOnInit() {
+    this.consultarInformacion()
     this.active = 1;
     this.initForm();
     if (this.detalle) {
@@ -137,6 +140,10 @@ export default class AsientoFormularioComponent
       ],
       comentario: [null],
       total: [0],
+      comprobante: ['', Validators.compose([Validators.required])],
+      comprobante_nombre: [''],
+      grupo_contabilidad: [''],
+      grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -153,6 +160,10 @@ export default class AsientoFormularioComponent
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total,
           soporte: respuesta.documento.soporte,
+          comprobante: respuesta.documento.comprobante_id,
+          comprobante_nombre: respuesta.documento.comprobante_nombre,
+          grupo_contabilidad: respuesta.documento.grupo_contabilidad_id,
+          grupo_contabilidad_nombre: respuesta.documento.grupo_contabilidad_nombre,
         });
 
         this.detalles.clear();
@@ -247,9 +258,7 @@ export default class AsientoFormularioComponent
 
     if (campo === 'contacto-ver-mas') {
       this.formularioAsiento.get('contacto')?.setValue(dato.id);
-      this.formularioAsiento
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioAsiento.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
 
     this.changeDetectorRef.detectChanges();
@@ -401,5 +410,44 @@ export default class AsientoFormularioComponent
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  consultarInformacion(){
+    zip(
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          filtros: [
+            {
+              propiedad: 'permite_asiento',
+              valor1: true,
+            },
+          ],
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'ConComprobante',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
+        'general/funcionalidad/lista/',
+        {
+          limite: 10,
+          desplazar: 0,
+          ordenamientos: [],
+          limite_conteo: 10000,
+          modelo: 'ConGrupo',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+    ).subscribe((respuesta: any) => {
+      this.arrComprobantes = respuesta[0].registros;
+      this.arrGrupo = respuesta[1].registros;
+      this.changeDetectorRef.detectChanges()
+    })
+
+
   }
 }

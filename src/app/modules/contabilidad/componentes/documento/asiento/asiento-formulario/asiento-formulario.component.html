@@ -191,6 +191,80 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMPROBANTE"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="comprobante"
+            [ngClass]="{
+              'is-invalid':
+              formularioAsiento.controls['comprobante'].touched &&
+              formularioAsiento.controls['comprobante'].invalid,
+              'is-valid':
+              formularioAsiento.controls['comprobante'].touched &&
+              formularioAsiento.controls['comprobante'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let comprobante of arrComprobantes"
+              [value]="comprobante.comprobante_id"
+              [selected]="
+                comprobante.comprobante_id ===
+                formularioAsiento.controls.comprobante
+              "
+            >
+              {{ comprobante.comprobante_nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAsiento.controls['comprobante']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="grupo_contabilidad"
+            [ngClass]="{
+              'is-invalid':
+              formularioAsiento.controls['grupo_contabilidad'].touched &&
+              formularioAsiento.controls['grupo_contabilidad'].invalid,
+              'is-valid':
+              formularioAsiento.controls['grupo_contabilidad'].touched &&
+              formularioAsiento.controls['grupo_contabilidad'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let grupo of arrGrupo"
+              [value]="grupo.grupo_id"
+              [selected]="
+                grupo.grupo_id ===
+                formularioAsiento.controls.grupo_id
+              "
+            >
+              {{ grupo.grupo_nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
             class="form-label"
