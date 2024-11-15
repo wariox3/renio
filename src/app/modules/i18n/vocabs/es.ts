@@ -96,7 +96,7 @@ export const locale = {
         CUENTASPAGAR: 'Cuentas por pagar',
         CUENTADECOBRO: 'Cuenta de cobro',
         APORTE: 'Aporte',
-        EVENTOSDIAN: 'Eventos DIAN'
+        EVENTOSDIAN: 'Eventos DIAN',
       },
     },
     FORMULARIOS: {
@@ -164,6 +164,7 @@ export const locale = {
           ACTIVAR: 'Activar',
         },
         ELECTRONICO: {
+          LOG: 'Log',
           LOGNOTIFICAR: 'Log noficar',
           EVENTOSDIAN:'Eventos DIAN',
           RENOTIFICAR:'Re-notificar'
@@ -897,6 +898,8 @@ export const locale = {
       },
       LOG: {
         EVENTO: {
+          CODIGO: 'Id',
+          NOMBRE: 'Nombre',
           CODIGOEVENTOPK: 'Id',
           CODIGOCO: 'Correo',
           EVENTO: 'Evento',
