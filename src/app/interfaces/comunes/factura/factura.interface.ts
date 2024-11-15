@@ -196,6 +196,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   numero: any;
   concepto_id: any;
   concepto_nombre: string;
+  tipo_registro: string;
   credito_id: any;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
 }

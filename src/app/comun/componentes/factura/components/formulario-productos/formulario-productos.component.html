@@ -1,125 +1,230 @@
 <div [formGroup]="formularioFactura">
-  <div class="d-flex justify-content-end mb-2" *ngIf="!estadoAprobado">
-    <button (click)="agregarNuevoItem()" class="btn btn-sm btn-primary" type="button"
-      translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"></button>
-  </div>
+  @if(!estadoAprobado){
+  <div class="d-flex justify-content-end mb-2">
+    <div class="btn-group btn-sm shadow-sm">
+      @if(visualizarAgregarCuenta){
+        <button
+          (click)="agregarNuevoItem('C')"
+          class="btn btn-sm btn-primary"
+          type="button"
+          translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARCUENTA"
+        ></button>
+        }
+        <button
+          (click)="agregarNuevoItem('I')"
+          class="btn btn-sm btn-primary"
+          type="button"
+          translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+        ></button>
+      </div>
+    </div>
+  }
   <div class="table-responsive-sm">
     <table id="tableDetalles" class="table table-bordered table-sm">
       <thead>
         <tr class="bg-gray-100">
           <th class="w-40px">Id</th>
+          @if(visualizarAgregarCuenta){
+          <th class="w-40px">Tipo</th>
+          }
           <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
-          <th class="w-50px" translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"></th>
-          <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"></th>
+          <th
+            class="w-50px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+          ></th>
+          <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+          ></th>
           <th class="w-100px">
-            <div placement="top" ngbTooltip="Porcentaje descuento">{{ 'FORMULARIOS.TITULOS.FACTURACION.DESCUENTO' | translate }}</div>
+            <div placement="top" ngbTooltip="Porcentaje descuento">
+              {{ "FORMULARIOS.TITULOS.FACTURACION.DESCUENTO" | translate }}
+            </div>
           </th>
-          <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"></th>
-          <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"></th>
-          <th class="w-100px" translate="FORMULARIOS.TITULOS.FACTURACION.NETO"></th>
+          <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
+          ></th>
+          <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
+          ></th>
+          <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
+          ></th>
           <th class="w-100px text-center" *ngIf="!estadoAprobado"></th>
         </tr>
       </thead>
       <tbody formArrayName="detalles">
-        <ng-container *ngFor="let detalle of detalles.controls; let i = index" [formGroupName]="i">
+        <ng-container
+          *ngFor="let detalle of detalles.controls; let i = index"
+          [formGroupName]="i"
+        >
           <tr>
             <td class="w-40px">{{ detalle.value.id }}</td>
+            @if(visualizarAgregarCuenta){
+            <td class="w-40px">
+              {{ detalle.value.tipo_registro === "C" ? "Cuenta" : "Item" }}
+            </td>
+            }
             <td class="">
-              <app-seleccionar-producto [itemNombre]="detalle.value.item_nombre" [estadoAprobado]="estadoAprobado"
+              <app-seleccionar-producto
+                [itemNombre]="detalle.value.item_nombre"
+                [estadoAprobado]="estadoAprobado"
                 [campoInvalido]="
-                    detalle.get('item')?.touched &&
-                    detalle.get('item')?.invalid
-                  " (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
-                [formularioTipo]="formularioTipo"></app-seleccionar-producto>
+                  detalle.get('item')?.touched && detalle.get('item')?.invalid
+                "
+                (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
+                [formularioTipo]="formularioTipo"
+              ></app-seleccionar-producto>
             </td>
             <td>
-              <input type="number" [value]="detalle.value.cantidad" formControlName="cantidad"
-                (focus)="onCantidadChange(i)" class="form-control-sm" [attr.disabled]="estadoAprobado"
-                [readonly]="estadoAprobado" [ngClass]="{
-                    'disabled-cursor bg-transparent':
-                      estadoAprobado,
-                    'text-white':
-                    themeValue === 'dark' && estadoAprobado
-                  }" rows="1" spellcheck="true" appSoloNumeros min="0" />
-              <div *ngIf="
-                  detalle.get('cantidad')?.touched && detalle.get('cantidad')?.hasError('valorCero') || detalle.get('cantidad')?.invalid
-                ">
+              <input
+                type="number"
+                [value]="detalle.value.cantidad"
+                formControlName="cantidad"
+                (focus)="onCantidadChange(i)"
+                class="form-control-sm"
+                [attr.disabled]="estadoAprobado"
+                [readonly]="estadoAprobado"
+                [ngClass]="{
+                  'disabled-cursor bg-transparent': estadoAprobado,
+                  'text-white': themeValue === 'dark' && estadoAprobado
+                }"
+                rows="1"
+                spellcheck="true"
+                appSoloNumeros
+                min="0"
+              />
+              <div
+                *ngIf="
+                  (detalle.get('cantidad')?.touched &&
+                    detalle.get('cantidad')?.hasError('valorCero')) ||
+                  detalle.get('cantidad')?.invalid
+                "
+              >
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <span role="alert">
-                      Valor no permitido.
-                    </span>
+                    <span role="alert"> Valor no permitido. </span>
                   </div>
                 </div>
               </div>
             </td>
             <td>
-              <input type="number" formControlName="precio" (focus)="onPrecioChange(i)" [attr.disabled]="estadoAprobado"
-                [readonly]="estadoAprobado" class="form-control-sm" [ngClass]="{
-                    'disabled-cursor bg-transparent':
-                      estadoAprobado,
-                    'text-white':
-                      themeValue === 'dark' && estadoAprobado,
-                    'is-invalid':
-                      detalle.get('precio')?.touched && detalle.get('precio')?.hasError('valorCero') 
-                  }" rows="1" spellcheck="true" appSoloNumeros />
-              <div *ngIf="
-                    detalle.get('precio')?.touched && detalle.get('precio')?.hasError('valorCero') || detalle.get('precio')?.invalid
-                  ">
+              <input
+                type="number"
+                formControlName="precio"
+                (focus)="onPrecioChange(i)"
+                [attr.disabled]="estadoAprobado"
+                [readonly]="estadoAprobado"
+                class="form-control-sm"
+                [ngClass]="{
+                  'disabled-cursor bg-transparent': estadoAprobado,
+                  'text-white': themeValue === 'dark' && estadoAprobado,
+                  'is-invalid':
+                    detalle.get('precio')?.touched &&
+                    detalle.get('precio')?.hasError('valorCero')
+                }"
+                rows="1"
+                spellcheck="true"
+                appSoloNumeros
+              />
+              <div
+                *ngIf="
+                  (detalle.get('precio')?.touched &&
+                    detalle.get('precio')?.hasError('valorCero')) ||
+                  detalle.get('precio')?.invalid
+                "
+              >
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <span role="alert">
-                      Valor no permitido.
-                    </span>
+                    <span role="alert"> Valor no permitido. </span>
                   </div>
                 </div>
               </div>
             </td>
             <td>
-              <input type="number" min="0" max="100" [value]="detalle.value.porcentaje_descuento"
-                formControlName="porcentaje_descuento" (focus)="onDescuentoChange(i)" class="form-control-sm"
-                [attr.disabled]="estadoAprobado" [readonly]="estadoAprobado" [ngClass]="{
-                    'disabled-cursor bg-transparent':
-                      estadoAprobado,
-                    'text-white':
-                    themeValue === 'dark' && estadoAprobado
-                  }" rows="1" spellcheck="true" appSoloNumeros min="0" />
-              <div *ngIf="
-                  detalle.get('porcentaje_descuento')?.touched && detalle.get('porcentaje_descuento')?.hasError('valorCero') || detalle.get('porcentaje_descuento')?.invalid
-                ">
+              <input
+                type="number"
+                min="0"
+                max="100"
+                [value]="detalle.value.porcentaje_descuento"
+                formControlName="porcentaje_descuento"
+                (focus)="onDescuentoChange(i)"
+                class="form-control-sm"
+                [attr.disabled]="estadoAprobado"
+                [readonly]="estadoAprobado"
+                [ngClass]="{
+                  'disabled-cursor bg-transparent': estadoAprobado,
+                  'text-white': themeValue === 'dark' && estadoAprobado
+                }"
+                rows="1"
+                spellcheck="true"
+                appSoloNumeros
+                min="0"
+              />
+              <div
+                *ngIf="
+                  (detalle.get('porcentaje_descuento')?.touched &&
+                    detalle
+                      .get('porcentaje_descuento')
+                      ?.hasError('valorCero')) ||
+                  detalle.get('porcentaje_descuento')?.invalid
+                "
+              >
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
-                    <span role="alert">
-                      Valor no permitido.
-                    </span>
+                    <span role="alert"> Valor no permitido. </span>
                   </div>
                 </div>
               </div>
             </td>
             <td>
-              <input class="form-control form-control-sm" disabled rows="1" spellcheck="true"
-                class="disabled-cursor bg-transparent" class="form-control-sm" [ngClass]="{
-                    'disabled-cursor bg-transparent':
-                      estadoAprobado,
-                    'text-white bg-transparent':
-                      themeValue === 'dark'
-                  }" readonly [value]="detalle.value.subtotal" />
+              <input
+                class="form-control form-control-sm"
+                disabled
+                rows="1"
+                spellcheck="true"
+                class="disabled-cursor bg-transparent"
+                class="form-control-sm"
+                [ngClass]="{
+                  'disabled-cursor bg-transparent': estadoAprobado,
+                  'text-white bg-transparent': themeValue === 'dark'
+                }"
+                readonly
+                [value]="detalle.value.subtotal"
+              />
             </td>
             <td>
-              <app-seleccionar-impuestos [visualizarImpuestosVenta]="true" [formularioTipo]="formularioTipo"
-                (emitirImpuestosModificados)="recibirImpuestosModificados($event, i)"
-                [impuestosSeleccionados]="detalles.controls[i].value.impuestos"></app-seleccionar-impuestos>
+              <app-seleccionar-impuestos
+                [visualizarImpuestosVenta]="true"
+                [formularioTipo]="formularioTipo"
+                (emitirImpuestosModificados)="
+                  recibirImpuestosModificados($event, i)
+                "
+                [impuestosSeleccionados]="detalles.controls[i].value.impuestos"
+              ></app-seleccionar-impuestos>
             </td>
             <td>
-              <input readonly rows="1" spellcheck="true" class="disabled-cursor" class="form-control-sm" [ngClass]="{
-                    'bg-transparent': estadoAprobado,
-                    'text-white':
-                      themeValue === 'dark' && estadoAprobado
-                  }" [value]="detalle.value.total" />
+              <input
+                readonly
+                rows="1"
+                spellcheck="true"
+                class="disabled-cursor"
+                class="form-control-sm"
+                [ngClass]="{
+                  'bg-transparent': estadoAprobado,
+                  'text-white': themeValue === 'dark' && estadoAprobado
+                }"
+                [value]="detalle.value.total"
+              />
             </td>
             <td class="text-center" *ngIf="!estadoAprobado">
-              <i class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                (click)="eliminarItem(i)"></i>
+              <i
+                class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                (click)="eliminarItem(i)"
+              ></i>
             </td>
           </tr>
         </ng-container>

@@ -68,6 +68,7 @@ export class FormularioProductosComponent
   @Input({ required: true }) modoEdicion: boolean = false;
   @Input() mostrarDocumentoReferencia: boolean = false;
   @Input() estadoAprobado: boolean = false;
+  @Input() visualizarAgregarCuenta = false;
   @Input({ required: true }) acumuladorImpuestos: {
     [string: string]: { operado: number; total: number };
   } = {};
@@ -148,7 +149,7 @@ export class FormularioProductosComponent
 
     this.detalles.clear();
     itemsActualizados.forEach((item: any, i: number) => {
-      this.agregarNuevoItem();
+      this.agregarNuevoItem(item.tipo_registro);
       const subtotal = this._operaciones.calcularSubtotal(
         item.cantidad,
         item.precio
@@ -175,7 +176,7 @@ export class FormularioProductosComponent
   /**
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
-  agregarNuevoItem() {
+  agregarNuevoItem(tipo_registro: String) {
     const detalleFormGroup = this._formBuilder.group({
       item: [null, Validators.compose([Validators.required])],
       item_nombre: [null],
@@ -216,6 +217,7 @@ export class FormularioProductosComponent
       impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
       impuestos_eliminados: this._formBuilder.array([]),
       id: [null],
+      tipo_registro: [tipo_registro]
     });
 
     this.detalles.push(detalleFormGroup);
@@ -869,6 +871,7 @@ export class FormularioProductosComponent
         impuestos: this._formBuilder.array([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [detalle.id],
+        tipo_registro: [detalle.tipo_registro]
       });
 
       this.detalles.push(documentoDetalleGrupo);

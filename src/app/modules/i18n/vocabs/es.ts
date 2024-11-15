@@ -297,6 +297,7 @@ export const locale = {
           IMPUESTO: 'Impuesto',
           IMPINCLUIDOS: 'Imp Incluidos',
           AGREGARITEM: 'Agregar ítem',
+          AGREGARCUENTA: 'Agregar cuenta',
           AGREGARDOCUMENTO: 'Agregar documento',
           TOTALCANTIDAD: 'Total cantidad:',
           TOTALDESCUENTO: 'Total descuento:',
