@@ -157,15 +157,6 @@ export default class FacturaDetalleComponent extends General {
     .subscribe();
   }
 
-  emitir() {
-    this.httpService
-      .post('general/documento/emitir/', { documento_id: this.detalle })
-      .subscribe((respuesta: any) => {
-        this.alertaService.mensajaExitoso('Documento aprobado');
-        this.consultardetalle();
-      });
-  }
-
   imprimir() {
     this.httpService.descargarArchivo('general/documento/imprimir/', {
       documento_id: this.detalle,
