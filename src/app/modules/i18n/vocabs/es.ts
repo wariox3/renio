@@ -488,7 +488,8 @@ export const locale = {
           SEDE: 'Sede',
           SOPORTE: 'Soporte',
           CUENTA: 'Cuenta',
-          COMPROBANTE: 'Comprobante'
+          COMPROBANTE: 'Comprobante',
+          GRUPO: 'Grupo'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
