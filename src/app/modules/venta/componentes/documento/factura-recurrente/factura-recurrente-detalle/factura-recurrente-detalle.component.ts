@@ -172,7 +172,7 @@ export default class FacturaRecurrenteDetalleComponent extends General {
 
   anular() {
     this.alertaService
-      .confirmarSinReversa()
+      .anularSinReversa()
       .pipe(
         switchMap((respuesta) => {
           if (respuesta.isConfirmed) {

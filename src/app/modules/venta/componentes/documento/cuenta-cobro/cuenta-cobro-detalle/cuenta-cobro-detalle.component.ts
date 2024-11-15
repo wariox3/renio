@@ -175,7 +175,7 @@ export default class CuentaCobroDetalleComponent extends General {
 
   anular() {
     this.alertaService
-      .confirmarSinReversa()
+      .anularSinReversa()
       .pipe(
         switchMap((respuesta) => {
           if (respuesta.isConfirmed) {

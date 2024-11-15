@@ -173,7 +173,7 @@ export default class EgresoDetalleComponent extends General implements OnInit {
 
   anular() {
     this.alertaService
-      .confirmarSinReversa()
+      .anularSinReversa()
       .pipe(
         switchMap((respuesta) => {
           if (respuesta.isConfirmed) {

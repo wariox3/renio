@@ -191,4 +191,21 @@ export class AlertaService {
       })
     );
   }
+
+  anularSinReversa(): Observable<SweetAlertResult> {
+    return from(
+      Swal.fire({
+        title: '¿Está seguro de que desea anular el registro?',
+        text: ' Esta acción es irreversible.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#1B84FF',
+        cancelButtonColor: '#F8285A',
+        reverseButtons: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Cancelar`,
+      })
+    );
+  }
 }
