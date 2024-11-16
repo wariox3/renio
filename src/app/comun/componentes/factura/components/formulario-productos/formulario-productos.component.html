@@ -26,8 +26,10 @@
           <th class="w-40px">Id</th>
           @if(visualizarAgregarCuenta){
           <th class="w-40px">Tipo</th>
-          }
           <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOCUENTA"></th>
+          } @else {
+          <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
+          }
           <th
             class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
@@ -73,9 +75,9 @@
               <app-comun-cuentas
                 [cuentaCodigo]="detalle.value.cuenta_codigo"
                 [campoInvalido]="
-                detalle.get('cuenta')?.touched &&
-                detalle.get('cuenta')?.invalid
-              "
+                  detalle.get('cuenta')?.touched &&
+                  detalle.get('cuenta')?.invalid
+                "
                 (emitirArrCuentas)="recibirCuentaSeleccionada($event, i)"
               ></app-comun-cuentas>
               } @else {
@@ -208,6 +210,8 @@
               />
             </td>
             <td>
+              @if(detalle.value.tipo_registro === "I" ){
+
               <app-seleccionar-impuestos
                 [visualizarImpuestosVenta]="true"
                 [formularioTipo]="formularioTipo"
@@ -216,6 +220,7 @@
                 "
                 [impuestosSeleccionados]="detalles.controls[i].value.impuestos"
               ></app-seleccionar-impuestos>
+              }
             </td>
             <td>
               <input
