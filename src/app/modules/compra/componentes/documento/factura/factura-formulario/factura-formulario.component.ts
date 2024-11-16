@@ -7,7 +7,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -262,17 +262,34 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   validarCamposDetalles() {
     let errores = false;
     Object.values(this.detalles.controls).find((control: any) => {
-      if (control.get('item').value === null) {
-        control.markAsTouched(); // Marcar el control como 'touched'
-        control.markAsDirty();
-        errores = true;
-        this.detalles.markAllAsTouched();
-        this.detalles.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-        this.alertaService.mensajeError(
-          'Error en formulario filtros',
-          'contiene campos vacios'
-        );
+      let tipo_registro = control.get('tipo_registro').value;
+
+      if (tipo_registro === 'I') {
+        if (control.get('item').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo item no puede estar vacío'
+          );
+        }
+      } else if (tipo_registro === 'C'){
+        if (control.get('cuenta').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo cuenta no puede estar vacío'
+          );
+        }
       }
     });
     this.changeDetectorRef.detectChanges();

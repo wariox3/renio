@@ -40,6 +40,7 @@ import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccio
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
 import { validarDescuento } from '@comun/validaciones/validar-descuento.validate';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { CuentasComponent } from '../../../cuentas/cuentas.component';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -53,6 +54,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     SeleccionarImpuestosComponent,
     SeleccionarProductoComponent,
     NgbTooltipModule,
+    CuentasComponent,
   ],
   providers: [KeyValuePipe],
   templateUrl: './formulario-productos.component.html',
@@ -178,7 +180,9 @@ export class FormularioProductosComponent
    */
   agregarNuevoItem(tipo_registro: String) {
     const detalleFormGroup = this._formBuilder.group({
-      item: [null, Validators.compose([Validators.required])],
+      cuenta: [null],
+      cuenta_codigo: [null],
+      item: [null],
       item_nombre: [null],
       cantidad: [
         0,
@@ -217,8 +221,21 @@ export class FormularioProductosComponent
       impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
       impuestos_eliminados: this._formBuilder.array([]),
       id: [null],
-      tipo_registro: [tipo_registro]
+      tipo_registro: [tipo_registro],
     });
+
+    // Agregar validadores dinámicos en función de tipo_registro
+    if (tipo_registro === 'C') {
+      detalleFormGroup.get('cuenta')?.setValidators([Validators.required]);
+      detalleFormGroup.get('item')?.clearValidators();
+    } else if (tipo_registro === 'I') {
+      detalleFormGroup.get('item')?.setValidators([Validators.required]);
+      detalleFormGroup.get('cuenta')?.clearValidators();
+    }
+
+    // Actualizar los validadores dinámicos
+    detalleFormGroup.get('cuenta')?.updateValueAndValidity();
+    detalleFormGroup.get('item')?.updateValueAndValidity();
 
     this.detalles.push(detalleFormGroup);
     this.detalles?.markAllAsTouched();
@@ -260,6 +277,22 @@ export class FormularioProductosComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     this.changeDetectorRef.detectChanges();
+  }
+
+  /**
+   * Se ejecuta cuando el usuario selecciona un producto del selector
+   *
+   * @param item
+   * @param indexFormulario
+   */
+  recibirCuentaSeleccionada(
+    item: DocumentoDetalleFactura,
+    indexFormulario: number
+  ) {
+    this.detalles.controls[indexFormulario].patchValue({
+      cuenta: item.cuenta_id,
+      cuenta_codigo: item.cuenta_nombre,
+    });
   }
 
   /**
@@ -374,11 +407,13 @@ export class FormularioProductosComponent
     let impuesto = this.formularioFactura.get('impuesto')?.value;
     let impuestoRetencion =
       this.formularioFactura.get('impuesto_retencion')?.value;
-    let descuento =
-      this.formularioFactura.get('descuento')?.value;
+    let descuento = this.formularioFactura.get('descuento')?.value;
 
     total += this._operaciones.sumarTotales(this.detalles.value, 'total');
-    descuento += this._operaciones.sumarTotales(this.detalles.value, 'descuento');
+    descuento += this._operaciones.sumarTotales(
+      this.detalles.value,
+      'descuento'
+    );
     subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
     impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
     impuestoRetencion += this._operaciones.sumarTotales(
@@ -845,7 +880,7 @@ export class FormularioProductosComponent
       comentario: documentoFactura.comentario,
       plazo_pago: documentoFactura.plazo_pago_id,
       numero: documentoFactura.numero,
-      cue: documentoFactura.cue
+      cue: documentoFactura.cue,
     });
   }
 
@@ -854,6 +889,8 @@ export class FormularioProductosComponent
   ) {
     documentoDetalle.forEach((detalle, indexFormulario) => {
       const documentoDetalleGrupo = this._formBuilder.group({
+        cuenta: [detalle.cuenta],
+        cuenta_codigo: [detalle.cuenta_codigo],
         item: [detalle.item],
         item_nombre: [detalle.item_nombre],
         cantidad: [detalle.cantidad],
@@ -871,7 +908,7 @@ export class FormularioProductosComponent
         impuestos: this._formBuilder.array([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [detalle.id],
-        tipo_registro: [detalle.tipo_registro]
+        tipo_registro: [detalle.tipo_registro],
       });
 
       this.detalles.push(documentoDetalleGrupo);

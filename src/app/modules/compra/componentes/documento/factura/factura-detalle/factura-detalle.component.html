@@ -128,8 +128,9 @@
                       <th class="w-40px bg-gray-100">Tipo</th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                      ></th>
+                        translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOCUENTA"
+                      >
+                    </th>
                       <th
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
@@ -164,7 +165,7 @@
                         <td style="width: 50px">{{ detalle.id }}</td>
                         <td class="w-40px">{{ detalle.tipo_registro === 'C' ? 'Cuenta': 'Item' }}   </td>
                         <td class="w-50 text-start">
-                          {{ detalle.item_nombre }}
+                          {{ detalle.item_nombre}} {{ detalle.cuenta_codigo   }}
                         </td>
                         <td style="width: 10rem">
                           {{ detalle.cantidad }}

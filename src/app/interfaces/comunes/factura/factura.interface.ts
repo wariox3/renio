@@ -72,6 +72,9 @@ export interface DocumentoDetalleFactura {
   existencia?: number;
   disponible?: number;
   impuestos: ImpuestoRespuestaConsulta[];
+  cuenta_codigo: string;
+  cuenta_id: number;
+  cuenta_nombre: string;
 }
 
 export interface ImpuestoFormulario {
