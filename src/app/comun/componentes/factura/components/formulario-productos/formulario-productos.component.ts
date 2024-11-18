@@ -226,16 +226,16 @@ export class FormularioProductosComponent
 
     // Agregar validadores dinámicos en función de tipo_registro
     if (tipo_registro === 'C') {
-      detalleFormGroup.get('cuenta')?.setValidators([Validators.required]);
-      detalleFormGroup.get('item')?.clearValidators();
+      detalleFormGroup.get('cuenta')?.setErrors({ required: true })
+      detalleFormGroup.get('cuenta')?.markAsTouched();
     } else if (tipo_registro === 'I') {
-      detalleFormGroup.get('item')?.setValidators([Validators.required]);
-      detalleFormGroup.get('cuenta')?.clearValidators();
+      detalleFormGroup.get('item')?.setErrors({ required: true })
+      detalleFormGroup.get('item')?.markAsTouched();
     }
 
     // Actualizar los validadores dinámicos
-    detalleFormGroup.get('cuenta')?.updateValueAndValidity();
-    detalleFormGroup.get('item')?.updateValueAndValidity();
+      // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
+      // detalleFormGroup.get('item')?.updateValueAndValidity();
 
     this.detalles.push(detalleFormGroup);
     this.detalles?.markAllAsTouched();

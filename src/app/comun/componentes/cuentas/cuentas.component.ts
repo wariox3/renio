@@ -45,13 +45,13 @@ export class CuentasComponent extends General implements AfterViewInit {
   }
 
   agregarCuenta(cuenta: any) {
-    this.cuentaSeleccionada = cuenta;
-    if(this.campoInvalido){
-      this.campoInvalido = false
-      this.changeDetectorRef.detectChanges()
-    }else {
+    // this.cuentaSeleccionada = cuenta;
+    // if(this.campoInvalido){
+    //   this.campoInvalido = false
+    //   this.changeDetectorRef.detectChanges()
+    // }else {
       this.emitirArrCuentas.emit(cuenta);
-    }
+    //}
   }
 
   consultarCuentas(event: any) {

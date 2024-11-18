@@ -76,7 +76,7 @@
                 [cuentaCodigo]="detalle.value.cuenta_codigo"
                 [campoInvalido]="
                   detalle.get('cuenta')?.touched &&
-                  detalle.get('cuenta')?.invalid
+                  detalle.get('cuenta')?.hasError('required')
                 "
                 (emitirArrCuentas)="recibirCuentaSeleccionada($event, i)"
               ></app-comun-cuentas>
@@ -85,7 +85,8 @@
                 [itemNombre]="detalle.value.item_nombre"
                 [estadoAprobado]="estadoAprobado"
                 [campoInvalido]="
-                  detalle.get('item')?.touched && detalle.get('item')?.invalid
+                  detalle.get('item')?.touched &&
+                  detalle.get('item')?.hasError('required')
                 "
                 (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
                 [formularioTipo]="formularioTipo"
