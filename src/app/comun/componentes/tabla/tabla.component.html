@@ -1,65 +1,63 @@
-<div class="row mb-4 justify-content-between gap-sm-5">
-  <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
-    <button
-      class="btn btn-sm btn-icon btn-secondary"
-      (click)="disminuirDesplazamiento()"
-    >
-      <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
-        ><span class="path1"></span><span class="path2"></span
-        ><span class="path3"></span><span class="path4"></span
-      ></i>
-    </button>
+<section class="container-grid">
+  <section class="row paginacion">
+      <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
+        <button
+          class="btn btn-sm btn-icon btn-secondary"
+          (click)="disminuirDesplazamiento()"
+        >
+          <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
+            ><span class="path1"></span><span class="path2"></span
+            ><span class="path3"></span><span class="path4"></span
+          ></i>
+        </button>
 
-    <input
-      type="text"
-      class="form-control form-control-sm w-100px"
-      [value]="lado + 1 + '-' + al"
-      (keyup.enter)="calcularValorMostrar($event)"
-    />
-    <span>de</span>
-    <span>{{ cantidad_registros }}</span>
-    <button
-      class="btn btn-sm btn-icon btn-secondary"
-      (click)="aumentarDesplazamiento()"
-    >
-      <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
-        ><span class="path1"></span><span class="path2"></span
-        ><span class="path3"></span><span class="path4"></span
-      ></i>
-    </button>
-  </div>
-  <div class="col-md-5 col-sm-12 d-flex justify-content-end">
+        <input
+          type="text"
+          class="form-control form-control-sm w-100px"
+          [value]="lado + 1 + '-' + al"
+          (keyup.enter)="calcularValorMostrar($event)"
+        />
+        <span>de</span>
+        <span>{{ cantidad_registros }}</span>
+        <button
+          class="btn btn-sm btn-icon btn-secondary"
+          (click)="aumentarDesplazamiento()"
+        >
+          <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
+            ><span class="path1"></span><span class="path2"></span
+            ><span class="path3"></span><span class="path4"></span
+          ></i>
+        </button>
+      </div>
+  </section>
+  <section class="botones">
     <div
-      class="btn-group contenedor-btn-group"
+      class="btn-group btn-group-sm contenedor-btn-group"
       data-toggle="buttons"
       [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
     >
-    @if(botonesExtras.length > 0) { @for(boton of botonesExtras; track $index){
+      @if(botonesExtras.length > 0) { @for(boton of botonesExtras; track
+      $index){
       <button
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="botonExtra(boton)"
       >
         {{ boton.nombreBoton }}
       </button>
-      }
-    }
-      @if(visualizarBtnImportar){
-        @if(ubicacion === 'documento'){
-        <app-importar
-          modelo="{{ modelo }}"
-          [esBotonFinal]="botonesExtras.length ? true : false"
-          (emitirDetallesAgregados)="solicitarConsultarTabla()"
-        ></app-importar>
-        }
-        @if(ubicacion === 'administrador' || ubicacion === 'independiente'){
-        <app-importar-administrador
-          role="group"
-          (emitirDetallesAgregados)="solicitarConsultarTabla()"
-        ></app-importar-administrador>
-        }
-      }
+      } } @if(visualizarBtnImportar){ @if(ubicacion === 'documento'){
+      <app-importar
+        modelo="{{ modelo }}"
+        [esBotonFinal]="botonesExtras.length ? true : false"
+        (emitirDetallesAgregados)="solicitarConsultarTabla()"
+      ></app-importar>
+      } @if(ubicacion === 'administrador' || ubicacion === 'independiente'){
+      <app-importar-administrador
+        role="group"
+        (emitirDetallesAgregados)="solicitarConsultarTabla()"
+      ></app-importar-administrador>
+      } }
       <div
-        class="btn-group"
+        class="btn-group btn-group-sm"
         ngbDropdown
         role="group"
         *ngIf="visualizarBtnExportar"
@@ -76,9 +74,9 @@
             {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
           </button>
           @if (visualizarBtnExportarZip) {
-            <button ngbDropdownItem (click)="exportarZip()">
-              {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
-            </button>
+          <button ngbDropdownItem (click)="exportarZip()">
+            {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+          </button>
           }
         </div>
       </div>
@@ -89,7 +87,7 @@
         *ngIf="visualizarBtnNuevo"
       ></button>
       <div
-        class="btn-group"
+        class="btn-group btn-group-sm"
         ngbDropdown
         role="group"
         *ngIf="visualizarBtnColumnas"
@@ -157,13 +155,24 @@
         translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
       ></button>
     </div>
+  </section>
+</section>
+
+<div class="d-flex justify-content-end gap-2">
+
+  <div class="col-md-5 col-sm-12 d-flex justify-content-end">
+    <div
+      class="btn-group contenedor-btn-group"
+      data-toggle="buttons"
+      [ngClass]="{ 'btn-toolbar': btnGrupoResponsive }"
+    ></div>
   </div>
 </div>
 <div class="table-responsive" [ngClass]="{ 'table-loading': cargando }">
   @if(cargando) {
-    <div class="table-loading-message cargando">
-      {{ 'LISTAS.COMUNES.CARGANDO' | translate}}...
-    </div>
+  <div class="table-loading-message cargando">
+    {{ "LISTAS.COMUNES.CARGANDO" | translate }}...
+  </div>
   }
 
   <table

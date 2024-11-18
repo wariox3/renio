@@ -1,3 +1,32 @@
+.container-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: "paginacion botones";
+  margin-bottom: 1.25rem !important;
+}
+
+.paginacion {
+  grid-area: paginacion;
+}
+
+.botones {
+  grid-area: botones;
+  align-self: end;
+  place-self: end; /* Alinea al final verticalmente y al centro horizontalmente */
+}
+
+@media (max-width: 768px) { /* Ajusta el ancho según tus necesidades */
+  .container-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "paginacion"
+      "botones";
+    grid-auto-flow: column;
+  }
+}
+
 .dropdown-menu {
   max-height: 280px;
   overflow-y: auto;
@@ -42,6 +71,6 @@ td {
   vertical-align: middle;
 }
 
-th{
-  background-color: var(--bs-gray-100);;
+th {
+  background-color: var(--bs-gray-100);
 }
