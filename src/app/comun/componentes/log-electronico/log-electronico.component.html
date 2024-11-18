@@ -153,13 +153,13 @@
   </div>
 </ng-template>
 
-<!-- modalVerlog-->
+<!-- modalVerEventosDian-->
 <ng-template #contentModalEventosDian let-modal>
   <div class="modal-header">
     <h4
       class="modal-title"
       id="modal-basic-title"
-      translate="FORMULARIOS.BOTONES.ELECTRONICO.LOG"
+      translate="FORMULARIOS.BOTONES.ELECTRONICO.EVENTOSDIAN"
     ></h4>
     <button
       type="button"
@@ -169,48 +169,6 @@
     ></button>
   </div>
   <div class="modal-body">
-    <h2
-      class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
-    >
-      {{ "LISTAS.COMUNES.CORREOS" | translate | titlecase }}
-    </h2>
-    <div class="table-responsive table-loading mt-5">
-      <table
-        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-      >
-        <thead>
-          <tr *ngIf="arrCorreos && arrCorreos.length > 0">
-            <th class="bg-gray-100" *ngFor="let key of arrCorreos[0] | keys">
-              {{ "LISTAS.LOG.CORREOS." + (key | uppercase) | translate }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (correo of arrCorreos; track $index) {
-          <tr>
-            <td>
-              {{ correo.codigoCorreoPk }}
-            </td>
-            <td>
-              {{ correo.enviado | date : "yyyy-MM-dd h:mm" }}
-            </td>
-            <td>
-              {{ correo.numeroDocumento }}
-            </td>
-            <td>
-              {{ correo.fecha | date : "yyyy-MM-dd h:mm" }}
-            </td>
-            <td>
-              {{ correo.correo }}
-            </td>
-            <td>
-              {{ correo.correoCopia }}
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </div>
     <h2
       class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
     >
@@ -239,39 +197,6 @@
             </td>
             <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
             <td>{{ evento.nombre }}</td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-    <h2
-      class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0"
-    >
-      {{ "LISTAS.COMUNES.VALIDACIONES" | translate | titlecase }}
-    </h2>
-    <div class="table-responsive table-sm table-loading mt-5">
-      <table
-        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
-      >
-        <thead>
-          <th class="bg-gray-100">
-            {{ "LISTAS.LOG.VALIDACIONES.ID" | translate }}
-          </th>
-          <th class="bg-gray-100">
-            {{ "LISTAS.LOG.VALIDACIONES.FECHA" | translate }}
-          </th>
-          <th class="bg-gray-100">
-            {{ "LISTAS.LOG.VALIDACIONES.DESCRIPCION" | translate }}
-          </th>
-        </thead>
-        <tbody>
-          @for (validacion of arrValidaciones; track $index) {
-          <tr class="bg-light-danger text-danger">
-            <td>
-              {{ validacion.codigoValidacionPk }}
-            </td>
-            <td>{{ validacion.fecha | date : "yyyy-MM-dd h:mm" }}</td>
-            <td>{{ validacion.descripcion }}</td>
           </tr>
           }
         </tbody>
