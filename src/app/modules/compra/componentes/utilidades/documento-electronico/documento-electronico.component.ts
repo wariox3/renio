@@ -38,8 +38,8 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
       valor1: false,
     },
     {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 3,
+      propiedad: 'documento_tipo',
+      valor1: 5,
     },
   ];
   arrParametrosConsultaEmitir: any = {
