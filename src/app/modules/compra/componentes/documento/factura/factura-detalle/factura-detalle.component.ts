@@ -17,6 +17,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { BtnAnularComponent } from "../../../../../../comun/componentes/btn-anular/btn-anular.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -39,7 +40,8 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
     BtnAtrasComponent,
     BaseEstadosComponent,
     DetallesTotalesComponent,
-  ],
+    BtnAnularComponent
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -155,6 +157,31 @@ export default class FacturaDetalleComponent extends General {
       })
     )
     .subscribe();
+  }
+
+
+  anular() {
+    this.alertaService
+      .anularSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/anular/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        tap((respuesta: any) => {
+          if (respuesta) {
+            this.consultardetalle();
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 
   imprimir() {

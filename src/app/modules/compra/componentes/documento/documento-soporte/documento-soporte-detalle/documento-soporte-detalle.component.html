@@ -27,6 +27,10 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
+      <app-comun-btn-anular
+        [btnDisable]="!documento.estado_aprobado || documento.estado_anulado"
+        (emitirAnular)="anular()"
+      ></app-comun-btn-anular>
       <button
         type="submit"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -47,12 +51,10 @@
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
       </button>
     </div>
-
   </section>
   <section class="encabezadoDetalleEstados">
     <app-base-estados [documento]="documento"></app-base-estados>
   </section>
-
 </div>
 <app-card>
   <section card-titulo>
