@@ -28,27 +28,17 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   ],
 })
 export class EventosDianComponent extends General implements OnInit {
-  filtroPermanenteEmitir = [
-    {
-      propiedad: 'estado_aprobado',
-      valor1: true,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: false,
-    },
-    {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 5,
-    },
+  filtroPermanenteLista = [
+    { propiedad: 'documento_tipo__documento_clase_id', valor1: '300' },
+    { propiedad: 'estado_aprobado', valor1: true}
   ];
-  arrParametrosConsultaEmitir: any = {
-    filtros: this.filtroPermanenteEmitir,
+  arrParametrosConsultaLista: any = {
+    filtros: this.filtroPermanenteLista,
     limite: 50,
     desplazar: 0,
-    ordenamientos: [],
+    ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
     limite_conteo: 10000,
-    modelo: "GenDocumento"
+    modelo: 'GenDocumento',
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -56,9 +46,8 @@ export class EventosDianComponent extends General implements OnInit {
   arrRegistrosSeleccionadosEmitir: number[] = [];
   emitirSelectTodo = false;
   notificarSelectTodo = false;
-  tabActive = 1;
   paginacionEmitirDesde: number = 0;
-  paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
+  paginacionEmitirHasta: number = this.arrParametrosConsultaLista.limite;
   cantidad_registros: number = 0;
 
   constructor(private httpService: HttpService) {
@@ -71,7 +60,7 @@ export class EventosDianComponent extends General implements OnInit {
       this.consultarLista();
     });
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] })
+      ActualizarMapeo({ dataMapeo: utilidades['eventos_dian'] })
     );
     this.changeDetectorRef.detectChanges();
   }
@@ -80,15 +69,17 @@ export class EventosDianComponent extends General implements OnInit {
     zip(
       this.httpService.post(
         'general/funcionalidad/lista/',
-        this.arrParametrosConsultaEmitir
-      ),
+        this.arrParametrosConsultaLista
+      )
     ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitir = respuesta[0].registros.map((documento: any) => ({
-        ...documento,
-        ...{
-          selected: false,
-        },
-      }));
+      this.arrDocumentosEmitir = respuesta[0].registros.map(
+        (documento: any) => ({
+          ...documento,
+          ...{
+            selected: false,
+          },
+        })
+      );
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -198,42 +189,41 @@ export class EventosDianComponent extends General implements OnInit {
 
   visualizarTap(tap: string) {
     this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
-    this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
+    this.arrParametrosConsultaLista.filtros = this.filtroPermanenteLista;
     this.consultarLista();
   }
 
   obtenerFiltrosEmitir(arrFiltrosExtra: any) {
     if (arrFiltrosExtra !== null) {
       if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaEmitir.filtros = [
-          ...this.filtroPermanenteEmitir,
+        this.arrParametrosConsultaLista.filtros = [
+          ...this.filtroPermanenteLista,
           ...arrFiltrosExtra,
         ];
       } else {
-        this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
+        this.arrParametrosConsultaLista.filtros = this.filtroPermanenteLista;
       }
     }
     this.consultarLista();
   }
 
-
   aumentarDesplazamientoEmitir() {
     this.paginacionEmitirDesde =
-      this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
+      this.paginacionEmitirDesde + this.arrParametrosConsultaLista.limite;
     this.paginacionEmitirHasta =
-      this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
-    this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+      this.paginacionEmitirHasta + this.arrParametrosConsultaLista.limite;
+    this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
     this.consultarLista();
   }
 
   disminuirDesplazamientoEmitir() {
     if (this.paginacionEmitirDesde > 0) {
       let nuevoValor =
-        this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
+        this.paginacionEmitirDesde - this.arrParametrosConsultaLista.limite;
       this.paginacionEmitirHasta =
-        this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
+        this.paginacionEmitirHasta - this.arrParametrosConsultaLista.limite;
       this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+      this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
       this.consultarLista();
     }
   }
@@ -247,8 +237,8 @@ export class EventosDianComponent extends General implements OnInit {
         if (limite > 0) {
           limite -= 1;
           if (desplazamiento > 0) {
-            this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
-            this.arrParametrosConsultaEmitir.limite = parseInt(limite);
+            this.arrParametrosConsultaLista.desplazar = desplazamiento;
+            this.arrParametrosConsultaLista.limite = parseInt(limite);
             this.consultarLista();
           }
         }
@@ -256,16 +246,15 @@ export class EventosDianComponent extends General implements OnInit {
           evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
         }
       } else {
-        this.arrParametrosConsultaEmitir.desplazar = parseInt(valorInicial);
-        this.arrParametrosConsultaEmitir.limite = 1;
+        this.arrParametrosConsultaLista.desplazar = parseInt(valorInicial);
+        this.arrParametrosConsultaLista.limite = 1;
         this.consultarLista();
       }
     } else {
       evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirHasta;
-      this.arrParametrosConsultaEmitir.limite = this.paginacionEmitirDesde;
+      this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirHasta;
+      this.arrParametrosConsultaLista.limite = this.paginacionEmitirDesde;
       this.consultarLista();
     }
   }
-
 }

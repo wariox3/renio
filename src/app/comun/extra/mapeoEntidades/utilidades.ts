@@ -64,4 +64,20 @@ export const utilidades: Mapeo = {
       ordenable: true,
     },
   ],
+  eventos_dian: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+  ]
 };
