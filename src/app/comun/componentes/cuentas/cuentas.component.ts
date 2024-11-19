@@ -1,5 +1,16 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Item } from '@interfaces/general/item';
@@ -11,23 +22,20 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 @Component({
   selector: 'app-comun-cuentas',
   standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    NgbDropdownModule,
-    NgFor,
-],
+  imports: [CommonModule, TranslateModule, NgbDropdownModule, NgFor],
   templateUrl: './cuentas.component.html',
   styleUrls: ['./cuentas.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CuentasComponent extends General implements AfterViewInit {
-
+export class CuentasComponent
+  extends General
+  implements AfterViewInit, OnChanges
+{
   cuentaSeleccionada: any | null = null;
   arrCuentasLista: any[];
   @Input() cuentaCodigo: string = '';
   @Input() documentoEnlazado: boolean;
-  @Input() campoInvalido: any  = false;
+  @Input() campoInvalido: any = false;
   @Output() emitirArrCuentas: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
@@ -36,6 +44,12 @@ export class CuentasComponent extends General implements AfterViewInit {
 
   constructor(private httpService: HttpService) {
     super();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cuentaCodigo?.currentValue !== null) {
+      this.dropdown?.close();
+    }
   }
 
   ngAfterViewInit() {
@@ -50,7 +64,7 @@ export class CuentasComponent extends General implements AfterViewInit {
     //   this.campoInvalido = false
     //   this.changeDetectorRef.detectChanges()
     // }else {
-      this.emitirArrCuentas.emit(cuenta);
+    this.emitirArrCuentas.emit(cuenta);
     //}
   }
 
@@ -118,9 +132,8 @@ export class CuentasComponent extends General implements AfterViewInit {
   }
 
   onDropdownClose() {
-    if(this.cuentaSeleccionada === null){
+    if (this.cuentaSeleccionada === null) {
       this.emitirLineaVacia.emit();
     }
   }
-
- }
+}
