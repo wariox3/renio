@@ -8,8 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
@@ -18,20 +18,20 @@ import {
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-grupo',
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
     NgSelectModule,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',
 })

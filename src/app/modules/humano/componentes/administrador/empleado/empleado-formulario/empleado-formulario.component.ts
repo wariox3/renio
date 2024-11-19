@@ -33,6 +33,7 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -46,7 +47,8 @@ import {
     TranslateModule,
     NgbDropdownModule,
     BotonGuardarComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './empleado-formulario.component.html',
 })
 export default class EmpleadoFormularioComponent

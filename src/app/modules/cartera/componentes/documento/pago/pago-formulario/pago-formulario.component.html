@@ -1,15 +1,7 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div class="d-flex gap-2" role="group" aria-label="Basic example">
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-sm btn-flex btn-primary"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-    </div>
-  </div>
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="estado_aprobado"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -98,7 +90,7 @@
               </app-comun-buscar-avanzado>
             </button>
           </div>
-          <ng-container 
+          <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
@@ -315,7 +307,10 @@
                               </select>
                             </ng-container>
                             <ng-template #selectDisabled>
-                              <select disabled class="form-select form-select-sm">
+                              <select
+                                disabled
+                                class="form-select form-select-sm"
+                              >
                                 <option value="C">Crédito</option>
                               </select>
                             </ng-template>

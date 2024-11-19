@@ -8,9 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { ComprobanteService } from '@modulos/contabilidad/servicios/comprobante.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -24,10 +23,9 @@ import { tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
-    BtnAtrasComponent,
     CardComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './comprobante-formulario.component.html',
   styleUrl: './comprobante-formulario.component.scss',
 })

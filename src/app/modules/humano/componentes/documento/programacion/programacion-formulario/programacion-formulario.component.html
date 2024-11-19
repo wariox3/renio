@@ -1,19 +1,5 @@
 <form [formGroup]="formularioProgramacion" (ngSubmit)="enviarFormulario()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-    </div>
-  </div>
+  <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -94,7 +80,6 @@
         </div>
       </div>
       <div class="row mb-5">
-        
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -105,7 +90,7 @@
             formControlName="grupo"
             [ngClass]="{
               'is-invalid':
-                  formularioProgramacion.controls['grupo'].touched &&
+                formularioProgramacion.controls['grupo'].touched &&
                 formularioProgramacion.controls['grupo'].invalid,
               'is-valid':
                 formularioProgramacion.controls['grupo'].touched &&
@@ -119,7 +104,10 @@
               *ngFor="let grupo of arrGrupo"
               [value]="grupo.grupo_id"
               [selected]="
-                grupo.grupo_id === formularioProgramacion.controls['grupo']!.value ? formularioProgramacion.controls['grupo']!.value : ''
+                grupo.grupo_id ===
+                formularioProgramacion.controls['grupo']!.value
+                  ? formularioProgramacion.controls['grupo']!.value
+                  : ''
               "
             >
               {{ grupo.grupo_nombre }}
@@ -203,9 +191,8 @@
               'is-invalid':
                 (formularioProgramacion.controls['fecha_hasta'].touched &&
                   formularioProgramacion.controls['fecha_hasta'].invalid) ||
-                formularioProgramacion.errors?.fechaInvalida || 
-                formularioProgramacion.errors?.minimoDias
-                ,
+                formularioProgramacion.errors?.fechaInvalida ||
+                formularioProgramacion.errors?.minimoDias,
               'is-valid':
                 formularioProgramacion.controls['fecha_hasta'].touched &&
                 formularioProgramacion.controls['fecha_hasta'].valid
@@ -231,14 +218,19 @@
           <div *ngIf="formularioProgramacion.errors?.minimoDias">
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <span *ngIf="grupoSeleccionado?.grupo_periodo_dias" role="alert">
-                  Fecha hasta debe contener {{ grupoSeleccionado?.grupo_periodo_dias }} días a partir de la fecha desde.
+                <span
+                  *ngIf="grupoSeleccionado?.grupo_periodo_dias"
+                  role="alert"
+                >
+                  Fecha hasta debe contener
+                  {{ grupoSeleccionado?.grupo_periodo_dias }} días a partir de
+                  la fecha desde.
                 </span>
               </div>
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label

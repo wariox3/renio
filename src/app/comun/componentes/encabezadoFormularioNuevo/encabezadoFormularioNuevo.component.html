@@ -1,0 +1,34 @@
+<section class="encabezadoNuevo">
+  <section class="encabezadoNuevoBtnAtras">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+  </section>
+  <section class="encabezadoNuevoBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      @if(!estadoAprobado){ @if (btnNuevoCargando) {
+      <button
+        class="btn btn-sm btn-bg-primary btn-color-white"
+        type="button"
+        disabled
+      >
+        <span
+          class="spinner-border spinner-border-sm me-1"
+          aria-hidden="true"
+        ></span>
+        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+      </button>
+      } @else {
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex btn-primary"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
+      } }
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
+      <ng-content select="[btn-extras]"></ng-content>
+    </div>
+  </section>
+</section>

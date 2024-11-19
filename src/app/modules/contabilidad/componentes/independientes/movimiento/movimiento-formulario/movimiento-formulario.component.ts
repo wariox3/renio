@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { MovimientoService } from '@modulos/contabilidad/servicios/movimiento.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
@@ -17,14 +22,15 @@ import { tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
-    BtnAtrasComponent,
     CardComponent,
+    EncabezadoFormularioNuevoComponent,
   ],
   templateUrl: './movimiento-formulario.component.html',
 })
-export default class MovimientoFormularioComponent extends General
-implements OnInit {
+export default class MovimientoFormularioComponent
+  extends General
+  implements OnInit
+{
   formularioMovimiento: FormGroup;
 
   constructor(
@@ -54,10 +60,7 @@ implements OnInit {
     if (this.formularioMovimiento.valid) {
       if (this.detalle) {
         this.movimientoService
-          .actualizarDatos(
-            this.detalle,
-            this.formularioMovimiento.value
-          )
+          .actualizarDatos(this.detalle, this.formularioMovimiento.value)
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.router.navigate(['documento/detalle'], {
@@ -93,11 +96,8 @@ implements OnInit {
     this.movimientoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.formularioMovimiento.patchValue({
-
-        });
+        this.formularioMovimiento.patchValue({});
         this.changeDetectorRef.detectChanges();
       });
   }
-
- }
+}

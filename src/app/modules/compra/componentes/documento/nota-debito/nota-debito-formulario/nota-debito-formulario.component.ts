@@ -42,6 +42,7 @@ import {
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -55,17 +56,13 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
     BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-    BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   public modoEdicion: boolean = false;

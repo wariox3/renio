@@ -10,9 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
@@ -30,7 +29,6 @@ import {
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
-
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,16 +40,15 @@ import { BuscarEmpleadoComponent } from "../../../../../../comun/componentes/bus
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    BuscarAvanzadoComponent,
     SoloNumerosDirective,
     NgSelectModule,
-    BuscarEmpleadoComponent
+    BuscarEmpleadoComponent,
+    EncabezadoFormularioNuevoComponent
 ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],

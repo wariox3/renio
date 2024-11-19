@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+
+.encabezadoNuevo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0.5rem;
+  grid-template-areas: "encabezadoNuevoBtnAtras encabezadoNuevoBotonera"; //no quitar no renombrar
+  margin-bottom: 1.25rem !important;
+
+  .encabezadoNuevoBtnAtras{
+    grid-area: encabezadoNuevoBtnAtras;
+  }
+
+
+  .encabezadoNuevoBotonera{
+    grid-area: encabezadoNuevoBotonera;
+  }
+}

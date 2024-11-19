@@ -1,9 +1,5 @@
-import { PrecioService } from '@modulos/general/servicios/precio.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { General } from '@comun/clases/general';
 import {
   FormArray,
   FormBuilder,
@@ -12,8 +8,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
+import { PrecioService } from '@modulos/general/servicios/precio.service';
 import { TranslateModule } from '@ngx-translate/core';
-
 
 @Component({
   selector: 'app-precio-formulario',
@@ -21,11 +20,11 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './precio-formulario.component.html',
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    EncabezadoFormularioNuevoComponent
 ],
 })
 export default class PrecioFormularioComponent

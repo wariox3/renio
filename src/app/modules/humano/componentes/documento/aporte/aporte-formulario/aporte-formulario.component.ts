@@ -8,9 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { FechasService } from '@comun/services/fechas.service';
 import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
@@ -29,9 +28,8 @@ import { tap, zip } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    BuscarAvanzadoComponent,
-    BtnAtrasComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './aporte-formulario.component.html',
   styleUrl: './aporte-formulario.component.scss',
 })

@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ElementRef,
-  Output,
-  EventEmitter,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -16,11 +9,10 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -31,9 +23,9 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    BtnAtrasComponent,
     CardComponent,
-    NgbModalModule, // necesario para cerrar el modal que está en editarEmpresa
+    NgbModalModule,
+    EncabezadoFormularioNuevoComponent,
   ],
   providers: [NgbActiveModal],
 })

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { AlmacenService } from '@modulos/inventario/service/almacen.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
@@ -13,12 +13,12 @@ import { tap } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './almacen-formulario.component.html',
   styleUrl: './almacen-formulario.component.scss',
 })

@@ -10,7 +10,6 @@ import {
   Validators
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -42,6 +41,7 @@ import {
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -55,17 +55,13 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
     BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-    BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);

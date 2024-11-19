@@ -9,32 +9,31 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { HttpService } from '@comun/services/http.service';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
-import { Contacto } from '@interfaces/general/contacto';
-import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -46,18 +45,17 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
     ReactiveFormsModule,
     TranslateModule,
     NgbDropdownModule,
-    BtnAtrasComponent,
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    KeysPipe,
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
     NgSelectModule,
     ContactosComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class EgresoFormularioComponent
   extends General
@@ -584,7 +582,7 @@ export default class EgresoFormularioComponent
     if (campo === 'contacto') {
       this.formularioEgreso.get(campo)?.setValue(dato.id);
       this.formularioEgreso.get('contactoNombre')?.setValue(dato.nombre_corto);
-    } 
+    }
 
     this.formularioEgreso?.markAsDirty();
     this.formularioEgreso?.markAsTouched();

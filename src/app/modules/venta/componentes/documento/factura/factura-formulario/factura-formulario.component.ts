@@ -53,6 +53,7 @@ import {
 } from 'rxjs';
 import { FacturaFormularioDocumentoComponent } from '../factura-formulario-documento/factura-formulario-documento/factura-formulario-documento.component';
 import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -79,7 +80,8 @@ import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/fac
     FacturaFormularioDocumentoComponent,
     FacturaFormularioPagosComponent,
     NgbDropdownModule,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formBuilder = inject(FormBuilder);

@@ -1,19 +1,7 @@
 <form [formGroup]="formularioSede" (ngSubmit)="enviarFormulario()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-    </div>
-  </div>
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -44,11 +32,11 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioSede.controls['nombre'].touched &&
-              formularioSede.controls['nombre'].invalid,
+                formularioSede.controls['nombre'].touched &&
+                formularioSede.controls['nombre'].invalid,
               'is-valid':
-              formularioSede.controls['nombre'].touched &&
-              formularioSede.controls['nombre'].valid
+                formularioSede.controls['nombre'].touched &&
+                formularioSede.controls['nombre'].valid
             }"
           />
           <ng-container

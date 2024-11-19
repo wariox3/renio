@@ -1,19 +1,7 @@
 <form [formGroup]="formularioCargo" (ngSubmit)="enviarFormulario()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-    </div>
-  </div>
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -31,9 +19,7 @@
       </ng-template>
     </section>
     <section card-body>
-      <div class="row mb-2">
-
-      </div>
+      <div class="row mb-2"></div>
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
           <label
@@ -47,8 +33,8 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-              formularioCargo.controls['nombre'].touched &&
-              formularioCargo.controls['nombre'].invalid,
+                formularioCargo.controls['nombre'].touched &&
+                formularioCargo.controls['nombre'].invalid,
               'is-valid':
                 formularioCargo.controls['nombre'].touched &&
                 formularioCargo.controls['nombre'].valid
@@ -104,16 +90,11 @@
               formControlName="estado_inactivo"
             />
             <label class="form-check-label text-gray-700" for="estado_inactivo">
-              {{
-                "FORMULARIOS.CAMPOS.HUMANO.CARGO.ESTADOINACTIVO"
-                  | translate
-              }}
+              {{ "FORMULARIOS.CAMPOS.HUMANO.CARGO.ESTADOINACTIVO" | translate }}
             </label>
           </div>
         </div>
-        <div class="col-md-6 col-sm-12">
-
-        </div>
+        <div class="col-md-6 col-sm-12"></div>
       </div>
     </section>
   </app-card>

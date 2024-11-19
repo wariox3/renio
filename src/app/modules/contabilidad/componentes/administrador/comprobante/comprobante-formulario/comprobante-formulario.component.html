@@ -1,19 +1,7 @@
 <form [formGroup]="formularioComprobante" (ngSubmit)="formSubmit()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-    </div>
-  </div>
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -61,15 +49,15 @@
             }"
           ></ng-container>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message:
-              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '20',
-            control: formularioComprobante.controls['codigo']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioComprobante.controls['codigo']
+            }"
+          ></ng-container>
         </div>
         <!-- Nombre -->
         <div class="col-md-6 col-sm-12">
@@ -111,7 +99,6 @@
             }"
           ></ng-container>
         </div>
-        
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">

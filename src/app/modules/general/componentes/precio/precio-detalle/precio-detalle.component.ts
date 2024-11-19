@@ -16,6 +16,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 
 @Component({
   selector: 'app-precio-detalle',
@@ -31,6 +32,7 @@ import {
     ProductosComponent,
     FormsModule,
     ReactiveFormsModule,
+    EncabezadoFormularioNuevoComponent
 ],
 })
 export default class PrecioDetalleComponent extends General implements OnInit {

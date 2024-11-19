@@ -10,17 +10,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fechas.validator';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarHumGrupo,
-  RegistroAutocompletarHumPagoTipo,
-  RegistroAutocompletarHumPerido,
+  RegistroAutocompletarHumPagoTipo
 } from '@interfaces/comunes/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,14 +30,13 @@ import { tap, zip } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    BuscarAvanzadoComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './programacion-formulario.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -45,6 +45,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -70,7 +71,8 @@ import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/fac
     CuentaBancoComponent,
     FormularioProductosComponent,
     FacturaFormularioPagosComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General

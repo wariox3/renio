@@ -22,8 +22,8 @@ import {
   Validators
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
@@ -32,7 +32,7 @@ import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocomple
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 
 
@@ -59,11 +59,10 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     SoloNumerosDirective,
-    BtnAtrasComponent,
     CardComponent,
     NgxMaskDirective,
-    NgxMaskPipe,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   providers: [provideNgxMask()],
 })
 export default class ContactDetalleComponent extends General implements OnInit {

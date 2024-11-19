@@ -1,21 +1,14 @@
 <form [formGroup]="formularioAsiento" (ngSubmit)="formSubmit()">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div class="d-flex gap-2" role="group" aria-label="Basic example">
-      <app-comun-btn-atras />
-      <button
-        type="submit"
-        class="btn btn-sm btn-flex btn-primary"
-        #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-      ></button>
-      @if (detalle) {
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+    @if (detalle) {
+    <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
       <app-importar-detalles
         [estadoHabilitado]="estado_aprobado"
         (emitirDetallesAgregados)="consultardetalle()"
       ></app-importar-detalles>
-      }
     </div>
-  </div>
+    }
+  </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -163,7 +156,7 @@
         </div>
         <div class="col-12 col-md-6">
           <label
-            class="form-label required "
+            class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.SOPORTE"
           ></label>
           <input
@@ -201,11 +194,11 @@
             formControlName="comprobante"
             [ngClass]="{
               'is-invalid':
-              formularioAsiento.controls['comprobante'].touched &&
-              formularioAsiento.controls['comprobante'].invalid,
+                formularioAsiento.controls['comprobante'].touched &&
+                formularioAsiento.controls['comprobante'].invalid,
               'is-valid':
-              formularioAsiento.controls['comprobante'].touched &&
-              formularioAsiento.controls['comprobante'].valid
+                formularioAsiento.controls['comprobante'].touched &&
+                formularioAsiento.controls['comprobante'].valid
             }"
           >
             <option value="">
@@ -241,11 +234,11 @@
             formControlName="grupo_contabilidad"
             [ngClass]="{
               'is-invalid':
-              formularioAsiento.controls['grupo_contabilidad'].touched &&
-              formularioAsiento.controls['grupo_contabilidad'].invalid,
+                formularioAsiento.controls['grupo_contabilidad'].touched &&
+                formularioAsiento.controls['grupo_contabilidad'].invalid,
               'is-valid':
-              formularioAsiento.controls['grupo_contabilidad'].touched &&
-              formularioAsiento.controls['grupo_contabilidad'].valid
+                formularioAsiento.controls['grupo_contabilidad'].touched &&
+                formularioAsiento.controls['grupo_contabilidad'].valid
             }"
           >
             <option value="">
@@ -255,8 +248,7 @@
               *ngFor="let grupo of arrGrupo"
               [value]="grupo.grupo_id"
               [selected]="
-                grupo.grupo_id ===
-                formularioAsiento.controls.grupo_id
+                grupo.grupo_id === formularioAsiento.controls.grupo_id
               "
             >
               {{ grupo.grupo_nombre }}

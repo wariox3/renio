@@ -8,9 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
@@ -23,13 +23,13 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    BuscarContratoComponent
+    BuscarContratoComponent,
+    EncabezadoFormularioNuevoComponent
 ],
   templateUrl: './credito-formulario.component.html',
   styleUrl: './credito-formulario.component.scss',

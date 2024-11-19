@@ -8,9 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
@@ -28,7 +28,6 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
@@ -36,7 +35,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     NgbDropdownModule,
     NgSelectModule,
     BuscarContratoComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
 })

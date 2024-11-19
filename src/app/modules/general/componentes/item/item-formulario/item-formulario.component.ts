@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,7 +7,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   FormArray,
   FormBuilder,
@@ -16,14 +16,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-item-formulario',
@@ -35,11 +34,10 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ReactiveFormsModule,
     TranslateModule,
     ImpuestosComponent,
-    BtnAtrasComponent,
     CardComponent,
     NgxMaskDirective,
-    NgxMaskPipe,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {

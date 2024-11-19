@@ -8,9 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
@@ -25,10 +24,9 @@ import { tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
-    BtnAtrasComponent,
     CardComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',
 })

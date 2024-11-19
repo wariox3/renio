@@ -1,4 +1,3 @@
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -9,10 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { SedeService } from '@modulos/general/servicios/sede.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-sede-formulario',
@@ -23,11 +23,9 @@ import { SedeService } from '@modulos/general/servicios/sede.service';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    BtnAtrasComponent,
     CardComponent,
-    NgxMaskDirective,
-    NgxMaskPipe,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   providers: [provideNgxMask()],
 })
 export default class AsesorFormularioComponent

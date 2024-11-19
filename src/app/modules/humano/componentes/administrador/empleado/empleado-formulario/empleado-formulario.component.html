@@ -1,14 +1,8 @@
-<form [formGroup]="formularioEmpleado">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div
-      class="btn-group btn-sm shadow-sm"
-      role="group"
-      aria-label="Basic example"
-    >
-      <app-comun-btn-atras />
-      <app-boton-guardar [estaCargando]="guardando$ | async" (emitirGuardar)="enviarFormulario()" />
-    </div>
-  </div>
+<form [formGroup]="formularioEmpleado" (ngSubmit)="enviarFormulario()">
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+    [btnNuevoCargando]="guardando$ | async"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
@@ -90,12 +84,11 @@
                 formularioEmpleado.controls['numero_identificacion'].touched &&
                 formularioEmpleado.controls['numero_identificacion'].valid
             }"
-
           />
           <div
             *ngIf="
-            formularioEmpleado.controls.numero_identificacion?.touched &&
-            formularioEmpleado.controls.numero_identificacion?.hasError(
+              formularioEmpleado.controls.numero_identificacion?.touched &&
+              formularioEmpleado.controls.numero_identificacion?.hasError(
                 'numeroIdentificacionExistente'
               )
             "
@@ -431,7 +424,7 @@
               "
               (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
             >
-              {{ ciudad.nombre }} - {{ciudad.estado_nombre}}
+              {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
             </button>
           </div>
         </div>
@@ -586,10 +579,7 @@
             <ng-container *ngFor="let banco of arrBancos">
               <option
                 [value]="banco.id"
-                [selected]="
-                  banco.id ===
-                  formularioEmpleado.value.banco
-                "
+                [selected]="banco.id === formularioEmpleado.value.banco"
               >
                 {{ banco.nombre }}
               </option>
@@ -644,63 +634,63 @@
         </div>
       </div>
       <div class="row mb-2">
-          <div class="col-md-6 col-sm-12">
-            <label
-              translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
-              class="form-label required"
-            ></label>
-            <select
-              formControlName="cuenta_banco_clase"
-              class="form-select form-select"
-              [ngClass]="{
-                'is-invalid':
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
+            class="form-label required"
+          ></label>
+          <select
+            formControlName="cuenta_banco_clase"
+            class="form-select form-select"
+            [ngClass]="{
+              'is-invalid':
                 formularioEmpleado.controls['cuenta_banco_clase'].touched &&
-                  formularioEmpleado.controls['cuenta_banco_clase'].invalid,
-                'is-valid':
+                formularioEmpleado.controls['cuenta_banco_clase'].invalid,
+              'is-valid':
                 formularioEmpleado.controls['cuenta_banco_clase'].touched &&
                 formularioEmpleado.controls['cuenta_banco_clase'].valid
-              }"
+            }"
+          >
+            @for (item of arrCuentasBancos; track $index) {
+            <option
+              [value]="item.cuenta_banco_clase_id"
+              [selected]="
+                item.cuenta_banco_clase_id ===
+                formularioEmpleado.value.cuenta_banco_clase
+              "
             >
-              @for (item of arrCuentasBancos; track $index) {
-              <option
-                [value]="item.cuenta_banco_clase_id"
-                [selected]="
-                  item.cuenta_banco_clase_id ===
-                  formularioEmpleado.value.cuenta_banco_clase
-                "
-              >
-                {{ item.cuenta_banco_clase_nombre }}
-              </option>
-              }
-            </select>
+              {{ item.cuenta_banco_clase_nombre }}
+            </option>
+            }
+          </select>
 
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioEmpleado.controls['cuenta_banco_clase']
-              }"
-            ></ng-container>
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message:
-                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '100',
-                control: formularioEmpleado.controls['cuenta_banco_clase']
-              }"
-            ></ng-container>
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                control: formularioEmpleado.controls['cuenta_banco_clase']
-              }"
-            ></ng-container>
-          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEmpleado.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioEmpleado.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioEmpleado.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+        </div>
       </div>
     </section>
   </app-card>

@@ -8,8 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
 import { CuentaBancoService } from '@modulos/general/servicios/cuentaBanco.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,11 +25,11 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    BtnAtrasComponent,
     CardComponent,
     NgbDropdownModule,
     NgSelectModule,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

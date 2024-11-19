@@ -8,25 +8,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { HttpService } from '@comun/services/http.service';
-import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
-import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { numeroPar } from '@comun/validaciones/numeroPar';
+import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
+import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
+import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -38,10 +34,9 @@ import { forkJoin, map, of, switchMap, tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
-    BtnAtrasComponent,
     CardComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
   formularioConCuenta: FormGroup;

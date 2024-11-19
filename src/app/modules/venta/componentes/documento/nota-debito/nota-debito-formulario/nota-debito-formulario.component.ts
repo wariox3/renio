@@ -42,6 +42,7 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -65,7 +66,8 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);

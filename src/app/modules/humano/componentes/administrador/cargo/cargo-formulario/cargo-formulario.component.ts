@@ -8,8 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { CargoService } from '@modulos/humano/servicios/cargo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
@@ -19,12 +19,12 @@ import { tap } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
-    BtnAtrasComponent,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
   templateUrl: './cargo-formulario.component.html',
   styleUrl: './cargo-formulario.component.scss',
 })

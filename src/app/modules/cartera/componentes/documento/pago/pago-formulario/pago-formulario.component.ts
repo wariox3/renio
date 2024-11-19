@@ -8,11 +8,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
-
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -20,20 +28,10 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { KeysPipe } from '@pipe/keys.pipe';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
-import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { Contacto } from '@interfaces/general/contacto';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -45,16 +43,15 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
     ReactiveFormsModule,
     TranslateModule,
     NgbDropdownModule,
-    BtnAtrasComponent,
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    KeysPipe,
     BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
-  ],
+    EncabezadoFormularioNuevoComponent
+],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
   formularioFactura: FormGroup;
