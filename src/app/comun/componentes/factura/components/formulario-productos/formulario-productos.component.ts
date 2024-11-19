@@ -291,7 +291,7 @@ export class FormularioProductosComponent
   ) {
     this.detalles.controls[indexFormulario].patchValue({
       cuenta: item.cuenta_id,
-      cuenta_codigo: item.cuenta_nombre,
+      cuenta_codigo: item.cuenta_codigo,
     });
   }
 
