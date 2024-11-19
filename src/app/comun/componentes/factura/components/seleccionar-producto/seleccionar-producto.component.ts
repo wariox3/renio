@@ -4,7 +4,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -40,7 +42,7 @@ import {
 })
 export class SeleccionarProductoComponent
   extends General
-  implements AfterViewInit
+  implements AfterViewInit, OnChanges
 {
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
@@ -65,6 +67,12 @@ export class SeleccionarProductoComponent
     private modalService: NgbModal
   ) {
     super();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.itemNombre?.currentValue !== null) {
+      this.dropdown?.close();
+    }
   }
 
   ngAfterViewInit() {

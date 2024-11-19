@@ -149,6 +149,9 @@ export class FormularioProductosComponent
       }
     );
 
+    this._impuestoCache = [];
+    this.acumuladorImpuestos = {};
+
     this.detalles.clear();
     itemsActualizados.forEach((item: any, i: number) => {
       this.agregarNuevoItem(item.tipo_registro);
@@ -158,6 +161,8 @@ export class FormularioProductosComponent
       );
       this.detalles.controls[i].patchValue({
         id: item.id || null,
+        cuenta: item.cuenta,
+        cuenta_codigo: item.cuenta_codigo,
         precio: item.precio,
         item: item.item,
         cantidad: item.cantidad,
@@ -165,13 +170,12 @@ export class FormularioProductosComponent
         item_nombre: item.item_nombre,
         total: item.precio * 1,
       });
-
+      this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
     });
 
     this._limpiarFormularioTotales();
     this._actualizarFormulario();
-    this._eliminarPosicionImpuestoCache(indexFormulario);
     this._limpiarImpuestosAcumulados();
   }
 
@@ -226,17 +230,17 @@ export class FormularioProductosComponent
 
     // Agregar validadores dinámicos en función de tipo_registro
     if (tipo_registro === 'C') {
-      detalleFormGroup.get('cuenta')?.setErrors({ required: true })
+      detalleFormGroup.get('cuenta')?.setErrors({ required: true });
       detalleFormGroup.get('cuenta')?.markAsTouched();
     } else if (tipo_registro === 'I') {
-      detalleFormGroup.get('item')?.setErrors({ required: true })
+      detalleFormGroup.get('item')?.setErrors({ required: true });
       detalleFormGroup.get('item')?.markAsTouched();
     }
 
     // Actualizar los validadores dinámicos
-      // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
-      // detalleFormGroup.get('item')?.updateValueAndValidity();
-
+    // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
+    // detalleFormGroup.get('item')?.updateValueAndValidity();
+    this._impuestoCache.push({});
     this.detalles.push(detalleFormGroup);
     this.detalles?.markAllAsTouched();
     this.changeDetectorRef.detectChanges();
@@ -268,7 +272,6 @@ export class FormularioProductosComponent
       this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true)
     );
 
-    this._agregarCampoImpuestoACache(indexFormulario);
     this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
     this._limpiarImpuestosAcumulados();
     this._limpiarFormularioTotales();
@@ -293,6 +296,8 @@ export class FormularioProductosComponent
       cuenta: item.cuenta_id,
       cuenta_codigo: item.cuenta_codigo,
     });
+
+    this._agregarCampoImpuestoACache(indexFormulario);
   }
 
   /**
