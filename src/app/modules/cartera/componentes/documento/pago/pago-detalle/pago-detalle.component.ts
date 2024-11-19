@@ -144,4 +144,5 @@ export default class PagoDetalleComponent extends General {
   navegarNuevo() {
     this.navegarDocumentoNuevo();
   }
+  
 }

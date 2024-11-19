@@ -214,6 +214,7 @@ export default class FacturaDetalleComponent extends General {
         tap((respuesta: any) => {
           if (respuesta) {
             this.consultardetalle();
+            this._reniciarTotales();
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
             );
@@ -221,5 +222,15 @@ export default class FacturaDetalleComponent extends General {
         })
       )
       .subscribe();
+  }
+
+  private _reniciarTotales(){
+    this.totalCantidad = 0;
+    this.subtotalGeneral = 0;
+    this.totalDescuento = 0;
+    this.totalImpuestos = 0;
+    this.totalGeneral = 0;
+    this.totalBase = 0;
+    this.changeDetectorRef.detectChanges()
   }
 }

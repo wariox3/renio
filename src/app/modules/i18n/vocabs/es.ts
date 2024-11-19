@@ -316,7 +316,7 @@ export const locale = {
           PAGOS: 'Pagos',
           PAGO: 'Pago',
           INFORMACIONFACTURACION: 'Información de facturación',
-          PRODUCTOCUENTA: 'Producto / cuenta',
+          PRODUCTOCUENTA: 'Producto / Cuenta',
 
         },
         GENERAL: {

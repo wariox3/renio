@@ -191,12 +191,7 @@ export default class FacturaDetalleComponent extends General {
         tap((respuesta: any) => {
           if (respuesta) {
             this.documento = respuesta.documento;
-            this.totalCantidad = 0;
-            this.subtotalGeneral = 0;
-            this.totalDescuento = 0;
-            this.totalImpuestos = 0;
-            this.totalGeneral = 0;
-            this.totalBase = 0;
+            this._reniciarTotales()
             this.arrEstados.estado_anulado =
             respuesta.documento.estado_anulado;
             this.alertaService.mensajaExitoso(
@@ -287,5 +282,16 @@ export default class FacturaDetalleComponent extends General {
 
   navegarNuevo() {
     this.navegarDocumentoNuevo();
+  }
+
+
+  private _reniciarTotales(){
+    this.totalCantidad = 0;
+    this.subtotalGeneral = 0;
+    this.totalDescuento = 0;
+    this.totalImpuestos = 0;
+    this.totalGeneral = 0;
+    this.totalBase = 0;
+    this.changeDetectorRef.detectChanges()
   }
 }
