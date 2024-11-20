@@ -21,7 +21,6 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     BaseFiltroComponent,
   ],
   templateUrl: './cuentas-pagar.component.html',
-  styleUrl: './cuentas-pagar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CuentasPagarComponent extends General implements OnInit {
@@ -30,6 +29,7 @@ export class CuentasPagarComponent extends General implements OnInit {
   cantidad_registros!: number;
   filtroPermanente = [
     { propiedad: 'documento_tipo__pagar', valor1: true },
+    { propiedad: 'estado_aprobado', valor1: true },
     { propiedad: 'pendiente__gt', valor1: 0 },
   ];
 
