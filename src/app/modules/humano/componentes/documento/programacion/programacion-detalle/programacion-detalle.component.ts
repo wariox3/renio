@@ -49,6 +49,7 @@ import {
   throttleTime,
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -68,7 +69,8 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     ImportarAdministradorComponent,
     NgSelectModule,
     BaseEstadosComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })

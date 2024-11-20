@@ -24,6 +24,7 @@ import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -49,7 +50,8 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
     DocumentoOpcionesComponent,
     BaseEstadosComponent,
     DetallesTotalesComponent,
-  ],
+    TituloAccionComponent
+],
 })
 export default class CuentaCobroDetalleComponent extends General {
   active: Number;

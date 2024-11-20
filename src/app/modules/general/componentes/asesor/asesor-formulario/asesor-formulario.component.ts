@@ -13,6 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-asesor-formulario',
@@ -25,7 +26,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     TranslateModule,
     CardComponent,
     NgxMaskDirective,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   providers: [provideNgxMask()],
 })

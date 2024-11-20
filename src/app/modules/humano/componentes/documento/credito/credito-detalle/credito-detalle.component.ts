@@ -8,6 +8,7 @@ import { HttpService } from '@comun/services/http.service';
 import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-credito-detalle',
@@ -18,8 +19,9 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
-    NgbNavModule
-  ],
+    NgbNavModule,
+    TituloAccionComponent
+],
   templateUrl: './credito-detalle.component.html',
   styleUrl: './credito-detalle.component.scss',
 })

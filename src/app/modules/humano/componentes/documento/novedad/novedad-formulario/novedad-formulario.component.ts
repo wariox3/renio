@@ -29,6 +29,7 @@ import { NovedadService } from '@modulos/humano/servicios/novedad';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -41,7 +42,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarContratoComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './novedad-formulario.component.html',
   styleUrl: './novedad-formulario.component.scss',

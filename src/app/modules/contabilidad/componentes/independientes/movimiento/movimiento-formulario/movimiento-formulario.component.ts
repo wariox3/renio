@@ -13,6 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { MovimientoService } from '@modulos/contabilidad/servicios/movimiento.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-movimiento-detalle',
@@ -24,7 +25,8 @@ import { tap } from 'rxjs';
     TranslateModule,
     CardComponent,
     EncabezadoFormularioNuevoComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './movimiento-formulario.component.html',
 })
 export default class MovimientoFormularioComponent

@@ -14,6 +14,7 @@ import { ResolucionService } from '@modulos/general/servicios/resolucion.service
 import { Resolucion } from '@interfaces/general/resolucion';
 import { CardComponent } from "@comun/componentes/card/card.component";
 import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
     selector: 'app-resolucion-nuevo',
@@ -26,7 +27,8 @@ import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.compon
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    BtnAtrasComponent
+    BtnAtrasComponent,
+    TituloAccionComponent
 ]
 })
 export default class ResolucionNuevoComponent

@@ -4,9 +4,7 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-      {{ detalle }}
+      <app-comun-titulo-accion></app-comun-titulo-accion>
     </section>
     <section card-body>
       <table class="table table-bordered table-sm">

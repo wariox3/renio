@@ -34,6 +34,7 @@ import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 
 @Component({
@@ -61,7 +62,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     SoloNumerosDirective,
     CardComponent,
     NgxMaskDirective,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   providers: [provideNgxMask()],
 })

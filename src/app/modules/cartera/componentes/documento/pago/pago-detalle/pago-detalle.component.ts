@@ -10,6 +10,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-pago-detalle',
@@ -21,7 +22,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     TranslateModule,
     NgbNavModule,
     BaseEstadosComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './pago-detalle.component.html',
 })
 export default class PagoDetalleComponent extends General {
@@ -144,5 +146,5 @@ export default class PagoDetalleComponent extends General {
   navegarNuevo() {
     this.navegarDocumentoNuevo();
   }
-  
+
 }

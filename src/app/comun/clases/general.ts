@@ -15,7 +15,7 @@ export class General {
   protected modelo = '';
   protected tipo = '';
   protected formulario = '';
-  protected accion: string | null = null;
+  protected accion: 'nuevo' | 'detalle' | 'editar' | null = null;
   protected detalle = 0;
   protected parametrosUrl: any = {};
   protected ubicacion:
@@ -48,10 +48,16 @@ export class General {
         break;
     }
 
-    if (this.router.url.includes('nuevo')) {
-      this.accion = 'nuevo';
-    } else if (this.router.url.includes('detalle')) {
-      this.accion = 'detalle';
+    switch (true) {
+      case this.router.url.includes('/nuevo'):
+        this.accion = 'nuevo';
+        break;
+      case this.router.url.includes('/detalle'):
+        this.accion = 'detalle';
+        break;
+      case this.router.url.includes('/editar'):
+        this.accion = 'editar';
+        break;
     }
 
     this.activatedRoute.queryParams.subscribe((parametros) => {
@@ -65,14 +71,6 @@ export class General {
     this.changeDetectorRef.detectChanges;
     //cambiosQueryParams.unsubscribe();
   }
-
-  // this.activatedRoute.queryParams.subscribe((parametro) => {
-  //   this.router.navigate([`/documento/nuevo`], {
-  //     queryParams: {
-  //       ...parametro,
-  //     },
-  //   });
-  // });
 
   navegarDocumentoNuevo() {
     let parametrosParaRemover: string[] = ['detalle'];

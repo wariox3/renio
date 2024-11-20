@@ -13,6 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { SedeService } from '@modulos/general/servicios/sede.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-sede-formulario',
@@ -24,7 +25,8 @@ import { provideNgxMask } from 'ngx-mask';
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   providers: [provideNgxMask()],
 })

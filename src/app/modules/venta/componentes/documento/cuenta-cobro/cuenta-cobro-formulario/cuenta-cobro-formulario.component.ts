@@ -51,6 +51,7 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -75,7 +76,8 @@ import {
     CuentaBancoComponent,
     FormularioProductosComponent,
     NgbDropdownModule,
-  ],
+    TituloAccionComponent
+],
 })
 export default class CuentaCobroFormularioComponent extends General implements OnInit {
   private _formBuilder = inject(FormBuilder);

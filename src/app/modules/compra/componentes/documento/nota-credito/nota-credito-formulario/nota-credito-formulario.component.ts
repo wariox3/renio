@@ -42,6 +42,7 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -60,7 +61,8 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {

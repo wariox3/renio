@@ -9,6 +9,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-grupo-detalle',
@@ -23,7 +24,8 @@ import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface'
     ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-  ],
+    TituloAccionComponent
+],
 })
 export default class GrupoDetalleComponent extends General implements OnInit {
   conGrupo: ConGrupo = {

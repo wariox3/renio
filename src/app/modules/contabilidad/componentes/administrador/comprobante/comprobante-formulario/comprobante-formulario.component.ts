@@ -14,6 +14,7 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
 import { ComprobanteService } from '@modulos/contabilidad/servicios/comprobante.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-comprobante-formulario',
@@ -24,7 +25,8 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './comprobante-formulario.component.html',
   styleUrl: './comprobante-formulario.component.scss',

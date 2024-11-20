@@ -9,19 +9,7 @@
         {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
       </ng-container>
       <ng-template #tituliNoFijo>
-        <ng-container *ngIf="accion === 'nuevo'; else tituloDetalle">
-          {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
-          {{
-            "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
-          }}
-        </ng-container>
-        <ng-template #tituloDetalle>
-          {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
-          {{
-            "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
-          }}
-          {{ detalle }}
-        </ng-template>
+        <app-comun-titulo-accion></app-comun-titulo-accion>
       </ng-template>
     </section>
     <section card-body>

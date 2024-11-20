@@ -15,6 +15,7 @@ import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface'
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-grupo-formulario',
@@ -25,7 +26,8 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',

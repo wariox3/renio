@@ -34,6 +34,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { BuscarEmpleadoComponent } from "../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -48,7 +49,8 @@ import { BuscarEmpleadoComponent } from "../../../../../../comun/componentes/bus
     SoloNumerosDirective,
     NgSelectModule,
     BuscarEmpleadoComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],

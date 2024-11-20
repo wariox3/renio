@@ -45,6 +45,7 @@ import { FormularioProductosComponent } from '@comun/componentes/factura/compone
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -68,7 +69,8 @@ import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/comp
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {

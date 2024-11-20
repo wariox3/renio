@@ -6,11 +6,12 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Cargo } from '@interfaces/humano/cargo';
 import { CargoService } from '@modulos/humano/servicios/cargo.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-cargo-detalle',
   standalone: true,
-  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule],
+  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule, TituloAccionComponent],
   templateUrl: './cargo-detalle.component.html',
   styleUrl: './cargo-detalle.component.scss',
 })

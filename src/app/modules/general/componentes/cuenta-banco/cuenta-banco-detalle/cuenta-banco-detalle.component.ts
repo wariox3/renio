@@ -5,11 +5,12 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoService } from '@modulos/general/servicios/cuentaBanco.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-cuenta-banco-detalle',
   standalone: true,
-  imports: [CommonModule, TranslateModule, BtnAtrasComponent, CardComponent],
+  imports: [CommonModule, TranslateModule, BtnAtrasComponent, CardComponent, TituloAccionComponent],
   templateUrl: `./cuenta-banco-detalle.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

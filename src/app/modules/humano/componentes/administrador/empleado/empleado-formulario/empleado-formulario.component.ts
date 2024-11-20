@@ -34,6 +34,7 @@ import {
   zip,
 } from 'rxjs';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -47,7 +48,8 @@ import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/comp
     TranslateModule,
     NgbDropdownModule,
     BotonGuardarComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './empleado-formulario.component.html',
 })

@@ -34,6 +34,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 import ContactoFormulario from '../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -54,7 +55,8 @@ import ContactoFormulario from '../../../../general/componentes/contacto/contact
     ContactoFormulario,
     NgSelectModule,
     ContactosComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class EgresoFormularioComponent

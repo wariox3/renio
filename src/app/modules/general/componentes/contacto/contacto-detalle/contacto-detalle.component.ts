@@ -11,6 +11,7 @@ import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-contacto-detalle',
@@ -29,7 +30,8 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     NgxMaskDirective,
     NgxMaskPipe,
     NgSwitch,
-    NgSwitchCase
+    NgSwitchCase,
+    TituloAccionComponent
 ],
   providers: [provideNgxMask()],
 })

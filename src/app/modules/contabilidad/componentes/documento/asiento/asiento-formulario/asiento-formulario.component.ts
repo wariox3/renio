@@ -31,6 +31,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-pago-formulario',
@@ -50,7 +51,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     ContactDetalleComponent,
     ContactosComponent,
     ImportarDetallesComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class AsientoFormularioComponent

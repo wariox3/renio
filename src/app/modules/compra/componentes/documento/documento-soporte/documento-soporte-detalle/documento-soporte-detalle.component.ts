@@ -18,6 +18,7 @@ import { EMPTY, switchMap, tap } from 'rxjs';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAnularComponent } from '@comun/componentes/btn-anular/btn-anular.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-documento-soporte-detalle',
@@ -41,7 +42,8 @@ import { BtnAnularComponent } from '@comun/componentes/btn-anular/btn-anular.com
     DetallesTotalesComponent,
     BaseEstadosComponent,
     BtnAnularComponent,
-  ],
+    TituloAccionComponent
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

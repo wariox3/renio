@@ -13,6 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { ConceptoService } from '@modulos/humano/servicios/concepto.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-concepto',
@@ -23,7 +24,8 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './concepto-formulario.component.html',
   styleUrl: './concepto-formulario.component.scss',

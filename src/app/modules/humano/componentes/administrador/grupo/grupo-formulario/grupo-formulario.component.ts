@@ -19,6 +19,7 @@ import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-grupo',
@@ -30,7 +31,8 @@ import { map, Observable, tap } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgSelectModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',

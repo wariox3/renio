@@ -21,6 +21,7 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-egreso-detalle',
@@ -35,7 +36,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     NgbDropdownModule,
     ReactiveFormsModule,
     BaseEstadosComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './egreso-detalle.component.html',
 })
 export default class EgresoDetalleComponent extends General implements OnInit {

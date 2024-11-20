@@ -10,6 +10,7 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-empleado-detalle',
@@ -27,7 +28,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     NgxMaskPipe,
     NgSwitch,
     NgSwitchCase,
-  ],
+    TituloAccionComponent
+],
   providers: [provideNgxMask()],
   templateUrl: './empleado-detalle.component.html',
   styleUrls: ['./empleado-detalle.component.css'],

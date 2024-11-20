@@ -8,6 +8,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-item-detalle',
@@ -21,6 +22,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
+    TituloAccionComponent
 ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
@@ -48,7 +50,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
   constructor(private itemService: ItemService) {
     super();
   }
-  ngOnInit() {    
+  ngOnInit() {
     this.consultardetalle();
   }
 
@@ -56,11 +58,11 @@ export default class ItemDetalleComponent extends General implements OnInit {
     this.itemService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.item = respuesta.item; 
+        this.item = respuesta.item;
         this.changeDetectorRef.detectChanges();
       });
   }
-  
+
   get impuestosVenta() {
     return this.item.impuestos.filter((impuesto: any) => impuesto.impuesto_venta);
   }

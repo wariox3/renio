@@ -18,6 +18,7 @@ import { EMPTY, of, switchMap, tap } from 'rxjs';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-nota-debito-detalle',
@@ -41,7 +42,8 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
     LogElectronicoComponent,
     BaseEstadosComponent,
     DetallesTotalesComponent,
-  ],
+    TituloAccionComponent
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

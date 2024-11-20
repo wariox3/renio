@@ -46,6 +46,7 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -71,7 +72,8 @@ import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/comp
     CuentaBancoComponent,
     FormularioProductosComponent,
     FacturaFormularioPagosComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class FacturaRecurrenteFormularioComponent

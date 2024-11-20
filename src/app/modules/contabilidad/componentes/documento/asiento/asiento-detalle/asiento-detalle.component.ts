@@ -9,6 +9,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-asiento-detalle',
@@ -21,7 +22,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     NgbNavModule,
     NgbDropdownModule,
     BaseEstadosComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './asiento-detalle.component.html',
 })
 export default class PagoDetalleComponent extends General {

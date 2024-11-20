@@ -17,6 +17,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-precio-detalle',
@@ -32,7 +33,8 @@ import { EncabezadoFormularioNuevoComponent } from "../../../../../comun/compone
     ProductosComponent,
     FormsModule,
     ReactiveFormsModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class PrecioDetalleComponent extends General implements OnInit {

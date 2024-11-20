@@ -6,11 +6,12 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Concepto } from '@interfaces/humano/Concepto';
 import { ConceptoService } from '@modulos/humano/servicios/concepto.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-concepto-detalle',
   standalone: true,
-  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule],
+  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule, TituloAccionComponent],
   templateUrl: './concepto-detalle.component.html',
   styleUrl: './concepto-detalle.component.scss',
 })

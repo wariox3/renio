@@ -32,6 +32,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-pago-formulario',
@@ -50,7 +51,8 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {

@@ -24,6 +24,7 @@ import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interfac
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -35,7 +36,8 @@ import { forkJoin, map, of, switchMap, tap } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     CardComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class ItemFormularioComponent extends General implements OnInit {

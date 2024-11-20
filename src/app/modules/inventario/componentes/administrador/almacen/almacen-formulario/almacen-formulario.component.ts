@@ -7,6 +7,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { AlmacenService } from '@modulos/inventario/service/almacen.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-almacen-formulario',
@@ -17,7 +18,8 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './almacen-formulario.component.html',
   styleUrl: './almacen-formulario.component.scss',

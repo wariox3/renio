@@ -23,6 +23,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { EMPTY, of, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -47,7 +48,8 @@ import { EMPTY, of, switchMap, tap } from 'rxjs';
     LogElectronicoComponent,
     BaseEstadosComponent,
     DetallesTotalesComponent,
-  ],
+    TituloAccionComponent
+],
 })
 export default class FacturaRecurrenteDetalleComponent extends General {
   active: Number;

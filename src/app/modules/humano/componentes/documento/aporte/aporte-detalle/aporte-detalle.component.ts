@@ -30,6 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { SweetAlertResult } from 'sweetalert2';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -50,7 +51,8 @@ import { SweetAlertResult } from 'sweetalert2';
     ImportarAdministradorComponent,
     NgSelectModule,
     TranslateModule,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })

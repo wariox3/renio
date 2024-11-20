@@ -1,0 +1,49 @@
+
+@if(accion === 'nuevo'){
+  {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+  @if(parametrosUrl.submodelo){
+    {{
+      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+        | translate
+        | lowercase
+    }}
+  } @else {
+    {{
+      "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+    }}
+  }
+}
+@if(accion === 'editar') {
+  {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
+
+  @if(parametrosUrl.submodelo){
+    {{
+      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+        | translate
+        | lowercase
+    }}
+  } @else {
+    {{
+      "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+    }}
+  }
+  {{ detalle }}
+}
+@if(accion === 'detalle') {
+  {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
+
+  @if(parametrosUrl.submodelo){
+    {{
+      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+        | translate
+        | lowercase
+    }}
+  } @else {
+    {{
+      "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase
+    }}
+  }
+  {{ detalle }}
+}
+
+

@@ -9,6 +9,7 @@ import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { SedeService } from '@modulos/general/servicios/sede.service';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-sede-detalle',
@@ -24,7 +25,8 @@ import { SedeService } from '@modulos/general/servicios/sede.service';
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-  ],
+    TituloAccionComponent
+],
   providers: [provideNgxMask()],
 })
 export default class AsesorDetalleComponent extends General implements OnInit {

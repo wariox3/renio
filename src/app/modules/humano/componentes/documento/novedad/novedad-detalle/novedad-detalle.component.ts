@@ -6,6 +6,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { NovedadService } from '@modulos/humano/servicios/novedad';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-novedad-detalle',
@@ -16,7 +17,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './novedad-detalle.component.html',
   styleUrl: './novedad-detalle.component.scss',
 })

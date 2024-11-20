@@ -5,11 +5,12 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AlmacenService } from '@modulos/inventario/service/almacen.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-almacen-detalle',
   standalone: true,
-  imports: [CommonModule, TranslateModule, CardComponent, BtnAtrasComponent],
+  imports: [CommonModule, TranslateModule, CardComponent, BtnAtrasComponent, TituloAccionComponent],
   templateUrl: './almacen-detalle.component.html',
   styleUrl: './almacen-detalle.component.scss',
 })

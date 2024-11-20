@@ -17,6 +17,7 @@ import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-aporte-formulario',
@@ -28,7 +29,8 @@ import { tap, zip } from 'rxjs';
     CardComponent,
     TranslateModule,
     NgbDropdownModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './aporte-formulario.component.html',
   styleUrl: './aporte-formulario.component.scss',

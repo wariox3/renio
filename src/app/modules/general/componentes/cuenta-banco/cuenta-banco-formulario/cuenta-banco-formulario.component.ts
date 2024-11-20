@@ -16,6 +16,7 @@ import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -28,7 +29,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     CardComponent,
     NgbDropdownModule,
     NgSelectModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',

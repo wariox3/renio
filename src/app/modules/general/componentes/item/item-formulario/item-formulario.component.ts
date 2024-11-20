@@ -23,6 +23,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-item-formulario',
@@ -36,7 +37,8 @@ import { tap } from 'rxjs';
     ImpuestosComponent,
     CardComponent,
     NgxMaskDirective,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   providers: [provideNgxMask()],
 })

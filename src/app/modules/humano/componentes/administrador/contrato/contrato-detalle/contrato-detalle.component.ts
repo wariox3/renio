@@ -21,6 +21,7 @@ import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-contrato-detalle',
@@ -31,7 +32,8 @@ import { TranslateModule } from '@ngx-translate/core';
     BtnAtrasComponent,
     TranslateModule,
     ReactiveFormsModule,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -145,7 +147,7 @@ export default class ContratoDetalleComponent
         this.formularioTerminar.patchValue({
           fecha_terminacion: this.contrato.fecha_hasta,
         });
-        
+
         this.changeDetectorRef.detectChanges();
       });
   }

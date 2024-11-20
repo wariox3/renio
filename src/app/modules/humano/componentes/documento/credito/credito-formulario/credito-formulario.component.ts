@@ -17,6 +17,7 @@ import { CreditoService } from '@modulos/humano/servicios/creditoservice';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-credito-formulario',
@@ -29,7 +30,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     BuscarContratoComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './credito-formulario.component.html',
   styleUrl: './credito-formulario.component.scss',

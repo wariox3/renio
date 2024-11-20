@@ -13,6 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { CargoService } from '@modulos/humano/servicios/cargo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-cargo-formulario',
@@ -23,7 +24,8 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     CardComponent,
     TranslateModule,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
   templateUrl: './cargo-formulario.component.html',
   styleUrl: './cargo-formulario.component.scss',

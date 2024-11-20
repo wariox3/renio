@@ -7,6 +7,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { MovimientoService } from '@modulos/contabilidad/servicios/movimiento.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-movimiento-formulario',
@@ -19,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './movimiento-detalle.component.html',
 })
 export default class MovimientoDetalleComponent extends General implements OnInit {

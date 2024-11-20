@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap, zip } from 'rxjs';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaseEstadosComponent } from "../../../../../../comun/componentes/base-estados/base-estados.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -20,7 +21,8 @@ import { BaseEstadosComponent } from "../../../../../../comun/componentes/base-e
     CardComponent,
     TranslateModule,
     NgbNavModule,
-    BaseEstadosComponent
+    BaseEstadosComponent,
+    TituloAccionComponent
 ],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',

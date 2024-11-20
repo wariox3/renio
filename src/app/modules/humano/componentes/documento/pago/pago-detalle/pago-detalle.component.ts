@@ -18,6 +18,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-pago-detalle',
@@ -34,7 +35,8 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     ReactiveFormsModule,
     NgbTooltipModule,
     AnimacionFadeInOutDirective,
-    BaseEstadosComponent
+    BaseEstadosComponent,
+    TituloAccionComponent
 ],
   templateUrl: './pago-detalle.component.html',
   styleUrl: './pago-detalle.component.scss',

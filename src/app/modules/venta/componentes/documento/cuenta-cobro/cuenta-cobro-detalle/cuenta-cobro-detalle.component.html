@@ -80,11 +80,7 @@
 </div>
 <app-card>
   <section card-titulo>
-    <div>
-      {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-      {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-      {{ documento.id }}
-    </div>
+    <app-comun-titulo-accion></app-comun-titulo-accion>
   </section>
   <section card-propiedades></section>
   <section card-body>

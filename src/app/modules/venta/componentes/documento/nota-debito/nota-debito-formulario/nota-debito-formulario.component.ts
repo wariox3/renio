@@ -43,6 +43,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -66,7 +67,8 @@ import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/comp
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     FormularioProductosComponent,
-    EncabezadoFormularioNuevoComponent
+    EncabezadoFormularioNuevoComponent,
+    TituloAccionComponent
 ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
