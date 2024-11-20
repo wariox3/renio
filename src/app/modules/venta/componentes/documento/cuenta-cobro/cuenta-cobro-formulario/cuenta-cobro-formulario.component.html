@@ -1,12 +1,5 @@
-<div [formGroup]="formularioFactura">
-  <div class="d-flex mb-5 justify-content-between align-items-center">
-    <div class="btn-group btn-sm shadow-sm" role="group" aria-label="Basic example">
-      <app-comun-btn-atras />
-      <button (click)="formSubmit()" type="submit" class="btn btn-sm btn-flex btn-primary" #btnGuardar
-        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR" *ngIf="!estado_aprobado"
-        [disabled]="botonGuardarDeshabilitado$ | async"></button>
-    </div>
-  </div>
+<form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -442,7 +435,7 @@
       </div>
     </section>
   </app-card>
-</div>
+</form>
 <ng-template #formError let-control="control" let-message="message" let-validation="validation"
   let-cantidadCaracteres="cantidadCaracteres">
   <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">

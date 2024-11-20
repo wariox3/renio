@@ -10,14 +10,12 @@ import {
   Validators
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
@@ -51,7 +49,6 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -64,19 +61,16 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     ReactiveFormsModule,
     TranslateModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
-    BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     CuentaBancoComponent,
     FormularioProductosComponent,
     NgbDropdownModule,
-    TituloAccionComponent
+    TituloAccionComponent,
+    EncabezadoFormularioNuevoComponent
 ],
 })
 export default class CuentaCobroFormularioComponent extends General implements OnInit {
