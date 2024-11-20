@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { General } from '@comun/clases/general';
-import { documentos } from '@comun/extra/mapeoEntidades/documentos';
 import { utilidades } from '@comun/extra/mapeoEntidades/utilidades';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
@@ -20,7 +18,6 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   imports: [
     CommonModule,
     CardComponent,
-    TablaComponent,
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
@@ -29,7 +26,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 })
 export class EventosDianComponent extends General implements OnInit {
   filtroPermanenteLista = [
-    { propiedad: 'documento_tipo__documento_clase_id', valor1: '300' },
+    { propiedad: 'documento_tipo', valor1: '5' },
     { propiedad: 'estado_aprobado', valor1: true}
   ];
   arrParametrosConsultaLista: any = {
