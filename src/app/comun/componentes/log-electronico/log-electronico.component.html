@@ -192,10 +192,10 @@
         <tbody>
           @for (evento of arrEventos; track $index) {
           <tr>
+            <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
             <td>
               {{ evento.codigo }}
             </td>
-            <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
             <td>{{ evento.nombre }}</td>
           </tr>
           }
