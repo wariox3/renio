@@ -14,6 +14,18 @@ export const routes: Route[] = [
       ),
   },
   {
+    path: 'informe',
+    children: [
+      {
+        path: 'cuentas_pagar',
+        loadComponent: () =>
+          import(
+            '../tesoreria/componentes/informe/cuentas-pagar/cuentas-pagar.component'
+          ).then((c) => c.CuentasPagarComponent),
+      },
+    ],
+  },
+  {
     path: 'utilidad',
     children: [
       {

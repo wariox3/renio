@@ -149,6 +149,13 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'informe',
+          children: [
+            {
+              nombre: 'CUENTASPAGAR',
+              tipo: 'informe',
+              url: 'compra/informe/cuentas_pagar',
+            },
+          ],
         },
       ],
     },
