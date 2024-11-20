@@ -180,12 +180,16 @@
       >
         <thead>
           @if(arrEventos && arrEventos.length > 0){
-          <tr>
-            @for(key of arrEventos[0] | keys; track $index ){
-            <th class="bg-gray-100">
-              {{ "LISTAS.LOG.EVENTO." + (key | uppercase) | translate }}
+          <tr class="bg-gray-100">
+            <th>
+              {{ "LISTAS.LOG.EVENTO.FECHA"| translate }}
             </th>
-            }
+            <th >
+              {{ "LISTAS.LOG.EVENTO.CODIGOCODIGO"| translate }}
+            </th>
+            <th>
+              {{ "LISTAS.LOG.EVENTO.NOMBRE"| translate }}
+            </th>
           </tr>
           }
         </thead>

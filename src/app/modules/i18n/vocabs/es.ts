@@ -902,6 +902,7 @@ export const locale = {
       LOG: {
         EVENTO: {
           CODIGO: 'Id',
+          CODIGOCODIGO: 'Codigo',
           NOMBRE: 'Nombre',
           CODIGOEVENTOPK: 'Id',
           CODIGOCO: 'Correo',
