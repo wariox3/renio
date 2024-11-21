@@ -390,23 +390,68 @@
         <div class="col-md-6 col-sm-12">
           <label
             class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.CUE"
+            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_CUE"
           ></label>
           <input
-            formControlName="cue"
+            formControlName="referencia_cue"
             class="form-control"
             type="text"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioFactura.controls['cue'].touched &&
-                formularioFactura.controls['cue'].invalid,
+                formularioFactura.controls['referencia_cue'].touched &&
+                formularioFactura.controls['referencia_cue'].invalid,
               'is-valid':
-                formularioFactura.controls['cue'].touched &&
-                formularioFactura.controls['cue'].valid
+                formularioFactura.controls['referencia_cue'].touched &&
+                formularioFactura.controls['referencia_cue'].valid
             }"
           />
         </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_NUMERO"
+          ></label>
+          <input
+            formControlName="referencia_numero"
+            class="form-control"
+            type="number"
+            appSoloNumeros
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['referencia_numero'].touched &&
+                formularioFactura.controls['referencia_numero'].invalid,
+              'is-valid':
+                formularioFactura.controls['referencia_numero'].touched &&
+                formularioFactura.controls['referencia_numero'].valid
+            }"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_PREFIJO"
+          ></label>
+          <input
+            formControlName="referencia_prefijo"
+            class="form-control"
+            type="number"
+            appSoloNumeros
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['referencia_prefijo'].touched &&
+                formularioFactura.controls['referencia_prefijo'].invalid,
+              'is-valid':
+                formularioFactura.controls['referencia_prefijo'].touched &&
+                formularioFactura.controls['referencia_prefijo'].valid
+            }"
+          />
+        </div>
+
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">

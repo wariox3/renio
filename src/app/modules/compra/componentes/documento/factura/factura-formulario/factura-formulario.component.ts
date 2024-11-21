@@ -130,10 +130,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     private modalService: NgbModal
   ) {
     super();
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
+    this.formularioFactura = this._formularioFacturaService.createForm();
+
     this.consultarInformacion();
     this.active = 1;
 
