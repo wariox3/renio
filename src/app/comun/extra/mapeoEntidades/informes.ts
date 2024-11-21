@@ -341,6 +341,13 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'documento_tipo_nombre',
+      campoTipo: 'CharField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+    },
+    {
       nombre: 'NUMERO',
       campoTipo: 'CharField',
       visibleFiltro: true,

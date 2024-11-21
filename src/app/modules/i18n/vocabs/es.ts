@@ -841,7 +841,8 @@ export const locale = {
         MES: 'Mes',
         ANIO: 'Año',
         SUCURSAL_NOMBRE: 'Sucursal',
-        PROVEEDOR: 'Proveedor'
+        PROVEEDOR: 'Proveedor',
+        DOCUMENTO_TIPO_NOMBRE: 'Nombre'
       },
       ITEM: {
         ID: 'ID',

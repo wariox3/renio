@@ -67,6 +67,7 @@ export class CuentasPagarComponent extends General implements OnInit {
         this.cantidad_registros = respuesta.length;
         this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
+          documento_tipo_nombre: documento.documento_tipo_nombre,
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
