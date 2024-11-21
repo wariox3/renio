@@ -72,10 +72,8 @@ export class CuentasComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
-          propiedad: 'codigo__icontains',
+          propiedad: 'codigo__startswith',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -101,10 +99,8 @@ export class CuentasComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
-          propiedad: 'codigo__icontains',
+          propiedad: 'codigo__startswith',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
