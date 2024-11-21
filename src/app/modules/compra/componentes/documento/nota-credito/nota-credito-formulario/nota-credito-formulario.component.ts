@@ -7,19 +7,14 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -38,11 +33,11 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -62,8 +57,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     ContactoFormulario,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
@@ -748,13 +743,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    if (campo === 'contacto') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
+    if (campo === 'contacto' || campo === 'contactoNuevoModal') {
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      if (campo === 'contactoNuevoModal') {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
+        this.formularioFactura
+          .get('contactoNombre')
+          ?.setValue(dato.nombre_corto);
+      }
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
@@ -1019,7 +1018,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto);
+    this.modificarCampoFormulario('contactoNuevoModal', contacto);
     this.modalService.dismissAll();
   }
 

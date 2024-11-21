@@ -629,7 +629,6 @@ export default class ProgramacionDetalleComponent
         cantidad_registros: number;
       }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta) => {
-        console.log(respuesta);
         if (respuesta.registros.length) {
           const { registros } = respuesta;
           const registro = registros[0];

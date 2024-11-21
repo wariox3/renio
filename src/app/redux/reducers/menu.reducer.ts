@@ -120,7 +120,11 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
+              data: {
+                modelo: 'GenContacto',
+                importarSoloNuevos: 'si',
+                dataPersonalizada: JSON.stringify({ proveedor: 'si' }),
+              },
             },
             {
               nombre: 'RESOLUCION',
@@ -279,15 +283,15 @@ export const initialState: MenuItem = {
                 filtrosLista: [
                   {
                     propiedad: 'permanente',
-                    valor1: true
-                  }
+                    valor1: true,
+                  },
                 ],
                 filtrosImportar: [
                   {
                     propiedad: 'permanente',
-                    valor1: true
-                  }
-                ]
+                    valor1: true,
+                  },
+                ],
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -328,7 +332,7 @@ export const initialState: MenuItem = {
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
-            }
+            },
           ],
         },
         {
@@ -346,7 +350,7 @@ export const initialState: MenuItem = {
                 visualizarBtnEliminar: 'no',
                 visualizarColumnaSeleccionar: 'no',
                 visualizarBtnImportar: 'no',
-                visualizarBtnExportarZip: 'si'
+                visualizarBtnExportarZip: 'si',
               },
               visualiazarIconoDeracha: false,
               consultaHttp: true,
@@ -375,7 +379,11 @@ export const initialState: MenuItem = {
             {
               nombre: 'EMPLEADO',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto', submodelo: 'GenEmpleado', ordenamiento: '-id' },
+              data: {
+                modelo: 'GenContacto',
+                submodelo: 'GenEmpleado',
+                ordenamiento: '-id',
+              },
             },
             {
               nombre: 'CONTRATO',
@@ -501,7 +509,11 @@ export const initialState: MenuItem = {
             {
               nombre: 'CONTACTO',
               tipo: 'Administrador',
-              data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
+              data: {
+                modelo: 'GenContacto',
+                importarSoloNuevos: 'si',
+                dataPersonalizada: JSON.stringify({ cliente: 'si' }),
+              },
             },
             {
               nombre: 'ITEM',

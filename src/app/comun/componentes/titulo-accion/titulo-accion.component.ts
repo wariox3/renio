@@ -13,7 +13,5 @@ export class TituloAccionComponent extends General {
 
   constructor(){
     super()
-    console.log(this.parametrosUrl);
-
   }
 }

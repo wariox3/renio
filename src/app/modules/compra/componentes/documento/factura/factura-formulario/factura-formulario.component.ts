@@ -34,7 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -54,8 +54,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     ContactoFormulario,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
@@ -271,7 +271,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             'El campo item no puede estar vacío'
           );
         }
-      } else if (tipo_registro === 'C'){
+      } else if (tipo_registro === 'C') {
         if (control.get('cuenta').value === null) {
           control.markAsTouched(); // Marcar el control como 'touched'
           control.markAsDirty();
@@ -716,11 +716,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    if (campo === 'contacto') {
+    if (campo === 'contacto' || campo === 'contactoNuevoModal') {
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      if (campo === 'contactoNuevoModal') {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
+        this.formularioFactura
+          .get('contactoNombre')
+          ?.setValue(dato.nombre_corto);
+      }
       this.formularioFactura
         .get('plazo_pago')
         ?.setValue(dato.plazo_pago_proveedor_id);
@@ -975,7 +981,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto);
+    this.modificarCampoFormulario('contactoNuevoModal', contacto);
     this.modalService.dismissAll();
   }
 }

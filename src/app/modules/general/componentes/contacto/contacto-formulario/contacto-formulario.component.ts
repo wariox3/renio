@@ -79,6 +79,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   ciudadSeleccionada: string | null;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
+  @Input() esCliente = true
+  @Input() esProvedor = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
@@ -131,6 +133,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
+
   }
 
   ngOnInit() {
@@ -142,6 +145,15 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   iniciarFormulario() {
+
+    if(this.parametrosUrl?.dataPersonalizada !== undefined){
+      let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+      if(dataPersonalizada){
+        this.esProvedor = dataPersonalizada?.proveedor === 'si';
+        this.esCliente = dataPersonalizada?.cliente === 'si';
+      }
+    }
+
     this.formularioContacto = this.formBuilder.group(
       {
         numero_identificacion: [
@@ -213,8 +225,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
         plazo_pago: [1, Validators.compose([Validators.required])],
         plazo_pago_proveedor: [1],
         asesor: [null],
-        cliente: [true],
-        proveedor: [false],
+        cliente: [this.esCliente],
+        proveedor: [this.esProvedor],
         empleado: [false],
       },
       {

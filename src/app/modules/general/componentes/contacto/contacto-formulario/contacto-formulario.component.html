@@ -1,7 +1,7 @@
 <form [formGroup]="formularioContacto" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
-  [estadoAprobado]="false"
-></app-comun-encabezado-formulario-nuevo>
+    [ocultarBtnAtras]="ocultarBtnAtras"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <ng-container *ngIf="tituloFijo; else tituliNoFijo">

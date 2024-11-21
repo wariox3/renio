@@ -11,5 +11,6 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class EncabezadoFormularioNuevoComponent {
   @Input() estadoAprobado: boolean = false;
+  @Input() ocultarBtnAtras: boolean = false;
   @Input() btnNuevoCargando: boolean | null = false;
 }

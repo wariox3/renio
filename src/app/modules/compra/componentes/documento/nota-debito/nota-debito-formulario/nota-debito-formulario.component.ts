@@ -1019,7 +1019,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contacto', contacto);
+    this.modificarCampoFormulario('contactoNuevoModal', contacto);
     this.modalService.dismissAll();
   }
 }

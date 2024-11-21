@@ -41,6 +41,7 @@ export interface informacionMenuItem {
     resoluciontipo?: string;
     serializador?: string;
     submodelo?: string;
+    dataPersonalizada?: string;
   };
   children?: informacionMenuItem[];
 }
