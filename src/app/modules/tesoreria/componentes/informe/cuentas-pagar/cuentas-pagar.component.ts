@@ -72,6 +72,7 @@ export class CuentasPagarComponent extends General implements OnInit {
           fecha_vence: documento.fecha_vence,
           fecha_contable: documento.fecha_contable,
           contacto: documento.contacto_nombre_corto,
+          contacto_numero_identificacion: documento.contacto_numero_identificacion,
           subtotal: documento.subtotal,
           base_impuesto: documento.base_impuesto,
           impuesto: documento.impuesto,
