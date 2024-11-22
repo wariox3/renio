@@ -35,6 +35,7 @@ import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction'
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -55,6 +56,7 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SoloNumerosDirective
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
