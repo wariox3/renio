@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2"></div>
       </div>
-      <div class="table-responsive-sm table-loading">
+      <div class="table-responsive table-loading">
         <table
           class="table table-hover table-bordered table-rounded border gy-2 gs-2"
         >
@@ -57,12 +57,22 @@
               <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.PROVEEDOR" | translate }}
               </th>
-              <th class="bg-gray-100 text-center">
-                {{ "LISTAS.DOCUMENTO.CUE" | translate }}
+
+              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+                {{ "LISTAS.DOCUMENTO.REFERENCIA_PREFIJO" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+                {{ "LISTAS.DOCUMENTO.REFERENCIA_NUMERO" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+                {{ "LISTAS.DOCUMENTO.REFERENCIA_CUE" | translate }}
               </th>
               <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
               </th>
+              <th class="bg-gray-100 text-center">Documento</th>
+              <th class="bg-gray-100 text-center">Recepción</th>
+              <th class="bg-gray-100 text-center">Aceptación</th>
             </tr>
           </thead>
           <Tbody>
@@ -73,9 +83,85 @@
               <td>{{ documentoEmitir.contacto_id }}</td>
               <td>{{ documentoEmitir.contacto_numero_identificacion }}</td>
               <td>{{ documentoEmitir.contacto_nombre_corto }}</td>
-              <td>{{ documentoEmitir.cue }}</td>
-              <td class="text-end">
+
+              <td>
+                {{ documentoEmitir.referencia_prefijo }}
+
+              </td>
+              <td>
+                {{ documentoEmitir.referencia_numero | number }}
+              </td>
+              <td>
+                {{ documentoEmitir.referencia_cue }}
+              </td>
+              <td>
                 {{ documentoEmitir.total | number }}
+              </td>
+              <td>
+                <div class="d-flex align-items-center h-100">
+                  @switch (documentoEmitir.evento_documento) { @case ('PE') {
+                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
+                  <span class="text-gray-700">Pendiente</span>
+                  } @case ('RC') {
+                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
+                  <span class="text-danger">Rechazado</span>
+                  } @case ('AC') {
+                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
+                  <span class="text-success">Aceptado</span>
+                  } @case ('RM') {
+                  <i
+                    class="bi bi-exclamation-square fs-2 text-warning me-2"
+                  ></i>
+                  <span class="text-warning">Reclamo</span>
+                  } @case ('EM') {
+                  <i class="bi bi-send fs-2 text-primary me-2"></i>
+                  <span class="text-primary">Emitido</span>
+                  } }
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center h-100">
+                  @switch (documentoEmitir.evento_recepcion) { @case ('PE') {
+                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
+                  <span class="text-gray-700">Pendiente</span>
+                  } @case ('RC') {
+                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
+                  <span class="text-danger">Rechazado</span>
+                  } @case ('AC') {
+                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
+                  <span class="text-success">Aceptado</span>
+                  } @case ('RM') {
+                  <i
+                    class="bi bi-exclamation-square fs-2 text-warning me-2"
+                  ></i>
+                  <span class="text-warning">Reclamo</span>
+                  } @case ('EM') {
+                  <i class="bi bi-send fs-2 text-primary me-2"></i>
+                  <span class="text-primary">Emitido</span>
+                  } }
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center h-100">
+                  @switch (documentoEmitir.evento_aceptacion) { @case ('PE') {
+                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
+                  <span class="text-gray-700">Pendiente</span>
+                  } @case ('RC') {
+                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
+                  <span class="text-danger">Rechazado</span>
+                  } @case ('AC') {
+                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
+                  <span class="text-success">Aceptado</span>
+                  } @case ('RM') {
+                  <i
+                    class="bi bi-exclamation-square fs-2 text-warning me-2"
+                  ></i>
+                  <span class="text-warning">Reclamo</span>
+                  } @case ('EM') {
+                  <i class="bi bi-send fs-2 text-primary me-2"></i>
+                  <span class="text-primary">Emitido</span>
+                  } }
+                </div>
               </td>
             </tr>
           </Tbody>

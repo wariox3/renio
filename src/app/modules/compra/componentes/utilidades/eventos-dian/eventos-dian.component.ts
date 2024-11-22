@@ -36,6 +36,7 @@ export class EventosDianComponent extends General implements OnInit {
     ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
     limite_conteo: 10000,
     modelo: 'GenDocumento',
+    serializador: 'EventoCompra'
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
