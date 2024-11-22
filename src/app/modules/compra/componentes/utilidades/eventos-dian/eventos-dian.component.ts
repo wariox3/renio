@@ -7,9 +7,14 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { EstadosEventosDianComponent } from "../extra/estados-eventos-dian/estados-eventos-dian.component";
 
 @Component({
   selector: 'app-documento-electronico',
@@ -22,12 +27,13 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     NgbDropdownModule,
     NgbNavModule,
     BaseFiltroComponent,
-  ],
+    EstadosEventosDianComponent
+],
 })
 export class EventosDianComponent extends General implements OnInit {
   filtroPermanenteLista = [
     { propiedad: 'documento_tipo', valor1: '5' },
-    { propiedad: 'estado_aprobado', valor1: true}
+    { propiedad: 'estado_aprobado', valor1: true },
   ];
   arrParametrosConsultaLista: any = {
     filtros: this.filtroPermanenteLista,
@@ -36,7 +42,7 @@ export class EventosDianComponent extends General implements OnInit {
     ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
     limite_conteo: 10000,
     modelo: 'GenDocumento',
-    serializador: 'EventoCompra'
+    serializador: 'EventoCompra',
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -48,7 +54,10 @@ export class EventosDianComponent extends General implements OnInit {
   paginacionEmitirHasta: number = this.arrParametrosConsultaLista.limite;
   cantidad_registros: number = 0;
 
-  constructor(private httpService: HttpService) {
+  constructor(
+    private httpService: HttpService,
+    private modalService: NgbModal
+  ) {
     super();
   }
 
@@ -255,4 +264,5 @@ export class EventosDianComponent extends General implements OnInit {
       this.consultarLista();
     }
   }
+
 }

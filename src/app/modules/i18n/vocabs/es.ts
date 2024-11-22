@@ -376,6 +376,7 @@ export const locale = {
           NOMBRECORTO: 'Nombre corto',
           NOMBRE1: 'Primer nombre',
           NOMBRE2: 'Segundo nombre',
+          APELLIDOS: 'Apellidos',
           APELLIDO1: 'Primer apellido',
           APELLIDO2: 'Segundo apellido',
           NUMERO: 'Número',
@@ -399,6 +400,7 @@ export const locale = {
           CONTACTO: 'Contacto',
           MOSTARTODOSLOSCONTACTOS: 'Mostrar todos los contactos',
           CUENTA: 'Cuenta',
+          DEPARTAMENTO: 'Departamento'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',

@@ -58,18 +58,19 @@
                 {{ "LISTAS.DOCUMENTO.PROVEEDOR" | translate }}
               </th>
 
-              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+              <th class="bg-gray-100 text-center" style="min-width: 100px">
                 {{ "LISTAS.DOCUMENTO.REFERENCIA_PREFIJO" | translate }}
               </th>
-              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+              <th class="bg-gray-100 text-center" style="min-width: 100px">
                 {{ "LISTAS.DOCUMENTO.REFERENCIA_NUMERO" | translate }}
               </th>
-              <th class="bg-gray-100 text-center" style="min-width: 100px;">
+              <th class="bg-gray-100 text-center" style="min-width: 100px">
                 {{ "LISTAS.DOCUMENTO.REFERENCIA_CUE" | translate }}
               </th>
               <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
               </th>
+              <th class="bg-gray-100 text-center">Electronico</th>
               <th class="bg-gray-100 text-center">Documento</th>
               <th class="bg-gray-100 text-center">Recepción</th>
               <th class="bg-gray-100 text-center">Aceptación</th>
@@ -86,7 +87,6 @@
 
               <td>
                 {{ documentoEmitir.referencia_prefijo }}
-
               </td>
               <td>
                 {{ documentoEmitir.referencia_numero | number }}
@@ -97,71 +97,38 @@
               <td>
                 {{ documentoEmitir.total | number }}
               </td>
-              <td>
-                <div class="d-flex align-items-center h-100">
-                  @switch (documentoEmitir.evento_documento) { @case ('PE') {
-                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
-                  <span class="text-gray-700">Pendiente</span>
-                  } @case ('RC') {
-                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
-                  <span class="text-danger">Rechazado</span>
-                  } @case ('AC') {
-                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
-                  <span class="text-success">Aceptado</span>
-                  } @case ('RM') {
-                  <i
-                    class="bi bi-exclamation-square fs-2 text-warning me-2"
-                  ></i>
-                  <span class="text-warning">Reclamo</span>
-                  } @case ('EM') {
-                  <i class="bi bi-send fs-2 text-primary me-2"></i>
-                  <span class="text-primary">Emitido</span>
-                  } }
-                </div>
+              <td class="text-center">
+                {{ documentoEmitir.estado_electronico ? "SI" : "NO" }}
               </td>
               <td>
-                <div class="d-flex align-items-center h-100">
-                  @switch (documentoEmitir.evento_recepcion) { @case ('PE') {
-                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
-                  <span class="text-gray-700">Pendiente</span>
-                  } @case ('RC') {
-                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
-                  <span class="text-danger">Rechazado</span>
-                  } @case ('AC') {
-                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
-                  <span class="text-success">Aceptado</span>
-                  } @case ('RM') {
-                  <i
-                    class="bi bi-exclamation-square fs-2 text-warning me-2"
-                  ></i>
-                  <span class="text-warning">Reclamo</span>
-                  } @case ('EM') {
-                  <i class="bi bi-send fs-2 text-primary me-2"></i>
-                  <span class="text-primary">Emitido</span>
-                  } }
-                </div>
+                <app-estados-eventos-dian
+                  [estado]="documentoEmitir.evento_documento"
+                  [eventoTipo]="'evento_documento'"
+                  [visualizarBtnRecibir]="documentoEmitir.estado_electronico"
+                  (emitirConsuatarLista)="consultarLista()"
+                ></app-estados-eventos-dian>
               </td>
               <td>
-                <div class="d-flex align-items-center h-100">
-                  @switch (documentoEmitir.evento_aceptacion) { @case ('PE') {
-                  <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
-                  <span class="text-gray-700">Pendiente</span>
-                  } @case ('RC') {
-                  <i class="bi bi-x-square fs-2 text-danger me-2"></i>
-                  <span class="text-danger">Rechazado</span>
-                  } @case ('AC') {
-                  <i class="bi bi-check-square fs-2 text-success me-2"></i>
-                  <span class="text-success">Aceptado</span>
-                  } @case ('RM') {
-                  <i
-                    class="bi bi-exclamation-square fs-2 text-warning me-2"
-                  ></i>
-                  <span class="text-warning">Reclamo</span>
-                  } @case ('EM') {
-                  <i class="bi bi-send fs-2 text-primary me-2"></i>
-                  <span class="text-primary">Emitido</span>
-                  } }
-                </div>
+                <app-estados-eventos-dian
+                  [estado]="documentoEmitir.evento_recepcion"
+                  [eventoTipo]="'evento_recepcion'"
+                  [visualizarBtnRecibir]="
+                    documentoEmitir.estado_electronico &&
+                    documentoEmitir.evento_documento === 'EM'
+                  "
+                  (emitirConsuatarLista)="consultarLista()"
+                ></app-estados-eventos-dian>
+              </td>
+              <td>
+                <app-estados-eventos-dian
+                  [estado]="documentoEmitir.evento_aceptacion"
+                  [eventoTipo]="'evento_aceptacion'"
+                  [visualizarBtnRecibir]="
+                    documentoEmitir.estado_electronico &&
+                    documentoEmitir.evento_recepcion === 'EM'
+                  "
+                  (emitirConsuatarLista)="consultarLista()"
+                ></app-estados-eventos-dian>
               </td>
             </tr>
           </Tbody>
