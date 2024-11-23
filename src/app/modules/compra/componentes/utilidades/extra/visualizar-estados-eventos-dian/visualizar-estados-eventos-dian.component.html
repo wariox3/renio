@@ -1,0 +1,38 @@
+<section class="d-flex align-items-center flex-column h-100">
+  @switch (estado) { @case ('PE') {
+  <div class="d-flex">
+    <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
+    <span class="text-gray-700">Pendiente</span>
+  </div>
+  } @case ('RC') {
+  <div class="d-flex">
+    <i class="bi bi-check-square fs-2 text-success me-2"></i>
+    <span class="text-success">Recibido</span>
+  </div>
+  }@case ('RZ') {
+    <div class="d-flex">
+      <i class="bi bi-x-square fs-2 text-danger me-2"></i>
+      <span class="text-danger">Rechazado</span>
+    </div>
+    }
+
+  @case ('AC') {
+  <div class="d-flex">
+    <i class="bi bi-check-square fs-2 text-success me-2"></i>
+    <span class="text-success">Aceptado</span>
+  </div>
+
+  } @case ('RM') {
+  <div class="d-flex">
+    <i class="bi bi-exclamation-square fs-2 text-warning me-2"></i>
+    <span class="text-warning">Reclamo</span>
+  </div>
+
+  } @case ('EM') {
+  <div class="d-flex">
+    <i class="bi bi-send fs-2 text-primary me-2"></i>
+    <span class="text-primary">Emitido</span>
+  </div>
+
+  } }
+</section>

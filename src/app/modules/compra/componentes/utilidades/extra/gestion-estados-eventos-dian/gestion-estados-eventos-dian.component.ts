@@ -1,4 +1,4 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   FormBuilder,
@@ -14,36 +14,38 @@ import {
 } from '@interfaces/comunes/autocompletar';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 
 @Component({
-  selector: 'app-estados-eventos-dian',
+  selector: 'app-gestion-estados-eventos-dian',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
-  templateUrl: './estados-eventos-dian.component.html',
-  styleUrl: './estados-eventos-dian.component.scss',
+  templateUrl: './gestion-estados-eventos-dian.component.html',
 })
-export class EstadosEventosDianComponent extends General {
+export class GestionEstadosEventosDianComponent extends General {
   public formularioModal: FormGroup;
   public arrIdentificacion: TipoIdentificacion[] = [];
 
-  @Input({ required: true }) estado: string;
-  @Input({ required: true }) visualizarBtnRecibir: boolean = false;
-  @Input({ required: true }) eventoTipo:
-    | 'evento_aceptacion'
-    | 'evento_documento'
-    | 'evento_recepcion';
+  @Input() documento: any;
   @Output() emitirConsuatarLista: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private httpService: HttpService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private facturaService: FacturaService,
     private eventosDianService: EventosDianService
   ) {
     super();
+  }
+
+  emitir() {
+    this.facturaService.emitir(this.documento.id).subscribe(() => {
+      this.emitirConsuatarLista.emit();
+    });
   }
 
   abrirModal(content: any) {

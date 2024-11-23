@@ -74,6 +74,7 @@
               <th class="bg-gray-100 text-center">Documento</th>
               <th class="bg-gray-100 text-center">Recepción</th>
               <th class="bg-gray-100 text-center">Aceptación</th>
+              <th class="bg-gray-100 text-center">Gestión</th>
             </tr>
           </thead>
           <Tbody>
@@ -101,34 +102,28 @@
                 {{ documentoEmitir.estado_electronico ? "SI" : "NO" }}
               </td>
               <td>
-                <app-estados-eventos-dian
+                <app-visualizar-estados-eventos-dian
                   [estado]="documentoEmitir.evento_documento"
-                  [eventoTipo]="'evento_documento'"
-                  [visualizarBtnRecibir]="documentoEmitir.estado_electronico"
-                  (emitirConsuatarLista)="consultarLista()"
-                ></app-estados-eventos-dian>
+                >
+                </app-visualizar-estados-eventos-dian>
               </td>
               <td>
-                <app-estados-eventos-dian
+                <app-visualizar-estados-eventos-dian
                   [estado]="documentoEmitir.evento_recepcion"
-                  [eventoTipo]="'evento_recepcion'"
-                  [visualizarBtnRecibir]="
-                    documentoEmitir.estado_electronico &&
-                    documentoEmitir.evento_documento === 'EM'
-                  "
-                  (emitirConsuatarLista)="consultarLista()"
-                ></app-estados-eventos-dian>
+                >
+                </app-visualizar-estados-eventos-dian>
               </td>
               <td>
-                <app-estados-eventos-dian
+                <app-visualizar-estados-eventos-dian
                   [estado]="documentoEmitir.evento_aceptacion"
-                  [eventoTipo]="'evento_aceptacion'"
-                  [visualizarBtnRecibir]="
-                    documentoEmitir.estado_electronico &&
-                    documentoEmitir.evento_recepcion === 'EM'
-                  "
+                >
+                </app-visualizar-estados-eventos-dian>
+              </td>
+              <td>
+                <app-gestion-estados-eventos-dian
+                  [documento]="documentoEmitir"
                   (emitirConsuatarLista)="consultarLista()"
-                ></app-estados-eventos-dian>
+                ></app-gestion-estados-eventos-dian>
               </td>
             </tr>
           </Tbody>

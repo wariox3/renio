@@ -22,6 +22,10 @@ export class FacturaService {
 
   aprobar(data: number){
     return this.httpService.post<any>('general/documento/aprobar/', data);
+  }
 
+  emitir(id: number) {
+    return this.httpService
+      .post('general/documento/emitir/', { documento_id: id })
   }
 }

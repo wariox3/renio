@@ -75,6 +75,10 @@ export class CuentasComponent
           propiedad: 'codigo__startswith',
           valor1: `${event?.target.value}`,
         },
+        {
+          propiedad: 'permite_movimiento',
+          valor1: true,
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -101,6 +105,10 @@ export class CuentasComponent
         {
           propiedad: 'codigo__startswith',
           valor1: `${event?.target.value}`,
+        },
+        {
+          propiedad: 'permite_movimiento',
+          valor1: true,
         },
       ],
       limite: 10,

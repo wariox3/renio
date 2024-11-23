@@ -14,7 +14,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { EstadosEventosDianComponent } from "../extra/estados-eventos-dian/estados-eventos-dian.component";
+import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
+import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -27,7 +28,8 @@ import { EstadosEventosDianComponent } from "../extra/estados-eventos-dian/estad
     NgbDropdownModule,
     NgbNavModule,
     BaseFiltroComponent,
-    EstadosEventosDianComponent
+    VisualizarEstadosEventosDianComponent,
+    GestionEstadosEventosDianComponent
 ],
 })
 export class EventosDianComponent extends General implements OnInit {

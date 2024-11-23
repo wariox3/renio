@@ -1,38 +1,29 @@
-<section class="d-flex align-items-center flex-column h-100">
-  @switch (estado) { @case ('PE') {
-  <div class="d-flex">
-    <i class="bi bi-hourglass fs-2 text-gray-700 me-2"></i>
-    <span class="text-gray-700">Pendiente</span>
-  </div>
-  @if(visualizarBtnRecibir){
-  <button type="button" class="btn btn-sm" (click)="abrirModal(content)">
-    Recibir
+@if(documento.estado_electronico){
+
+  @if(documento.estado_electronico && documento.evento_documento === 'PE' ){
+    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
+      Recibir documento
+    </button>
+  }
+
+  @else if(documento.estado_electronico && documento.evento_recepcion === 'PE' ){
+    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
+      Recibir bien / servicio
+    </button>
+  }
+
+  @else if(documento.estado_electronico && documento.evento_aceptacion === 'PE'){
+    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
+      Aceptar factura
+    </button>
+  }
+
+} @else{
+  <button type="button" class="btn btn-sm btn-primary w-100" (click)="emitir()" >
+    {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
   </button>
-  } } @case ('RC') {
-  <div class="d-flex">
-    <i class="bi bi-x-square fs-2 text-danger me-2"></i>
-    <span class="text-danger">Rechazado</span>
-  </div>
-  } @case ('AC') {
-  <div class="d-flex">
-    <i class="bi bi-check-square fs-2 text-success me-2"></i>
-    <span class="text-success">Aceptado</span>
-  </div>
+}
 
-  } @case ('RM') {
-  <div class="d-flex">
-    <i class="bi bi-exclamation-square fs-2 text-warning me-2"></i>
-    <span class="text-warning">Reclamo</span>
-  </div>
-
-  } @case ('EM') {
-  <div class="d-flex">
-    <i class="bi bi-send fs-2 text-primary me-2"></i>
-    <span class="text-primary">Emitido</span>
-  </div>
-
-  } }
-</section>
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Información</h4>
@@ -45,36 +36,7 @@
   </div>
   <form [formGroup]="formularioModal" (ngSubmit)="formSubmit()">
     <div class="modal-body">
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.CUE"
-          ></label>
-          <input
-            formControlName="cue"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioModal.controls['cue'].touched &&
-                formularioModal.controls['cue'].invalid,
-              'is-valid':
-                formularioModal.controls['cue'].touched &&
-                formularioModal.controls['cue'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioModal.controls['cue']
-            }"
-          ></ng-container>
-        </div>
-      </div>
+
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
@@ -215,64 +177,6 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO"
-          ></label>
-          <input
-            formControlName="cargo"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioModal.controls['cargo'].touched &&
-                formularioModal.controls['cargo'].invalid,
-              'is-valid':
-                formularioModal.controls['cargo'].touched &&
-                formularioModal.controls['cargo'].valid
-            }"
-          />
-          <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'required',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-            control: formularioModal.controls['cargo']
-          }"
-        ></ng-container>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.DEPARTAMENTO"
-          ></label>
-          <input
-            formControlName="departamento"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioModal.controls['departamento'].touched &&
-                formularioModal.controls['departamento'].invalid,
-              'is-valid':
-                formularioModal.controls['departamento'].touched &&
-                formularioModal.controls['departamento'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioModal.controls['departamento']
-            }"
-          ></ng-container>
-        </div>
-      </div>
 
       <ng-template
         #formError
@@ -295,19 +199,24 @@
       </ng-template>
     </div>
     <div class="modal-footer">
-      @switch (eventoTipo) { @case ('evento_documento') {
-      <button type="submit" class="btn btn-sm btn-primary">
-        Confirmar recepcion
-      </button>
-      } @case ('evento_recepcion') {
-      <button type="submit" class="btn btn-sm btn-primary">
-        Recibir bien / servicio
-      </button>
-      } @case ('evento_aceptacion') {
-      <button type="submit" class="btn btn-sm btn-primary">
-        Aceptar factura
-      </button>
-      } }
+
+      @if(documento.estado_electronico && documento.evento_documento === 'PE' ){
+        <button type="submit" class="btn btn-sm btn-primary">
+          Confirmar recepcion
+        </button>
+      }
+
+      @else if(documento.estado_electronico && documento.evento_recepcion === 'PE' ){
+        <button type="submit" class="btn btn-sm btn-primary">
+          Recibir bien / servicio
+        </button>
+      }
+
+      @else if(documento.estado_electronico && documento.evento_aceptacion === 'PE'){
+        <button type="submit" class="btn btn-sm btn-primary">
+          Aceptar factura
+        </button>
+      }
     </div>
   </form>
 </ng-template>
