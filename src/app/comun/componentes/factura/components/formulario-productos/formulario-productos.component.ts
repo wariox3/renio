@@ -69,6 +69,7 @@ export class FormularioProductosComponent
   @Input() formularioTipo: 'venta' | 'compra' = 'venta';
   @Input({ required: true }) modoEdicion: boolean = false;
   @Input() mostrarDocumentoReferencia: boolean = false;
+  @Input() cuentasConImpuestos: boolean = false;
   @Input() estadoAprobado: boolean = false;
   @Input() visualizarAgregarCuenta = false;
   @Input({ required: true }) acumuladorImpuestos: {

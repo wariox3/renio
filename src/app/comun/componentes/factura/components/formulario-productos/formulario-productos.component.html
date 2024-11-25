@@ -212,7 +212,7 @@
               />
             </td>
             <td>
-              @if(detalle.value.tipo_registro === "I" ){
+              @if(detalle.value.tipo_registro === "I" || cuentasConImpuestos){
 
               <app-seleccionar-impuestos
                 [visualizarImpuestosVenta]="true"
