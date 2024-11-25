@@ -19,6 +19,7 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { BtnAnularComponent } from "../../../../../../comun/componentes/btn-anular/btn-anular.component";
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -42,7 +43,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     BaseEstadosComponent,
     DetallesTotalesComponent,
     BtnAnularComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    LogElectronicoComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {

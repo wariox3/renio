@@ -64,9 +64,6 @@
               <th class="bg-gray-100 text-center" style="min-width: 100px">
                 {{ "LISTAS.DOCUMENTO.REFERENCIA_NUMERO" | translate }}
               </th>
-              <th class="bg-gray-100 text-center" style="min-width: 100px">
-                {{ "LISTAS.DOCUMENTO.REFERENCIA_CUE" | translate }}
-              </th>
               <th class="bg-gray-100 text-center">
                 {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
               </th>
@@ -74,7 +71,8 @@
               <th class="bg-gray-100 text-center">Documento</th>
               <th class="bg-gray-100 text-center">Recepción</th>
               <th class="bg-gray-100 text-center">Aceptación</th>
-              <th class="bg-gray-100 text-center">Gestión</th>
+              <th class="bg-gray-100 text-center"></th>
+              <th class="bg-gray-100 text-center"></th>
             </tr>
           </thead>
           <Tbody>
@@ -91,9 +89,6 @@
               </td>
               <td>
                 {{ documentoEmitir.referencia_numero | number }}
-              </td>
-              <td>
-                {{ documentoEmitir.referencia_cue }}
               </td>
               <td>
                 {{ documentoEmitir.total | number }}
@@ -118,6 +113,13 @@
                   [estado]="documentoEmitir.evento_aceptacion"
                 >
                 </app-visualizar-estados-eventos-dian>
+              </td>
+              <td class="text-center">
+                @if(documentoEmitir.estado_electronico === false){
+                <app-editar-eventos-dian
+                  [documento]="documentoEmitir"
+                ></app-editar-eventos-dian>
+                }
               </td>
               <td>
                 <app-gestion-estados-eventos-dian

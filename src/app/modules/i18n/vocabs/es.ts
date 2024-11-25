@@ -400,7 +400,8 @@ export const locale = {
           CONTACTO: 'Contacto',
           MOSTARTODOSLOSCONTACTOS: 'Mostrar todos los contactos',
           CUENTA: 'Cuenta',
-          DEPARTAMENTO: 'Departamento'
+          DEPARTAMENTO: 'Departamento',
+          AREA: 'Area'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -1204,7 +1205,8 @@ export const locale = {
     MENSAJES:{
       DOCUMENTOAPROBADO: 'Documento aprobado',
       DOCUMENTOANULADO: 'Documento anulado',
-      Cargando: 'Cargando'
+      Cargando: 'Cargando',
+      EVENTOCOMPLEADO: 'Evento dian completado'
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',

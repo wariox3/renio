@@ -1,0 +1,129 @@
+<label class="cursor-pointer" (click)="abrirModal(content)">
+  <i class="ki-duotone ki-notepad-edit hover-primary">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </i>
+</label>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Editar información {{ documento.id }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="formularioModal" (ngSubmit)="formSubmit()">
+    <div class="modal-body">
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label class="form-label"> Prefijo </label>
+          <input
+            formControlName="referencia_prefijo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioModal.controls['referencia_prefijo'].touched &&
+                formularioModal.controls['referencia_prefijo'].invalid,
+              'is-valid':
+                formularioModal.controls['referencia_prefijo'].touched &&
+                formularioModal.controls['referencia_prefijo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioModal.controls['referencia_prefijo']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label class="form-label"> Número </label>
+          <input
+            formControlName="referencia_numero"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            appSoloNumeros
+            [ngClass]="{
+              'is-invalid':
+                formularioModal.controls['referencia_numero'].touched &&
+                formularioModal.controls['referencia_numero'].invalid,
+              'is-valid':
+                formularioModal.controls['referencia_numero'].touched &&
+                formularioModal.controls['referencia_numero'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioModal.controls['referencia_numero']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label class="form-label"> Cue </label>
+          <input
+            formControlName="referencia_cue"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioModal.controls['referencia_cue'].touched &&
+                formularioModal.controls['referencia_cue'].invalid,
+              'is-valid':
+                formularioModal.controls['referencia_cue'].touched &&
+                formularioModal.controls['referencia_cue'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioModal.controls['referencia_cue']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+        let-cantidadCaracteres="cantidadCaracteres"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) && (control.dirty || control.touched)
+          "
+        >
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
+    </div>
+  </form>
+</ng-template>

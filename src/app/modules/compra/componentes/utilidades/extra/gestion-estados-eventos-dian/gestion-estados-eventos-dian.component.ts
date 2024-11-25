@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { AlertaService } from '@comun/services/alerta.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
@@ -17,17 +19,36 @@ import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.servi
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { zip } from 'rxjs';
+import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-estados-eventos-dian',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    SoloNumerosDirective,
+  ],
   templateUrl: './gestion-estados-eventos-dian.component.html',
 })
-export class GestionEstadosEventosDianComponent extends General {
+export class GestionEstadosEventosDianComponent
+  extends General
+  implements OnInit
+{
   public formularioModal: FormGroup;
-  public arrIdentificacion: TipoIdentificacion[] = [];
+  public arrIdentificacion: TipoIdentificacion[] = [
+    {
+      identificacion_id: 13,
+      identificacion_nombre: 'Cedula',
+    },
+  ];
+  evento_id = 0;
+  tituloModal: string;
+  textoBtnOpenModal: string;
+  textoBtnGuardarFormulario: string;
+  visualizarBtnAbrirModal: boolean = true
+  visualizarBtnCargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @Input() documento: any;
   @Output() emitirConsuatarLista: EventEmitter<void> = new EventEmitter<void>();
@@ -37,9 +58,39 @@ export class GestionEstadosEventosDianComponent extends General {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private facturaService: FacturaService,
-    private eventosDianService: EventosDianService
+    private eventosDianService: EventosDianService,
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    if (
+      this.documento.estado_electronico &&
+      this.documento.evento_documento === 'PE'
+    ) {
+      this.tituloModal = 'Acuse de recibo de factura electrónica de venta';
+      this.textoBtnOpenModal = 'Recibir documento';
+      this.textoBtnGuardarFormulario = 'Confirmar recepción';
+      this.evento_id = 30;
+    } else if (
+      this.documento.estado_electronico &&
+      this.documento.evento_recepcion === 'PE'
+    ) {
+      this.tituloModal = 'Recibir bien o prestación de servicio';
+      this.textoBtnOpenModal = '  Recibir bien / servicio';
+      this.textoBtnGuardarFormulario = 'Recibir bien / servicio';
+      this.evento_id = 32;
+    } else if (
+      this.documento.estado_electronico &&
+      this.documento.evento_aceptacion === 'PE'
+    ) {
+      this.tituloModal = 'Acepción factura';
+      this.textoBtnOpenModal = 'Aceptar factura';
+      this.textoBtnGuardarFormulario = 'Aceptar factura';
+      this.evento_id = 33;
+    } else {
+      this.visualizarBtnAbrirModal = false
+    }
   }
 
   emitir() {
@@ -61,34 +112,57 @@ export class GestionEstadosEventosDianComponent extends General {
 
   private _inicializarFormulario() {
     this.formularioModal = this.formBuilder.group({
-      cue: ['', Validators.compose([Validators.required])],
       nombre: ['', Validators.compose([Validators.required])],
-      apellidos: ['', Validators.compose([Validators.required])],
-      identificacion: ['', Validators.compose([Validators.required])],
+      apellido: ['', Validators.compose([Validators.required])],
+      identificacion: [13, Validators.compose([Validators.required])],
       numero_identificacion: ['', Validators.compose([Validators.required])],
       cargo: ['', Validators.compose([Validators.required])],
-      departamento: ['', Validators.compose([Validators.required])],
+      area: ['', Validators.compose([Validators.required])],
+      id: [this.documento.id],
     });
   }
 
   consultarInformacion() {
-    zip(
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarIdentificacion>
-      >('general/funcionalidad/lista/', {
-        modelo: 'GenIdentificacion',
-        serializador: 'ListaAutocompletar',
-      })
-    ).subscribe((respuesta: any) => {
-      this.arrIdentificacion = respuesta[0].registros;
-      this.changeDetectorRef.detectChanges();
-    });
-  }
+    //   zip(
+    //     this.httpService.post<
+    //       AutocompletarRegistros<RegistroAutocompletarIdentificacion>
+    //     >('general/funcionalidad/lista/', {
+    //       modelo: 'GenIdentificacion',
+    //       serializador: 'ListaAutocompletar',
+    //     })
+    //   ).subscribe((respuesta: any) => {
+    //     this.arrIdentificacion = respuesta[0].registros;
+    //     this.changeDetectorRef.detectChanges();
+    //   });
+  } 
 
   formSubmit() {
     if (this.formularioModal.valid) {
-      this.emitirConsuatarLista.emit();
-      this.modalService.dismissAll();
+      this.visualizarBtnCargando$.next(true)
+      this.eventosDianService
+        .emitirEvento({
+          ...this.formularioModal.value,
+          ...{
+            evento_id: this.evento_id,
+          },
+        })
+        .pipe(
+          tap((respuesta: any) => {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.EVENTOCOMPLEADO')
+            );
+            this.emitirConsuatarLista.emit();
+        
+            this.modalService.dismissAll();
+          }),
+          finalize(() => {
+            this.visualizarBtnCargando$.next(false);
+            this.emitirConsuatarLista.emit();
+            this.modalService.dismissAll();
+          })
+        )
+        .subscribe();
+
     } else {
       this.formularioModal.markAllAsTouched();
     }

@@ -1,32 +1,22 @@
-@if(documento.estado_electronico){
-
-  @if(documento.estado_electronico && documento.evento_documento === 'PE' ){
-    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
-      Recibir documento
-    </button>
-  }
-
-  @else if(documento.estado_electronico && documento.evento_recepcion === 'PE' ){
-    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
-      Recibir bien / servicio
-    </button>
-  }
-
-  @else if(documento.estado_electronico && documento.evento_aceptacion === 'PE'){
-    <button type="submit" class="btn btn-sm btn-primary" (click)="abrirModal(content)">
-      Aceptar factura
-    </button>
-  }
-
-} @else{
-  <button type="button" class="btn btn-sm btn-primary w-100" (click)="emitir()" >
-    {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
-  </button>
+@if(documento.estado_electronico){ @if(visualizarBtnAbrirModal){
+<button
+  type="submit"
+  class="btn btn-sm btn-primary"
+  (click)="abrirModal(content)"
+>
+  {{ textoBtnOpenModal }}
+</button>
+} } @else{
+<button type="button" class="btn btn-sm btn-primary w-100" (click)="emitir()">
+  {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
+</button>
 }
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ evento_id }}  {{ tituloModal }}
+    </h4>
     <button
       type="button"
       class="btn-close"
@@ -36,7 +26,6 @@
   </div>
   <form [formGroup]="formularioModal" (ngSubmit)="formSubmit()">
     <div class="modal-body">
-
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
@@ -72,17 +61,17 @@
             translate="FORMULARIOS.CAMPOS.COMUNES.APELLIDOS"
           ></label>
           <input
-            formControlName="apellidos"
+            formControlName="apellido"
             class="form-control"
             type="text"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioModal.controls['apellidos'].touched &&
-                formularioModal.controls['apellidos'].invalid,
+                formularioModal.controls['apellido'].touched &&
+                formularioModal.controls['apellido'].invalid,
               'is-valid':
-                formularioModal.controls['apellidos'].touched &&
-                formularioModal.controls['apellidos'].valid
+                formularioModal.controls['apellido'].touched &&
+                formularioModal.controls['apellido'].valid
             }"
           />
           <ng-container
@@ -90,7 +79,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioModal.controls['apellidos']
+              control: formularioModal.controls['apellido']
             }"
           ></ng-container>
         </div>
@@ -138,8 +127,9 @@
           <input
             formControlName="numero_identificacion"
             class="form-control bg-transparent"
-            type="number"
+            type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
                 formularioModal.controls['numero_identificacion'].touched &&
@@ -177,7 +167,64 @@
           ></ng-container>
         </div>
       </div>
-
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO"
+          ></label>
+          <input
+            formControlName="cargo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioModal.controls['cargo'].touched &&
+                formularioModal.controls['cargo'].invalid,
+              'is-valid':
+                formularioModal.controls['cargo'].touched &&
+                formularioModal.controls['cargo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioModal.controls['cargo']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.AREA"
+          ></label>
+          <input
+            formControlName="area"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioModal.controls['area'].touched &&
+                formularioModal.controls['area'].invalid,
+              'is-valid':
+                formularioModal.controls['area'].touched &&
+                formularioModal.controls['area'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioModal.controls['area']
+            }"
+          ></ng-container>
+        </div>
+      </div>
       <ng-template
         #formError
         let-control="control"
@@ -200,23 +247,16 @@
     </div>
     <div class="modal-footer">
 
-      @if(documento.estado_electronico && documento.evento_documento === 'PE' ){
-        <button type="submit" class="btn btn-sm btn-primary">
-          Confirmar recepcion
+      @if (visualizarBtnCargando$ | async) {
+        <button class="btn btn-sm btn-bg-primary btn-color-white" type="button" disabled>
+            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
         </button>
-      }
-
-      @else if(documento.estado_electronico && documento.evento_recepcion === 'PE' ){
-        <button type="submit" class="btn btn-sm btn-primary">
-          Recibir bien / servicio
-        </button>
-      }
-
-      @else if(documento.estado_electronico && documento.evento_aceptacion === 'PE'){
-        <button type="submit" class="btn btn-sm btn-primary">
-          Aceptar factura
-        </button>
-      }
+        } @else {
+          <button type="submit" class="btn btn-sm btn-primary">
+            {{ textoBtnGuardarFormulario }}
+          </button>
+        }
     </div>
   </form>
 </ng-template>

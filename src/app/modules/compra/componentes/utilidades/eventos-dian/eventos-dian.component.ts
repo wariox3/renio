@@ -16,6 +16,7 @@ import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
+import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -29,13 +30,15 @@ import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eve
     NgbNavModule,
     BaseFiltroComponent,
     VisualizarEstadosEventosDianComponent,
-    GestionEstadosEventosDianComponent
+    GestionEstadosEventosDianComponent,
+    EditarEventosDianComponent
 ],
 })
 export class EventosDianComponent extends General implements OnInit {
   filtroPermanenteLista = [
     { propiedad: 'documento_tipo', valor1: '5' },
     { propiedad: 'estado_aprobado', valor1: true },
+    { propiedad: 'estado_electronico_evento', valor1: false },
   ];
   arrParametrosConsultaLista: any = {
     filtros: this.filtroPermanenteLista,

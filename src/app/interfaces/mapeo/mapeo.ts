@@ -73,3 +73,13 @@ export type ModuloAplicacion =
   | 'inventario'
   | 'general'
   | 'transporte';
+
+export type prefijoModuloAplicacion =
+| 'com'
+| 'ven'
+| 'con'
+| 'car'
+| 'hum'
+| 'inv'
+| 'gen'
+| 'trans';
