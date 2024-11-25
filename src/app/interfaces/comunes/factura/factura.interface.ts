@@ -168,6 +168,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   item_nombre: string;
   cuenta: any;
   cuenta_codigo: string;
+  cuenta_nombre: string;
   cantidad: number;
   precio: number;
   pago: number;

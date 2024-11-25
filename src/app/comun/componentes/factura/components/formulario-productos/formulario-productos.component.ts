@@ -163,6 +163,7 @@ export class FormularioProductosComponent
         id: item.id || null,
         cuenta: item.cuenta,
         cuenta_codigo: item.cuenta_codigo,
+        cuenta_nombre: item.cuenta_nombre,
         precio: item.precio,
         item: item.item,
         cantidad: item.cantidad,
@@ -186,6 +187,7 @@ export class FormularioProductosComponent
     const detalleFormGroup = this._formBuilder.group({
       cuenta: [null],
       cuenta_codigo: [null],
+      cuenta_nombre: [null],
       item: [null],
       item_nombre: [null],
       cantidad: [
@@ -295,6 +297,7 @@ export class FormularioProductosComponent
     this.detalles.controls[indexFormulario].patchValue({
       cuenta: item.cuenta_id,
       cuenta_codigo: item.cuenta_codigo,
+      cuenta_nombre: item.cuenta_nombre,
     });
 
     this._agregarCampoImpuestoACache(indexFormulario);
@@ -896,6 +899,7 @@ export class FormularioProductosComponent
       const documentoDetalleGrupo = this._formBuilder.group({
         cuenta: [detalle.cuenta],
         cuenta_codigo: [detalle.cuenta_codigo],
+        cuenta_nombre: [detalle.cuenta_nombre],
         item: [detalle.item],
         item_nombre: [detalle.item_nombre],
         cantidad: [detalle.cantidad],

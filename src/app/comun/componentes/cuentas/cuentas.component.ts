@@ -34,6 +34,7 @@ export class CuentasComponent
   cuentaSeleccionada: any | null = null;
   arrCuentasLista: any[];
   @Input() cuentaCodigo: string = '';
+  @Input() cuentaNombre: string = '';
   @Input() documentoEnlazado: boolean;
   @Input() campoInvalido: any = false;
   @Output() emitirArrCuentas: EventEmitter<any> = new EventEmitter();
@@ -58,6 +59,17 @@ export class CuentasComponent
     }
   }
 
+  construirNombre() {
+    const cuentaCodigo = this.cuentaCodigo || '';
+    const cuentaNombre = this.cuentaNombre || '';
+
+    if (!cuentaCodigo && !cuentaNombre) {
+      return null;
+    }
+
+    return `${cuentaCodigo} ${cuentaNombre}`;
+  }
+
   agregarCuenta(cuenta: any) {
     // this.cuentaSeleccionada = cuenta;
     // if(this.campoInvalido){
@@ -69,11 +81,14 @@ export class CuentasComponent
   }
 
   consultarCuentas(event: any) {
+    const valor = event?.target?.value;
+    const valorBusqueda = valor.split(' ')?.[0] || '';
+
     let arrFiltros = {
       filtros: [
         {
           propiedad: 'codigo__startswith',
-          valor1: `${event?.target.value}`,
+          valor1: `${valorBusqueda}`,
         },
         {
           propiedad: 'permite_movimiento',
@@ -100,16 +115,31 @@ export class CuentasComponent
   }
 
   aplicarFiltrosCuentas(event: any) {
+    const valor = event?.target?.value;
+    const valorCasteado = Number(valor);
+    const filtros = [];
+
+    // la busqueda es por codigo
+    if (!isNaN(valorCasteado)) {
+      filtros.push({
+        propiedad: 'codigo__startswith',
+        valor1: `${valor}`,
+      });
+    } else {
+      // la busqueda es por texto
+      filtros.push({
+        propiedad: 'nombre__icontains',
+        valor1: `${valor}`,
+      });
+    }
+
     let arrFiltros = {
       filtros: [
-        {
-          propiedad: 'codigo__startswith',
-          valor1: `${event?.target.value}`,
-        },
         {
           propiedad: 'permite_movimiento',
           valor1: true,
         },
+        ...filtros,
       ],
       limite: 10,
       desplazar: 0,

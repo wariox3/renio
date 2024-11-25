@@ -12,7 +12,7 @@
         [disabled]="documentoEnlazado"
         [readonly]="documentoEnlazado"
         [ngClass]="{ 'disabled-cursor': documentoEnlazado }"
-        [value]="cuentaCodigo"
+        [value]="construirNombre()"
         [ngClass]="{
           'is-invalid': campoInvalido,
           'is-valid': cuentaSeleccionada !== null
