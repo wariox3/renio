@@ -1,3 +1,4 @@
+import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -11,6 +12,7 @@ import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -33,7 +35,8 @@ import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-x
     VisualizarEstadosEventosDianComponent,
     GestionEstadosEventosDianComponent,
     EditarEventosDianComponent,
-    ImportarXmlComponent
+    ImportarXmlComponent,
+    NgbTooltipModule
 ],
 })
 export class EventosDianComponent extends General implements OnInit {
@@ -63,6 +66,7 @@ export class EventosDianComponent extends General implements OnInit {
 
   constructor(
     private httpService: HttpService,
+    private eventosDianService: EventosDianService,
     private modalService: NgbModal
   ) {
     super();
@@ -272,4 +276,12 @@ export class EventosDianComponent extends General implements OnInit {
     }
   }
 
+  descartar(id: number){
+    this.eventosDianService.descartar(id)
+    .subscribe(
+      () => {
+        this.consultarLista()
+      }
+    )
+  }
 }
