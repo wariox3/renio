@@ -118,13 +118,14 @@
                 @if(documentoEmitir.estado_electronico === false){
                 <app-editar-eventos-dian
                   [documento]="documentoEmitir"
+                  (emitirConsultarLista)="consultarLista()"
                 ></app-editar-eventos-dian>
                 }
               </td>
               <td>
                 <app-gestion-estados-eventos-dian
                   [documento]="documentoEmitir"
-                  (emitirConsuatarLista)="consultarLista()"
+                  (emitirConsultarLista)="consultarLista()"
                 ></app-gestion-estados-eventos-dian>
               </td>
             </tr>

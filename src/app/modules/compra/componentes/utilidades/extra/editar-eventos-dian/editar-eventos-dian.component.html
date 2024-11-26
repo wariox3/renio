@@ -123,7 +123,21 @@
       </ng-template>
     </div>
     <div class="modal-footer">
+      @if (visualizarBtnCargando$ | async) {
+      <button
+        class="btn btn-sm btn-bg-primary btn-color-white"
+        type="button"
+        disabled
+      >
+        <span
+          class="spinner-border spinner-border-sm me-1"
+          aria-hidden="true"
+        ></span>
+        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+      </button>
+      } @else {
       <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
+      }
     </div>
   </form>
 </ng-template>

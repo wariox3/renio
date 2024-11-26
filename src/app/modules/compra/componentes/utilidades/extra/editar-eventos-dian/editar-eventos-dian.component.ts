@@ -19,6 +19,7 @@ import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.servi
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { BehaviorSubject, finalize, tap } from 'rxjs';
 
 @Component({
   selector: 'app-editar-eventos-dian',
@@ -36,6 +37,7 @@ export class EditarEventosDianComponent extends General {
 
   @Input() documento: any;
   @Output() emitirConsultarLista: EventEmitter<void> = new EventEmitter<void>();
+  visualizarBtnCargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private httpService: HttpService,
@@ -58,19 +60,50 @@ export class EditarEventosDianComponent extends General {
   }
 
   private _inicializarFormulario() {
+
+
+
     this.formularioModal = this.formBuilder.group({
       referencia_prefijo: [this.documento.referencia_prefijo],
       referencia_numero: [this.documento.referencia_numero],
       referencia_cue: [this.documento.referencia_cue],
     });
+
+    this.formularioModal.get('referencia_prefijo')?.valueChanges.subscribe((valor) => {
+      const valorMayuscula = valor?.toUpperCase() || ''; // Convierte a mayúsculas
+      if (valor !== valorMayuscula) {
+        this.formularioModal.get('referencia_prefijo')?.setValue(valorMayuscula, { emitEvent: false });
+      }
+    });
   }
 
   formSubmit() {
     if (this.formularioModal.valid) {
+      this.visualizarBtnCargando$.next(true)
        this.facturaService.actualizarDatosFactura(
          this.documento.id,
-         this.formularioModal.value
-       ).subscribe();
+         {
+          ...this.formularioModal.value,
+          ...{
+            'saltar_aprobado': true
+          }
+         }
+       ).pipe(
+        tap((respuesta: any) => {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.ACTUALIZARINFORMACION')
+          );
+          this.emitirConsultarLista.emit();
+          this.modalService.dismissAll();
+        }),
+        finalize(() => {
+          this.visualizarBtnCargando$.next(false);
+          this.emitirConsultarLista.emit();
+          this.modalService.dismissAll();
+        })
+       )
+       
+       .subscribe();
     } else {
        this.formularioModal.markAllAsTouched();
     }

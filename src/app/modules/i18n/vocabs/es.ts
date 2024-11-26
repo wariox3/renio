@@ -1205,8 +1205,9 @@ export const locale = {
     MENSAJES:{
       DOCUMENTOAPROBADO: 'Documento aprobado',
       DOCUMENTOANULADO: 'Documento anulado',
-      Cargando: 'Cargando',
-      EVENTOCOMPLEADO: 'Evento dian completado'
+      CARGANDO: 'Cargando',
+      EVENTOCOMPLEADO: 'Evento dian completado',
+      ACTUALIZARINFORMACION: 'Se actualizó la información'
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',

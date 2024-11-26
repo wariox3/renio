@@ -51,7 +51,7 @@ export class GestionEstadosEventosDianComponent
   visualizarBtnCargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @Input() documento: any;
-  @Output() emitirConsuatarLista: EventEmitter<void> = new EventEmitter<void>();
+  @Output() emitirConsultarLista: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private httpService: HttpService,
@@ -95,7 +95,7 @@ export class GestionEstadosEventosDianComponent
 
   emitir() {
     this.facturaService.emitir(this.documento.id).subscribe(() => {
-      this.emitirConsuatarLista.emit();
+      this.emitirConsultarLista.emit();
     });
   }
 
@@ -151,13 +151,12 @@ export class GestionEstadosEventosDianComponent
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.EVENTOCOMPLEADO')
             );
-            this.emitirConsuatarLista.emit();
-        
+            this.emitirConsultarLista.emit();
             this.modalService.dismissAll();
           }),
           finalize(() => {
             this.visualizarBtnCargando$.next(false);
-            this.emitirConsuatarLista.emit();
+            this.emitirConsultarLista.emit();
             this.modalService.dismissAll();
           })
         )
