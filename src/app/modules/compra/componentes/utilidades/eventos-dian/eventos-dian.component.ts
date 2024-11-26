@@ -17,6 +17,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
+import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -31,7 +32,8 @@ import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-
     BaseFiltroComponent,
     VisualizarEstadosEventosDianComponent,
     GestionEstadosEventosDianComponent,
-    EditarEventosDianComponent
+    EditarEventosDianComponent,
+    ImportarXmlComponent
 ],
 })
 export class EventosDianComponent extends General implements OnInit {

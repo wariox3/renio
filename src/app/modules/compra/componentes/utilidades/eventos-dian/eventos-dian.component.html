@@ -9,7 +9,7 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.EVENTOSDIAN'">
     <section card-body>
-      <div class="row mb-4 justify-content-between gap-sm-5">
+      <div class="row mb-5 justify-content-between gap-sm-5">
         <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
           <i
             (click)="disminuirDesplazamientoEmitir()"
@@ -28,7 +28,11 @@
             class="bi bi-arrow-right fs-2x cursor-pointer"
           ></i>
         </div>
-        <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2"></div>
+        <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
+          <div class="btn-group btn-group-sm contenedor-btn-group">
+            <app-importar-xml></app-importar-xml>
+          </div>
+        </div>
       </div>
       <div class="table-responsive table-loading">
         <table
