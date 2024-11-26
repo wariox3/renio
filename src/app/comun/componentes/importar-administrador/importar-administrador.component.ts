@@ -135,7 +135,6 @@ export class ImportarAdministradorComponent
   }
 
   subirArchivo(archivo_base64: string) {
-    let ruta = localStorage.getItem('ruta')!;
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         let esIndependiente = parametros.esIndependiente!;
@@ -143,13 +142,16 @@ export class ImportarAdministradorComponent
         let filtroPermamente: any = [];
 
         let modelo = '';
+        let ruta = '';
         if (this.modelo === 'MOVIMIENTO') {
           modelo = 'movimiento';
         } else {
           if (esIndependiente == 'no') {
+            ruta = localStorage.getItem('ruta')!;
             modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
           } else {
             modelo = this.modelo.toLowerCase();
+            ruta = this.modulo
           }
         }
 
