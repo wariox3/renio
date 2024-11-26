@@ -423,6 +423,7 @@ export default class EgresoFormularioComponent
       id: [null],
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
+      cuenta_nombre:  [null],
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
@@ -438,6 +439,7 @@ export default class EgresoFormularioComponent
     this.detalles.controls[index].patchValue({
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
+      cuenta_nombre: cuenta.cuenta_nombre,
       naturaleza: 'C',
     });
 
