@@ -260,6 +260,8 @@ export class FormularioProductosComponent
     indexFormulario: number
   ) {
     const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
+    this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    this._reiniciarSelectorItem(indexFormulario);
 
     this.detalles.controls[indexFormulario].patchValue({
       precio: item.precio,
@@ -270,6 +272,8 @@ export class FormularioProductosComponent
       item_nombre: item.nombre,
       total: item.precio * 1,
     });
+
+    this.changeDetectorRef.detectChanges();
 
     const impuestosAdaptados = item.impuestos.map((impuesto) =>
       this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true)
@@ -285,6 +289,18 @@ export class FormularioProductosComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  private _reiniciarSelectorItem(indexFormulario: number) {
+    this.detalles.controls[indexFormulario].patchValue({
+      item_nombre: null,
+    });
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _limpiarPosicionEnImpuestoCache(indexFormulario: number) {
+    this._impuestoCache[indexFormulario] = {};
+  }
+
   /**
    * Se ejecuta cuando el usuario selecciona un producto del selector
    *
@@ -295,13 +311,27 @@ export class FormularioProductosComponent
     item: DocumentoDetalleFactura,
     indexFormulario: number
   ) {
+    this._reiniciarSelectorCuenta(indexFormulario);
+
     this.detalles.controls[indexFormulario].patchValue({
       cuenta: item.cuenta_id,
       cuenta_codigo: item.cuenta_codigo,
       cuenta_nombre: item.cuenta_nombre,
     });
 
-    this._agregarCampoImpuestoACache(indexFormulario);
+    this.changeDetectorRef.detectChanges();
+
+    this._agregarNuevoEspacio();
+  }
+
+  private _reiniciarSelectorCuenta(indexFormulario: number) {
+    this.detalles.controls[indexFormulario].patchValue({
+      cuenta: null,
+      cuenta_codigo: null,
+      cuenta_nombre: null,
+    });
+
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
@@ -367,9 +397,13 @@ export class FormularioProductosComponent
     });
   }
 
+  private _agregarNuevoEspacio() {
+    this._impuestoCache.push({});
+  }
+
   private _agregarCampoImpuestoACache(indexFormulario: number) {
     if (!this._impuestoCache[indexFormulario]) {
-      this._impuestoCache.push({});
+      this._agregarNuevoEspacio();
     } else {
       this._eliminarImpuestoEnCache(indexFormulario);
     }
