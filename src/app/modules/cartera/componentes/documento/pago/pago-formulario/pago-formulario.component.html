@@ -261,7 +261,17 @@
                             {{ detalle.value.numero }}
                           </td>
                           <td>
+                            @if(detalle.value.documento_afectado){
                             {{ detalle.value.contacto_nombre }}
+                            } @else {
+                            <app-comun-contactos
+                              [contactoNombre]="detalle.value.contacto_nombre"
+                              (emitirContacto)="
+                                agregarContactoSeleccionado($event, i)
+                              "
+                            >
+                            </app-comun-contactos>
+                            }
                           </td>
                           <td class="p-1">
                             <app-comun-cuentas

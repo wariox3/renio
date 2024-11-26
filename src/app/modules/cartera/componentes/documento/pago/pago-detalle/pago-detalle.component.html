@@ -131,7 +131,13 @@
                         {{ documento.documento_afectado_numero }}
                       </td>
                       <td>
-                        {{ documento.documento_afectado_contacto_nombre_corto }}
+                        @if(documento.documento_afectado_contacto_nombre_corto){
+                          {{ documento.documento_afectado_contacto_nombre_corto}}
+
+                        } @else {
+                          {{ documento.contacto_nombre_corto}}
+
+                        }
                       </td>
                       <td>
                         {{ documento.cuenta_codigo }} {{ documento.cuenta_nombre}}

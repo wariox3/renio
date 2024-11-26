@@ -30,9 +30,10 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { EncabezadoFormularioNuevoComponent } from "../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component";
+import { EncabezadoFormularioNuevoComponent } from '../../../../../../comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -52,8 +53,9 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     CuentasComponent,
     ContactoFormulario,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+    ContactosComponent,
+  ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
   formularioFactura: FormGroup;
@@ -158,8 +160,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
             numero: [numero],
-            contacto: [detalle.documento_afectado_contacto_id],
-            contacto_nombre: [detalle.documento_afectado_contacto_nombre_corto],
+            contacto: [
+              detalle.documento_afectado_contacto_id
+                ? detalle.documento_afectado_contacto_id
+                : detalle.contacto_id,
+            ],
+            contacto_nombre: [
+              detalle.documento_afectado_id
+                ? detalle.documento_afectado_contacto_nombre_corto
+                : detalle.contacto_nombre_corto,
+            ],
             pago: [detalle.pago],
             seleccionado: [false],
             cuenta: detalle.cuenta,
@@ -504,6 +514,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       documento_afectado: [null],
       numero: [null],
       contacto: [null],
+      contacto_nombre: [null],
       pago: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
@@ -516,6 +527,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
       cuenta_codigo: cuenta.cuenta_codigo,
       cuenta_nombre: cuenta.cuenta_nombre,
       naturaleza: 'D',
+    });
+
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarContactoSeleccionado(contacto: any, index: number) {
+    this.detalles.controls[index].patchValue({
+      contacto: contacto.contacto_id,
+      contacto_nombre: contacto.contacto_nombre_corto,
     });
 
     this.formularioFactura.markAsTouched();
