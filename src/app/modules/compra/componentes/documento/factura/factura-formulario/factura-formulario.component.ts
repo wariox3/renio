@@ -869,15 +869,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
 
-        this.store.dispatch(
-          documentosEstadosAction({
-            estados: {
-              estado_aprobado: respuesta.documento.estado_aprobado,
-              estado_emitido: respuesta.documento.estado_aprobado,
-            },
-          })
-        );
-
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
@@ -888,6 +879,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           orden_compra: respuesta.documento.orden_compra,
           comentario: respuesta.documento.comentario,
           plazo_pago: respuesta.documento.plazo_pago_id,
+          referencia_cue: respuesta.documento.referencia_cue,
+          referencia_numero: respuesta.documento.referencia_numero,
+          referencia_prefijo: respuesta.documento.referencia_prefijo,
         });
 
         if (

@@ -159,6 +159,9 @@ export interface DocumentoFacturaRespuesta {
   contrato_id: any;
   detalles: DocumentoFacturaDetalleRespuesta[];
   pagos: PagoRespuestaFormulario[];
+  referencia_cue:string;
+  referencia_numero: number;
+  referencia_prefijo: string;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {

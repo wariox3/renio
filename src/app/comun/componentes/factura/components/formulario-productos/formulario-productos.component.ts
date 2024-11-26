@@ -924,6 +924,9 @@ export class FormularioProductosComponent
       plazo_pago: documentoFactura.plazo_pago_id,
       numero: documentoFactura.numero,
       cue: documentoFactura.cue,
+      referencia_cue: documentoFactura.referencia_cue,
+      referencia_numero: documentoFactura.referencia_numero,
+      referencia_prefijo: documentoFactura.referencia_prefijo,
     });
   }
 

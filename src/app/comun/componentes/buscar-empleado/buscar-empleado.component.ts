@@ -1,38 +1,79 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, OutputEmitterRef, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  OutputEmitterRef,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarContacto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarContacto,
+  RegistroAutocompletarHumContrato,
+} from '@interfaces/comunes/autocompletar';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Subject, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-buscar-empleado',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgbDropdownModule,     TranslateModule,  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDropdownModule,
+    TranslateModule,
+  ],
   templateUrl: './buscar-empleado.component.html',
   styleUrl: './buscar-empleado.component.scss',
 })
-export class BuscarEmpleadoComponent extends General implements OnInit , OnChanges  {
+export class BuscarEmpleadoComponent
+  extends General
+  implements OnInit, OnChanges
+{
   formularioEmpleado: FormGroup;
   arrEmpleados: any[] = [];
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaEmpleado = new Subject<string>();
+  filtrosPermanentes = [
+    {
+      propiedad: 'empleado',
+      valor1: true,
+    },
+  ];
   @Input() informacionEmpleado = {
     identificacion: '',
     empleado: '',
-    empleado_nombre: ''
+    empleado_nombre: '',
   };
   @Input() requerido: boolean = false;
   @Input() formularioError: any = false;
   @Output() emitirEmpleado: EventEmitter<any> = new EventEmitter();
 
-
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
+    private httpService: HttpService
   ) {
     super();
     this._inicializarBusqueda();
@@ -45,13 +86,13 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.informacionEmpleado) {
       if (changes.informacionEmpleado.currentValue) {
-        this.iniciarFormulario()
+        this.iniciarFormulario();
       }
     }
-    if(changes.formularioError){
-      if(changes.formularioError.currentValue){
-        this.formularioEmpleado.markAllAsTouched()
-        this.changeDetectorRef.detectChanges()
+    if (changes.formularioError) {
+      if (changes.formularioError.currentValue) {
+        this.formularioEmpleado.markAllAsTouched();
+        this.changeDetectorRef.detectChanges();
       }
     }
   }
@@ -70,9 +111,18 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
 
   iniciarFormulario() {
     this.formularioEmpleado = this.formBuilder.group({
-      identificacion: [this.informacionEmpleado.identificacion, Validators.required],
-      empleado: [this.informacionEmpleado.empleado, Validators.compose([Validators.required])],
-      empleado_nombre: [this.informacionEmpleado.empleado_nombre, Validators.required],
+      identificacion: [
+        this.informacionEmpleado.identificacion,
+        Validators.required,
+      ],
+      empleado: [
+        this.informacionEmpleado.empleado,
+        Validators.compose([Validators.required]),
+      ],
+      empleado_nombre: [
+        this.informacionEmpleado.empleado_nombre,
+        Validators.required,
+      ],
     });
   }
 
@@ -82,15 +132,16 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
 
   consultarEmpleados(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    let filtros = {
-      operador: '',
-      propiedad,
-      valor1: valor,
-      valor2: '',
-    };
+    let filtros = [
+      {
+        propiedad,
+        valor1: valor,
+      },
+      ...this.filtrosPermanentes,
+    ];
 
     let arrFiltros = {
-      filtros: [filtros],
+      filtros,
       limite: 1000,
       desplazar: 0,
       ordenamientos: [],
@@ -115,37 +166,36 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
   }
 
   consultarEmpleadosPorNombre(valor: string) {
-
     let filtros = {};
 
     if (!valor.length) {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'nombre_corto__icontains',
-        valor1: `${valor}`,
-        valor2: '',
-      };
+      filtros = [
+        {
+          propiedad: 'nombre_corto__icontains',
+          valor1: `${valor}`,
+        },
+        ...this.filtrosPermanentes,
+      ];
     } else if (isNaN(Number(valor))) {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'nombre_corto__icontains',
-        valor1: `${valor}`,
-        valor2: '',
-      };
+      filtros = [
+        ...this.filtrosPermanentes,
+        {
+          propiedad: 'nombre_corto__icontains',
+          valor1: `${valor}`,
+        },
+      ];
     } else {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'numero_identificacion__icontains',
-        valor1: `${Number(valor)}`,
-        valor2: '',
-      };
+      filtros = [
+        {
+          propiedad: 'numero_identificacion__icontains',
+          valor1: `${Number(valor)}`,
+        },
+        ...this.filtrosPermanentes,
+      ];
     }
 
     let arrFiltros = {
-      filtros: [filtros],
+      filtros,
       limite: 1000,
       desplazar: 0,
       ordenamientos: [],
@@ -168,21 +218,18 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
       );
   }
 
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
     if (campo === 'contrato') {
-      this.formularioEmpleado
-        .get(campo)
-        ?.setValue(dato.contrato_id);
+      this.formularioEmpleado.get(campo)?.setValue(dato.contrato_id);
       this.formularioEmpleado
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
       this.formularioEmpleado
         .get('identificacion')
         ?.setValue(dato.numero_identificacion);
-      this.emitirEmpleado.emit(dato)
+      this.emitirEmpleado.emit(dato);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -200,5 +247,4 @@ export class BuscarEmpleadoComponent extends General implements OnInit , OnChang
     this.formularioEmpleado.get('contrato_nombre')?.setValue('');
     this.formularioEmpleado.get('contrato')?.setValue('');
   }
-
 }
