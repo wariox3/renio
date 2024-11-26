@@ -176,6 +176,7 @@ export default class AsientoFormularioComponent
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
+            cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
             base_impuesto: detalle.base_impuesto,
             detalle: detalle.detalle,

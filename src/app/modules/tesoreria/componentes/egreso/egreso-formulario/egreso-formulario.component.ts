@@ -189,6 +189,7 @@ export default class EgresoFormularioComponent
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
+            cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
           });
           this.detalles.push(detalleFormGroup);
