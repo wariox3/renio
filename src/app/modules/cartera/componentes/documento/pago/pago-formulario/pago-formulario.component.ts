@@ -478,9 +478,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
       const pago = detalleControl.get('pago')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += pago ;
+        this.totalCredito += parseFloat(pago) ;
       } else {
-        this.totalDebito += pago;
+        this.totalDebito += parseFloat(pago);
       }
       this.changeDetectorRef.detectChanges();
     });
