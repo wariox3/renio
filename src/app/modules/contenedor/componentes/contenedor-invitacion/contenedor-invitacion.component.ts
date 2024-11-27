@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContenedorUsuariosInvicionAceptada } from '@interfaces/usuario/contenedor';
@@ -23,7 +23,7 @@ import { tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    AnimationFadeinUpDirective,
+    AnimationFadeInUpDirective,
 ]
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {

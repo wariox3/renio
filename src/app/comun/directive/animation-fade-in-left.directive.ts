@@ -2,10 +2,10 @@ import { AnimationBuilder, animate, style } from '@angular/animations';
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 @Directive({
-  selector: '[appAnimationFadeinUp]',
+  selector: '[appAnimationFadeinLeft]',
   standalone: true,
 })
-export class AnimationFadeinUpDirective implements OnInit {
+export class AnimationFadeInLeftDirective implements OnInit {
   @Input() animacionDelay: number = 1;
 
   constructor(
@@ -18,11 +18,11 @@ export class AnimationFadeinUpDirective implements OnInit {
       .build([
         style({
           opacity: 0,
-          transform: 'translateY(20px)',
+          transform: 'translateX(-20px)',
         }),
         animate(
           `${0.5 * this.animacionDelay}s ease-in`,
-          style({ opacity: 1, transform: 'translateY(0)' })
+          style({ opacity: 1, transform: 'translateX(0)' })
         ),
       ])
       .create(this.elementRef.nativeElement);

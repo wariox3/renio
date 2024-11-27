@@ -10,7 +10,7 @@ import {
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros, RegistroAutocompletarImpuesto } from '@interfaces/comunes/autocompletar';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

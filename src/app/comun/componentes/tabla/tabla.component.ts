@@ -22,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
 import { interval, take } from 'rxjs';
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import {
   obtenerMenuDataMapeo,
   obtenerMenuDataMapeoBuscarCampo,
@@ -45,7 +45,7 @@ import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
     KeysPipe,
     TranslateModule,
     ImportarComponent,
-    AnimationFadeinUpDirective,
+    AnimationFadeInUpDirective,
     ImportarAdministradorComponent,
     NgbTooltipModule,
   ],

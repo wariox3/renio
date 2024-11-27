@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { HttpService } from '@comun/services/http.service';
 import {
   ErroresDato,
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
+import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 @Component({
   selector: 'app-importar-detalles',
@@ -22,8 +22,8 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
     CommonModule,
     NgbDropdownModule,
     TranslateModule,
-    AnimationFadeinUpDirective,
-    AnimationFadeinLeftDirective,
+    AnimationFadeInUpDirective,
+    AnimationFadeInLeftDirective,
   ],
   templateUrl: './importar-detalles.component.html',
   styleUrl: './importar-detalles.component.scss',

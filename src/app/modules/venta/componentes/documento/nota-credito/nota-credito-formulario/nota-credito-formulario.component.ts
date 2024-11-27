@@ -25,11 +25,11 @@ import { ProductosComponent } from '@comun/componentes/productos/productos.compo
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { Contacto } from '@interfaces/general/contacto';
 import {

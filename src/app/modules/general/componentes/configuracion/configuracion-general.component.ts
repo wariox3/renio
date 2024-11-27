@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';

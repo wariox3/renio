@@ -2,7 +2,7 @@ import { Component, ContentChild, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 
 @Component({
   selector: 'app-card',
@@ -10,7 +10,7 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
   imports: [
     CommonModule,
     TranslateModule,
-    AnimationFadeinUpDirective,
+    AnimationFadeInUpDirective,
 ],
   templateUrl: './card.component.html',
 })

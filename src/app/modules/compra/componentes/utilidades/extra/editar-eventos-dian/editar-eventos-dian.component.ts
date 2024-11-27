@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -102,7 +102,7 @@ export class EditarEventosDianComponent extends General {
           this.modalService.dismissAll();
         })
        )
-       
+
        .subscribe();
     } else {
        this.formularioModal.markAllAsTouched();

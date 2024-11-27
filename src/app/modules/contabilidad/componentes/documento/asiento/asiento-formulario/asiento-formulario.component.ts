@@ -14,7 +14,7 @@ import { ContactosComponent } from '@comun/componentes/contactos/contactos.compo
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,

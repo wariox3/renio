@@ -10,7 +10,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';

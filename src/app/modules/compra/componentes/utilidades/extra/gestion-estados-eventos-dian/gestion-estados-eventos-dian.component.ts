@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { AlertaService } from '@comun/services/alerta.service';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -134,7 +134,7 @@ export class GestionEstadosEventosDianComponent
     //     this.arrIdentificacion = respuesta[0].registros;
     //     this.changeDetectorRef.detectChanges();
     //   });
-  } 
+  }
 
   formSubmit() {
     if (this.formularioModal.valid) {

@@ -8,7 +8,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { HttpService } from '@comun/services/http.service';
 import { PagoService } from '@modulos/humano/servicios/pago.service';
 import {

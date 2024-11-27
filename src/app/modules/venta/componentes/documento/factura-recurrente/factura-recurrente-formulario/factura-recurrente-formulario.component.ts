@@ -18,8 +18,8 @@ import { FormularioProductosComponent } from '@comun/componentes/factura/compone
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';

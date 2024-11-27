@@ -12,7 +12,7 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
+import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import {

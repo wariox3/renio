@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';

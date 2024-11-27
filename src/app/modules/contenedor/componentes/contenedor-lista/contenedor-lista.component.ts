@@ -16,7 +16,7 @@ import { configuracionVisualizarAction } from '@redux/actions/configuracion.acti
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { CommonModule, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -30,7 +30,7 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
     RouterModule,
     TranslateModule,
     CardComponent,
-    AnimationFadeinUpDirective,
+    AnimationFadeInUpDirective,
     NgOptimizedImage,
     NgIf,
     NgFor,

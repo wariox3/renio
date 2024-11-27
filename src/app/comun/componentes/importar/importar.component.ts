@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
-import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.directive';
+import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -22,8 +22,8 @@ import * as XLSX from 'xlsx';
   imports: [
     CommonModule,
     TranslateModule,
-    AnimationFadeinUpDirective,
-    AnimationFadeinLeftDirective,
+    AnimationFadeInUpDirective,
+    AnimationFadeInLeftDirective,
     FormsModule,
   ],
   templateUrl: './importar.component.html',

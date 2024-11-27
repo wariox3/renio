@@ -16,8 +16,8 @@ import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-ban
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
-import { AnimacionFadeInOutDirective } from '@comun/Directive/AnimacionFadeInOut.directive';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';

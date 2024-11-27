@@ -13,7 +13,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
 import { HttpService } from '@comun/services/http.service';
 import {

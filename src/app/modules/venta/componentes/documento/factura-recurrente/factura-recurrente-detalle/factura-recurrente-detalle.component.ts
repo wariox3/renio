@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';

@@ -22,7 +22,7 @@ import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 import { General } from '@comun/clases/general';
 import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
 import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
-import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
 import { HttpService } from '@comun/services/http.service';
