@@ -220,9 +220,9 @@ export default class EgresoFormularioComponent
       const pago = detalleControl.get('pago')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += parseInt(pago);
+        this.totalCredito += parseFloat(pago);
       } else {
-        this.totalDebito += parseInt(pago);
+        this.totalDebito += parseFloat(pago);
       }
       this.changeDetectorRef.detectChanges();
     });

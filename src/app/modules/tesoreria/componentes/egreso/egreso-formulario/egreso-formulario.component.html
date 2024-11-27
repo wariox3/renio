@@ -350,6 +350,7 @@
                               class="form-control-sm"
                               (change)="actualizarDetalle(i, 'pago', $event)"
                               appSoloNumeros
+                              [permiteDecimales]="true"
                               [ngClass]="{
                                 'is-invalid':
                                   detalle.get('pago')?.touched &&
