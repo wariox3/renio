@@ -143,16 +143,19 @@ export class ImportarAdministradorComponent
 
         let modelo = '';
         let ruta = '';
+
         if (this.modelo === 'MOVIMIENTO') {
           modelo = 'movimiento';
+          ruta = localStorage.getItem('ruta')!;
         } else {
-          if (esIndependiente == 'no') {
-            ruta = localStorage.getItem('ruta')!;
-            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-          } else {
-            modelo = this.modelo.toLowerCase();
-            ruta = this.modulo
-          }
+          ruta =
+            esIndependiente === 'no'
+              ? localStorage.getItem('ruta')!
+              : this.modulo;
+          modelo =
+            esIndependiente === 'no'
+              ? this.modelo.toLowerCase().substring(3)
+              : this.modelo.toLowerCase();
         }
 
         this.cargardoDocumento = true;
