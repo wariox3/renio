@@ -1,11 +1,13 @@
 @if(documento.estado_electronico){ @if(visualizarBtnAbrirModal){
+
 <button
   type="submit"
-  class="btn btn-sm btn-primary"
+  class="btn btn-sm btn-primary w-100 text-nowrap "
   (click)="abrirModal(content)"
 >
   {{ textoBtnOpenModal }}
 </button>
+
 } } @else{
 <button type="button" class="btn btn-sm btn-primary w-100" (click)="emitir()">
   {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
@@ -15,7 +17,7 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      {{ evento_id }}  {{ tituloModal }}
+      {{ evento_id }} {{ tituloModal }}
     </h4>
     <button
       type="button"
@@ -246,17 +248,23 @@
       </ng-template>
     </div>
     <div class="modal-footer">
-
       @if (visualizarBtnCargando$ | async) {
-        <button class="btn btn-sm btn-bg-primary btn-color-white" type="button" disabled>
-            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
-            <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
-        </button>
-        } @else {
-          <button type="submit" class="btn btn-sm btn-primary">
-            {{ textoBtnGuardarFormulario }}
-          </button>
-        }
+      <button
+        class="btn btn-sm btn-bg-primary btn-color-white"
+        type="button"
+        disabled
+      >
+        <span
+          class="spinner-border spinner-border-sm me-1"
+          aria-hidden="true"
+        ></span>
+        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+      </button>
+      } @else {
+      <button type="submit" class="btn btn-sm btn-primary">
+        {{ textoBtnGuardarFormulario }}
+      </button>
+      }
     </div>
   </form>
 </ng-template>
