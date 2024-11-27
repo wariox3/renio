@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { ErroresDato } from '@interfaces/comunes/importar-detalles.';
+import { mergeMap, of, take, toArray } from 'rxjs';
 
 @Component({
   selector: 'app-importar-xml',
@@ -30,7 +31,8 @@ export class ImportarXmlComponent  extends General {
 
   archivoNombre: string = '';
   archivo_base64: string = '';
-  errorImportar: ErroresDato[] = [];
+  errorImportar: any[] = [];
+  archivoPeso: string = '';
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
@@ -111,8 +113,8 @@ export class ImportarXmlComponent  extends General {
     //           this.emitirDetallesAgregados.emit(respuesta);
     //         }),
     //         catchError((respuesta: ImportarDetallesErrores) => {
-    //           if (respuesta.errores_datos) {
-    //             this.errorImportar = respuesta.errores_datos;
+    //           if (respuesta.errores_validador) {
+    //              this._adaptarErroresImportar(respuesta.errores_validador);
     //           }
     //           this.cargardoDocumento = false;
     //           this.changeDetectorRef.detectChanges();
@@ -187,5 +189,27 @@ export class ImportarXmlComponent  extends General {
     this.descargarArchivosService
       .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
       .subscribe();
+  }
+
+  private _adaptarErroresImportar(errores: any[]) {
+    of(...errores)
+      .pipe(
+        mergeMap((errorItem) =>
+          of(
+            ...Object.entries(errorItem.errores).map(
+              ([campo, mensajes]: any) => ({
+                fila: errorItem.fila,
+                campo: campo,
+                error: mensajes.join(', '),
+              })
+            )
+          )
+        ),
+        take(100), // Limita la cantidad de errores procesados a 100
+        toArray()
+      )
+      .subscribe((result) => {
+        this.errorImportar = result;
+      });
   }
 }

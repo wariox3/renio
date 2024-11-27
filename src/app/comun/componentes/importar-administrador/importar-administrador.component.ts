@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,14 +13,13 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import {
-  ErroresDato,
   ImportarDetalles,
   ImportarDetallesErrores,
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
-import { catchError, of, Subject, switchMap, tap } from 'rxjs';
+import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-importar-administrador',
@@ -42,7 +40,8 @@ export class ImportarAdministradorComponent
 {
   archivoNombre: string = '';
   archivo_base64: string = '';
-  errorImportar: ErroresDato[] = [];
+  archivoPeso: string = '';
+  errorImportar: any[] = [];
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
@@ -108,6 +107,7 @@ export class ImportarAdministradorComponent
     this.inputFile = event.target.files[0];
     const selectedFile = event.target.files[0];
     this.archivoNombre = selectedFile.name;
+    this.archivoPeso = (selectedFile.size / 1024).toFixed(2) + ' KB';
     this.changeDetectorRef.detectChanges();
   }
 
@@ -149,14 +149,22 @@ export class ImportarAdministradorComponent
           ruta = localStorage.getItem('ruta')!;
         } else {
           if (esIndependiente == 'no') {
-            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-            ruta = this.modulo
+            if(this.accion === 'detalle'){
+              modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+              ruta = localStorage.getItem('ruta')!;
+            } else {
+              modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+              ruta = this.modulo;
+            }
           } else {
+            console.log('2');
+
             ruta = localStorage.getItem('ruta')!;
             modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-
           }
         }
+
+
 
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
@@ -210,8 +218,8 @@ export class ImportarAdministradorComponent
               this.emitirDetallesAgregados.emit(respuesta);
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
-              if (respuesta.errores_datos) {
-                this.errorImportar = respuesta.errores_datos;
+              if (respuesta.errores_validador) {
+                this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;
               this.changeDetectorRef.detectChanges();
@@ -273,7 +281,25 @@ export class ImportarAdministradorComponent
     });
   }
 
-  get erroresEntries() {
-    return Object.entries(this.errorImportar); // Devuelve un array de [key, value]
+  private _adaptarErroresImportar(errores: any[]) {
+    of(...errores)
+      .pipe(
+        mergeMap((errorItem) =>
+          of(
+            ...Object.entries(errorItem.errores).map(
+              ([campo, mensajes]: any) => ({
+                fila: errorItem.fila,
+                campo: campo,
+                error: mensajes.join(', '),
+              })
+            )
+          )
+        ),
+        take(100), // Limita la cantidad de errores procesados a 100
+        toArray()
+      )
+      .subscribe((result) => {
+        this.errorImportar = result;
+      });
   }
 }

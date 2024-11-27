@@ -10,7 +10,7 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
@@ -31,7 +31,8 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
 export class ImportarDetallesComponent extends General {
   archivoNombre: string = '';
   archivo_base64: string = '';
-  errorImportar: ErroresDato[] = [];
+  errorImportar: any[] = [];
+  archivoPeso: string = '';
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   @Input() estadoHabilitado: boolean = false;
@@ -121,8 +122,8 @@ export class ImportarDetallesComponent extends General {
           this.emitirDetallesAgregados.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
-          if (respuesta.errores_datos) {
-            this.errorImportar = respuesta.errores_datos;
+          if (respuesta.errores_validador) {
+            this._adaptarErroresImportar(respuesta.errores_validador);
           }
           this.cargardoDocumento = false;
           this.changeDetectorRef.detectChanges();
@@ -164,5 +165,27 @@ export class ImportarDetallesComponent extends General {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
     saveAs(data, `errores_${documento_clase}.xlsx`); // Nombre del archivo Excel a descargar
+  }
+
+  private _adaptarErroresImportar(errores: any[]) {
+    of(...errores)
+      .pipe(
+        mergeMap((errorItem) =>
+          of(
+            ...Object.entries(errorItem.errores).map(
+              ([campo, mensajes]: any) => ({
+                fila: errorItem.fila,
+                campo: campo,
+                error: mensajes.join(', '),
+              })
+            )
+          )
+        ),
+        take(100), // Limita la cantidad de errores procesados a 100
+        toArray()
+      )
+      .subscribe((result) => {
+        this.errorImportar = result;
+      });
   }
 }

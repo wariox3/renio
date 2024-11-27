@@ -39,44 +39,47 @@
     </div>
     <form action="">
       <div class="custom-file-upload">
-        <ng-container *ngIf="archivoNombre === ''; else visualizarArchivo">
-          <input
-            type="file"
-            id="myfile"
-            #fileInput
-            (change)="archivoSeleccionado($event)"
-            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          />
-          <button
-            type="button"
-            class="btn btn-outline btn-outline-dashed btn-outline-dark btn-active-light-dark"
-            (click)="fileInput.click()"
-            style="width: 100%; height: 100%"
-          >
-            Seleccionar archivo
-          </button>
-        </ng-container>
-        <ng-template #visualizarArchivo>
-          <div
-            class="image-input image-input-outline"
-            data-kt-image-input="true"
-          >
-            <div class="d-flex align-items-start flex-column">
-              <i class="bi bi-file-earmark-excel fs-6x text-success"></i>
-              <span>{{ archivoNombre }}</span>
+        @if(archivoNombre === ''){
+        <input
+          type="file"
+          id="myfile"
+          #fileInput
+          (change)="archivoSeleccionado($event)"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        />
+        <button
+          type="button"
+          class="btn btn-outline btn-outline-dashed btn-outline-dark btn-active-light-dark"
+          (click)="fileInput.click()"
+          style="width: 100%; height: 100%"
+        >
+          <i class="bi bi-cloud-upload fs-2x cursorPointer"></i>
+          Seleccionar archivo
+        </button>
+        } @else {
+        <div
+          class="image-input image-input-outline rounded border d-flex shadow-sm p-4"
+          data-kt-image-input="true"
+        >
+          <div class="d-flex justify-content-between w-100">
+            <div class="d-flex">
+              <div class="d-flex align-items-start">
+                <i class="bi bi-file-earmark-excel fs-6x text-success"></i>
+              </div>
+              <div class="d-flex flex-column">
+                <span class="fs-3 fw-semibold">{{ archivoNombre }}</span>
+                <span>{{ archivoPeso }}</span>
+              </div>
             </div>
-
-            <label
-              class="btn btn-icon btn-circle btn-active-color-primary w-20px h-20px bg-body position-absolute top-0 start-100 translate-middle"
-              (click)="removerArchivoSeleccionado()"
-            >
-              <i class="ki-duotone ki-cross fs-2 text-danger fs-2x"
-                ><span class="path1"></span><span class="path2"></span
+            <div class="">
+              <i
+                class="bi bi-x text-danger fs-2x cursorPointer"
+                (click)="removerArchivoSeleccionado()"
               ></i>
-            </label>
-            <!--end::Label-->
+            </div>
           </div>
-        </ng-template>
+        </div>
+        }
       </div>
       <img src="" alt="" />
     </form>
@@ -113,30 +116,41 @@
       >
         <thead class="">
           <tr>
-            <th class="w-20px">Fila</th>
-            <th>Mensaje</th>
+            <th>Fila</th>
+            <th>Campo</th>
+            <th>Error</th>
           </tr>
         </thead>
+
         <tbody>
-          @for (item of errorImportar; track $index) {
+          @for (error of errorImportar; track $index) {
           <tr appAnimationFadeinUp>
-            <td>{{ item.fila }}</td>
-            <td>{{ item.Mensaje }}</td>
+            <td>{{ error.fila }}</td>
+            <td>{{ error.campo }}</td>
+            <td>{{ error.error }}</td>
           </tr>
           }
         </tbody>
       </table>
     </div>
     @if (errorImportar.length > 0) {
-    <div class="d-flex justify-content-end mt-3">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary me-2"
-        (click)="descargarExcelError()"
-        appAnimationFadeinLeft
-        translate="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
-      ></button>
-    </div>
-    }
+      <div class="d-flex justify-content-between mt-3">
+        <section>
+          <div class="alert alert-info p-2" role="alert">
+            <i class="bi bi-exclamation-triangle text-info"></i>
+            Recomandamos descargar el excel de errores para mayor información
+          </div>
+        </section>
+        <section>
+          <button
+            type="submit"
+            class="btn btn-sm btn-primary me-2"
+            (click)="descargarExcelError()"
+            appAnimationFadeinLeft
+            translate="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
+          ></button>
+        </section>
+      </div>
+      }
   </div>
 </ng-template>

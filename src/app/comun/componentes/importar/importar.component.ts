@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AnimationFadeinLeftDirective } from '@comun/Directive/AnimationFadeinleft.directive';
@@ -7,15 +7,14 @@ import { AnimationFadeinUpDirective } from '@comun/Directive/AnimationFadeinUp.d
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
 import { HttpService } from '@comun/services/http.service';
 import {
-  ErroresDato,
   ImportarDetalles,
-  ImportarDetallesErrores,
+  ImportarDetallesErrores
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
-import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-importar',
@@ -33,7 +32,8 @@ import { saveAs } from 'file-saver';
 export class ImportarComponent extends General {
   archivoNombre: string = '';
   archivo_base64: string = '';
-  errorImportar: ErroresDato[] = [];
+  archivoPeso: string = '';
+  errorImportar: any[] = [];
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
@@ -150,8 +150,8 @@ export class ImportarComponent extends General {
               this.emitirDetallesAgregados.emit(respuesta);
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
-              if (respuesta.errores_datos) {
-                this.errorImportar = respuesta.errores_datos;
+              if (respuesta.errores_validador) {
+                this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;
               this.changeDetectorRef.detectChanges();
@@ -216,6 +216,29 @@ export class ImportarComponent extends General {
     this.inputFile = event.target.files[0];
     const selectedFile = event.target.files[0];
     this.archivoNombre = selectedFile.name;
+    this.archivoPeso = (selectedFile.size / 1024).toFixed(2) + ' KB';
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _adaptarErroresImportar(errores: any[]) {
+    of(...errores)
+      .pipe(
+        mergeMap((errorItem) =>
+          of(
+            ...Object.entries(errorItem.errores).map(
+              ([campo, mensajes]: any) => ({
+                fila: errorItem.fila,
+                campo: campo,
+                error: mensajes.join(', '),
+              })
+            )
+          )
+        ),
+        take(100), // Limita la cantidad de errores procesados a 100
+        toArray()
+      )
+      .subscribe((result) => {
+        this.errorImportar = result;
+      });
   }
 }

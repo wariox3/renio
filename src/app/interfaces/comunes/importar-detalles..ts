@@ -4,10 +4,10 @@ export interface ImportarDetalles {
 
 export interface ImportarDetallesErrores {
   errores: boolean
-  errores_datos: ErroresDato[]
+  errores_validador: ErroresDato[]
 }
 
 export interface ErroresDato {
-  fila: number
-  Mensaje: string
+  fila: number;
+  errores: { [key: string]: string[] };
 }
