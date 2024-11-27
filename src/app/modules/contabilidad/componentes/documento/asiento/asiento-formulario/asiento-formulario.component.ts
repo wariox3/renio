@@ -12,7 +12,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
-import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezadoFormularioNuevo/encabezadoFormularioNuevo.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { SoloNumerosDirective } from '@comun/Directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
