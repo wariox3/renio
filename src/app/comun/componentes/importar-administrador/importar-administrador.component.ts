@@ -148,14 +148,14 @@ export class ImportarAdministradorComponent
           modelo = 'movimiento';
           ruta = localStorage.getItem('ruta')!;
         } else {
-          ruta =
-            esIndependiente === 'no'
-              ? localStorage.getItem('ruta')!
-              : this.modulo;
-          modelo =
-            esIndependiente === 'no'
-              ? this.modelo.toLowerCase().substring(3)
-              : this.modelo.toLowerCase();
+          if (esIndependiente == 'no') {
+            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+            ruta = this.modulo
+          } else {
+            ruta = localStorage.getItem('ruta')!;
+            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+
+          }
         }
 
         this.cargardoDocumento = true;
@@ -271,5 +271,9 @@ export class ImportarAdministradorComponent
       });
       saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
     });
+  }
+
+  get erroresEntries() {
+    return Object.entries(this.errorImportar); // Devuelve un array de [key, value]
   }
 }
