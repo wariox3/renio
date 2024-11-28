@@ -63,7 +63,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   arrRegistrosEliminar: number[] = [];
   selectAll = false;
   cargandoTabla = false;
-  columnas: any[];
+  columnas: any[] = [];
   columnasVibles: any[] = [];
   datosFiltrados: any[] = [];
   claveLocalStore: string;

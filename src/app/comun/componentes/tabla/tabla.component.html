@@ -82,7 +82,7 @@
         translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
       ></button>
       } @if(visualizarBtnColumnas){
-      <div class="btn-group btn-group-sm" ngbDropdown role="group" *ngIf="">
+      <div class="btn-group btn-group-sm" ngbDropdown role="group">
         <button
           type="button"
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -114,7 +114,7 @@
             </div>
           </div>
           <div class="dropdown-divider my-2"></div>
-          <ng-container *ngFor="let item of columnas; let i = index">
+          @for (item of columnas; track item.nombre; let i = $index) {
             <div class="mb-2">
               <div class="form-check">
                 <input
@@ -135,7 +135,7 @@
                 </label>
               </div>
             </div>
-          </ng-container>
+          }
         </div>
       </div>
       } @if(visualizarBtnEliminar){
@@ -171,9 +171,9 @@
   >
     <thead>
       <tr class="fw-bold text-gray-800">
-        <ng-container *ngFor="let item of columnasVibles; let i = index">
+        @for (item of columnasVibles; track item.nombre) {
           <th
-            (click)="item.ordenable && orderPor(item.nombre, i)"
+            (click)="item.ordenable && orderPor(item.nombre, columnasVibles.indexOf(item))"
             [ngClass]="{ 'cursor-pointer user-select-none': item.ordenable }"
           >
             <div
@@ -213,7 +213,7 @@
               </div>
             </div>
           </th>
-        </ng-container>
+        }
         @if (visualizarColumnaEditar) {
         <th></th>
         } @if (visualizarColumnaDetalle) {
@@ -248,32 +248,35 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let item of datosFiltrados; let i = index"
+      @for (item of datosFiltrados; track item['id'].valor; let i = $index) {
+        <tr
         appAnimationFadeinUp
       >
-        <td
-          *ngFor="let key of item | keys"
-          [ngClass]="{
-            'text-end':
-              item[key].aplicaFormatoNumerico || item[key].alinearAlaIzquierda,
-            'text-center': item[key].campoTipo === 'Booleano'
-          }"
-        >
-          {{ getTipoDato(item[key].valor, item[key]) }}
-        </td>
+        @for (key of item | keys; track key) {
+          <td
+            [ngClass]="{
+              'text-end':
+                item[key].aplicaFormatoNumerico || item[key].alinearAlaIzquierda,
+              'text-center':
+                item[key].campoTipo === 'Booleano'
+            }"
+          >
+            {{ getTipoDato(item[key].valor, item[key]) }}
+          </td>
+        }
         @if(visualizarColumnaEditar){
-        <td class="w-45px" *ngIf="">
+        <td class="w-45px">
+          @if(visualizarBtnEstado(item)){
           <label
             (click)="navegarEditar(item['id'].valor)"
             class="cursor-pointer"
-            *ngIf="visualizarBtnEstado(item)"
           >
             <i class="ki-duotone ki-notepad-edit hover-primary">
               <span class="path1"></span>
               <span class="path2"></span>
             </i>
           </label>
+          }
         </td>
         } @if(visualizarColumnaDetalle){
         <td class="w-45px">
@@ -314,6 +317,8 @@
         </td>
         }
       </tr>
+      }
+
     </tbody>
   </table>
 </div>
