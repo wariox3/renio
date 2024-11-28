@@ -4,7 +4,7 @@
   (click)="abrirModalContactoNuevo(content)"
   [disabled]="estadoHabilitado"
 >
-  {{ "FORMULARIOS.BOTONES.COMUNES.IMPORTAR" | translate }}
+  Cargar xml
 </button>
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -96,7 +96,7 @@
           [disabled]="archivoNombre === '' || inhabilitarBtnEjemploImportar"
           (click)="guardarArchivo()"
         >
-          Cargar xml
+
         </button>
         } @else {
         <button class="btn btn-sm btn-primary" type="button" disabled>
