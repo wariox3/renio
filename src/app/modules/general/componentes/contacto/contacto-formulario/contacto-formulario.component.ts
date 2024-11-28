@@ -277,12 +277,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.required,
         Validators.maxLength(200),
       ]);
-      this.formularioContacto.patchValue({
-        nombre1: null,
-        nombre2: null,
-        apellido1: null,
-        apellido2: null,
-      });
     } else {
       //2 es natural
       this.setValidators('nombre1', [
