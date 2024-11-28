@@ -1,6 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { BtnwhatsappComponent } from '../btnwhatsapp/btnwhatsapp.component';
+import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '@modulos/i18n';
@@ -18,7 +18,7 @@ interface LanguageFlag {
   standalone: true,
   imports: [
     CommonModule,
-    BtnwhatsappComponent,
+    BtnWhatsappComponent,
     RouterModule,
     TranslateModule,
     NgbDropdownModule,

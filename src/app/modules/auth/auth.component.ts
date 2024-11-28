@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgFor, NgClass, NgStyle } from '@angular/common';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { BtnwhatsappComponent } from '../../comun/componentes/btnwhatsapp/btnwhatsapp.component';
+import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
 
 // const BODY_CLASSES = ['bgi-size-cover', 'bgi-position-center', 'bgi-no-repeat'];
 
@@ -15,7 +15,7 @@ import { BtnwhatsappComponent } from '../../comun/componentes/btnwhatsapp/btnwha
     styleUrls: ['./auth.component.scss'],
     standalone: true,
     imports: [
-        BtnwhatsappComponent,
+        BtnWhatsappComponent,
         RouterOutlet,
         NgbDropdown,
         NgbDropdownToggle,

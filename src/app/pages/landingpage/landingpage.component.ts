@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { BtnwhatsappComponent } from '@comun/componentes/btnwhatsapp/btnwhatsapp.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '@modulos/i18n';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -44,7 +43,6 @@ const languages = [
   standalone: true,
   imports: [
     BaseLandingpageComponent,
-    BtnwhatsappComponent,
     CommonModule,
     RouterModule,
     TranslateModule,
