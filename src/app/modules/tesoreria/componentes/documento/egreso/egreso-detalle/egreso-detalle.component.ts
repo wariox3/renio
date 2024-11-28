@@ -10,6 +10,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
 
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -21,7 +22,6 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-egreso-detalle',
@@ -36,7 +36,7 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     NgbDropdownModule,
     ReactiveFormsModule,
     BaseEstadosComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
 ],
   templateUrl: './egreso-detalle.component.html',
 })

@@ -114,11 +114,11 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   400: {
     detalle: async () =>
       await import(
-        '../../../modules/tesoreria/componentes/egreso/egreso-detalle/egreso-detalle.component'
+        '../../../modules/tesoreria/componentes/documento/egreso/egreso-detalle/egreso-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/tesoreria/componentes/egreso/egreso-formulario/egreso-formulario.component'
+        '../../../modules/tesoreria/componentes/documento/egreso/egreso-formulario/egreso-formulario.component'
       ),
   },
   500: {
