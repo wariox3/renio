@@ -275,7 +275,7 @@
                               [id]="documentoDetalleSeleccionarTodos"
                               [checked]="documentoDetalleSeleccionarTodos"
                               [value]="documentoDetalleSeleccionarTodos"
-                              (change)="detalleToggleSelectAll()"
+                              (change)="toggleSelectAll($event)"
                             />
                           </label>
                         </th>
@@ -372,7 +372,7 @@
                             ></ng-container>
                           </td>
                           <td class="w-20px text-center">
-                            <label [for]="detalle.value.id">
+                            <label [for]="i">
                               <i
                                 class="cursor-pointer"
                                 [ngClass]="
@@ -388,7 +388,7 @@
                                 #checked
                                 class="d-none"
                                 type="checkbox"
-                                [id]="detalle.value.id"
+                                [id]="i"
                                 [value]="detalle.value.id"
                                 (change)="
                                   agregarRegistrosEliminar(i, detalle.value.id)

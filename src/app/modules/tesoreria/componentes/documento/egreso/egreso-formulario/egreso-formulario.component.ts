@@ -56,8 +56,8 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     NgSelectModule,
     ContactosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class EgresoFormularioComponent
   extends General
@@ -424,7 +424,7 @@ export default class EgresoFormularioComponent
       id: [null],
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
-      cuenta_nombre:  [null],
+      cuenta_nombre: [null],
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
@@ -475,18 +475,25 @@ export default class EgresoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  detalleToggleSelectAll() {
-    this.formularioEgreso?.markAsDirty();
-    this.formularioEgreso?.markAsTouched();
+  toggleSelectAll(event: Event) {
+    const seleccionarTodos = event.target as HTMLInputElement;
     const detallesArray = this.formularioEgreso.get('detalles') as FormArray;
-    detallesArray.controls.forEach((detalleControl) => {
-      detalleControl
-        .get('seleccionado')
-        ?.setValue(!detalleControl.get('seleccionado')?.value);
-      this.changeDetectorRef.detectChanges();
-    });
     this.documentoDetalleSeleccionarTodos =
       !this.documentoDetalleSeleccionarTodos;
+    this.formularioEgreso?.markAsDirty();
+    this.formularioEgreso?.markAsTouched();
+    if (seleccionarTodos.checked) {
+      detallesArray.controls.forEach((detalleControl: any) => {
+        detalleControl.get('seleccionado')?.setValue(true);
+      });
+    } else {
+      detallesArray.controls.forEach((detalleControl: any) => {
+        detalleControl
+          .get('seleccionado')
+          ?.setValue(!detalleControl.get('seleccionado')?.value);
+      });
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
