@@ -41,6 +41,7 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
 import { validarDescuento } from '@comun/validaciones/validar-descuento.validate';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CuentasComponent } from '../../../cuentas/cuentas.component';
+import { validarCantidad } from '@comun/validaciones/validar-cantidad.validate';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -72,6 +73,7 @@ export class FormularioProductosComponent
   @Input() cuentasConImpuestos: boolean = false;
   @Input() estadoAprobado: boolean = false;
   @Input() visualizarAgregarCuenta = false;
+  @Input() permiteCantidadCero = false;
   @Input({ required: true }) acumuladorImpuestos: {
     [string: string]: { operado: number; total: number };
   } = {};
@@ -194,8 +196,8 @@ export class FormularioProductosComponent
       cantidad: [
         0,
         [
-          validarPrecio(),
-          Validators.min(1),
+          validarCantidad(this.permiteCantidadCero),
+          Validators.min(this.permiteCantidadCero? 0 : 1),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
@@ -210,9 +212,9 @@ export class FormularioProductosComponent
       porcentaje_descuento: [
         0,
         [
+          validarDescuento(),
           Validators.min(0),
           Validators.max(100),
-          validarDescuento(),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
@@ -512,6 +514,10 @@ export class FormularioProductosComponent
     indexFormulario: number,
     nuevaCantidad: number
   ) {
+
+//valorCero
+
+
     const impuestos =
       this.detalles.controls[indexFormulario].get('impuestos')?.value;
 
