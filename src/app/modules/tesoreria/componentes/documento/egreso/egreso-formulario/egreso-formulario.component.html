@@ -509,12 +509,13 @@
     </div>
     <div class="table-responsive table-loading mt-5">
       <table
-        class="table table-hover table-row-bordered table-rounded border gy-2 gs-2"
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
           <tr class="bg-gray-100">
             <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO_NOMBRE'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA_VENCE'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
@@ -555,6 +556,9 @@
             </td>
             <td>
               {{ item["numero"] }}
+            </td>
+            <td>
+              {{ item["documento_tipo"] }}
             </td>
             <td>
               {{ item["fecha"] }}

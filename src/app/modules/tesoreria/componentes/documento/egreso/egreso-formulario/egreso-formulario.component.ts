@@ -403,6 +403,7 @@ export default class EgresoFormularioComponent
         this.arrDocumentos = respuesta?.registros?.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
+          documento_tipo: documento.documento_tipo,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
           contacto: documento.contacto_id,

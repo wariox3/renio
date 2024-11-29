@@ -132,6 +132,15 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: false,
       ordenable: false,
     },
+        {
+      nombre: 'documento_tipo',
+      nombreAbreviadoFiltro: 'DOCUMENTO_TIPO_FILTRO',
+      nombreFiltroRelacion: 'DOCUMENTO_TIPO_ID',
+      campoTipo: 'Fk',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: false,
+    },
     {
       nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
