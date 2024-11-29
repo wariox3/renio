@@ -204,6 +204,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 601,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
