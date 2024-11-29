@@ -109,8 +109,17 @@ export class BaseListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargando$.next(true);
+    let filtroPermamente: any = []
+
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      filtroPermamente = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+
+
       let baseUrl = 'general/funcionalidad/lista/';
+
+
+
+
       let ordenamientoFijo: any[] = parametro?.ordenamiento;
       if (ordenamientoFijo !== undefined) {
         this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo]
@@ -123,6 +132,9 @@ export class BaseListaComponent extends General implements OnInit {
           modelo: this.modelo,
         },
       };
+
+      console.log(filtroPermamente);
+
 
       this.httpService
         .post<{

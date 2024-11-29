@@ -39,6 +39,7 @@ export class ImportarXmlComponent  extends General {
   inhabilitarBtnEjemploImportar: boolean = false;
   soloNuevos: boolean;
   modalRef: any;
+  cantidadErrores: number = 0
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Input() esBotonFinal: boolean;
@@ -114,6 +115,7 @@ export class ImportarXmlComponent  extends General {
     //         }),
     //         catchError((respuesta: ImportarDetallesErrores) => {
     //           if (respuesta.errores_validador) {
+    //              this.cantidadErrores = respuesta.errores_validador.length
     //              this._adaptarErroresImportar(respuesta.errores_validador);
     //           }
     //           this.cargardoDocumento = false;

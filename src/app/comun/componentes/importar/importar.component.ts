@@ -39,11 +39,12 @@ export class ImportarComponent extends General {
   importarSoloNuevos: boolean = false;
   inhabilitarBtnEjemploImportar: boolean = false;
   soloNuevos: boolean;
+  cantidadErrores: number = 0
+  modalRef: any;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
-  @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   @Input() esBotonFinal: boolean;
-  modalRef: any;
+  @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
@@ -151,6 +152,7 @@ export class ImportarComponent extends General {
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
               if (respuesta.errores_validador) {
+                this.cantidadErrores = respuesta.errores_validador.length
                 this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;

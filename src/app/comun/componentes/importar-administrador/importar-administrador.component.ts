@@ -47,7 +47,7 @@ export class ImportarAdministradorComponent
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
   inhabilitarBtnEjemploImportar: boolean = false;
-
+  cantidadErrores: number = 0
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -219,6 +219,7 @@ export class ImportarAdministradorComponent
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
               if (respuesta.errores_validador) {
+                this.cantidadErrores = respuesta.errores_validador.length
                 this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;

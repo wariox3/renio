@@ -131,24 +131,31 @@
         </tbody>
       </table>
     </div>
-    @if (errorImportar.length > 0) {
-    <div class="d-flex justify-content-between mt-3">
+    <div
+      class="d-flex mt-3"
+      [ngClass]="
+        cantidadErrores > 100
+          ? 'justify-content-between'
+          : 'justify-content-end'
+      "
+    >
+      @if (cantidadErrores > 100) {
       <section>
         <div class="alert alert-info p-2" role="alert">
           <i class="bi bi-exclamation-triangle text-info"></i>
-          Recomandamos descargar el excel de errores para mayor información
+          {{ "FORMULARIOS.BOTONES.COMUNES.MENSAJEERRORES" | translate }}
         </div>
       </section>
+      }
       <section>
         <button
           type="submit"
-          class="btn btn-sm btn-primary me-2"
+          class="btn btn-sm btn-primary"
           (click)="descargarExcelError()"
           appAnimationFadeinLeft
           translate="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
         ></button>
       </section>
     </div>
-    }
   </div>
 </ng-template>
