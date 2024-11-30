@@ -17,6 +17,7 @@ import { Usuario } from '@interfaces/usuario/usuario';
 import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -77,6 +78,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.authLocalStorageToken);
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
+    this.store.dispatch(asignarDocumentacionId({ id: 0 }));
     removeCookie('usuario', { path: '/', domain: environment.dominioApp });
     removeCookie('usuario', { path: '/' });
     const patrones = ['empresa-', 'contenedor-', 'configuracion'];
