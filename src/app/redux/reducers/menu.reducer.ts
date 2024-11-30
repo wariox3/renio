@@ -618,7 +618,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTACREDITO',
-              documentacionId: 1014,
+              documentacionId: 1015,
               tipo: 'Documento',
               data: {
                 documento_clase: 101,
