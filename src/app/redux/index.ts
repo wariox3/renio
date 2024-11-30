@@ -10,6 +10,8 @@ import { configuracionReducer } from './reducers/configuracion.reducer';
 import { ConfiguracionEffects } from './efectos/configuracionEffects';
 import { documentoReducer } from './reducers/documento.reducer';
 import { criteriosFiltroReducer } from './reducers/criteriosfiltros.reducer';
+import { documentacionReducer } from './reducers/documentacion.reducer';
+import { DocumentacionEffects } from './efectos/documentacionEffects';
 
 export const StoreApp = {
   usuario: usuarioReducer,
@@ -19,6 +21,7 @@ export const StoreApp = {
   configuracion: configuracionReducer,
   documento: documentoReducer,
   criteriosFiltro: criteriosFiltroReducer,
+  documentacion: documentacionReducer
 };
 
 export const EffectsApp = [
@@ -26,5 +29,6 @@ export const EffectsApp = [
   UsuarioEffects,
   EmpresaEffects,
   ConfiguracionEffects,
-  MenuEffects
+  MenuEffects,
+  DocumentacionEffects
 ];

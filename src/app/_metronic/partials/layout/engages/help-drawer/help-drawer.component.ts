@@ -4,21 +4,30 @@ import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.componen
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { map, Observable } from 'rxjs';
+import { obtenerDocumentacionIdSeleccion } from '@redux/selectors/documentacion.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-help-drawer',
   templateUrl: './help-drawer.component.html',
   standalone: true,
-  imports: [TranslateModule, KeeniconComponent, NgbTooltipModule],
+  imports: [AsyncPipe ,TranslateModule, KeeniconComponent, NgbTooltipModule],
 })
 export class HelpDrawerComponent extends General implements OnInit {
   appDocumentacion: string = environment.appDocumentacion;
+  documentacionId$: Observable<number>;
+  enlaseDocumentacion$: Observable<string>;
 
   constructor() {
     super()
   }
 
   ngOnInit() {
+    this.documentacionId$ = this.store.select(obtenerDocumentacionIdSeleccion);
+    this.enlaseDocumentacion$ = this.documentacionId$.pipe(
+      map((id) => `${this.appDocumentacion}${id ?? 0}`) // Asegúrate de manejar null o undefined
+    );
     this.activatedRoute.queryParams.subscribe((parametros) => {
       if(this.parametrosUrl.documento_clase == 301){
         this.modelo = 'notacreditocompra'

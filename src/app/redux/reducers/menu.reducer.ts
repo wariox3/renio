@@ -1,3 +1,4 @@
+import { Identificacion } from './../../interfaces/general/identificacion.';
 import { createReducer, on } from '@ngrx/store';
 import {
   ActualizarCampoMapeo,
@@ -19,6 +20,7 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'PAGO',
+              documentacionId: 1019,
               tipo: 'Documento',
               data: {
                 documento_clase: 200,
@@ -59,6 +61,7 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'FACTURACOMPRA',
+              documentacionId: 1007,
               tipo: 'Documento',
               data: {
                 documento_clase: 300,
@@ -69,6 +72,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTACREDITO',
+              documentacionId: 1007,
               tipo: 'Documento',
               data: {
                 documento_clase: 301,
@@ -79,6 +83,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTADEBITO',
+              documentacionId: 1009,
               tipo: 'Documento',
               data: {
                 documento_clase: 302,
@@ -89,6 +94,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'DOCUMENTOSOPORTE',
+              documentacionId: 1010,
               tipo: 'Documento',
               data: {
                 documento_clase: 303,
@@ -99,6 +105,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTAAJUSTE',
+              documentacionId: 1011,
               tipo: 'Documento',
               data: {
                 documento_clase: 304,
@@ -200,6 +207,7 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'ASIENTO',
+              documentacionId: 1020,
               tipo: 'Documento',
               data: {
                 documento_clase: 601,
@@ -440,6 +448,7 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'FACTURARECURRENTE',
+              documentacionId: 1013,
               tipo: 'Documento',
               data: {
                 documento_clase: 103,
@@ -452,6 +461,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'FACTURAVENTA',
+              documentacionId: 1014,
               tipo: 'Documento',
               data: {
                 documento_clase: 100,
@@ -463,6 +473,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTACREDITO',
+              documentacionId: 1015,
               tipo: 'Documento',
               data: {
                 documento_clase: 101,
@@ -473,6 +484,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTADEBITO',
+              documentacionId: 1016,
               tipo: 'Documento',
               data: {
                 documento_clase: 102,
@@ -483,6 +495,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'PAGO',
+              documentacionId: 1017,
               tipo: 'Documento',
               data: {
                 documento_clase: 200,
@@ -493,6 +506,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'CUENTADECOBRO',
+              documentacionId: 1018,
               tipo: 'Documento',
               data: {
                 documento_clase: 104,
@@ -593,6 +607,7 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'FACTURAVENTA',
+              documentacionId: 1014,
               tipo: 'Documento',
               data: {
                 documento_clase: 100,
@@ -603,6 +618,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOTACREDITO',
+              documentacionId: 1014,
               tipo: 'Documento',
               data: {
                 documento_clase: 101,
@@ -613,6 +629,7 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'PAGO',
+              documentacionId: 1017,
               tipo: 'Documento',
               data: {
                 documento_clase: 200,
@@ -720,6 +737,7 @@ export const initialState: MenuItem = {
       children: [
         {
           nombre: 'documento',
+          documentacionId: 1012,
           menuOpen: true,
           children: [
             {

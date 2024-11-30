@@ -12,6 +12,7 @@ interface Filtro {
 
 export interface informacionMenuItem {
   nombre: string;
+  documentacionId?: number;
   tipo?: string;
   url?: string;
   urlIndependientes?: {
