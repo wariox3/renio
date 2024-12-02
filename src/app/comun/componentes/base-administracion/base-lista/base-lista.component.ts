@@ -62,7 +62,7 @@ export class BaseListaComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.alertaService.cerrarMensajes()
+    this.alertaService.cerrarMensajes();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;
@@ -109,25 +109,25 @@ export class BaseListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargando$.next(true);
-    let filtroPermamente: any = []
+    let filtroPermamente: any = [];
+    let baseUrl = 'general/funcionalidad/lista/';
 
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if(this.parametrosUrl?.dataPersonalizada){
-        filtroPermamente = JSON.parse(this.parametrosUrl?.dataPersonalizada);
-
+      if (this.parametrosUrl?.dataPersonalizada) {
+        filtroPermamente = this._adaptadorDataFiltrosPermanente(
+          JSON.parse(this.parametrosUrl?.dataPersonalizada)
+        );
+        this.arrParametrosConsulta.filtros = [
+          ...this.arrParametrosConsulta.filtros,
+          ...filtroPermamente,
+        ];
       }
-
-
-      let baseUrl = 'general/funcionalidad/lista/';
-
-
-
 
       let ordenamientoFijo: any[] = parametro?.ordenamiento;
       if (ordenamientoFijo !== undefined) {
-        this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo]
+        this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
       } else {
-        this.arrParametrosConsulta.ordenamientos = []
+        this.arrParametrosConsulta.ordenamientos = [];
       }
       this.arrParametrosConsulta = {
         ...this.arrParametrosConsulta,
@@ -135,8 +135,6 @@ export class BaseListaComponent extends General implements OnInit {
           modelo: this.modelo,
         },
       };
-
-
 
       this.httpService
         .post<{
@@ -152,7 +150,7 @@ export class BaseListaComponent extends General implements OnInit {
 
           this.changeDetectorRef.detectChanges();
         });
-    })
+    });
   }
 
   obtenerFiltros(arrfiltros: any[]) {
@@ -262,5 +260,24 @@ export class BaseListaComponent extends General implements OnInit {
         });
       })
       .unsubscribe();
+  }
+
+  private _adaptadorDataFiltrosPermanente(data: any): any[] {
+    return Object.keys(data).map((key) => {
+      let valorAdaptado: any;
+
+      if (data[key] === 'si') {
+        valorAdaptado = true;
+      } else if (data[key] === 'no') {
+        valorAdaptado = false;
+      } else {
+        valorAdaptado = data[key]; // Mantén el valor original si no es 'si' o 'no'
+      }
+
+      return {
+        propiedad: key,
+        valor1: valorAdaptado,
+      };
+    });
   }
 }

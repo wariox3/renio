@@ -130,7 +130,6 @@ export const initialState: MenuItem = {
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
-                dataPersonalizada: JSON.stringify({ proveedor: 'si' }),
               },
             },
             {
@@ -392,6 +391,7 @@ export const initialState: MenuItem = {
                 modelo: 'GenContacto',
                 submodelo: 'GenEmpleado',
                 ordenamiento: '-id',
+                importarSoloNuevos: 'si',
               },
             },
             {
