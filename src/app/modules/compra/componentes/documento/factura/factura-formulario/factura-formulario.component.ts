@@ -719,17 +719,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
-    if (campo === 'contacto' || campo === 'contactoNuevoModal') {
+    if (campo === 'contacto') {
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
-      if (campo === 'contactoNuevoModal') {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
-        this.formularioFactura
-          .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
-      }
+        if (dato.id && dato.nombre_corto) {
+          this.formularioFactura.get(campo)?.setValue(dato.id);
+          this.formularioFactura
+            .get('contactoNombre')
+            ?.setValue(dato.nombre_corto);
+        }
       this.formularioFactura
         .get('plazo_pago')
         ?.setValue(dato.plazo_pago_proveedor_id);
@@ -978,7 +978,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   cerrarModal(contacto: Contacto) {
-    this.modificarCampoFormulario('contactoNuevoModal', contacto);
+    this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
   }
 }
