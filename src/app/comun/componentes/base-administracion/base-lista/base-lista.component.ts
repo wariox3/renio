@@ -112,7 +112,10 @@ export class BaseListaComponent extends General implements OnInit {
     let filtroPermamente: any = []
 
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      filtroPermamente = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+      if(this.parametrosUrl?.dataPersonalizada){
+        filtroPermamente = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+
+      }
 
 
       let baseUrl = 'general/funcionalidad/lista/';
@@ -133,7 +136,6 @@ export class BaseListaComponent extends General implements OnInit {
         },
       };
 
-      console.log(filtroPermamente);
 
 
       this.httpService
