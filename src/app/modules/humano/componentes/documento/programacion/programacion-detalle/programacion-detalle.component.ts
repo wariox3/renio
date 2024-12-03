@@ -50,6 +50,7 @@ import {
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { asignarArchivoImportacionDetalle } from '@redux/actions/archivoImportacion.actions';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -211,6 +212,7 @@ export default class ProgramacionDetalleComponent
 
   consultarAdicionalesTab() {
     this.isCheckedSeleccionarTodosAdicional = false;
+    this.store.dispatch(asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' }));
     this.inicializarParametrosConsultaAdicional();
     this.httpService
       .post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)

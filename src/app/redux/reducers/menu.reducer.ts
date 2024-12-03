@@ -131,6 +131,7 @@ export const initialState: MenuItem = {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
               },
+              archivoImportacionLista: 'GenContacto.xlsx'
             },
             {
               nombre: 'RESOLUCION',
@@ -395,6 +396,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-id',
                 importarSoloNuevos: 'si',
               },
+              archivoImportacionLista: 'GenContacto.xlsx'
             },
             {
               nombre: 'CONTRATO',
@@ -531,6 +533,7 @@ export const initialState: MenuItem = {
                 importarSoloNuevos: 'si',
                 dataPersonalizada: JSON.stringify({ cliente: 'si' }),
               },
+              archivoImportacionLista: 'GenContacto.xlsx'
             },
             {
               nombre: 'ITEM',
@@ -649,6 +652,7 @@ export const initialState: MenuItem = {
               nombre: 'Contacto',
               tipo: 'Administrador',
               data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
+              archivoImportacionLista: 'GenContacto.xlsx'
             },
             {
               nombre: 'Item',

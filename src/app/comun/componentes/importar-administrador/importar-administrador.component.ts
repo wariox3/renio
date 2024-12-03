@@ -1,3 +1,4 @@
+import { obtenerArchivoImportacionDetalle } from './../../../redux/selectors/archivoImportacion.selectors';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -71,7 +72,35 @@ export class ImportarAdministradorComponent
       this.ubicacion,
       this.detalle
     );
-    this.store
+    if(this.detalle){
+      this.store
+      .select(obtenerArchivoImportacionDetalle)
+      .pipe(
+        tap((archivoImportacionDetalle) => {
+          if (
+            archivoImportacionDetalle === null ||
+            archivoImportacionDetalle === ''
+          ) {
+            this.inhabilitarBtnEjemploImportar = true;
+            this.changeDetectorRef.detectChanges();
+          }
+        }),
+        tap(() => {
+          this.importarSoloNuevos =
+            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
+          (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+          this.archivoNombre = '';
+          this.errorImportar = [];
+          this.modalService.open(content, {
+            ariaLabelledBy: 'modal-basic-title',
+            size: 'xl',
+          });
+        })
+      )
+      .subscribe()
+      .unsubscribe();
+    } else {
+      this.store
       .select(obtenerArchivoImportacionLista)
       .pipe(
         tap((archivoImportacionLista) => {
@@ -97,31 +126,7 @@ export class ImportarAdministradorComponent
       )
       .subscribe()
       .unsubscribe();
-    // if (this.exportarArchivoFijo) {
-    //   nombreArchivo = this.exportarArchivoFijo;
-    // }
-    // this.descargarArchivosService
-    //   .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
-    //   .pipe(
-    //     tap((validacionArchivoExiste) => {
-    //       if (validacionArchivoExiste === false) {
-    //         this.inhabilitarBtnEjemploImportar = true;
-    //         this.changeDetectorRef.detectChanges();
-    //       }
-    //     }),
-    //     tap(() => {
-    //       this.importarSoloNuevos =
-    //         this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
-    //       (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-    //       this.archivoNombre = '';
-    //       this.errorImportar = [];
-    //       this.modalService.open(content, {
-    //         ariaLabelledBy: 'modal-basic-title',
-    //         size: 'xl',
-    //       });
-    //     })
-    //   )
-    //   .subscribe();
+    }
   }
 
   cerrarModal() {
