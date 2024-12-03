@@ -78,6 +78,11 @@ export default class EgresoFormularioComponent
   arrDetallesEliminado: number[] = [];
   arrDocumentosSeleccionados: any[] = [];
   arrRegistrosEliminar: number[] = [];
+  arrFiltrosEmitidosAgregarDocumento: any[] = [];
+  arrFiltrosPermanenteAgregarDocumento: any[] = [
+    { propiedad: 'documento_tipo__pagar', valor1: true },
+    { propiedad: 'pendiente__gt', valor1: 0 },
+  ];
 
   public mostrarTodasCuentasPorPagar: boolean = false;
   public campoLista: CampoLista[] = [
@@ -315,7 +320,7 @@ export default class EgresoFormularioComponent
 
   toggleMostrarTodasCuentasPorPagar() {
     this.mostrarTodasCuentasPorPagar = !this.mostrarTodasCuentasPorPagar;
-    this.consultarDocumentos(null);
+    this.consultarDocumentos();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -331,7 +336,7 @@ export default class EgresoFormularioComponent
 
   agregarDocumento(content: any) {
     if (this.formularioEgreso.get('contacto')?.value !== '') {
-      this.consultarDocumentos(null);
+      this.consultarDocumentos();
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
       );
@@ -347,47 +352,31 @@ export default class EgresoFormularioComponent
     }
   }
 
-  consultarDocumentos(arrFiltrosExtra: any) {
-    let filtros = [];
+  consultarDocumentos() {
+    let filtros: any[] = [];
     if (this.mostrarTodasCuentasPorPagar) {
-      filtros = [
-        { propiedad: 'documento_tipo__pagar', valor1: true },
-        { propiedad: 'pendiente__gt', valor1: 0 },
-      ];
-    } else
+      filtros = this.arrFiltrosPermanenteAgregarDocumento;
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
+        filtros = [
+          ...this.arrFiltrosPermanenteAgregarDocumento,
+          ...this.arrFiltrosEmitidosAgregarDocumento,
+        ];
+        this.changeDetectorRef.detectChanges();
+      }
+    } else {
       filtros = [
         {
           propiedad: 'contacto_id',
           valor1: this.formularioEgreso.get('contacto')?.value,
           tipo: 'CharField',
         },
-        { propiedad: 'documento_tipo__pagar', valor1: true },
-        { propiedad: 'pendiente__gt', valor1: 0 },
+        ...this.arrFiltrosPermanenteAgregarDocumento,
       ];
-
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        filtros = [
-          {
-            propiedad: 'contacto_id',
-            valor1: this.formularioEgreso.get('contacto')?.value,
-            tipo: 'CharField',
-          },
-          { propiedad: 'documento_tipo__pagar', valor1: true },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        filtros = [
-          {
-            propiedad: 'contacto_id',
-            valor1: this.formularioEgreso.get('contacto')?.value,
-            tipo: 'CharField',
-          },
-          { propiedad: 'documento_tipo__pagar', valor1: true },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-        ];
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
+        filtros = [...filtros, ...this.arrFiltrosEmitidosAgregarDocumento];
+        this.changeDetectorRef.detectChanges();
       }
+      this.changeDetectorRef.detectChanges();
     }
     this.httpService
       .post('general/funcionalidad/lista/', {
@@ -404,6 +393,7 @@ export default class EgresoFormularioComponent
           id: documento.id,
           numero: documento.numero,
           documento_tipo: documento.documento_tipo,
+          documento_tipo_nombre: documento.documento_tipo_nombre,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
           contacto: documento.contacto_id,
@@ -540,7 +530,11 @@ export default class EgresoFormularioComponent
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
-    this.consultarDocumentos(arrfiltros);
+    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+    if (arrfiltros.length === 0 && this.mostrarTodasCuentasPorPagar === true) {
+      this.mostrarTodasCuentasPorPagar = false;
+    }
+    this.consultarDocumentos();
   }
 
   agregarDocumentosPago() {
