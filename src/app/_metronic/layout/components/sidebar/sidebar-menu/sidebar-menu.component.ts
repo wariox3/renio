@@ -21,6 +21,7 @@ import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.componen
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
+import { asignarArchivoImportacionLista } from '@redux/actions/archivoImportacion.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -118,6 +119,7 @@ export class SidebarMenuComponent implements OnInit {
 
   navegar(item: informacionMenuItem) {
     this.store.dispatch(asignarDocumentacionId({ id: item.documentacionId ?? 0 }));
+    this.store.dispatch(asignarArchivoImportacionLista({ lista: item.archivoImportacionLista ?? '' }));
     if (item?.data?.filtrosLista) {
       this.construirFiltros(item);
     }

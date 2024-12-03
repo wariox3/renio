@@ -231,6 +231,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'CUENTA',
               tipo: 'Administrador',
+              archivoImportacionLista: 'ConCuenta.xlxs',
               data: { modelo: 'ConCuenta' },
             },
             // {
@@ -242,6 +243,7 @@ export const initialState: MenuItem = {
               nombre: 'GRUPO',
               tipo: 'Administrador',
               data: { modelo: 'ConGrupo' },
+              archivoImportacionLista: 'ConGrupo.xml'
             },
           ],
         },

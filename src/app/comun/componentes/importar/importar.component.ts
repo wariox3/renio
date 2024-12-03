@@ -8,12 +8,22 @@ import { DescargarArchivosService } from '@comun/services/descargarArchivos.serv
 import { HttpService } from '@comun/services/http.service';
 import {
   ImportarDetalles,
-  ImportarDetallesErrores
+  ImportarDetallesErrores,
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { obtenerArchivoImportacionLista } from '@redux/selectors/archivoImportacion.selectors';
 import { saveAs } from 'file-saver';
-import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
+import {
+  catchError,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  take,
+  tap,
+  toArray,
+} from 'rxjs';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -39,7 +49,7 @@ export class ImportarComponent extends General {
   importarSoloNuevos: boolean = false;
   inhabilitarBtnEjemploImportar: boolean = false;
   soloNuevos: boolean;
-  cantidadErrores: number = 0
+  cantidadErrores: number = 0;
   modalRef: any;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
@@ -60,16 +70,20 @@ export class ImportarComponent extends General {
       this.ubicacion,
       undefined
     );
-
-    this.descargarArchivosService
-      .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+    this.store
+      .select(obtenerArchivoImportacionLista)
       .pipe(
-        tap((validacionArchivoExiste) => {
-          if (validacionArchivoExiste === false) {
-            this.inhabilitarBtnEjemploImportar = true;
-            this.changeDetectorRef.detectChanges();
+        tap(
+          (archivoImportacionLista) => {
+            if (
+              archivoImportacionLista === null ||
+              archivoImportacionLista === ''
+            ) {
+              this.inhabilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            }
           }
-        }),
+        ),
         tap(() => {
           this.importarSoloNuevos =
             this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
@@ -83,6 +97,22 @@ export class ImportarComponent extends General {
         })
       )
       .subscribe();
+
+    //    this.inhabilitarBtnEjemploImportar$ = this.inhabilitarBtnEjemploImportar$.pipe(
+    //map((id) => `${this.appDocumentacion}${id ?? 0}`) // Asegúrate de manejar null o undefined
+    //    );
+
+    // this.descargarArchivosService
+    //   .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+    //   .pipe(
+    //     tap((validacionArchivoExiste) => {
+    //       if (validacionArchivoExiste === false) {
+
+    //       }
+    //     }),
+
+    //   )
+    //   .subscribe();
   }
 
   cerrarModal() {
@@ -152,7 +182,7 @@ export class ImportarComponent extends General {
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
               if (respuesta.errores_validador) {
-                this.cantidadErrores = respuesta.errores_validador.length
+                this.cantidadErrores = respuesta.errores_validador.length;
                 this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;

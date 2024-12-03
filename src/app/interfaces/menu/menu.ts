@@ -1,3 +1,4 @@
+import { ArchivoImportacion } from '@interfaces/comunes/archivo-importacion';
 export interface Menu {
   name?: string;
   url?: string;
@@ -13,6 +14,9 @@ interface Filtro {
 export interface informacionMenuItem {
   nombre: string;
   documentacionId?: number;
+  archivoImportacionLista?: string;
+  archivoImportacionNuevo?: string;
+  archivoImportacionDetalle?: string;
   tipo?: string;
   url?: string;
   urlIndependientes?: {
