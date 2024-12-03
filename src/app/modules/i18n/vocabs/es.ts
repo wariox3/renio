@@ -839,7 +839,8 @@ export const locale = {
         VALOR_HORA: 'Valor hora',
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
-        DOCUMENTO_TIPO_FILTRO: '[Documento tipo] id',
+        DOCUMENTO_TIPO_ID_FILTRO: '[Documento tipo] id',
+        DOCUMENTO_TIPO_NOMBRE_FILTRO: '[Documento tipo] nombre',
         CONTACTO_ID_FILTRO: '[Contacto] id',
         CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
         CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
@@ -853,7 +854,7 @@ export const locale = {
         ANIO: 'Año',
         SUCURSAL_NOMBRE: 'Sucursal',
         PROVEEDOR: 'Proveedor',
-        DOCUMENTO_TIPO_NOMBRE: 'Nombre'
+        DOCUMENTOTIPONOMBRE: 'Nombre'
       },
       ITEM: {
         ID: 'ID',
