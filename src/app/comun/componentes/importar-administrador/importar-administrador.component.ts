@@ -18,6 +18,7 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { obtenerArchivoImportacionLista } from '@redux/selectors/archivoImportacion.selectors';
 import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
@@ -47,7 +48,7 @@ export class ImportarAdministradorComponent
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
   inhabilitarBtnEjemploImportar: boolean = false;
-  cantidadErrores: number = 0
+  cantidadErrores: number = 0;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -70,14 +71,14 @@ export class ImportarAdministradorComponent
       this.ubicacion,
       this.detalle
     );
-    if (this.exportarArchivoFijo) {
-      nombreArchivo = this.exportarArchivoFijo;
-    }
-    this.descargarArchivosService
-      .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+    this.store
+      .select(obtenerArchivoImportacionLista)
       .pipe(
-        tap((validacionArchivoExiste) => {
-          if (validacionArchivoExiste === false) {
+        tap((archivoImportacionLista) => {
+          if (
+            archivoImportacionLista === null ||
+            archivoImportacionLista === ''
+          ) {
             this.inhabilitarBtnEjemploImportar = true;
             this.changeDetectorRef.detectChanges();
           }
@@ -94,7 +95,33 @@ export class ImportarAdministradorComponent
           });
         })
       )
-      .subscribe();
+      .subscribe()
+      .unsubscribe();
+    // if (this.exportarArchivoFijo) {
+    //   nombreArchivo = this.exportarArchivoFijo;
+    // }
+    // this.descargarArchivosService
+    //   .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+    //   .pipe(
+    //     tap((validacionArchivoExiste) => {
+    //       if (validacionArchivoExiste === false) {
+    //         this.inhabilitarBtnEjemploImportar = true;
+    //         this.changeDetectorRef.detectChanges();
+    //       }
+    //     }),
+    //     tap(() => {
+    //       this.importarSoloNuevos =
+    //         this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
+    //       (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+    //       this.archivoNombre = '';
+    //       this.errorImportar = [];
+    //       this.modalService.open(content, {
+    //         ariaLabelledBy: 'modal-basic-title',
+    //         size: 'xl',
+    //       });
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   cerrarModal() {
@@ -149,11 +176,15 @@ export class ImportarAdministradorComponent
           ruta = localStorage.getItem('ruta')!;
         } else {
           if (esIndependiente == 'no') {
-            if(this.accion === 'detalle'){
-              modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+            if (this.accion === 'detalle') {
+              modelo = this.modelo
+                .toLowerCase()
+                .substring(3, this.modelo.length);
               ruta = localStorage.getItem('ruta')!;
             } else {
-              modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+              modelo = this.modelo
+                .toLowerCase()
+                .substring(3, this.modelo.length);
               ruta = this.modulo;
             }
           } else {
@@ -163,8 +194,6 @@ export class ImportarAdministradorComponent
             modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
           }
         }
-
-
 
         this.cargardoDocumento = true;
         this.changeDetectorRef.detectChanges();
@@ -219,7 +248,7 @@ export class ImportarAdministradorComponent
             }),
             catchError((respuesta: ImportarDetallesErrores) => {
               if (respuesta.errores_validador) {
-                this.cantidadErrores = respuesta.errores_validador.length
+                this.cantidadErrores = respuesta.errores_validador.length;
                 this._adaptarErroresImportar(respuesta.errores_validador);
               }
               this.cargardoDocumento = false;

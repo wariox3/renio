@@ -96,23 +96,8 @@ export class ImportarComponent extends General {
           });
         })
       )
-      .subscribe();
-
-    //    this.inhabilitarBtnEjemploImportar$ = this.inhabilitarBtnEjemploImportar$.pipe(
-    //map((id) => `${this.appDocumentacion}${id ?? 0}`) // Asegúrate de manejar null o undefined
-    //    );
-
-    // this.descargarArchivosService
-    //   .comprobarArchivoExiste(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
-    //   .pipe(
-    //     tap((validacionArchivoExiste) => {
-    //       if (validacionArchivoExiste === false) {
-
-    //       }
-    //     }),
-
-    //   )
-    //   .subscribe();
+      .subscribe()
+      .unsubscribe();
   }
 
   cerrarModal() {
