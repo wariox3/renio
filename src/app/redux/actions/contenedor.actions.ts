@@ -19,3 +19,8 @@ export const ContenedorSeleccionAction = createAction(
 export const ContenedorActionBorrarInformacion = createAction(
   '[Contenedor] borrar informacion'
 );
+
+export const ContenedorActionActualizarImagen = createAction(
+  '[Contenedor] actualizar imagen',
+  props<{ imagen: string }>()
+);

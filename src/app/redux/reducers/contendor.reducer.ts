@@ -2,7 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import {
   ContenedorActionInit,
   ContenedorSeleccionAction,
-  ContenedorActionBorrarInformacion
+  ContenedorActionBorrarInformacion,
+  ContenedorActionActualizarImagen
 } from '../actions/contenedor.actions';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { getCookie } from 'typescript-cookie';
@@ -88,5 +89,11 @@ export const contendorReducer = createReducer(
         acceso_restringido: false
       },
     };
-  })
+  }),
+  on(ContenedorActionActualizarImagen, (state, { imagen }) => {
+    return {
+      ...state,
+      imagen,
+    };
+  }),
 );

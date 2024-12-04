@@ -168,7 +168,7 @@ export class ContenedorService {
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.http.post<{ cargar: boolean }>(
+    return this.http.post<{ cargar: boolean, imagen: string }>(
       `${environment.URL_API_MUUP}/contenedor/contenedor/cargar-logo/`,
       {
         empresa_id,
@@ -251,7 +251,6 @@ export class ContenedorService {
       }
     );
   }
-
 
   informacionPlan: any = {
     1: [

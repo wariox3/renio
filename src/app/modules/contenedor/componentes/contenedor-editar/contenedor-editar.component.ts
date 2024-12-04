@@ -11,14 +11,17 @@ import {
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
+import { Empresa } from '@interfaces/contenedor/empresa';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-
 import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContenedorActionActualizarImagen } from '@redux/actions/contenedor.actions';
+import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
+import { obtenerEmpresaInformacion } from '@redux/selectors/empresa.selectors';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { switchMap, tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-contenedor-editar',
@@ -27,11 +30,11 @@ import { switchMap, tap } from 'rxjs';
   imports: [
     RouterModule,
     TranslateModule,
-    CardComponent,
     NgbModalModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    CargarImagenComponent
 ]
 })
 export class ContenedorEditarComponent extends General implements OnInit {
@@ -47,6 +50,28 @@ export class ContenedorEditarComponent extends General implements OnInit {
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   modalRef: any;
+  informacionEmpresa: Empresa = {
+    id: 0,
+    numero_identificacion: '',
+    digito_verificacion: '',
+    identificacion_nombre: '',
+    nombre_corto: '',
+    direccion: '',
+    telefono: '',
+    correo: '',
+    imagen: '',
+    ciudad: 0,
+    identificacion: 0,
+    regimen: 0,
+    regimen_nombre: '',
+    tipo_persona: 0,
+    tipo_persona_nombre: '',
+    suscriptor: 0,
+    ciudad_id: 0,
+    identificacion_id: 0,
+    rededoc_id: '',
+    asistente_electronico: false,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,6 +86,14 @@ export class ContenedorEditarComponent extends General implements OnInit {
   }
 
   openModal() {
+
+    this.contenedorService
+      .consultarInformacion(this.contenedor_id)
+      .subscribe((respuesta: any) => {
+        this.informacionEmpresa = respuesta;
+        this.changeDetectorRef.detectChanges();
+      });
+
     this.contenedorService
       .consultarInformacion(this.contenedor_id)
       .pipe(
@@ -112,7 +145,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
     });
   }
 
-
   formSubmit() {
     if (this.formularioContenedor.valid) {
       this.store
@@ -144,11 +176,48 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
   }
 
-
   seleccionarPlan(plan_id: any) {
     this.planSeleccionado = plan_id;
     let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
     this.informacionPlan = this.contenedorService.informacionPlan[posicion]
     this.changeDetectorRef.detectChanges();
+  }
+
+  recuperarBase64(event: any) {
+    this.contenedorService
+      .cargarLogo(this.contenedor_id, event)
+      .subscribe((respuesta) => {
+        if (respuesta.cargar) {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN'
+            )
+          );
+
+          return this.emitirActualizacion.emit(true);
+
+        }
+      });
+  }
+
+  eliminarLogo(event: boolean) {
+    this.contenedorService
+      .eliminarLogoEmpresa(this.contenedor_id)
+      .pipe(
+        switchMap((respuestaEliminarLogoEmpresa) => {
+          if (respuestaEliminarLogoEmpresa.limpiar) {
+            this.informacionEmpresa.imagen = respuestaEliminarLogoEmpresa.imagen
+            this.store.dispatch(ContenedorActionActualizarImagen({imagen: respuestaEliminarLogoEmpresa.imagen}))
+            this.changeDetectorRef.detectChanges()
+            this.emitirActualizacion.emit(true);
+          }
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+    getImageUrl(baseImageUrl: string): string {
+    return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 }

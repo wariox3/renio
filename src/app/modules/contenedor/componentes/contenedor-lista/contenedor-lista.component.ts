@@ -1,25 +1,24 @@
-import { SubdominioService } from '@comun/services/subdominio.service';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ContenedorService } from '../../servicios/contenedor.service';
-import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { General } from '@comun/clases/general';
+import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
+import { SubdominioService } from '@comun/services/subdominio.service';
+import { environment } from '@env/environment';
+import { Contenedor } from '@interfaces/usuario/contenedor';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
 import {
   obtenerUsuarioFechaLimitePago,
   obtenerUsuarioId,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
-import { Contenedor } from '@interfaces/usuario/contenedor';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
-import { General } from '@comun/clases/general';
-import { environment } from '@env/environment';
-import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
-import { CommonModule, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
+import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { ContenedorService } from '../../servicios/contenedor.service';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -29,15 +28,12 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
   imports: [
     RouterModule,
     TranslateModule,
-    CardComponent,
     AnimationFadeInUpDirective,
-    NgOptimizedImage,
     NgIf,
     NgFor,
     CommonModule,
     NgbDropdownModule,
     SkeletonLoadingComponent,
-    NgOptimizedImage,
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
@@ -133,7 +129,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           const contenedor: Contenedor = {
             nombre: respuesta.nombre,
             imagen:
-              'https://es.expensereduction.com/wp-content/uploads/2018/02/logo-placeholder.png',
+              'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/contenedor/logo_defecto.jpg',
             contenedor_id: respuesta.id,
             subdominio: respuesta.subdominio,
             id: respuesta.id,
@@ -162,7 +158,7 @@ export class ContenedorListaComponent extends General implements OnInit {
             })
           );
           this.visualizarLoader[i] = false;
-          this.changeDetectorRef.detectChanges()
+          this.changeDetectorRef.detectChanges();
           if (environment.production) {
             window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
           } else {
@@ -171,7 +167,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         }),
         catchError(() => {
           this.visualizarLoader[i] = false;
-          this.changeDetectorRef.detectChanges()
+          this.changeDetectorRef.detectChanges();
           return of(null);
         })
       )
@@ -242,5 +238,9 @@ export class ContenedorListaComponent extends General implements OnInit {
       })
     );
     this.store.dispatch(empresaLimpiarAction());
+  }
+
+  getImageUrl(baseImageUrl: string): string {
+    return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 }

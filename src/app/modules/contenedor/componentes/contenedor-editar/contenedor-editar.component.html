@@ -19,9 +19,24 @@
           translate="FORMULARIOS.TITULOS.CONTENEDOR.EDITAR"
           class="card-title"
         ></h3>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss()"></button>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modalRef.dismiss()"
+        ></button>
       </div>
       <div class="card-body">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <label class="form-label mb-2">Imagen</label>
+            <app-cargar-imagen
+              [recibirImagen]="informacionEmpresa.imagen"
+              (dataFormulario)="recuperarBase64($event)"
+              (eliminarLogo)="eliminarLogo($event)"
+            ></app-cargar-imagen>
+          </div>
+        </div>
         <div class="row mb-10">
           <div class="col-md-12 col-sm-12">
             <label
@@ -133,7 +148,7 @@
                 <span class="path3"></span>
               </i>
             </label>
-            <div class="mb-10" style="columns: 2;">
+            <div class="mb-10" style="columns: 2">
               <!--begin::Item-->
               <div
                 class="d-flex flex-stack p-2 border"

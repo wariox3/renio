@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
-import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, switchMap } from 'rxjs';
+import { obtenerContenedorImagen } from '@redux/selectors/contenedor.selectors';
+import { EMPTY, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { ExtrasModule } from 'src/app/_metronic/partials';
 import { SharedModule } from 'src/app/_metronic/shared/shared.module';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { obtenerUsuarioImagen } from '@redux/selectors/usuario.selectors';
 
 @Component({
   selector: 'app-contenedor-detalle',
@@ -22,40 +21,21 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     RouterModule,
     TranslateModule,
-    CardComponent,
-    CargarImagenComponent,
     ExtrasModule,
     SharedModule,
     ContenedorEditarComponent,
     FormsModule,
     ReactiveFormsModule,
     NgbModalModule,
-],
+    CommonModule,
+  ],
   providers: [NgbActiveModal],
 })
 export class ContenedorDetalleComponent extends General implements OnInit {
-  contenedor_id =
-    this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
-  informacionEmpresa: any = {
-    contenedor_id: 0,
-    id: 0,
-    imagen: '',
-    nombre: '',
-    subdominio: '',
-    usuario_id: 0,
-    rol: '',
-    usuarios: 0,
-    plan_id: 0,
-    plan_nombre: 0,
-    usuarios_base: 0,
-    ciudad: 0,
-    correo: '',
-    direccion: '',
-    identificacion: 0,
-    nombre_corto: '',
-    numero_identificacion: 0,
-    telefono: '',
-  };
+  contenedor_id = this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
+  imagen$ = this.store.select(obtenerContenedorImagen)
+
+  informacionEmpresa: any;
 
   constructor(private contenedorService: ContenedorService) {
     super();
@@ -66,40 +46,63 @@ export class ContenedorDetalleComponent extends General implements OnInit {
   }
 
   consultarDetalle() {
+
+    this.informacionEmpresa = {
+      contenedor_id: 0,
+      id: 0,
+      imagen: '',
+      nombre: '',
+      subdominio: '',
+      usuario_id: 0,
+      rol: '',
+      usuarios: 0,
+      plan_id: 0,
+      plan_nombre: 0,
+      usuarios_base: 0,
+      ciudad: 0,
+      correo: '',
+      direccion: '',
+      identificacion: 0,
+      nombre_corto: '',
+      numero_identificacion: 0,
+      telefono: '',
+    }
+
+
     this.contenedorService
-      .consultarInformacion(this.contenedor_id)
-      .subscribe((respuesta: any) => {
+    .consultarInformacion(this.contenedor_id)
+    .pipe(
+      tap((respuesta: any) => {
         this.informacionEmpresa = respuesta;
         this.changeDetectorRef.detectChanges();
-      });
-  }
-
-  recuperarBase64(event: any) {
-    this.contenedorService
-      .cargarLogo(this.contenedor_id, event)
-      .subscribe((respuesta) => {
-        if (respuesta.cargar) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant(
-              'FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN'
-            )
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      });
-  }
-
-  eliminarLogo(event: boolean) {
-    this.contenedorService
-      .eliminarLogoEmpresa(this.contenedor_id)
-      .pipe(
-        switchMap((respuestaEliminarLogoEmpresa) => {
-          if (respuestaEliminarLogoEmpresa.limpiar) {
-            this.consultarDetalle();
-          }
-          return of(null);
-        })
+      }),
+      switchMap((respuesta: any) =>
+        this.imagen$.pipe(
+          take(1), // Obtén el valor actual de `imagen$` una vez
+          switchMap((imagenActual) => {
+            // Compara el contenido actual con `respuesta.imagen`
+            if (imagenActual !== respuesta.imagen) {
+              // Si son diferentes, emite `respuesta.imagen`
+              this.imagen$ = of(respuesta.imagen);
+              this.changeDetectorRef.detectChanges()
+              return of(EMPTY)
+            } else {
+              // Si son iguales, continúa con el flujo actual
+              this.imagen$ = of(this._getImageUrl(respuesta.imagen));
+              this.changeDetectorRef.detectChanges()
+              return of(EMPTY);
+            }
+          })
+        )
       )
+    )
       .subscribe();
+
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _getImageUrl(baseImageUrl: string): string {
+    return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 }

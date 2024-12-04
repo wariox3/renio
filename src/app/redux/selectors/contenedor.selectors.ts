@@ -13,7 +13,7 @@ export const obtenerContenedorNombre = createSelector(
   (Contenedor) => `${Contenedor.nombre}`
 );
 
-export const obtenerLogoContenedor = createSelector(
+export const obtenerContenedorImagen = createSelector(
   Contenedor,
   (Contenedor) => `${Contenedor.imagen}`
 );

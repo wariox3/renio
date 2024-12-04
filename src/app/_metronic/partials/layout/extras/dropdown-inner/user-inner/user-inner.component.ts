@@ -106,7 +106,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   navegarAmiContenedor() {
     this.store.select(obtenerContenedorId).subscribe((contenedor_id) => {
       this.router.navigate([
-        `/contenedor/detalle/${contenedor_id}/facturacion`,
+        `/contenedor/detalle/${contenedor_id}/`,
       ]);
     });
   }

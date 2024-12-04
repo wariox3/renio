@@ -4,7 +4,6 @@ import { ContenedorNuevoComponent } from './componentes/contenedor-nuevo/contene
 import { ContenedorDetalleComponent } from './componentes/contenedor-detalle/contenedor-detalle.component';
 
 import { ContenedorInvitacionComponent } from './componentes/contenedor-invitacion/contenedor-invitacion.component';
-import { ContenedorFacturacionComponent } from './componentes/contenedor-facturacion/contenedor-facturacion.component';
 
 export const routes: Route[] = [
   {
@@ -28,11 +27,7 @@ export const routes: Route[] = [
         path: '', // Ruta vacía, se inicia por defecto cuando se carga la ruta padre
         redirectTo: 'facturacion',
         pathMatch: 'full',
-      },
-      {
-        path: 'facturacion',
-        component: ContenedorFacturacionComponent,
-      },
+      }
     ],
   },
   {
