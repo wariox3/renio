@@ -14,7 +14,9 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -31,11 +33,8 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -716,7 +715,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
+   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
@@ -733,10 +732,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('plazo_pago')
         ?.setValue(dato.plazo_pago_proveedor_id);
-      if (dato.plazo_pago_dias > 0) {
+      if (dato.plazo_pago_proveedor_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        const fechaActual = new Date(); // Obtener la fecha actual
+        let fechaInicio = this.formularioFactura.get('fecha')?.value
+        const fechaActual = new Date(fechaInicio); // Obtener la fecha actual
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
           fechaActual.getMonth() + 1
