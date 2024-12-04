@@ -8,14 +8,24 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
 import { Empresa } from '@interfaces/contenedor/empresa';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbActiveModal,
+  NgbModal,
+  NgbModalModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorActionActualizarImagen } from '@redux/actions/contenedor.actions';
 import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
@@ -34,8 +44,8 @@ import { of, switchMap, tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    CargarImagenComponent
-]
+    CargarImagenComponent,
+  ],
 })
 export class ContenedorEditarComponent extends General implements OnInit {
   formularioContenedor: FormGroup;
@@ -86,7 +96,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
   }
 
   openModal() {
-
     this.contenedorService
       .consultarInformacion(this.contenedor_id)
       .subscribe((respuesta: any) => {
@@ -102,12 +111,14 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
           this.formularioContenedor.patchValue({
             nombre: respuesta.nombre,
-            plan_id: respuesta.plan_id
-          })
+            plan_id: respuesta.plan_id,
+          });
 
-          this.planSeleccionado = respuesta.plan_id
-          let posicion: keyof typeof this.contenedorService.informacionPlan = respuesta.plan_id;
-          this.informacionPlan = this.contenedorService.informacionPlan[posicion]
+          this.planSeleccionado = respuesta.plan_id;
+          let posicion: keyof typeof this.contenedorService.informacionPlan =
+            respuesta.plan_id;
+          this.informacionPlan =
+            this.contenedorService.informacionPlan[posicion];
 
           this.modalRef = this.modalService.open(this.customTemplate, {
             backdrop: 'static',
@@ -121,11 +132,11 @@ export class ContenedorEditarComponent extends General implements OnInit {
         tap((respuestaPlanes) => {
           this.arrPlanes = respuestaPlanes;
           this.changeDetectorRef.detectChanges();
-        }),
+        })
       )
       .subscribe();
 
-      this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.detectChanges();
   }
 
   initForm() {
@@ -148,38 +159,37 @@ export class ContenedorEditarComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioContenedor.valid) {
       this.store
-      .select(obtenerUsuarioId)
-      .pipe(
-        switchMap((codigoUsuario) => {
-          return this.contenedorService.editar(
-            this.formularioContenedor.value,
-            codigoUsuario,
-            this.contenedor_id
-          );
-        }),
-        tap((respuestaActualizacion: any) => {
-          if (respuestaActualizacion.actualizacion) {
-            this.modalService.dismissAll();
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-              )
+        .select(obtenerUsuarioId)
+        .pipe(
+          switchMap((codigoUsuario) => {
+            return this.contenedorService.editar(
+              this.formularioContenedor.value,
+              codigoUsuario,
+              this.contenedor_id
             );
-            return this.emitirActualizacion.emit(true);
-          }
-        })
-      )
-      .subscribe();
+          }),
+          tap((respuestaActualizacion: any) => {
+            if (respuestaActualizacion.actualizacion) {
+              this.modalService.dismissAll();
+              this.alertaService.mensajaExitoso(
+                this.translateService.instant(
+                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
+                )
+              );
+              return this.emitirActualizacion.emit(true);
+            }
+          })
+        )
+        .subscribe();
     } else {
       this.formularioContenedor.markAllAsTouched();
     }
-
   }
 
   seleccionarPlan(plan_id: any) {
     this.planSeleccionado = plan_id;
     let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
-    this.informacionPlan = this.contenedorService.informacionPlan[posicion]
+    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
     this.changeDetectorRef.detectChanges();
   }
 
@@ -195,7 +205,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
           );
 
           return this.emitirActualizacion.emit(true);
-
         }
       });
   }
@@ -206,9 +215,14 @@ export class ContenedorEditarComponent extends General implements OnInit {
       .pipe(
         switchMap((respuestaEliminarLogoEmpresa) => {
           if (respuestaEliminarLogoEmpresa.limpiar) {
-            this.informacionEmpresa.imagen = respuestaEliminarLogoEmpresa.imagen
-            this.store.dispatch(ContenedorActionActualizarImagen({imagen: respuestaEliminarLogoEmpresa.imagen}))
-            this.changeDetectorRef.detectChanges()
+            this.informacionEmpresa.imagen =
+              respuestaEliminarLogoEmpresa.imagen;
+            this.store.dispatch(
+              ContenedorActionActualizarImagen({
+                imagen: respuestaEliminarLogoEmpresa.imagen,
+              })
+            );
+            this.changeDetectorRef.detectChanges();
             this.emitirActualizacion.emit(true);
           }
           return of(null);
@@ -217,7 +231,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
       .subscribe();
   }
 
-    getImageUrl(baseImageUrl: string): string {
+  getImageUrl(baseImageUrl: string): string {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 }
