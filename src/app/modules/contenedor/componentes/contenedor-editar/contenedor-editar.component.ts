@@ -214,14 +214,17 @@ export class ContenedorEditarComponent extends General implements OnInit {
       .eliminarLogoEmpresa(this.contenedor_id)
       .pipe(
         switchMap((respuestaEliminarLogoEmpresa) => {
+          console.log(respuestaEliminarLogoEmpresa);
+
           if (respuestaEliminarLogoEmpresa.limpiar) {
-            this.informacionEmpresa.imagen =
-              respuestaEliminarLogoEmpresa.imagen;
-            this.store.dispatch(
-              ContenedorActionActualizarImagen({
-                imagen: respuestaEliminarLogoEmpresa.imagen,
-              })
-            );
+            (this.informacionEmpresa.imagen =
+              'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg'),
+              this.store.dispatch(
+                ContenedorActionActualizarImagen({
+                  imagen:
+                    'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg',
+                })
+              );
             this.changeDetectorRef.detectChanges();
             this.emitirActualizacion.emit(true);
           }
