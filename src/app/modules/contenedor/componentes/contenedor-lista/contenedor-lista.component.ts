@@ -129,7 +129,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           const contenedor: Contenedor = {
             nombre: respuesta.nombre,
             imagen:
-              'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/contenedor/logo_defecto.jpg',
+              'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg',
             contenedor_id: respuesta.id,
             subdominio: respuesta.subdominio,
             id: respuesta.id,

@@ -214,8 +214,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
       .eliminarLogoEmpresa(this.contenedor_id)
       .pipe(
         switchMap((respuestaEliminarLogoEmpresa) => {
-          console.log(respuestaEliminarLogoEmpresa);
-
           if (respuestaEliminarLogoEmpresa.limpiar) {
             (this.informacionEmpresa.imagen =
               'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg'),
