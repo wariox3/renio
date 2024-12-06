@@ -196,8 +196,8 @@ export class FormularioProductosComponent
       cantidad: [
         0,
         [
-          validarCantidad(this.permiteCantidadCero),
-          Validators.min(this.permiteCantidadCero? 0 : 1),
+          validarPrecio(),
+          Validators.min(1),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
