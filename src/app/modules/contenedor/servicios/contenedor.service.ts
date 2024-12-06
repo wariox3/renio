@@ -66,7 +66,7 @@ export class ContenedorService {
   editar(
     data: ContenedorFormulario,
     codigoUsuario: string,
-    empresa_id: string
+    empresa_id: number
   ) {
     return this.http.put(
       `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`,
@@ -91,7 +91,7 @@ export class ContenedorService {
     );
   }
 
-  listaInvitaciones(contenedor_id: string) {
+  listaInvitaciones(contenedor_id: number) {
     return this.http.post(
       `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-contenedor/`,
       {

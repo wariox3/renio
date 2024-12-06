@@ -1,17 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerContenedorImagen } from '@redux/selectors/contenedor.selectors';
-import { EMPTY, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { EMPTY, of, switchMap, take, tap } from 'rxjs';
 import { ExtrasModule } from 'src/app/_metronic/partials';
 import { SharedModule } from 'src/app/_metronic/shared/shared.module';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
-import { obtenerUsuarioImagen } from '@redux/selectors/usuario.selectors';
 
 @Component({
   selector: 'app-contenedor-detalle',
@@ -29,7 +28,6 @@ import { obtenerUsuarioImagen } from '@redux/selectors/usuario.selectors';
     NgbModalModule,
     CommonModule,
   ],
-  providers: [NgbActiveModal],
 })
 export class ContenedorDetalleComponent extends General implements OnInit {
   contenedor_id =

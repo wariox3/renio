@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -7,7 +7,7 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
 import { Contenedor } from '@interfaces/usuario/contenedor';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
@@ -19,6 +19,8 @@ import {
 } from '@redux/selectors/usuario.selectors';
 import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
+import { ContenedorInvitacionComponent } from "../contenedor-invitacion/contenedor-invitacion.component";
+import { ContenedorEditarComponent } from "../contenedor-editar/contenedor-editar.component";
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -34,7 +36,9 @@ import { ContenedorService } from '../../servicios/contenedor.service';
     CommonModule,
     NgbDropdownModule,
     SkeletonLoadingComponent,
-  ],
+    ContenedorInvitacionComponent,
+    ContenedorEditarComponent
+],
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
@@ -46,10 +50,12 @@ export class ContenedorListaComponent extends General implements OnInit {
   usuarioSaldo = 0;
   VisalizarMensajeBloqueo = false;
   visualizarLoader: boolean[] = [];
+  contenedorId: number;
 
   constructor(
     private contenedorService: ContenedorService,
-    private subdominioService: SubdominioService
+    private subdominioService: SubdominioService,
+    private modalService: NgbModal,
   ) {
     super();
   }
@@ -89,6 +95,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
+    this.modalService.dismissAll();
     this.cargandoContederes = true;
     //this.visualizarLoader = true;
     this.changeDetectorRef.detectChanges();
@@ -243,4 +250,14 @@ export class ContenedorListaComponent extends General implements OnInit {
   getImageUrl(baseImageUrl: string): string {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
+
+  abrirModal(content: any, contenedor_id: number) {
+    this.contenedorId = contenedor_id
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
 }

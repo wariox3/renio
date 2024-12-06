@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
@@ -31,6 +31,8 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   formularioEmpresaInvitacion: FormGroup;
   contenedorNombre: string;
   usuarioCodigo = '';
+  @Input() contenedorCodigo: number;
+
   constructor(
     private formBuilder: FormBuilder,
     private contenedorService: ContenedorService
@@ -46,10 +48,9 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    let contenedorCodigo =
-      this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
+
       this.contenedorService
-      .listaInvitaciones(contenedorCodigo)
+      .listaInvitaciones(this.contenedorCodigo)
       .subscribe((respuesta: any) => {
         this.arrInvitaciones = respuesta.usuarios;
         this.changeDetectorRef.detectChanges();
@@ -75,8 +76,6 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    let contenedor_id =
-      this.activatedRoute.snapshot.paramMap.get('contenedorCodigo')!;
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.usuarioCodigo = codigoUsuario;
       this.changeDetectorRef.detectChanges();
@@ -85,7 +84,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
     if (this.formularioEmpresaInvitacion.valid) {
       this.contenedorService
         .enviarInvitacion({
-          contenedor_id: contenedor_id,
+          contenedor_id: this.contenedorCodigo,
           invitado: this.formFields.nombre.value,
           usuario_id: this.usuarioCodigo,
         })

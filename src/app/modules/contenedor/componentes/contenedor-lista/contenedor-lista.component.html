@@ -24,7 +24,8 @@
           <!--begin::Table-->
           <table class="table table-hover align-middle">
             <!--begin::Table head-->
-            <thead *ngIf="arrContenedores.length > 0">
+            @if(arrContenedores.length > 0) {
+            <thead>
               <tr>
                 <th></th>
                 <th class="min-w-120px"></th>
@@ -35,6 +36,7 @@
                 ></th>
               </tr>
             </thead>
+            }
             <tbody>
               <ng-container
                 *ngIf="arrContenedores.length > 0; else sinContenedores"
@@ -157,16 +159,14 @@
                         >
                           <div class="menu-item px-3">
                             <a
-                              translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
-                              [routerLink]="[
-                                '/contenedor/' +
-                                  contenedor.nombre +
-                                  '/' +
-                                  contenedor.contenedor_id +
-                                  '/invitacion/nuevo'
-                              ]"
                               class="menu-link px-3 cursor-pointer"
-                              ngbDropdownItem
+                              (click)="
+                                abrirModal(
+                                  contentModalInvitados,
+                                  contenedor.contenedor_id
+                                )
+                              "
+                              translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
                             >
                             </a>
                           </div>
@@ -174,7 +174,12 @@
                           <div class="menu-item px-3">
                             <a
                               class="menu-link px-3 cursor-pointer"
-                              (click)="detalleEmpresa(contenedor.contenedor_id)"
+                              (click)="
+                                abrirModal(
+                                  ModalEditar,
+                                  contenedor.contenedor_id
+                                )
+                              "
                               translate="FORMULARIOS.TITULOS.COMUNES.MENU.CONTENEDOR"
                             >
                             </a>
@@ -279,3 +284,40 @@
   </div>
   <!--end::Col-->
 </div>
+
+<!--end::Alert-->
+<ng-template #contentModalInvitados let-modal>
+  <div class="modal-header">
+    <h3 translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"></h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-contenedor-invitacion
+      [contenedorCodigo]="contenedorId"
+    ></app-contenedor-invitacion>
+  </div>
+</ng-template>
+
+<!--end::Alert-->
+<ng-template #ModalEditar let-modal>
+  <div class="modal-header">
+    <h3 translate="FORMULARIOS.TITULOS.COMUNES.MENU.CONTENEDOR"></h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-contenedor-editar
+      [contenedor_id]="contenedorId"
+      (emitirActualizacion)="consultarLista()"
+    ></app-contenedor-editar>
+  </div>
+</ng-template>

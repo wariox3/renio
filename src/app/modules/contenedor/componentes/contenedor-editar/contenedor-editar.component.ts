@@ -22,7 +22,6 @@ import { Empresa } from '@interfaces/contenedor/empresa';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import {
-  NgbActiveModal,
   NgbModal,
   NgbModalModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -56,10 +55,10 @@ export class ContenedorEditarComponent extends General implements OnInit {
   arrPlanes: Plan[] = [];
   informacionPlan: any = '';
   planSeleccionado: Number = 2;
-  @Input() contenedor_id!: string;
+  @Input() contenedor_id!: number;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
-  modalRef: any;
+
   informacionEmpresa: Empresa = {
     id: 0,
     numero_identificacion: '',
@@ -85,17 +84,19 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     private contenedorService: ContenedorService
   ) {
     super();
-  }
-  ngOnInit() {
     this.initForm();
+
   }
 
-  openModal() {
+  ngOnInit() {
+    this.consultarInformacion();
+  }
+
+  consultarInformacion() {
     this.contenedorService
       .consultarInformacion(this.contenedor_id)
       .subscribe((respuesta: any) => {
@@ -119,12 +120,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
             respuesta.plan_id;
           this.informacionPlan =
             this.contenedorService.informacionPlan[posicion];
-
-          this.modalRef = this.modalService.open(this.customTemplate, {
-            backdrop: 'static',
-            size: 'lg',
-            keyboard: false,
-          });
         }),
         switchMap(() => {
           return this.contenedorService.listaPlanes();
@@ -170,7 +165,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
           }),
           tap((respuestaActualizacion: any) => {
             if (respuestaActualizacion.actualizacion) {
-              this.modalService.dismissAll();
               this.alertaService.mensajaExitoso(
                 this.translateService.instant(
                   'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
