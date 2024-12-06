@@ -25,6 +25,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -66,6 +67,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 300,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -77,6 +79,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 301,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -88,6 +91,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 302,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -99,6 +103,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 303,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -110,6 +115,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 304,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -187,6 +193,7 @@ export const initialState: MenuItem = {
               consultaHttp: false,
               data: {
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
             },
             {
@@ -198,6 +205,7 @@ export const initialState: MenuItem = {
               consultaHttp: false,
               data: {
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
             },
           ],
@@ -281,6 +289,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-fecha_desde',
                 modelo: 'HumProgramacionDetalleAdicional',
                 visualizarBtnExportarZip: 'si',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -303,6 +312,7 @@ export const initialState: MenuItem = {
                     valor1: true,
                   },
                 ],
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -313,6 +323,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumCredito',
                 ordenamiento: '-id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -323,6 +334,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 'HumNovedad',
                 ordenamiento: '-id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -340,6 +352,7 @@ export const initialState: MenuItem = {
                 documento_clase: 'HumAporte',
                 ordenamiento: '-fecha_desde',
                 modelo: 'HumAporte',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -471,6 +484,7 @@ export const initialState: MenuItem = {
                 documento_clase: 100,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarBtnExportarZip: 'si',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -482,6 +496,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 101,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -493,6 +508,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 102,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -504,6 +520,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -515,6 +532,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 104,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -617,6 +635,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 100,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -628,6 +647,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 101,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -639,6 +659,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -701,6 +722,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 500,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -711,6 +733,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 501,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -752,6 +775,7 @@ export const initialState: MenuItem = {
               data: {
                 documento_clase: 400,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no'
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
