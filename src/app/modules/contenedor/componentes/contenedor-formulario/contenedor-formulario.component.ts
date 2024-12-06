@@ -16,13 +16,11 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { environment } from '@env/environment';
 import { Plan } from '@interfaces/contenedor/plan';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioCorreo } from '@redux/selectors/usuario.selectors';
@@ -35,7 +33,6 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
   imports: [
     RouterModule,
     TranslateModule,
-    CardComponent,
     CommonModule,
     NgbDropdownModule,
     FormsModule,

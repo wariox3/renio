@@ -225,6 +225,14 @@
           control: formularioContenedor.controls['telefono']
         }"
       ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioContenedor.controls['telefono']
+        }"
+      ></ng-container>
     </div>
   </div>
   <!--begin::Alert-->
