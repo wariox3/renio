@@ -22,7 +22,7 @@
         <!--begin::Table container-->
         <div class="table-responsive">
           <!--begin::Table-->
-          <table class="table table-hover ">
+          <table class="table table-hover">
             <!--begin::Table head-->
             @if(arrContenedores.length > 0) {
             <thead>
@@ -47,57 +47,60 @@
                   [animacionDelay]="i + 1"
                   style="height: calc(82px - 0.6rem) !important"
                 >
-                  <td  class="px-2">
+                  <td class="px-2">
                     <div class="d-flex align-items-center gap-3">
                       @if(contenedor.imagen){
-                        <img
-                          [src]="
-                            !contenedor.imagen.includes('logo_defecto')
-                              ? getImageUrl(contenedor.imagen)
-                              : contenedor.imagen
-                          "
-                          alt="Error al cargar logo"
-                          width="120"
-                          height="120"
-                          style="min-width: 120px"
-                          class="img-thumbnail"
-                        />
-                        }
-                        <div class="d-flex flex-column gap-2">
-                          <span class="text-dark fw-bolder fs-6">{{
-                            contenedor.nombre
-                          }}</span>
-                          <span>{{ contenedor.subdominio }}{{ dominioApp }}</span>
-                          <div>
-                            <span class="badge badge-light-primary fs-8 fw-bold">
-                              {{ contenedor.rol }}
-                            </span>
-                          </div>
-                          @if(contenedor.acceso_restringido){
-                          <span
-                            class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
-                          >
-                            El acceso a este contenedor está temporalmente suspendido.
-                            Por favor, revise su cuenta o la del propietario para
-                            solucionar el inconveniente
+                      <img
+                        [src]="
+                          !contenedor.imagen.includes('logo_defecto')
+                            ? getImageUrl(contenedor.imagen)
+                            : contenedor.imagen
+                        "
+                        alt="Error al cargar logo"
+                        width="120"
+                        height="120"
+                        style="min-width: 120px"
+                        class="img-thumbnail"
+                      />
+                      }
+                      <div class="d-flex flex-column gap-2">
+                        <span class="text-dark fw-bolder fs-6">{{
+                          contenedor.nombre
+                        }}</span>
+                        <span>{{ contenedor.subdominio }}{{ dominioApp }}</span>
+                        <div>
+                          <span class="badge badge-light-primary fs-8 fw-bold">
+                            {{ contenedor.rol }}
                           </span>
-                          }
                         </div>
+                        @if(contenedor.acceso_restringido){
+                        <span
+                          class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
+                        >
+                          El acceso a este contenedor está temporalmente
+                          suspendido. Por favor, revise su cuenta o la del
+                          propietario para solucionar el inconveniente
+                        </span>
+                        }
+                      </div>
                     </div>
                   </td>
                   <td class="w-150px">
                     <div
                       class="h-100 d-flex flex-column justify-content-center"
                     >
-                      <span class="badge badge-light-info fs-8 fw-bold p-3">{{
-                        contenedor.plan_nombre
-                      }}</span>
+                      <span class="badge badge-light-info fs-8 fw-bold p-3">
+                        <i class="bi bi-briefcase fs-2 text-info me-2"></i>
+                        {{ contenedor.plan_nombre }}</span
+                      >
                     </div>
                   </td>
                   <td>
                     <div
-                      class="h-100 d-flex flex-column justify-content-center align-items-center"
+                      class="h-100 d-flex justify-content-center align-items-center"
                     >
+                      <i class="bi bi-people me-2 fs-3 text-dark"></i>
+
                       {{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}
                     </div>
                   </td>
