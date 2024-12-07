@@ -22,18 +22,18 @@
         <!--begin::Table container-->
         <div class="table-responsive">
           <!--begin::Table-->
-          <table class="table table-hover align-middle">
+          <table class="table table-hover ">
             <!--begin::Table head-->
             @if(arrContenedores.length > 0) {
             <thead>
-              <tr>
-                <th></th>
-                <th class="min-w-120px"></th>
+              <tr class="bg-gray-100">
+                <th class="min-w-120px text-center">Nombre</th>
                 <th class="min-w-150px text-center">Plan</th>
                 <th
                   translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
                   class="min-w-100px text-center"
                 ></th>
+                <th colspan="2"></th>
               </tr>
             </thead>
             }
@@ -47,50 +47,49 @@
                   [animacionDelay]="i + 1"
                   style="height: calc(82px - 0.6rem) !important"
                 >
-                  <td style="width: 120px" class="px-2">
-                    @if(contenedor.imagen){
-                    <img
-                      [src]="
-                        !contenedor.imagen.includes('logo_defecto')
-                          ? getImageUrl(contenedor.imagen)
-                          : contenedor.imagen
-                      "
-                      alt="Error al cargar logo"
-                      width="120"
-                      height="120"
-                      style="min-width: 120px"
-                      class="img-thumbnail"
-                    />
-                    }
-                  </td>
-                  <td>
-                    <p class="text-dark fw-bolder fs-6">
-                      {{ contenedor.nombre }}
-                    </p>
-                    <p class="text-muted fw-bold text-muted fs-7">
-                      {{ contenedor.subdominio }}{{ dominioApp }}
-                    </p>
-                    <div>
-                      <p class="badge badge-light-primary fs-8 fw-bold">
-                        {{ contenedor.rol }}
-                      </p>
+                  <td  class="px-2">
+                    <div class="d-flex align-items-center gap-3">
+                      @if(contenedor.imagen){
+                        <img
+                          [src]="
+                            !contenedor.imagen.includes('logo_defecto')
+                              ? getImageUrl(contenedor.imagen)
+                              : contenedor.imagen
+                          "
+                          alt="Error al cargar logo"
+                          width="120"
+                          height="120"
+                          style="min-width: 120px"
+                          class="img-thumbnail"
+                        />
+                        }
+                        <div class="d-flex flex-column gap-2">
+                          <span class="text-dark fw-bolder fs-6">{{
+                            contenedor.nombre
+                          }}</span>
+                          <span>{{ contenedor.subdominio }}{{ dominioApp }}</span>
+                          <div>
+                            <span class="badge badge-light-primary fs-8 fw-bold">
+                              {{ contenedor.rol }}
+                            </span>
+                          </div>
+                          @if(contenedor.acceso_restringido){
+                          <span
+                            class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
+                          >
+                            El acceso a este contenedor está temporalmente suspendido.
+                            Por favor, revise su cuenta o la del propietario para
+                            solucionar el inconveniente
+                          </span>
+                          }
+                        </div>
                     </div>
-
-                    @if(contenedor.acceso_restringido){
-                    <p
-                      class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
-                    >
-                      El acceso a este contenedor está temporalmente suspendido.
-                      Por favor, revise su cuenta o la del propietario para
-                      solucionar el inconveniente
-                    </p>
-                    }
                   </td>
                   <td class="w-150px">
                     <div
                       class="h-100 d-flex flex-column justify-content-center"
                     >
-                      <span class="badge badge-light-info fs-8 fw-bold">{{
+                      <span class="badge badge-light-info fs-8 fw-bold p-3">{{
                         contenedor.plan_nombre
                       }}</span>
                     </div>
@@ -150,7 +149,7 @@
                           id="dropdownBasic1"
                           ngbDropdownToggle
                         >
-                          <i class="bi bi-three-dots-vertical fs-2x"></i>
+                          <i class="bi bi-gear fs-2x"></i>
                         </button>
                         <div
                           class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
@@ -166,8 +165,12 @@
                                   contenedor.contenedor_id
                                 )
                               "
-                              translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
                             >
+                              <i class="bi bi-person-plus me-2 fs-3"></i>
+                              {{
+                                "FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
+                                  | translate
+                              }}
                             </a>
                           </div>
                           <div class="separator my-2"></div>
@@ -180,15 +183,18 @@
                                   contenedor.contenedor_id
                                 )
                               "
-                              translate="FORMULARIOS.TITULOS.COMUNES.MENU.CONTENEDOR"
                             >
+                              <i class="bi bi-box2 me-2 fs-3"></i>
+                              {{
+                                "FORMULARIOS.TITULOS.COMUNES.MENU.CONTENEDOR"
+                                  | translate
+                              }}
                             </a>
                           </div>
                           <div class="separator my-2"></div>
                           <div class="menu-item px-3">
                             <a
                               class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
-                              translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
                               (click)="
                                 eliminarEmpresa(
                                   contenedor.subdominio,
@@ -196,6 +202,11 @@
                                 )
                               "
                             >
+                              <i class="bi bi-trash3 text-danger me-2 fs-3"></i>
+                              {{
+                                "FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+                                  | translate
+                              }}
                             </a>
                           </div>
                         </div>

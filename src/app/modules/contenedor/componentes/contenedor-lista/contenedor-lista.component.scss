@@ -5,3 +5,7 @@
 .img-thumbnail{
   box-shadow: none;
 }
+
+.menu-item  .menu-link:hover i {
+  color: var(--bs-primary)
+}
