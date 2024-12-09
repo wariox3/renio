@@ -835,6 +835,7 @@ export const locale = {
         INGRESOBASECOTIZACION: 'Base cotización',
         INGRESOBASEPRESTACION: 'Base prestación',
         ESTADOELECTRONICO: 'Estado electrónico',
+        DOCUMENTO_TIPO_NOMBRE: 'Documento tipo nombre',
         PORCENTAJE: 'Porcentaje',
         VALOR_HORA: 'Valor hora',
         OPERACION: 'Operación',
