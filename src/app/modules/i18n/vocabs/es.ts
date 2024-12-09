@@ -840,6 +840,8 @@ export const locale = {
         VALOR_HORA: 'Valor hora',
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
+        DOCUMENTO_FECHA: 'Fecha desde',
+        DOCUMENTO_FECHA_HASTA: 'Fecha hasta',
         DOCUMENTO_TIPO_ID_FILTRO: '[Documento tipo] id',
         DOCUMENTO_TIPO_NOMBRE_FILTRO: '[Documento tipo] nombre',
         CONTACTO_ID_FILTRO: '[Contacto] id',

@@ -750,17 +750,19 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'fecha_desde',
+      nombre: 'documento_fecha',
+      nombreFiltroRelacion: 'DOCUMENTO__FECHA',
       campoTipo: 'DateField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
     },
     {
-      nombre: 'fecha_hasta',
+      nombre: 'documento_fecha_hasta',
+      nombreFiltroRelacion: 'DOCUMENTO__FECHA_HASTA',
       campoTipo: 'DateField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
     },
     {
