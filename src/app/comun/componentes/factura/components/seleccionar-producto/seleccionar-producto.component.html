@@ -56,6 +56,7 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <app-item-formulario
+      [itemTipo]="formularioTipo"
       [ocultarBtnAtras]="true"
       (emitirGuardoRegistro)="cerrarModalNuevoItem($event)"
       [tituloFijo]="true"

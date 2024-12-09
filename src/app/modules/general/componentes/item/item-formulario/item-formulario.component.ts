@@ -23,7 +23,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-item-formulario',
@@ -38,8 +38,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     CardComponent,
     NgxMaskDirective,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
@@ -47,6 +47,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   arrImpuestosEliminado: number[] = [];
   arrImpuestos: any[] = [];
   @Input() informacionFormulario: any;
+  @Input() itemTipo: 'compra' | 'venta' = 'venta';
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
@@ -94,7 +95,10 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   enviarFormulario() {
     if (this.formularioItem.valid) {
-      if (this.activatedRoute.snapshot.queryParams['detalle'] && this.ocultarBtnAtras === false) {
+      if (
+        this.activatedRoute.snapshot.queryParams['detalle'] &&
+        this.ocultarBtnAtras === false
+      ) {
         this.itemService
           .actualizarDatosItem(
             this.activatedRoute.snapshot.queryParams['detalle'],
@@ -143,7 +147,20 @@ export default class ItemFormularioComponent extends General implements OnInit {
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               if (this.ocultarBtnAtras) {
-                this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
+                const impuestosDiscriminados =
+                  this._discriminarImpuestosPorTipo(
+                    this.itemTipo,
+                    respuesta?.item?.impuestos
+                  );
+
+                const respuestaItem = {
+                  item: {
+                    ...respuesta.item,
+                    impuestos: impuestosDiscriminados,
+                  },
+                };
+
+                this.emitirGuardoRegistro.emit(respuestaItem); // necesario para cerrar el modal que está en editarEmpresa
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
                   this.router.navigate([`/administrador/detalle`], {
@@ -161,6 +178,29 @@ export default class ItemFormularioComponent extends General implements OnInit {
     } else {
       this.formularioItem.markAllAsTouched();
     }
+  }
+
+  private _discriminarImpuestosPorTipo(
+    itemTipo: 'venta' | 'compra',
+    impuestosItem: any[]
+  ) {
+    switch (itemTipo) {
+      case 'compra':
+        return this._filtrarImpuestosPorNombre(
+          'impuesto_compra',
+          impuestosItem
+        );
+      case 'venta':
+      default:  
+        return this._filtrarImpuestosPorNombre('impuesto_venta', impuestosItem);
+    }
+  }
+
+  private _filtrarImpuestosPorNombre(
+    nombreImpuesto: string,
+    impuestosItem: any[]
+  ) {
+    return impuestosItem.filter((item) => item[nombreImpuesto]);
   }
 
   limpiarFormulario() {
