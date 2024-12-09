@@ -117,8 +117,8 @@ export default class EmpleadoFormularioComponent
           ]),
         ],
         digito_verificacion: [
-          null,
-          Validators.compose([Validators.required, Validators.maxLength(1)]),
+          0,
+          Validators.compose([Validators.maxLength(1)]),
         ],
         identificacion: ['', Validators.compose([Validators.required])],
         nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
@@ -200,6 +200,17 @@ export default class EmpleadoFormularioComponent
         validator: [MultiplesEmailValidator.validarCorreos],
       }
     );
+  }
+
+  getErroresFormulario() {
+    const errores: Record<string, any> = {};
+    Object.keys(this.formularioEmpleado.controls).forEach((controlName) => {
+      const control = this.formularioEmpleado.get(controlName);
+      if (control?.errors) {
+        errores[controlName] = control.errors;
+      }
+    });
+    return errores;
   }
 
   enviarFormulario() {
