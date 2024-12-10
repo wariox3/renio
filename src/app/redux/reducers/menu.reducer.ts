@@ -199,6 +199,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'MOVIMIENTO',
               tipo: 'Independiente',
+              archivoImportacionLista: 'ConMovimiento.xlsx',
               urlIndependientes: {
                 lista: 'contabilidad/movimiento',
               },
