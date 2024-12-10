@@ -980,4 +980,27 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
   ],
+  balance_prueba: [
+    {
+      nombre: 'ANIO',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,  
+    },
+    {
+      nombre: 'FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,  
+    },
+    {
+      nombre: 'FECHA_HASTA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,  
+    },
+  ],
 };

@@ -1,45 +1,201 @@
-<app-card [titulo]="'MENU.FUNCIONALIDAD.BALANCEPRUEBA'">
+<div class="filtros">
+  <ng-content select="[base-filtros]"></ng-content>
+  <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
     <section card-body>
-        @for (cuentaClase of cuentasAgrupadas$ | async | keyvalue; track $index) {
-        <h2 class="clase p-2">{{ cuentaClase.key }}</h2>
+      <form [formGroup]="formularioFiltros">
+        <section class="row mb-5">
+          <div class="col-md-6 col-sm-12">
+            <label
+              class="form-label required"
+            >Fecha desde</label>
+            <input
+              formControlName="fecha_desde"
+              class="form-control"
+              type="date"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFiltros.controls['fecha_desde'].touched &&
+                  formularioFiltros.controls['fecha_desde'].invalid,
+                'is-valid':
+                  formularioFiltros.controls['fecha_desde'].touched &&
+                  formularioFiltros.controls['fecha_desde'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioFiltros.controls['fecha_desde']
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              class="form-label required"
+            >Fecha hasta</label>
+            <input
+              formControlName="fecha_hasta"
+              class="form-control"
+              type="date"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFiltros.controls['fecha_hasta'].touched &&
+                  formularioFiltros.controls['fecha_hasta'].invalid,
+                'is-valid':
+                  formularioFiltros.controls['fecha_hasta'].touched &&
+                  formularioFiltros.controls['fecha_hasta'].valid
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioFiltros.controls['fecha_hasta']
+              }"
+            ></ng-container>
+          </div>
+        </section>
+        <section class="row mb-5">
+          <label
+              class="form-label required"
+            >Año</label>
+          <div class="col-md-6">
+            <input
+              formControlName="anio"
+              class="form-control"
+              min="0"
+              type="number"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFiltros.controls['anio'].touched &&
+                  formularioFiltros.controls['anio'].invalid,
+                'is-valid':
+                  formularioFiltros.controls['anio'].touched &&
+                  formularioFiltros.controls['anio'].valid
+              }"
+              appSoloNumeros
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioFiltros.controls['anio']
+              }"
+            ></ng-container>
+          </div>
+        </section>
+        <section class="d-flex justify-content-end">
+          <button
+            translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
+            type="submit"
+            [disabled]="formularioFiltros.invalid"
+            class="btn btn-sm btn-primary"
+            (click)="aplicarFiltro()"
+          ></button>
+        </section>
+      </form>
+    </section>
+  </app-card>
+</div>
 
-        @for (cuentaGrupo of cuentaClase.value | keyvalue; track $index) {
-        <div class="">
-            <h5 class="indent bg-secondary p-2">{{cuentaGrupo.key}}</h5>
+<app-card [titulo]="'MENU.FUNCIONALIDAD.BALANCEPRUEBA'">
+  <section card-body>
+    <div ngbAccordion>
+      @for (cuentaClase of cuentasAgrupadas$ | async | keyvalue; track $index) {
+      <div ngbAccordionItem [collapsed]="false">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>
+            <section class="w-100 d-flex justify-content-between">
+              <span class="fw-bold fs-5">
+                {{ cuentaClase.key }}
+              </span>
+              <section class="fw-bold fs-5 me-3">
+                <span class="me-1 badge bg-secondary"> Débito: </span>
+                <span>
+                  {{ cuentaClase.value.total.vr_debito | currency : "$" }}
+                </span>
+                <span class="me-1 badge bg-secondary"> Crédito: </span>
+                <span class="me-3">
+                  {{ cuentaClase.value.total.vr_credito | currency : "$" }}
+                </span>
+              </section>
+            </section>
+          </button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              @for (cuentaGrupo of cuentaClase.value | keyvalue; track $index) {
+              @if (cuentaGrupo.key !== 'total') {
+              <div class="">
+                <h5 class="indent bg-secondary p-2">{{ cuentaGrupo.key }}</h5>
 
-            <div class="table-responsive double-indent">
-                <table class="table table-bordered">
+                <div class="table-responsive double-indent">
+                  <table class="table table-bordered">
                     <thead>
-                        <tr class="cuenta-col">
-                            <th>Cuenta</th>
-                            <th>Debito</th>
-                            <th>Credito</th>
-                        </tr>
+                      <tr class="cuenta-col">
+                        <th>Cuenta</th>
+                        <th>Débito</th>
+                        <th>Crédito</th>
+                      </tr>
                     </thead>
                     <tbody>
-                        @for (item of cuentaGrupo.value | keyvalue; track $index) {
-                        @if(item.key !== 'total') {
-                        <tr>
-                            <td class="cuenta-col">{{item.key}}</td>
-                            <td>{{item.value.vr_credito | currency: '$' }}</td>
-                            <td>{{item.value.vr_debito | currency: '$'}}</td>
-                        </tr>
-                        }
-                        }
+                      @for (item of cuentaGrupo.value | keyvalue; track $index)
+                      { @if (item.key === 'total') {
+                      <tr>
+                        <td class="cuenta-col fw-bold">
+                          {{ item.key | titlecase }}
+                        </td>
+                        <td class="fw-bold">
+                          {{ item.value.vr_debito | currency : "$" }}
+                        </td>
+                        <td class="fw-bold">
+                          {{ item.value.vr_credito | currency : "$" }}
+                        </td>
+                      </tr>
+                      } @else {
+                      <tr>
+                        <td class="cuenta-col">{{ item.key }}</td>
+                        <td>{{ item.value.vr_debito | currency : "$" }}</td>
+                        <td>{{ item.value.vr_credito | currency : "$" }}</td>
+                      </tr>
+                      } }
                     </tbody>
-                </table>
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td class="cuenta-col fw-bold">Total</td>
-                            <td class="fw-bold">{{cuentaGrupo.value.total.vr_credito | currency: '$'}}</td>
-                            <td class="fw-bold">{{cuentaGrupo.value.total.vr_debito | currency: '$' }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                  </table>
+                </div>
+              </div>
+              } }
+            </ng-template>
+          </div>
         </div>
-        }
-        }
-    </section>
+      </div>
+      }
+    </div>
+  </section>
 </app-card>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

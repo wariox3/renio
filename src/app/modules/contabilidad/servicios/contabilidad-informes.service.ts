@@ -11,7 +11,10 @@ export class ContabilidadInformesService extends Subdominio {
     super();
   }
 
-  consultarBalances() {
-    return this.httpService.post<RespuestaInformeBalancePrueba>(`contabilidad/movimiento/informe-balance-prueba/`, {});
+  consultarBalances(parametros: any = {}) {
+    return this.httpService.post<RespuestaInformeBalancePrueba>(
+      `contabilidad/movimiento/informe-balance-prueba/`,
+      parametros
+    );
   }
 }
