@@ -13,7 +13,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { combineLatest, Subject, takeUntil, map } from 'rxjs';
+import { combineLatest, Subject, takeUntil, map, BehaviorSubject, finalize } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
@@ -32,7 +32,7 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
     TablaComponent,
     ImportarComponent,
     ModalDinamicoComponent,
-  ],
+],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
@@ -66,6 +66,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarBtnImportar = true;
   visualizarBtnExportarZip: boolean;
 
+  public mostrarVentanaCargando$: BehaviorSubject<boolean>
+
   constructor(
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService,
@@ -73,6 +75,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     private modalDinamicoService: ModalDinamicoService
   ) {
     super();
+    this.mostrarVentanaCargando$ = new BehaviorSubject(false)
   }
 
   ngOnInit(): void {
@@ -117,6 +120,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   consultarLista() {
+    this.mostrarVentanaCargando$.next(true)
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
         const filtroGuardado = localStorage.getItem(this.nombreFiltro);
@@ -156,6 +160,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             .post<{
               registros: any;
             }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+            .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
             .subscribe((respuesta: any) => {
               this.cantidad_registros = respuesta.length;
               this.arrItems = respuesta.registros;
@@ -194,6 +199,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
               registros: any[];
               propiedades: any[];
             }>(baseUrl, this.arrParametrosConsulta)
+            .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
             .subscribe((respuesta: any) => {
               this.cantidad_registros = respuesta.cantidad_registros;
               this.arrItems = respuesta.registros;
@@ -265,10 +271,13 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       this.activatedRoute.queryParams.subscribe((parametro) => {
+        this.mostrarVentanaCargando$.next(true);
+        
         const consultaHttp = parametro.consultaHttp;
         if (consultaHttp === 'si') {
           this.httpService
             .post('general/documento/eliminar/', { documentos: data })
+            .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
             .subscribe((respuesta: any) => {
               this.alertaService.mensajaExitoso(respuesta.mensaje);
               this.consultarLista();
@@ -288,7 +297,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
               {}
             );
           });
-          combineLatest(eliminarSolicitudes).subscribe((respuesta: any) => {
+          combineLatest(eliminarSolicitudes)
+          .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+          .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Registro eliminado');
             this.confirmacionRegistrosEliminado = true;
             this.changeDetectorRef.detectChanges();

@@ -160,11 +160,11 @@
   </div>
 </div>
 <div class="table-responsive" [ngClass]="{ 'table-loading': cargando }">
-  @if(cargando) {
+  <!-- @if(cargando) {
   <div class="table-loading-message cargando">
     {{ "LISTAS.COMUNES.CARGANDO" | translate }}...
   </div>
-  }
+  } -->
 
   <table
     class="table table-hover table-bordered table-rounded border gy-2 gs-2"
@@ -322,3 +322,5 @@
     </tbody>
   </table>
 </div>
+
+<app-spinner-loader [mostrarCargando]="cargando"></app-spinner-loader>

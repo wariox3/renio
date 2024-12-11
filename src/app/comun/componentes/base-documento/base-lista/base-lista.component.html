@@ -15,6 +15,7 @@
         <app-comun-tabla
           [modelo]="modelo"
           [datos]="arrItems"
+          [cargando]="mostrarVentanaCargando$ | async"
           [encabezado]="titulos"
           [visualizarBtnExtra]="botonGenerar"
           [botonesExtras]="botonesExtras"
@@ -59,3 +60,4 @@
     </div>
   </ng-template>
 </div>
+

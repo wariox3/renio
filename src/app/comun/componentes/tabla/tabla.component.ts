@@ -31,6 +31,7 @@ import {
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
 import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
+import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -48,6 +49,7 @@ import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
     AnimationFadeInUpDirective,
     ImportarAdministradorComponent,
     NgbTooltipModule,
+    SpinnerLoaderComponent
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
