@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLinkActive, RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  Router,
+  RouterLinkActive,
+  RouterLink,
+  ActivatedRoute,
+} from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
@@ -49,6 +54,8 @@ export class SidebarMenuComponent implements OnInit {
   arrMenu: any = [];
   arrMenuApps: string[];
 
+  private _route = inject(ActivatedRoute);
+
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
@@ -66,8 +73,36 @@ export class SidebarMenuComponent implements OnInit {
       )
       .subscribe();
     this.cambiarMenu();
-
+    this._cargarModulo();
     this.cambiarMenu();
+  }
+
+  private _cargarModulo() {
+    this._route.queryParams.subscribe((params) => {
+      this.arrMenu.forEach((item: any) => {
+        // buscamos la seccion de administracion en el menu
+        if (item.nombre === 'administracion') {
+          // buscamos la coincidencia entre el modelo en la URL y el modelo de los childrens del item
+          const childrenFound = item?.children?.find((info: any) => {
+            return info.data?.modelo === params?.modelo;
+          });
+
+          // cargamos los datos al reducer
+          this._cargarReducerData(childrenFound);
+        }
+      });
+    });
+  }
+
+  private _cargarReducerData(item: informacionMenuItem | undefined) {   
+    this.store.dispatch(
+      asignarDocumentacionId({ id: item?.documentacionId || 0 })
+    );
+    this.store.dispatch(
+      asignarArchivoImportacionLista({
+        lista: item?.archivoImportacionLista ?? '',
+      })
+    );
   }
 
   obtenerIcono(nombre: string) {
@@ -118,8 +153,6 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-    this.store.dispatch(asignarDocumentacionId({ id: item.documentacionId ?? 0 }));
-    this.store.dispatch(asignarArchivoImportacionLista({ lista: item.archivoImportacionLista ?? '' }));
     if (item?.data?.filtrosLista) {
       this.construirFiltros(item);
     }
@@ -145,7 +178,9 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegarNuevo(item: informacionMenuItem) {
-    this.store.dispatch(asignarDocumentacionId({ id: item.documentacionId ?? 0 }));
+    this.store.dispatch(
+      asignarDocumentacionId({ id: item.documentacionId ?? 0 })
+    );
     let parametros = this.construirParametros(item);
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
