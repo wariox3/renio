@@ -239,6 +239,16 @@ export const initialState: MenuItem = {
           nombre: 'administracion',
           children: [
             {
+              nombre: 'CONTACTO',
+              tipo: 'Administrador',
+              data: {
+                modelo: 'GenContacto',
+                importarSoloNuevos: 'si',
+                dataPersonalizada: JSON.stringify({ cliente: 'si' }),
+              },
+              archivoImportacionLista: 'GenContacto.xlsx'
+            },
+            {
               nombre: 'CUENTA',
               tipo: 'Administrador',
               archivoImportacionLista: 'ConCuenta.xlxs',
