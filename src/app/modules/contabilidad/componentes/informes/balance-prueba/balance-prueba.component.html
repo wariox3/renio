@@ -5,9 +5,7 @@
       <form [formGroup]="formularioFiltros">
         <section class="row mb-5">
           <div class="col-md-6 col-sm-12">
-            <label
-              class="form-label required"
-            >Fecha desde</label>
+            <label class="form-label required">Fecha desde</label>
             <input
               formControlName="fecha_desde"
               class="form-control"
@@ -33,9 +31,7 @@
             ></ng-container>
           </div>
           <div class="col-md-6 col-sm-12">
-            <label
-              class="form-label required"
-            >Fecha hasta</label>
+            <label class="form-label required">Fecha hasta</label>
             <input
               formControlName="fecha_hasta"
               class="form-control"
@@ -62,9 +58,7 @@
           </div>
         </section>
         <section class="row mb-5">
-          <label
-              class="form-label required"
-            >Año</label>
+          <label class="form-label required">Año</label>
           <div class="col-md-6">
             <input
               formControlName="anio"
@@ -108,7 +102,35 @@
 
 <app-card [titulo]="'MENU.FUNCIONALIDAD.BALANCEPRUEBA'">
   <section card-body>
-    <div ngbAccordion>
+    <div class="table-responsive">
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+      >
+        <thead>
+          <tr class="text-gray-800">
+            <th class="text-center">Cuenta</th>
+            <th class="text-center">Nombre</th>
+            <th class="text-center">Anterior</th>
+            <th class="text-center">Debito</th>
+            <th class="text-center">Credito</th>
+            <th class="text-center">Actual</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of cuentasAgrupadas; track $index) {
+          <tr>
+            <td>{{ item.codigo }}</td>
+            <td style="text-align: left;">{{ item.nombre }}</td>
+            <td>{{ item.saldo_anterior | currency : "$" }}</td>
+            <td>{{ item.debito | currency : "$" }}</td>
+            <td>{{ item.credito | currency : "$" }}</td>
+            <td>{{ item.saldo_actual | currency : "$" }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- <div ngbAccordion>
       @for (cuentaClase of cuentasAgrupadas$ | async | keyvalue; track $index) {
       <div ngbAccordionItem [collapsed]="false">
         <h2 ngbAccordionHeader>
@@ -178,7 +200,7 @@
         </div>
       </div>
       }
-    </div>
+    </div> -->
   </section>
 </app-card>
 

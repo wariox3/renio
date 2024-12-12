@@ -9,7 +9,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { MovimientoBalancePrueba } from '@interfaces/contabilidad/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeoEntidades/informes';
@@ -102,7 +102,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas$: Observable<DataAgrupada>;
+  public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
   public formularioFiltros: FormGroup;
 
   constructor() {
@@ -134,65 +134,64 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   private _consultarInformes(parametros: any) {
-    this.cuentasAgrupadas$ = this.contabilidadInformesService
-      .consultarBalances(parametros)
-      .pipe(
-        map((response) => {
-          return this._groupData(response.movimientos);
-        })
-      );
+    this.contabilidadInformesService.consultarBalances(parametros).subscribe({
+      next: (respuesta) => {
+        this.cuentasAgrupadas = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      },
+    });
   }
 
-  private _groupData(data: MovimientoBalancePrueba[]): DataAgrupada {
-    return data.reduce((acumulador, registro) => {
-      const { cuenta_clase_id, cuenta_grupo_id, cuenta_cuenta_id } = registro;
+  // private _groupData(data: MovimientoBalancePrueba[]): DataAgrupada {
+  //   return data.reduce((acumulador, registro) => {
+  //     const { cuenta_clase_id, cuenta_grupo_id, cuenta_cuenta_id } = registro;
 
-      if (!acumulador[cuenta_clase_id]) {
-        acumulador[cuenta_clase_id] = {
-          total: {
-            vr_debito: 0,
-            vr_credito: 0,
-          },
-        };
-      }
+  //     if (!acumulador[cuenta_clase_id]) {
+  //       acumulador[cuenta_clase_id] = {
+  //         total: {
+  //           vr_debito: 0,
+  //           vr_credito: 0,
+  //         },
+  //       };
+  //     }
 
-      if (!acumulador[cuenta_clase_id][cuenta_grupo_id]) {
-        acumulador[cuenta_clase_id][cuenta_grupo_id] = {
-          total: {
-            vr_debito: 0,
-            vr_credito: 0,
-          },
-        };
-      }
+  //     if (!acumulador[cuenta_clase_id][cuenta_grupo_id]) {
+  //       acumulador[cuenta_clase_id][cuenta_grupo_id] = {
+  //         total: {
+  //           vr_debito: 0,
+  //           vr_credito: 0,
+  //         },
+  //       };
+  //     }
 
-      if (!acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id]) {
-        acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id] = {
-          vr_debito: 0,
-          vr_credito: 0,
-        };
-      }
+  //     if (!acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id]) {
+  //       acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id] = {
+  //         vr_debito: 0,
+  //         vr_credito: 0,
+  //       };
+  //     }
 
-      // Actualizar valores a nivel de subcuenta
-      acumulador[cuenta_clase_id][cuenta_grupo_id][
-        cuenta_cuenta_id
-      ].vr_debito += registro.vr_debito ?? 0;
-      acumulador[cuenta_clase_id][cuenta_grupo_id][
-        cuenta_cuenta_id
-      ].vr_credito += registro.vr_credito ?? 0;
+  //     // Actualizar valores a nivel de subcuenta
+  //     acumulador[cuenta_clase_id][cuenta_grupo_id][
+  //       cuenta_cuenta_id
+  //     ].vr_debito += registro.vr_debito ?? 0;
+  //     acumulador[cuenta_clase_id][cuenta_grupo_id][
+  //       cuenta_cuenta_id
+  //     ].vr_credito += registro.vr_credito ?? 0;
 
-      // Actualizar valores a nivel de grupo
-      acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_debito +=
-        registro.vr_debito ?? 0;
-      acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_credito +=
-        registro.vr_credito ?? 0;
+  //     // Actualizar valores a nivel de grupo
+  //     acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_debito +=
+  //       registro.vr_debito ?? 0;
+  //     acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_credito +=
+  //       registro.vr_credito ?? 0;
 
-      // Actualizar valores a nivel de clase
-      acumulador[cuenta_clase_id].total.vr_debito += registro.vr_debito ?? 0;
-      acumulador[cuenta_clase_id].total.vr_credito += registro.vr_credito ?? 0;
+  //     // Actualizar valores a nivel de clase
+  //     acumulador[cuenta_clase_id].total.vr_debito += registro.vr_debito ?? 0;
+  //     acumulador[cuenta_clase_id].total.vr_credito += registro.vr_credito ?? 0;
 
-      return acumulador;
-    }, {} as DataAgrupada);
-  }
+  //     return acumulador;
+  //   }, {} as DataAgrupada);
+  // }
 
   private _construirFiltros() {
     this._limpiarFiltros();
@@ -253,6 +252,6 @@ export class BalancePruebaComponent extends General implements OnInit {
 
   aplicarFiltro() {
     this._construirFiltros();
-    this._consultarInformes(this._parametrosConsulta)
+    this._consultarInformes(this._parametrosConsulta);
   }
 }
