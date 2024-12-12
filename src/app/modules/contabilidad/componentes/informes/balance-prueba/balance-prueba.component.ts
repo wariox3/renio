@@ -122,14 +122,20 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   private _initFormularioFiltros() {
-    const currentYear = new Date().getFullYear();
-    const firstDayOfYear = `${currentYear}-01-01`;
-    const lastDayOfYear = `${currentYear}-12-31`;
-
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+  
+    // Primer día del mes actual
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).toISOString().split('T')[0];
+  
+    // Último día del mes actual
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).toISOString().split('T')[0];
+  
     this.formularioFiltros = this._formBuilder.group({
       anio: [currentYear, Validators.required],
-      fecha_desde: [firstDayOfYear, Validators.required],
-      fecha_hasta: [lastDayOfYear, Validators.required],
+      fecha_desde: [firstDayOfMonth, Validators.required],
+      fecha_hasta: [lastDayOfMonth, Validators.required],
     });
   }
 
