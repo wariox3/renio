@@ -514,9 +514,7 @@ export class FormularioProductosComponent
     indexFormulario: number,
     nuevaCantidad: number
   ) {
-
-//valorCero
-
+    //valorCero
 
     const impuestos =
       this.detalles.controls[indexFormulario].get('impuestos')?.value;
@@ -946,9 +944,31 @@ export class FormularioProductosComponent
         cuenta_nombre: [detalle.cuenta_nombre],
         item: [detalle.item],
         item_nombre: [detalle.item_nombre],
-        cantidad: [detalle.cantidad],
-        precio: [detalle.precio],
-        porcentaje_descuento: [detalle.porcentaje_descuento],
+        cantidad: [
+          detalle.cantidad,
+          [
+            validarPrecio(),
+            Validators.min(1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        precio: [
+          detalle.precio,
+          [
+            validarPrecio(),
+            Validators.min(0.1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        porcentaje_descuento: [
+          detalle.porcentaje_descuento,
+          [
+            validarDescuento(),
+            Validators.min(0),
+            Validators.max(100),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
         descuento: [detalle.descuento],
         subtotal: [detalle.subtotal],
         total_bruto: [detalle.total_bruto],
