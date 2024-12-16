@@ -49,6 +49,7 @@ export interface informacionMenuItem {
     dataPersonalizada?: string;
     detalle?: string;
     parametro?: string;
+    itemNombre?: string;
   };
   children?: informacionMenuItem[];
 }
