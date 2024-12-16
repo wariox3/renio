@@ -112,45 +112,42 @@ export class BaseListaComponent extends General implements OnInit {
     let filtroPermamente: any = [];
     let baseUrl = 'general/funcionalidad/lista/';
 
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      if (this.parametrosUrl?.dataPersonalizada) {
-        filtroPermamente = this._adaptadorDataFiltrosPermanente(
-          JSON.parse(this.parametrosUrl?.dataPersonalizada)
-        );
-        this.arrParametrosConsulta.filtros = [
-          ...this.arrParametrosConsulta.filtros,
-          ...filtroPermamente,
-        ];
-      }
+    if (this.parametrosUrl?.dataPersonalizada) {
+      filtroPermamente = this._adaptadorDataFiltrosPermanente(
+        JSON.parse(this.parametrosUrl?.dataPersonalizada)
+      );
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...filtroPermamente,
+      ];
+    }
 
-      let ordenamientoFijo: any[] = parametro?.ordenamiento;
-      if (ordenamientoFijo !== undefined) {
-        this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
-      } else {
-        this.arrParametrosConsulta.ordenamientos = [];
-      }
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        ...{
-          modelo: this.modelo,
-        },
-      };
+    let ordenamientoFijo = this.parametrosUrl?.ordenamiento;
+    if (ordenamientoFijo !== undefined) {
+      this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
+    } else {
+      this.arrParametrosConsulta.ordenamientos = [];
+    }
+    this.arrParametrosConsulta = {
+      ...this.arrParametrosConsulta,
+      ...{
+        modelo: this.modelo,
+      },
+    };
 
-      this.httpService
-        .post<{
-          cantidad_registros: number;
-          registros: any[];
-          propiedades: any[];
-        }>(baseUrl, this.arrParametrosConsulta)
-        .pipe(finalize(() => this.cargando$.next(false)))
-        .subscribe((respuesta: any) => {
-          this.cantidad_registros = respuesta.cantidad_registros;
-          this.arrItems = respuesta.registros;
-          this.arrPropiedades = respuesta.propiedades;
-
-          this.changeDetectorRef.detectChanges();
-        });
-    });
+    this.httpService
+      .post<{
+        cantidad_registros: number;
+        registros: any[];
+        propiedades: any[];
+      }>(baseUrl, this.arrParametrosConsulta)
+      .pipe(finalize(() => this.cargando$.next(false)))
+      .subscribe((respuesta: any) => {
+        this.cantidad_registros = respuesta.cantidad_registros;
+        this.arrItems = respuesta.registros;
+        this.arrPropiedades = respuesta.propiedades;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   obtenerFiltros(arrfiltros: any[]) {
