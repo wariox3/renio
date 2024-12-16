@@ -41,7 +41,7 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    const componenteClase = Componetes[this.parametrosUrl.documento_clase];
+    const componenteClase = Componetes[this.parametrosUrl?.documento_clase!];
     if (componenteClase && componenteClase.detalle) {
       let componete = await (await componenteClase.detalle()).default;
       let componeteCargado = this.componenteDinamico.createComponent(componete);

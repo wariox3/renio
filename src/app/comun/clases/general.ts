@@ -5,6 +5,7 @@ import {
   ModuloAplicacion,
   prefijoModuloAplicacion,
 } from '@interfaces/mapeo/mapeo';
+import { informacionMenuItem } from '@interfaces/menu/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -21,7 +22,7 @@ export class General {
   protected formulario = '';
   protected accion: 'nuevo' | 'detalle' | 'editar' | null = null;
   protected detalle = 0;
-  protected parametrosUrl: any = {};
+  protected parametrosUrl: Partial<informacionMenuItem["data"]>;
   protected ubicacion:
     | 'documento'
     | 'administrador'

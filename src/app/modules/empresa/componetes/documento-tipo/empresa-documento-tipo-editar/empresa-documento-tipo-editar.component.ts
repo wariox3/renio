@@ -68,7 +68,7 @@ export class EmpresaDocumentoTipoEditarComponent
   enviarFormulario() {
     if (this.formularioDocumentoTipo.valid) {
       let tipoResolucion: any = {};
-      tipoResolucion[this.parametrosUrl.parametro] = true;
+      tipoResolucion[this.parametrosUrl?.parametro!] = true;
 
       if (this.tipoRolucion != null) {
         tipoResolucion[this.tipoRolucion] = true;

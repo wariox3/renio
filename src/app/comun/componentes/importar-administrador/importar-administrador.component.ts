@@ -72,60 +72,60 @@ export class ImportarAdministradorComponent
       this.ubicacion,
       this.detalle
     );
-    if(this.detalle){
+    if (this.detalle) {
       this.store
-      .select(obtenerArchivoImportacionDetalle)
-      .pipe(
-        tap((archivoImportacionDetalle) => {
-          if (
-            archivoImportacionDetalle === null ||
-            archivoImportacionDetalle === ''
-          ) {
-            this.inhabilitarBtnEjemploImportar = true;
-            this.changeDetectorRef.detectChanges();
-          }
-        }),
-        tap(() => {
-          this.importarSoloNuevos =
-            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
-          (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-          this.archivoNombre = '';
-          this.errorImportar = [];
-          this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title',
-            size: 'xl',
-          });
-        })
-      )
-      .subscribe()
-      .unsubscribe();
+        .select(obtenerArchivoImportacionDetalle)
+        .pipe(
+          tap((archivoImportacionDetalle) => {
+            if (
+              archivoImportacionDetalle === null ||
+              archivoImportacionDetalle === ''
+            ) {
+              this.inhabilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            }
+          }),
+          tap(() => {
+            this.importarSoloNuevos =
+              this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
+            (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+            this.archivoNombre = '';
+            this.errorImportar = [];
+            this.modalService.open(content, {
+              ariaLabelledBy: 'modal-basic-title',
+              size: 'xl',
+            });
+          })
+        )
+        .subscribe()
+        .unsubscribe();
     } else {
       this.store
-      .select(obtenerArchivoImportacionLista)
-      .pipe(
-        tap((archivoImportacionLista) => {
-          if (
-            archivoImportacionLista === null ||
-            archivoImportacionLista === ''
-          ) {
-            this.inhabilitarBtnEjemploImportar = true;
-            this.changeDetectorRef.detectChanges();
-          }
-        }),
-        tap(() => {
-          this.importarSoloNuevos =
-            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
-          (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-          this.archivoNombre = '';
-          this.errorImportar = [];
-          this.modalService.open(content, {
-            ariaLabelledBy: 'modal-basic-title',
-            size: 'xl',
-          });
-        })
-      )
-      .subscribe()
-      .unsubscribe();
+        .select(obtenerArchivoImportacionLista)
+        .pipe(
+          tap((archivoImportacionLista) => {
+            if (
+              archivoImportacionLista === null ||
+              archivoImportacionLista === ''
+            ) {
+              this.inhabilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            }
+          }),
+          tap(() => {
+            this.importarSoloNuevos =
+              this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
+            (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+            this.archivoNombre = '';
+            this.errorImportar = [];
+            this.modalService.open(content, {
+              ariaLabelledBy: 'modal-basic-title',
+              size: 'xl',
+            });
+          })
+        )
+        .subscribe()
+        .unsubscribe();
     }
   }
 
@@ -193,8 +193,6 @@ export class ImportarAdministradorComponent
               ruta = this.modulo;
             }
           } else {
-            console.log('2');
-
             ruta = localStorage.getItem('ruta')!;
             modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
           }
@@ -287,33 +285,37 @@ export class ImportarAdministradorComponent
   }
 
   descargarExcelError() {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      let nombreArchivo = `errores_${parametro.modelo}.xlsx`;
+    this.activatedRoute.queryParams
+      .subscribe((parametro) => {
+        let nombreArchivo = `errores_${parametro.modelo}.xlsx`;
 
-      let esIndependite = parametro.esIndependiente!;
-      if (esIndependite == 'si') {
-        nombreArchivo = `errores_${localStorage
-          .getItem('ruta')!
-          .toLowerCase()
-          .substring(0, 3)}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-      }
-
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-        this.errorImportar
-      );
-      const workbook: XLSX.WorkBook = {
-        Sheets: { data: worksheet },
-        SheetNames: ['data'],
-      };
-      const excelBuffer: any = XLSX.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
-      });
-      const data: Blob = new Blob([excelBuffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      });
-      saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
-    });
+        let esIndependite = parametro.esIndependiente!;
+        if (esIndependite == 'si') {
+          nombreArchivo = `errores_${localStorage
+            .getItem('ruta')!
+            .toLowerCase()
+            .substring(
+              0,
+              3
+            )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+        }
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+          this.errorImportar
+        );
+        const workbook: XLSX.WorkBook = {
+          Sheets: { data: worksheet },
+          SheetNames: ['data'],
+        };
+        const excelBuffer: any = XLSX.write(workbook, {
+          bookType: 'xlsx',
+          type: 'array',
+        });
+        const data: Blob = new Blob([excelBuffer], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
+      })
+      .unsubscribe();
   }
 
   private _adaptarErroresImportar(errores: any[]) {

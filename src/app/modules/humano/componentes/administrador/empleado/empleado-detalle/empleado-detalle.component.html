@@ -5,7 +5,7 @@
   <section card-titulo>
     {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
     {{
-      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+      "MENU.FUNCIONALIDAD." + (parametrosUrl?.submodelo | uppercase)
         | translate
         | lowercase
     }}

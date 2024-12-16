@@ -96,7 +96,6 @@ export class ImportarDetallesComponent extends General {
   subirArchivo(archivo_base64: string) {
     this.cargardoDocumento = true;
     this.changeDetectorRef.detectChanges();
-    const { detalle: documento_id } = this.parametrosUrl;
     let url = '';
     switch (this.ubicacion) {
       case 'documento':
@@ -108,7 +107,7 @@ export class ImportarDetallesComponent extends General {
     }
     this.httpService
       .post<ImportarDetalles>(url, {
-        documento_id,
+        documento_id: this.parametrosUrl?.detalle,
         archivo_base64,
       })
       .pipe(
@@ -145,13 +144,12 @@ export class ImportarDetallesComponent extends General {
     this.descargarArchivosService
       .descargarArchivoLocal(
         `assets/ejemplos/documentoDetalle/${nombreArchivo}.xlsx`,
-        `documentoDetalle_${this.parametrosUrl.documento_clase}`
+        `documentoDetalle_${this.parametrosUrl?.documento_clase}`
       )
       .subscribe();
   }
 
   descargarExcelError() {
-    const { documento_clase } = this.parametrosUrl;
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
       this.errorImportar
     );
@@ -166,7 +164,7 @@ export class ImportarDetallesComponent extends General {
     const data: Blob = new Blob([excelBuffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    saveAs(data, `errores_${documento_clase}.xlsx`); // Nombre del archivo Excel a descargar
+    saveAs(data, `errores_${this.parametrosUrl?.documento_clase}.xlsx`); // Nombre del archivo Excel a descargar
   }
 
   private _adaptarErroresImportar(errores: any[]) {

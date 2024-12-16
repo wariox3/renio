@@ -601,8 +601,8 @@ export default class CuentaCobroFormularioComponent extends General implements O
       }
 
       if (
-        this.parametrosUrl.documento_clase == 2 ||
-        this.parametrosUrl.documento_clase == 3
+        this.parametrosUrl?.documento_clase == 2 ||
+        this.parametrosUrl?.documento_clase == 3
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();

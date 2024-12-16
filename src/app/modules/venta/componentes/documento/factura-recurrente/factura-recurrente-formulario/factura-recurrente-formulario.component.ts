@@ -857,8 +857,8 @@ export default class FacturaRecurrenteFormularioComponent
       }
 
       if (
-        this.parametrosUrl.documento_clase == 2 ||
-        this.parametrosUrl.documento_clase == 3
+        this.parametrosUrl?.documento_clase == 2 ||
+        this.parametrosUrl?.documento_clase == 3
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();

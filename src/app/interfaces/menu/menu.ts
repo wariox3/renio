@@ -47,6 +47,8 @@ export interface informacionMenuItem {
     serializador?: string;
     submodelo?: string;
     dataPersonalizada?: string;
+    detalle?: string;
+    parametro?: string;
   };
   children?: informacionMenuItem[];
 }

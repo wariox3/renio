@@ -1,9 +1,9 @@
 
 @if(accion === 'nuevo'){
   {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
-  @if(parametrosUrl.submodelo){
+  @if(parametrosUrl?.submodelo){
     {{
-      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+      "MENU.FUNCIONALIDAD." + (parametrosUrl?.submodelo | uppercase)
         | translate
         | lowercase
     }}
@@ -16,9 +16,9 @@
 @if(accion === 'editar') {
   {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate | titlecase }}
 
-  @if(parametrosUrl.submodelo){
+  @if(parametrosUrl?.submodelo){
     {{
-      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+      "MENU.FUNCIONALIDAD." + (parametrosUrl?.submodelo | uppercase)
         | translate
         | lowercase
     }}
@@ -32,9 +32,9 @@
 @if(accion === 'detalle') {
   {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
 
-  @if(parametrosUrl.submodelo){
+  @if(parametrosUrl?.submodelo){
     {{
-      "MENU.FUNCIONALIDAD." + (parametrosUrl.submodelo | uppercase)
+      "MENU.FUNCIONALIDAD." + (parametrosUrl?.submodelo | uppercase)
         | translate
         | lowercase
     }}

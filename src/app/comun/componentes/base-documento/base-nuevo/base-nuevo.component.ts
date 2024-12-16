@@ -33,7 +33,7 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    const componenteClase = Componetes[this.parametrosUrl.documento_clase];
+    const componenteClase = Componetes[this.parametrosUrl?.documento_clase!];
     if (componenteClase && componenteClase.formulario) {
       let componete = await (await componenteClase.formulario()).default;
       let componeteCargado = this.componenteDinamico.createComponent(componete);

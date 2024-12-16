@@ -29,11 +29,11 @@ export class HelpDrawerComponent extends General implements OnInit {
       map((id) => `${this.appDocumentacion}${id ?? 0}`) // Asegúrate de manejar null o undefined
     );
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      if(this.parametrosUrl.documento_clase == 301){
+      if(this.parametrosUrl?.documento_clase == 301){
         this.modelo = 'notacreditocompra'
         this.changeDetectorRef.detectChanges()
       }
-      if(this.parametrosUrl.documento_clase == 302){
+      if(this.parametrosUrl?.documento_clase == 302){
         this.modelo = 'notadebitocompra'
         this.changeDetectorRef.detectChanges()
       }

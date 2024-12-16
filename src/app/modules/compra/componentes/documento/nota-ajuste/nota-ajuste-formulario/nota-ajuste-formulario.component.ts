@@ -696,8 +696,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
 
       if (
-        this.parametrosUrl.documento_clase == 6 ||
-        this.parametrosUrl.documento_clase == 7
+        this.parametrosUrl?.documento_clase == 6 ||
+        this.parametrosUrl?.documento_clase == 7
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();
@@ -846,7 +846,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           plazo_pago: respuesta.documento.plazo_pago_id,
         });
 
-        if (this.parametrosUrl.documento_clase == 304) {
+        if (this.parametrosUrl?.documento_clase == 304) {
           this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,

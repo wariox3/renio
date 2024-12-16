@@ -990,8 +990,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         });
 
         if (
-          this.parametrosUrl.documento_clase == 101 ||
-          this.parametrosUrl.documento_clase == 102
+          this.parametrosUrl?.documento_clase == 101 ||
+          this.parametrosUrl?.documento_clase == 102
         ) {
           this.formularioFactura.patchValue({
             documento_referencia: respuesta.documento.documento_referencia_id,

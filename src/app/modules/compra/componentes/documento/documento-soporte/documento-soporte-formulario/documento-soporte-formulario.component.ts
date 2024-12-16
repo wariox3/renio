@@ -876,8 +876,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       }
 
       if (
-        this.parametrosUrl.documento_clase == 6 ||
-        this.parametrosUrl.documento_clase == 7
+        this.parametrosUrl?.documento_clase == 6 ||
+        this.parametrosUrl?.documento_clase == 7
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();
@@ -1016,8 +1016,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         });
 
         if (
-          this.parametrosUrl.documento_clase == 2 ||
-          this.parametrosUrl.documento_clase == 3
+          this.parametrosUrl?.documento_clase == 2 ||
+          this.parametrosUrl?.documento_clase == 3
         ) {
           this.visualizarCampoDocumentoReferencia = true;
           this.formularioFactura.patchValue({

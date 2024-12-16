@@ -37,13 +37,13 @@ export class ModalDinamicoComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    const componenteLoaded =
-      ComponentesExtras[this.parametrosUrl.documento_clase][this.nombreComponente];
+    // const componenteLoaded =
+    //   ComponentesExtras[this.parametrosUrl.documento_clase][this.nombreComponente];
 
-    if (componenteLoaded) {
-      let componete = await (await componenteLoaded.componente()).default;
-      let componeteCargado = this.componenteDinamico.createComponent(componete);
-      componeteCargado.changeDetectorRef.detectChanges();
-    }
+    // if (componenteLoaded) {
+    //   let componete = await (await componenteLoaded.componente()).default;
+    //   let componeteCargado = this.componenteDinamico.createComponent(componete);
+    //   componeteCargado.changeDetectorRef.detectChanges();
+    // }
   }
 }

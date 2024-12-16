@@ -86,7 +86,7 @@ export class ImportarComponent extends General {
         ),
         tap(() => {
           this.importarSoloNuevos =
-            this.parametrosUrl.importarSoloNuevos === 'si' ? true : false;
+            this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
           (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
           this.archivoNombre = '';
           this.errorImportar = [];
