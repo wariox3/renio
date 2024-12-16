@@ -39,7 +39,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     serializador: "ListaAutocompletar"
   };
   @Input() arrLista: any[];
-  @Input() estado_aprobado = false;
+  @Input() estadoAprobado = false;
   @Input() visualizarImpuestosVenta = false;
   @Input() visualizarImpuestosCompra = false;
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();

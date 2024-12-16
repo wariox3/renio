@@ -1,4 +1,6 @@
-import { Ciudad } from '@interfaces/general/ciudad';
+import {
+  CommonModule
+} from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -10,41 +12,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { Ciudad } from '@interfaces/general/ciudad';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { TipoPersona } from '@interfaces/general/tipoPersona';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import {
-  NgbDropdown,
-  NgbDropdownAnchor,
-  NgbDropdownMenu,
-  NgbDropdownItem,
-  NgbModal,
+  NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import {
-  NgClass,
-  NgTemplateOutlet,
-  NgFor,
-  NgIf,
-  LowerCasePipe,
-  TitleCasePipe,
-  CommonModule,
-} from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
+import { provideNgxMask } from 'ngx-mask';
 import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrulario.component';
 
 @Component({
@@ -56,18 +38,7 @@ import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrul
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    CardComponent,
-    NgClass,
-    NgTemplateOutlet,
-    NgFor,
-    NgbDropdown,
-    NgbDropdownAnchor,
-    NgbDropdownMenu,
-    NgbDropdownItem,
-    NgxMaskDirective,
     CommonModule,
-    LowerCasePipe,
-    TitleCasePipe,
     EmpresaFormularioComponent,
   ],
 })
@@ -82,7 +53,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
-  @Input() empresa_id!: string;
+  @Input() empresaId!: string;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   @ViewChild('inputBusquedaResolucion', { static: true })
@@ -95,7 +66,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   ngOnInit() {
     this.store
       .select(obtenerEmpresaId)
-      .subscribe((id) => (this.empresa_id = id));
+      .subscribe((id) => (this.empresaId = id));
   }
 
   abrirModalNuevoItem(content: any) {

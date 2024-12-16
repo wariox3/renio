@@ -17,8 +17,8 @@ export class LogElectronicoComponent extends General {
   arrCorreos: any = [];
   arrEventos: any = [];
   arrValidaciones: any = [];
-  @Input() estado_electronico_notificado = false;
-  @Input() estado_anulado = false;
+  @Input() estadoElectronicoNotificado = false;
+  @Input() estadoAnulado = false;
   @Output() emitirRenotificar: EventEmitter<Boolean> = new EventEmitter();
 
   constructor(

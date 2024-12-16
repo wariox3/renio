@@ -1,10 +1,6 @@
 import {
   CommonModule,
-  LowerCasePipe,
-  NgClass,
-  NgFor,
-  NgTemplateOutlet,
-  TitleCasePipe,
+  NgTemplateOutlet
 } from '@angular/common';
 import {
   Component,
@@ -24,7 +20,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
 import {
@@ -47,7 +42,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
 
 @Component({
@@ -58,13 +53,11 @@ import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    CardComponent,
     NgTemplateOutlet,
     NgbDropdown,
     NgbDropdownAnchor,
     NgbDropdownMenu,
     NgbDropdownItem,
-    NgxMaskDirective,
     CommonModule,
   ],
   providers: [provideNgxMask()],
@@ -79,7 +72,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   arrRegimen: Regimen[] = [];
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
-  @Input() empresa_id!: string;
+  @Input() empresaId!: string;
   @Input() visualizarLabelSiguiente: boolean = false;
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -98,7 +91,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   ngOnInit() {
     this.store
       .select(obtenerEmpresaId)
-      .subscribe((id) => (this.empresa_id = id));
+      .subscribe((id) => (this.empresaId = id));
     this.initForm();
     this.consultarInformacion();
   }
@@ -123,7 +116,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         modelo: 'GenTipoPersona',
         serializador: "ListaAutocompletar"
       }),
-      this.empresaService.consultarDetalle(this.empresa_id)
+      this.empresaService.consultarDetalle(this.empresaId)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
@@ -199,7 +192,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   formSubmit() {
     this.store
       .select(obtenerEmpresaId)
-      .subscribe((id) => (this.empresa_id = id));
+      .subscribe((id) => (this.empresaId = id));
 
     if (this.formularioEmpresa.valid) {
       this.empresaService

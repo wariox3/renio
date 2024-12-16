@@ -25,7 +25,7 @@ export class ContactosComponent extends General {
   itemSeleccionado: any | null = null;
   arrContactos: any[];
   @Input() contactoNombre: string = '';
-  @Input() estado_aprobado: false;
+  @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
   @Output() emitirContacto: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();

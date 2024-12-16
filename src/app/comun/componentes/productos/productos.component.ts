@@ -38,7 +38,7 @@ export class ProductosComponent extends General implements AfterViewInit {
   itemSeleccionado: any | null = null;
   arrItemsLista: any[];
   @Input() itemNombre: string = '';
-  @Input() estado_aprobado: false;
+  @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
   @Input() venta: boolean = true;
   @Input() compra: boolean = false;
