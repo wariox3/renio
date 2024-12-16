@@ -69,63 +69,6 @@ export class ImportarXmlComponent  extends General {
   }
 
   subirArchivo(archivo_base64: string) {
-    // let ruta = localStorage.getItem('ruta')!;
-
-    // this.activatedRoute.queryParams
-    //   .subscribe((parametros) => {
-    //     let modelo = this.modelo.toLowerCase();
-    //     let nombreFiltro = `documento_${parametros.itemNombre?.toLowerCase()}`;
-    //     let filtroPermamente: any = [];
-    //     this.cargardoDocumento = true;
-    //     this.changeDetectorRef.detectChanges();
-    //     let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
-
-    //     let data: any = {
-    //       archivo_base64,
-    //     };
-
-    //     if (this.soloNuevos) {
-    //       data['solo_nuevos'] = this.soloNuevos;
-    //     }
-
-    //     const filtroPermanenteStr = localStorage.getItem(
-    //       `${nombreFiltro}_filtro_importar_fijo`
-    //     );
-    //     if (filtroPermanenteStr !== null) {
-    //       filtroPermamente = JSON.parse(filtroPermanenteStr);
-    //       Object.keys(filtroPermamente).forEach((key) => {
-    //         const filtro = filtroPermamente[key];
-    //         data[filtro.propiedad] = filtro.valor1;
-    //       });
-    //     }
-
-    //     this.httpService
-    //       .post<ImportarDetalles>(url, data)
-    //       .pipe(
-    //         tap((respuesta) => {
-    //           this.alertaService.mensajaExitoso(
-    //             `Se guardo la información registros importados: ${respuesta.registros_importados}`
-    //           );
-    //           this.soloNuevos = false;
-    //           this.modalService.dismissAll();
-    //           this.errorImportar = [];
-    //           this.cargardoDocumento = false;
-    //           this.changeDetectorRef.detectChanges();
-    //           this.emitirDetallesAgregados.emit(respuesta);
-    //         }),
-    //         catchError((respuesta: ImportarDetallesErrores) => {
-    //           if (respuesta.errores_validador) {
-    //              this.cantidadErrores = respuesta.errores_validador.length
-    //              this._adaptarErroresImportar(respuesta.errores_validador);
-    //           }
-    //           this.cargardoDocumento = false;
-    //           this.changeDetectorRef.detectChanges();
-    //           return of(null);
-    //         })
-    //       )
-    //       .subscribe();
-    //   })
-    //   .unsubscribe();
   }
 
   async toBase64(file: File) {

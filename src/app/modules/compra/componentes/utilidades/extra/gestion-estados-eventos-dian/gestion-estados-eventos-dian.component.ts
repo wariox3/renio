@@ -123,17 +123,6 @@ export class GestionEstadosEventosDianComponent
   }
 
   consultarInformacion() {
-    //   zip(
-    //     this.httpService.post<
-    //       AutocompletarRegistros<RegistroAutocompletarIdentificacion>
-    //     >('general/funcionalidad/lista/', {
-    //       modelo: 'GenIdentificacion',
-    //       serializador: 'ListaAutocompletar',
-    //     })
-    //   ).subscribe((respuesta: any) => {
-    //     this.arrIdentificacion = respuesta[0].registros;
-    //     this.changeDetectorRef.detectChanges();
-    //   });
   }
 
   formSubmit() {

@@ -87,30 +87,6 @@ export class SeleccionarImpuestosComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    // if (changes.arrLista.currentValue) {
-    //   this.arrImpuestoSeleccionados = [];
-    //   let acumulador: any[];
-
-    //   if (this.visualizarImpuestosVenta) {
-    //     acumulador = this.arrLista.filter(
-    //       (impuesto: any) => impuesto.impuesto_venta
-    //     );
-    //   } else {
-    //     acumulador = this.arrLista.filter(
-    //       (impuesto: any) => impuesto.impuesto_compra
-    //     );
-    //   }
-    //   acumulador.map((impuesto: any) => {
-    //     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-    //       (impuestoSeleccionado: any) =>
-    //         impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
-    //     );
-    //     if (!impuestoExistente) {
-    //       this.arrImpuestoSeleccionados.push(impuesto);
-    //     }
-    //   });
-    //   this.changeDetectorRef.detectChanges();
-    // }
   }
 
   agregarImpuesto(impuesto: ImpuestoRespuestaConsulta) {
@@ -156,12 +132,6 @@ export class SeleccionarImpuestosComponent
       this.impuestos = this.impuestos.filter((i) => i !== impuesto);
       this.emitirImpuestosModificados.emit(this.impuestos);
     }
-    // this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
-    //   (impuestoSeleccionado: any) =>
-    //     impuestoSeleccionado.impuesto_id !== impuesto.impuesto_id
-    // );
-    // this.changeDetectorRef.detectChanges();
-    // this.emitirImpuestoElimiando.emit(impuesto);
   }
 
   consultarImpuesto() {
