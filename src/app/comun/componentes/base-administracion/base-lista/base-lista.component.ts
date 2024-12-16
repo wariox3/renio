@@ -61,6 +61,7 @@ export class BaseListaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.alertaService.cerrarMensajes();
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.arrParametrosConsulta.ordenamientos = [];
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;
       this.visualizarBtnNuevo =
@@ -103,7 +104,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargando$.next(true);
-    this.arrItems = []
+    this.arrItems = [];
     let filtroPermamente: any = [];
     let baseUrl = 'general/funcionalidad/lista/';
 
@@ -118,10 +119,11 @@ export class BaseListaComponent extends General implements OnInit {
     }
 
     let ordenamientoFijo = this.parametrosUrl?.ordenamiento;
-    if (ordenamientoFijo !== undefined) {
-      this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
-    } else {
-      this.arrParametrosConsulta.ordenamientos = [];
+    if (
+      ordenamientoFijo !== undefined &&
+      !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
+    ) {
+      this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
     }
     this.arrParametrosConsulta = {
       ...this.arrParametrosConsulta,
