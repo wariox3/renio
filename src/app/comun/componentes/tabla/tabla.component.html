@@ -311,14 +311,13 @@
               [id]="item['id'].valor"
               [value]="item['id'].valor"
               (change)="agregarRegistrosEliminar(item['id'].valor)"
-              [checked]="item.selected"
+              [checked]="estoyEnListaEliminar(item['id'].valor)"
             />
           </label>
         </td>
         }
       </tr>
       }
-
     </tbody>
   </table>
 </div>

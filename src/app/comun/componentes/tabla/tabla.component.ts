@@ -301,6 +301,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.arrRegistrosEliminar.push(id);
     }
   }
+  
+  estoyEnListaEliminar(id: number): boolean {
+    return this.arrRegistrosEliminar.indexOf(id) !== -1;
+  }
 
   // Esta función emite un evento con los registros que se van a eliminar, luego limpia el array de registros a eliminar y deselecciona todos los registros si "selectAll" es verdadero.
   eliminarRegistros() {
