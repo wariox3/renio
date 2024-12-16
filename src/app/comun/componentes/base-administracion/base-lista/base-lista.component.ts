@@ -2,11 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeo } from '@comun/extra/mapeoEntidades/administradores';
 import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
@@ -25,7 +23,6 @@ import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
     CardComponent,
     BaseFiltroComponent,
     TablaComponent,
-    ImportarComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -68,7 +65,6 @@ export class BaseListaComponent extends General implements OnInit {
         parametro.visualizarColumnaEditar === 'no' ? false : true;
       this.visualizarBtnNuevo =
         parametro.visualizarBtnNuevo === 'no' ? false : true;
-      this.changeDetectorRef.detectChanges();
       this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
       let posicion: keyof typeof mapeo = this.modelo;
@@ -100,15 +96,14 @@ export class BaseListaComponent extends General implements OnInit {
           },
         ];
       }
-      this.changeDetectorRef.detectChanges();
 
       this.consultarLista();
     });
-    this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
     this.cargando$.next(true);
+    this.arrItems = []
     let filtroPermamente: any = [];
     let baseUrl = 'general/funcionalidad/lista/';
 
@@ -146,19 +141,15 @@ export class BaseListaComponent extends General implements OnInit {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
         this.arrPropiedades = respuesta.propiedades;
-        this.changeDetectorRef.detectChanges();
       });
   }
 
   obtenerFiltros(arrfiltros: any[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
     } else {
       this.arrParametrosConsulta.filtros = [];
     }
-
-    this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
 
@@ -170,7 +161,6 @@ export class BaseListaComponent extends General implements OnInit {
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this.arrParametrosConsulta.limite = data.desplazamiento;
     this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges();
     this.consultarLista();
   }
 
@@ -202,7 +192,6 @@ export class BaseListaComponent extends General implements OnInit {
         .subscribe((respuesta: any) => {
           this.alertaService.mensajaExitoso('Registro eliminado');
           this.confirmacionRegistrosEliminado = true;
-          this.changeDetectorRef.detectChanges();
         });
     } else {
       this.alertaService.mensajeError(
