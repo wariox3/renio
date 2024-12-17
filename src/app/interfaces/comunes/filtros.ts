@@ -45,6 +45,7 @@ type Modelo =
   | 'GenTipoPersona'
   | 'GenPrecio'
   | 'GenImpuesto'
+  | 'GenItem'
   | 'GenMetodoPago'
   | 'GenAsesor'
   | 'GenContacto'

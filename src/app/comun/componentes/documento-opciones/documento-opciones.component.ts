@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { HttpService } from '@comun/services/http.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
 import { General } from '@comun/clases/general';
@@ -19,7 +18,6 @@ import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocomp
 })
 export class DocumentoOpcionesComponent extends General {
   private modalService = inject(NgbModal);
-  private httpService = inject(HttpService);
   private _generalService = inject(GeneralService);
   private descargarArchivosService = inject(DescargarArchivosService);
   arrDocumentos: any[];

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -26,6 +27,8 @@ import {
   DocumentoDetalleFactura,
   RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
+import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-seleccionar-producto',
@@ -61,6 +64,8 @@ export class SeleccionarProductoComponent
   inputItem: ElementRef<HTMLInputElement>;
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
+
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private httpService: HttpService,
@@ -117,7 +122,7 @@ export class SeleccionarProductoComponent
   }
 
   consultarItems(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -134,11 +139,8 @@ export class SeleccionarProductoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<Item>(arrFiltros)
       .subscribe((respuesta) => {
         this.arrItemsLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -146,7 +148,7 @@ export class SeleccionarProductoComponent
   }
 
   aplicarFiltrosItems(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -163,11 +165,8 @@ export class SeleccionarProductoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<Item>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
