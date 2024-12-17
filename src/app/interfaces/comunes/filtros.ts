@@ -46,6 +46,7 @@ type Modelo =
   | 'GenPrecio'
   | 'GenMetodoPago'
   | 'GenAsesor'
+  | 'GenContacto'
   | 'GenPlazoPago'
   | 'GenBanco'
   | 'GenCuentaBancoClase'
