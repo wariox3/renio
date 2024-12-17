@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -17,12 +18,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
   RegistroAutocompletarHumContrato,
 } from '@interfaces/comunes/autocompletar';
+import { FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -56,7 +59,7 @@ export class BuscarEmpleadoComponent
   arrEmpleados: any[] = [];
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaEmpleado = new Subject<string>();
-  filtrosPermanentes = [
+  filtrosPermanentes: FiltrosAplicados[] = [
     {
       propiedad: 'empleado',
       valor1: true,
@@ -71,9 +74,10 @@ export class BuscarEmpleadoComponent
   @Input() formularioError: any = false;
   @Output() emitirEmpleado: EventEmitter<any> = new EventEmitter();
 
+  private readonly _generalService = inject(GeneralService)
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService
   ) {
     super();
     this._inicializarBusqueda();
@@ -132,7 +136,7 @@ export class BuscarEmpleadoComponent
 
   consultarEmpleados(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    let filtros = [
+    let filtros: FiltrosAplicados[] = [
       {
         propiedad,
         valor1: valor,
@@ -140,7 +144,7 @@ export class BuscarEmpleadoComponent
       ...this.filtrosPermanentes,
     ];
 
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros,
       limite: 1000,
       desplazar: 0,
@@ -150,23 +154,18 @@ export class BuscarEmpleadoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
-      .pipe(
-        tap((respuesta) => {
-          this.arrEmpleados = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        }),
-        finalize(() => this.cargandoEmpleados$.next(false))
-      )
-      .subscribe();
+    this._generalService.consultarDatosFiltrados<RegistroAutocompletarContacto>(arrFiltros).pipe(
+      tap((respuesta) => {
+        this.arrEmpleados = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      }),
+      finalize(() => this.cargandoEmpleados$.next(false))
+    )
+    .subscribe();
   }
 
   consultarEmpleadosPorNombre(valor: string) {
-    let filtros = {};
+    let filtros: FiltrosAplicados[] = [];
 
     if (!valor.length) {
       filtros = [
@@ -194,7 +193,7 @@ export class BuscarEmpleadoComponent
       ];
     }
 
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros,
       limite: 1000,
       desplazar: 0,
@@ -204,9 +203,8 @@ export class BuscarEmpleadoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    return this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
+    return this._generalService
+      .consultarDatosFiltrados<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         arrFiltros
       )
       .pipe(
