@@ -3,14 +3,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralService } from '@comun/services/general.service';
+import {
+  RegistroAutocompletarContacto,
+} from '@interfaces/comunes/autocompletar';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
@@ -32,37 +35,36 @@ export class ContactosComponent extends General {
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
 
-  constructor(private httpService: HttpService) {
+  private readonly _generalService = inject(GeneralService);
+
+  constructor() {
     super();
   }
 
   agregarContacto(item: any) {
     this.itemSeleccionado = item;
-    this.contactoNombre = item.contacto_nombre_corto
+    this.contactoNombre = item.contacto_nombre_corto;
     this.emitirContacto.emit(item);
   }
 
   consultarContactos(event: any) {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre_corto__icontains',
-              valor1: `${event?.target.value}`,
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenContacto',
-          serializador: "ListaAutocompletar"
-        }
-      )
+    this._generalService
+      .consultarDatosFiltrados<RegistroAutocompletarContacto>({
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre_corto__icontains',
+            valor1: `${event?.target.value}`,
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenContacto',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta) => {
         this.arrContactos = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -70,26 +72,23 @@ export class ContactosComponent extends General {
   }
 
   aplicarFiltrosContactos(event: any) {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre_corto__icontains',
-              valor1: `${event?.target.value}`,
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenContacto',
-          serializador: "ListaAutocompletar"
-        }
-      )
+    this._generalService
+      .consultarDatosFiltrados<RegistroAutocompletarContacto>({
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre_corto__icontains',
+            valor1: `${event?.target.value}`,
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenContacto',
+        serializador: 'ListaAutocompletar',
+      })
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
