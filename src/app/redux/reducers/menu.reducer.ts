@@ -181,7 +181,7 @@ export const initialState: MenuItem = {
       menuOpen: true,
       children: [
         {
-          nombre: '',
+          nombre: 'independientes',
           esIndependiente: true,
           children: [
             {
@@ -205,6 +205,7 @@ export const initialState: MenuItem = {
               },
               consultaHttp: false,
               data: {
+                modelo: 'ConMovimiento',
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarBtnImportar: 'no'
               },

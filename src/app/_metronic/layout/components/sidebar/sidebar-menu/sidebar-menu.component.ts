@@ -81,27 +81,39 @@ export class SidebarMenuComponent implements OnInit {
     this._route.queryParams.subscribe((params) => {
       this.arrMenu.forEach((item: any) => {
         // buscamos la seccion de administracion en el menu
-        if (item.nombre === 'administracion') {
-          // buscamos la coincidencia entre el modelo en la URL y el modelo de los childrens del item
-          const childrenFound = item?.children?.find((info: any) => {
-            return info.data?.modelo === params?.modelo;
-          });
-
-          // cargamos los datos al reducer
-          this._cargarReducerData(childrenFound);
+        switch (item.nombre) {
+          case 'administracion':
+            this._cargarDatosMenu(item, params);
+            break;
+          case 'independientes':
+            this._cargarDatosMenu(item, params);
+            break;
         }
       });
     });
   }
 
-  private _cargarReducerData(item: informacionMenuItem | undefined) {   
+  private _cargarDatosMenu(item: any, parametros: any) {
+    // buscamos la coincidencia entre el modelo en la URL y el modelo de los childrens del item
+    const childrenFound = item?.children?.find((info: any) => {
+      return info.data?.modelo === parametros?.modelo;
+    });
+
+    // cargamos los datos al reducer
+    this._cargarReducerData(childrenFound);
+  }
+
+  private _cargarReducerData(item: informacionMenuItem | undefined) {
+    if (item?.archivoImportacionLista !== undefined) {
+      this.store.dispatch(
+        asignarArchivoImportacionLista({
+          lista: item?.archivoImportacionLista,
+        })
+      );
+    }
+
     this.store.dispatch(
       asignarDocumentacionId({ id: item?.documentacionId || 0 })
-    );
-    this.store.dispatch(
-      asignarArchivoImportacionLista({
-        lista: item?.archivoImportacionLista ?? '',
-      })
     );
   }
 
