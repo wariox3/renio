@@ -109,6 +109,7 @@ export class BaseListaComponent extends General implements OnInit {
 
   consultarLista() {
     this.cargando$.next(true);
+    this.arrItems = [];
     let filtroPermamente: any = [];
     let baseUrl = 'general/funcionalidad/lista/';
 

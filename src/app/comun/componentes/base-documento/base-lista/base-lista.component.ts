@@ -121,6 +121,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   consultarLista() {
     this.mostrarVentanaCargando$.next(true)
+    this.arrItems = [];
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
         const filtroGuardado = localStorage.getItem(this.nombreFiltro);
@@ -272,7 +273,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     if (data.length > 0) {
       this.activatedRoute.queryParams.subscribe((parametro) => {
         this.mostrarVentanaCargando$.next(true);
-        
+
         const consultaHttp = parametro.consultaHttp;
         if (consultaHttp === 'si') {
           this.httpService
