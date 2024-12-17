@@ -31,7 +31,7 @@ import {
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { documentosEstadosAction } from '@redux/actions/documentos-estados.action';
 import { Subject, takeUntil } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
 import { FacturaService } from '../../services/factura.service';

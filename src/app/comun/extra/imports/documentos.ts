@@ -1,4 +1,4 @@
-import { FormulariosYDetallesAsíncronos } from '@interfaces/comunes/formulariosYDetallesAsíncronos';
+import { FormulariosYDetallesAsíncronos } from '@interfaces/comunes/formularios-detalles-asincronos';
 
 export const Componetes: FormulariosYDetallesAsíncronos = {
   100: {
