@@ -10,11 +10,13 @@ import {
   ViewChild,
   SimpleChanges,
   OnChanges,
+  inject,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Item } from '@interfaces/general/item';
-
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -43,7 +45,9 @@ export class CuentasComponent
   inputItem: ElementRef<HTMLInputElement>;
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
 
-  constructor(private httpService: HttpService) {
+  private readonly _generalService = inject(GeneralService);
+
+  constructor() {
     super();
   }
 
@@ -71,20 +75,14 @@ export class CuentasComponent
   }
 
   agregarCuenta(cuenta: any) {
-    // this.cuentaSeleccionada = cuenta;
-    // if(this.campoInvalido){
-    //   this.campoInvalido = false
-    //   this.changeDetectorRef.detectChanges()
-    // }else {
     this.emitirArrCuentas.emit(cuenta);
-    //}
   }
 
   consultarCuentas(event: any) {
     const valor = event?.target?.value;
     const valorBusqueda = valor.split(' ')?.[0] || '';
 
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           propiedad: 'codigo__startswith',
@@ -103,11 +101,8 @@ export class CuentasComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<RegistroAutocompletarConCuenta>(arrFiltros)
       .subscribe((respuesta) => {
         this.arrCuentasLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -133,7 +128,7 @@ export class CuentasComponent
       });
     }
 
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           propiedad: 'permite_movimiento',
@@ -149,11 +144,8 @@ export class CuentasComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<RegistroAutocompletarConCuenta>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

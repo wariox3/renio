@@ -67,7 +67,6 @@ export class BuscarContratoComponent
   @Input() formularioError: any = false;
   @Output() emitirContrato: EventEmitter<any> = new EventEmitter();
 
-  private readonly httpService = inject(HttpService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly _generalService = inject(GeneralService);
 

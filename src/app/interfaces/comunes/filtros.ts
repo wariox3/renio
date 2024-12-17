@@ -55,4 +55,5 @@ type Modelo =
   | 'HumConcepto'
   | 'HumAdicional'
   | 'HumProgramacionDetalle'
-  | 'HumContrato';
+  | 'HumContrato'
+  | 'ConCuenta';
