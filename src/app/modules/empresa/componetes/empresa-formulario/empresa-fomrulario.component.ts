@@ -1,7 +1,4 @@
-import {
-  CommonModule,
-  NgTemplateOutlet
-} from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -21,6 +18,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
@@ -83,7 +81,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private httpService: HttpService
+    private _generalServices: GeneralService
   ) {
     super();
   }
@@ -98,24 +96,24 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarIdentificacion>
-      >('general/funcionalidad/lista/', {
-        modelo: 'GenIdentificacion',
-        serializador: "ListaAutocompletar"
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarRegimen>
-      >('general/funcionalidad/lista/', {
-        modelo: 'GenRegimen',
-        serializador: "ListaAutocompletar"
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoPersona>
-      >('general/funcionalidad/lista/', {
-        modelo: 'GenTipoPersona',
-        serializador: "ListaAutocompletar"
-      }),
+      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarIdentificacion>(
+        {
+          modelo: 'GenIdentificacion',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarRegimen>(
+        {
+          modelo: 'GenRegimen',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarTipoPersona>(
+        {
+          modelo: 'GenTipoPersona',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
       this.empresaService.consultarDetalle(this.empresaId)
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -229,29 +227,24 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCiudad',
-      serializador: "ListaAutocompletar"
-    };
-
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
-      .pipe(
+    this._generalServices.consultarDatosFiltrados<RegistroAutocompletarCiudad>(
+      {
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: `${event?.target.value}`,
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenCiudad',
+        serializador: 'ListaAutocompletar',
+      }
+    ).pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrCiudades = respuesta.registros;
