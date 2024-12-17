@@ -11,7 +11,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { HttpService } from '@comun/services/http.service';
-import { CuentaBancoService } from '@modulos/general/servicios/cuentaBanco.service';
+import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';

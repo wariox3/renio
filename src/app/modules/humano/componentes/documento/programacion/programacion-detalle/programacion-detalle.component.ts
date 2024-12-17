@@ -25,7 +25,7 @@ import {
   TablaRegistroLista,
 } from '@interfaces/humano/programacion';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
-import { ProgramacionService } from '@modulos/humano/servicios/programacion';
+import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
 import {
   NgbDropdown,

@@ -20,7 +20,7 @@ import {
   RegistroAutocompletarHumGrupo,
   RegistroAutocompletarHumPagoTipo
 } from '@interfaces/comunes/autocompletar';
-import { ProgramacionService } from '@modulos/humano/servicios/programacion';
+import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';

@@ -25,7 +25,7 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarNovedadTipo,
 } from '@interfaces/comunes/autocompletar';
-import { NovedadService } from '@modulos/humano/servicios/novedad';
+import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
