@@ -10,7 +10,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 export class GeneralService {
   private readonly _httpService = inject(HttpService);
 
- /**
+  /**
    * Realiza una consulta POST a la API para obtener registros filtrados.
    *
    * @template T - Tipo genérico que define la estructura de los datos esperados en la respuesta.
@@ -28,7 +28,7 @@ export class GeneralService {
    *
    * @example
    * // Ejemplo de uso con un tipo específico de datos
-   * this._generalServices.consultarDatosFiltrados<RegistroAutocompletarIdentificacion>({
+   * this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarIdentificacion>({
    *   modelo: 'GenIdentificacion',
    *   serializador: 'ListaAutocompletar'
    * }).subscribe((resultado) => {
@@ -37,18 +37,24 @@ export class GeneralService {
    *
    * @example
    * // Ejemplo con filtros parciales
-   * this._generalServices.consultarDatosFiltrados({
+   * this._generalServices.consultarDatosAutoCompletar({
    *   modelo: 'OtroModelo'
    * }).subscribe((resultado) => {
    *   console.log('Datos filtrados:', resultado);
    * });
    */
-  consultarDatosFiltrados<T>(
+  consultarDatosAutoCompletar<T>(
     filtros: Readonly<Partial<ParametrosFiltros>>
   ): Observable<AutocompletarRegistros<T>> {
     return this._httpService.post<AutocompletarRegistros<T>>(
       'general/funcionalidad/lista/',
       filtros
     );
+  }
+
+  consultarDatosLista<T>(
+    filtros: Readonly<Partial<ParametrosFiltros>>
+  ): Observable<T> {
+    return this._httpService.post<T>('general/funcionalidad/lista/', filtros);
   }
 }

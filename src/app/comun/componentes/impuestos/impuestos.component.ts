@@ -127,7 +127,7 @@ export class ImpuestosComponent extends General implements OnChanges {
       ];
     }
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarImpuesto>(
+      .consultarDatosAutoCompletar<RegistroAutocompletarImpuesto>(
         this.arrParametrosConsulta
       )
       .pipe(

@@ -129,7 +129,7 @@ export class BuscarContratoComponent
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarHumContrato>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>({
         filtros: [
           {
             operador: '',
@@ -201,7 +201,7 @@ export class BuscarContratoComponent
     };
 
     return this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarHumContrato>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
       .pipe(
         tap((respuesta) => {
           this.arrContratos = respuesta.registros;

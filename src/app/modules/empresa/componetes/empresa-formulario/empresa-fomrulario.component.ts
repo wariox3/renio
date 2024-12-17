@@ -96,19 +96,19 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarIdentificacion>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarIdentificacion>(
         {
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarRegimen>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarRegimen>(
         {
           modelo: 'GenRegimen',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._generalServices.consultarDatosFiltrados<RegistroAutocompletarTipoPersona>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarTipoPersona>(
         {
           modelo: 'GenTipoPersona',
           serializador: 'ListaAutocompletar',
@@ -227,7 +227,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    this._generalServices.consultarDatosFiltrados<RegistroAutocompletarCiudad>(
+    this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarCiudad>(
       {
         filtros: [
           {

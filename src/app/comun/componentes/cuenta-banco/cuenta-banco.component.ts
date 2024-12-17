@@ -85,7 +85,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     };
 
     this._generalService
-      .consultarDatosFiltrados<Item>(arrFiltros)
+      .consultarDatosAutoCompletar<Item>(arrFiltros)
       .subscribe((respuesta) => {
         this.arrItemsLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -111,7 +111,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     };
 
     this._generalService
-      .consultarDatosFiltrados<Item>(arrFiltros)
+      .consultarDatosAutoCompletar<Item>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

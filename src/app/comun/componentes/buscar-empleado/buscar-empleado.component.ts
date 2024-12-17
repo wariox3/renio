@@ -154,7 +154,7 @@ export class BuscarEmpleadoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this._generalService.consultarDatosFiltrados<RegistroAutocompletarContacto>(arrFiltros).pipe(
+    this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros).pipe(
       tap((respuesta) => {
         this.arrEmpleados = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -204,7 +204,7 @@ export class BuscarEmpleadoComponent
     };
 
     return this._generalService
-      .consultarDatosFiltrados<AutocompletarRegistros<RegistroAutocompletarContacto>>(
+      .consultarDatosAutoCompletar<AutocompletarRegistros<RegistroAutocompletarContacto>>(
         arrFiltros
       )
       .pipe(

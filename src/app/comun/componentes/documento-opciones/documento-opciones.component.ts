@@ -31,7 +31,7 @@ export class DocumentoOpcionesComponent extends General {
   abirModal(content: any) {
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
-        this._generalService.consultarDatosFiltrados<RegistroAutocompletarConMovimiento>( {
+        this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>( {
           filtros: [
             {
               propiedad: 'documento_id',

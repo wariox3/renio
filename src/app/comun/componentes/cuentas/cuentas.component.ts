@@ -102,7 +102,7 @@ export class CuentasComponent
     };
 
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarConCuenta>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
       .subscribe((respuesta) => {
         this.arrCuentasLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -145,7 +145,7 @@ export class CuentasComponent
     };
 
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarConCuenta>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

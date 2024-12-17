@@ -49,7 +49,7 @@ export class ContactosComponent extends General {
 
   consultarContactos(event: any) {
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>({
         filtros: [
           {
             operador: '__icontains',
@@ -73,7 +73,7 @@ export class ContactosComponent extends General {
 
   aplicarFiltrosContactos(event: any) {
     this._generalService
-      .consultarDatosFiltrados<RegistroAutocompletarContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>({
         filtros: [
           {
             operador: '__icontains',
