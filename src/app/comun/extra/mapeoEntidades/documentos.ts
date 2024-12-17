@@ -1141,7 +1141,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -1149,7 +1149,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SALARIO',
@@ -1244,7 +1244,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -1252,7 +1252,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTRATO_ID',
@@ -1791,7 +1791,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CUENTA',

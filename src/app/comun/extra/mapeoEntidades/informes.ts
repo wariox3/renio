@@ -53,7 +53,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CANTIDAD',
@@ -158,7 +158,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: false,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -167,7 +167,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SUBTOTAL',
@@ -404,7 +404,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO',
@@ -652,7 +652,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -662,7 +662,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'SALARIO',
@@ -737,7 +737,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'documento_contacto_nombre_corto',
@@ -747,7 +747,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'documento_fecha',
@@ -879,7 +879,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -889,7 +889,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: true,
+      ordenable: false,
     },
     {
       nombre: 'CONTRATO_ID',
@@ -986,21 +986,21 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: false,  
+      ordenable: false,
     },
     {
       nombre: 'FECHA_DESDE',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: false,  
+      ordenable: false,
     },
     {
       nombre: 'FECHA_HASTA',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
-      ordenable: false,  
+      ordenable: false,
     },
   ],
 };
