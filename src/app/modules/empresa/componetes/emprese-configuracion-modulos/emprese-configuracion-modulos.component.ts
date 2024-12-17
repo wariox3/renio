@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ConfiguracionCarteraComponent } from '@modulos/cartera/componentes/configuracion/configuracion-cartera.component';
@@ -40,7 +40,7 @@ import { switchMap, tap } from 'rxjs';
   templateUrl: './emprese-configuracion-modulos.component.html',
   styleUrl: './emprese-configuracion-modulos.component.scss',
 })
-export class EmpreseConfiguracionModulosComponent extends General implements OnInit {
+export class EmpreseConfiguracionModulosComponent extends General implements OnInit, OnDestroy {
 
   arrMenuApps: string[];
   visualizarMenuApps = false;
@@ -65,5 +65,9 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
   seleccionarConfiguracion(modulo: string){
    this.menuSeleccionado = modulo.toUpperCase()
    this.changeDetectorRef.detectChanges()
+  }
+
+  ngOnDestroy(): void {
+    this.alertaService.cerrarMensajes()
   }
 }
