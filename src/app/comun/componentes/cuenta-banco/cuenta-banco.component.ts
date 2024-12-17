@@ -4,19 +4,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Item } from '@interfaces/general/item';
-import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
-import {
-  NgbDropdown,
-  NgbDropdownModule
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
@@ -29,7 +27,6 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     CommonModule,
-    ItemFormularioComponent,
   ],
 })
 export class CuentaBancoComponent extends General implements AfterViewInit {
@@ -48,7 +45,9 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
-  constructor(private httpService: HttpService) {
+  private readonly _generalService = inject(GeneralService);
+
+  constructor() {
     super();
   }
 
@@ -68,7 +67,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
   }
 
   consultarItems(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -85,11 +84,8 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<Item>(arrFiltros)
       .subscribe((respuesta) => {
         this.arrItemsLista = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -97,7 +93,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
   }
 
   aplicarFiltrosItems(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -114,11 +110,8 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: Item[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosFiltrados<Item>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
