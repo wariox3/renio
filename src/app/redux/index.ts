@@ -1,19 +1,19 @@
 import { usuarioReducer } from './reducers/usuario.reducer';
 import { menuReducer } from './reducers/menu.reducer';
 import { contendorReducer } from './reducers/contendor.reducer';
-import { ContenedorEffects } from './efectos/contenedorEffects';
-import { MenuEffects } from './efectos/menuEffecsts';
-import { UsuarioEffects } from './efectos/UsuarioEffects';
+import { ContenedorEffects } from './effects/contenedor.effects';
+import { MenuEffects } from './effects/menu.effects';
+import { UsuarioEffects } from './effects/usuario.effects';
 import { empresaReducer } from './reducers/empresa.reducer';
-import { EmpresaEffects } from './efectos/empresaEffects';
+import { EmpresaEffects } from './effects/empresa.effects';
 import { configuracionReducer } from './reducers/configuracion.reducer';
-import { ConfiguracionEffects } from './efectos/configuracionEffects';
+import { ConfiguracionEffects } from './effects/configuracion.effects';
 import { documentoReducer } from './reducers/documento.reducer';
 import { criteriosFiltroReducer } from './reducers/criteriosfiltros.reducer';
 import { documentacionReducer } from './reducers/documentacion.reducer';
-import { DocumentacionEffects } from './efectos/documentacionEffects';
+import { DocumentacionEffects } from './effects/documentacion.effects';
 import { ArchivoImportacionReducer } from './reducers/archivoImportacion.reducer';
-import { ArchivoImportacionEffects } from './efectos/archivoImportacionEffects';
+import { ArchivoImportacionEffects } from './effects/archivo-importacion.effects';
 
 export const StoreApp = {
   usuario: usuarioReducer,
