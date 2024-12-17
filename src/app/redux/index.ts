@@ -9,10 +9,10 @@ import { EmpresaEffects } from './effects/empresa.effects';
 import { configuracionReducer } from './reducers/configuracion.reducer';
 import { ConfiguracionEffects } from './effects/configuracion.effects';
 import { documentoReducer } from './reducers/documento.reducer';
-import { criteriosFiltroReducer } from './reducers/criteriosfiltros.reducer';
+import { criteriosFiltroReducer } from './reducers/criterios-filtros.reducer';
 import { documentacionReducer } from './reducers/documentacion.reducer';
 import { DocumentacionEffects } from './effects/documentacion.effects';
-import { ArchivoImportacionReducer } from './reducers/archivoImportacion.reducer';
+import { ArchivoImportacionReducer } from './reducers/archivo-importacion.reducer';
 import { ArchivoImportacionEffects } from './effects/archivo-importacion.effects';
 
 export const StoreApp = {

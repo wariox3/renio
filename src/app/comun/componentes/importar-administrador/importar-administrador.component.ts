@@ -1,4 +1,4 @@
-import { obtenerArchivoImportacionDetalle } from './../../../redux/selectors/archivoImportacion.selectors';
+import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archivo-importacion.selectors';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -19,7 +19,7 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { obtenerArchivoImportacionLista } from '@redux/selectors/archivoImportacion.selectors';
+import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';

@@ -26,7 +26,7 @@ import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.componen
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
-import { asignarArchivoImportacionLista } from '@redux/actions/archivoImportacion.actions';
+import { asignarArchivoImportacionLista } from '@redux/actions/archivo-importacion.actions';
 
 @Component({
   selector: 'app-sidebar-menu',

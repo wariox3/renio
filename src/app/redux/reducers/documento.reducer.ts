@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 import { createReducer, on } from '@ngrx/store';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { getCookie } from 'typescript-cookie';
 
 let documentosEstados: any;

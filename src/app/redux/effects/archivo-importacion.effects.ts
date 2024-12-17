@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { asignarArchivoImportacionDetalle, asignarArchivoImportacionLista, asignarArchivoImportacionNuevo } from '@redux/actions/archivoImportacion.actions';
+import { asignarArchivoImportacionDetalle, asignarArchivoImportacionLista, asignarArchivoImportacionNuevo } from '@redux/actions/archivo-importacion.actions';
 import { tap } from 'rxjs/operators';
 
 @Injectable()

@@ -34,7 +34,7 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';

@@ -50,7 +50,7 @@ import {
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { asignarArchivoImportacionDetalle } from '@redux/actions/archivoImportacion.actions';
+import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
 
 @Component({
   selector: 'app-programacion-detalle',

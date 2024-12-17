@@ -26,7 +26,7 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';

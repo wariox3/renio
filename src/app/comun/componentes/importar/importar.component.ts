@@ -12,7 +12,7 @@ import {
 } from '@interfaces/comunes/importar-detalles.';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { obtenerArchivoImportacionLista } from '@redux/selectors/archivoImportacion.selectors';
+import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import {
   catchError,

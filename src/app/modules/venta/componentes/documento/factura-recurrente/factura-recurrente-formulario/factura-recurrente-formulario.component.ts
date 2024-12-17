@@ -42,7 +42,7 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentosEstadosAction';
+import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
 import { EncabezadoFormularioNuevoComponent } from "@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component";
