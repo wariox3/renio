@@ -44,6 +44,7 @@ type Modelo =
   | 'GenRegimen'
   | 'GenTipoPersona'
   | 'GenPrecio'
+  | 'GenImpuesto'
   | 'GenMetodoPago'
   | 'GenAsesor'
   | 'GenContacto'
@@ -56,4 +57,5 @@ type Modelo =
   | 'HumAdicional'
   | 'HumProgramacionDetalle'
   | 'HumContrato'
-  | 'ConCuenta';
+  | 'ConCuenta'
+  | 'ConMovimiento';

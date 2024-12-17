@@ -7,6 +7,8 @@ import { General } from '@comun/clases/general';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -18,7 +20,8 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 export class DocumentoOpcionesComponent extends General {
   private modalService = inject(NgbModal);
   private httpService = inject(HttpService);
-  private descargarArchivosService = inject(DescargarArchivosService)
+  private _generalService = inject(GeneralService);
+  private descargarArchivosService = inject(DescargarArchivosService);
   arrDocumentos: any[];
   cantidad_registros: number;
   modelo: 'documento';
@@ -30,34 +33,29 @@ export class DocumentoOpcionesComponent extends General {
   abirModal(content: any) {
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
-        this.httpService
-          .post<{ cantidad_registros: number; registros: any[] }>(
-            'general/funcionalidad/lista/',
+        this._generalService.consultarDatosFiltrados<RegistroAutocompletarConMovimiento>( {
+          filtros: [
             {
-              filtros: [
-                {
-                  propiedad: 'documento_id',
-                  valor1: parametro.detalle,
-                },
-              ],
-              modelo: 'ConMovimiento',
-              //serializador: 'General',
-            }
-          )
-          .subscribe((respuesta) => {
-            this.arrDocumentos = respuesta.registros.map((documento: any) => ({
-              id: documento.id,
-              fecha: documento.fecha,
-              numero: documento.numero,
-              contacto_nombre_corto: documento.contacto_nombre_corto,
-              comprobante: documento.comprobante_nombre,
-              cuenta: documento.cuenta_codigo,
-              grupo: documento.grupo_nombre,
-              base: documento.base,
-              debito: documento.debito,
-              credito: documento.credito,
-            }));
-          });
+              propiedad: 'documento_id',
+              valor1: parametro.detalle,
+            },
+          ],
+          modelo: 'ConMovimiento',
+        })
+        .subscribe((respuesta) => {
+          this.arrDocumentos = respuesta.registros.map((documento) => ({
+            id: documento.id,
+            fecha: documento.fecha,
+            numero: documento.numero,
+            contacto_nombre_corto: documento.contacto_nombre_corto,
+            comprobante: documento.comprobante_nombre,
+            cuenta: documento.cuenta_codigo,
+            grupo: documento.grupo_nombre,
+            base: documento.base,
+            debito: documento.debito,
+            credito: documento.credito,
+          }));
+        });
 
         this.store.dispatch(
           ActualizarMapeo({ dataMapeo: documentos['ConMovimiento'] })

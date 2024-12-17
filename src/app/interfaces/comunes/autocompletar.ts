@@ -67,7 +67,6 @@ export interface RegistroAutocompletarPlazoPago {
   plazo_pago_id: number;
   plazo_pago_nombre: string;
   plazo_pago_dias: number;
-
 }
 
 export interface RegistroAutocompletarImpuesto {
@@ -138,4 +137,17 @@ export interface RegistroAutocompletarConCuenta {
   cuenta_codigo: number;
   cuenta_nombre: string;
   cuenta_id: string;
+}
+
+export interface RegistroAutocompletarConMovimiento {
+  id: number;
+  fecha: Date;
+  numero: number;
+  contacto_nombre_corto: string;
+  comprobante_nombre: string;
+  cuenta_codigo: number;
+  grupo_nombre: string;
+  base: string;
+  debito: string;
+  credito: string;
 }
