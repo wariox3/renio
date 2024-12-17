@@ -50,6 +50,7 @@ type Modelo =
   | 'GenPlazoPago'
   | 'GenBanco'
   | 'GenCuentaBancoClase'
+  | 'GenCuentaBanco'
   | 'HumPeriodo'
   | 'HumConcepto'
   | 'HumAdicional'
