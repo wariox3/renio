@@ -5,15 +5,15 @@ export interface Listafiltros {
   tipo: 'Texto' | 'Numero' | 'Booleano' | 'Fecha';
 }
 
-export interface FiltrosAplicados extends Filtros {  
+export interface FiltrosAplicados extends Filtros {
   visualizarBtnAgregarFiltro?: boolean;
 }
 
 export interface Filtros {
   propiedad: string;
-  operador: string;
-  valor1: string;
-  valor2: string;
+  operador?: string;
+  valor1: string | boolean;
+  valor2?: string | boolean;
 }
 
 export interface ParametrosFiltros {
