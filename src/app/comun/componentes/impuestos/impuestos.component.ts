@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   Output,
@@ -9,10 +10,12 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarImpuesto } from '@interfaces/comunes/autocompletar';
+import { GeneralService } from '@comun/services/general.service';
+import {
+  RegistroAutocompletarImpuesto
+} from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { tap } from 'rxjs';
 
@@ -24,19 +27,21 @@ import { tap } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     SoloNumerosDirective,
-],
+  ],
   templateUrl: './impuestos.component.html',
   styleUrls: ['./impuestos.component.scss'],
 })
 export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: any[] = [];
   arrImpuestoLista: any[];
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
     limite: 10,
+    desplazar: 0,
+    ordenamientos: [],
     limite_conteo: 10000,
     modelo: 'GenImpuesto',
-    serializador: "ListaAutocompletar"
+    serializador: 'ListaAutocompletar',
   };
   @Input() arrLista: any[];
   @Input() estadoAprobado = false;
@@ -45,7 +50,9 @@ export class ImpuestosComponent extends General implements OnChanges {
   @Output() emitirImpuestoAgregado: EventEmitter<any> = new EventEmitter();
   @Output() emitirImpuestoElimiando: EventEmitter<any> = new EventEmitter();
 
-  constructor(private httpService: HttpService) {
+  private readonly _generalService = inject(GeneralService);
+
+  constructor() {
     super();
   }
 
@@ -54,10 +61,14 @@ export class ImpuestosComponent extends General implements OnChanges {
       this.arrImpuestoSeleccionados = [];
       let acumulador: any[];
 
-      if(this.visualizarImpuestosVenta){
-        acumulador = this.arrLista.filter((impuesto: any) => impuesto.impuesto_venta);
+      if (this.visualizarImpuestosVenta) {
+        acumulador = this.arrLista.filter(
+          (impuesto: any) => impuesto.impuesto_venta
+        );
       } else {
-        acumulador = this.arrLista.filter((impuesto: any) => impuesto.impuesto_compra);
+        acumulador = this.arrLista.filter(
+          (impuesto: any) => impuesto.impuesto_compra
+        );
       }
       acumulador.map((impuesto: any) => {
         const impuestoExistente = this.arrImpuestoSeleccionados.find(
@@ -101,7 +112,6 @@ export class ImpuestosComponent extends General implements OnChanges {
   consultarImpuesto() {
     if (this.visualizarImpuestosVenta) {
       this.arrParametrosConsulta.filtros = [
-        //...this.arrParametrosConsulta.filtros,
         {
           propiedad: 'venta',
           valor1: true,
@@ -110,16 +120,14 @@ export class ImpuestosComponent extends General implements OnChanges {
     }
     if (this.visualizarImpuestosCompra) {
       this.arrParametrosConsulta.filtros = [
-        //...this.arrParametrosConsulta.filtros,
         {
           propiedad: 'compra',
           valor1: true,
         },
       ];
     }
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarImpuesto>>(
-        'general/funcionalidad/lista/',
+    this._generalService
+      .consultarDatosFiltrados<RegistroAutocompletarImpuesto>(
         this.arrParametrosConsulta
       )
       .pipe(
