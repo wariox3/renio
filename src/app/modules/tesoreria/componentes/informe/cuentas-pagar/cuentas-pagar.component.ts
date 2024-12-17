@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
@@ -9,6 +14,8 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { GeneralService } from '@comun/services/general.service';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-cuentas-pagar',
@@ -24,29 +31,28 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CuentasPagarComponent extends General implements OnInit {
-
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [
+  filtroPermanente: Filtros[] = [
     { propiedad: 'documento_tipo__pagar', valor1: true },
     { propiedad: 'estado_aprobado', valor1: true },
     { propiedad: 'pendiente__gt', valor1: 0 },
   ];
 
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     filtros: this.filtroPermanente,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
     modelo: 'GenDocumento',
-    serializador: "Informe"
+    serializador: 'Informe',
   };
 
-  constructor(
-    private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+  private readonly _generalService = inject(GeneralService);
+  private readonly descargarArchivosService = inject(DescargarArchivosService);
+
+  constructor() {
     super();
   }
 
@@ -61,8 +67,8 @@ export class CuentasPagarComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
+    this._generalService
+      .consultarDatosLista(this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.length;
         this.arrDocumentos = respuesta.registros.map((documento: any) => ({
@@ -73,7 +79,8 @@ export class CuentasPagarComponent extends General implements OnInit {
           fecha_vence: documento.fecha_vence,
           fecha_contable: documento.fecha_contable,
           contacto: documento.contacto_nombre_corto,
-          contacto_numero_identificacion: documento.contacto_numero_identificacion,
+          contacto_numero_identificacion:
+            documento.contacto_numero_identificacion,
           subtotal: documento.subtotal,
           base_impuesto: documento.base_impuesto,
           impuesto: documento.impuesto,
@@ -139,9 +146,8 @@ export class CuentasPagarComponent extends General implements OnInit {
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,
-        excel: true
+        excel: true,
       },
     });
   }
-
 }

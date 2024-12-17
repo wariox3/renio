@@ -12,8 +12,8 @@ export interface FiltrosAplicados extends Filtros {
 export interface Filtros {
   propiedad: string;
   operador?: string;
-  valor1: string | boolean;
-  valor2?: string | boolean;
+  valor1: string | boolean | number;
+  valor2?: string | boolean | number;
 }
 
 export interface ParametrosFiltros {
