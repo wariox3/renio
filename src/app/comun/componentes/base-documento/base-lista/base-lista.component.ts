@@ -81,6 +81,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.alertaService.cerrarMensajes()
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.arrParametrosConsulta.ordenamientos = [];
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;
       this.visualizarBtnNuevo =
@@ -184,10 +185,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
               ...filtroPermamente, // Combinar el array parseado de filtros permanentes
             ];
           }
-          if (ordenamientoFijo !== undefined) {
-            this.arrParametrosConsulta.ordenamientos = [ordenamientoFijo];
-          } else {
-            this.arrParametrosConsulta.ordenamientos = [];
+          if (
+            ordenamientoFijo !== undefined &&
+            !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
+          ) {
+            this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
           }
           if (parametro.serializador) {
             this.arrParametrosConsulta.serializador = parametro.serializador;
