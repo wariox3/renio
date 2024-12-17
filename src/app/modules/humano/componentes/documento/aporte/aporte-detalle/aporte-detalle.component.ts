@@ -13,7 +13,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { TablaRegistroLista } from '@interfaces/humano/programacion';
 import { AporteContratoService } from '@modulos/humano/servicios/aporte-contrato.service';

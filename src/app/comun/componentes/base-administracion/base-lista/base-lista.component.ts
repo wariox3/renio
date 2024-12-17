@@ -8,8 +8,8 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { mapeo } from '@comun/extra/mapeoEntidades/administradores';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { mapeo } from '@comun/extra/mapeo-entidades/administradores';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';

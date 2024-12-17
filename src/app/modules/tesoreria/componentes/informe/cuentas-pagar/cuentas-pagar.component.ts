@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { TranslateModule } from '@ngx-translate/core';

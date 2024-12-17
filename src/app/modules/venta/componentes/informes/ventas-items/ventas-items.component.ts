@@ -6,8 +6,8 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 
 @Component({

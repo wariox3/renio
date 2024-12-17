@@ -1,4 +1,4 @@
-import { DescargarArchivosService } from './../../../services/descargarArchivos.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Params, RouterModule } from '@angular/router';
@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Listafiltros } from '@interfaces/comunes/filtros';
-import { documentos } from '@comun/extra/mapeoEntidades/documentos';
+import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';

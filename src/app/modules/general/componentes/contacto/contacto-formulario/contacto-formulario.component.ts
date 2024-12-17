@@ -27,7 +27,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
-import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocompletarIdentificacion, RegistroAutocompletarPlazoPago, RegistroAutocompletarRegimen, RegistroAutocompletarTipoPersona } from '@interfaces/comunes/autocompletar';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

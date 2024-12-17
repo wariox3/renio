@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

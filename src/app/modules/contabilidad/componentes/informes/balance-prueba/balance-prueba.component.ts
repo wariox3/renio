@@ -12,7 +12,7 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { map, Observable, of, tap } from 'rxjs';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormBuilder,
@@ -125,13 +125,13 @@ export class BalancePruebaComponent extends General implements OnInit {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
-  
+
     // Primer día del mes actual
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).toISOString().split('T')[0];
-  
+
     // Último día del mes actual
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).toISOString().split('T')[0];
-  
+
     this.formularioFiltros = this._formBuilder.group({
       anio: [currentYear, Validators.required],
       fecha_desde: [firstDayOfMonth, Validators.required],

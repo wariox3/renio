@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { General } from '@comun/clases/general';
-import { utilidades } from '@comun/extra/mapeoEntidades/utilidades';
+import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';

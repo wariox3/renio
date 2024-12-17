@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
 import {

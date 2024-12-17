@@ -13,8 +13,8 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { BotonGuardarComponent } from '@comun/componentes/ui/boton-ver-mas/boton-guardar/boton-guardar.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { HttpService } from '@comun/services/http.service';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
-import { MultiplesEmailValidator } from '@comun/validaciones/multiplesEmailValidator';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
+import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarCiudad,

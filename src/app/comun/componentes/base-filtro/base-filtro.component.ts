@@ -24,7 +24,7 @@ import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.
 import { obtenerCriteriosFiltro } from '@redux/selectors/criteriosFIltro.selectors';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
+import { mapeo } from '@comun/extra/mapeo-entidades/buscar-avanzados';
 import { HttpService } from '@comun/services/http.service';
 import { KeysPipe } from '@pipe/keys.pipe';
 import {

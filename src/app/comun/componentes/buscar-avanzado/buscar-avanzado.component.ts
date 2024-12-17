@@ -12,7 +12,7 @@ import { HttpService } from '@comun/services/http.service';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { mapeo } from '@comun/extra/mapeoEntidades/buscarAvanzados';
+import { mapeo } from '@comun/extra/mapeo-entidades/buscar-avanzados';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 

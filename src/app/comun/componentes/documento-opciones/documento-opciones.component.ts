@@ -5,8 +5,8 @@ import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TablaComponent } from '../tabla/tabla.component';
 import { General } from '@comun/clases/general';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeoEntidades/documentos';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { documentos } from '@comun/extra/mapeo-entidades/documentos';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 
 @Component({
   selector: 'app-comun-documento-opciones',

@@ -14,7 +14,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { HttpService } from '@comun/services/http.service';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campoNoObligatorio';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarCargo,

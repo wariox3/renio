@@ -14,7 +14,7 @@ import { HttpService } from '@comun/services/http.service';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
-import { documentos } from '@comun/extra/mapeoEntidades/informes';
+import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,

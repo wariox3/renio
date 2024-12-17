@@ -14,7 +14,7 @@ import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
-import { DescargarArchivosService } from '@comun/services/descargarArchivos.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 @Component({
   selector: 'app-importar-detalles',
   standalone: true,
