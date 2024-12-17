@@ -168,7 +168,10 @@
                 {{ conceptoNomina.concepto_nombre }}
               </td>
               <td class="w-45px text-center">
-                <label (click)="abrirModal(content, conceptoNomina)" class="cursor-pointer">
+                <label
+                  (click)="abrirModal(content, conceptoNomina)"
+                  class="cursor-pointer"
+                >
                   <i class="ki-duotone ki-notepad-edit hover-primary">
                     <span class="path1"></span>
                     <span class="path2"></span>
@@ -204,6 +207,12 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h3>Concepto</h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioConcepto" (ngSubmit)="enviarFormulario()">
