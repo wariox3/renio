@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { validarRutaGuard } from '@guardias/validarRuta.guard';
+import { validarRutaGuard } from '@guardias/validar-ruta.guard';
 
 let redirectToValue: string = '/inicio';
 
