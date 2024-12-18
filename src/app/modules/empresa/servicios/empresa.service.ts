@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
 import { DocumentoTipo } from '@interfaces/empresa/documentoTipo';
+import { ConfiguracionEmpresa } from '@interfaces/empresa/empresa-configuracion.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,9 @@ export class EmpresaService {
   }
 
   obtenerConfiguracionEmpresa(empresa_id: Number | string) {
-    return this.httpService.get(`general/configuracion/${empresa_id}/`);
+    return this.httpService.getDetalle<ConfiguracionEmpresa>(
+      `general/configuracion/${empresa_id}/`
+    );
   }
 
   configuracionEmpresa(empresa_id: Number | string, data: any) {
