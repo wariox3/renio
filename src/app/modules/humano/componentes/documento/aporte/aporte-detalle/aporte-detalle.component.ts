@@ -1,42 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, Pipe } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule,
-  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
-import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { TablaRegistroLista } from '@interfaces/humano/programacion';
-import { AporteContratoService } from '@modulos/humano/servicios/aporte-contrato.service';
 import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import {
   NgbDropdown,
   NgbDropdownModule,
-  NgbModal,
   NgbNavModule,
-  NgbTooltipModule,
+  NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize, of, switchMap, tap } from 'rxjs';
-import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
-import { SweetAlertResult } from 'sweetalert2';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-aporte-detalle',
   standalone: true,
   imports: [
-    KeeniconComponent,
     CommonModule,
     FormsModule,
     TranslateModule,
@@ -46,13 +39,11 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     NgbNavModule,
     ReactiveFormsModule,
     NgbTooltipModule,
-    AnimacionFadeInOutDirective,
     BaseEstadosComponent,
-    ImportarAdministradorComponent,
     NgSelectModule,
     TranslateModule,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })
@@ -74,7 +65,7 @@ export default class AporteDetalleComponent extends General implements OnInit {
   registrosAEliminar: number[] = [];
   isCheckedSeleccionarTodos: boolean = false;
   ordenadoTabla: string = '';
-  arrParametrosConsulta: any;
+  arrParametrosConsulta: ParametrosFiltros;
   registroSeleccionado: number;
   registroAdicionalSeleccionado: number;
   formularioAporteContrato: FormGroup;
@@ -82,14 +73,12 @@ export default class AporteDetalleComponent extends General implements OnInit {
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private aporteService: AporteService,
-    private aporteContratoService: AporteContratoService,
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService,
-    private modalService: NgbModal,
-    private formBuilder: FormBuilder
   ) {
     super();
   }
@@ -153,7 +142,6 @@ export default class AporteDetalleComponent extends General implements OnInit {
   }
 
   generar() {
-    //this.reiniciarSelectoresEliminar();
     this.generando = true;
     this.aporteService
       .generar({
@@ -214,13 +202,12 @@ export default class AporteDetalleComponent extends General implements OnInit {
   }
 
   consultarDatos() {
-    //this.reiniciarSelectoresEliminar();
     this.aporteService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.aporte = respuesta;
-        this.httpService
-          .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
+        this._generalService
+          .consultarDatosLista(this.arrParametrosConsulta)
           .subscribe((respuesta: any) => {
             this.arrAporteDetalle = respuesta.registros.map(
               (registro: TablaRegistroLista) => ({
