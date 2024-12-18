@@ -209,10 +209,6 @@
             <option
               *ngFor="let plazoPago of arrPlazoPago"
               [value]="plazoPago.plazo_pago_id"
-              [selected]="
-                plazoPago.plazo_pago_id ===
-                formularioFactura.controls.plazo_pago_id
-              "
               [attr.data-dias]="plazoPago.plazo_dias"
             >
               {{ plazoPago.plazo_pago_nombre }}
@@ -225,7 +221,7 @@
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioFactura.controls['plazo_pago']
             }"
-          ></ng-container>
+          ></ng-container>  
         </div>
       </div>
       <div class="row mb-5">
@@ -335,7 +331,7 @@
               *ngFor="let asesor of arrAsesor"
               [value]="asesor.asesor_id"
               [selected]="
-                asesor.asesor_id === formularioFactura.controls.asesor_id
+                asesor.asesor_id === formularioFactura.controls.asesor_id.value
               "
             >
               {{ asesor.asesor_nombre_corto }}
@@ -370,7 +366,7 @@
             <option
               *ngFor="let sede of arrSede"
               [value]="sede.sede_id"
-              [selected]="sede.sede_id === formularioFactura.controls.sede_id"
+              [selected]="sede.sede_id === formularioFactura.controls.sede_id.value"
             >
               {{ sede.sede_nombre }}
             </option>
