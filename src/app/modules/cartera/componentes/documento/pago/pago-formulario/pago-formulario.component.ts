@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,18 +8,20 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { HttpService } from '@comun/services/http.service';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenDocumento
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -30,10 +32,9 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -90,9 +91,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
     },
   ];
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private modalService: NgbModal,
     private facturaService: FacturaService
   ) {
@@ -277,7 +279,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -293,11 +295,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
       modelo: 'GenContacto',
       serializador: 'ListaAutocompletar',
     };
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -342,8 +342,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
         ];
       }
     }
-    this.httpService
-      .post('general/funcionalidad/lista/', {
+
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumento>({
         filtros,
         limite: 50,
         desplazar: 0,
@@ -352,8 +353,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
         modelo: 'GenDocumento',
         serializador: 'Adicionar',
       })
-      .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
+      .subscribe((respuesta) => {
+        this.arrDocumentos = respuesta.registros.map((documento) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
@@ -478,7 +479,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       const pago = detalleControl.get('pago')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += parseFloat(pago) ;
+        this.totalCredito += parseFloat(pago);
       } else {
         this.totalDebito += parseFloat(pago);
       }

@@ -152,6 +152,22 @@ export interface RegistroAutocompletarConMovimiento {
   credito: string;
 }
 
+export interface RegistroAutocompletarGenDocumento {
+  id: number;
+  numero: number;
+  fecha: Date;
+  fecha_vence: Date;
+  contacto_id: number;
+  contacto_nombre_corto: string;
+  subtotal: number;
+  impuesto: number;
+  total: number;
+  pendiente: boolean;
+  documento_tipo_cuenta_cobrar_id: number;
+  documento_tipo_cuenta_cobrar_cuenta_codigo: number;
+  naturaleza?: 'C';
+}
+
 export interface RegistroAutocompletarGenMetodoPago {
   metodo_pago_id: number;
   metodo_pogo_nombre: string;
@@ -170,4 +186,3 @@ export interface RegistroAutocompletarGenPrecio {
   precio_id: number;
   precio_nombre: string;
 }
-
