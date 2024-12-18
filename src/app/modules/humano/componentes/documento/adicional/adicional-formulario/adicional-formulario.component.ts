@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,18 +11,16 @@ import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarConcepto,
-  RegistroAutocompletarHumContrato,
+  RegistroAutocompletarConcepto
 } from '@interfaces/comunes/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { tap } from 'rxjs';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-adicional-formulario',
@@ -37,8 +35,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     NgSelectModule,
     BuscarContratoComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './adicional-formulario.component.html',
   styleUrl: './adicional-formulario.component.scss',
 })
@@ -48,12 +46,13 @@ export default class AdicionalFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
-  arrConceptosAdicional: any[] = [];
+  arrConceptosAdicional: RegistroAutocompletarConcepto[] = [];
   arrContratos: any[] = [];
+
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private adicionalService: AdicionalService
   ) {
     super();
@@ -100,20 +99,17 @@ export default class AdicionalFormularioComponent
   }
 
   consultarInformacion() {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              propiedad: 'adicional',
-              valor1: true,
-            },
-          ],
-          modelo: 'HumConcepto',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConcepto>({
+        filtros: [
+          {
+            propiedad: 'adicional',
+            valor1: true,
+          },
+        ],
+        modelo: 'HumConcepto',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta: any) => {
         this.arrConceptosAdicional = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -185,70 +181,67 @@ export default class AdicionalFormularioComponent
       });
   }
 
-  consultarConceptos(event: any) {
-    let arrFiltros = {
-      // filtros: [
-      //   {
-      //     operador: '__icontains',
-      //     propiedad: 'nombre__icontains',
-      //     valor1: `${event?.target.value}`,
-      //   },
-      // ],
-      // limite: 10,
-      // desplazar: 0,
-      // ordenamientos: [],
-      // limite_conteo: 10000,
-      modelo: 'HumConcepto',
-      serializador: 'ListaAutocompletar',
-    };
+  // consultarConceptos(event: any) {
+  //   let arrFiltros = {
+  //     // filtros: [
+  //     //   {
+  //     //     operador: '__icontains',
+  //     //     propiedad: 'nombre__icontains',
+  //     //     valor1: `${event?.target.value}`,
+  //     //   },
+  //     // ],
+  //     // limite: 10,
+  //     // desplazar: 0,
+  //     // ordenamientos: [],
+  //     // limite_conteo: 10000,
+  //     modelo: 'HumConcepto',
+  //     serializador: 'ListaAutocompletar',
+  //   };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrConceptos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
+  //   this._generalService
+  //     .consultarDatosAutoCompletar<RegistroAutocompletarConcepto>({
+  //       modelo: 'HumConcepto',
+  //       serializador: 'ListaAutocompletar',
+  //     })
+  //     .pipe(
+  //       throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+  //       tap((respuesta) => {
+  //         this.arrConceptos = respuesta.registros;
+  //         this.changeDetectorRef.detectChanges();
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
-  consultarContratos(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '',
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: 'ListaAutocompletar',
-    };
+  // consultarContratos(event: any) {
+  //   let arrFiltros: ParametrosFiltros = {
+  //     filtros: [
+  //       {
+  //         operador: '',
+  //         propiedad: 'contacto__nombre_corto__icontains',
+  //         valor1: `${event?.target.value}`,
+  //         valor2: '',
+  //       },
+  //     ],
+  //     limite: 10,
+  //     desplazar: 0,
+  //     ordenamientos: [],
+  //     limite_conteo: 10000,
+  //     modelo: 'HumContrato',
+  //     serializador: 'ListaAutocompletar',
+  //   };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
+  //   // this._generalService
+  //   //   .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
+  //   //   .pipe(
+  //   //     throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
+  //   //     tap((respuesta) => {
+  //   //       this.arrContratos = respuesta.registros;
+  //   //       this.changeDetectorRef.detectChanges();
+  //   //     })
+  //   //   )
+  //   //   .subscribe();
+  // }
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
