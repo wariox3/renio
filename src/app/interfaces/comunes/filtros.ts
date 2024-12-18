@@ -22,7 +22,7 @@ export interface ParametrosFiltros {
   ordenamientos: string[];
   limite_conteo: number;
   modelo: Modelo;
-  serializador: Serializador;
+  serializador?: Serializador;
   filtros: FiltrosAplicados[];
 }
 
