@@ -3,34 +3,34 @@ export interface AutocompletarRegistros<T> {
   registros: T[];
 }
 
-export interface RegistroAutocompletarRiesgo {
+export interface RegistroAutocompletarHumRiesgo {
   riesgo_id: number;
   riesgo_codigo: string;
   riesgo_nombre: string;
   riesgo_porcenjate: number;
 }
 
-export interface RegistroAutocompletarPension {
+export interface RegistroAutocompletarHumPension {
   pension_id: 1;
   pension_nombre: string;
 }
 
-export interface RegistroAutocompletarSubtipoCotizante {
+export interface RegistroAutocompletarHumSubtipoCotizante {
   subtipo_cotizante_id: number;
   subtipo_cotizante_nombre: string;
 }
 
-export interface RegistroAutocompletarSalud {
+export interface RegistroAutocompletarHumSalud {
   salud_id: number;
   salud_nombre: string;
 }
 
-export interface RegistroAutocompletarSucursal {
+export interface RegistroAutocompletarHumSucursal {
   sucursal_id: number;
   sucursal_nombre: string;
 }
 
-export interface RegistroAutocompletarTipoCotizante {
+export interface RegistroAutocompletarHumTipoCotizante {
   tipo_cotizante_id: number;
   tipo_cotizante_nombre: string;
 }
@@ -201,5 +201,21 @@ export interface RegistroAutocompletarGenPrecio {
 export interface RegistroAutocompletarGenCuentaBancoClase {
   cuenta_banco_clase_id: number;
   cuenta_banco_clase_nombre: string;
+}
+
+export interface RegistroAutocompletarHumCargo {
+  cargo_id: number;
+  cargo_codigo: string;
+  cargo_nombre: string;
+}
+
+export interface RegistroAutocompletarHumEntidad {
+  entidad_id: number;
+  entidad_nombre: string;
+}
+
+export interface RegistroAutocompletarHumContratoTipo {
+  contrato_tipo_id: number;
+  contrato_tipo_nombre: string;
 }
 

@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,18 +18,23 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarCargo,
   RegistroAutocompletarContacto,
-  RegistroAutocompletarPension,
-  RegistroAutocompletarRiesgo,
-  RegistroAutocompletarSalud,
-  RegistroAutocompletarSubtipoCotizante,
-  RegistroAutocompletarSucursal,
-  RegistroAutocompletarTipoCotizante,
+  RegistroAutocompletarHumPension,
+  RegistroAutocompletarHumRiesgo,
+  RegistroAutocompletarHumSalud,
+  RegistroAutocompletarHumSubtipoCotizante,
+  RegistroAutocompletarHumTipoCotizante,
+  RegistroAutocompletarHumSucursal,
+  RegistroAutocompletarHumCargo,
+  RegistroAutocompletarHumEntidad,
+  RegistroAutocompletarHumContratoTipo,
+  RegistroAutocompletarHumGrupo,
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
@@ -33,8 +43,9 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { BuscarEmpleadoComponent } from "../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component";
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { BuscarEmpleadoComponent } from '../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -50,8 +61,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     NgSelectModule,
     BuscarEmpleadoComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,12 +80,13 @@ export default class ContratoFormularioComponent
   arrEntidadPension: any[] = [];
   arrEntidadCesantias: any[] = [];
   arrEntidadCaja: any[] = [];
-  autocompletarRiesgo: RegistroAutocompletarRiesgo[] = [];
-  autocompletarPension: RegistroAutocompletarPension[] = [];
-  autocompletarSubtipoCotizante: RegistroAutocompletarSubtipoCotizante[] = [];
-  autocompletarSalud: RegistroAutocompletarSalud[] = [];
-  autocompletarSucursal: RegistroAutocompletarSucursal[] = [];
-  autocompletarTipoCotizante: RegistroAutocompletarTipoCotizante[] = [];
+  autocompletarRiesgo: RegistroAutocompletarHumRiesgo[] = [];
+  autocompletarPension: RegistroAutocompletarHumPension[] = [];
+  autocompletarSubtipoCotizante: RegistroAutocompletarHumSubtipoCotizante[] =
+    [];
+  autocompletarSalud: RegistroAutocompletarHumSalud[] = [];
+  autocompletarSucursal: RegistroAutocompletarHumSucursal[] = [];
+  autocompletarTipoCotizante: RegistroAutocompletarHumTipoCotizante[] = [];
   autocompletarCargo: RegistroAutocompletarCargo[] = [];
   camposBuscarAvanzado = [
     'id',
@@ -102,6 +114,7 @@ export default class ContratoFormularioComponent
     propiedad: 'empleado',
     valor1: true,
   };
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -235,93 +248,85 @@ export default class ContratoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>({
+        modelo: 'HumGrupo',
+        serializador: 'ListaAutocompletar',
+      }),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContratoTipo>({
+        modelo: 'HumContratoTipo',
+        serializador: 'ListaAutocompletar',
+      }),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumRiesgo>(
         {
-          modelo: 'HumGrupo',
+          modelo: 'HumRiesgo',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumPension>(
         {
-          modelo: 'HumContratoTipo',
+          modelo: 'HumPension',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarRiesgo>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumRiesgo',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarPension>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumPension',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarSubtipoCotizante>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumSubtipoCotizante',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSubtipoCotizante>(
+        {
+          modelo: 'HumSubtipoCotizante',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSalud>(
         {
           modelo: 'HumSalud',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarSalud>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSucursal>(
         {
           modelo: 'HumSucursal',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumTipoCotizante',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumCargo',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        filtros: [{ propiedad: 'salud', valor1: true }],
-        modelo: 'HumEntidad',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        filtros: [{ propiedad: 'pension', valor1: true }],
-        modelo: 'HumEntidad',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        filtros: [{ propiedad: 'caja', valor1: true }],
-        modelo: 'HumEntidad',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarTipoCotizante>
-      >('general/funcionalidad/lista/', {
-        filtros: [{ propiedad: 'cesantias', valor1: true }],
-        modelo: 'HumEntidad',
-        serializador: 'ListaAutocompletar',
-      })
-    ).subscribe((respuesta: any) => {
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCotizante>(
+        {
+          modelo: 'HumTipoCotizante',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumCargo>(
+        {
+          modelo: 'HumCargo',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+        {
+          filtros: [{ propiedad: 'salud', valor1: true }],
+          modelo: 'HumEntidad',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+        {
+          filtros: [{ propiedad: 'pension', valor1: true }],
+          modelo: 'HumEntidad',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+        {
+          filtros: [{ propiedad: 'caja', valor1: true }],
+          modelo: 'HumEntidad',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+        {
+          filtros: [{ propiedad: 'cesantias', valor1: true }],
+          modelo: 'HumEntidad',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+    ).subscribe((respuesta) => {
       this.arrGrupo = respuesta[0].registros;
       this.arrContratoTipo = respuesta[1].registros;
       this.autocompletarRiesgo = respuesta?.[2]?.registros;
@@ -331,18 +336,16 @@ export default class ContratoFormularioComponent
       this.autocompletarSucursal = respuesta?.[6]?.registros;
       this.autocompletarTipoCotizante = respuesta?.[7]?.registros;
       this.autocompletarCargo = respuesta?.[8]?.registros;
-
-      this.arrEntidadSalud =respuesta?.[9].registros
-      this.arrEntidadPension =respuesta?.[10].registros
-      this.arrEntidadCaja =respuesta?.[11].registros
-      this.arrEntidadCesantias =respuesta?.[12].registros
-
+      this.arrEntidadSalud = respuesta?.[9].registros;
+      this.arrEntidadPension = respuesta?.[10].registros;
+      this.arrEntidadCaja = respuesta?.[11].registros;
+      this.arrEntidadCesantias = respuesta?.[12].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
 
   consultarEmpleado(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -360,11 +363,8 @@ export default class ContratoFormularioComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -395,7 +395,7 @@ export default class ContratoFormularioComponent
       this.formularioContrato
         .get('contacto_nombre')
         ?.setValue(dato.contacto_nombre_corto);
-        this.formularioContrato
+      this.formularioContrato
         .get('contacto_numero_identificacion')
         ?.setValue(dato.numero_identificacion);
     }
@@ -431,7 +431,8 @@ export default class ContratoFormularioComponent
         this.formularioContrato.patchValue({
           contacto: respuesta.contacto_id,
           contacto_nombre: respuesta.contacto_nombre_corto,
-          contacto_numero_identificacion: respuesta.contacto_numero_identificacion,
+          contacto_numero_identificacion:
+            respuesta.contacto_numero_identificacion,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
           grupo: respuesta.grupo_id,
@@ -452,7 +453,7 @@ export default class ContratoFormularioComponent
           ciudad_contrato_nombre: respuesta.ciudad_contrato_nombre,
           ciudad_labora: respuesta.ciudad_labora_id,
           ciudad_labora_nombre: respuesta.ciudad_labora_nombre,
-          entidad_salud:  respuesta.entidad_salud_id,
+          entidad_salud: respuesta.entidad_salud_id,
           entidad_caja: respuesta.entidad_caja_id,
           entidad_pension: respuesta.entidad_pension_id,
           entidad_cesantias: respuesta.entidad_cesantias_id,
@@ -552,7 +553,7 @@ export default class ContratoFormularioComponent
   }
 
   consultarCargo(event: any) {
-    const arrFiltros = {
+    const arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -569,9 +570,8 @@ export default class ContratoFormularioComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarCargo>(
         arrFiltros
       )
       .pipe(
