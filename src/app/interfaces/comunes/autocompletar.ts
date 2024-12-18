@@ -113,6 +113,11 @@ export interface RegistroAutocompletarGenCuentaBancoClase {
   cuenta_banco_clase_nombre: string;
 }
 
+export interface RegistroAutocompletarGenCuentaBanco {
+  cuenta_banco_id: number;
+  cuenta_banco_nombre: string;
+}
+
 export interface RegistroAutocompletarGenBanco {
   id: number;
   nombre: string;
@@ -202,11 +207,6 @@ export interface RegistroAutocompletarGenSede {
 export interface RegistroAutocompletarGenPrecio {
   precio_id: number;
   precio_nombre: string;
-}
-
-export interface RegistroAutocompletarGenCuentaBancoClase {
-  cuenta_banco_clase_id: number;
-  cuenta_banco_clase_nombre: string;
 }
 
 export interface RegistroAutocompletarHumCargo {

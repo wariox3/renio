@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -19,6 +19,7 @@ import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenCuentaBanco,
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
@@ -35,6 +36,8 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -99,6 +102,7 @@ export default class EgresoFormularioComponent
       titulo: 'nombre_corto',
     },
   ];
+  private _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -121,8 +125,7 @@ export default class EgresoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBanco>(
         {
           modelo: 'GenCuentaBanco',
           serializador: 'ListaAutocompletar',
@@ -287,7 +290,7 @@ export default class EgresoFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -303,11 +306,8 @@ export default class EgresoFormularioComponent
       modelo: 'GenContacto',
       serializador: 'ListaAutocompletar',
     };
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -378,8 +378,8 @@ export default class EgresoFormularioComponent
       }
       this.changeDetectorRef.detectChanges();
     }
-    this.httpService
-      .post('general/funcionalidad/lista/', {
+    this._generalService
+      .consultarDatosLista({
         filtros,
         limite: 50,
         desplazar: 0,
