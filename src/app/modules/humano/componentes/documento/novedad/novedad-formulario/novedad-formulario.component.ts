@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -20,16 +20,17 @@ import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarNovedadTipo,
+  RegistroAutocompletarHumContrato,
+  RegistroAutocompletarNovedadTipo
 } from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -43,8 +44,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     NgbDropdownModule,
     BuscarContratoComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './novedad-formulario.component.html',
   styleUrl: './novedad-formulario.component.scss',
   animations: [
@@ -66,9 +67,10 @@ export default class CreditoFormularioComponent
   formularioAdicional: FormGroup;
   arrContratos: any[] = [];
   arrNovedadTipos: RegistroAutocompletarNovedadTipo[] = [];
+  private _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private novedadService: NovedadService
   ) {
     super();
@@ -115,14 +117,11 @@ export default class CreditoFormularioComponent
   }
 
   consultarInformacion() {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarNovedadTipo>>(
-        'general/funcionalidad/lista/',
-        {
-          modelo: 'HumNovedadTipo',
-          serializador: "ListaAutocompletar"
-        }
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarNovedadTipo>({
+        modelo: 'HumNovedadTipo',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta: any) => {
         this.arrNovedadTipos = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -177,7 +176,8 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
-          contrato_identificacion: respuesta.contrato_contacto_numero_identificacion,
+          contrato_identificacion:
+            respuesta.contrato_contacto_numero_identificacion,
           novedad_tipo: respuesta.novedad_tipo_id,
           dias_dinero: respuesta.dias_dinero,
           dias_disfrutados: respuesta.dias_disfrutados,
@@ -192,7 +192,7 @@ export default class CreditoFormularioComponent
   }
 
   consultarContratos(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -206,14 +206,11 @@ export default class CreditoFormularioComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'HumContrato',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -232,7 +229,7 @@ export default class CreditoFormularioComponent
       this.formularioAdicional
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
-        this.formularioAdicional
+      this.formularioAdicional
         .get('contrato_identificacion')
         ?.setValue(dato.contrato_contacto_numero_identificacion);
     }

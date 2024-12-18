@@ -72,5 +72,6 @@ type Modelo =
   | 'HumTipoCotizante'
   | 'HumCargo'
   | 'HumPagoTipo'
+  | 'HumNovedadTipo'
   | 'ConCuenta'
   | 'ConMovimiento';
