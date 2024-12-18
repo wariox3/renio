@@ -53,15 +53,6 @@ export class GuiaListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
-          id: documento.id,
-        }));
-        this.changeDetectorRef.detectChanges();
-      });
   }
 
   obtenerFiltros(arrFiltrosExtra: any) {
