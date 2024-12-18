@@ -164,6 +164,11 @@ export interface RegistroAutocompletarConMovimiento {
   credito: string;
 }
 
+export interface RegistroAutocompletarGenDocumentoReferencia {
+  id: number;
+  numero: number;
+}
+
 export interface RegistroAutocompletarGenDocumento {
   id: number;
   numero: number;
