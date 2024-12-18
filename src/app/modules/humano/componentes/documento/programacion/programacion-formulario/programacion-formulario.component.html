@@ -29,10 +29,6 @@
             <option
               *ngFor="let pagoTipo of arrPagoTipo"
               [value]="pagoTipo.pago_tipo_id"
-              [selected]="
-                pagoTipo.pago_tipo_id ===
-                formularioProgramacion.controls.pago_tipo_id
-              "
             >
               {{ pagoTipo.pago_tipo_nombre }}
             </option>

@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,19 +17,19 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fechas.validator';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarHumGrupo,
-  RegistroAutocompletarHumPagoTipo
+  RegistroAutocompletarHumPagoTipo,
 } from '@interfaces/comunes/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-programacion-formulario',
@@ -37,8 +42,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './programacion-formulario.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -46,19 +51,19 @@ export default class ContratoFormularioComponent
   extends General
   implements OnInit
 {
+  grupoSeleccionado: any;
+  arrPagoTipo: RegistroAutocompletarHumPagoTipo[];
+  arrGrupo: RegistroAutocompletarHumGrupo[];
   formularioProgramacion: FormGroup;
+
+  private _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private programacionService: ProgramacionService
   ) {
     super();
   }
-
-  grupoSeleccionado: any;
-  arrPagoTipo: any[];
-  arrGrupo: any[];
 
   ngOnInit() {
     this.consultarInformacion();
@@ -82,13 +87,13 @@ export default class ContratoFormularioComponent
 
           this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
           this.formularioProgramacion.patchValue({
-            periodo: this.grupoSeleccionado.grupo_periodo_id
-          })
+            periodo: this.grupoSeleccionado.grupo_periodo_id,
+          });
         } else {
           this.actualizarValidacion(0);
         }
 
-        this.changeDetectorRef.detectChanges()
+        this.changeDetectorRef.detectChanges();
       });
   }
 
@@ -181,20 +186,20 @@ export default class ContratoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarHumPagoTipo>
-      >('general/funcionalidad/lista/', {
-        modelo: 'HumPagoTipo',
-        serializador: 'ListaAutocompletar',
-      }),
-      this.httpService.post<
-        AutocompletarRegistros<RegistroAutocompletarHumGrupo>
-      >('general/funcionalidad/lista/', {
-        limite_conteo: 10000,
-        modelo: 'HumGrupo',
-        serializador: 'ListaAutocompletar',
-      })
-    ).subscribe((respuesta: any) => {
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumPagoTipo>(
+        {
+          modelo: 'HumPagoTipo',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>(
+        {
+          limite_conteo: 10000,
+          modelo: 'HumGrupo',
+          serializador: 'ListaAutocompletar',
+        }
+      )
+    ).subscribe((respuesta) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
       this.changeDetectorRef.detectChanges();
