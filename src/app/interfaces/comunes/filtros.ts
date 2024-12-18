@@ -55,6 +55,7 @@ type Modelo =
   | 'GenBanco'
   | 'GenCuentaBancoClase'
   | 'GenCuentaBanco'
+  | 'GenResolucion'
   | 'HumPeriodo'
   | 'HumConcepto'
   | 'HumAdicional'

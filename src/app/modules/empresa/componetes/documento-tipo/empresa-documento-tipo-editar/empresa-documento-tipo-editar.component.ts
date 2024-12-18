@@ -1,5 +1,12 @@
-import { HttpService } from '@comun/services/http.service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,14 +15,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { GeneralService } from '@comun/services/general.service';
+import {
+  RegistroAutocompletarResolucion
+} from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
-import { CardComponent } from '../../../../../comun/componentes/card/card.component';
-import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
-import { Resolucion } from '@interfaces/general/resolucion';
-import { AutocompletarRegistros, RegistroAutocompletarResolucion } from '@interfaces/comunes/autocompletar';
+import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',
@@ -23,7 +31,6 @@ import { AutocompletarRegistros, RegistroAutocompletarResolucion } from '@interf
   standalone: true,
   imports: [
     BtnAtrasComponent,
-    CardComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -35,18 +42,19 @@ export class EmpresaDocumentoTipoEditarComponent
   implements OnInit
 {
   formularioDocumentoTipo: FormGroup;
-  arrResoluciones: RegistroAutocompletarResolucion[] = []
+  arrResoluciones: RegistroAutocompletarResolucion[] = [];
+
   @Input() ocultarBtnAtras: Boolean = false;
-  @Input() tipoRolucion: 'compra' | 'venta' | null = null;
+  @Input() tipoRolucion: 'compra' | 'venta';
   @Input() tituloFijo: Boolean = false;
   @Input() editarInformacion: Boolean = false;
   @Input() idEditarInformacion: number | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
+  private _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService,
-    private HttpService: HttpService
+    private empresaService: EmpresaService
   ) {
     super();
   }
@@ -118,7 +126,7 @@ export class EmpresaDocumentoTipoEditarComponent
       resolucionId = this.idEditarInformacion;
     }
 
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -136,27 +144,21 @@ export class EmpresaDocumentoTipoEditarComponent
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenResolucion',
-      serializador: "ListaAutocompletar"
+      serializador: 'ListaAutocompletar',
     };
 
     zip(
-      this.HttpService
-      .post<AutocompletarRegistros<RegistroAutocompletarResolucion>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarResolucion>(
         arrFiltros
       ),
-      this.empresaService
-      .consultarDocumentoTipoDetalle(resolucionId),
-
+      this.empresaService.consultarDocumentoTipoDetalle(resolucionId)
     ).subscribe((respuesta: any) => {
-        this.arrResoluciones = respuesta[0].registros
-        this.formularioDocumentoTipo.patchValue({
-          consecutivo: respuesta[1].consecutivo,
-          resolucion: respuesta[1].resolucion_id,
-        });
-        this.changeDetectorRef.detectChanges();
+      this.arrResoluciones = respuesta[0].registros;
+      this.formularioDocumentoTipo.patchValue({
+        consecutivo: respuesta[1].consecutivo,
+        resolucion: respuesta[1].resolucion_id,
       });
+      this.changeDetectorRef.detectChanges();
+    });
   }
-
-
 }

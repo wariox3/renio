@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DocumentoTipo } from '@interfaces/empresa/documentoTipo';
@@ -18,39 +18,43 @@ import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-e
     CommonModule,
     TranslateModule,
     CardComponent,
-    EmpresaDocumentoTipoEditarComponent
+    EmpresaDocumentoTipoEditarComponent,
   ],
 })
-export class DocumentoDocumentoTipoComponent extends General implements OnInit {
-
-  arrDocumentosTipos: DocumentoTipo[] = []
-  resolucionId: number
-  documentoTipoSeleccionado: any
+export class DocumentoDocumentoTipoComponent
+  extends General
+  implements OnInit, OnDestroy
+{
+  arrDocumentosTipos: DocumentoTipo[] = [];
+  resolucionId: number;
+  documentoTipoSeleccionado: any;
 
   constructor(
     private empresaService: EmpresaService,
     private modalService: NgbModal
   ) {
-    super()
+    super();
   }
 
   ngOnInit() {
     this.consultarInformacion();
   }
 
-  consultarInformacion() {
-    this.empresaService
-      .obtenerDocumentoTipo()
-      .subscribe((respuesta) => {
-        this.arrDocumentosTipos = respuesta
-        this.changeDetectorRef.detectChanges()
-      });
+  ngOnDestroy(): void {
+    this.alertaService.cerrarMensajes();
   }
 
-  navegarEditar(documentoTipo: any, content: any){
-    this.documentoTipoSeleccionado = documentoTipo
-    this.resolucionId = documentoTipo.id
-    this.changeDetectorRef.detectChanges()
+  consultarInformacion() {
+    this.empresaService.obtenerDocumentoTipo().subscribe((respuesta) => {
+      this.arrDocumentosTipos = respuesta;
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  navegarEditar(documentoTipo: any, content: any) {
+    this.documentoTipoSeleccionado = documentoTipo;
+    this.resolucionId = documentoTipo.id;
+    this.changeDetectorRef.detectChanges();
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -58,7 +62,7 @@ export class DocumentoDocumentoTipoComponent extends General implements OnInit {
   }
 
   cerrarModal(resolucion: Resolucion): void {
-    this.consultarInformacion()
+    this.consultarInformacion();
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
