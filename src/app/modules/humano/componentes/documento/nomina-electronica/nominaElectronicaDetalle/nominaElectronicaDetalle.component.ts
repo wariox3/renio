@@ -1,6 +1,6 @@
 import { HttpService } from '@comun/services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -9,8 +9,9 @@ import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-elect
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap, zip } from 'rxjs';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { BaseEstadosComponent } from "../../../../../../comun/componentes/base-estados/base-estados.component";
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { BaseEstadosComponent } from '../../../../../../comun/componentes/base-estados/base-estados.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { GeneralService } from '@comun/services/general.service';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -22,8 +23,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbNavModule,
     BaseEstadosComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
 })
@@ -80,7 +81,8 @@ export default class NominaElectronicaDetalleComponent
     detalles: [],
     pagos: [],
   };
-  arrNominas: any[] = []
+  arrNominas: any[] = [];
+  private _generalService = inject(GeneralService);
 
   constructor(
     private nominaElectronicaService: NominaElectronicaService,
@@ -96,7 +98,7 @@ export default class NominaElectronicaDetalleComponent
   consultarDetalle() {
     zip(
       this.nominaElectronicaService.consultarDetalle(this.detalle),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>('general/funcionalidad/lista/', {
+      this._generalService.consultarDatosLista<any>({
         filtros: [
           { propiedad: 'documento_referencia_id', valor1: this.detalle },
         ],
@@ -121,29 +123,31 @@ export default class NominaElectronicaDetalleComponent
 
   aprobar() {
     this.alertaService
-    .confirmarSinReversa()
-    .pipe(
-      switchMap((respuesta) => {
-        if (respuesta.isConfirmed) {
-          return this.httpService.post('general/documento/aprobar/', {
-            id: this.detalle,
-          });
-        }
-        return EMPTY;
-      }),
-      switchMap((respuesta) =>
-        respuesta ? this.nominaElectronicaService.consultarDetalle(this.detalle) : EMPTY
-      ),
-      tap((respuestaConsultaDetalle: any) => {
-        this.nominaElectronica = respuestaConsultaDetalle.documento
-        if (respuestaConsultaDetalle) {
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      })
-    )
-    .subscribe();
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('general/documento/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta
+            ? this.nominaElectronicaService.consultarDetalle(this.detalle)
+            : EMPTY
+        ),
+        tap((respuestaConsultaDetalle: any) => {
+          this.nominaElectronica = respuestaConsultaDetalle.documento;
+          if (respuestaConsultaDetalle) {
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 }
