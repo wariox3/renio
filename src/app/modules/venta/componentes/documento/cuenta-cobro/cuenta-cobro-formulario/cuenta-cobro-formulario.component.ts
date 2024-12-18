@@ -7,7 +7,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -19,17 +19,22 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenAsesor,
+  RegistroAutocompletarGenMetodoPago,
+  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenSede
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
@@ -70,16 +75,20 @@ import {
     FormularioProductosComponent,
     NgbDropdownModule,
     TituloAccionComponent,
-    EncabezadoFormularioNuevoComponent
-],
+    EncabezadoFormularioNuevoComponent,
+  ],
 })
-export default class CuentaCobroFormularioComponent extends General implements OnInit {
+export default class CuentaCobroFormularioComponent
+  extends General
+  implements OnInit
+{
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
   private _empresaService = inject(EmpresaService);
   private _modalService = inject(NgbModal);
   private _formularioFacturaService = inject(FormularioFacturaService);
+  private _generalService = inject(GeneralService);
 
   public formularioFactura: FormGroup;
   public active: Number;
@@ -433,7 +442,7 @@ export default class CuentaCobroFormularioComponent extends General implements O
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -456,11 +465,8 @@ export default class CuentaCobroFormularioComponent extends General implements O
       serializador: 'ListaAutocompletar',
     };
 
-    this._httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -635,63 +641,32 @@ export default class CuentaCobroFormularioComponent extends General implements O
 
   private _consultarInformacion() {
     zip(
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
         }
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1)
-    ).subscribe((respuesta: any) => {
+    ).subscribe((respuesta) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
       this.arrAsesor = respuesta[2].registros;
