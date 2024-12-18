@@ -24,6 +24,7 @@ export interface ParametrosFiltros {
   modelo: Modelo;
   serializador?: Serializador;
   filtros: FiltrosAplicados[];
+  documento_clase_id?: number;
 }
 
 type Serializador =

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { General } from '@comun/clases/general';
@@ -12,6 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { GeneralService } from '@comun/services/general.service';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -28,7 +30,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   ],
 })
 export class DocumentoElectronicoComponent extends General implements OnInit {
-  filtroPermanenteEmitir = [
+  filtroPermanenteEmitir: Filtros[] = [
     {
       propiedad: 'estado_aprobado',
       valor1: true,
@@ -42,13 +44,13 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
       valor1: 5,
     },
   ];
-  arrParametrosConsultaEmitir: any = {
+  arrParametrosConsultaEmitir: ParametrosFiltros = {
     filtros: this.filtroPermanenteEmitir,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    modelo: "GenDocumento"
+    modelo: 'GenDocumento',
   };
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
@@ -60,6 +62,7 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   paginacionEmitirDesde: number = 0;
   paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
   cantidad_registros: number = 0;
+  private readonly _generalService = inject(GeneralService);
 
   constructor(private httpService: HttpService) {
     super();
@@ -78,17 +81,16 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
 
   consultarLista() {
     zip(
-      this.httpService.post(
-        'general/funcionalidad/lista/',
-        this.arrParametrosConsultaEmitir
-      ),
+      this._generalService.consultarDatosLista(this.arrParametrosConsultaEmitir)
     ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitir = respuesta[0].registros.map((documento: any) => ({
-        ...documento,
-        ...{
-          selected: false,
-        },
-      }));
+      this.arrDocumentosEmitir = respuesta[0].registros.map(
+        (documento: any) => ({
+          ...documento,
+          ...{
+            selected: false,
+          },
+        })
+      );
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -216,7 +218,6 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-
   aumentarDesplazamientoEmitir() {
     this.paginacionEmitirDesde =
       this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
@@ -267,5 +268,4 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
       this.consultarLista();
     }
   }
-
 }

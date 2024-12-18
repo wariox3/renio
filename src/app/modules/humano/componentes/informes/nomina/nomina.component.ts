@@ -6,8 +6,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
@@ -29,11 +31,11 @@ export class NominaComponent extends General implements OnInit {
   cantidad_registros!: number;
   filtroPermanente = [
     {
-      "propiedad":"documento_tipo__documento_clase_id",
-      "valor1": 701
-    }
+      propiedad: 'documento_tipo__documento_clase_id',
+      valor1: 701,
+    },
   ];
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     modelo: 'GenDocumento',
     serializador: 'Nomina',
     filtros: this.filtroPermanente,
@@ -43,6 +45,7 @@ export class NominaComponent extends General implements OnInit {
     limite_conteo: 10000,
     documento_clase_id: 701,
   };
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private httpService: HttpService,
@@ -62,8 +65,8 @@ export class NominaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post<AutocompletarRegistros<any>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+    this._generalService
+      .consultarDatosLista<any>(this.arrParametrosConsulta)
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros.map((documento: any) => ({
@@ -73,7 +76,7 @@ export class NominaComponent extends General implements OnInit {
           fecha_hasta: documento.fecha_hasta,
           contacto_id: documento.contacto_id,
           contacto_numero_identificacion:
-          documento.contacto_numero_identificacion,
+            documento.contacto_numero_identificacion,
           contacto_nombre_corto: documento.contacto_nombre_corto,
           salario: documento.salario,
           devengado: documento.devengado,
@@ -118,14 +121,14 @@ export class NominaComponent extends General implements OnInit {
 
   descargarExcel() {
     const params = {
-      modelo : 'GenDocumento',
+      modelo: 'GenDocumento',
       serializador: 'NominaExcel',
       excel: true,
       filtros: [
         {
-          "propiedad":"documento_tipo__documento_clase_id",
-          "valor1": 701
-        }
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: 701,
+        },
       ],
     };
 
