@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,8 +11,10 @@ import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
+import { RegistroAutocompletarHumConcepto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -41,11 +43,13 @@ export default class CreditoFormularioComponent
   implements OnInit
 {
   formularioAdicional: FormGroup;
-  arrContratos: any[] = [];
-  arrConceptos: any;
+  arrContratos: RegistroAutocompletarHumContrato[] = [];
+  arrConceptos: RegistroAutocompletarHumConcepto[] = [];
+
+  private _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private creditoService: CreditoService
   ) {
     super();
@@ -140,7 +144,7 @@ export default class CreditoFormularioComponent
   }
 
   consultarContratos(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -157,9 +161,7 @@ export default class CreditoFormularioComponent
       serializador: "ListaAutocompletar"
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/lista/',
+    this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(
         arrFiltros
       )
       .pipe(
@@ -173,7 +175,7 @@ export default class CreditoFormularioComponent
   }
 
   consultarConceptos(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -196,9 +198,8 @@ export default class CreditoFormularioComponent
       serializador: "ListaAutocompletar"
     };
 
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+    this._generalService.
+      consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>(
         arrFiltros
       )
       .pipe(

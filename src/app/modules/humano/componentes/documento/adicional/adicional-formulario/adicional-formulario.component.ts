@@ -12,9 +12,7 @@ import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarConcepto
-} from '@interfaces/comunes/autocompletar';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -46,7 +44,7 @@ export default class AdicionalFormularioComponent
 {
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
-  arrConceptosAdicional: RegistroAutocompletarConcepto[] = [];
+  arrConceptosAdicional: RegistroAutocompletarHumConcepto[] = [];
   arrContratos: any[] = [];
 
   private readonly _generalService = inject(GeneralService);
@@ -100,7 +98,7 @@ export default class AdicionalFormularioComponent
 
   consultarInformacion() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConcepto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>({
         filtros: [
           {
             propiedad: 'adicional',

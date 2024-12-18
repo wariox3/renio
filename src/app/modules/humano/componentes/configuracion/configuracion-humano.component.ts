@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import {
   AutocompletarRegistros,
-  RegistroAutocompletarConcepto,
+  RegistroAutocompletarHumConcepto,
 } from '@interfaces/comunes/autocompletar';
 
 @Component({
@@ -38,7 +38,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   formularioConfiguracion: FormGroup;
   formularioConcepto: FormGroup;
   arrConceptosNomina: any;
-  arrConceptosHumano: RegistroAutocompletarConcepto[];
+  arrConceptosHumano: RegistroAutocompletarHumConcepto[];
   conceptoSelecionado: any;
 
   constructor(
@@ -122,7 +122,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this.conceptoSelecionado = conceptoNomina;
     this.changeDetectorRef.detectChanges();
     this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConcepto>>(
+      .post<AutocompletarRegistros<RegistroAutocompletarHumConcepto>>(
         'general/funcionalidad/lista/',
         {
           filtros: [
@@ -138,7 +138,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           ordenamientos: [],
           limite_conteo: 10000,
           modelo: 'HumConcepto',
-          serializador: "ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
       .subscribe((respuesta) => {
@@ -180,7 +180,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
                 'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
               )
             );
-            this.consultarConceptoNomina()
+            this.consultarConceptoNomina();
           })
         )
         .subscribe();
