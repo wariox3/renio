@@ -28,10 +28,8 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
-import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenIdentificacion,
@@ -101,7 +99,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private contactoService: ContactoService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
@@ -385,7 +382,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros: any = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -399,6 +396,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ordenamientos: [],
       limite_conteo: 10000,
       modelo: 'GenCiudad',
+      serializador: 'ListaAutocompletar',
     };
 
     this._generalService
