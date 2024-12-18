@@ -17,7 +17,7 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
   AutocompletarRegistros,
-  RegistroAutocompletarCiudad,
+  RegistroAutocompletarGenCiudad,
 } from '@interfaces/comunes/autocompletar';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -385,7 +385,7 @@ export default class EmpleadoFormularioComponent
     };
 
     this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
+      .post<AutocompletarRegistros<RegistroAutocompletarGenCiudad>>(
         'general/funcionalidad/lista/',
         arrFiltros
       )

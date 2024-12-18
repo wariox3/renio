@@ -19,13 +19,10 @@ import {
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
-import { HttpService } from '@comun/services/http.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarCiudad,
-  RegistroAutocompletarIdentificacion,
-  RegistroAutocompletarRegimen,
-  RegistroAutocompletarTipoPersona,
+  RegistroAutocompletarGenCiudad,
+  RegistroAutocompletarGenIdentificacion,
+  RegistroAutocompletarGenRegimen
 } from '@interfaces/comunes/autocompletar';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
@@ -42,6 +39,7 @@ import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
+import { RegistroAutocompletarGenTipoPersona } from './../../../../interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -96,19 +94,19 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarIdentificacion>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
         {
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarRegimen>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
         {
           modelo: 'GenRegimen',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarTipoPersona>(
+      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
         {
           modelo: 'GenTipoPersona',
           serializador: 'ListaAutocompletar',
@@ -227,7 +225,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarCiudad>(
+    this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(
       {
         filtros: [
           {

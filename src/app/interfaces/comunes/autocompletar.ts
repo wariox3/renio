@@ -63,7 +63,7 @@ export interface RegistroAutocompletarContacto {
   plazo_pago_proveedor_dias: number;
 }
 
-export interface RegistroAutocompletarPlazoPago {
+export interface RegistroAutocompletarGenPlazoPago {
   plazo_pago_id: number;
   plazo_pago_nombre: string;
   plazo_pago_dias: number;
@@ -80,17 +80,17 @@ export interface RegistroAutocompletarImpuesto {
   impuesto_operacion: number;
 }
 
-export interface RegistroAutocompletarIdentificacion {
+export interface RegistroAutocompletarGenIdentificacion {
   identificacion_id: number;
   identificacion_nombre: string;
 }
 
-export interface RegistroAutocompletarRegimen {
+export interface RegistroAutocompletarGenRegimen {
   regimen_id: number;
   regimen_nombre: string;
 }
 
-export interface RegistroAutocompletarTipoPersona {
+export interface RegistroAutocompletarGenTipoPersona {
   tipo_persona_id: number;
   tipo_persona_nombre: string;
 }
@@ -106,7 +106,7 @@ export interface RegistroAutocompletarCuentaBancoTipo {
   cuenta_banco_tipo_nombre: string;
 }
 
-export interface RegistroAutocompletarCiudad {
+export interface RegistroAutocompletarGenCiudad {
   id: number;
   nombre: string;
   estado_nombre: string;
@@ -156,13 +156,6 @@ export interface RegistroAutocompletarGenMetodoPago {
   metodo_pago_id: number;
   metodo_pogo_nombre: string;
 }
-
-export interface RegistroAutocompletarGenPlazoPago {
-  plazo_pago_id: number;
-  plazo_pago_nombre: string;
-  plazo_dias: number;
-}
-
 export interface RegistroAutocompletarGenAsesor {
   asesor_id: number;
   asesor_nombre_corto: string;
@@ -173,5 +166,8 @@ export interface RegistroAutocompletarGenSede {
   sede_nombre: string;
 }
 
-
+export interface RegistroAutocompletarGenPrecio {
+  precio_id: number;
+  precio_nombre: string;
+}
 

@@ -9,33 +9,44 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
-import { AutocompletarRegistros, RegistroAutocompletarCiudad, RegistroAutocompletarIdentificacion, RegistroAutocompletarPlazoPago, RegistroAutocompletarRegimen, RegistroAutocompletarTipoPersona } from '@interfaces/comunes/autocompletar';
+import {
+  AutocompletarRegistros,
+  RegistroAutocompletarGenAsesor,
+  RegistroAutocompletarGenCiudad,
+  RegistroAutocompletarGenIdentificacion,
+  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenPrecio,
+  RegistroAutocompletarGenRegimen,
+  RegistroAutocompletarGenTipoPersona,
+} from '@interfaces/comunes/autocompletar';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -63,8 +74,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     CardComponent,
     NgxMaskDirective,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   providers: [provideNgxMask()],
 })
 export default class ContactDetalleComponent extends General implements OnInit {
@@ -79,13 +90,31 @@ export default class ContactDetalleComponent extends General implements OnInit {
   ciudadSeleccionada: string | null;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
-  @Input() esCliente = true
+  @Input() esCliente = true;
   @Input() esProvedor = false;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
+  private readonly _generalService = inject(GeneralService);
 
   selectedDateIndex: number = -1;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private httpService: HttpService,
+    private contactoService: ContactoService,
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+  ) {
+    super();
+  }
+
+  ngOnInit() {
+    this.consultarInformacion();
+    this.iniciarFormulario();
+    if (this.detalle && this.ocultarBtnAtras === false) {
+      this.consultardetalle();
+    }
+  }
 
   trackByFn(index: number, item: any) {
     return index; // or unique identifier of your item
@@ -126,29 +155,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
     this.ciudadDropdown.open();
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private httpService: HttpService,
-    private contactoService: ContactoService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
-  ) {
-    super();
-
-  }
-
-  ngOnInit() {
-    this.consultarInformacion();
-    this.iniciarFormulario();
-    if (this.detalle && this.ocultarBtnAtras === false) {
-      this.consultardetalle();
-    }
-  }
-
   iniciarFormulario() {
-
-    if(this.parametrosUrl?.dataPersonalizada !== undefined){
+    if (this.parametrosUrl?.dataPersonalizada !== undefined) {
       let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
-      if(dataPersonalizada){
+      if (dataPersonalizada) {
         this.esProvedor = dataPersonalizada?.proveedor === 'si';
         this.esCliente = dataPersonalizada?.cliente === 'si';
       }
@@ -277,7 +287,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.required,
         Validators.maxLength(200),
       ]);
-      if(this.accion === 'nuevo'){
+      if (this.accion === 'nuevo') {
         this.formularioContacto.patchValue({
           nombre1: null,
           nombre2: null,
@@ -375,7 +385,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros = {
+    let arrFiltros: any = {
       filtros: [
         {
           operador: '__icontains',
@@ -391,11 +401,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
       modelo: 'GenCiudad',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarCiudad>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -408,46 +415,40 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarIdentificacion>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
         {
           modelo: 'GenIdentificacion',
-          serializador: 'ListaAutocompletar'
+          serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarRegimen>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
         {
           modelo: 'GenRegimen',
-          serializador: 'ListaAutocompletar'
+          serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarTipoPersona>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
         {
           modelo: 'GenTipoPersona',
-          serializador: 'ListaAutocompletar'
+          serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<any>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
         {
           modelo: 'GenPrecio',
-          serializador: 'ListaAutocompletar'
+          serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<any>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar'
+          serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<AutocompletarRegistros<RegistroAutocompletarPlazoPago>>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
-          serializador:"ListaAutocompletar"
+          serializador: 'ListaAutocompletar',
         }
       )
     ).subscribe((respuesta: any) => {
@@ -473,11 +474,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.ciudadSeleccionada = dato.nombre;
         this.formularioContacto
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);;
+          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
         this.formularioContacto.get('ciudad')?.setValue(dato.id);
       }
     }
-    if(campo === 'ciudad_nombre'){
+    if (campo === 'ciudad_nombre') {
       this.formularioContacto.get('ciudad_nombre')?.setValue(dato);
     }
     if (campo === 'barrio') {
@@ -529,13 +530,15 @@ export default class ContactDetalleComponent extends General implements OnInit {
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
-          empleado: respuesta.empleado
+          empleado: respuesta.empleado,
         });
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
           this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
-          this.setValidators('apellido1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
+          this.setValidators('apellido1', [
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+          ]);
           this.setValidators('nombre_corto', [
             Validators.required,
             Validators.maxLength(200),
@@ -569,5 +572,4 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.formularioContacto.controls['ciudad_nombre'].setValue(null);
     }
   }
-
 }

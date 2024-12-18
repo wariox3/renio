@@ -8,18 +8,13 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { AlertaService } from '@comun/services/alerta.service';
 import { HttpService } from '@comun/services/http.service';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarIdentificacion,
-} from '@interfaces/comunes/autocompletar';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
+import { BehaviorSubject, finalize, tap } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-estados-eventos-dian',
