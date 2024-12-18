@@ -7,7 +7,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -21,6 +21,8 @@ import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenMetodoPago,
+  RegistroAutocompletarGenPlazoPago,
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
@@ -35,6 +37,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -53,11 +57,12 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     ContactoFormulario,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
+  private _generalService = inject(GeneralService);
 
   public modoEdicion: boolean = false;
   public acumuladorImpuesto: AcumuladorImpuestos = {};
@@ -156,26 +161,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
@@ -847,20 +840,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
 
-        if (campo === 'contactoNuevoModal') {
-          this.formularioFactura.get(campo)?.setValue(dato.id);
-          this.formularioFactura
-            .get('contactoNombre')
-            ?.setValue(dato.nombre_corto);
-        }
+      if (campo === 'contactoNuevoModal') {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
+        this.formularioFactura
+          .get('contactoNombre')
+          ?.setValue(dato.nombre_corto);
+      }
 
       this.formularioFactura
         .get('plazo_pago')
         ?.setValue(dato.plazo_pago_proveedor_id);
-      if (dato.plazo_pago_proveedor_dias  > 0) {
+      if (dato.plazo_pago_proveedor_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        let fechaInicio = this.formularioFactura.get('fecha')?.value
+        let fechaInicio = this.formularioFactura.get('fecha')?.value;
         const fechaActual = new Date(fechaInicio);
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
@@ -909,7 +902,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -930,11 +923,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
