@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,16 +10,15 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarHumPerido,
+  RegistroAutocompletarHumPerido
 } from '@interfaces/comunes/autocompletar';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-grupo',
@@ -32,8 +31,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgSelectModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',
 })
@@ -44,10 +43,11 @@ export default class GrupoFormularioComponent
   formularioGrupo: FormGroup;
   listaPeriodos$: Observable<any> = new Observable();
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
     private grupoService: GrupoService,
-    private httpService: HttpService
   ) {
     super();
   }
@@ -69,15 +69,12 @@ export default class GrupoFormularioComponent
   }
 
   consultarPeriodos() {
-    this.listaPeriodos$ = this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumPerido>>(
-        'general/funcionalidad/lista/',
-        {
-          limite_conteo: 10000,
-          modelo: 'HumPeriodo',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+    this.listaPeriodos$ = this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumPerido>({
+        limite_conteo: 10000,
+        modelo: 'HumPeriodo',
+        serializador: 'ListaAutocompletar',
+      })
       .pipe(map((respuesta) => respuesta.registros));
   }
 
@@ -133,7 +130,7 @@ export default class GrupoFormularioComponent
       .subscribe((respuesta: any) => {
         this.formularioGrupo.patchValue({
           nombre: respuesta.nombre,
-          periodo: respuesta.periodo,
+          periodo: respuesta.periodo_id,
         });
 
         this.changeDetectorRef.detectChanges();
