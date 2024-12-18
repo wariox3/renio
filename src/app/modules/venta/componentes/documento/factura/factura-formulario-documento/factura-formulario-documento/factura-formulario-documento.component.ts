@@ -12,6 +12,10 @@ import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenAsesor,
+  RegistroAutocompletarGenMetodoPago,
+  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenSede,
 } from '@interfaces/comunes/autocompletar';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
@@ -21,6 +25,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { GeneralService } from '@comun/services/general.service';
 
 @Component({
   selector: 'app-factura-formulario-documento',
@@ -47,6 +52,7 @@ export class FacturaFormularioDocumentoComponent
   private _httpService = inject(HttpService);
   private _empresaService = inject(EmpresaService);
   private _modalService = inject(NgbModal);
+  private readonly _generalService = inject(GeneralService);
 
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
@@ -289,8 +295,7 @@ export class FacturaFormularioDocumentoComponent
 
   private _consultarInformacion() {
     zip(
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
           filtros: [
             {
@@ -308,8 +313,7 @@ export class FacturaFormularioDocumentoComponent
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           filtros: [],
           limite: 10,
@@ -320,8 +324,7 @@ export class FacturaFormularioDocumentoComponent
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           filtros: [],
           limite: 10,
@@ -332,8 +335,7 @@ export class FacturaFormularioDocumentoComponent
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
           filtros: [],
           limite: 10,

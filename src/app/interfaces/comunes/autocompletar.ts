@@ -151,3 +151,27 @@ export interface RegistroAutocompletarConMovimiento {
   debito: string;
   credito: string;
 }
+
+export interface RegistroAutocompletarGenMetodoPago {
+  metodo_pago_id: number;
+  metodo_pogo_nombre: string;
+}
+
+export interface RegistroAutocompletarGenPlazoPago {
+  plazo_pago_id: number;
+  plazo_pago_nombre: string;
+  plazo_dias: number;
+}
+
+export interface RegistroAutocompletarGenAsesor {
+  asesor_id: number;
+  asesor_nombre_corto: string;
+}
+
+export interface RegistroAutocompletarGenSede {
+  sede_id: number;
+  sede_nombre: string;
+}
+
+
+
