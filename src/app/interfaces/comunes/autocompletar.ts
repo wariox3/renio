@@ -101,7 +101,7 @@ export interface RegistroAutocompletarResolucion {
   resolucion_prefijo: string;
 }
 
-export interface RegistroAutocompletarCuentaBancoTipo {
+export interface RegistroAutocompletarGenCuentaBancoTipo {
   cuenta_banco_tipo_id: number;
   cuenta_banco_tipo_nombre: string;
 }
@@ -186,3 +186,9 @@ export interface RegistroAutocompletarGenPrecio {
   precio_id: number;
   precio_nombre: string;
 }
+
+export interface RegistroAutocompletarGenCuentaBancoClase {
+  cuenta_banco_clase_id: number;
+  cuenta_banco_clase_nombre: string;
+}
+

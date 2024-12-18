@@ -47,6 +47,8 @@ type Modelo =
   | 'GenImpuesto'
   | 'GenItem'
   | 'GenMetodoPago'
+  | 'GenCuentaBancoTipo'
+  | 'GenCuentaBancoClase'
   | 'GenAsesor'
   | 'GenSede'
   | 'GenContacto'

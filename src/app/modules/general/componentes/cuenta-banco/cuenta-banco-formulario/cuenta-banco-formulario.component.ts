@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,13 +15,14 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
 import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarGenCuentaBancoClase, RegistroAutocompletarGenCuentaBancoTipo } from '@interfaces/comunes/autocompletar';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -30,8 +36,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     NgbDropdownModule,
     NgSelectModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,10 +52,10 @@ export default class CuentaBancoFormularioComponent
   selectedDateIndex: number = -1;
   visualizarCampoNumeroCuenta = false;
   public ciudadDropdown: NgbDropdown;
+  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private cuentaBancoService: CuentaBancoService
   ) {
     super();
@@ -72,20 +78,14 @@ export default class CuentaBancoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          modelo: 'GenCuentaBancoTipo',
-          serializador: 'ListaAutocompletar',
-        }
-      ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          modelo: 'GenCuentaBancoClase',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>({
+        modelo: 'GenCuentaBancoTipo',
+        serializador: 'ListaAutocompletar',
+      }),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>({
+        modelo: 'GenCuentaBancoClase',
+        serializador: 'ListaAutocompletar',
+      })
     ).subscribe((respuesta: any) => {
       this.arrCuentasTipos = respuesta[0].registros;
       this.arrCuentasBancos = respuesta[1].registros;
@@ -182,28 +182,23 @@ export default class CuentaBancoFormularioComponent
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros = {
-      filtros: [
-        {
-          operador: '__icontains',
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCuentaBancoTipo',
-      serializador: 'ListaAutocompletar',
-    };
-
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>({
+        filtros: [
+          {
+            operador: '__icontains',
+            propiedad: 'nombre__icontains',
+            valor1: `${event?.target.value}`,
+            valor2: '',
+          },
+        ],
+        limite: 10,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenCuentaBancoTipo',
+        serializador: 'ListaAutocompletar',
+      })
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -229,7 +224,7 @@ export default class CuentaBancoFormularioComponent
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.required]);
-            this.formularioCuentaBanco
+          this.formularioCuentaBanco
             .get('cuenta_banco_clase')
             ?.setValidators([Validators.required]);
           this.changeDetectorRef.detectChanges();
