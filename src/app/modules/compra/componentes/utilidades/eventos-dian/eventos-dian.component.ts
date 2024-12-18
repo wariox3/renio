@@ -1,6 +1,7 @@
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { General } from '@comun/clases/general';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
@@ -20,6 +21,7 @@ import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estad
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
+import { GeneralService } from '@comun/services/general.service';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -36,16 +38,16 @@ import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-x
     GestionEstadosEventosDianComponent,
     EditarEventosDianComponent,
     ImportarXmlComponent,
-    NgbTooltipModule
-],
+    NgbTooltipModule,
+  ],
 })
 export class EventosDianComponent extends General implements OnInit {
-  filtroPermanenteLista = [
+  filtroPermanenteLista: Filtros[] = [
     { propiedad: 'documento_tipo', valor1: '5' },
     { propiedad: 'estado_aprobado', valor1: true },
     { propiedad: 'estado_electronico_evento', valor1: false },
   ];
-  arrParametrosConsultaLista: any = {
+  arrParametrosConsultaLista: ParametrosFiltros = {
     filtros: this.filtroPermanenteLista,
     limite: 50,
     desplazar: 0,
@@ -63,6 +65,7 @@ export class EventosDianComponent extends General implements OnInit {
   paginacionEmitirDesde: number = 0;
   paginacionEmitirHasta: number = this.arrParametrosConsultaLista.limite;
   cantidad_registros: number = 0;
+  private _generalService = inject(GeneralService);
 
   constructor(
     private httpService: HttpService,
@@ -85,10 +88,7 @@ export class EventosDianComponent extends General implements OnInit {
 
   consultarLista() {
     zip(
-      this.httpService.post(
-        'general/funcionalidad/lista/',
-        this.arrParametrosConsultaLista
-      )
+      this._generalService.consultarDatosLista(this.arrParametrosConsultaLista)
     ).subscribe((respuesta: any) => {
       this.arrDocumentosEmitir = respuesta[0].registros.map(
         (documento: any) => ({
@@ -276,12 +276,9 @@ export class EventosDianComponent extends General implements OnInit {
     }
   }
 
-  descartar(id: number){
-    this.eventosDianService.descartar(id)
-    .subscribe(
-      () => {
-        this.consultarLista()
-      }
-    )
+  descartar(id: number) {
+    this.eventosDianService.descartar(id).subscribe(() => {
+      this.consultarLista();
+    });
   }
 }
