@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,17 +8,24 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { BotonGuardarComponent } from '@comun/componentes/ui/boton-ver-mas/boton-guardar/boton-guardar.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
-  AutocompletarRegistros,
+  RegistroAutocompletarGenAsesor,
+  RegistroAutocompletarGenBanco,
   RegistroAutocompletarGenCiudad,
+  RegistroAutocompletarGenCuentaBancoClase,
+  RegistroAutocompletarGenIdentificacion,
+  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenPrecio,
+  RegistroAutocompletarGenRegimen,
+  RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -33,8 +40,7 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
-import { EncabezadoFormularioNuevoComponent } from "@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component";
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -44,13 +50,11 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     CardComponent,
     FormsModule,
     ReactiveFormsModule,
-    BtnAtrasComponent,
     TranslateModule,
     NgbDropdownModule,
-    BotonGuardarComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './empleado-formulario.component.html',
 })
 export default class EmpleadoFormularioComponent
@@ -60,22 +64,23 @@ export default class EmpleadoFormularioComponent
   formularioEmpleado: FormGroup;
   informacionEmpleado: any;
   ciudadSeleccionada: string | null;
-  arrCiudades: any[];
-  arrBancos: any[];
-  arrIdentificacion: any[];
-  arrTipoPersona: any[];
-  arrRegimen: any[];
-  arrAsesores: any[];
-  arrPrecios: any[];
-  arrPagos: any[];
+  arrCiudades: RegistroAutocompletarGenCiudad[];
+  arrBancos: RegistroAutocompletarGenBanco[];
+  arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
+  arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
+  arrRegimen: RegistroAutocompletarGenRegimen[];
+  arrAsesores: RegistroAutocompletarGenAsesor[];
+  arrPrecios: RegistroAutocompletarGenPrecio[];
+  arrPagos: RegistroAutocompletarGenPlazoPago[];
   guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  arrCuentasBancos: any[];
+  arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
 
   selectedDateIndex: number = -1;
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private contactoService: ContactoService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
@@ -116,10 +121,7 @@ export default class EmpleadoFormularioComponent
             Validators.pattern(/^[0-9]+$/),
           ]),
         ],
-        digito_verificacion: [
-          0,
-          Validators.compose([Validators.maxLength(1)]),
-        ],
+        digito_verificacion: [0, Validators.compose([Validators.maxLength(1)])],
         identificacion: ['', Validators.compose([Validators.required])],
         nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
         nombre1: [
@@ -367,7 +369,7 @@ export default class EmpleadoFormularioComponent
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -384,11 +386,8 @@ export default class EmpleadoFormularioComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarGenCiudad>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -424,63 +423,55 @@ export default class EmpleadoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
         {
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
         {
           modelo: 'GenRegimen',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
         {
           modelo: 'GenTipoPersona',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
         {
           modelo: 'GenPrecio',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
         {
           modelo: 'GenBanco',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
         {
           modelo: 'GenCuentaBancoClase',
           serializador: 'ListaAutocompletar',
         }
       )
-    ).subscribe((respuesta: any) => {
+    ).subscribe((respuesta) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
@@ -535,7 +526,7 @@ export default class EmpleadoFormularioComponent
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
-          cuenta_banco_clase: respuesta.cuenta_banco_clase_id
+          cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
         });
 
         this.changeDetectorRef.detectChanges();
