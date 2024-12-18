@@ -185,46 +185,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.acumuladorImpuesto = impuestosAcumulados;
   }
 
-  // consultarInformacion() {
-  //   zip(
-  //     this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-  //       'general/funcionalidad/lista/',
-  //       {
-  //         filtros: [
-  //           {
-  //             operador: '__icontains',
-  //             propiedad: 'nombre__icontains',
-  //             valor1: '',
-  //             valor2: '',
-  //           },
-  //         ],
-  //         limite: 10,
-  //         desplazar: 0,
-  //         ordenamientos: [],
-  //         limite_conteo: 10000,
-  //         modelo: 'GenMetodoPago',
-  //         serializador: 'ListaAutocompletar',
-  //       }
-  //     ),
-  //     this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-  //       'general/funcionalidad/lista/',
-  //       {
-  //         filtros: [],
-  //         limite: 10,
-  //         desplazar: 0,
-  //         ordenamientos: [],
-  //         limite_conteo: 10000,
-  //         modelo: 'GenPlazoPago',
-  //         serializador: 'ListaAutocompletar',
-  //       }
-  //     )
-  //   ).subscribe((respuesta: any) => {
-  //     this.arrMetodosPago = respuesta[0].registros;
-  //     this.arrPlazoPago = respuesta[1].registros;
-  //     this.changeDetectorRef.detectChanges();
-  //   });
-  // }
-
   get detalles() {
     return this.formularioFactura.get('detalles') as FormArray;
   }
