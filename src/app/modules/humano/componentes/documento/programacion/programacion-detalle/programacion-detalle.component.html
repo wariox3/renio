@@ -1031,7 +1031,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-12">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
@@ -1045,7 +1045,8 @@
             [ngClass]="{
               'is-invalid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
-                formularioAdicionalProgramacion.controls['valor'].invalid,
+                formularioAdicionalProgramacion.controls['valor'].invalid &&
+                formularioAdicionalProgramacion.controls['valor']?.hasError('valorCero'),
               'is-valid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
                 formularioAdicionalProgramacion.controls['valor'].valid

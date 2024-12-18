@@ -51,6 +51,7 @@ import {
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -569,6 +570,7 @@ export default class ProgramacionDetalleComponent
       valor: [
         0,
         Validators.compose([
+          validarPrecio(),
           Validators.required,
           Validators.pattern(/^[0-9.]+$/),
         ]),
@@ -835,9 +837,9 @@ export default class ProgramacionDetalleComponent
       this.adicionalService
         .guardarAdicional(this.formularioAdicionalProgramacion.value)
         .subscribe(() => {
+          this.modalService.dismissAll();
           this.consultarAdicionalesTab();
         });
-      this.modalService.dismissAll();
       this.changeDetectorRef.detectChanges();
     } else {
       // Marca todos los campos como tocados para activar las validaciones en la UI
