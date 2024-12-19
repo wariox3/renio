@@ -6,9 +6,9 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
-import { NominaDetalle } from '@interfaces/humano/informe.interface';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
@@ -28,13 +28,13 @@ export class NominaDetalleComponent extends General  implements OnInit {
   private _descargarArchivosService = inject(DescargarArchivosService);
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [
+  filtroPermanente: Filtros[] = [
     {
       "propiedad":"documento__documento_tipo__documento_clase_id",
       "valor1": 701
     }
   ];
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     modelo: 'GenDocumentoDetalle',
     serializador: 'Nomina',
     filtros: this.filtroPermanente,
@@ -43,11 +43,10 @@ export class NominaDetalleComponent extends General  implements OnInit {
     ordenamientos: [],
     limite_conteo: 10000,
   };
+  private readonly _generalService = inject(GeneralService);
 
-  constructor(
-    private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+
+  constructor() {
    super();
   }
   ngOnInit(): void {
@@ -61,11 +60,11 @@ export class NominaDetalleComponent extends General  implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post<AutocompletarRegistros<any>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
-      .subscribe((respuesta) => {
+    this._generalService
+      .consultarDatosLista(this.arrParametrosConsulta)
+      .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.registros?.length;
-        this.arrDocumentos = respuesta.registros?.map((documento) => ({
+        this.arrDocumentos = respuesta.registros?.map((documento: any) => ({
           id: documento.id,
           documento_id: documento.documento_id,
           documento_contacto_id:  documento.documento_contacto_id,
