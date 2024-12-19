@@ -1,7 +1,5 @@
-import { ConceptoService } from './../../servicios/concepto.service';
-import { HttpService } from '@comun/services/http.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,14 +10,15 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { GeneralService } from '@comun/services/general.service';
+import {
+  RegistroAutocompletarHumConcepto
+} from '@interfaces/comunes/autocompletar';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarHumConcepto,
-} from '@interfaces/comunes/autocompletar';
+import { ConceptoService } from './../../servicios/concepto.service';
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -41,12 +40,13 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   arrConceptosHumano: RegistroAutocompletarHumConcepto[];
   conceptoSelecionado: any;
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private conceptoService: ConceptoService,
     private modalService: NgbModal,
-    private httpService: HttpService
   ) {
     super();
   }
@@ -121,26 +121,11 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   abrirModal(content: any, conceptoNomina: any) {
     this.conceptoSelecionado = conceptoNomina;
     this.changeDetectorRef.detectChanges();
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumConcepto>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'HumConcepto',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>({
+        modelo: 'HumConcepto',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta) => {
         this.iniciarFormularioConcepto();
         this.formularioConcepto.patchValue({
