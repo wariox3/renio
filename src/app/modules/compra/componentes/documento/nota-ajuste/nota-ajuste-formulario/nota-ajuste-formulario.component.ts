@@ -7,9 +7,8 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -17,16 +16,18 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenMetodoPago,
+  RegistroAutocompletarGenPlazoPago
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
 } from '@interfaces/comunes/factura/factura.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -34,9 +35,10 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
@@ -57,11 +59,12 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
     ContactoFormulario,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
+  private readonly _generalService = inject(GeneralService);
 
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public modoEdicion: boolean = false;
@@ -148,7 +151,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private facturaService: FacturaService,
     private modalService: NgbModal
   ) {
@@ -178,33 +180,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
@@ -680,7 +663,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (dato.plazo_pago_proveedor_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        let fechaInicio = this.formularioFactura.get('fecha')?.value
+        let fechaInicio = this.formularioFactura.get('fecha')?.value;
         const fechaActual = new Date(fechaInicio);
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
@@ -729,7 +712,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -752,11 +735,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -768,7 +748,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -795,10 +775,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       serializador: 'Referencia',
     };
 
-    this.httpService
-      .post<any>('general/funcionalidad/lista/', {
-        ...arrFiltros,
-      })
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
