@@ -1,19 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
 import { General } from '@comun/clases/general';
-import { documentos } from '@comun/extra/mapeo-entidades/documentos';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, of, tap, zip } from 'rxjs';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { GeneralService } from '@comun/services/general.service';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { tap, zip } from 'rxjs';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -22,7 +19,6 @@ import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
   imports: [
     CommonModule,
     CardComponent,
-    TablaComponent,
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,

@@ -6,8 +6,8 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
+import { GeneralService } from '@comun/services/general.service';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NominaElectronica } from '@interfaces/humano/nominaElectronica.';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
@@ -30,13 +30,13 @@ export class NominaElectronicaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
 
-  filtroPermanente = [
+  filtroPermanente: Filtros[] = [
     {
       propiedad: 'documento_tipo__documento_clase_id',
       valor1: 702,
     },
   ];
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     modelo: 'GenDocumento',
     serializador: 'Nomina',
     filtros: this.filtroPermanente,
@@ -46,10 +46,9 @@ export class NominaElectronicaComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  constructor(
-    private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+  private readonly _generalService = inject(GeneralService);
+
+  constructor() {
     super();
   }
 
@@ -64,8 +63,10 @@ export class NominaElectronicaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post<AutocompletarRegistros<NominaElectronica>>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+    this._generalService
+      .consultarDatosAutoCompletar<NominaElectronica>(
+        this.arrParametrosConsulta
+      )
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.registros?.length;
         this.arrDocumentos = respuesta.registros?.map((documento) => ({
@@ -124,14 +125,14 @@ export class NominaElectronicaComponent extends General implements OnInit {
 
   descargarExcel() {
     const params = {
-      modelo : 'GenDocumento',
+      modelo: 'GenDocumento',
       serializador: 'Nomina',
       excel: true,
       filtros: [
         {
-          "propiedad":"documento_tipo__documento_clase_id",
-          "valor1": 702
-        }
+          propiedad: 'documento_tipo__documento_clase_id',
+          valor1: 702,
+        },
       ],
     };
 
