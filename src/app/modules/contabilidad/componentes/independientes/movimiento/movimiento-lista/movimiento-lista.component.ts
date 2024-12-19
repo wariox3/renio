@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
@@ -35,8 +35,10 @@ export class MovimientoListaComponent extends General implements OnInit {
     limite_conteo: 10000,
     modelo: 'ConMovimiento',
   };
+  private _generalService = inject(GeneralService);
+
+
   constructor(
-    private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
@@ -53,8 +55,8 @@ export class MovimientoListaComponent extends General implements OnInit {
   }
 
   consultarLista() {
-    this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
+    this._generalService
+      .consultarDatosLista(this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros.map((documento: any) => ({
