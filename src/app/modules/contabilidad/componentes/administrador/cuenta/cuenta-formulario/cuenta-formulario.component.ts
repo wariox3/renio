@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -12,19 +13,19 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { numeroPar } from '@comun/validaciones/numero-par';
 import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -37,8 +38,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     CardComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
   formularioConCuenta: FormGroup;
@@ -50,10 +51,11 @@ export default class ItemFormularioComponent extends General implements OnInit {
   inputImpuestos: HTMLInputElement;
   arrCuentaClase: any = [];
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
     private cuentaService: CuentaService,
-    private httpService: HttpService
   ) {
     super();
   }
@@ -155,17 +157,17 @@ export default class ItemFormularioComponent extends General implements OnInit {
         return;
       }
 
-        forkJoin([
-          this.validarCuentaClase(
-            this.formularioConCuenta.get('codigo')?.value.charAt(0)
-          ),
-          this.validarGrupo(
-            this.formularioConCuenta.get('codigo')?.value.substring(0, 2)
-          ),
-          this.validarSubCuenta(
-            this.formularioConCuenta.get('codigo')?.value.substring(0, 4)
-          ),
-        ])
+      forkJoin([
+        this.validarCuentaClase(
+          this.formularioConCuenta.get('codigo')?.value.charAt(0)
+        ),
+        this.validarGrupo(
+          this.formularioConCuenta.get('codigo')?.value.substring(0, 2)
+        ),
+        this.validarSubCuenta(
+          this.formularioConCuenta.get('codigo')?.value.substring(0, 4)
+        ),
+      ])
         .pipe(
           map((respuesta) => {
             let errores = false;
@@ -188,9 +190,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
               this.changeDetectorRef.detectChanges();
             }
             if (respuesta[2].registros.length > 0) {
-              this.formularioConCuenta
-                .get('cuenta_subcuenta')
-                ?.setErrors(null);
+              this.formularioConCuenta.get('cuenta_subcuenta')?.setErrors(null);
             } else {
               errores = true;
               this.formularioConCuenta
@@ -203,23 +203,29 @@ export default class ItemFormularioComponent extends General implements OnInit {
           switchMap((respuestaErrores) => {
             if (respuestaErrores === false) {
               if (this.detalle) {
-                return this.cuentaService
-                .actualizarDatos(this.detalle, this.formularioConCuenta.value)
+                return this.cuentaService.actualizarDatos(
+                  this.detalle,
+                  this.formularioConCuenta.value
+                );
               } else {
                 return this.cuentaService.guardarCuenta(
                   this.formularioConCuenta.value
                 );
               }
-            } else{
+            } else {
               return of(null);
             }
           }),
-          tap((respuesta)=> {
+          tap((respuesta) => {
             if (respuesta) {
               if (this.detalle) {
-                this.alertaService.mensajaExitoso('Se actualizó la información');
+                this.alertaService.mensajaExitoso(
+                  'Se actualizó la información'
+                );
               } else {
-                this.alertaService.mensajaExitoso('Se actualizó la información');
+                this.alertaService.mensajaExitoso(
+                  'Se actualizó la información'
+                );
               }
               this.activatedRoute.queryParams.subscribe((parametro) => {
                 this.router.navigate([`/administrador/detalle`], {
@@ -233,7 +239,6 @@ export default class ItemFormularioComponent extends General implements OnInit {
           })
         )
         .subscribe();
-
     } else {
       this.formularioConCuenta.markAllAsTouched(); // Marcar todos los campos como tocados
     }
@@ -260,30 +265,21 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   validarCuentaClase(cuentaClase: string) {
-    return this.httpService.post<{
-      cantidad_registros: number;
-      registros: any[];
-    }>('general/funcionalidad/lista/', {
+    return this._generalService.consultarDatosAutoCompletar<any>({
       filtros: [{ propiedad: 'id', valor1: cuentaClase }],
       modelo: 'ConCuentaClase',
     });
   }
 
   validarGrupo(grupo: string) {
-    return this.httpService.post<{
-      cantidad_registros: number;
-      registros: any[];
-    }>('general/funcionalidad/lista/', {
+    return this._generalService.consultarDatosAutoCompletar<any>({
       filtros: [{ propiedad: 'id', valor1: grupo }],
       modelo: 'ConCuentaGrupo',
     });
   }
 
   validarSubCuenta(subClase: string) {
-    return this.httpService.post<{
-      cantidad_registros: number;
-      registros: any[];
-    }>('general/funcionalidad/lista/', {
+    return this._generalService.consultarDatosAutoCompletar<any>({
       filtros: [{ propiedad: 'id', valor1: subClase }],
       modelo: 'ConCuentaSubcuenta',
     });

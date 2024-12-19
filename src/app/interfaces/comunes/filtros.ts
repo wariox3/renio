@@ -77,6 +77,9 @@ type Modelo =
   | 'HumNovedadTipo'
   | 'HumAporteContrato'
   | 'ConCuenta'
+  | 'ConCuentaClase'
+  | 'ConCuentaGrupo'
+  | 'ConCuentaSubcuenta'
   | 'ConComprobante'
   | 'ConGrupo'
   | 'ConMovimiento';
