@@ -9,19 +9,19 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { TranslateModule } from '@ngx-translate/core';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarImpuesto,
+  RegistroAutocompletarImpuesto
 } from '@interfaces/comunes/autocompletar';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { map, Observable, tap } from 'rxjs';
 import {
   ImpuestoFormulario,
   ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { map, Observable } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
 
 @Component({
@@ -41,6 +41,7 @@ export class SeleccionarImpuestosComponent
   implements OnChanges
 {
   private _adapterService = inject(AdapterService);
+  private _generalService = inject(GeneralService);
   public impuestos: ImpuestoRespuestaConsulta[] = [];
   public listaDeImpuestosSeleccionables$: Observable<
     RegistroAutocompletarImpuesto[]
@@ -48,10 +49,12 @@ export class SeleccionarImpuestosComponent
 
   arrImpuestoSeleccionados: any[] = [];
   arrImpuestoLista: any[];
-  arrParametrosConsulta: any = {
+  arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
     limite: 10,
     limite_conteo: 10000,
+    desplazar: 0,
+    ordenamientos: [],
     modelo: 'GenImpuesto',
     serializador: 'ListaAutocompletar',
   };
@@ -68,7 +71,7 @@ export class SeleccionarImpuestosComponent
     ImpuestoRespuestaConsulta[]
   > = new EventEmitter<ImpuestoRespuestaConsulta[]>();
 
-  constructor(private httpService: HttpService) {
+  constructor() {
     super();
   }
 
@@ -87,30 +90,6 @@ export class SeleccionarImpuestosComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    // if (changes.arrLista.currentValue) {
-    //   this.arrImpuestoSeleccionados = [];
-    //   let acumulador: any[];
-
-    //   if (this.visualizarImpuestosVenta) {
-    //     acumulador = this.arrLista.filter(
-    //       (impuesto: any) => impuesto.impuesto_venta
-    //     );
-    //   } else {
-    //     acumulador = this.arrLista.filter(
-    //       (impuesto: any) => impuesto.impuesto_compra
-    //     );
-    //   }
-    //   acumulador.map((impuesto: any) => {
-    //     const impuestoExistente = this.arrImpuestoSeleccionados.find(
-    //       (impuestoSeleccionado: any) =>
-    //         impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
-    //     );
-    //     if (!impuestoExistente) {
-    //       this.arrImpuestoSeleccionados.push(impuesto);
-    //     }
-    //   });
-    //   this.changeDetectorRef.detectChanges();
-    // }
   }
 
   agregarImpuesto(impuesto: ImpuestoRespuestaConsulta) {
@@ -119,12 +98,6 @@ export class SeleccionarImpuestosComponent
       (impuestoSeleccionado: any) =>
         impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
     );
-
-    // if (index > -1) {
-    //   this.impuestos.splice(index, 1);
-    // } else {
-    //   this.impuestos.push(impuesto);
-    // }
 
     if (!impuestoExistente) {
       this.impuestos.push(impuesto);
@@ -135,20 +108,6 @@ export class SeleccionarImpuestosComponent
         'El producto ya cuenta con este impuesto seleccionado'
       );
     }
-
-    // const impuestoExistente = this.arrImpuestoSeleccionados.find(
-    //   (impuestoSeleccionado: any) =>
-    //     impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
-    // );
-    // if (!impuestoExistente) {
-    //   this.arrImpuestoSeleccionados.push(impuesto);
-    //   this.emitirImpuestoAgregado.emit(impuesto);
-    // } else {
-    //   this.alertaService.mensajeError(
-    //     'Error',
-    //     'El producto ya cuenta con este impuesto seleccionado'
-    //   );
-    // }
   }
 
   removerItem(impuesto: ImpuestoRespuestaConsulta) {
@@ -156,19 +115,12 @@ export class SeleccionarImpuestosComponent
       this.impuestos = this.impuestos.filter((i) => i !== impuesto);
       this.emitirImpuestosModificados.emit(this.impuestos);
     }
-    // this.arrImpuestoSeleccionados = this.arrImpuestoSeleccionados.filter(
-    //   (impuestoSeleccionado: any) =>
-    //     impuestoSeleccionado.impuesto_id !== impuesto.impuesto_id
-    // );
-    // this.changeDetectorRef.detectChanges();
-    // this.emitirImpuestoElimiando.emit(impuesto);
   }
 
   consultarImpuesto() {
     switch (this.formularioTipo) {
       case 'compra':
         this.arrParametrosConsulta.filtros = [
-          //...this.arrParametrosConsulta.filtros,
           {
             propiedad: 'compra',
             valor1: true,
@@ -177,7 +129,6 @@ export class SeleccionarImpuestosComponent
         break;
       case 'venta':
         this.arrParametrosConsulta.filtros = [
-          //...this.arrParametrosConsulta.filtros,
           {
             propiedad: 'venta',
             valor1: true,
@@ -186,9 +137,8 @@ export class SeleccionarImpuestosComponent
         break;
     }
 
-    this.listaDeImpuestosSeleccionables$ = this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarImpuesto>>(
-        'general/funcionalidad/lista/',
+    this.listaDeImpuestosSeleccionables$ = this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarImpuesto>(
         this.arrParametrosConsulta
       )
       .pipe(map((respuesta) => respuesta.registros));
