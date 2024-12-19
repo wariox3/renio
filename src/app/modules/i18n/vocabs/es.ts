@@ -663,11 +663,11 @@ export const locale = {
       VALIDACIONES: {
         COMUNES: {
           REQUERIDO: 'El campo es requerido',
-          CAMPOMINIMO: 'El campo debe tener un mínimo de caracteres de',
+          CAMPOMINIMO: 'Mínimo de caracteres de',
           CAMPOMAXIMO:
-            'La cantidad máxima de caracteres permitidos para este campo es de',
-          TIPOCORREO: 'El campo no es un correo electrónico válido',
-          NOVALIDO: 'El campo contiene caracteres no válidos',
+            'Máxima de caracteres de',
+          TIPOCORREO: 'Correo electrónico válido',
+          NOVALIDO: 'Contiene caracteres no válidos',
           NUMEROIDENTIFICACIONEXISTEN:
             'El empleado con el número y tipo de identificación seleccionados ya existe.',
         },
