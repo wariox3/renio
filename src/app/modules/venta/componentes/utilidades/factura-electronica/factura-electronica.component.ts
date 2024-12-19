@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
 import { General } from '@comun/clases/general';
@@ -12,6 +12,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { GeneralService } from '@comun/services/general.service';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -28,7 +30,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
   ],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
-  filtroPermanenteEmitir = [
+  filtroPermanenteEmitir: Filtros[] = [
     {
       propiedad: 'estado_aprobado',
       valor1: true,
@@ -42,7 +44,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       valor1: 1,
     },
   ];
-  filtroPermanenteNotificar = [
+  filtroPermanenteNotificar: Filtros[] = [
     {
       propiedad: 'estado_electronico_notificado',
       valor1: false,
@@ -56,15 +58,15 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       valor1: 1,
     },
   ];
-  arrParametrosConsultaEmitir: any = {
+  arrParametrosConsultaEmitir: ParametrosFiltros = {
     filtros: this.filtroPermanenteEmitir,
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
-    modelo: 'GenDocumento'
+    modelo: 'GenDocumento',
   };
-  arrParametrosConsultaNotificar: any = {
+  arrParametrosConsultaNotificar: ParametrosFiltros = {
     filtros: this.filtroPermanenteNotificar,
     limite: 50,
     desplazar: 0,
@@ -84,8 +86,9 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   paginacionNotificarDesde: number = 0;
   paginacionNotificarHasta: number = this.arrParametrosConsultaNotificar.limite;
   cantidad_registros: number = 0;
-  arrDocumentosEmitirCantidadRegistros : number = 0;
-  arrDocumentosNotificarCantidadRegistros : number = 0;
+  arrDocumentosEmitirCantidadRegistros: number = 0;
+  arrDocumentosNotificarCantidadRegistros: number = 0;
+  private readonly _generalService = inject(GeneralService);
 
   constructor(private httpService: HttpService) {
     super();
@@ -104,29 +107,33 @@ export class FacturaElectronicaComponent extends General implements OnInit {
 
   consultarLista() {
     zip(
-      this.httpService.post(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosLista(
         this.arrParametrosConsultaEmitir
       ),
-      this.httpService.post(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosLista(
         this.arrParametrosConsultaNotificar
       )
     ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitirCantidadRegistros = respuesta[0]?.registros?.length
-      this.arrDocumentosEmitir = respuesta[0]?.registros?.map((documento: any) => ({
-        ...documento,
-        ...{
-          selected: false,
-        },
-      }));
-      this.arrDocumentosNotificarCantidadRegistros = respuesta[1]?.registros?.length
-      this.arrDocumentosNotificar = respuesta[1]?.registros?.map((documento: any) => ({
-        ...documento,
-        ...{
-          selected: false,
-        },
-      }));
+      this.arrDocumentosEmitirCantidadRegistros =
+        respuesta[0]?.registros?.length;
+      this.arrDocumentosEmitir = respuesta[0]?.registros?.map(
+        (documento: any) => ({
+          ...documento,
+          ...{
+            selected: false,
+          },
+        })
+      );
+      this.arrDocumentosNotificarCantidadRegistros =
+        respuesta[1]?.registros?.length;
+      this.arrDocumentosNotificar = respuesta[1]?.registros?.map(
+        (documento: any) => ({
+          ...documento,
+          ...{
+            selected: false,
+          },
+        })
+      );
       this.changeDetectorRef.detectChanges();
     });
   }
