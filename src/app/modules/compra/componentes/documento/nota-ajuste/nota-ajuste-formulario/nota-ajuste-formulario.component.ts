@@ -647,6 +647,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
+      this._inicializarFormulario(dato.contacto_id);
+      this._limpiarDocumentoReferencia(dato.contacto_id);
       this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
       this.formularioFactura
         .get('contactoNombre')
