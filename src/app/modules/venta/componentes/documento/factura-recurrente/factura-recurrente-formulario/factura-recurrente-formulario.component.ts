@@ -7,25 +7,27 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
-import {  General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
+  RegistroAutocompletarGenAsesor,
+  RegistroAutocompletarGenMetodoPago,
+  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenSede,
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -44,9 +46,8 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
-import { FacturaFormularioPagosComponent } from '../factura-formulario-pagos/factura-formulario-pagos/factura-formulario-pagos.component';
-import { EncabezadoFormularioNuevoComponent } from "@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component";
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -60,27 +61,23 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
     BuscarAvanzadoComponent,
     SoloNumerosDirective,
-    BtnAtrasComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
     ContactoFormulario,
     CuentaBancoComponent,
     FormularioProductosComponent,
-    FacturaFormularioPagosComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General
   implements OnInit
 {
   private _formularioFacturaService = inject(FormularioFacturaService);
+  private readonly _generalService = inject(GeneralService);
 
   public modoEdicion: boolean = false;
   public acumuladorImpuesto: AcumuladorImpuestos = {};
@@ -193,63 +190,32 @@ export default class FacturaRecurrenteFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
-          filtros: [
-            {
-              operador: '__icontains',
-              propiedad: 'nombre__icontains',
-              valor1: '',
-              valor2: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
         }
       ),
       this.empresaService.obtenerConfiguracionEmpresa(1)
-    ).subscribe((respuesta: any) => {
+    ).subscribe((respuesta) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
       this.arrAsesor = respuesta[2].registros;
@@ -890,7 +856,7 @@ export default class FacturaRecurrenteFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -913,11 +879,8 @@ export default class FacturaRecurrenteFormularioComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
