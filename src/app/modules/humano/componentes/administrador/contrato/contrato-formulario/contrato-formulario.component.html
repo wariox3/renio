@@ -117,6 +117,7 @@
             #fechaDesde
             formControlName="fecha_desde"
             class="form-control"
+            (change)="modificarCampoFormulario('fecha_desde', $event)"
             type="date"
             autocomplete="off"
             [ngClass]="{

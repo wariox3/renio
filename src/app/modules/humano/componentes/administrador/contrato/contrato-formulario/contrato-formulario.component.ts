@@ -248,14 +248,18 @@ export default class ContratoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>({
-        modelo: 'HumGrupo',
-        serializador: 'ListaAutocompletar',
-      }),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContratoTipo>({
-        modelo: 'HumContratoTipo',
-        serializador: 'ListaAutocompletar',
-      }),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>(
+        {
+          modelo: 'HumGrupo',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContratoTipo>(
+        {
+          modelo: 'HumContratoTipo',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumRiesgo>(
         {
           modelo: 'HumRiesgo',
@@ -387,9 +391,25 @@ export default class ContratoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  private _modificarFechasContratoIndefinido(fecha: string) {
+    const contratoTipo = this.formularioContrato.get('contrato_tipo')?.value;
+    if (contratoTipo == 1) {
+      this.formularioContrato.patchValue({
+        fecha_hasta: fecha,
+        fecha_desde: fecha,
+      });
+    }
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioContrato?.markAsDirty();
     this.formularioContrato?.markAsTouched();
+
+    if (campo === 'fecha_desde') {
+      const fecha = dato.target.value;
+      this._modificarFechasContratoIndefinido(fecha);
+    }
+
     if (campo === 'contacto') {
       this.formularioContrato.get(campo)?.setValue(dato.contacto_id);
       this.formularioContrato
@@ -571,9 +591,7 @@ export default class ContratoFormularioComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarCargo>(
-        arrFiltros
-      )
+      .consultarDatosAutoCompletar<RegistroAutocompletarCargo>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
