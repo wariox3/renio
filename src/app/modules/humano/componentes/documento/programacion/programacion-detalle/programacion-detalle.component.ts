@@ -14,19 +14,21 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarConceptoAdicional,
-  RegistroAutocompletarHumContrato,
+  RegistroAutocompletarHumContrato
 } from '@interfaces/comunes/autocompletar';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import {
   ProgramacionDetalleRegistro,
   TablaRegistroLista,
 } from '@interfaces/humano/programacion';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
-import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
+import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import {
   NgbDropdown,
   NgbDropdownModule,
@@ -36,6 +38,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
 import {
   asyncScheduler,
   BehaviorSubject,
@@ -43,15 +46,14 @@ import {
   distinctUntilChanged,
   EMPTY,
   finalize,
+  map,
   Subject,
   switchMap,
   tap,
   throttleTime,
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -71,8 +73,8 @@ import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
     ImportarAdministradorComponent,
     NgSelectModule,
     BaseEstadosComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -117,9 +119,9 @@ export default class ProgramacionDetalleComponent
   };
   pago: any = {};
   pagoDetalles: any = {};
-  arrParametrosConsulta: any;
+  arrParametrosConsulta: ParametrosFiltros;
   arrParametrosConsultaDetalle: any;
-  arrParametrosConsultaAdicional: any;
+  arrParametrosConsultaAdicional: ParametrosFiltros;
   arrProgramacionDetalle: TablaRegistroLista[] = [];
   arrProgramacionAdicional: any;
   formularioAdicionalProgramacion: FormGroup;
@@ -137,10 +139,12 @@ export default class ProgramacionDetalleComponent
   desgenerando: boolean = false;
   notificando: boolean = false;
   mostrarMasDetalles: boolean = false;
-  arrConceptosAdicional: any[] = [];
+  arrConceptosAdicional: RegistroAutocompletarConceptoAdicional[] = [];
   ordenadoTabla: string = '';
 
   private _unsubscribe$ = new Subject<void>();
+  private readonly _generalService = inject(GeneralService);
+
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaContrato = new Subject<string>();
 
@@ -194,29 +198,36 @@ export default class ProgramacionDetalleComponent
     this.reiniciarSelectoresEliminar();
     this.programacionService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
-        this.programacion = respuesta;
-        this.httpService
-          .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
-          .subscribe((respuesta: any) => {
-            this.arrProgramacionDetalle = respuesta.registros.map(
-              (registro: TablaRegistroLista) => ({
-                ...registro,
-                selected: false,
-              })
-            );
-
-            this.changeDetectorRef.detectChanges();
-          });
+      .pipe(
+        tap((respuesta: any) => {
+          this.programacion = respuesta;
+        }),
+        switchMap(() =>
+          this._generalService.consultarDatosLista(this.arrParametrosConsulta)
+        ),
+        map((respuesta: any) =>
+          respuesta.registros.map((registro: TablaRegistroLista) => ({
+            ...registro,
+            selected: false,
+          }))
+        ),
+        tap((registros: any) => {
+          this.arrProgramacionDetalle = registros;
+        })
+      )
+      .subscribe(() => {
+        this.changeDetectorRef.detectChanges();
       });
   }
 
   consultarAdicionalesTab() {
     this.isCheckedSeleccionarTodosAdicional = false;
-    this.store.dispatch(asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' }));
+    this.store.dispatch(
+      asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' })
+    );
     this.inicializarParametrosConsultaAdicional();
-    this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsultaAdicional)
+    this._generalService
+      .consultarDatosLista(this.arrParametrosConsultaAdicional)
       .subscribe((respuesta: any) => {
         this.arrProgramacionAdicional = respuesta.registros.map(
           (registro: TablaRegistroLista) => ({
@@ -342,32 +353,33 @@ export default class ProgramacionDetalleComponent
   }
 
   aprobar() {
-
     this.alertaService
-    .confirmarSinReversa()
-    .pipe(
-      switchMap((respuesta) => {
-        if (respuesta.isConfirmed) {
-          return this.httpService.post('humano/programacion/aprobar/', {
-            id: this.detalle,
-          });
-        }
-        return EMPTY;
-      }),
-      switchMap((respuesta) =>
-        respuesta ? this.programacionService.consultarDetalle(this.detalle) : EMPTY
-      ),
-      tap((respuestaConsultaDetalle: any) => {
-        if (respuestaConsultaDetalle) {
-          this.programacion = respuestaConsultaDetalle
-          this.alertaService.mensajaExitoso(
-            this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
-          );
-          this.changeDetectorRef.detectChanges();
-        }
-      })
-    )
-    .subscribe();
+      .confirmarSinReversa()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('humano/programacion/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return EMPTY;
+        }),
+        switchMap((respuesta) =>
+          respuesta
+            ? this.programacionService.consultarDetalle(this.detalle)
+            : EMPTY
+        ),
+        tap((respuestaConsultaDetalle: any) => {
+          if (respuestaConsultaDetalle) {
+            this.programacion = respuestaConsultaDetalle;
+            this.alertaService.mensajaExitoso(
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+            );
+            this.changeDetectorRef.detectChanges();
+          }
+        })
+      )
+      .subscribe();
   }
 
   actualizarDetalleProgramacion() {
@@ -485,20 +497,17 @@ export default class ProgramacionDetalleComponent
   }
 
   abrirModal(content: any) {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              propiedad: 'adicional',
-              valor1: true,
-            },
-          ],
-          modelo: 'HumConcepto',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>({
+        filtros: [
+          {
+            propiedad: 'adicional',
+            valor1: true,
+          },
+        ],
+        modelo: 'HumConcepto',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta: any) => {
         this.arrConceptosAdicional = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -537,20 +546,17 @@ export default class ProgramacionDetalleComponent
   }
 
   private _consultarConceptosAdicionales() {
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              propiedad: 'adicional',
-              valor1: true,
-            },
-          ],
-          modelo: 'HumConcepto',
-          serializador: 'ListaAutocompletar',
-        }
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>({
+        filtros: [
+          {
+            propiedad: 'adicional',
+            valor1: true,
+          },
+        ],
+        modelo: 'HumConcepto',
+        serializador: 'ListaAutocompletar',
+      })
       .subscribe((respuesta: any) => {
         this.arrConceptosAdicional = respuesta.registros;
         this.changeDetectorRef.detectChanges();
@@ -581,11 +587,11 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarRegistroDetalleProgramacion() {
-    this.httpService
-      .post<{
+    this._generalService
+      .consultarDatosLista<{
         registros: ProgramacionDetalleRegistro[];
         cantidad_registros: number;
-      }>('general/funcionalidad/lista/', this.arrParametrosConsultaDetalle)
+      }>(this.arrParametrosConsultaDetalle)
       .subscribe((respuesta) => {
         if (respuesta.registros.length) {
           const { registros } = respuesta;
@@ -627,11 +633,11 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarRegistroDetalleAdicional() {
-    this.httpService
-      .post<{
+    this._generalService
+      .consultarDatosLista<{
         registros: any[];
         cantidad_registros: number;
-      }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
+      }>(this.arrParametrosConsulta)
       .subscribe((respuesta) => {
         if (respuesta.registros.length) {
           const { registros } = respuesta;
@@ -687,7 +693,7 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarConceptos(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -704,9 +710,8 @@ export default class ProgramacionDetalleComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarConceptoAdicional>>(
-        'general/funcionalidad/lista/',
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>(
         arrFiltros
       )
       .pipe(
@@ -720,36 +725,42 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarContratosPorNombre(valor: string) {
-    let filtros = {};
+    let filtros: Filtros[] = [];
 
     if (!valor.length) {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'contacto__nombre_corto__icontains',
-        valor1: `${valor}`,
-        valor2: '',
-      };
+      filtros = [
+        {
+          ...filtros,
+          operador: '',
+          propiedad: 'contacto__nombre_corto__icontains',
+          valor1: `${valor}`,
+          valor2: '',
+        },
+      ];
     } else if (isNaN(Number(valor))) {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'contacto__nombre_corto__icontains',
-        valor1: `${valor}`,
-        valor2: '',
-      };
+      filtros = [
+        {
+          ...filtros,
+          operador: '',
+          propiedad: 'contacto__nombre_corto__icontains',
+          valor1: `${valor}`,
+          valor2: '',
+        },
+      ];
     } else {
-      filtros = {
-        ...filtros,
-        operador: '',
-        propiedad: 'contacto__numero_identificacion__icontains',
-        valor1: `${Number(valor)}`,
-        valor2: '',
-      };
+      filtros = [
+        {
+          ...filtros,
+          operador: '',
+          propiedad: 'contacto__numero_identificacion__icontains',
+          valor1: `${Number(valor)}`,
+          valor2: '',
+        },
+      ];
     }
 
-    let arrFiltros = {
-      filtros: [filtros],
+    let arrFiltros: ParametrosFiltros = {
+      filtros,
       limite: 1000,
       desplazar: 0,
       ordenamientos: [],
@@ -758,11 +769,8 @@ export default class ProgramacionDetalleComponent
       serializador: 'ListaAutocompletar',
     };
 
-    return this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    return this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
       .pipe(
         tap((respuesta) => {
           this.arrContratos = respuesta.registros;
@@ -774,15 +782,15 @@ export default class ProgramacionDetalleComponent
 
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    let filtros = {
-      operador: '',
-      propiedad,
-      valor1: valor,
-      valor2: '',
-    };
-
-    let arrFiltros = {
-      filtros: [filtros],
+    let arrFiltros: ParametrosFiltros = {
+      filtros: [
+        {
+          operador: '',
+          propiedad,
+          valor1: valor,
+          valor2: '',
+        },
+      ],
       limite: 1000,
       desplazar: 0,
       ordenamientos: [],
@@ -791,11 +799,8 @@ export default class ProgramacionDetalleComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarHumContrato>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
       .pipe(
         tap((respuesta) => {
           this.arrContratos = respuesta.registros;
@@ -1001,31 +1006,28 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarNominaProgramacionDetalleResumen() {
-    this.httpService
-      .post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
-        {
-          filtros: [
-            {
-              operador: '',
-              propiedad: 'programacion_detalle_id',
-              valor1: this.registroSeleccionado,
-              valor2: '',
-            },
-          ],
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenDocumento',
-        }
-      )
+    this._generalService
+      .consultarDatosLista<{ cantidad_registros: number; registros: any[] }>({
+        filtros: [
+          {
+            operador: '',
+            propiedad: 'programacion_detalle_id',
+            valor1: this.registroSeleccionado,
+            valor2: '',
+          },
+        ],
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'GenDocumento',
+      })
       .pipe(
         switchMap((respuestaLista) => {
           this.pago = respuestaLista.registros[0];
 
-          return this.httpService.post<{
+          return this._generalService.consultarDatosLista<{
             cantidad_registros: number;
             registros: any[];
-          }>('general/funcionalidad/lista/', {
+          }>({
             filtros: [
               {
                 operador: '',
@@ -1060,7 +1062,7 @@ export default class ProgramacionDetalleComponent
       serializador: 'Excel',
       excel: true,
       filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
-      limite: 10000
+      limite: 10000,
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -1080,7 +1082,7 @@ export default class ProgramacionDetalleComponent
           valor1: this.programacion.id,
         },
       ],
-      limite: 10000
+      limite: 10000,
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -1100,7 +1102,7 @@ export default class ProgramacionDetalleComponent
           valor1: this.programacion.id,
         },
       ],
-      limite: 10000
+      limite: 10000,
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -1134,7 +1136,6 @@ export default class ProgramacionDetalleComponent
         this.consultarDatos();
       });
   }
-
 
   ngOnDestroy(): void {
     this._unsubscribe$.next();
