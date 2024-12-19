@@ -195,10 +195,6 @@
             <option
               *ngFor="let comprobante of arrComprobantes"
               [value]="comprobante.comprobante_id"
-              [selected]="
-                comprobante.comprobante_id ===
-                formularioAsiento.controls.comprobante
-              "
             >
               {{ comprobante.comprobante_nombre }}
             </option>
@@ -235,9 +231,6 @@
             <option
               *ngFor="let grupo of arrGrupo"
               [value]="grupo.grupo_id"
-              [selected]="
-                grupo.grupo_id === formularioAsiento.controls.grupo_id
-              "
             >
               {{ grupo.grupo_nombre }}
             </option>

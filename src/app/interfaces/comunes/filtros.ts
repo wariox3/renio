@@ -57,6 +57,7 @@ type Modelo =
   | 'GenCuentaBancoClase'
   | 'GenCuentaBanco'
   | 'GenResolucion'
+  | 'GenDocumentoDetalle'
   | 'HumPeriodo'
   | 'HumConcepto'
   | 'HumAdicional'
@@ -76,4 +77,6 @@ type Modelo =
   | 'HumNovedadTipo'
   | 'HumAporteContrato'
   | 'ConCuenta'
+  | 'ConComprobante'
+  | 'ConGrupo'
   | 'ConMovimiento';

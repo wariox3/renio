@@ -224,3 +224,15 @@ export interface RegistroAutocompletarHumContratoTipo {
   contrato_tipo_id: number;
   contrato_tipo_nombre: string;
 }
+
+export interface RegistroAutocompletarConComprobante {
+  comprobante_id: number;
+  comprobante_nombre: string;
+  comprobante_codigo: string;
+}
+
+export interface RegistroAutocompletarConGrupo {
+  grupo_id: number;
+  grupo_nombre: string;
+}
+

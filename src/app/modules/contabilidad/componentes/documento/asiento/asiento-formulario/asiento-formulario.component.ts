@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -15,12 +15,14 @@ import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { HttpService } from '@comun/services/http.service';
+import { GeneralService } from '@comun/services/general.service';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
+  RegistroAutocompletarConComprobante,
+  RegistroAutocompletarConGrupo,
+  RegistroAutocompletarContacto
 } from '@interfaces/comunes/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -31,7 +33,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -52,8 +54,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     ContactosComponent,
     ImportarDetallesComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class AsientoFormularioComponent
   extends General
@@ -75,8 +77,8 @@ export default class AsientoFormularioComponent
   totalDebito: number = 0;
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
-  arrComprobantes: any = [];
-  arrGrupo: any = [];
+  arrComprobantes: RegistroAutocompletarConComprobante[] = [];
+  arrGrupo: RegistroAutocompletarConGrupo[] = [];
 
   public campoListaContacto: CampoLista[] = [
     {
@@ -93,9 +95,10 @@ export default class AsientoFormularioComponent
     },
   ];
 
+  private readonly _generalService = inject(GeneralService);
+
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private modalService: NgbModal,
     private facturaService: FacturaService
   ) {
@@ -103,7 +106,7 @@ export default class AsientoFormularioComponent
   }
 
   ngOnInit() {
-    this.consultarInformacion()
+    this.consultarInformacion();
     this.active = 1;
     this.initForm();
     if (this.detalle) {
@@ -161,7 +164,8 @@ export default class AsientoFormularioComponent
           comprobante: respuesta.documento.comprobante_id,
           comprobante_nombre: respuesta.documento.comprobante_nombre,
           grupo_contabilidad: respuesta.documento.grupo_contabilidad_id,
-          grupo_contabilidad_nombre: respuesta.documento.grupo_contabilidad_nombre,
+          grupo_contabilidad_nombre:
+            respuesta.documento.grupo_contabilidad_nombre,
         });
 
         this.detalles.clear();
@@ -264,7 +268,7 @@ export default class AsientoFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros = {
+    let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
           operador: '__icontains',
@@ -280,11 +284,8 @@ export default class AsientoFormularioComponent
       modelo: 'GenContacto',
       serializador: 'ListaAutocompletar',
     };
-    this.httpService
-      .post<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        'general/funcionalidad/lista/',
-        arrFiltros
-      )
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -413,10 +414,9 @@ export default class AsientoFormularioComponent
     this.modalService.dismissAll();
   }
 
-  consultarInformacion(){
+  consultarInformacion() {
     zip(
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConComprobante>(
         {
           filtros: [
             {
@@ -432,8 +432,7 @@ export default class AsientoFormularioComponent
           serializador: 'ListaAutocompletar',
         }
       ),
-      this.httpService.post<{ cantidad_registros: number; registros: any[] }>(
-        'general/funcionalidad/lista/',
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
         {
           limite: 10,
           desplazar: 0,
@@ -446,9 +445,7 @@ export default class AsientoFormularioComponent
     ).subscribe((respuesta: any) => {
       this.arrComprobantes = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
-      this.changeDetectorRef.detectChanges()
-    })
-
-
+      this.changeDetectorRef.detectChanges();
+    });
   }
 }
