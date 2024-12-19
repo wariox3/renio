@@ -13,7 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarHumPerido
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';

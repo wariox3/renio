@@ -18,7 +18,7 @@ import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import {
   RegistroAutocompletarContacto,
   RegistroAutocompletarGenCuentaBanco,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';

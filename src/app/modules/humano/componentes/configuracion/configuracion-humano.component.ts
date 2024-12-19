@@ -13,7 +13,7 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarHumConcepto
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

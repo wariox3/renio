@@ -18,7 +18,7 @@ import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarResolucion
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';

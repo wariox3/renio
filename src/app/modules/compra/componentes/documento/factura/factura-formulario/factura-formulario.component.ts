@@ -24,7 +24,7 @@ import {
   RegistroAutocompletarContacto,
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';

@@ -1,4 +1,4 @@
-import { Documentacion } from '@interfaces/comunes/documentacion';
+import { Documentacion } from '@interfaces/comunes/documentacion/documentacion';
 import { createReducer, on } from '@ngrx/store';
 import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
 

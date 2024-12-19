@@ -14,7 +14,7 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarImpuesto
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { tap } from 'rxjs';

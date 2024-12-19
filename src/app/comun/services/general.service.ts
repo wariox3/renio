@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
-import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
+import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 
 @Injectable({

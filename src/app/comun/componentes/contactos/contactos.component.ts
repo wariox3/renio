@@ -12,7 +12,7 @@ import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';

@@ -22,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarGenCuentaBancoClase, RegistroAutocompletarGenCuentaBancoTipo } from '@interfaces/comunes/autocompletar';
+import { RegistroAutocompletarGenCuentaBancoClase, RegistroAutocompletarGenCuentaBancoTipo } from '@interfaces/comunes/autocompletar/autocompletar';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',

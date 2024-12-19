@@ -1,5 +1,5 @@
 import { ArchivoImportacion } from '@interfaces/comunes/archivo-importacion';
-import { Documentacion } from '@interfaces/comunes/documentacion';
+import { Documentacion } from '@interfaces/comunes/documentacion/documentacion';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 

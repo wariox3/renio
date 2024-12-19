@@ -23,7 +23,7 @@ import {
   RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenRegimen
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { Regimen } from '@interfaces/general/regimen';
 import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
 import { TipoPersona } from '@interfaces/general/tipoPersona';
@@ -39,7 +39,7 @@ import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
-import { RegistroAutocompletarGenTipoPersona } from './../../../../interfaces/comunes/autocompletar';
+import { RegistroAutocompletarGenTipoPersona } from '../../../../interfaces/comunes/autocompletar/autocompletar';
 
 @Component({
   selector: 'app-empresa-formulario',

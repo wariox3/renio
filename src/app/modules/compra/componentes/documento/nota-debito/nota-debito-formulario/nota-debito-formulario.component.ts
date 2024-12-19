@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   RegistroAutocompletarGenDocumento,
   RegistroAutocompletarGenPlazoPago,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -25,7 +25,7 @@ import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto,
   RegistroAutocompletarGenMetodoPago
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,

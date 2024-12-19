@@ -13,7 +13,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { RegistroAutocompletarHumConcepto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar';
+import { RegistroAutocompletarHumConcepto, RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

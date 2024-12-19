@@ -37,7 +37,7 @@ import {
   RegistroAutocompletarGenPrecio,
   RegistroAutocompletarGenRegimen,
   RegistroAutocompletarGenTipoPersona,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

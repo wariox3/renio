@@ -20,7 +20,7 @@ import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   RegistroAutocompletarConceptoAdicional,
   RegistroAutocompletarHumContrato
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import {
   ProgramacionDetalleRegistro,

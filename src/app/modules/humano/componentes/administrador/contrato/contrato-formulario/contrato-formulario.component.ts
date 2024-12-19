@@ -35,7 +35,7 @@ import {
   RegistroAutocompletarHumEntidad,
   RegistroAutocompletarHumContratoTipo,
   RegistroAutocompletarHumGrupo,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';

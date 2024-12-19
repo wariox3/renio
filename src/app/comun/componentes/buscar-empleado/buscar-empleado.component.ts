@@ -24,7 +24,7 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
   RegistroAutocompletarHumContrato,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

@@ -24,7 +24,7 @@ import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarHumContrato,
   RegistroAutocompletarNovedadTipo
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

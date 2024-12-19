@@ -12,7 +12,7 @@ import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';

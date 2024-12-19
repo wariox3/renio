@@ -16,7 +16,7 @@ import {
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
   RegistroAutocompletarGenSede,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';

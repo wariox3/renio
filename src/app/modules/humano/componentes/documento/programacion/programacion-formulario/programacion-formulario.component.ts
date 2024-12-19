@@ -24,7 +24,7 @@ import {
   AutocompletarRegistros,
   RegistroAutocompletarHumGrupo,
   RegistroAutocompletarHumPagoTipo,
-} from '@interfaces/comunes/autocompletar';
+} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

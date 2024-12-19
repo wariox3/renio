@@ -7,7 +7,7 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
-import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar';
+import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
