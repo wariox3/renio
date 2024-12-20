@@ -149,12 +149,23 @@
             [ngClass]="{
               'is-invalid':
                 formularioResolucion.controls['consecutivo_hasta'].touched &&
-                formularioResolucion.controls['consecutivo_hasta'].invalid,
+                formularioResolucion.controls['consecutivo_hasta'].invalid ||
+                formularioResolucion.errors?.consecutivosInvalidos,
               'is-valid':
                 formularioResolucion.controls['consecutivo_hasta'].touched &&
                 formularioResolucion.controls['consecutivo_hasta'].valid
             }"
           />
+          @if(formularioResolucion.errors?.consecutivosInvalidos){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">
+                "Consecutivo hasta" debe ser mayor o igual a "Consecutivo
+                desde".
+              </span>
+            </div>
+          </div>
+          }
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -244,12 +255,22 @@
             [ngClass]="{
               'is-invalid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
-                formularioResolucion.controls['fecha_hasta'].invalid,
+                formularioResolucion.controls['fecha_hasta'].invalid ||
+                formularioResolucion.errors?.fechasInvalidas,
               'is-valid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
                 formularioResolucion.controls['fecha_hasta'].valid
             }"
           />
+          @if(formularioResolucion.errors?.fechasInvalidas){
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  "Fecha hasta" no puede ser anterior a "Fecha desde".
+                </span>
+              </div>
+            </div>
+            }
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
