@@ -24,7 +24,6 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import {
   RegistroAutocompletarCargo,
   RegistroAutocompletarContacto,
-  RegistroAutocompletarHumCargo,
   RegistroAutocompletarHumEntidad,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
@@ -45,6 +44,7 @@ import { RegistroAutocompletarHumSucursal } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarHumTipoCotizante } from '@interfaces/comunes/autocompletar/hum/hum-tipo-cotizante.interface';
 import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/hum/hum-grupo.interface';
 import { RegistroAutocompletarHumContratoTipo } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
+import { RegistroAutocompletarHumCargo } from '@interfaces/comunes/autocompletar/hum/hum-cargo.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
