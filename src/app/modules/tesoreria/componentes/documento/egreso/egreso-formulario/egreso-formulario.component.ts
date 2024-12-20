@@ -17,7 +17,6 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenCuentaBanco,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
@@ -36,6 +35,7 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/gen/gen-cuenta-banco.interface';
 
 @Component({
   selector: 'app-egreso-formulario',
