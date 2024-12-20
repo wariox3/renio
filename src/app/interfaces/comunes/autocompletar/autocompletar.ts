@@ -86,9 +86,3 @@ export interface RegistroAutocompletarGenBanco {
   id: number;
   nombre: string;
 }
-
-export interface RegistroAutocompletarGenCiudad {
-  id: number;
-  nombre: string;
-  estado_nombre: string;
-}

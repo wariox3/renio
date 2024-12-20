@@ -16,7 +16,6 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
   RegistroAutocompletarGenBanco,
-  RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenCuentaBancoClase,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
@@ -41,6 +40,7 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/gen/gen-ciudad.interface';
 
 @Component({
   selector: 'app-empleado-formulario',

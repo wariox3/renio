@@ -20,7 +20,6 @@ import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
 import {
-  RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenRegimen
 } from '@interfaces/comunes/autocompletar/autocompletar';
@@ -40,6 +39,7 @@ import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
 import { RegistroAutocompletarGenTipoPersona } from '../../../../interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/gen/gen-ciudad.interface';
 
 @Component({
   selector: 'app-empresa-formulario',
