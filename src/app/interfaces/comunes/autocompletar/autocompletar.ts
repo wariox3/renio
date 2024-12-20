@@ -3,11 +3,6 @@ export interface AutocompletarRegistros<T> {
   registros: T[];
 }
 
-export interface RegistroAutocompletarHumSalud {
-  salud_id: number;
-  salud_nombre: string;
-}
-
 export interface RegistroAutocompletarHumSucursal {
   sucursal_id: number;
   sucursal_nombre: string;
