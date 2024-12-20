@@ -93,11 +93,6 @@ export interface RegistroAutocompletarGenCiudad {
   estado_nombre: string;
 }
 
-export interface RegistroAutocompletarHumGrupo {
-  grupo_id: number;
-  grupo_nombre: string;
-}
-
 export interface RegistroAutocompletarHumContrato {
   contrato_id: number;
   contrato_contacto_numero_identificacion: string;

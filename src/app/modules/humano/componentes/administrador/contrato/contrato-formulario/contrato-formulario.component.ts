@@ -27,7 +27,6 @@ import {
   RegistroAutocompletarHumCargo,
   RegistroAutocompletarHumContratoTipo,
   RegistroAutocompletarHumEntidad,
-  RegistroAutocompletarHumGrupo,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -45,6 +44,7 @@ import { RegistroAutocompletarHumSubtipoCotizante } from '@interfaces/comunes/au
 import { RegistroAutocompletarHumSalud } from '@interfaces/comunes/autocompletar/hum/hum-salud.interface';
 import { RegistroAutocompletarHumSucursal } from '@interfaces/comunes/autocompletar/hum/hum-sucursal.interface';
 import { RegistroAutocompletarHumTipoCotizante } from '@interfaces/comunes/autocompletar/hum/hum-tipo-cotizante.interface';
+import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/hum/hum-grupo.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
