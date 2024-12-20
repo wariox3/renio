@@ -50,11 +50,6 @@ export interface RegistroAutocompletarGenIdentificacion {
   identificacion_nombre: string;
 }
 
-export interface RegistroAutocompletarGenRegimen {
-  regimen_id: number;
-  regimen_nombre: string;
-}
-
 export interface RegistroAutocompletarResolucion {
   resolucion_id: number;
   resolucion_numero: string;

@@ -17,7 +17,6 @@ import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-val
 import {
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenRegimen,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
@@ -41,6 +40,7 @@ import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/gen/gen-banco.interface';
 import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/gen/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/gen/gen-tipo-persona.interface';
+import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/gen/gen-regimen.interface';
 
 @Component({
   selector: 'app-empleado-formulario',
