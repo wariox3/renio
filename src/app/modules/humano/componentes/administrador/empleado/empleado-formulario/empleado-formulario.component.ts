@@ -21,7 +21,6 @@ import {
   RegistroAutocompletarGenCuentaBancoClase,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenPrecio,
   RegistroAutocompletarGenRegimen,
   RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar/autocompletar';
@@ -41,6 +40,7 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 
 @Component({
   selector: 'app-empleado-formulario',

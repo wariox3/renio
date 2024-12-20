@@ -146,8 +146,3 @@ export interface RegistroAutocompletarGenSede {
   sede_id: number;
   sede_nombre: string;
 }
-
-export interface RegistroAutocompletarGenPrecio {
-  precio_id: number;
-  precio_nombre: string;
-}

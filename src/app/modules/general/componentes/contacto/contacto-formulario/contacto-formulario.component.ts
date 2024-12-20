@@ -34,7 +34,6 @@ import {
   RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenPrecio,
   RegistroAutocompletarGenRegimen,
   RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar/autocompletar';
@@ -45,6 +44,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
