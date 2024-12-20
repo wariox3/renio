@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/con/cont-cuenta.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/cont/cont-cuenta.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Item } from '@interfaces/general/item';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

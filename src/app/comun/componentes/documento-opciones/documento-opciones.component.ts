@@ -7,7 +7,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/con/cont-movimiento.interface';
+import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/cont/cont-movimiento.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
