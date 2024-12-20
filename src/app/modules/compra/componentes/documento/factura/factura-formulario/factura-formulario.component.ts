@@ -22,7 +22,6 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenPlazoPago
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { AcumuladorImpuestos } from '@interfaces/comunes/factura/factura.interface';
@@ -38,6 +37,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/gen/gen-plazo-pago.interface';
 
 @Component({
   selector: 'app-factura-formulario',

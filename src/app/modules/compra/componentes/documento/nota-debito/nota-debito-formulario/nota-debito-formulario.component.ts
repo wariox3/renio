@@ -10,9 +10,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  RegistroAutocompletarGenPlazoPago,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -42,6 +39,7 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/gen/gen-documento.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/gen/gen-plazo-pago.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',

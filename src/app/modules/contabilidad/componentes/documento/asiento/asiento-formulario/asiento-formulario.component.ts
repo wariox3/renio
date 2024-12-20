@@ -19,7 +19,7 @@ import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto
 } from '@interfaces/comunes/autocompletar/autocompletar';
-import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/con/conComprobante.interface';
+import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/con/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/con/con-grupo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';

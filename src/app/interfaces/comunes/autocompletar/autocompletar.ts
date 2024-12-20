@@ -27,13 +27,6 @@ export interface RegistroAutocompletarContacto {
   plazo_pago_proveedor_dias: number;
 }
 
-export interface RegistroAutocompletarGenPlazoPago {
-  plazo_pago_id: number;
-  plazo_pago_nombre: string;
-  plazo_pago_dias?: number;
-  plazo_dias?: number;
-}
-
 export interface RegistroAutocompletarImpuesto {
   impuesto_id: number;
   impuesto_nombre: string;

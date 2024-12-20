@@ -23,7 +23,6 @@ import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenPlazoPago,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -54,6 +53,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/gen/gen-plazo-pago.interface';
 
 @Component({
   selector: 'app-factura-formulario',

@@ -29,9 +29,6 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
-import {
-  RegistroAutocompletarGenPlazoPago,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
@@ -45,6 +42,7 @@ import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/gen/gen-tipo-persona.interface';
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/gen/gen-regimen.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/gen/gen-identificacion.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/gen/gen-plazo-pago.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
