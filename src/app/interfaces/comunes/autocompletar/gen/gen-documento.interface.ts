@@ -13,3 +13,8 @@ export interface RegistroAutocompletarGenDocumento {
   documento_tipo_cuenta_cobrar_cuenta_codigo: number;
   naturaleza?: 'C';
 }
+
+export interface RegistroAutocompletarGenDocumentoReferencia {
+  id: number;
+  numero: number;
+}

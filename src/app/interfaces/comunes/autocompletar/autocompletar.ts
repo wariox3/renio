@@ -112,7 +112,3 @@ export interface RegistroAutocompletarConMovimiento {
   credito: string;
 }
 
-export interface RegistroAutocompletarGenDocumentoReferencia {
-  id: number;
-  numero: number;
-}

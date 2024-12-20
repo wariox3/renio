@@ -22,7 +22,6 @@ import { HttpService } from '@comun/services/http.service';
 import {
   AutocompletarRegistros,
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenDocumentoReferencia,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -42,6 +41,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/gen/gen-documento.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
