@@ -12,14 +12,14 @@ import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/hum/hum-concepto.interface';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 
 @Component({
   selector: 'app-credito-formulario',

@@ -25,8 +25,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarHumPagoTipo } from '@interfaces/comunes/autocompletar/hum/hum-pago-tipo.interface';
-import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/hum/hum-grupo.interface';
+import { RegistroAutocompletarHumPagoTipo } from '@interfaces/comunes/autocompletar/humano/hum-pago-tipo.interface';
+import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/humano/hum-grupo.interface';
 
 @Component({
   selector: 'app-programacion-formulario',

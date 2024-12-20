@@ -16,7 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
-import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/hum/hum-concepto.interface';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
 
 @Component({
   selector: 'app-configuracion-humano',

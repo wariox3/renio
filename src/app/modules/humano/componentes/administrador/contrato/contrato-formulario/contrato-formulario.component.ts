@@ -25,7 +25,7 @@ import {
   RegistroAutocompletarCargo,
   RegistroAutocompletarContacto,
 } from '@interfaces/comunes/autocompletar/autocompletar';
-import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
+import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/humano/hum-riesgo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
@@ -36,15 +36,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { BuscarEmpleadoComponent } from '../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarHumPension } from '@interfaces/comunes/autocompletar/hum/hum-pension.interface';
-import { RegistroAutocompletarHumSubtipoCotizante } from '@interfaces/comunes/autocompletar/hum/hum-subtipo-cotizante.interface';
-import { RegistroAutocompletarHumSalud } from '@interfaces/comunes/autocompletar/hum/hum-salud.interface';
-import { RegistroAutocompletarHumSucursal } from '@interfaces/comunes/autocompletar/hum/hum-sucursal.interface';
-import { RegistroAutocompletarHumTipoCotizante } from '@interfaces/comunes/autocompletar/hum/hum-tipo-cotizante.interface';
-import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/hum/hum-grupo.interface';
-import { RegistroAutocompletarHumContratoTipo } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
-import { RegistroAutocompletarHumCargo } from '@interfaces/comunes/autocompletar/hum/hum-cargo.interface';
-import { RegistroAutocompletarHumEntidad } from '@interfaces/comunes/autocompletar/hum/hum-entidad.interface';
+import { RegistroAutocompletarHumPension } from '@interfaces/comunes/autocompletar/humano/hum-pension.interface';
+import { RegistroAutocompletarHumSubtipoCotizante } from '@interfaces/comunes/autocompletar/humano/hum-subtipo-cotizante.interface';
+import { RegistroAutocompletarHumSalud } from '@interfaces/comunes/autocompletar/humano/hum-salud.interface';
+import { RegistroAutocompletarHumSucursal } from '@interfaces/comunes/autocompletar/humano/hum-sucursal.interface';
+import { RegistroAutocompletarHumTipoCotizante } from '@interfaces/comunes/autocompletar/humano/hum-tipo-cotizante.interface';
+import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/humano/hum-grupo.interface';
+import { RegistroAutocompletarHumContratoTipo } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
+import { RegistroAutocompletarHumCargo } from '@interfaces/comunes/autocompletar/humano/hum-cargo.interface';
+import { RegistroAutocompletarHumEntidad } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
 
 @Component({
   selector: 'app-contrato-formulario',

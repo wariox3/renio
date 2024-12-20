@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarHumPerido } from '@interfaces/comunes/autocompletar/hum/hum-periodo.interface';
+import { RegistroAutocompletarHumPerido } from '@interfaces/comunes/autocompletar/humano/hum-periodo.interface';
 
 @Component({
   selector: 'app-grupo',

@@ -41,7 +41,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/gen/gen-documento.interface';
+import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
