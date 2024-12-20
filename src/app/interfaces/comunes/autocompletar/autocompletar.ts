@@ -81,8 +81,3 @@ export interface RegistroAutocompletarGenCuentaBanco {
   cuenta_banco_id: number;
   cuenta_banco_nombre: string;
 }
-
-export interface RegistroAutocompletarGenBanco {
-  id: number;
-  nombre: string;
-}
