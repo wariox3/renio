@@ -55,11 +55,6 @@ export interface RegistroAutocompletarGenRegimen {
   regimen_nombre: string;
 }
 
-export interface RegistroAutocompletarGenTipoPersona {
-  tipo_persona_id: number;
-  tipo_persona_nombre: string;
-}
-
 export interface RegistroAutocompletarResolucion {
   resolucion_id: number;
   resolucion_numero: string;

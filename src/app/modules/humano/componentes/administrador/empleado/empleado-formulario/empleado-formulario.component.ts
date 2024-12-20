@@ -18,7 +18,6 @@ import {
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
   RegistroAutocompletarGenRegimen,
-  RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
@@ -41,6 +40,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/gen/gen-ciudad.interface';
 import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/gen/gen-banco.interface';
 import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/gen/gen-cuenta-banco.interface';
+import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/gen/gen-tipo-persona.interface';
 
 @Component({
   selector: 'app-empleado-formulario',
