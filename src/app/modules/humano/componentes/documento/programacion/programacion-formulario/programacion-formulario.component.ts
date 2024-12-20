@@ -21,15 +21,14 @@ import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fechas.validator';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarHumGrupo,
-  RegistroAutocompletarHumPagoTipo,
+  RegistroAutocompletarHumGrupo
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarHumPagoTipo } from '@interfaces/comunes/autocompletar/hum/hum-pago-tipo.interface';
 
 @Component({
   selector: 'app-programacion-formulario',
