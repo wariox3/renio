@@ -3,10 +3,6 @@ export interface AutocompletarRegistros<T> {
   registros: T[];
 }
 
-export interface RegistroAutocompletarHumTipoCotizante {
-  tipo_cotizante_id: number;
-  tipo_cotizante_nombre: string;
-}
 export interface RegistroAutocompletarCargo {
   cargo_id: number;
   cargo_nombre: string;
