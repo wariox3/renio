@@ -27,8 +27,8 @@ import {
   RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenSede
 } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,

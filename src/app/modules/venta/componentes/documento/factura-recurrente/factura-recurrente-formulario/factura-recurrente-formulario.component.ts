@@ -27,7 +27,6 @@ import {
   RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenSede,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -48,6 +47,7 @@ import { documentosEstadosAction } from '@redux/actions/documentos-estados.actio
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
 
 @Component({
   selector: 'app-factura-formulario',

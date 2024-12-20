@@ -141,8 +141,3 @@ export interface RegistroAutocompletarGenAsesor {
   asesor_id: number;
   asesor_nombre_corto: string;
 }
-
-export interface RegistroAutocompletarGenSede {
-  sede_id: number;
-  sede_nombre: string;
-}

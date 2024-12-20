@@ -26,7 +26,6 @@ import {
   RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenSede
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -54,6 +53,7 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
 
 @Component({
   selector: 'app-factura-formulario',
