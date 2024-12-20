@@ -30,7 +30,6 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { GeneralService } from '@comun/services/general.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
-  RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
@@ -45,6 +44,7 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/gen/gen-ciudad.interface';
 import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/gen/gen-tipo-persona.interface';
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/gen/gen-regimen.interface';
+import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/gen/gen-identificacion.interface';
 
 @Component({
   selector: 'app-contacto-formulario',

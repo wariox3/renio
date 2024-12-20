@@ -45,11 +45,6 @@ export interface RegistroAutocompletarImpuesto {
   impuesto_operacion: number;
 }
 
-export interface RegistroAutocompletarGenIdentificacion {
-  identificacion_id: number;
-  identificacion_nombre: string;
-}
-
 export interface RegistroAutocompletarResolucion {
   resolucion_id: number;
   resolucion_numero: string;
