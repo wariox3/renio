@@ -152,11 +152,6 @@ export interface RegistroAutocompletarGenPrecio {
   precio_nombre: string;
 }
 
-export interface RegistroAutocompletarHumEntidad {
-  entidad_id: number;
-  entidad_nombre: string;
-}
-
 export interface RegistroAutocompletarConComprobante {
   comprobante_id: number;
   comprobante_nombre: string;
