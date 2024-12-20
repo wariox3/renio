@@ -18,7 +18,6 @@ import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenDocumento
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
@@ -35,6 +34,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/gen/gen-documento.interface';
 
 @Component({
   selector: 'app-pago-formulario',

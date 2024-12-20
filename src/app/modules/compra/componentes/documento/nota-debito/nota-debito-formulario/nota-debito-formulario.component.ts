@@ -11,7 +11,6 @@ import {
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  RegistroAutocompletarGenDocumento,
   RegistroAutocompletarGenPlazoPago,
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { General } from '@comun/clases/general';
@@ -42,6 +41,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/gen/gen-documento.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',
