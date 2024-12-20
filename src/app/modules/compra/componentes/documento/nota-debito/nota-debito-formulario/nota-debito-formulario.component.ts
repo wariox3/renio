@@ -24,7 +24,6 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenMetodoPago
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -42,6 +41,7 @@ import {
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',

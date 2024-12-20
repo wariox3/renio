@@ -132,8 +132,3 @@ export interface RegistroAutocompletarGenDocumento {
   documento_tipo_cuenta_cobrar_cuenta_codigo: number;
   naturaleza?: 'C';
 }
-
-export interface RegistroAutocompletarGenMetodoPago {
-  metodo_pago_id: number;
-  metodo_pogo_nombre: string;
-}

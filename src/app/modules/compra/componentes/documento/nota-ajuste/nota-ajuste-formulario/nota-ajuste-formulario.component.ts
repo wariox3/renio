@@ -19,7 +19,6 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -40,6 +39,7 @@ import { documentosEstadosAction } from '@redux/actions/documentos-estados.actio
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',

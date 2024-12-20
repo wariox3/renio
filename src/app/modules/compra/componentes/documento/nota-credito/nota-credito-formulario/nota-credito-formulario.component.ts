@@ -22,7 +22,6 @@ import { HttpService } from '@comun/services/http.service';
 import {
   RegistroAutocompletarContacto,
   RegistroAutocompletarGenDocumentoReferencia,
-  RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -42,6 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/gen/gen-metodo-pago.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
