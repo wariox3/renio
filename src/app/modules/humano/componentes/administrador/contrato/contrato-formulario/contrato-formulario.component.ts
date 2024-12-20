@@ -26,7 +26,6 @@ import {
   RegistroAutocompletarCargo,
   RegistroAutocompletarContacto,
   RegistroAutocompletarHumPension,
-  RegistroAutocompletarHumRiesgo,
   RegistroAutocompletarHumSalud,
   RegistroAutocompletarHumSubtipoCotizante,
   RegistroAutocompletarHumTipoCotizante,
@@ -46,6 +45,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { BuscarEmpleadoComponent } from '../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
 
 @Component({
   selector: 'app-contrato-formulario',

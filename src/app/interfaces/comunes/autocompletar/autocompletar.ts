@@ -3,13 +3,6 @@ export interface AutocompletarRegistros<T> {
   registros: T[];
 }
 
-export interface RegistroAutocompletarHumRiesgo {
-  riesgo_id: number;
-  riesgo_codigo: string;
-  riesgo_nombre: string;
-  riesgo_porcenjate: number;
-}
-
 export interface RegistroAutocompletarHumPension {
   pension_id: 1;
   pension_nombre: string;
