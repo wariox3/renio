@@ -405,7 +405,7 @@ export const mapeo: MapeoAdministrador = {
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: false,
-        ordenable: true,
+        ordenable: false,
       },
       {
         nombre: 'CONTACTO_ID',
@@ -419,7 +419,7 @@ export const mapeo: MapeoAdministrador = {
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: false,
-        ordenable: true,
+        ordenable: false,
       },
       {
         nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -456,7 +456,7 @@ export const mapeo: MapeoAdministrador = {
         campoTipo: 'Fk',
         visibleTabla: true,
         visibleFiltro: true,
-        ordenable: true,
+        ordenable: false,
         esFk: true,
         modeloFk: 'HumGrupo',
       },
