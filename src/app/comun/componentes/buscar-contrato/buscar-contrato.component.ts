@@ -7,8 +7,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  OutputEmitterRef,
-  SimpleChanges,
+  SimpleChanges
 } from '@angular/core';
 import {
   FormBuilder,
@@ -19,12 +18,8 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { HttpService } from '@comun/services/http.service';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarHumContrato,
-} from '@interfaces/comunes/autocompletar/autocompletar';
-import { Filtros, FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
+import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {

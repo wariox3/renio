@@ -22,7 +22,6 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
 import {
-  RegistroAutocompletarHumContrato,
   RegistroAutocompletarNovedadTipo
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
@@ -31,6 +30,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
 
 @Component({
   selector: 'app-novedad-formulario',

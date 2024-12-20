@@ -19,7 +19,6 @@ import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   RegistroAutocompletarConceptoAdicional,
-  RegistroAutocompletarHumContrato
 } from '@interfaces/comunes/autocompletar/autocompletar';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import {
@@ -54,6 +53,7 @@ import {
 } from 'rxjs';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/hum/hum-contrato.interface';
 
 @Component({
   selector: 'app-programacion-detalle',
