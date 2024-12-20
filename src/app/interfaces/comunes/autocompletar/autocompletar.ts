@@ -93,11 +93,6 @@ export interface RegistroAutocompletarGenCiudad {
   estado_nombre: string;
 }
 
-export interface RegistroAutocompletarHumPerido {
-  periodo_id: number;
-  periodo_nombre: string;
-}
-
 export interface RegistroAutocompletarConCuenta {
   cuenta_codigo: number;
   cuenta_nombre: string;

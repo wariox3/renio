@@ -11,14 +11,12 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarHumPerido
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarHumPerido } from '@interfaces/comunes/autocompletar/hum/hum-periodo.interface';
 
 @Component({
   selector: 'app-grupo',
