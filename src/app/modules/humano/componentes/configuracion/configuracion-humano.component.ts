@@ -11,14 +11,12 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarHumConcepto
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/hum/hum-concepto.interface';
 
 @Component({
   selector: 'app-configuracion-humano',

@@ -12,13 +12,13 @@ import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/autocompletar';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/hum/hum-concepto.interface';
 
 @Component({
   selector: 'app-adicional-formulario',
