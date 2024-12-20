@@ -22,17 +22,17 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenMetodoPago,
-  RegistroAutocompletarGenPlazoPago,
+  RegistroAutocompletarGenPlazoPago
 } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
@@ -46,8 +46,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 
 @Component({
   selector: 'app-factura-formulario',

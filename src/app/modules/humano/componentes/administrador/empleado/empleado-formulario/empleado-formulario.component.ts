@@ -15,7 +15,6 @@ import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
-  RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenBanco,
   RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenCuentaBancoClase,
@@ -24,6 +23,8 @@ import {
   RegistroAutocompletarGenRegimen,
   RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
+import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -40,7 +41,6 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 
 @Component({
   selector: 'app-empleado-formulario',

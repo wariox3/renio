@@ -23,7 +23,6 @@ import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
 import {
   RegistroAutocompletarContacto,
-  RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenMetodoPago,
   RegistroAutocompletarGenPlazoPago,
 } from '@interfaces/comunes/autocompletar/autocompletar';
@@ -54,6 +53,7 @@ import {
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/gen/gen-sede.interface';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
 
 @Component({
   selector: 'app-factura-formulario',

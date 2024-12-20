@@ -137,7 +137,3 @@ export interface RegistroAutocompletarGenMetodoPago {
   metodo_pago_id: number;
   metodo_pogo_nombre: string;
 }
-export interface RegistroAutocompletarGenAsesor {
-  asesor_id: number;
-  asesor_nombre_corto: string;
-}

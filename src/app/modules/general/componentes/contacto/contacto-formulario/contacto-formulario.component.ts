@@ -30,21 +30,21 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { GeneralService } from '@comun/services/general.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import {
-  RegistroAutocompletarGenAsesor,
   RegistroAutocompletarGenCiudad,
   RegistroAutocompletarGenIdentificacion,
   RegistroAutocompletarGenPlazoPago,
   RegistroAutocompletarGenRegimen,
   RegistroAutocompletarGenTipoPersona,
 } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/gen/gen-asesor.interface';
+import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/gen/gen-precio.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
