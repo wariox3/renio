@@ -22,20 +22,20 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import {
-  AutocompletarRegistros,
   RegistroAutocompletarCargo,
   RegistroAutocompletarContacto,
-  RegistroAutocompletarHumPension,
+  RegistroAutocompletarHumCargo,
+  RegistroAutocompletarHumContratoTipo,
+  RegistroAutocompletarHumEntidad,
+  RegistroAutocompletarHumGrupo,
   RegistroAutocompletarHumSalud,
   RegistroAutocompletarHumSubtipoCotizante,
-  RegistroAutocompletarHumTipoCotizante,
   RegistroAutocompletarHumSucursal,
-  RegistroAutocompletarHumCargo,
-  RegistroAutocompletarHumEntidad,
-  RegistroAutocompletarHumContratoTipo,
-  RegistroAutocompletarHumGrupo,
+  RegistroAutocompletarHumTipoCotizante
 } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -44,8 +44,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { BuscarEmpleadoComponent } from '../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/hum/hum-riesgo.interface';
+import { RegistroAutocompletarHumPension } from '@interfaces/comunes/autocompletar/hum/hum-pension.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
