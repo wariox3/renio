@@ -238,6 +238,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
         validator: [MultiplesEmailValidator.validarCorreos],
       }
     );
+
+    this.formularioContacto
+      .get('apellido2')
+      ?.valueChanges.subscribe((valor) => {
+        if (valor === '') {
+          this.formularioContacto.get('apellido2')?.setValue(null);
+        }
+      });
   }
 
   get obtenerFormularioCampos() {
