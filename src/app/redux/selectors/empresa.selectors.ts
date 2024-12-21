@@ -1,4 +1,4 @@
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Empresa = createFeatureSelector<Empresa>('empresa');

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   empresaActionInit,

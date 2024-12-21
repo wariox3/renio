@@ -1,5 +1,5 @@
 import { environment } from '@env/environment';
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   empresaActionInit,

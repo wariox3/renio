@@ -18,7 +18,7 @@ import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { environment } from '@env/environment';
-import { Plan } from '@interfaces/contenedor/plan';
+import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

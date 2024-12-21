@@ -14,7 +14,7 @@ import {
 } from '@redux/actions/empresa.actions';
 import { CardComponent } from '../../comun/componentes/card/card.component';
 import { RouterModule } from '@angular/router';
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { LaboratorioComponent } from '../../comun/componentes/laboratorio/laboratorio.component';

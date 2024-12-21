@@ -18,8 +18,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
-import { Empresa } from '@interfaces/contenedor/empresa';
-import { Plan } from '@interfaces/contenedor/plan';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
+import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import {
   NgbModal,

@@ -1,4 +1,4 @@
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const empresaActionInit = createAction(

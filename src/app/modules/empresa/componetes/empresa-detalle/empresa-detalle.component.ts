@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../../_metronic/shared/shared.module';
 import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { RouterModule } from '@angular/router';
-import { Empresa } from '@interfaces/contenedor/empresa';
+import { Empresa } from '@interfaces/contenedor/empresa.interface';
 
 @Component({
   selector: 'app-empresa-detalle',

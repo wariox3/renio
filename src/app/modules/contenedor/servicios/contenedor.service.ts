@@ -8,7 +8,7 @@ import {
   ContenedorLista,
 } from '@interfaces/usuario/contenedor';
 import { FechasService } from '@comun/services/fechas.service';
-import { Plan } from '@interfaces/contenedor/plan';
+import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
 import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
