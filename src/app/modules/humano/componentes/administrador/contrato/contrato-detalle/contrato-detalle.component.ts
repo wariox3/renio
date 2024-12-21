@@ -16,7 +16,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { FechasService } from '@comun/services/fechas.service';
 import { HttpService } from '@comun/services/http.service';
-import { ProgramacionContrato } from '@interfaces/humano/contrato';
+import { ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

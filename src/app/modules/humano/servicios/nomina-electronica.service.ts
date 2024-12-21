@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { NominaElectronica } from '@interfaces/humano/nominaElectronica.';
+import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
 
 @Injectable({
   providedIn: 'root'

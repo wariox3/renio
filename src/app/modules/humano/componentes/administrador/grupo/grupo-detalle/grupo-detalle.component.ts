@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Grupo } from '@interfaces/humano/Grupo';
+import { Grupo } from '@modulos/humano/interfaces/grupo.interface';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";

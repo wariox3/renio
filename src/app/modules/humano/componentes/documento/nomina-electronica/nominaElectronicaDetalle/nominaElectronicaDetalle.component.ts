@@ -4,7 +4,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Documento } from '@interfaces/humano/nominaElectronica.';
+import { Documento } from '@modulos/humano/interfaces/nomina-electronica.interface.';
 import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap, zip } from 'rxjs';

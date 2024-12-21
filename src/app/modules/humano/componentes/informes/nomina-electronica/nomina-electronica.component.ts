@@ -8,7 +8,7 @@ import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { NominaElectronica } from '@interfaces/humano/nominaElectronica.';
+import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
