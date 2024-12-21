@@ -6,7 +6,7 @@ import { AuthModel } from '../models/auth.model';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Token } from '@interfaces/usuario/token';
+import { Token } from '@modulos/auth/interfaces/token.interface';
 import { TokenService } from './token.service';
 import { noRequiereToken } from '@interceptores/token.interceptor';
 import { removeCookie } from 'typescript-cookie';
