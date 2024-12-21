@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
-import { DocumentoTipo } from '@interfaces/empresa/documentoTipo';
-import { ConfiguracionEmpresa } from '@interfaces/empresa/empresa-configuracion.interface';
+import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
+import { ConfiguracionEmpresa } from '@modulos/empresa/interfaces/empresa-configuracion.interface';
 
 @Injectable({
   providedIn: 'root',

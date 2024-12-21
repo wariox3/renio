@@ -2,7 +2,7 @@ import { Resolucion } from '@interfaces/general/resolucion';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { DocumentoTipo } from '@interfaces/empresa/documentoTipo';
+import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 import { CardComponent } from "../../../../comun/componentes/card/card.component";
