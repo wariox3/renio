@@ -17,7 +17,7 @@ import {
   obtenerUsuarioId,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
-import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, debounceTime, finalize, of, switchMap, tap } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorInvitacionComponent } from "../contenedor-invitacion/contenedor-invitacion.component";
 import { ContenedorEditarComponent } from "../contenedor-editar/contenedor-editar.component";
@@ -51,6 +51,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   VisalizarMensajeBloqueo = false;
   visualizarLoader: boolean[] = [];
   contenedorId: number;
+  procesando = false;
 
   constructor(
     private contenedorService: ContenedorService,
@@ -202,7 +203,9 @@ export class ContenedorListaComponent extends General implements OnInit {
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
           if (respuesta.value === empresa_subdominio) {
-            let suscripcion = this.contenedorService
+            this.procesando = true;
+            this.changeDetectorRef.detectChanges()
+            this.contenedorService
               .eliminarEmpresa(empresa_id)
               .pipe(
                 tap(() => {
@@ -212,10 +215,15 @@ export class ContenedorListaComponent extends General implements OnInit {
                     )
                   );
                   this.consultarLista();
-                })
+                }),
+                debounceTime(500),
+                finalize(() => {
+                  this.procesando = false;
+                }),
               )
               .subscribe();
           } else {
+            this.procesando = false;
             this.alertaService.mensajeError(
               'Error',
               'El nombre ingresado con es valido'

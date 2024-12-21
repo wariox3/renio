@@ -299,6 +299,12 @@
   <!--end::Col-->
 </div>
 
+@if(procesando){
+  <div class="fake-loading">
+    <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINANDOCONTENDOR"></span>
+  </div>
+}
+
 <!--end::Alert-->
 <ng-template #contentModalInvitados let-modal>
   <div class="modal-header">
