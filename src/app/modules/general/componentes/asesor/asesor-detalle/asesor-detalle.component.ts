@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Asesor } from '@interfaces/general/Asesor';
+import { Asesor } from '@modulos/general/interfaces/asesor.interface';
 import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

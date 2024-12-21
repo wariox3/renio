@@ -21,9 +21,9 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { GeneralService } from '@comun/services/general.service';
 import {
 } from '@interfaces/comunes/autocompletar/autocompletar';
-import { Regimen } from '@interfaces/general/regimen';
-import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
-import { TipoPersona } from '@interfaces/general/tipoPersona';
+import { Regimen } from '@interfaces/general/regimen.interface';
+import { TipoIdentificacion } from '@interfaces/general/tipo-identificacion.interface';
+import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import {
   NgbDropdown,

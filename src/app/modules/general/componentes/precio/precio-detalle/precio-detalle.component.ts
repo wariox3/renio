@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Precio } from '@interfaces/general/Precio';
+import { Precio } from '@modulos/general/interfaces/precio.interface';
 import { PrecioService } from '@modulos/general/servicios/precio.service';
 
 import { TranslateModule } from '@ngx-translate/core';

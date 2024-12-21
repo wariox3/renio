@@ -20,7 +20,7 @@ import {
   NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
-import { Item } from '@interfaces/general/item';
+import { Item } from '@interfaces/general/item.interface';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import ItemFormularioComponent from '@modulos/general/componentes/item/item-formulario/item-formulario.component';
 import {

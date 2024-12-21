@@ -1,11 +1,10 @@
-import { Identificacion } from './../../interfaces/general/identificacion.';
+import { MenuItem } from '@interfaces/menu/menu';
 import { createReducer, on } from '@ngrx/store';
 import {
   ActualizarCampoMapeo,
   ActualizarMapeo,
   selecionModuloAction,
 } from '../actions/menu.actions';
-import { MenuItem } from '@interfaces/menu/menu';
 let nombreSeleccion = localStorage.getItem('ruta');
 
 export const initialState: MenuItem = {

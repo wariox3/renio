@@ -1,7 +1,7 @@
 import { HttpService } from '@comun/services/http.service';
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
-import { Precio } from '@interfaces/general/Precio';
+import { Precio } from '@modulos/general/interfaces/precio.interface';
 
 @Injectable({
   providedIn: 'root'
