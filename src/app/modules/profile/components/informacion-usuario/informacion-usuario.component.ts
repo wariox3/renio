@@ -1,3 +1,4 @@
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -5,39 +6,42 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { General } from '@comun/clases/general';
 import { ResumenService } from '@modulos/profile/services/resumen.service';
-import { arrPaises } from '../overview/listaPaises';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   usuarioActionActualizarIdioma,
   usuarioActionActualizarInformacionUsuario,
 } from '@redux/actions/usuario.actions';
-import { General } from '@comun/clases/general';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+  obtenerUsuarioId,
   obtenerUsuarioImagen,
   obtenerUsuarioNombre,
-  obtenerUsuarioId
 } from '@redux/selectors/usuario.selectors';
-import { NgxMaskDirective } from 'ngx-mask';
-import { NgClass, NgTemplateOutlet, NgFor, NgIf } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { arrPaises } from '../overview/listaPaises';
 
 @Component({
-    selector: 'app-informacion-usuario',
-    templateUrl: './informacion-usuario.component.html',
-    styleUrls: ['./informacion-usuario.component.scss'],
-    standalone: true,
-    imports: [
-        TranslateModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-        NgTemplateOutlet,
-        NgFor,
-        NgxMaskDirective,
-        NgIf,
-    ],
+  selector: 'app-informacion-usuario',
+  templateUrl: './informacion-usuario.component.html',
+  styleUrls: ['./informacion-usuario.component.scss'],
+  standalone: true,
+  imports: [
+    TranslateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    NgTemplateOutlet,
+    NgFor,
+    NgIf,
+  ],
 })
 export class InformacionUsuarioComponent extends General implements OnInit {
   usuarioInformacion = {
@@ -111,7 +115,6 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     return this.formularioResumen.controls;
   }
 
-
   formSubmit() {
     if (this.formularioResumen.valid) {
       let indicativoPais = this.formularioResumen.value.indicativoPais;
@@ -135,7 +138,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
           telefono: telefono,
           nombreCorto: this.formularioResumen.value.nombreCorto,
           idioma: this.formularioResumen.value.idioma,
-          imagen: this.formularioResumen.value.imagen
+          imagen: this.formularioResumen.value.imagen,
         })
         .subscribe({
           next: (respuesta) => {
@@ -206,13 +209,11 @@ export class InformacionUsuarioComponent extends General implements OnInit {
       size: 'lg',
     });
   }
-
 }
 
 interface LanguageFlag {
   lang: string;
   name: string;
-  flag: string;
   active?: boolean;
 }
 
@@ -220,11 +221,9 @@ const languages = [
   {
     lang: 'es',
     name: 'Español',
-    flag: '🇪🇸',
   },
   {
     lang: 'en',
     name: 'English',
-    flag: '🇺🇸',
   },
 ];

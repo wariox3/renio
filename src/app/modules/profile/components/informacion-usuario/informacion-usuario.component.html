@@ -154,7 +154,7 @@
                           usuarioInformacion.indicativoPais === pais.dial_code
                         "
                       >
-                        {{ pais.emoji }} {{ pais.name_es }} {{ pais.dial_code }}
+                         {{ pais.name_es }} {{ pais.dial_code }}
                       </option>
                     </select>
                   </div>
@@ -167,7 +167,6 @@
                       type="text"
                       class="form-control"
                       formControlName="telefono"
-                      mask="000-00-00"
                       [ngClass]="{
                         'is-invalid':
                           formFields['telefono'].touched &&
@@ -218,7 +217,7 @@
                         *ngFor="let idioma of langs"
                         [ngValue]="idioma.lang"
                       >
-                        {{ idioma.flag }} {{ idioma.name }}
+                        {{ idioma.name }}
                       </option>
                     </select>
                   </div>
