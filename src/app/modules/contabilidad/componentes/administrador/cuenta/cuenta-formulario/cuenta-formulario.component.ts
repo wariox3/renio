@@ -26,6 +26,8 @@ import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { validarNoIniciaCon } from '@comun/validaciones/validar-primer-caracter.validate';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -39,6 +41,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     CardComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SoloNumerosDirective,
   ],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
@@ -55,7 +58,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cuentaService: CuentaService,
+    private cuentaService: CuentaService
   ) {
     super();
   }
@@ -71,14 +74,18 @@ export default class ItemFormularioComponent extends General implements OnInit {
       .get('codigo')
       ?.valueChanges.subscribe((value: string) => {
         if (value && value.length > 0) {
-          this.formularioConCuenta
+          if (value && !isNaN(Number(value.charAt(0)))) {
+            this.formularioConCuenta
             .get('cuenta_clase')
             ?.setValue(value.charAt(0));
+            this.formularioConCuenta.get('cuenta_clase')?.markAsTouched();
+          }
           if (value.length >= 2) {
             this.formularioConCuenta
               .get('cuenta_grupo')
               ?.setValue(value.substring(0, 2));
             this.validarGrupo(value.substring(0, 2));
+            this.formularioConCuenta.get('cuenta_grupo')?.markAsTouched();
           } else {
             this.formularioConCuenta.get('cuenta_grupo')?.setValue('');
           }
@@ -86,6 +93,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
             this.formularioConCuenta
               .get('cuenta_subcuenta')
               ?.setValue(value.substring(0, 4));
+            this.formularioConCuenta.get('cuenta_subcuenta')?.markAsTouched();
           } else {
             this.formularioConCuenta.get('cuenta_subcuenta')?.setValue('');
           }
@@ -119,15 +127,19 @@ export default class ItemFormularioComponent extends General implements OnInit {
           Validators.maxLength(8),
           cambiarVacioPorNulo.validar,
           numeroPar.validarLongitudPar(),
+          validarNoIniciaCon('0'),
         ]),
       ],
       nombre: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
-      cuenta_clase: [null],
-      cuenta_grupo: [null],
-      cuenta_subcuenta: [null],
+      cuenta_clase: [null, Validators.compose([validarNoIniciaCon('0')])],
+      cuenta_grupo: [null, Validators.compose([validarNoIniciaCon('0')])],
+      cuenta_subcuenta: [
+        null,
+        Validators.compose([validarNoIniciaCon('0')]),
+      ],
       nivel: [null],
       exige_base: [false],
       exige_tercero: [false],

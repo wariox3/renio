@@ -1,7 +1,7 @@
 <form [formGroup]="formularioConCuenta" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
-  [estadoAprobado]="false"
-></app-comun-encabezado-formulario-nuevo>
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -20,6 +20,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
                 formularioConCuenta.controls['codigo'].touched &&
@@ -29,6 +30,13 @@
                 formularioConCuenta.controls['codigo'].valid
             }"
           />
+          @if(formularioConCuenta.get('codigo')?.hasError('primerCaracterInvalido')){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> El primer carácter no puede ser "0". </span>
+            </div>
+          </div>
+          }
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -128,19 +136,20 @@
             }"
             readonly
           />
-          <div
-          *ngIf="
-            formularioConCuenta.controls['cuenta_clase']?.getError(
-              'grupoNoValido'
-            )
-          "
-        >
+          @if(formularioConCuenta.get('cuenta_clase')?.hasError('primerCaracterInvalido')){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> El primer carácter no puede ser "0". </span>
+            </div>
+          </div>
+          }
+          @if(formularioConCuenta.get('cuenta_clase')?.hasError('grupoNoValido')){
           <div class="fv-plugins-message-container">
             <div class="fv-help-block">
               <span role="alert"> No se encuentra la cuenta contable </span>
             </div>
           </div>
-        </div>
+          }
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -176,6 +185,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
                 formularioConCuenta.controls['cuenta_grupo'].touched &&
@@ -186,6 +196,13 @@
             }"
             readonly
           />
+          @if(formularioConCuenta.get('cuenta_grupo')?.hasError('primerCaracterInvalido')){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> El primer carácter no puede ser "0". </span>
+            </div>
+          </div>
+          }
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -222,6 +239,7 @@
             class="form-control bg-transparent"
             type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
                 formularioConCuenta.controls['cuenta_subcuenta'].touched &&
@@ -232,19 +250,20 @@
             }"
             readonly
           />
-          <div
-            *ngIf="
-              formularioConCuenta.controls['cuenta_subcuenta']?.getError(
-                'grupoNoValido'
-              )
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert"> No se encuentra la cuenta contable </span>
-              </div>
+          @if(formularioConCuenta.get('cuenta_subcuenta')?.hasError('primerCaracterInvalido')){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> El primer carácter no puede ser "0". </span>
             </div>
           </div>
+          }
+          @if(formularioConCuenta.get('cuenta_subcuenta')?.hasError('grupoNoValido')){
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert"> El primer carácter no puede ser "0". </span>
+            </div>
+          </div>
+          }
         </div>
       </div>
       <div class="row mb-5">
