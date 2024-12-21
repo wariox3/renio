@@ -11,7 +11,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
-import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface';
+import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';

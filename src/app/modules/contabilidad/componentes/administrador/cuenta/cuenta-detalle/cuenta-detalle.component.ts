@@ -7,7 +7,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
+import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
