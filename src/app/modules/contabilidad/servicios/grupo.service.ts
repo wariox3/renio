@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface';
+import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';
 
 @Injectable({
   providedIn: 'root',

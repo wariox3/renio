@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { MovimientoBalancePrueba } from '@interfaces/contabilidad/contabilidad-balance.interface';
+import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { map, Observable, of, tap } from 'rxjs';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';

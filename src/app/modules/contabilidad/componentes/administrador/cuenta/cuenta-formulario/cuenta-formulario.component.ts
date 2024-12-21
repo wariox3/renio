@@ -21,7 +21,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { numeroPar } from '@comun/validaciones/numero-par';
-import { ConCuenta } from '@interfaces/contabilidad/contabilidad-cuenta.interface';
+import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';

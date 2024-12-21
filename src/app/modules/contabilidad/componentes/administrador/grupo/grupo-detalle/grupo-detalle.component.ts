@@ -8,7 +8,7 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
-import { ConGrupo } from '@interfaces/contabilidad/contabilidad-grupo.interface';
+import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({

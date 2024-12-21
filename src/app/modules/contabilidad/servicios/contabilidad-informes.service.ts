@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { RespuestaInformeBalancePrueba } from '@interfaces/contabilidad/contabilidad-balance.interface';
+import { RespuestaInformeBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 
 @Injectable({
   providedIn: 'root',

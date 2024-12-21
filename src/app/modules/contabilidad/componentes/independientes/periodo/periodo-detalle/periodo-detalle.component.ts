@@ -11,7 +11,7 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ConPeriodo } from '@interfaces/contabilidad/contabilidad-periodo.interface';
+import { ConPeriodo } from '@modulos/contabilidad/interfaces/contabilidad-periodo.interface';
 import { PeriodoService } from '@modulos/contabilidad/servicios/periodo.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
