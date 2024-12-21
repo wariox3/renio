@@ -200,11 +200,16 @@ export class FacturaElectronicaComponent extends General implements OnInit {
                   (item) => item !== documento_id
                 );
               this.consultarLista();
+            }),
+            tap(() => {
+              this.emitirSelectTodo = false;
             })
           )
           .subscribe();
       });
     } else {
+      this.emitirSelectTodo = false;
+      this.changeDetectorRef.detectChanges();
       this.alertaService.mensajeError(
         'Error',
         'No tiene registros seleccionados'
@@ -217,12 +222,24 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.arrRegistrosSeleccionadosNotificar.map((documento_id) => {
         this.httpService
           .post('general/documento/notificar/', { documento_id })
-          .subscribe((respuesta: any) => {
-            this.consultarLista();
-          });
+          .pipe(
+            tap(() => {
+              this.arrRegistrosSeleccionadosNotificar =
+                this.arrRegistrosSeleccionadosNotificar.filter(
+                  (item) => item !== documento_id
+                );
+              this.consultarLista();
+            }),
+            tap(() => {
+              this.notificarSelectTodo = false;
+            })
+          )
+          .subscribe();
       });
       this.arrRegistrosSeleccionadosNotificar = [];
     } else {
+      this.notificarSelectTodo = false;
+      this.changeDetectorRef.detectChanges();
       this.alertaService.mensajeError(
         'Error',
         'No tiene registros seleccionados'
