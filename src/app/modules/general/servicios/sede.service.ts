@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { Sede } from '@interfaces/general/Sede';
+import { Sede } from '@modulos/general/interfaces/sede.interface';
 
 @Injectable({
   providedIn: 'root'

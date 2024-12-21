@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Sede } from '@interfaces/general/Sede';
+import { Sede } from '@modulos/general/interfaces/sede.interface';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';

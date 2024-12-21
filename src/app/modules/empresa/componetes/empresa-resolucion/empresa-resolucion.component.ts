@@ -1,4 +1,4 @@
-import { Resolucion } from '@interfaces/general/resolucion';
+import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { General } from '@comun/clases/general';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
-import { Resolucion } from '@interfaces/general/resolucion';
+import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { Store } from '@ngrx/store';
 
 @Injectable({

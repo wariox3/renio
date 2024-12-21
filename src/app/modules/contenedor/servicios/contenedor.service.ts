@@ -10,10 +10,10 @@ import {
 import { FechasService } from '@comun/services/fechas.service';
 import { Plan } from '@interfaces/contenedor/plan';
 import { Consumo } from '@interfaces/contenedor/consumo';
-import { Ciudad } from '@interfaces/general/ciudad';
-import { TipoIdentificacionLista } from '@interfaces/general/tipoIdentificacion';
-import { Regimen } from '@interfaces/general/regimen';
-import { TipoPersona } from '@interfaces/general/tipoPersona';
+import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
+import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
+import { Regimen } from '@interfaces/general/regimen.interface';
+import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import { Movimientos } from '@interfaces/facturacion/Facturacion';
 
 @Injectable({

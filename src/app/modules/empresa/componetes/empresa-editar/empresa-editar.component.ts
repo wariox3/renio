@@ -17,10 +17,10 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { Ciudad } from '@interfaces/general/ciudad';
-import { Regimen } from '@interfaces/general/regimen';
-import { TipoIdentificacion } from '@interfaces/general/tipoIdentificacion';
-import { TipoPersona } from '@interfaces/general/tipoPersona';
+import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
+import { Regimen } from '@interfaces/general/regimen.interface';
+import { TipoIdentificacion } from '@interfaces/general/tipo-identificacion.interface';
+import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import {
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
@@ -46,7 +46,7 @@ export class EmpresaEditarComponent extends General implements OnInit {
   itemSeleccionado: any | null = null;
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
-  arrCiudades: Ciudad[] = [];
+  arrCiudades: any[] = [];
   arrIdentificacion: TipoIdentificacion[] = [];
   arrTipoPersona: TipoPersona[] = [];
   arrRegimen: Regimen[] = [];

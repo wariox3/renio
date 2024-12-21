@@ -6,7 +6,7 @@ import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interf
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { Resolucion } from '@interfaces/general/resolucion';
+import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-editar/empresa-documento-tipo-editar.component';
 
 @Component({

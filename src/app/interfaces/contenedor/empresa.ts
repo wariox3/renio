@@ -1,4 +1,4 @@
-import { TipoIdentificacionLista } from '@interfaces/general/tipoIdentificacion';
+import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
 
 export interface Empresa {
   id: number;

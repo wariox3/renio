@@ -16,7 +16,7 @@ import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
-import { Item } from '@interfaces/general/item';
+import { Item } from '@interfaces/general/item.interface';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
