@@ -57,7 +57,7 @@ export default class PrecioFormularioComponent
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
     this.formularioPrecio = this.formBuilder.group({
-      tipo: ['', Validators.compose([Validators.required])],
+      tipo: ['', Validators.compose([Validators.required, Validators.maxLength(1)])],
       nombre: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
