@@ -10,7 +10,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -36,9 +35,9 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -93,7 +92,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: RegistroAutocompletarGenContacto[] = [];
-  referencias: RegistroAutocompletarGenDocumentoReferencia[] = []
+  referencias: RegistroAutocompletarGenDocumentoReferencia[] = [];
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];

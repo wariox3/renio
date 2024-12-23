@@ -28,11 +28,11 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   AcumuladorImpuestos,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';

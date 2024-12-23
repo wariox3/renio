@@ -31,7 +31,6 @@ import { GeneralService } from '@comun/services/general.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/general/gen-precio.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -43,6 +42,7 @@ import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocom
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-contacto-formulario',

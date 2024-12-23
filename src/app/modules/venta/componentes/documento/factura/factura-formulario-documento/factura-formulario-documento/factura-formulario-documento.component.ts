@@ -18,7 +18,7 @@ import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-f
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';

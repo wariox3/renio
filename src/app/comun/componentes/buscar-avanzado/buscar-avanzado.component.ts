@@ -1,20 +1,18 @@
-import { FiltrosAplicados } from './../../../interfaces/comunes/filtros';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { General } from '@comun/clases/general';
+import { mapeo } from '@comun/extra/mapeo-entidades/buscar-avanzados';
+import { HttpService } from '@comun/services/http.service';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   NgbDatepickerModule,
   NgbModal,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { TablaComponent } from '../tabla/tabla.component';
-import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { KeysPipe } from '@pipe/keys.pipe';
-import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { mapeo } from '@comun/extra/mapeo-entidades/buscar-avanzados';
+import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -22,7 +20,6 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
   imports: [
     CommonModule,
     NgbDatepickerModule,
-    TablaComponent,
     KeysPipe,
     BaseFiltroComponent,
     TranslateModule,

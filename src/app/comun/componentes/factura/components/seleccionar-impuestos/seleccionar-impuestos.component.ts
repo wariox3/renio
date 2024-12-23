@@ -15,12 +15,12 @@ import {
   ImpuestoFormulario,
   ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
 import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-seleccionar-impuestos',

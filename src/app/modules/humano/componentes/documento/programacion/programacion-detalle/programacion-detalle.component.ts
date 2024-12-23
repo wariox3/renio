@@ -17,7 +17,7 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
-import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import {
   ProgramacionDetalleRegistro,
   TablaRegistroLista,
@@ -52,6 +52,7 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-programacion-detalle',

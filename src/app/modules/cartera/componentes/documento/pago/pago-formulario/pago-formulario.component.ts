@@ -17,7 +17,6 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { GeneralService } from '@comun/services/general.service';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -33,6 +32,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-pago-formulario',

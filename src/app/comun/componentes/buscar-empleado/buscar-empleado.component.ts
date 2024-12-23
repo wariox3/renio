@@ -18,12 +18,9 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import {
-  FiltrosAplicados,
-  ParametrosFiltros,
-} from '@interfaces/comunes/filtros';
+import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {

@@ -28,7 +28,7 @@ import {
   RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-seleccionar-producto',

@@ -12,7 +12,6 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { TablaRegistroLista } from '@interfaces/humano/programacion';
 import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import {
@@ -25,6 +24,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-aporte-detalle',

@@ -27,7 +27,6 @@ import {
   AcumuladorImpuestos,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
@@ -45,6 +44,7 @@ import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-factura-formulario',

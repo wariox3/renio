@@ -21,7 +21,6 @@ import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,6 +28,7 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { RegistroAutocompletarHumNovedadTipo } from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-novedad-formulario',

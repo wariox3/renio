@@ -22,7 +22,7 @@ import { Item } from '@interfaces/general/item.interface';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import itemFormulario from '../../../modules/general/componentes/item/item-formulario/item-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-comun-productos',

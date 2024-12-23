@@ -9,7 +9,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
 import {
   FormArray,
   FormBuilder,
@@ -18,7 +17,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FiltrosAplicados, Listafiltros } from '@interfaces/comunes/filtros';
 import { General } from '@comun/clases/general';
 import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
 import { obtenerCriteriosFiltro } from '@redux/selectors/criterios-fiItro.selectors';
@@ -34,6 +32,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
+import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
 
 @Component({
   selector: 'app-base-filtro',

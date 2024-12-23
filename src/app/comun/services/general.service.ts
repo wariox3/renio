@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Injectable({
   providedIn: 'root',

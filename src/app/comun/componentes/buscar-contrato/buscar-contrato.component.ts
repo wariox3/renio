@@ -7,7 +7,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -19,7 +19,8 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -181,7 +182,7 @@ export class BuscarContratoComponent
           propiedad: 'contacto__numero_identificacion__icontains',
           valor1: `${Number(valor)}`,
           valor2: '',
-        }
+        },
       ];
     }
 

@@ -8,9 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { GeneralService } from '@comun/services/general.service';
-import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { tap, zip } from 'rxjs';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-factura-electronica',

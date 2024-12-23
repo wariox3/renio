@@ -6,14 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeo } from '@comun/extra/mapeo-entidades/administradores';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { Listafiltros } from '@interfaces/comunes/filtros';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
+import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -25,7 +24,6 @@ import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
     CardComponent,
     BaseFiltroComponent,
     TablaComponent,
-    ImportarComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],

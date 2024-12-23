@@ -16,12 +16,12 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',

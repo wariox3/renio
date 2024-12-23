@@ -15,7 +15,8 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { GeneralService } from '@comun/services/general.service';
-import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-cuentas-pagar',

@@ -1,24 +1,22 @@
-import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Params, RouterModule } from '@angular/router';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { Listafiltros } from '@interfaces/comunes/filtros';
-import { documentos } from '@comun/extra/mapeo-entidades/documentos';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImportarComponent } from '@comun/componentes/importar/importar.component';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { combineLatest, Subject, takeUntil, map, BehaviorSubject, finalize } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
+import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';
+import { documentos } from '@comun/extra/mapeo-entidades/documentos';
+import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
-import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BehaviorSubject, combineLatest, finalize, Subject, takeUntil } from 'rxjs';
+import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -30,7 +28,6 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
     CardComponent,
     BaseFiltroComponent,
     TablaComponent,
-    ImportarComponent,
     ModalDinamicoComponent,
 ],
   templateUrl: './base-lista.component.html',

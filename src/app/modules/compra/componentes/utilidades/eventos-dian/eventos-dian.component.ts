@@ -1,4 +1,4 @@
-import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
@@ -22,6 +22,7 @@ import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eve
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
 import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-documento-electronico',

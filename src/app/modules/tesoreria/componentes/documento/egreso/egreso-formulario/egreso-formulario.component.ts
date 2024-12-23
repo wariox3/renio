@@ -31,9 +31,9 @@ import { ContactosComponent } from '@comun/componentes/contactos/contactos.compo
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-egreso-formulario',

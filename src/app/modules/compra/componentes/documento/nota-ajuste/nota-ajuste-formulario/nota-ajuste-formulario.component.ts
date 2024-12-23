@@ -22,7 +22,6 @@ import {
   AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
 } from '@interfaces/comunes/factura/factura.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -38,6 +37,7 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
