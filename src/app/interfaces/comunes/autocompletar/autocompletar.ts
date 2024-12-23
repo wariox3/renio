@@ -21,9 +21,3 @@ export interface RegistroAutocompletarImpuesto {
   impuesto_porcentaje_base: number;
   impuesto_operacion: number;
 }
-
-export interface RegistroAutocompletarResolucion {
-  resolucion_id: number;
-  resolucion_numero: string;
-  resolucion_prefijo: string;
-}

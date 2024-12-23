@@ -16,14 +16,12 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarResolucion
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',
@@ -42,7 +40,7 @@ export class EmpresaDocumentoTipoEditarComponent
   implements OnInit
 {
   formularioDocumentoTipo: FormGroup;
-  arrResoluciones: RegistroAutocompletarResolucion[] = [];
+  arrResoluciones: RegistroAutocompletarGenResolucion[] = [];
 
   @Input() ocultarBtnAtras: Boolean = false;
   @Input() tipoRolucion: 'compra' | 'venta';
@@ -148,7 +146,7 @@ export class EmpresaDocumentoTipoEditarComponent
     };
 
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarResolucion>(
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenResolucion>(
         arrFiltros
       ),
       this.empresaService.consultarDocumentoTipoDetalle(resolucionId)
