@@ -21,9 +21,6 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
-import {
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
@@ -47,6 +44,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -879,7 +877,7 @@ export default class FacturaRecurrenteFormularioComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

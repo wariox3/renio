@@ -23,7 +23,10 @@ import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
 import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/humano/hum-riesgo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
+import {
+  FiltrosAplicados,
+  ParametrosFiltros,
+} from '@interfaces/comunes/filtros';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -41,7 +44,7 @@ import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar
 import { RegistroAutocompletarHumContratoTipo } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { RegistroAutocompletarHumCargo } from '@interfaces/comunes/autocompletar/humano/hum-cargo.interface';
 import { RegistroAutocompletarHumEntidad } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
-import { RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -364,7 +367,7 @@ export default class ContratoFormularioComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

@@ -17,9 +17,6 @@ import { FormularioProductosComponent } from '@comun/componentes/factura/compone
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
@@ -40,6 +37,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
@@ -738,7 +736,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -778,7 +776,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

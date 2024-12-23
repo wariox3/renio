@@ -10,9 +10,7 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
@@ -49,7 +47,7 @@ export class ContactosComponent extends General {
 
   consultarContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
         filtros: [
           {
             operador: '__icontains',
@@ -73,7 +71,7 @@ export class ContactosComponent extends General {
 
   aplicarFiltrosContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
         filtros: [
           {
             operador: '__icontains',

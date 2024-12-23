@@ -16,9 +16,6 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarContacto
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/contabilidad/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -34,6 +31,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -285,7 +283,7 @@ export default class AsientoFormularioComponent
       serializador: 'ListaAutocompletar',
     };
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

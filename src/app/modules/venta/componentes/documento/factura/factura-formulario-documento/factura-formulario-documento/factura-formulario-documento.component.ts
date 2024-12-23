@@ -9,14 +9,6 @@ import {
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
-import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-  RegistroAutocompletarGenAsesor,
-  RegistroAutocompletarGenMetodoPago,
-  RegistroAutocompletarGenPlazoPago,
-  RegistroAutocompletarGenSede,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +19,11 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 
 @Component({
   selector: 'app-factura-formulario-documento',
@@ -185,7 +182,7 @@ export class FacturaFormularioDocumentoComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

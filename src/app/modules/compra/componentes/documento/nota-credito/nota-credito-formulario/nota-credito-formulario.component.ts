@@ -19,9 +19,6 @@ import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import {
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
@@ -42,6 +39,7 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -100,8 +98,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     detalles: [],
   };
   acumuladorImpuestos: any[] = [];
-  arrMovimientosClientes: RegistroAutocompletarContacto[] = [];
-  referencias: RegistroAutocompletarGenDocumentoReferencia[] = [] 
+  arrMovimientosClientes: RegistroAutocompletarGenContacto[] = [];
+  referencias: RegistroAutocompletarGenDocumentoReferencia[] = []
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
@@ -819,7 +817,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {

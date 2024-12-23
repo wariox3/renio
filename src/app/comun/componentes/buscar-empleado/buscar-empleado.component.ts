@@ -7,7 +7,7 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -18,11 +18,12 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
+import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import {
-  AutocompletarRegistros,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
-import { FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
+  FiltrosAplicados,
+  ParametrosFiltros,
+} from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -71,11 +72,9 @@ export class BuscarEmpleadoComponent
   @Input() formularioError: any = false;
   @Output() emitirEmpleado: EventEmitter<any> = new EventEmitter();
 
-  private readonly _generalService = inject(GeneralService)
+  private readonly _generalService = inject(GeneralService);
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     super();
     this._inicializarBusqueda();
   }
@@ -151,14 +150,16 @@ export class BuscarEmpleadoComponent
       serializador: 'ListaAutocompletar',
     };
 
-    this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarContacto>(arrFiltros).pipe(
-      tap((respuesta) => {
-        this.arrEmpleados = respuesta.registros;
-        this.changeDetectorRef.detectChanges();
-      }),
-      finalize(() => this.cargandoEmpleados$.next(false))
-    )
-    .subscribe();
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .pipe(
+        tap((respuesta) => {
+          this.arrEmpleados = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        }),
+        finalize(() => this.cargandoEmpleados$.next(false))
+      )
+      .subscribe();
   }
 
   consultarEmpleadosPorNombre(valor: string) {
@@ -201,9 +202,7 @@ export class BuscarEmpleadoComponent
     };
 
     return this._generalService
-      .consultarDatosAutoCompletar<AutocompletarRegistros<RegistroAutocompletarContacto>>(
-        arrFiltros
-      )
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
       .pipe(
         tap((respuesta) => {
           this.arrEmpleados = respuesta.registros;
