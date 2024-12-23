@@ -16,7 +16,7 @@ import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import {
   ProgramacionDetalleRegistro,

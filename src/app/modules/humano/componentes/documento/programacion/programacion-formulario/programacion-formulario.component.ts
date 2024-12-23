@@ -18,7 +18,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fechas.validator';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { TranslateModule } from '@ngx-translate/core';
 

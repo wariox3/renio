@@ -14,8 +14,8 @@ import { ResolucionService } from '@modulos/general/servicios/resolucion.service
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { validarConsecutivos } from '@comun/validaciones/validar-resolucion-consecutivos.validar';
-import { validarFechas } from '@comun/validaciones/validar-resolucion-fechas.validar';
+import { validarConsecutivos } from '@comun/validaciones/validar-resolucion-consecutivos.validator';
+import { validarFechas } from '@comun/validaciones/validar-resolucion-fechas.validator';
 
 @Component({
   selector: 'app-resolucion-nuevo',

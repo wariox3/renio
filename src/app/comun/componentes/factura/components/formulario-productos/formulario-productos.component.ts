@@ -21,7 +21,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import {
   DocumentoDetalleFactura,
   DocumentoFacturaDetalleRespuesta,
@@ -37,10 +37,10 @@ import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
-import { validarDescuento } from '@comun/validaciones/validar-descuento.validate';
+import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CuentasComponent } from '../../../cuentas/cuentas.component';
-import { validarCantidad } from '@comun/validaciones/validar-cantidad.validate';
+import { validarCantidad } from '@comun/validaciones/validar-cantidad.validator';
 
 @Component({
   selector: 'app-formulario-productos',

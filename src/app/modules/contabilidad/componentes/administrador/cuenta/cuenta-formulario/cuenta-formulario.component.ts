@@ -19,14 +19,14 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
-import { numeroPar } from '@comun/validaciones/numero-par';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
+import { numeroPar } from '@comun/validaciones/numero-par.validator';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { validarNoIniciaCon } from '@comun/validaciones/validar-primer-caracter.validate';
+import { validarNoIniciaCon } from '@comun/validaciones/validar-primer-caracter.validator';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 
 @Component({
