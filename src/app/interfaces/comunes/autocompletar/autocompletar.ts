@@ -2,11 +2,6 @@ export interface AutocompletarRegistros<T> {
   cantidad_registros: number;
   registros: T[];
 }
-export interface RegistroAutocompletarConceptoAdicional {
-  id: number;
-  nombre: string;
-}
-
 export interface RegistroAutocompletarContacto {
   contacto_id: number;
   contacto_nombre_corto: string;

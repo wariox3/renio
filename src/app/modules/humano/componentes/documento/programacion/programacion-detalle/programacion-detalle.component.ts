@@ -17,9 +17,6 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validate';
-import {
-  RegistroAutocompletarConceptoAdicional,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { Filtros, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import {
   ProgramacionDetalleRegistro,
@@ -54,6 +51,7 @@ import {
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
+import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -139,7 +137,7 @@ export default class ProgramacionDetalleComponent
   desgenerando: boolean = false;
   notificando: boolean = false;
   mostrarMasDetalles: boolean = false;
-  arrConceptosAdicional: RegistroAutocompletarConceptoAdicional[] = [];
+  arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
   ordenadoTabla: string = '';
 
   private _unsubscribe$ = new Subject<void>();
@@ -498,7 +496,7 @@ export default class ProgramacionDetalleComponent
 
   abrirModal(content: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>({
         filtros: [
           {
             propiedad: 'adicional',
@@ -547,7 +545,7 @@ export default class ProgramacionDetalleComponent
 
   private _consultarConceptosAdicionales() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>({
         filtros: [
           {
             propiedad: 'adicional',
@@ -711,7 +709,7 @@ export default class ProgramacionDetalleComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConceptoAdicional>(
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>(
         arrFiltros
       )
       .pipe(
