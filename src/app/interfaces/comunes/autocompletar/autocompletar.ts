@@ -3,11 +3,6 @@ export interface AutocompletarRegistros<T> {
   registros: T[];
 }
 
-export interface RegistroAutocompletarCargo {
-  cargo_id: number;
-  cargo_nombre: string;
-}
-
 export interface RegistroAutocompletarNovedadTipo {
   id: number;
   nombre: string;

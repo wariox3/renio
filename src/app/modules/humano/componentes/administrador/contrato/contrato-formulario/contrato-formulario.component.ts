@@ -21,13 +21,9 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio';
-import {
-  RegistroAutocompletarCargo,
-  RegistroAutocompletarContacto,
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarHumRiesgo } from '@interfaces/comunes/autocompletar/humano/hum-riesgo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/filtros';
+import { FiltrosAplicados, ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -45,6 +41,7 @@ import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar
 import { RegistroAutocompletarHumContratoTipo } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { RegistroAutocompletarHumCargo } from '@interfaces/comunes/autocompletar/humano/hum-cargo.interface';
 import { RegistroAutocompletarHumEntidad } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
+import { RegistroAutocompletarContacto } from '@interfaces/comunes/autocompletar/autocompletar';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -86,7 +83,7 @@ export default class ContratoFormularioComponent
   autocompletarSalud: RegistroAutocompletarHumSalud[] = [];
   autocompletarSucursal: RegistroAutocompletarHumSucursal[] = [];
   autocompletarTipoCotizante: RegistroAutocompletarHumTipoCotizante[] = [];
-  autocompletarCargo: RegistroAutocompletarCargo[] = [];
+  autocompletarCargo: RegistroAutocompletarHumCargo[] = [];
   camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -108,7 +105,7 @@ export default class ContratoFormularioComponent
       titulo: 'nombre_corto',
     },
   ];
-  filtrosPermanentesEmpleado = {
+  filtrosPermanentesEmpleado: FiltrosAplicados = {
     operador: '',
     propiedad: 'empleado',
     valor1: true,
@@ -590,7 +587,7 @@ export default class ContratoFormularioComponent
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarCargo>(arrFiltros)
+      .consultarDatosAutoCompletar<RegistroAutocompletarHumCargo>(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
