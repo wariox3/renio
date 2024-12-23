@@ -54,7 +54,7 @@ export default class AsesorFormularioComponent
 
   iniciarFormulario() {
     this.formularioAsesor = this.formBuilder.group({
-      nombre_corto: [null, Validators.compose([Validators.required])],
+      nombre_corto: [null, Validators.compose([Validators.required, Validators.maxLength(200)])],
       celular: [
         null,
         Validators.compose([Validators.required, Validators.maxLength(50)]),
