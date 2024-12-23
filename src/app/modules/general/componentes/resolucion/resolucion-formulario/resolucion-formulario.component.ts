@@ -16,6 +16,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 import { validarConsecutivos } from '@comun/validaciones/validar-resolucion-consecutivos.validator';
 import { validarFechas } from '@comun/validaciones/validar-resolucion-fechas.validator';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -29,7 +30,8 @@ import { validarFechas } from '@comun/validaciones/validar-resolucion-fechas.val
     CardComponent,
     NgbModalModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    SoloNumerosDirective
 ],
   providers: [NgbActiveModal],
 })
@@ -83,14 +85,14 @@ export default class ResolucionFormularioComponent
         null,
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^[0-9]*$/),
+          Validators.maxLength(200)
         ]),
       ],
       consecutivo_hasta: [
         null,
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^[0-9]*$/),
+          Validators.maxLength(200)
         ]),
       ],
       fecha_desde: [

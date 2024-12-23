@@ -108,8 +108,9 @@
           <input
             formControlName="consecutivo_desde"
             class="form-control bg-transparent"
-            type="number"
+            type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
                 formularioResolucion.controls['consecutivo_desde'].touched &&
@@ -119,6 +120,16 @@
                 formularioResolucion.controls['consecutivo_desde'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '200',
+              control: formularioResolucion.controls['consecutivo_desde']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -144,12 +155,13 @@
           <input
             formControlName="consecutivo_hasta"
             class="form-control bg-transparent"
-            type="number"
+            type="text"
             autocomplete="off"
+            appSoloNumeros
             [ngClass]="{
               'is-invalid':
-                formularioResolucion.controls['consecutivo_hasta'].touched &&
-                formularioResolucion.controls['consecutivo_hasta'].invalid ||
+                (formularioResolucion.controls['consecutivo_hasta'].touched &&
+                  formularioResolucion.controls['consecutivo_hasta'].invalid) ||
                 formularioResolucion.errors?.consecutivosInvalidos,
               'is-valid':
                 formularioResolucion.controls['consecutivo_hasta'].touched &&
@@ -180,7 +192,7 @@
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
+              cantidadCaracteres: '200',
               control: formularioResolucion.controls['consecutivo_hasta']
             }"
           ></ng-container>
@@ -254,8 +266,8 @@
             [min]="fechaDesde.value"
             [ngClass]="{
               'is-invalid':
-                formularioResolucion.controls['fecha_hasta'].touched &&
-                formularioResolucion.controls['fecha_hasta'].invalid ||
+                (formularioResolucion.controls['fecha_hasta'].touched &&
+                  formularioResolucion.controls['fecha_hasta'].invalid) ||
                 formularioResolucion.errors?.fechasInvalidas,
               'is-valid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
@@ -263,14 +275,14 @@
             }"
           />
           @if(formularioResolucion.errors?.fechasInvalidas){
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert">
-                  "Fecha hasta" no puede ser anterior a "Fecha desde".
-                </span>
-              </div>
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">
+                "Fecha hasta" no puede ser anterior a "Fecha desde".
+              </span>
             </div>
-            }
+          </div>
+          }
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
