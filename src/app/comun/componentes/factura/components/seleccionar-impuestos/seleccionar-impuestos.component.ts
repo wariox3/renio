@@ -12,9 +12,6 @@ import { General } from '@comun/clases/general';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import {
-  RegistroAutocompletarImpuesto
-} from '@interfaces/comunes/autocompletar/autocompletar';
-import {
   ImpuestoFormulario,
   ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
@@ -23,6 +20,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
+import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
 
 @Component({
   selector: 'app-seleccionar-impuestos',
@@ -44,7 +42,7 @@ export class SeleccionarImpuestosComponent
   private _generalService = inject(GeneralService);
   public impuestos: ImpuestoRespuestaConsulta[] = [];
   public listaDeImpuestosSeleccionables$: Observable<
-    RegistroAutocompletarImpuesto[]
+    RegistroAutocompletarGenImpuesto[]
   > = new Observable();
 
   arrImpuestoSeleccionados: any[] = [];
@@ -138,7 +136,7 @@ export class SeleccionarImpuestosComponent
     }
 
     this.listaDeImpuestosSeleccionables$ = this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarImpuesto>(
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenImpuesto>(
         this.arrParametrosConsulta
       )
       .pipe(map((respuesta) => respuesta.registros));

@@ -12,12 +12,10 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
-import {
-  RegistroAutocompletarImpuesto
-} from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/filtros';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { tap } from 'rxjs';
+import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
 
 @Component({
   selector: 'app-comun-impuestos',
@@ -33,7 +31,7 @@ import { tap } from 'rxjs';
 })
 export class ImpuestosComponent extends General implements OnChanges {
   arrImpuestoSeleccionados: any[] = [];
-  arrImpuestoLista: any[];
+  arrImpuestoLista: RegistroAutocompletarGenImpuesto[];
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
     limite: 10,
@@ -127,7 +125,7 @@ export class ImpuestosComponent extends General implements OnChanges {
       ];
     }
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarImpuesto>(
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenImpuesto>(
         this.arrParametrosConsulta
       )
       .pipe(
