@@ -37,6 +37,16 @@
               control: formularioCargo.controls['nombre']
             }"
           ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message:
+              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '100',
+            control: formularioCargo.controls['nombre']
+          }"
+        ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -48,6 +58,7 @@
             class="form-control"
             type="number"
             autocomplete="off"
+            min="0"
             [ngClass]="{
               'is-invalid':
                 formularioCargo.controls['codigo'].touched &&

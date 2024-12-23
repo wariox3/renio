@@ -53,7 +53,7 @@ export default class CargoFormularioComponent
 
   iniciarFormulario() {
     this.formularioCargo = this.formBuilder.group({
-      nombre: ['', Validators.compose([Validators.required])],
+      nombre: ['', Validators.compose([Validators.required, Validators.maxLength(100)])],
       estado_inactivo: [false],
       codigo: [0, Validators.compose([Validators.required])],
     });
