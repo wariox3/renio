@@ -1,4 +1,4 @@
-import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
+import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 
 interface ConfiguracionExtraDocumento {
   [key: number | string]: {

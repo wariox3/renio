@@ -1,4 +1,4 @@
-import { ArchivoImportacion } from '@interfaces/comunes/archivo-importacion';
+import { ArchivoImportacion } from '@interfaces/comunes/importar/archivo-importacion';
 export interface Menu {
   name?: string;
   url?: string;

@@ -30,7 +30,7 @@ import {
 } from '@redux/selectors/menu.selectors';
 import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
-import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
+import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 
 @Component({
@@ -301,7 +301,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.arrRegistrosEliminar.push(id);
     }
   }
-  
+
   estoyEnListaEliminar(id: number): boolean {
     return this.arrRegistrosEliminar.indexOf(id) !== -1;
   }

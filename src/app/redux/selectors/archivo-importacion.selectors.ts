@@ -1,4 +1,4 @@
-import { ArchivoImportacion } from '@interfaces/comunes/archivo-importacion';
+import { ArchivoImportacion } from '@interfaces/comunes/importar/archivo-importacion';
 import { Documentacion } from '@interfaces/comunes/documentacion/documentacion';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 

@@ -12,7 +12,7 @@ import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/config
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
-import { BotonesExtras } from '@interfaces/comunes/configuracionExtra';
+import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, combineLatest, finalize, Subject, takeUntil } from 'rxjs';

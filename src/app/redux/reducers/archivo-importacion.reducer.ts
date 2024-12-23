@@ -1,4 +1,4 @@
-import { ArchivoImportacion } from '@interfaces/comunes/archivo-importacion';
+import { ArchivoImportacion } from '@interfaces/comunes/importar/archivo-importacion';
 import { createReducer, on } from '@ngrx/store';
 import { asignarArchivoImportacionDetalle, asignarArchivoImportacionLista, asignarArchivoImportacionNuevo } from '@redux/actions/archivo-importacion.actions';
 
