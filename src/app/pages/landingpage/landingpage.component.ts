@@ -15,26 +15,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { AlertaService } from '@comun/services/alerta.service';
 import { BaseLandingpageComponent } from '@comun/componentes/base-landingpage/base-landingpage.component';
-
-interface LanguageFlag {
-  lang: string;
-  name: string;
-  flag: string;
-  active?: boolean;
-}
-
-const languages = [
-  {
-    lang: 'es',
-    name: 'Español',
-    flag: './assets/media/flags/spain.svg',
-  },
-  {
-    lang: 'en',
-    name: 'English',
-    flag: './assets/media/flags/united-states.svg',
-  },
-];
+import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
 
 @Component({
   selector: 'app-landingpage',
@@ -57,7 +38,18 @@ export class LandingpageComponent implements OnInit {
   menufijo = false;
   animateFadeDown = false;
   language: LanguageFlag;
-  langs = languages;
+  langs = [
+    {
+      lang: 'es',
+      name: 'Español',
+      flag: './assets/media/flags/spain.svg',
+    },
+    {
+      lang: 'en',
+      name: 'English',
+      flag: './assets/media/flags/united-states.svg',
+    },
+  ];
   formularioContacto: FormGroup;
   fechaActual: Date = new Date();
   selectedPlan: string = 'facturacion';
