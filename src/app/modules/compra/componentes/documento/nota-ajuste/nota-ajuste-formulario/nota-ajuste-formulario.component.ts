@@ -30,7 +30,6 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
@@ -802,15 +801,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
-
-        this.store.dispatch(
-          documentosEstadosAction({
-            estados: {
-              estado_aprobado: respuesta.documento.estado_aprobado,
-              estado_emitido: respuesta.documento.estado_aprobado,
-            },
-          })
-        );
 
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,

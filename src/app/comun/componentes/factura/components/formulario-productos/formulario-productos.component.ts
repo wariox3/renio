@@ -31,7 +31,6 @@ import {
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { Subject, takeUntil } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
 import { FacturaService } from '../../services/factura.service';
@@ -850,21 +849,9 @@ export class FormularioProductosComponent
       .consultarDetalleFactura(id)
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((respuesta) => {
-        this._guardarEstados(respuesta.documento);
         this.emitirDocumentoDetalle.emit(respuesta.documento);
         this._poblarFormulario(respuesta.documento);
       });
-  }
-
-  private _guardarEstados(documentoFactura: DocumentoFacturaRespuesta) {
-    this.store.dispatch(
-      documentosEstadosAction({
-        estados: {
-          estado_aprobado: documentoFactura.estado_aprobado,
-          estado_emitido: documentoFactura.estado_aprobado,
-        },
-      })
-    );
   }
 
   private _poblarFormulario(documentoFactura: DocumentoFacturaRespuesta) {

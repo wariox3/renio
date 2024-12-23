@@ -37,7 +37,6 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { documentosEstadosAction } from '@redux/actions/documentos-estados.actions';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
@@ -937,14 +936,6 @@ export default class FacturaRecurrenteFormularioComponent
         this.informacionDetalle = respuesta.documento;
         this.estado_aprobado = respuesta.documento.estado_aprobado;
 
-        this.store.dispatch(
-          documentosEstadosAction({
-            estados: {
-              estado_aprobado: respuesta.documento.estado_aprobado,
-              estado_emitido: respuesta.documento.estado_aprobado,
-            },
-          })
-        );
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,

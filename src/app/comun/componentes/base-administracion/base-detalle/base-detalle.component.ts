@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports/administradores';
-import { obtenerDocumentosEstado } from '@redux/selectors/documento.selectors';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comun-base-detalle',
@@ -16,7 +13,6 @@ import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.compon
     CommonModule,
     RouterModule,
     TranslateModule,
-    BtnAtrasComponent,
 ],
 })
 export class BaseDetalleComponent extends General implements OnInit {
@@ -46,9 +42,5 @@ export class BaseDetalleComponent extends General implements OnInit {
     let componete = await (await Componetes[posicion].detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
-    this.store.select(obtenerDocumentosEstado).subscribe((estadosDocumento) => {
-      this.documentoEstados$ = estadosDocumento;
-      this.changeDetectorRef.detectChanges();
-    });
   }
 }

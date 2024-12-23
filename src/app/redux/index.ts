@@ -8,7 +8,6 @@ import { empresaReducer } from './reducers/empresa.reducer';
 import { EmpresaEffects } from './effects/empresa.effects';
 import { configuracionReducer } from './reducers/configuracion.reducer';
 import { ConfiguracionEffects } from './effects/configuracion.effects';
-import { documentoReducer } from './reducers/documento.reducer';
 import { criteriosFiltroReducer } from './reducers/criterios-filtros.reducer';
 import { documentacionReducer } from './reducers/documentacion.reducer';
 import { DocumentacionEffects } from './effects/documentacion.effects';
@@ -21,7 +20,6 @@ export const StoreApp = {
   contenedor: contendorReducer,
   empresa: empresaReducer,
   configuracion: configuracionReducer,
-  documento: documentoReducer,
   criteriosFiltro: criteriosFiltroReducer,
   documentacion: documentacionReducer,
   archivoImportacion: ArchivoImportacionReducer
