@@ -8,10 +8,9 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { HttpService } from '@comun/services/http.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { ErroresDato } from '@interfaces/comunes/importar-detalles.';
 import { mergeMap, of, take, toArray } from 'rxjs';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-importar-xml',

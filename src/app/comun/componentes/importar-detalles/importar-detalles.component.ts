@@ -1,20 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import {
-  ErroresDato,
-  ImportarDetalles,
-  ImportarDetallesErrores,
-} from '@interfaces/comunes/importar-detalles.';
+import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
+import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
-import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 @Component({
   selector: 'app-importar-detalles',
   standalone: true,
@@ -35,7 +32,7 @@ export class ImportarDetallesComponent extends General {
   archivoPeso: string = '';
   inputFile: any = null;
   cargardoDocumento: boolean = false;
-  cantidadErrores: number = 0
+  cantidadErrores: number = 0;
   @Input() estadoHabilitado: boolean = false;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
@@ -123,7 +120,7 @@ export class ImportarDetallesComponent extends General {
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
           if (respuesta.errores_validador) {
-            this.cantidadErrores = respuesta.errores_validador.length
+            this.cantidadErrores = respuesta.errores_validador.length;
             this._adaptarErroresImportar(respuesta.errores_validador);
           }
           this.cargardoDocumento = false;

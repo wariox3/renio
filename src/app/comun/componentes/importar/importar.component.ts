@@ -6,23 +6,21 @@ import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
+import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import {
   ImportarDetalles,
-  ImportarDetallesErrores,
-} from '@interfaces/comunes/importar-detalles.';
+} from '@interfaces/comunes/importar/importar-detalles.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import {
   catchError,
-  map,
   mergeMap,
-  Observable,
   of,
   take,
   tap,
-  toArray,
+  toArray
 } from 'rxjs';
 import * as XLSX from 'xlsx';
 
