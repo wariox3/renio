@@ -1,37 +1,51 @@
+import { NgClass, NgFor, NgStyle } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TranslationService } from '../i18n';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgFor, NgClass, NgStyle } from '@angular/common';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
-
-// const BODY_CLASSES = ['bgi-size-cover', 'bgi-position-center', 'bgi-no-repeat'];
+import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
+import {
+  NgbDropdown,
+  NgbDropdownItem,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+} from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslationService } from '../i18n';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
-    selector: '<body[root]>',
-    templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.scss'],
-    standalone: true,
-    imports: [
-        BtnWhatsappComponent,
-        RouterOutlet,
-        NgbDropdown,
-        NgbDropdownToggle,
-        NgbDropdownMenu,
-        NgFor,
-        NgbDropdownItem,
-        NgClass,
-        TranslateModule,
-        RouterLink,
-        NgStyle,
-    ],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: '<body[root]>',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss'],
+  standalone: true,
+  imports: [
+    BtnWhatsappComponent,
+    RouterOutlet,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgFor,
+    NgbDropdownItem,
+    NgClass,
+    TranslateModule,
+    RouterLink,
+  ],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   today: Date = new Date();
   language: LanguageFlag;
-  langs = languages;
+  langs = [
+    {
+      lang: 'es',
+      name: 'Español',
+      flag: './assets/media/flags/spain.svg',
+    },
+    {
+      lang: 'en',
+      name: 'English',
+      flag: './assets/media/flags/united-states.svg',
+    },
+  ];
 
   constructor(private translationService: TranslationService) {}
 
@@ -60,23 +74,3 @@ export class AuthComponent implements OnInit, OnDestroy {
     // BODY_CLASSES.forEach((c) => document.body.classList.remove(c));
   }
 }
-
-interface LanguageFlag {
-  lang: string;
-  name: string;
-  flag: string;
-  active?: boolean;
-}
-
-const languages = [
-  {
-    lang: 'es',
-    name: 'Español',
-    flag: './assets/media/flags/spain.svg',
-  },
-  {
-    lang: 'en',
-    name: 'English',
-    flag: './assets/media/flags/united-states.svg',
-  },
-];

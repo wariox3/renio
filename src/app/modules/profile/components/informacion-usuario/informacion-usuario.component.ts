@@ -27,6 +27,7 @@ import {
   obtenerUsuarioNombre,
 } from '@redux/selectors/usuario.selectors';
 import { arrPaises } from '../overview/listaPaises';
+import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
 
 @Component({
   selector: 'app-informacion-usuario',
@@ -63,7 +64,16 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   btnGuardar!: ElementRef<HTMLButtonElement>;
   modalRef: any;
   language: LanguageFlag;
-  langs = languages;
+  langs = [
+    {
+      lang: 'es',
+      name: 'Español',
+    },
+    {
+      lang: 'en',
+      name: 'English',
+    },
+  ];
 
   constructor(
     private resumenService: ResumenService,
@@ -210,20 +220,3 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     });
   }
 }
-
-interface LanguageFlag {
-  lang: string;
-  name: string;
-  active?: boolean;
-}
-
-const languages = [
-  {
-    lang: 'es',
-    name: 'Español',
-  },
-  {
-    lang: 'en',
-    name: 'English',
-  },
-];

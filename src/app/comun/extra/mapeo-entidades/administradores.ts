@@ -1,4 +1,4 @@
-import { MapeoAdministrador } from "@interfaces/mapeo/mapeo";
+import { MapeoAdministrador } from "@comun/type/mapeo-administradores.type";
 
 export const mapeo: MapeoAdministrador = {
   GenContacto: {

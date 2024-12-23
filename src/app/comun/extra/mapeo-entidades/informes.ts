@@ -1,4 +1,4 @@
-import { MapeoDocumentos } from "@interfaces/mapeo/mapeo";
+import { MapeoDocumentos } from "@comun/type/mapeo-documentos.type";
 
 export const documentos: MapeoDocumentos = {
   ventas_items: [

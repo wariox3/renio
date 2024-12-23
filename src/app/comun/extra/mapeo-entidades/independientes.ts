@@ -1,4 +1,4 @@
-import { MapeoIndependientes } from "@interfaces/mapeo/mapeo";
+import { MapeoIndependientes } from "@comun/type/mapeo-independientes.type";
 
 export const mapeoIndependientes: MapeoIndependientes = {
   TransGuia: [

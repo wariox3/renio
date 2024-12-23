@@ -2,43 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FechasService } from '@comun/services/fechas.service';
 import { environment } from '@env/environment';
-
-interface enviarDatosUsuario {
-  id: String;
-  nombreCorto: String;
-  nombre: String;
-  apellido: String;
-  telefono: String;
-  idioma: String;
-  imagen: String | null;
-}
-
-export interface Factura {
-  fecha: string;
-  id: number;
-  tipo: string;
-  vr_saldo_enmascarado: string;
-  vr_afectado: number;
-  vr_saldo: number;
-  vr_total: number;
-}
-
-export interface Facturas {
-  movimientos: Factura[];
-}
-
-export interface Consumo {
-  contenedor_id: number
-  contenedor: string
-  subdominio: string
-  plan_id: number
-  plan__nombre: string
-  vr_total: number
-}
-
-export interface Consumos {
-  consumos: Consumo[];
-}
+import { enviarDatosUsuario } from '../interfaces/enviar-datos-usuario.interface';
+import { Consumos, Facturas } from '@interfaces/facturacion/Facturacion';
 
 @Injectable({
   providedIn: 'root',

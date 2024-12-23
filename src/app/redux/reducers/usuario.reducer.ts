@@ -9,8 +9,8 @@ import {
   usuarioActionActualizarVrSaldo,
   usuarioActionActualizarEstadoVerificado,
 } from '../actions/usuario.actions';
-import { Usuario } from 'src/app/interfaces/usuario/usuario';
 import { getCookie } from 'typescript-cookie';
+import { Usuario } from '@interfaces/usuario/usuario';
 
 let usuarioData = getCookie('usuario');
 

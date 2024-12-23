@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
-import {
-  ModuloAplicacion,
-  prefijoModuloAplicacion,
-} from '@interfaces/mapeo/mapeo';
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
+import { AplicacionPrefijoModulo } from '@comun/type/aplicacion-prefijo-modulo.type';
+import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
+import { AplicacionUbicaciones } from '@comun/type/aplicaciones-ubicaciones.type';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,18 +20,13 @@ export class General {
   protected modelo = '';
   protected tipo = '';
   protected formulario = '';
-  protected accion: 'nuevo' | 'detalle' | 'editar' | null = null;
+  protected accion: AplicacionAccion = null;
   protected detalle = 0;
-  protected parametrosUrl: Partial<informacionMenuItem["data"]>;
-  protected ubicacion:
-    | 'documento'
-    | 'administrador'
-    | 'utilidad'
-    | 'informe'
-    | 'independiente';
+  protected parametrosUrl: Partial<informacionMenuItem['data']>;
+  protected ubicacion: AplicacionUbicaciones;
   protected moduloAplicacion: Record<
-    prefijoModuloAplicacion,
-    ModuloAplicacion
+    AplicacionPrefijoModulo,
+    AplicacionModulo
   > = {
     com: 'compra',
     ven: 'venta',
@@ -42,7 +37,6 @@ export class General {
     gen: 'general',
     trans: 'transporte',
   };
-
 
   constructor() {
     this.consultarParametros();
@@ -66,7 +60,9 @@ export class General {
       case this.router.url.includes('administrador'):
         this.ubicacion = 'administrador';
         // Obtener el prefijo a partir del modelo
-        const prefijo: prefijoModuloAplicacion =  this.modelo.toLowerCase().substring(0, 3) as prefijoModuloAplicacion;
+        const prefijo: AplicacionPrefijoModulo = this.modelo
+          .toLowerCase()
+          .substring(0, 3) as AplicacionPrefijoModulo;
 
         // Verificar si el prefijo existe en las claves de moduloAplicacion
         const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
