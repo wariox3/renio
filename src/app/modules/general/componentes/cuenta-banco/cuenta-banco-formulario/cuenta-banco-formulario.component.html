@@ -1,7 +1,7 @@
 <form [formGroup]="formularioCuentaBanco" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
-  [estadoAprobado]="false"
-></app-comun-encabezado-formulario-nuevo>
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -27,6 +27,16 @@
                 formularioCuentaBanco.controls['nombre'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '200',
+              control: formularioCuentaBanco.controls['nombre']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{

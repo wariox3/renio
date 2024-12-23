@@ -95,7 +95,7 @@ export default class CuentaBancoFormularioComponent
 
   iniciarFormulario() {
     this.formularioCuentaBanco = this.formBuilder.group({
-      nombre: [null, Validators.compose([Validators.required])],
+      nombre: [null, Validators.compose([Validators.required, Validators.maxLength(200)])],
       numero_cuenta: [null, Validators.compose([Validators.maxLength(50)])],
       cuenta_banco_tipo: [null, Validators.compose([Validators.required])],
       cuenta_banco_clase: ['', Validators.compose([Validators.required])],
