@@ -165,6 +165,10 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
+    this.store.dispatch(
+      asignarDocumentacionId({ id: item?.documentacionId || 0 })
+    );
+
     if (item?.data?.filtrosLista) {
       this.construirFiltros(item);
     }
@@ -191,7 +195,7 @@ export class SidebarMenuComponent implements OnInit {
 
   navegarNuevo(item: informacionMenuItem) {
     this.store.dispatch(
-      asignarDocumentacionId({ id: item.documentacionId ?? 0 })
+      asignarDocumentacionId({ id: item?.documentacionId || 0 })
     );
     let parametros = this.construirParametros(item);
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
