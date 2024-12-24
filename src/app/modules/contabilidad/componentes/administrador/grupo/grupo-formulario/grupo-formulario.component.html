@@ -1,7 +1,7 @@
 <form [formGroup]="formularioConGrupo" (ngSubmit)="formSubmit()">
   <app-comun-encabezado-formulario-nuevo
-  [estadoAprobado]="false"
-></app-comun-encabezado-formulario-nuevo>
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -10,52 +10,98 @@
       <div class="row mb-2">
         <!-- Codigo -->
         <div class="col-md-6 col-sm-12">
-          <label translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO" class="form-label"></label>
-          <input formControlName="codigo" class="form-control" type="text" autocomplete="off" [ngClass]="{
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="codigo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
               'is-invalid':
-              formularioConGrupo.controls['codigo'].touched &&
-              formularioConGrupo.controls['codigo'].invalid,
+                formularioConGrupo.controls['codigo'].touched &&
+                formularioConGrupo.controls['codigo'].invalid,
               'is-valid':
-              formularioConGrupo.controls['codigo'].touched &&
-              formularioConGrupo.controls['codigo'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '20',
-          control: formularioConGrupo.controls['codigo']
-        }"></ng-container>
+                formularioConGrupo.controls['codigo'].touched &&
+                formularioConGrupo.controls['codigo'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+              cantidadCaracteres: '2',
+              control: formularioConGrupo.controls['codigo']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioConGrupo.controls['codigo']
+            }"
+          ></ng-container>
         </div>
         <!-- Nombre -->
         <div class="col-md-6 col-sm-12">
-          <label translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE" class="form-label required"></label>
-          <input formControlName="nombre" class="form-control" type="text" autocomplete="off" [ngClass]="{
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="nombre"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
               'is-invalid':
-              formularioConGrupo.controls['nombre'].touched &&
-              formularioConGrupo.controls['nombre'].invalid,
+                formularioConGrupo.controls['nombre'].touched &&
+                formularioConGrupo.controls['nombre'].invalid,
               'is-valid':
-              formularioConGrupo.controls['nombre'].touched &&
-              formularioConGrupo.controls['nombre'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                formularioConGrupo.controls['nombre'].touched &&
+                formularioConGrupo.controls['nombre'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioConGrupo.controls['nombre']
-            }"></ng-container>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
               control: formularioConGrupo.controls['nombre']
-            }"></ng-container>
+            }"
+          ></ng-container>
         </div>
       </div>
     </section>
   </app-card>
 </form>
-<ng-template #formError let-control="control" let-message="message" let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>

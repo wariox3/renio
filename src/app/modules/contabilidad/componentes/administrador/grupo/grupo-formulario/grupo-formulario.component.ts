@@ -15,7 +15,7 @@ import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.in
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-grupo-formulario',
@@ -27,8 +27,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     CardComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './grupo-formulario.component.html',
   styleUrl: './grupo-formulario.component.scss',
 })
@@ -58,7 +58,14 @@ export default class GrupoFormularioComponent
         '',
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
-      codigo: [null, Validators.compose([Validators.maxLength(20), cambiarVacioPorNulo.validar])],
+      codigo: [
+        null,
+        Validators.compose([
+          Validators.minLength(2),
+          Validators.maxLength(20),
+          cambiarVacioPorNulo.validar,
+        ]),
+      ],
     });
   }
 
@@ -108,7 +115,7 @@ export default class GrupoFormularioComponent
       .subscribe((respuesta: ConGrupo) => {
         this.formularioConGrupo.patchValue({
           nombre: respuesta.nombre,
-          codigo: respuesta.codigo
+          codigo: respuesta.codigo,
         });
         this.changeDetectorRef.detectChanges();
       });
