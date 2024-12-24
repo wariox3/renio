@@ -59,12 +59,8 @@ export default class GrupoFormularioComponent
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
       codigo: [
-        null,
-        Validators.compose([
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          cambiarVacioPorNulo.validar,
-        ]),
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
     });
   }
