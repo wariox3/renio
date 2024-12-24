@@ -61,7 +61,7 @@ export default class GrupoFormularioComponent
 
   iniciarFormulario() {
     this.formularioGrupo = this.formBuilder.group({
-      nombre: ['', Validators.compose([Validators.required])],
+      nombre: ['', Validators.compose([Validators.required, Validators.maxLength(100)])],
       periodo: [null, Validators.compose([Validators.required])],
     });
   }
