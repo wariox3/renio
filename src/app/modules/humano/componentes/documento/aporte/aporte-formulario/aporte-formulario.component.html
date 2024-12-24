@@ -94,14 +94,14 @@
                 formularioAporte.controls['mes'].touched &&
                 formularioAporte.controls['mes'].valid
             }"
+
           >
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
             <option
               *ngFor="let mes of fechasService.meses.es; let i = index"
-              [value]="i"
-              [selected]="'${i}' === formularioAporte.controls.mes.value"
+              [value]="(i+1)"
             >
               {{ mes }}
             </option>
