@@ -126,6 +126,7 @@ export default class EmpleadoFormularioComponent
           null,
           Validators.compose([
             Validators.required,
+            Validators.maxLength(50),
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
         ],
