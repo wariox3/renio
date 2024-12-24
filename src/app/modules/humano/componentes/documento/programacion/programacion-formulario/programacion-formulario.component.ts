@@ -152,7 +152,7 @@ export default class ContratoFormularioComponent
         pago_tipo: [1, Validators.compose([Validators.required])],
         grupo: ['', Validators.compose([Validators.required])],
         periodo: [null, Validators.compose([Validators.required])],
-        nombre: [null, Validators.compose([cambiarVacioPorNulo.validar])],
+        nombre: [null, Validators.compose([cambiarVacioPorNulo.validar, Validators.maxLength(100)])],
         descuento_salud: [true],
         descuento_pension: [true],
         descuento_fondo_solidaridad: [true],
