@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { AlmacenService } from '@modulos/inventario/service/almacen.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-almacen-formulario',
@@ -19,13 +25,15 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     CardComponent,
     TranslateModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './almacen-formulario.component.html',
   styleUrl: './almacen-formulario.component.scss',
 })
-export default class AlmacenFormularioComponent   extends General
-implements OnInit {
+export default class AlmacenFormularioComponent
+  extends General
+  implements OnInit
+{
   formularioAlmacen: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -43,7 +51,10 @@ implements OnInit {
 
   iniciarFormulario() {
     this.formularioAlmacen = this.formBuilder.group({
-      nombre: ['', Validators.compose([Validators.required])],
+      nombre: [
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(80)]),
+      ],
     });
   }
 
@@ -92,7 +103,6 @@ implements OnInit {
       this.formularioAlmacen.markAllAsTouched();
     }
   }
-
 
   consultarDetalle() {
     this.almacenService
