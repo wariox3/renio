@@ -14,6 +14,7 @@ import { CargoService } from '@modulos/humano/servicios/cargo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-cargo-formulario',
@@ -25,7 +26,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     CardComponent,
     TranslateModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    SoloNumerosDirective
 ],
   templateUrl: './cargo-formulario.component.html',
   styleUrl: './cargo-formulario.component.scss',
@@ -53,9 +55,9 @@ export default class CargoFormularioComponent
 
   iniciarFormulario() {
     this.formularioCargo = this.formBuilder.group({
-      nombre: ['', Validators.compose([Validators.required, Validators.maxLength(100)])],
+      nombre: ['', Validators.compose([Validators.required, Validators.maxLength(200)])],
       estado_inactivo: [false],
-      codigo: [0, Validators.compose([Validators.required])],
+      codigo: [0, Validators.compose([Validators.required, Validators.maxLength(20)])],
     });
   }
 

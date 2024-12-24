@@ -38,15 +38,15 @@
             }"
           ></ng-container>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message:
-              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '100',
-            control: formularioCargo.controls['nombre']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '200',
+              control: formularioCargo.controls['nombre']
+            }"
+          ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -56,9 +56,8 @@
           <input
             formControlName="codigo"
             class="form-control"
-            type="number"
+            type="text"
             autocomplete="off"
-            min="0"
             [ngClass]="{
               'is-invalid':
                 formularioCargo.controls['codigo'].touched &&
@@ -69,6 +68,16 @@
             }"
             appSoloNumeros
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioCargo.controls['codigo']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
