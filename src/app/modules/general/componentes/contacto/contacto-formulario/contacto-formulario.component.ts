@@ -180,6 +180,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            Validators.maxLength(50)
           ]),
         ],
         nombre2: [
@@ -284,8 +285,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
     let valorPersonaTipo = parseInt($event.target.value);
     if (valorPersonaTipo === 1) {
       //1 es igual a juridico
-      this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
-      this.setValidators('apellido1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
+      this.setValidators('nombre1', [
+        Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+        Validators.maxLength(50),
+      ]);
+      this.setValidators('apellido1', [
+        Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+        Validators.maxLength(50),
+      ]);
       this.setValidators('nombre_corto', [
         Validators.required,
         Validators.maxLength(200),
@@ -303,10 +310,12 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre1', [
         Validators.required,
         Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+        Validators.maxLength(50),
       ]);
       this.setValidators('apellido1', [
         Validators.required,
         Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+        Validators.maxLength(50),
       ]);
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
     }
@@ -539,9 +548,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
-          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/)]);
+          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/), Validators.maxLength(50)]);
           this.setValidators('apellido1', [
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            Validators.maxLength(50)
           ]);
           this.setValidators('nombre_corto', [
             Validators.required,

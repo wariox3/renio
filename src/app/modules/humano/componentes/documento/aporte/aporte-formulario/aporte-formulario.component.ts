@@ -65,7 +65,6 @@ export default class AporteFormularioComponent
 
     const anioActual = `${fechaActual.getFullYear()}`;
     const mesActual = `${fechaActual.getMonth()}`;
-    console.log(mesActual);
 
     this.formularioAporte = this.formBuilder.group({
       sucursal: [1, Validators.compose([Validators.required])],

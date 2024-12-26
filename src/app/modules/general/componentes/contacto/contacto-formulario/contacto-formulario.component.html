@@ -121,6 +121,16 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '50',
+                control: formularioContacto.controls['nombre1']
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
                 validation: 'required',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
@@ -159,20 +169,20 @@
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'minlength',
+                validation: 'maxlength',
                 message:
-                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
-                cantidadCaracteres: '3',
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '50',
                 control: formularioContacto.controls['nombre2']
               }"
             ></ng-container>
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
-                validation: 'maxlength',
+                validation: 'minlength',
                 message:
-                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '100',
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+                cantidadCaracteres: '3',
                 control: formularioContacto.controls['nombre2']
               }"
             ></ng-container>
@@ -206,6 +216,16 @@
                   formularioContacto.controls['apellido1'].valid
               }"
             />
+            <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioContacto.controls['apellido1']
+            }"
+          ></ng-container>
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
