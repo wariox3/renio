@@ -80,7 +80,7 @@ export default class AsesorFormularioComponent
       if (this.detalle) {
         this.asesorService
           .actualizarDatos(this.detalle, this.formularioAsesor.value)
-          .subscribe((respuesta: any) => {
+          .subscribe((respuesta) => {
             this.formularioAsesor.patchValue({
               nombre_corto: respuesta.nombre_corto,
               celular: respuesta.celular,
@@ -99,7 +99,7 @@ export default class AsesorFormularioComponent
       } else {
         this.asesorService
           .guardarAsesor(this.formularioAsesor.value)
-          .subscribe((respuesta: any) => {
+          .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
               this.router.navigate([`/administrador/detalle`], {
@@ -119,7 +119,7 @@ export default class AsesorFormularioComponent
   consultarDetalle() {
     this.asesorService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioAsesor.patchValue({
           nombre_corto: respuesta.nombre_corto,
           celular: respuesta.celular,

@@ -12,15 +12,15 @@ export class AsesorService extends Subdominio {
     super();
    }
 
-   guardarAsesor(data: any) {
-    return this.httpService.post<Asesor[]>(`general/asesor/`, data);
+   guardarAsesor(data: Asesor) {
+    return this.httpService.post<Asesor>(`general/asesor/`, data);
   }
 
   consultarDetalle(id: number) {
     return this.httpService.getDetalle<Asesor>(`general/asesor/${id}/`);
   }
 
-  actualizarDatos(id: number, data: any) {
-    return this.httpService.put<any>(`general/asesor/${id}/`, data);
+  actualizarDatos(id: number, data: Asesor) {
+    return this.httpService.put<Asesor>(`general/asesor/${id}/`, data);
   }
 }
