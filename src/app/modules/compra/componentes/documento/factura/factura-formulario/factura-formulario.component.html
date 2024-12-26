@@ -406,6 +406,17 @@
                 formularioFactura.controls['referencia_cue'].valid
             }"
           />
+          
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '150',
+              control: formularioFactura.controls['referencia_cue']
+            }"
+          ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -415,7 +426,8 @@
           <input
             formControlName="referencia_numero"
             class="form-control"
-            type="text"
+            type="number"
+            min="0"
             appSoloNumeros
             autocomplete="off"
             [ngClass]="{
@@ -449,6 +461,17 @@
                 formularioFactura.controls['referencia_prefijo'].valid
             }"
           />
+           
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioFactura.controls['referencia_prefijo']
+            }"
+          ></ng-container>
         </div>
 
       </div>

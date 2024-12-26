@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FechasService } from '../fechas.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Injectable({
   providedIn: 'root',
@@ -62,10 +68,9 @@ export class FormularioFacturaService {
         detalles: this._formBuilder.array([]),
         pagos: this._formBuilder.array([]),
 
-        referencia_cue: [null], // Referencia CUE
-        referencia_numero: [null], // Referencia número
-        referencia_prefijo: [null], // Referencia prefijo
-
+        referencia_cue: [null, [Validators.maxLength(150)]], // Referencia CUE
+        referencia_numero: [null, [cambiarVacioPorNulo.validar]], // Referencia número
+        referencia_prefijo: [null, [Validators.maxLength(50)]], // Referencia prefijo
 
         detalles_eliminados: this._formBuilder.array([]),
         pagos_eliminados: this._formBuilder.array([]),
