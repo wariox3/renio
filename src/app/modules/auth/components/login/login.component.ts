@@ -139,6 +139,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   verificado: respuestaLogin.user.verificado,
                   es_socio: respuestaLogin.user.es_socio,
                   socio_id: respuestaLogin.user.socio_id,
+                  is_active: respuestaLogin.user.is_active,
                 },
               })
             );

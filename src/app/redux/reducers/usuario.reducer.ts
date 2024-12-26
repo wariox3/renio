@@ -30,7 +30,8 @@ let parsedState: Usuario = {
   fecha_creacion: new Date(),
   verificado: false,
   es_socio: false,
-  socio_id: ''
+  socio_id: '',
+  is_active: false
 };
 
 export const initialState: Usuario = usuarioData

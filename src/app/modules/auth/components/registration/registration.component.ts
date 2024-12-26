@@ -1,28 +1,33 @@
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
-import { General } from '@comun/clases/general';
-import { catchError, of, switchMap, tap } from 'rxjs';
-import { SubdominioService } from '@comun/services/subdominio.service';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
+import { General } from '@comun/clases/general';
+import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.validator';
 import { TranslateModule } from '@ngx-translate/core';
+import { catchError, of, switchMap, tap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-    selector: 'app-registration',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgClass,
-        NgTemplateOutlet,
-        NgIf,
-        RouterLink,
-    ],
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgClass,
+    NgTemplateOutlet,
+    NgIf,
+    RouterLink,
+  ],
 })
 export class RegistrationComponent extends General implements OnInit {
   formularioRegistro: FormGroup;
@@ -32,8 +37,7 @@ export class RegistrationComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private subdominioService: SubdominioService
+    private authService: AuthService
   ) {
     super();
   }
@@ -111,10 +115,13 @@ export class RegistrationComponent extends General implements OnInit {
         .registration(this.formularioRegistro.value)
         .pipe(
           switchMap(() =>
-            this.authService.login(this.formFields.usuario.value, this.formFields.clave.value)
+            this.authService.login(
+              this.formFields.usuario.value,
+              this.formFields.clave.value
+            )
           ),
           tap((respuestaLogin) => {
-            this.authService.loginExitoso(respuestaLogin.user)
+            this.authService.loginExitoso(respuestaLogin.user);
           }),
           catchError(() => {
             this.visualizarLoader = false;

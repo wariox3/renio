@@ -1,23 +1,25 @@
-import { Injectable, OnDestroy, inject } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { UserModel } from '../models/user.model';
-import { AuthModel } from '../models/auth.model';
-import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Token } from '@modulos/auth/interfaces/token.interface';
-import { TokenService } from './token.service';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { noRequiereToken } from '@interceptores/token.interceptor';
-import { removeCookie } from 'typescript-cookie';
-import { TokenVerificacion } from '../models/token-verificacion';
-import { TokenReenviarValidacion } from '../models/token-reenviar-validacion';
-import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
 import { Usuario } from '@interfaces/usuario/usuario';
+import { Token } from '@modulos/auth/interfaces/token.interface';
 import { Store } from '@ngrx/store';
-import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
+import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { removeCookie } from 'typescript-cookie';
+import { RecuperarClaveVerificacion } from '../interfaces/recuperacion-clave-verificacion.interface';
+import { TokenReenviarValidacion } from '../interfaces/token-reenviar-validacion.interface';
+import { TokenVerificacion } from '../interfaces/token-verificacion.interface';
+import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
+import { UserModel } from '../models/user.model';
+import { TokenService } from './token.service';
+import { ConfirmarInivitacion } from '../interfaces/confirmar-inivitacion.interface';
+import { ConsultarEstadoVerificado } from '../interfaces/consultar-estado-verificado';
 export type UserType = UserModel | undefined;
 
 @Injectable({
@@ -27,10 +29,10 @@ export class AuthService implements OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
-  private http = inject(HttpClient)
-  private router = inject(Router)
-  private tokenService = inject(TokenService)
-  private store = inject(Store)
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private tokenService = inject(TokenService);
+  private store = inject(Store);
 
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -87,19 +89,24 @@ export class AuthService implements OnDestroy {
       patrones.forEach(function (patron) {
         if (cookieNombre.startsWith(patron)) {
           removeCookie(cookieNombre);
-          removeCookie(cookieNombre, { path: '/', domain: environment.dominioApp });
+          removeCookie(cookieNombre, {
+            path: '/',
+            domain: environment.dominioApp,
+          });
         }
       });
     });
-    if(environment.production){
-      window.location.href = `${environment.dominioHttp}://${environment.dominioApp.slice(1)}/inicio`;
+    if (environment.production) {
+      window.location.href = `${
+        environment.dominioHttp
+      }://${environment.dominioApp.slice(1)}/inicio`;
     } else {
-      this.router.navigate(['/inicio'])
+      this.router.navigate(['/inicio']);
     }
   }
 
   registration(data: any) {
-    return this.http.post(
+    return this.http.post<Usuario>(
       `${environment.URL_API_MUUP}/seguridad/usuario/`,
       {
         username: data.usuario,
@@ -112,7 +119,7 @@ export class AuthService implements OnDestroy {
   }
 
   recuperarClave(email: string) {
-    return this.http.post(
+    return this.http.post<RecuperarClaveVerificacion>(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-solicitar/`,
       { username: email, accion: 'clave' },
       { context: noRequiereToken() }
@@ -156,7 +163,7 @@ export class AuthService implements OnDestroy {
   reiniciarClave(password: string, token: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-verificar/`,
-      {  password, token },
+      { password, token },
       { context: noRequiereToken() }
     );
   }
@@ -164,19 +171,21 @@ export class AuthService implements OnDestroy {
   cambiarClave(usuario_id: string, password: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
       `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave/`,
-      {  usuario_id, password },
+      { usuario_id, password },
       { context: noRequiereToken() }
     );
   }
 
-
-  confirmarInivitacion(token: string){
-    return this.http.post(`${environment.URL_API_MUUP}/contenedor/usuariocontenedor/confirmar/`,{
-      token
-    })
+  confirmarInivitacion(token: string) {
+    return this.http.post<ConfirmarInivitacion>(
+      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/confirmar/`,
+      {
+        token,
+      }
+    );
   }
 
-  loginExitoso(usuario: Usuario){
+  loginExitoso(usuario: Usuario) {
     this.store.dispatch(
       usuarioActionInit({
         usuario: {
@@ -195,7 +204,8 @@ export class AuthService implements OnDestroy {
           fecha_creacion: new Date(usuario.fecha_creacion),
           verificado: usuario.verificado,
           es_socio: usuario.es_socio,
-          socio_id: usuario.socio_id
+          socio_id: usuario.socio_id,
+          is_active: usuario.is_active,
         },
       })
     );
@@ -215,10 +225,13 @@ export class AuthService implements OnDestroy {
     }
   }
 
-  consultarEstadoVerificado(usuario_id: string){
-    return this.http.post(`${environment.URL_API_MUUP}/seguridad/usuario/estado-verificado/`,{
-      usuario_id
-    })
+  consultarEstadoVerificado(usuario_id: string) {
+    return this.http.post<ConsultarEstadoVerificado>(
+      `${environment.URL_API_MUUP}/seguridad/usuario/estado-verificado/`,
+      {
+        usuario_id,
+      }
+    );
   }
 
   ngOnDestroy() {

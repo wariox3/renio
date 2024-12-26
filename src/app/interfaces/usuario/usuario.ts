@@ -15,4 +15,5 @@ export interface Usuario {
   verificado: boolean;
   es_socio: boolean;
   socio_id: string;
+  is_active: boolean;
 }
