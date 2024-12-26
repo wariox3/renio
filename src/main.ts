@@ -19,8 +19,9 @@ import {
   withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { errorHttpInterceptor } from '@interceptores/errorhttp.interceptor';
+// import { errorHttpInterceptor } from '@interceptores/errorhttp.interceptor';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { httpErrorInterceptor } from '@interceptores/manejo-errores/http-error.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -45,7 +46,7 @@ bootstrapApplication(AppComponent, {
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       }),
     ),
-    provideHttpClient(withInterceptors([tokenInterceptor, errorHttpInterceptor])),
+    provideHttpClient(withInterceptors([tokenInterceptor, httpErrorInterceptor])),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
   ],
