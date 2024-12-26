@@ -117,12 +117,7 @@ export default class CuentaBancoFormularioComponent
       if (this.detalle) {
         this.cuentaBancoService
           .actualizarDatos(this.detalle, this.formularioCuentaBanco.value)
-          .subscribe((respuesta: any) => {
-            this.formularioCuentaBanco.patchValue({
-              nombre_corto: respuesta.nombre_corto,
-              celular: respuesta.celular,
-              correo: respuesta.correo,
-            });
+          .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
               this.router.navigate([`/administrador/detalle`], {
@@ -136,7 +131,7 @@ export default class CuentaBancoFormularioComponent
       } else {
         this.cuentaBancoService
           .guardarCuentaBanco(this.formularioCuentaBanco.value)
-          .subscribe((respuesta: any) => {
+          .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
               this.router.navigate([`/administrador/detalle`], {
@@ -156,7 +151,7 @@ export default class CuentaBancoFormularioComponent
   consultarDetalle() {
     this.cuentaBancoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioCuentaBanco.patchValue({
           cuenta_banco_tipo: respuesta.cuenta_banco_tipo_id,
           cuenta_banco_clase: respuesta.cuenta_banco_clase_id,

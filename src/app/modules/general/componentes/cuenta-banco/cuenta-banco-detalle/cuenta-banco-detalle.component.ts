@@ -6,6 +6,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { CuentaBanco } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-cuenta-banco-detalle',
@@ -18,13 +19,12 @@ export default class CuentaBancoDetalleComponent
   extends General
   implements OnInit
 {
-  documento_banco = {
+  documento_banco: CuentaBanco = {
     nombre: '',
-    numero_cuenta: '',
-    cuenta_banco_tipo_id: '',
+    numero_cuenta: null,
+    cuenta_banco_tipo_id: 0,
     cuenta_banco_tipo_nombre: '',
-    cuenta_banco_clase: '',
-    cuenta_banco_clase_id: '',
+    cuenta_banco_clase_id: null,
     cuenta_banco_clase_nombre:""
   };
 
