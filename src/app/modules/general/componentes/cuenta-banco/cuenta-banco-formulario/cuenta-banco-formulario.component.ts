@@ -22,7 +22,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarGenCuentaBancoClase, RegistroAutocompletarGenCuentaBancoTipo } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import {
+  RegistroAutocompletarGenCuentaBancoClase,
+  RegistroAutocompletarGenCuentaBancoTipo,
+} from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -78,14 +81,18 @@ export default class CuentaBancoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>({
-        modelo: 'GenCuentaBancoTipo',
-        serializador: 'ListaAutocompletar',
-      }),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>({
-        modelo: 'GenCuentaBancoClase',
-        serializador: 'ListaAutocompletar',
-      })
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>(
+        {
+          modelo: 'GenCuentaBancoTipo',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
+        {
+          modelo: 'GenCuentaBancoClase',
+          serializador: 'ListaAutocompletar',
+        }
+      )
     ).subscribe((respuesta: any) => {
       this.arrCuentasTipos = respuesta[0].registros;
       this.arrCuentasBancos = respuesta[1].registros;
@@ -95,7 +102,10 @@ export default class CuentaBancoFormularioComponent
 
   iniciarFormulario() {
     this.formularioCuentaBanco = this.formBuilder.group({
-      nombre: [null, Validators.compose([Validators.required, Validators.maxLength(200)])],
+      nombre: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(200)]),
+      ],
       numero_cuenta: [null, Validators.compose([Validators.maxLength(50)])],
       cuenta_banco_tipo: [null, Validators.compose([Validators.required])],
       cuenta_banco_clase: ['', Validators.compose([Validators.required])],
@@ -158,11 +168,7 @@ export default class CuentaBancoFormularioComponent
           this.visualizarCampoNumeroCuenta = true;
           this.formularioCuentaBanco
             .get('numero_cuenta')
-            ?.setValidators([Validators.required]);
-          this.formularioCuentaBanco
-            .get('cuenta_banco_clase')
-            ?.setValidators([Validators.required]);
-
+            ?.setValidators([Validators.required, Validators.maxLength(50)]);
           this.changeDetectorRef.detectChanges();
         } else {
           this.formularioCuentaBanco
@@ -223,7 +229,7 @@ export default class CuentaBancoFormularioComponent
           this.visualizarCampoNumeroCuenta = true;
           this.formularioCuentaBanco
             .get('numero_cuenta')
-            ?.setValidators([Validators.required]);
+            ?.setValidators([Validators.required, Validators.maxLength(50)]);
           this.formularioCuentaBanco
             .get('cuenta_banco_clase')
             ?.setValidators([Validators.required]);
@@ -234,10 +240,6 @@ export default class CuentaBancoFormularioComponent
           this.formularioCuentaBanco
             .get('cuenta_banco_clase')
             ?.clearValidators();
-          this.formularioCuentaBanco
-            .get('numero_cuenta')
-            ?.updateValueAndValidity();
-
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.maxLength(50)]);
