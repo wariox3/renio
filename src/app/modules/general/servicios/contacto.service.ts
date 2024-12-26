@@ -1,18 +1,17 @@
-import { Injectable, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Contacto } from '@interfaces/general/contacto';
+import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
+import { Contacto } from '@interfaces/general/contacto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactoService extends Subdominio {
-  constructor(private httpService: HttpService, private store: Store) {
+  constructor(private httpService: HttpService) {
     super();
   }
 
-  guardarContacto(data: any) {
+  guardarContacto(data: Contacto) {
     return this.httpService.post<Contacto>(`general/contacto/`, data);
   }
 
@@ -20,8 +19,8 @@ export class ContactoService extends Subdominio {
     return this.httpService.getDetalle<Contacto>(`general/contacto/${id}/`);
   }
 
-  actualizarDatosContacto(id: number, data: any) {
-    return this.httpService.put<any>(`general/contacto/${id}/`, data);
+  actualizarDatosContacto(id: number, data: Contacto) {
+    return this.httpService.put<Contacto>(`general/contacto/${id}/`, data);
   }
 
   validarNumeroIdentificacion(data: any){

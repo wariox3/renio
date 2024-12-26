@@ -34,4 +34,7 @@ export interface Contacto {
   cliente: boolean;
   proveedor: boolean;
   empleado: boolean;
+  identificacion_id: number;
+  ciudad_id: number;
+  codigo: number;
 }

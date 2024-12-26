@@ -373,7 +373,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.contactoService
           .guardarContacto(this.formularioContacto.value)
           .pipe(
-            tap((respuesta: any) => {
+            tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               if (this.ocultarBtnAtras) {
                 this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa

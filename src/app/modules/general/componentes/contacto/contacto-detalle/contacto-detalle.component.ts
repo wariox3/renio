@@ -74,6 +74,9 @@ export default class ContactoDetalleComponent
     cliente: false,
     proveedor: false,
     empleado: false,
+    ciudad_id: 0,
+    identificacion_id: 0,
+    codigo: 0,
   };
 
   constructor(private contactoService: ContactoService) {
