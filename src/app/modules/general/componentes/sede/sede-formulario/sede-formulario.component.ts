@@ -13,7 +13,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { SedeService } from '@modulos/general/servicios/sede.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-sede-formulario',
@@ -26,8 +26,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     TranslateModule,
     CardComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   providers: [provideNgxMask()],
 })
 export default class AsesorFormularioComponent
@@ -53,7 +53,10 @@ export default class AsesorFormularioComponent
 
   iniciarFormulario() {
     this.formularioSede = this.formBuilder.group({
-      nombre: [null, Validators.compose([Validators.required])]
+      nombre: [
+        null,
+        Validators.compose([Validators.required, Validators.maxLength(100)]),
+      ],
     });
   }
 

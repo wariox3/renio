@@ -35,6 +35,15 @@
               control: formularioSede.controls['nombre']
             }"
           ></ng-container>
+          <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '100',
+            control: formularioSede.controls['nombre']
+          }"
+        ></ng-container>
         </div>
       </div>
     </section>

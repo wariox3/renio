@@ -20,7 +20,7 @@ export class SedeService extends Subdominio {
     return this.httpService.getDetalle<Sede>(`general/sede/${id}/`);
   }
 
-  actualizarDatos(id: number, data: any) {
-    return this.httpService.put<any>(`general/sede/${id}/`, data);
+  actualizarDatos(id: number, data: Sede) {
+    return this.httpService.put<Sede>(`general/sede/${id}/`, data);
   }
 }

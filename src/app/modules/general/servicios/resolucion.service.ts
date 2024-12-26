@@ -14,11 +14,11 @@ export class ResolucionService {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<any>(`general/resolucion/${id}/`);
+    return this.httpService.get<Resolucion>(`general/resolucion/${id}/`);
   }
 
   actualizarDatos(id: number, data: any) {
-    return this.httpService.put<any>(`general/resolucion/${id}/`, data);
+    return this.httpService.put<Resolucion>(`general/resolucion/${id}/`, data);
   }
 
 }

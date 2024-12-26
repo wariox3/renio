@@ -21,8 +21,8 @@ export class PrecioService  extends Subdominio {
     return this.httpService.getDetalle<Precio>(`general/precio/${id}/`);
   }
 
-  actualizarDatos(id: number, data: any) {
-    return this.httpService.put<any>(`general/precio/${id}/`, data);
+  actualizarDatos(id: number, data: Precio) {
+    return this.httpService.put<Precio>(`general/precio/${id}/`, data);
   }
 
   guardarPrecioDetalle(id: number, data: any) {

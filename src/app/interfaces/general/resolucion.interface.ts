@@ -6,4 +6,6 @@ export interface Resolucion {
   consecutivo_hasta: number;
   fecha_desde: Date | undefined;
   fecha_hasta: Date | undefined;
+  venta: boolean;
+  compra: boolean;
 }
