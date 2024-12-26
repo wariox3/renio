@@ -325,6 +325,7 @@
           >
             <a
               class="nav-link"
+              [ngClass]="{'text-primary': active === 1}"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -732,6 +733,8 @@
           >
             <a
               class="nav-link"
+              [ngClass]="{'text-primary': active === 2}"
+
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"

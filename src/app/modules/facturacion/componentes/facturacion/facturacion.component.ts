@@ -59,7 +59,7 @@ export class FacturacionComponent extends General implements OnInit {
 
   facturas: Factura[] = [];
   consumos: Consumo[] = [];
-  active: 1;
+  active: number = 1;
   consumoTotal = 0;
   codigoUsuario = '';
   arrFacturasSeleccionados: any[] = [];

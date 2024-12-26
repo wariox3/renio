@@ -221,7 +221,7 @@
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioFactura.controls['plazo_pago']
             }"
-          ></ng-container>  
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -498,6 +498,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': active === 1}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -518,6 +519,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': active === 2}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.PAGOS"

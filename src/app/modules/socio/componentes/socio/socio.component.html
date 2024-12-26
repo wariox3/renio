@@ -10,7 +10,13 @@
           class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
         >
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-            <a class="nav-link" ngbNavLink data-bs-toggle="tab">Socios</a>
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 1 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              >Socios</a
+            >
             <ng-template ngbNavContent>
               <div class="mb-10 p-5 border">
                 <div class="d-flex align-items-center justify-content-between">
@@ -36,8 +42,12 @@
                         <td>
                           {{ socio.fecha_creacion | date : "yyyy-MM-dd" }}
                         </td>
-                        <td class="text-center">{{ socio.verificado ? "SI" : "NO" }}</td>
-                        <td class="text-center">{{ socio.is_active ? "SI" : "NO" }}</td>
+                        <td class="text-center">
+                          {{ socio.verificado ? "SI" : "NO" }}
+                        </td>
+                        <td class="text-center">
+                          {{ socio.is_active ? "SI" : "NO" }}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -46,7 +56,13 @@
             </ng-template>
           </li>
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
-            <a class="nav-link" ngbNavLink data-bs-toggle="tab">Movimientos</a>
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 2 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              >Movimientos</a
+            >
             <ng-template ngbNavContent>
               <div class="mb-10 p-5 border">
                 <div class="d-flex align-items-center justify-content-between">
@@ -71,7 +87,9 @@
                         <td>{{ movimiento.tipo }}</td>
                         <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
                         <td>{{ movimiento.usuario_username }}</td>
-                        <td class="text-end">{{ movimiento.vr_total | currency : "$"  }}</td>
+                        <td class="text-end">
+                          {{ movimiento.vr_total | currency : "$" }}
+                        </td>
                       </tr>
                     </tbody>
                   </table>

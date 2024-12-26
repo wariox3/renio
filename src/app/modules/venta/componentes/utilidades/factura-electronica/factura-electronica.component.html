@@ -15,6 +15,7 @@
         >
           <a
             class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 1 }"
             ngbNavLink
             data-bs-toggle="tab"
             translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
@@ -173,6 +174,7 @@
         >
           <a
             class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 2 }"
             ngbNavLink
             data-bs-toggle="tab"
             translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
@@ -195,7 +197,10 @@
                   type="text"
                   class="form-control form-control-sm w-100px"
                   [value]="
-                    paginacionNotificarDesde + 1 + '-' + paginacionNotificarHasta
+                    paginacionNotificarDesde +
+                    1 +
+                    '-' +
+                    paginacionNotificarHasta
                   "
                   (blur)="calcularValorMostrarEmitir($event)"
                 />

@@ -15,6 +15,7 @@
         >
           <a
             class="nav-link"
+            [ngClass]="{'text-primary': tabActive === 1}"
             ngbNavLink
             data-bs-toggle="tab"
             translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"

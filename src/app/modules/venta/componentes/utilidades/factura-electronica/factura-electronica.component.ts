@@ -77,7 +77,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   arrRegistrosSeleccionadosEmitir: number[] = [];
   emitirSelectTodo = false;
   notificarSelectTodo = false;
-  tabActive = 1;
+  tabActive: number = 1;
   paginacionEmitirDesde: number = 0;
   paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
   paginacionNotificarDesde: number = 0;

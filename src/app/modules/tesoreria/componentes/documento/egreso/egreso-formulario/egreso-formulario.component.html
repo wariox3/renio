@@ -214,6 +214,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': tapActivo === 1}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -436,6 +437,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': tapActivo === 2}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

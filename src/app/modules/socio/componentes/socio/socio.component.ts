@@ -22,7 +22,7 @@ export class SocioComponent extends General implements OnInit {
   codigoUsuarioSocioId = '';
   arrMovimientos:any
   arrListaSocio:any
-  active: 1;
+  active: number = 1;
 
   constructor(private contenedorServices: ContenedorService, private authService: AuthService) {
     super();

@@ -406,7 +406,7 @@
                 formularioFactura.controls['referencia_cue'].valid
             }"
           />
-          
+
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -461,7 +461,7 @@
                 formularioFactura.controls['referencia_prefijo'].valid
             }"
           />
-           
+
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -519,6 +519,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': active === 1}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -800,6 +801,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
+                [ngClass]="{'text-primary': active === 2}"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
