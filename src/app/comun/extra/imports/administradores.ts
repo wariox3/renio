@@ -1,21 +1,6 @@
-type FormulariosYDetallesAsíncronos = {
-  [key: string]: {
-    modulo?:
-      | 'compra'
-      | 'venta'
-      | 'contabilidad'
-      | 'cartera'
-      | 'humano'
-      | 'inventario'
-      | 'general';
-    modelo?: string;
-    tipo?: string;
-    detalle: () => Promise<{ default: any }>;
-    formulario: () => Promise<{ default: any }>;
-  };
-};
+import { FormulariosDetalles } from '@comun/type/mapeo-formulario-detalle.type';
 
-export const Componetes: FormulariosYDetallesAsíncronos = {
+export const Componetes: Partial<FormulariosDetalles> = {
   GenContacto: {
     modulo: 'general',
     modelo: 'contacto',
@@ -43,7 +28,7 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
   GenResolucion: {
     modulo: 'general',
     modelo: 'resolucion',
-    tipo: 'Administrador',
+    tipo: 'administrador',
     detalle: async () =>
       await import(
         '../../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
@@ -209,4 +194,5 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
         '../../../modules/inventario/componentes/administrador/almacen/almacen-formulario/almacen-formulario.component'
       ),
   },
+  
 };

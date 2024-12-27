@@ -11,6 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { Componetes } from '@comun/extra/imports/administradores';
 import { HttpService } from '@comun/services/http.service';
+import { Modelo } from '@comun/type/modelo.type';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -34,14 +35,14 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   async loadComponente() {
     this.componenteDinamico.clear();
     this.activatedRoute.queryParams.subscribe((parametros) => {
-        this.modelo = parametros.itemNombre;
-       if (parametros.submodelo) {
+      this.modelo = parametros.itemNombre;
+      if (parametros.submodelo) {
         this.modelo = parametros.submodelo;
-        this.changeDetectorRef.detectChanges()
-       }
+        this.changeDetectorRef.detectChanges();
+      }
     });
-    let posicion: keyof typeof Componetes = this.modelo;
-    let componete = await (await Componetes[posicion].formulario()).default;
+    let posicion: keyof typeof Componetes = this.modelo as Modelo;
+    let componete = await (await Componetes[posicion]!.formulario()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
   }

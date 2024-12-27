@@ -15,6 +15,7 @@ export type Modelo =
   | 'GenContacto'
   | 'GenPlazoPago'
   | 'GenBanco'
+  | 'GenEmpleado'
   | 'GenCuentaBancoClase'
   | 'GenCuentaBanco'
   | 'GenResolucion'
@@ -43,4 +44,6 @@ export type Modelo =
   | 'ConCuentaSubcuenta'
   | 'ConComprobante'
   | 'ConGrupo'
-  | 'ConMovimiento';
+  | 'ConMovimiento'
+  | 'InvAlmacen'
+  ;
