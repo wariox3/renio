@@ -5,7 +5,8 @@ import {
   ActualizarMapeo,
   selecionModuloAction,
 } from '../actions/menu.actions';
-let nombreSeleccion = localStorage.getItem('ruta');
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
+let nombreSeleccion: AplicacionModulo = localStorage.getItem('ruta') as AplicacionModulo;
 
 export const initialState: MenuItem = {
   seleccion: nombreSeleccion == null ? 'GENERAL' : nombreSeleccion,
