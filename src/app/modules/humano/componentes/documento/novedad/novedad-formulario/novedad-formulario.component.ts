@@ -8,27 +8,26 @@ import {
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
+import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
+import { RegistroAutocompletarHumNovedadTipo } from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { RegistroAutocompletarHumNovedadTipo } from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -106,10 +105,10 @@ export default class CreditoFormularioComponent
         fecha_hasta_periodo: [null],
       },
       {
-        validator: this.fechaDesdeMenorQueFechaHasta(
-          'fecha_desde',
-          'fecha_hasta'
-        ),
+        validator: [
+          validarRangoDeFechas('fecha_desde', 'fecha_hasta'),
+          validarRangoDeFechas('fecha_desde_periodo', 'fecha_hasta_periodo'),
+        ],
       }
     );
   }
@@ -234,32 +233,31 @@ export default class CreditoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  fechaDesdeMenorQueFechaHasta(
-    fechaDesde: string,
-    fechaHasta: string
-  ): ValidatorFn {
-    return (formGroup: AbstractControl): { [key: string]: any } | null => {
-      const desde = formGroup.get(fechaDesde)?.value;
-      const hasta = formGroup.get(fechaHasta)?.value;
-
-      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
-      if (desde && hasta && new Date(desde) > new Date(hasta)) {
-        return { fechaInvalida: true };
-      }
-      return null;
-    };
-  }
-
   novedadTipoSeleccionado($event: Event) {
     let valorPersonaTipo = $event.target as HTMLInputElement;
 
     if (parseInt(valorPersonaTipo.value) === 7) {
       // 7 es igual a vacaciones
-      this.setValidators('dias_dinero', [Validators.required]);
-      this.setValidators('dias_disfrutados', [Validators.required]);
-      this.setValidators('dias_disfrutados_reales', [Validators.required]);
+      this.setValidators('dias_dinero', [
+        Validators.required,
+        Validators.min(1),
+      ]);
+      this.setValidators('dias_disfrutados', [
+        Validators.required,
+        Validators.min(1),
+      ]);
+      this.setValidators('dias_disfrutados_reales', [
+        Validators.required,
+        Validators.min(1),
+      ]);
       this.setValidators('fecha_desde_periodo', [Validators.required]);
       this.setValidators('fecha_hasta_periodo', [Validators.required]);
+
+      this.formularioAdicional.patchValue({
+        dias_dinero: 1,
+        dias_disfrutados: 1,
+        dias_disfrutados_reales: 1,
+      });
     } else {
       this.formularioAdicional.get('dias_dinero')?.clearValidators();
       this.formularioAdicional.get('dias_dinero')?.updateValueAndValidity();

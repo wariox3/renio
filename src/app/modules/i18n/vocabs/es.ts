@@ -129,7 +129,8 @@ export const locale = {
           CARGARCONTRATOS: 'Cargar contratos',
           GENERAR: 'Generar',
           DESCARGARERRORES: 'Excel errores',
-          MENSAJEERRORES: 'El archivo tiene más de 100 errores, descargue el excel para ver para ver todo',
+          MENSAJEERRORES:
+            'El archivo tiene más de 100 errores, descargue el excel para ver para ver todo',
           EJEMPLO: 'Ejemplo',
           VERMAS: 'Ver Más',
           VERMENOS: 'Ver Menos',
@@ -143,7 +144,7 @@ export const locale = {
           NOTIFICAR: 'Notificar',
           NOTIFICANDO: 'Notificando',
           ZIP: 'Zip',
-          CERRAR: 'Cerrar'
+          CERRAR: 'Cerrar',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -168,9 +169,9 @@ export const locale = {
         ELECTRONICO: {
           LOG: 'Log',
           LOGNOTIFICAR: 'Log noficar',
-          EVENTOSDIAN:'Eventos DIAN',
-          RENOTIFICAR:'Re-notificar'
-        }
+          EVENTOSDIAN: 'Eventos DIAN',
+          RENOTIFICAR: 'Re-notificar',
+        },
       },
       TITULOS: {
         COMUNES: {
@@ -217,7 +218,7 @@ export const locale = {
           RECARGOFESTIVONOCTURNO: 'Recargo festivo nocturno',
           TIPO: '',
           MES: 'Mes',
-          ANIO: 'Año'
+          ANIO: 'Año',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -319,7 +320,6 @@ export const locale = {
           PAGO: 'Pago',
           INFORMACIONFACTURACION: 'Información de facturación',
           PRODUCTOCUENTA: 'Item / Cuenta',
-
         },
         GENERAL: {
           ITEM: {
@@ -403,7 +403,7 @@ export const locale = {
           MOSTARTODOSLOSCONTACTOS: 'Mostrar todos los contactos',
           CUENTA: 'Cuenta',
           DEPARTAMENTO: 'Departamento',
-          AREA: 'Area'
+          AREA: 'Area',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -501,7 +501,7 @@ export const locale = {
           SOPORTE: 'Soporte',
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
-          GRUPO: 'Grupo'
+          GRUPO: 'Grupo',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -552,7 +552,7 @@ export const locale = {
             ENTIDADSALUD: 'Entidad salud',
             ENTIDADCAJA: 'Entidad caja',
             ENTIDADCESANTIAS: 'Entidad cesantías',
-            BUSCARCONTRATO: 'Buscar contrato'
+            BUSCARCONTRATO: 'Buscar contrato',
           },
           CREDITO: {
             CODIGO: 'Cód',
@@ -644,8 +644,8 @@ export const locale = {
             ESTADOINACTIVO: 'Estado inactivo',
           },
           APORTE: {
-            SUCURSAL: 'Sucursal'
-          }
+            SUCURSAL: 'Sucursal',
+          },
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento',
@@ -663,11 +663,13 @@ export const locale = {
       VALIDACIONES: {
         COMUNES: {
           REQUERIDO: 'El campo es requerido',
-          CAMPOMINIMO: 'Mínimo de caracteres de',
-          CAMPOMAXIMO:
-            'Máxima de caracteres de',
+          VALORMINIMO: 'Valor mínimo es de',
+          VALORMAXIMO: 'Valor máxima es de',
+          CAMPOMINIMO: 'Caracteres mínimo es de',
+          CAMPOMAXIMO: 'Caracteres Máxima es de',
           TIPOCORREO: 'Correo electrónico válido',
           NOVALIDO: 'Contiene caracteres no válidos',
+          RANGOFECHASDESDEHASTA: 'La fecha desde no puede ser mayor que la fecha hasta.',
           NUMEROIDENTIFICACIONEXISTEN:
             'El empleado con el número y tipo de identificación seleccionados ya existe.',
         },
@@ -685,6 +687,9 @@ export const locale = {
           FECHAVENCEINFERIORNOVALIDA:
             'La fecha vencimiento no puede ser inferior a la fecha factura',
         },
+        NOVEDAD:{
+          ERRORFECHAPERIODOSINVALIDA: "La fecha hasta periodo no puede ser mayor que la fecha desde periodo."
+        }
       },
       MENSAJES: {
         COMUNES: {
@@ -702,7 +707,8 @@ export const locale = {
           CREARCONTENEDOR:
             'Estamos creando su contenedor, espere un momento...',
           ELIMINARCONTENEDORTITULO: 'Eliminar contenedor',
-          ELIMINANDOCONTENDOR: 'Estamos eliminando su contendor, espere un momento',
+          ELIMINANDOCONTENDOR:
+            'Estamos eliminando su contendor, espere un momento',
           ELIMINARCONTENEDORSUBTITULO: 'Este proceso es irreversible.',
           ELIMINARCONTENEDORAYUDA: `Para confirmar, escriba: `,
           SINCONTENEDORES: 'No cuenta con contenedores creados',
@@ -859,7 +865,7 @@ export const locale = {
         ANIO: 'Año',
         SUCURSAL_NOMBRE: 'Sucursal',
         PROVEEDOR: 'Proveedor',
-        DOCUMENTOTIPONOMBRE: 'Documento'
+        DOCUMENTOTIPONOMBRE: 'Documento',
       },
       ITEM: {
         ID: 'ID',
@@ -1210,12 +1216,12 @@ export const locale = {
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
     },
-    MENSAJES:{
+    MENSAJES: {
       DOCUMENTOAPROBADO: 'Documento aprobado',
       DOCUMENTOANULADO: 'Documento anulado',
       CARGANDO: 'Cargando',
       EVENTOCOMPLEADO: 'Evento dian completado',
-      ACTUALIZARINFORMACION: 'Se actualizó la información'
+      ACTUALIZARINFORMACION: 'Se actualizó la información',
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',

@@ -51,20 +51,20 @@
       <div class="row mb-5">
         <div class="col-12 col-md-12">
           <app-buscar-contrato
-          (emitirContrato)="modificarCampoFormulario('contrato', $event)"
-          [requerido]="true"
-          [informacionContrato]="{
-            identificacion: formularioAdicional.value.contrato_identificacion,
-            contrato: formularioAdicional.value.contrato,
-            contrato_nombre: formularioAdicional.value.contrato_nombre
-          }"
-          [formularioError]="
-            (formularioAdicional.controls['contrato'].hasError('required') &&
-            formularioAdicional.controls['contrato'].dirty) ||
-            formularioAdicional.controls['contrato'].touched
-          "
-        >
-        </app-buscar-contrato>
+            (emitirContrato)="modificarCampoFormulario('contrato', $event)"
+            [requerido]="true"
+            [informacionContrato]="{
+              identificacion: formularioAdicional.value.contrato_identificacion,
+              contrato: formularioAdicional.value.contrato,
+              contrato_nombre: formularioAdicional.value.contrato_nombre
+            }"
+            [formularioError]="
+              (formularioAdicional.controls['contrato'].hasError('required') &&
+                formularioAdicional.controls['contrato'].dirty) ||
+              formularioAdicional.controls['contrato'].touched
+            "
+          >
+          </app-buscar-contrato>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -115,12 +115,10 @@
             class="form-control"
             type="date"
             id="fecha_hasta"
-            
             [ngClass]="{
               'is-invalid':
-                (formularioAdicional.controls['fecha_hasta'].touched &&
-                  formularioAdicional.controls['fecha_hasta'].invalid) ||
-                formularioAdicional.errors?.fechaInvalida,
+                formularioAdicional.controls['fecha_hasta'].touched &&
+                formularioAdicional.controls['fecha_hasta'].invalid,
               'is-valid':
                 formularioAdicional.controls['fecha_hasta'].touched &&
                 formularioAdicional.controls['fecha_hasta'].valid
@@ -134,15 +132,16 @@
               control: formularioAdicional.controls['fecha_hasta']
             }"
           ></ng-container>
-          <div *ngIf="formularioAdicional.errors?.fechaInvalida">
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert">
-                  La fecha desde no puede ser mayor que la fecha hasta.
-                </span>
-              </div>
-            </div>
-          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'rangoFechasInvalido',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.RANGOFECHASDESDEHASTA'
+                | translate,
+              control: formularioAdicional.controls['fecha_hasta']
+            }"
+          ></ng-container>
         </div>
       </div>
       @if(novedad_tipo.value === '7'){
@@ -156,6 +155,7 @@
             formControlName="dias_dinero"
             class="form-control"
             type="number"
+            min="1"
             [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['dias_dinero'].touched &&
@@ -165,6 +165,16 @@
                 formularioAdicional.controls['dias_dinero'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'min',
+              cantidadCaracteres: '1',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+              control: formularioAdicional.controls['dias_dinero']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -212,6 +222,7 @@
             formControlName="dias_disfrutados"
             class="form-control"
             type="number"
+            min="1"
             [ngClass]="{
               'is-invalid':
                 (formularioAdicional.controls['dias_disfrutados'].touched &&
@@ -222,6 +233,16 @@
                 formularioAdicional.controls['dias_disfrutados'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'min',
+              cantidadCaracteres: '1',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+              control: formularioAdicional.controls['dias_disfrutados']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -242,15 +263,23 @@
             type="date"
             [ngClass]="{
               'is-invalid':
-                (formularioAdicional.controls['fecha_hasta_periodo'].touched &&
-                  formularioAdicional.controls['fecha_hasta_periodo']
-                    .invalid) ||
-                formularioAdicional.errors?.fechaInvalida,
+                formularioAdicional.controls['fecha_hasta_periodo'].touched &&
+                formularioAdicional.controls['fecha_hasta_periodo'].invalid,
               'is-valid':
                 formularioAdicional.controls['fecha_hasta_periodo'].touched &&
                 formularioAdicional.controls['fecha_hasta_periodo'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'rangoFechasInvalido',
+              message:
+                'FORMULARIOS.VALIDACIONES.NOVEDAD.ERRORFECHAPERIODOSINVALIDA'
+                | translate,
+              control: formularioAdicional.controls['fecha_hasta_periodo']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -272,6 +301,7 @@
             class="form-control"
             type="number"
             id="dias_disfrutados_reales"
+            min="1"
             [ngClass]="{
               'is-invalid':
                 formularioAdicional.controls['dias_disfrutados_reales']
@@ -283,6 +313,16 @@
                 formularioAdicional.controls['dias_disfrutados_reales'].valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'min',
+              cantidadCaracteres: '1',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+              control: formularioAdicional.controls['dias_disfrutados_reales']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
