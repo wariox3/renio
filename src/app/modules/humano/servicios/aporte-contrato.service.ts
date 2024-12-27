@@ -19,7 +19,4 @@ export class AporteContratoService extends Subdominio {
     return this.httpService.delete(`humano/aporte_contrato/${id}/`, {});
   }
 
-  // notificar(id: number){
-  //   return this.httpService.post('humano/programacion/notificar/', {id})
-  // }
 }

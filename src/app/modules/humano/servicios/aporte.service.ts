@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
+import { Aporte } from '../interfaces/aporte';
+import { AporteCargarContratos } from '../interfaces/aporte-cargar-contratos';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AporteService extends Subdominio {
-
   constructor(private httpService: HttpService) {
     super();
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<any>(`humano/aporte/${id}/`);
+    return this.httpService.get<Aporte>(`humano/aporte/${id}/`);
   }
 
-  actualizarDatosAporte(id: number, data: any) {
-    return this.httpService.put<any>(`humano/aporte/${id}/`, data);
+  actualizarDatosAporte(id: number, data: Aporte) {
+    return this.httpService.put<Aporte>(`humano/aporte/${id}/`, data);
   }
 
-  cargarContratos(data: any) {
-    return this.httpService.post<any>(`humano/aporte/cargar-contrato/`, data);
+  cargarContratos(data: Pick<Aporte, 'id'>) {
+    return this.httpService.post<AporteCargarContratos>(`humano/aporte/cargar-contrato/`, data);
   }
 
-
-  guardarAporte(data: any){
-    return this.httpService.post<any>(`humano/aporte/`, data);
+  guardarAporte(data: Aporte) {
+    return this.httpService.post<Aporte>(`humano/aporte/`, data);
   }
 
   generar(data: any) {
