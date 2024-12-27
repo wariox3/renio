@@ -64,7 +64,7 @@ export default class CargoFormularioComponent
   consultarDetalle() {
     this.cargoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioCargo.patchValue({
           nombre: respuesta.nombre,
           estado_inactivo: respuesta.estado_inactivo,
@@ -96,7 +96,7 @@ export default class CargoFormularioComponent
         this.cargoService
           .guardarCargo(this.formularioCargo.value)
           .pipe(
-            tap((respuesta: any) => {
+            tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
                 this.router.navigate([`/administrador/detalle`], {
