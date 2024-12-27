@@ -124,7 +124,7 @@ export default class CreditoFormularioComponent
   consultarDetalle() {
     this.creditoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioAdicional.patchValue({
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,

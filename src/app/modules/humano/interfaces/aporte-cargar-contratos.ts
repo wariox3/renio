@@ -1,3 +1,3 @@
 export interface AporteCargarContratos {
-  contratos: number
+  contratos: number;
 }

@@ -35,9 +35,9 @@ export interface ProgramacionContrato {
   entidad_caja_id: number;
   entidad_caja_nombre: string;
   entidad_cesantias_id: number;
-  entidad_cesantias_nombre: string
+  entidad_cesantias_nombre: string;
   entidad_pension_id: number;
   entidad_pension_nombre: string;
-  entidad_salud_id:number;
-    entidad_salud_nombre : string;
+  entidad_salud_id: number;
+  entidad_salud_nombre: string;
 }

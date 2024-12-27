@@ -9,6 +9,7 @@ import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { Credito } from '@modulos/humano/interfaces/credito.interface';
 
 @Component({
   selector: 'app-credito-detalle',
@@ -26,7 +27,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
   styleUrl: './credito-detalle.component.scss',
 })
 export default class CreditoDetalleComponent extends General {
-  credito: any = {
+  credito: Credito = {
     id: 0,
     fecha_inicio: '',
     total: 0,
@@ -38,7 +39,13 @@ export default class CreditoDetalleComponent extends General {
     pagado: false,
     inactivo: false,
     inactivo_periodo: false,
-    contrato: 0,
+    cuota_actual: 0,
+    contrato_id: 0,
+    contrato_contacto_id: 0,
+    contrato_contacto_numero_identificacion: '',
+    contrato_contacto_nombre_corto: '',
+    concepto_id: 0,
+    concepto_nombre: ''
   };
 
   arrCreditoPagos: any;
@@ -56,7 +63,7 @@ export default class CreditoDetalleComponent extends General {
   consultardetalle() {
     this.creditoService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.credito = respuesta;
         this.consultarCreditoPagos();
         this.changeDetectorRef.detectChanges();
