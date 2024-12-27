@@ -24,21 +24,3 @@ export function validarRangoDeFechas(campoDesde: string, campoHasta: string): Va
     return null; // No retornamos error al grupo
   };
 }
-
-
-
-// import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-
-// // Validador personalizado genérico para verificar el rango de fechas
-// export function validarRangoDeFechas(campoDesde: string, campoHasta: string): ValidatorFn {
-//   return (formGroup: AbstractControl): ValidationErrors | null => {
-//     const fechaDesde = formGroup.get(campoDesde)?.value;
-//     const fechaHasta = formGroup.get(campoHasta)?.value;
-
-//     if (fechaDesde && fechaHasta && new Date(fechaHasta) < new Date(fechaDesde)) {
-//       return { rangoFechasInvalido: true }; // Error personalizado
-//     }
-
-//     return null; // No hay errores
-//   };
-// }
