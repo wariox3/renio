@@ -13,10 +13,10 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { validarConsecutivos } from '@comun/validaciones/validar-resolucion-consecutivos.validator';
-import { validarFechas } from '@comun/validaciones/validar-resolucion-fechas.validator';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -31,8 +31,8 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
     NgbModalModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    SoloNumerosDirective
-],
+    SoloNumerosDirective,
+  ],
   providers: [NgbActiveModal],
 })
 export default class ResolucionFormularioComponent
@@ -69,44 +69,43 @@ export default class ResolucionFormularioComponent
       .toString()
       .padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
 
-    this.formularioResolucion = this.formBuilder.group({
-      prefijo: [
-        '',
-        Validators.compose([Validators.required, Validators.maxLength(10)]),
-      ],
-      numero: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(/^[0-9]+$/),
-        ]),
-      ],
-      consecutivo_desde: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(200)
-        ]),
-      ],
-      consecutivo_hasta: [
-        null,
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(200)
-        ]),
-      ],
-      fecha_desde: [
-        fechaVencimientoInicial,
-        Validators.compose([Validators.required]),
-      ],
-      fecha_hasta: [
-        fechaVencimientoInicial,
-        Validators.compose([Validators.required]),
-      ],
-    },
-    {
-      validators: [validarConsecutivos(), validarFechas()] // Agregar ambas validaciones
-    });
+    this.formularioResolucion = this.formBuilder.group(
+      {
+        prefijo: [
+          '',
+          Validators.compose([Validators.required, Validators.maxLength(10)]),
+        ],
+        numero: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[0-9]+$/),
+          ]),
+        ],
+        consecutivo_desde: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(200)]),
+        ],
+        consecutivo_hasta: [
+          null,
+          Validators.compose([Validators.required, Validators.maxLength(200)]),
+        ],
+        fecha_desde: [
+          fechaVencimientoInicial,
+          Validators.compose([Validators.required]),
+        ],
+        fecha_hasta: [
+          fechaVencimientoInicial,
+          Validators.compose([Validators.required]),
+        ],
+      },
+      {
+        validators: [
+          validarConsecutivos(),
+          validarRangoDeFechas('fecha_desde', 'fecha_hasta'),
+        ],
+      }
+    );
   }
 
   get obtenerFormularioCampos() {

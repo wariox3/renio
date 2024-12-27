@@ -266,23 +266,23 @@
             [min]="fechaDesde.value"
             [ngClass]="{
               'is-invalid':
-                (formularioResolucion.controls['fecha_hasta'].touched &&
-                  formularioResolucion.controls['fecha_hasta'].invalid) ||
-                formularioResolucion.errors?.fechasInvalidas,
+                formularioResolucion.controls['fecha_hasta'].touched &&
+                formularioResolucion.controls['fecha_hasta'].invalid,
               'is-valid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
                 formularioResolucion.controls['fecha_hasta'].valid
             }"
           />
-          @if(formularioResolucion.errors?.fechasInvalidas){
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span role="alert">
-                "Fecha hasta" no puede ser anterior a "Fecha desde".
-              </span>
-            </div>
-          </div>
-          }
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'rangoFechasInvalido',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.RANGOFECHASDESDEHASTA'
+                | translate,
+              control: formularioResolucion.controls['fecha_hasta']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
