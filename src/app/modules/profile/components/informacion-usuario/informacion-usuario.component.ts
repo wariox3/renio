@@ -28,6 +28,7 @@ import {
 } from '@redux/selectors/usuario.selectors';
 import { arrPaises } from '../overview/listaPaises';
 import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
+import { UsuarioInformacionPerfil } from '@modulos/profile/interfaces/usuario-Informacion-perfil';
 
 @Component({
   selector: 'app-informacion-usuario',
@@ -45,9 +46,9 @@ import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.in
   ],
 })
 export class InformacionUsuarioComponent extends General implements OnInit {
-  usuarioInformacion = {
+  usuarioInformacion: UsuarioInformacionPerfil = {
     id: '',
-    nombreCorto: '',
+    nombre_corto: '',
     nombre: '',
     apellido: '',
     telefono: '',
@@ -111,7 +112,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
         ]),
       ],
       nombreCorto: [
-        this.usuarioInformacion.nombreCorto,
+        this.usuarioInformacion.nombre_corto,
         Validators.compose([Validators.required, Validators.maxLength(255)]),
       ],
       idioma: [
@@ -140,42 +141,44 @@ export class InformacionUsuarioComponent extends General implements OnInit {
         telefono = null;
       }
 
-      this.resumenService
-        .actualizarInformacion({
-          id: this.usuarioInformacion.id,
-          nombre: this.formularioResumen.value.nombre || null,
-          apellido: this.formularioResumen.value.apellido || null,
-          telefono: telefono,
-          nombreCorto: this.formularioResumen.value.nombreCorto,
-          idioma: this.formularioResumen.value.idioma,
-          imagen: this.formularioResumen.value.imagen,
-        })
-        .subscribe({
-          next: (respuesta) => {
-            this.store.dispatch(
-              usuarioActionActualizarInformacionUsuario({
-                nombre_corto: this.formularioResumen.value.nombreCorto,
-                nombre: this.formularioResumen.value.nombre,
-                apellido: this.formularioResumen.value.apellido,
-                telefono: telefono,
-                idioma: this.formularioResumen.value.idioma,
-              })
-            );
-            this.store.dispatch(
-              usuarioActionActualizarIdioma({
-                idioma: this.formularioResumen.value.idioma,
-              })
-            );
-            this.translateService.use(this.formularioResumen.value.idioma);
-            this.changeDetectorRef.detectChanges();
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
-              )
-            );
-          },
-        });
-      this.modalService.dismissAll();
+      if (this.usuarioInformacion.id) {
+        this.resumenService
+          .actualizarInformacion({
+            id: this.usuarioInformacion.id,
+            nombre: this.formularioResumen.value.nombre || null,
+            apellido: this.formularioResumen.value.apellido || null,
+            telefono: telefono,
+            nombreCorto: this.formularioResumen.value.nombreCorto,
+            idioma: this.formularioResumen.value.idioma,
+            imagen: this.formularioResumen.value.imagen,
+          })
+          .subscribe({
+            next: (respuesta) => {
+              this.store.dispatch(
+                usuarioActionActualizarInformacionUsuario({
+                  nombre_corto: this.formularioResumen.value.nombreCorto,
+                  nombre: this.formularioResumen.value.nombre,
+                  apellido: this.formularioResumen.value.apellido,
+                  telefono: telefono,
+                  idioma: this.formularioResumen.value.idioma,
+                })
+              );
+              this.store.dispatch(
+                usuarioActionActualizarIdioma({
+                  idioma: this.formularioResumen.value.idioma,
+                })
+              );
+              this.translateService.use(this.formularioResumen.value.idioma);
+              this.changeDetectorRef.detectChanges();
+              this.alertaService.mensajaExitoso(
+                this.translateService.instant(
+                  'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
+                )
+              );
+            },
+          });
+        this.modalService.dismissAll();
+      }
     } else {
       this.formularioResumen.markAllAsTouched();
     }
@@ -183,7 +186,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
 
   consultarInformacion() {
     this.resumenService.perfil(this.codigoUsuario).subscribe({
-      next: (respuesta: any) => {
+      next: (respuesta) => {
         let indicativo = '';
         let telefono = '';
 
@@ -201,7 +204,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
           nombre: respuesta.nombre,
           apellido: respuesta.apellido,
           telefono: telefono,
-          nombreCorto: respuesta.nombre_corto,
+          nombre_corto: respuesta.nombre_corto,
           indicativoPais: indicativo,
           idioma: respuesta.idioma,
         };

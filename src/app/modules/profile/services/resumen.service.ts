@@ -4,6 +4,7 @@ import { FechasService } from '@comun/services/fechas.service';
 import { environment } from '@env/environment';
 import { enviarDatosUsuario } from '../interfaces/enviar-datos-usuario.interface';
 import { Consumos, Facturas } from '@interfaces/facturacion/Facturacion';
+import { UsuarioInformacionPerfil } from '../interfaces/usuario-Informacion-perfil';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +13,13 @@ export class ResumenService {
   constructor(private http: HttpClient, private fechaServices: FechasService) {}
 
   perfil(codigoUsuario: string) {
-    return this.http.get(
+    return this.http.get<UsuarioInformacionPerfil>(
       `${environment.URL_API_MUUP}/seguridad/usuario/${codigoUsuario}/`
     );
   }
 
   actualizarInformacion(data: enviarDatosUsuario) {
-    return this.http.put(
+    return this.http.put<UsuarioInformacionPerfil>(
       `${environment.URL_API_MUUP}/seguridad/usuario/${data.id}/`,
       {
         nombre: data.nombre,
@@ -45,7 +46,7 @@ export class ResumenService {
       {
         usuario_id,
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
-        fechaHasta: fechaHasta
+        fechaHasta: fechaHasta,
       }
     );
   }
@@ -53,7 +54,7 @@ export class ResumenService {
   cargarImagen(usuario_id: Number | string, imagenB64: string) {
     return this.http.post<{
       cargar: boolean;
-      imagen: string
+      imagen: string;
     }>(`${environment.URL_API_MUUP}/seguridad/usuario/cargar-imagen/`, {
       usuario_id,
       imagenB64,
@@ -62,8 +63,8 @@ export class ResumenService {
 
   eliminarImagen(usuario_id: Number | string) {
     return this.http.post<{
-      limpiar: boolean,
-      imagen: string
+      limpiar: boolean;
+      imagen: string;
     }>(`${environment.URL_API_MUUP}/seguridad/usuario/limpiar-imagen/`, {
       usuario_id,
     });

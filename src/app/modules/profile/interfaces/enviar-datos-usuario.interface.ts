@@ -1,9 +1,9 @@
 export interface enviarDatosUsuario {
-  id: String;
-  nombreCorto: String;
-  nombre: String;
-  apellido: String;
-  telefono: String;
-  idioma: String;
-  imagen: String | null;
+  id: string;
+  nombreCorto: string;
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  idioma: string;
+  imagen: string | null;
 }
