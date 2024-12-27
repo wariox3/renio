@@ -13,7 +13,7 @@ export class SedeService extends Subdominio {
    }
 
    guardarSede(data: any) {
-    return this.httpService.post<Sede[]>(`general/sede/`, data);
+    return this.httpService.post<Sede>(`general/sede/`, data);
   }
 
   consultarDetalle(id: number) {

@@ -69,7 +69,7 @@ export default class AsesorFormularioComponent
       if (this.detalle) {
         this.sedeService
           .actualizarDatos(this.detalle, this.formularioSede.value)
-          .subscribe((respuesta: any) => {
+          .subscribe((respuesta) => {
             this.formularioSede.patchValue({
               nombre: respuesta.nombre,
             });
@@ -86,7 +86,7 @@ export default class AsesorFormularioComponent
       } else {
         this.sedeService
           .guardarSede(this.formularioSede.value)
-          .subscribe((respuesta: any) => {
+          .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
               this.router.navigate([`/administrador/detalle`], {
@@ -106,7 +106,7 @@ export default class AsesorFormularioComponent
   consultarDetalle() {
     this.sedeService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioSede.patchValue({
           nombre: respuesta.nombre,
         });
