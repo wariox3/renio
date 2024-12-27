@@ -13,7 +13,8 @@ import {
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLinkActive, RouterLink } from '@angular/router';
-import { NgIf, NgFor, LowerCasePipe, NgClass } from '@angular/common';
+import { NgIf, NgFor, LowerCasePipe, NgClass, CommonModule } from '@angular/common';
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 
 @Component({
   selector: 'app-header-menu',
@@ -26,12 +27,12 @@ import { NgIf, NgFor, LowerCasePipe, NgClass } from '@angular/common';
     RouterLink,
     TranslateModule,
     NgFor,
-    LowerCasePipe,
+    CommonModule,
     NgClass,
   ],
 })
 export class HeaderMenuComponent extends General implements OnInit {
-  arrMenuApps: string[];
+  arrMenuApps: AplicacionModulo[];
   visualizarMenuApps = false;
   ruta = '';
 
@@ -48,7 +49,7 @@ export class HeaderMenuComponent extends General implements OnInit {
         switchMap(() => this.store.select(obtenerMenuSeleccion)),
         tap((respuesta: any) => {
           this.ruta = respuesta;
-          if(respuesta === 'GENERAL'){
+          if(respuesta === 'general'){
             this.ruta = 'Inicio';
           }
           this.changeDetectorRef.detectChanges()

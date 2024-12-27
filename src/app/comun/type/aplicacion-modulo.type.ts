@@ -6,4 +6,5 @@ export type AplicacionModulo =
   | 'humano'
   | 'inventario'
   | 'general'
+  | 'tesoreria'
   | 'transporte';

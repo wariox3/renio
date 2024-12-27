@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { ConfiguracionCarteraComponent } from '@modulos/cartera/componentes/configuracion/configuracion-cartera.component';
 import { ConfiguracionCompraComponent } from '@modulos/compra/componentes/configuracion/configuracion-compra.component';
 import { ConfiguracionContabilidadComponent } from '@modulos/contabilidad/componentes/configuracion/configuracion-contabilidad.component';
@@ -42,9 +43,9 @@ import { switchMap, tap } from 'rxjs';
 })
 export class EmpreseConfiguracionModulosComponent extends General implements OnInit, OnDestroy {
 
-  arrMenuApps: string[];
+  arrMenuApps: AplicacionModulo[];
   visualizarMenuApps = false;
-  menuSeleccionado = 'GENERAL'
+  menuSeleccionado: AplicacionModulo = 'general'
 
   ngOnInit() {
     this.store
@@ -62,8 +63,8 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
       .subscribe();
   }
 
-  seleccionarConfiguracion(modulo: string){
-   this.menuSeleccionado = modulo.toUpperCase()
+  seleccionarConfiguracion(modulo: AplicacionModulo){
+   this.menuSeleccionado = modulo
    this.changeDetectorRef.detectChanges()
   }
 

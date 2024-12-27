@@ -1,9 +1,9 @@
 <div class="container-fluid" style="--bs-gutter-x: 0">
   @switch (ruta) {
-    @case ('COMPRA') {
+    @case ('compra') {
       <app-inicio-compra></app-inicio-compra>
     }
-    @case ('VENTA') {
+    @case ('venta') {
       @if(asistente_electronico === false ){
         <app-card [visualizarTitulo]="false">
           <section card-body>
@@ -62,22 +62,22 @@
         }
       <app-inicio-venta></app-inicio-venta>
     }
-    @case ('CONTABILIDAD') {
+    @case ('contabilidad') {
       <app-inicio-contabilidad></app-inicio-contabilidad>
     }
-    @case ('CARTERA') {
+    @case ('cartera') {
       <app-inicio-cartera></app-inicio-cartera>
     }
-    @case ('HUMANO') {
+    @case ('humano') {
       <app-inicio-humano></app-inicio-humano>
     }
-    @case ('INVENTARIO') {
+    @case ('inventario') {
       <app-inicio-inventario></app-inicio-inventario>
     }
-    @case ('TESORERIA') {
+    @case ('tesoreria') {
       <app-inicio-tesoreria></app-inicio-tesoreria>
     }
-    @case ('GENERAL') {
+    @case ('general') {
       @if(asistente_electronico === false ){
         <app-card [visualizarTitulo]="false">
           <section card-body>
@@ -136,7 +136,7 @@
         }
       <app-inicio-general></app-inicio-general>
     }
-    @case ('TRANSPORTE') {
+    @case ('transporte') {
       <app-inicio-transporte></app-inicio-transporte>
     }
     @default {
@@ -199,41 +199,4 @@
       <app-inicio-general></app-inicio-general>
     }
   }
-
-  <!-- <div class="row mb-4">
-    <div class="col-md-6 col-lg-3 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Impuestos en venta</h5>
-          <p class="card-text">$0,00</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Productos vendidos</h5>
-          <p class="card-text">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Devoluciones de clientes</h5>
-          <p class="card-text">$0,00</p>
-          <small>Incluye impuestos</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-3 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Clientes con ventas</h5>
-          <p class="card-text">0</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
 </div>

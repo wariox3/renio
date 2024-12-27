@@ -1,5 +1,4 @@
 <app-card [visualizarTitulo]="false">
-
   <section card-body>
     <h3>Configuraciones</h3>
     <div class="d-flex overflow-auto h-55px">
@@ -9,10 +8,9 @@
         <li class="nav-item mb-2">
           <a
             class="nav-link text-active-primary me-6 cursor-pointer"
-            (click)="seleccionarConfiguracion('GENERAL')"
+            (click)="seleccionarConfiguracion('general')"
             [translate]="'MENU.TITULOS.GENERAL'"
-            [ngClass]="{'active': menuSeleccionado === 'GENERAL'}"
-
+            [ngClass]="{ active: menuSeleccionado === 'general' }"
           >
           </a>
         </li>
@@ -23,30 +21,30 @@
             class="nav-link text-active-primary cursor-pointer"
             (click)="seleccionarConfiguracion(item)"
             [translate]="'MENU.TITULOS.' + item"
-            [ngClass]="{'active': menuSeleccionado === item}"
+            [ngClass]="{ active: menuSeleccionado === item }"
           >
           </a>
         </li>
         }
       </ul>
     </div>
-    @switch (menuSeleccionado) { @case ('COMPRA') {
+    @switch (menuSeleccionado) { @case ('compra') {
     <app-configuracion-compra></app-configuracion-compra>
-    } @case ('VENTA') {
+    } @case ('venta') {
     <app-configuracion-venta></app-configuracion-venta>
-    } @case ('CONTABILIDAD') {
+    } @case ('contabilidad') {
     <app-configuracion-contabilidad></app-configuracion-contabilidad>
-    } @case ('CARTERA') {
+    } @case ('cartera') {
     <app-configuracion-cartera></app-configuracion-cartera>
-    } @case ('HUMANO') {
+    } @case ('humano') {
     <app-configuracion-humano></app-configuracion-humano>
-    } @case ('INVENTARIO') {
+    } @case ('inventario') {
     <app-configuracion-inventario></app-configuracion-inventario>
-    } @case ('TESORERIA') {
+    } @case ('tesoreria') {
     <app-configuracion-tesoreria></app-configuracion-tesoreria>
-    } @case ('GENERAL') {
+    } @case ('general') {
     <app-configuracion-general></app-configuracion-general>
-    } @case ('TRANSPORTE') {
+    } @case ('transporte') {
     <app-configuracion-transporte></app-configuracion-transporte>
     } }
   </section>

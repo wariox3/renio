@@ -1,3 +1,4 @@
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { ArchivoImportacion } from '@interfaces/comunes/importar/archivo-importacion';
 export interface Menu {
   name?: string;
@@ -57,5 +58,5 @@ export interface MenuItem {
   seleccion: string;
   informacion: informacionMenuItem[];
   dataMapeo: any[];
-  modulos: string[];
+  modulos: AplicacionModulo[];
 }

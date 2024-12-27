@@ -58,7 +58,7 @@
             </span>
             <span
               class="menu-title"
-              [translate]="'MENU.TITULOS.' + item"
+              [translate]="'MENU.TITULOS.' + (item | uppercase)"
             ></span>
           </a>
         </div>
@@ -70,7 +70,7 @@
       <div class="menu-content pt-8 pb-2">
         <span
           class="menu-heading fw-bold text-uppercase fs-7"
-          [translate]="'MENU.TITULOS.' + modulo"
+          [translate]="'MENU.TITULOS.' + (modulo | uppercase)"
         >
         </span>
       </div>
@@ -158,7 +158,13 @@
                 class="menu-bullet"
                 placement="end"
                 container="body"
-                ngbTooltip="{{ 'FORMULARIOS.BOTONES.COMUNES.NUEVO'  | translate }}   {{  'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase) | translate | lowercase}}"
+                ngbTooltip="{{
+                  'FORMULARIOS.BOTONES.COMUNES.NUEVO' | translate
+                }}   {{
+                  'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase)
+                    | translate
+                    | lowercase
+                }}"
               >
                 <i class="bi bi-file-earmark-plus"></i>
               </span>

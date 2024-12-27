@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   OnInit
@@ -6,7 +7,15 @@ import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
+import { InicioCarteraComponent } from '@modulos/cartera/componentes/inicio/inicio-cartera/inicio-cartera.component';
+import { InicioCompraComponent } from '@modulos/compra/componentes/inicio/inicio-compra/inicio-compra.component';
+import { InicioContabilidadComponent } from '@modulos/contabilidad/componentes/inicio/inicio-contabilida.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
+import { InicioInventarioComponent } from '@modulos/inventario/componentes/inicio/inicio-inventario/inicio-inventario.component';
+import { InicioTesoreriaComponent } from '@modulos/tesoreria/componentes/inicio/inicio-tesoreria/inicio-tesoreria.component';
+import { InicioTransporteComponent } from '@modulos/transporte/componentes/inicio/inicio-transporte/inicio-transporte.component';
+import { InicioVentaComponent } from '@modulos/venta/componentes/inicio/inicio-venta/inicio-venta.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   empresaActionInit,
@@ -16,19 +25,8 @@ import {
   NgApexchartsModule
 } from 'ng-apexcharts';
 import { CardComponent } from '../../comun/componentes/card/card.component';
-import { LaboratorioComponent } from '../../comun/componentes/laboratorio/laboratorio.component';
 import { InicioHumanoComponent } from './../../modules/humano/componentes/inicio/inicio-humano/inicio-humano.component';
-import { CommonModule } from '@angular/common';
-import { InicioCarteraComponent } from '@modulos/cartera/componentes/inicio/inicio-cartera/inicio-cartera.component';
-import { InicioCompraComponent } from '@modulos/compra/componentes/inicio/inicio-compra/inicio-compra.component';
-import { InicioContabilidadComponent } from '@modulos/contabilidad/componentes/inicio/inicio-contabilida.component';
-import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
-import { InicioInventarioComponent } from '@modulos/inventario/componentes/inicio/inicio-inventario/inicio-inventario.component';
-import { InicioTesoreriaComponent } from '@modulos/tesoreria/componentes/inicio/inicio-tesoreria/inicio-tesoreria.component';
-import { InicioTransporteComponent } from '@modulos/transporte/componentes/inicio/inicio-transporte/inicio-transporte.component';
-import { InicioVentaComponent } from '@modulos/venta/componentes/inicio/inicio-venta/inicio-venta.component';
-import { dashboardService } from './dashboard.service';
-
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,7 +37,6 @@ import { dashboardService } from './dashboard.service';
     CardComponent,
     RouterModule,
     NgbTooltipModule,
-    LaboratorioComponent,
     NgApexchartsModule,
     CommonModule,
     InicioContabilidadComponent,
@@ -57,13 +54,12 @@ import { dashboardService } from './dashboard.service';
 })
 export class DashboardComponent extends General implements OnInit {
 
-  ruta = localStorage.getItem('ruta')!;
+  ruta: AplicacionModulo = localStorage.getItem('ruta')! as AplicacionModulo;
   asistente_electronico: boolean;
 
   constructor(
     private httpService: HttpService,
     private empresaService: EmpresaService,
-    private dashboardService: dashboardService
   ) {
     super();
   }

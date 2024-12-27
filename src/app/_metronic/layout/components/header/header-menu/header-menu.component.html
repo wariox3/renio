@@ -17,7 +17,7 @@
       routerLinkActive="menu-here"
       routerLink="/{{ item | lowercase }}"
       (click)="seleccionarMenu(item)"
-      ><span class="menu-title" [translate]="'MENU.TITULOS.'+item"></span></a
+      ><span class="menu-title" [translate]="'MENU.TITULOS.'+(item | uppercase)"></span></a
     >
   </div>
 </ng-container>

@@ -1,3 +1,4 @@
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { MenuItem } from '@interfaces/menu/menu';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
@@ -26,23 +27,28 @@ export const obtenerMenuModulos = (plan_id: number) =>
       case 6:
         return Menu.modulos;
       case 2:
-        return Menu.modulos.filter((menu: string) => menu !== 'HUMANO');
+        return Menu.modulos.filter(
+          (menu: AplicacionModulo) => menu !== 'humano'
+        );
       default:
         return Menu.modulos.filter(
-          (menu: string) => menu === 'VENTA'
+          (menu: AplicacionModulo) => menu === 'venta'
         );
     }
   });
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,
-  (Menu) => Menu.dataMapeo?.filter((titulo: any) => titulo.visibleTabla === true)
+  (Menu) =>
+    Menu.dataMapeo?.filter((titulo: any) => titulo.visibleTabla === true)
 );
 
 export const obtenerMenuDataMapeoCamposVisibleFiltros = createSelector(
   Menu,
-  (Menu) =>{
-    return Menu?.dataMapeo?.filter((titulo: any) => titulo.visibleFiltro === true)
+  (Menu) => {
+    return Menu?.dataMapeo?.filter(
+      (titulo: any) => titulo.visibleFiltro === true
+    );
   }
 );
 
