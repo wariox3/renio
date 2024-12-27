@@ -108,7 +108,7 @@ export default class AdicionalFormularioComponent
         modelo: 'HumConcepto',
         serializador: 'ListaAutocompletar',
       })
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.arrConceptosAdicional = respuesta.registros;
         this.changeDetectorRef.detectChanges();
       });
@@ -138,7 +138,7 @@ export default class AdicionalFormularioComponent
         this.adicionalService
           .guardarAdicional(this.formularioAdicional.value)
           .pipe(
-            tap((respuesta: any) => {
+            tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
                 this.router.navigate(['documento/detalle'], {
@@ -178,68 +178,6 @@ export default class AdicionalFormularioComponent
         this.changeDetectorRef.detectChanges();
       });
   }
-
-  // consultarConceptos(event: any) {
-  //   let arrFiltros = {
-  //     // filtros: [
-  //     //   {
-  //     //     operador: '__icontains',
-  //     //     propiedad: 'nombre__icontains',
-  //     //     valor1: `${event?.target.value}`,
-  //     //   },
-  //     // ],
-  //     // limite: 10,
-  //     // desplazar: 0,
-  //     // ordenamientos: [],
-  //     // limite_conteo: 10000,
-  //     modelo: 'HumConcepto',
-  //     serializador: 'ListaAutocompletar',
-  //   };
-
-  //   this._generalService
-  //     .consultarDatosAutoCompletar<RegistroAutocompletarConcepto>({
-  //       modelo: 'HumConcepto',
-  //       serializador: 'ListaAutocompletar',
-  //     })
-  //     .pipe(
-  //       throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-  //       tap((respuesta) => {
-  //         this.arrConceptos = respuesta.registros;
-  //         this.changeDetectorRef.detectChanges();
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-
-  // consultarContratos(event: any) {
-  //   let arrFiltros: ParametrosFiltros = {
-  //     filtros: [
-  //       {
-  //         operador: '',
-  //         propiedad: 'contacto__nombre_corto__icontains',
-  //         valor1: `${event?.target.value}`,
-  //         valor2: '',
-  //       },
-  //     ],
-  //     limite: 10,
-  //     desplazar: 0,
-  //     ordenamientos: [],
-  //     limite_conteo: 10000,
-  //     modelo: 'HumContrato',
-  //     serializador: 'ListaAutocompletar',
-  //   };
-
-  //   // this._generalService
-  //   //   .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
-  //   //   .pipe(
-  //   //     throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-  //   //     tap((respuesta) => {
-  //   //       this.arrContratos = respuesta.registros;
-  //   //       this.changeDetectorRef.detectChanges();
-  //   //     })
-  //   //   )
-  //   //   .subscribe();
-  // }
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
