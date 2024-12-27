@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
-import { GeneralService } from '@modulos/humano/servicios/general.service';
+import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 
@@ -28,7 +28,7 @@ import { finalize } from 'rxjs';
 })
 export default class GenerarComponent extends General {
   private formBuilder = inject(FormBuilder);
-  private generalService = inject(GeneralService);
+  private nominaElectronicaService = inject(NominaElectronicaService);
   private modalDinamicoService = inject(ModalDinamicoService);
   @Output() emitirConsultaLista: EventEmitter<any> = new EventEmitter();
 
@@ -52,7 +52,7 @@ export default class GenerarComponent extends General {
 
   formSubmit() {
     this.generando = true;
-    this.generalService
+    this.nominaElectronicaService
       .generarNominaElectronica(this.formularioVentaFacturaElectronica.value)
       .pipe(finalize(() => {
         this.generando = false

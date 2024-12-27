@@ -4,7 +4,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { Documento } from '@modulos/humano/interfaces/nomina-electronica.interface.';
 import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap, zip } from 'rxjs';
@@ -12,6 +11,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaseEstadosComponent } from '../../../../../../comun/componentes/base-estados/base-estados.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
+import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -34,12 +34,8 @@ export default class NominaElectronicaDetalleComponent
 {
   active: Number;
 
-  nominaElectronica: Documento = {
+  nominaElectronica: NominaElectronica = {
     id: 0,
-    numero: undefined,
-    fecha: '',
-    fecha_vence: undefined,
-    fecha_hasta: undefined,
     contacto_id: 0,
     contacto_numero_identificacion: '',
     contacto_nombre_corto: '',
@@ -70,7 +66,6 @@ export default class NominaElectronicaDetalleComponent
     plazo_pago_nombre: '',
     documento_referencia_id: undefined,
     documento_referencia_numero: '',
-    cue: undefined,
     electronico_id: undefined,
     asesor: undefined,
     asesor_nombre_corto: undefined,
@@ -80,6 +75,11 @@ export default class NominaElectronicaDetalleComponent
     contrato_id: undefined,
     detalles: [],
     pagos: [],
+    numero: null,
+    cue: null,
+    fecha: null,
+    fecha_hasta: null,
+    fecha_vence: null
   };
   arrNominas: any[] = [];
   private _generalService = inject(GeneralService);
@@ -105,7 +105,7 @@ export default class NominaElectronicaDetalleComponent
         modelo: 'GenDocumento',
       })
     ).subscribe((respuesta) => {
-      this.nominaElectronica = respuesta[0].documento;
+      this.nominaElectronica = respuesta[0];
       this.arrNominas = respuesta[1].registros;
 
       this.changeDetectorRef.detectChanges();
