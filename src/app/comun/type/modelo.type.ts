@@ -1,4 +1,3 @@
-
 export type Modelo =
   | 'GenDocumento'
   | 'GenCiudad'
@@ -23,6 +22,10 @@ export type Modelo =
   | 'HumPeriodo'
   | 'HumConcepto'
   | 'HumAdicional'
+  | 'HumProgramacion'
+  | 'HumCredito'
+  | 'HumNovedad'
+  | 'HumAporte'
   | 'HumProgramacionDetalle'
   | 'HumContrato'
   | 'HumGrupo'
@@ -45,5 +48,4 @@ export type Modelo =
   | 'ConComprobante'
   | 'ConGrupo'
   | 'ConMovimiento'
-  | 'InvAlmacen'
-  ;
+  | 'InvAlmacen';
