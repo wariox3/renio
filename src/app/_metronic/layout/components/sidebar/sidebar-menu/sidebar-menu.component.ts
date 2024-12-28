@@ -80,15 +80,7 @@ export class SidebarMenuComponent implements OnInit {
   private _cargarModulo() {
     this._route.queryParams.subscribe((params) => {
       this.arrMenu.forEach((item: any) => {
-        // buscamos la seccion de administracion en el menu
-        switch (item.nombre) {
-          case 'administracion':
-            this._cargarDatosMenu(item, params);
-            break;
-          case 'independientes':
-            this._cargarDatosMenu(item, params);
-            break;
-        }
+        this._cargarDatosMenu(item, params);
       });
     });
   }
@@ -96,8 +88,10 @@ export class SidebarMenuComponent implements OnInit {
   private _cargarDatosMenu(item: any, parametros: any) {
     // buscamos la coincidencia entre el modelo en la URL y el modelo de los childrens del item
     const childrenFound = item?.children?.find((info: any) => {
-      return info.data?.modelo === parametros?.modelo;
+      return info.nombre === parametros?.alias;
     });
+
+    if (!childrenFound) return;
 
     // cargamos los datos al reducer
     this._cargarReducerData(childrenFound);
@@ -219,6 +213,7 @@ export class SidebarMenuComponent implements OnInit {
       case 'Administrador':
         if (item.data?.submodelo) {
           return {
+            alias: item.nombre,
             itemNombre: item.data?.modelo,
             submodelo: item.data?.submodelo,
             itemTipo: item.nombre,
@@ -227,6 +222,7 @@ export class SidebarMenuComponent implements OnInit {
           };
         }
         return {
+          alias: item.nombre,
           itemNombre: item.data?.modelo,
           itemTipo: item.nombre,
           consultaHttp: item.consultaHttp ? 'si' : 'no',
@@ -234,6 +230,7 @@ export class SidebarMenuComponent implements OnInit {
         };
       case 'Documento':
         return {
+          alias: item.nombre,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
           consultaHttp: item.consultaHttp ? 'si' : 'no',
@@ -242,6 +239,7 @@ export class SidebarMenuComponent implements OnInit {
         };
       case 'Independiente':
         return {
+          alias: item.nombre,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
           consultaHttp: item.consultaHttp ? 'si' : 'no',
@@ -249,11 +247,13 @@ export class SidebarMenuComponent implements OnInit {
         };
       case 'utilidad':
         return {
+          alias: item.nombre,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
         };
       case 'informe':
         return {
+          alias: item.nombre,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
         };
