@@ -1,6 +1,6 @@
-import { FormulariosYDetallesAsíncronos } from '@comun/type/formularios-detalles-asincronos.type';
+import { FormulariosDetalles } from '@comun/type/mapeo-formulario-detalle.type';
 
-export const Componetes: FormulariosYDetallesAsíncronos = {
+export const Componentes: Partial<FormulariosDetalles>  = {
   100: {
     detalle: async () =>
       await import(
@@ -166,6 +166,9 @@ export const Componetes: FormulariosYDetallesAsíncronos = {
       await import(
         '../../../modules/humano/componentes/documento/nomina-electronica/nominaElectronicaDetalle/nominaElectronicaDetalle.component'
       ),
+      formulario: function (): Promise<{ default: any; }> {
+        throw new Error('Function not implemented.');
+      }
   },
   HumProgramacion: {
     detalle: async () =>

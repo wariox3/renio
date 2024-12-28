@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports/administradores';
+import { Componentes } from '@comun/extra/imports/administradores';
 import { Modelo } from '@comun/type/modelo.type';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -35,8 +35,8 @@ export class BaseDetalleComponent extends General implements OnInit {
       }
     });
 
-    let posicion: keyof typeof Componetes = this.modelo as Modelo;
-    let componete = await (await Componetes[posicion]!.detalle()).default;
+    let posicion: keyof typeof Componentes = this.modelo as Modelo;
+    let componete = await (await Componentes[posicion]!.detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
   }

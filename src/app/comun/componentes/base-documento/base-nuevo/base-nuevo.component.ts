@@ -7,9 +7,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports/documentos';
+import { Componentes } from '@comun/extra/imports/documentos';
 import { HttpService } from '@comun/services/http.service';
 
 @Component({
@@ -33,7 +32,7 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    const componenteClase = Componetes[this.parametrosUrl?.documento_clase!];
+    const componenteClase = Componentes[this.parametrosUrl?.documento_clase as any];
     if (componenteClase && componenteClase.formulario) {
       let componete = await (await componenteClase.formulario()).default;
       let componeteCargado = this.componenteDinamico.createComponent(componete);

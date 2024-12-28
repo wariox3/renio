@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports/documentos';
+import { Componentes } from '@comun/extra/imports/documentos';
 
 @Component({
   selector: 'app-comun-base-detalle',
@@ -32,7 +32,7 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    const componenteClase = Componetes[this.parametrosUrl?.documento_clase!];
+    const componenteClase = Componentes[this.parametrosUrl?.documento_clase as any];
     if (componenteClase && componenteClase.detalle) {
       let componete = await (await componenteClase.detalle()).default;
       let componeteCargado = this.componenteDinamico.createComponent(componete);

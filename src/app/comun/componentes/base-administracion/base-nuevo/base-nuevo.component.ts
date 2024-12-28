@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
-import { Componetes } from '@comun/extra/imports/administradores';
+import { Componentes } from '@comun/extra/imports/administradores';
 import { HttpService } from '@comun/services/http.service';
 import { Modelo } from '@comun/type/modelo.type';
 
@@ -41,8 +41,8 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
         this.changeDetectorRef.detectChanges();
       }
     });
-    let posicion: keyof typeof Componetes = this.modelo as Modelo;
-    let componete = await (await Componetes[posicion]!.formulario()).default;
+    let posicion: keyof typeof Componentes = this.modelo as Modelo;
+    let componete = await (await Componentes[posicion]!.formulario()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();
   }

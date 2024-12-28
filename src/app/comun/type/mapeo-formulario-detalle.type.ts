@@ -3,9 +3,9 @@ import { AplicacionUbicaciones } from '@comun/type/aplicaciones-ubicaciones.type
 import { Modelo } from '@comun/type/modelo.type';
 
 export type FormulariosDetalles = Record<
-  Modelo,
+  Modelo | number,
   {
-    modulo: AplicacionModulo;
+    modulo?: AplicacionModulo;
     modelo?: string;
     tipo?: AplicacionUbicaciones;
     detalle: () => Promise<{ default: any }>;
