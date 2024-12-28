@@ -1,23 +1,6 @@
-type Mapeo = {
-  [key: string]: {
-    nombre: string;
-    nombreAbreviado?: string;
-    visibleFiltro: boolean;
-    visibleTabla: boolean;
-    ordenable: boolean;
-    esFk?: boolean;
-    modeloFk?: string;
-    aplicaFormatoNumerico?: boolean;
-    campoTipo:
-      | 'IntegerField'
-      | 'FloatField'
-      | 'CharField'
-      | 'DateField'
-      | 'Booleano';
-  }[];
-};
+import { MapeoUtilidades } from '@comun/type/mapeo-utilidades.type';
 
-export const utilidades: Mapeo = {
+export const utilidades: MapeoUtilidades = {
   factura_electronica_emitir: [
     {
       nombre: 'ID',
@@ -79,5 +62,5 @@ export const utilidades: Mapeo = {
       visibleTabla: true,
       ordenable: true,
     },
-  ]
+  ],
 };

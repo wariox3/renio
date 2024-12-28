@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
+import { Modelo } from '@comun/type/modelo.type';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -60,7 +61,7 @@ export class BuscarAvanzadoComponent extends General {
   abirModal(content: any) {
     this.arrParametrosConsulta.filtros = [];
     this.consultarLista();
-    let posicion: keyof typeof mapeo = this.consultarModelo;
+    let posicion: keyof typeof mapeo = this.consultarModelo as Modelo;
 
     this.store.dispatch(ActualizarMapeo({ dataMapeo: mapeo[posicion] }));
 

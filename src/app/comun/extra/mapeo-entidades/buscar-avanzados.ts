@@ -1,19 +1,6 @@
-type Mapeo = {
-  [key: string]: {
-    nombre: string;
-    visibleTabla: boolean;
-    visibleFiltro: boolean;
-    ordenable: boolean;
-    campoTipo:
-      | 'IntegerField'
-      | 'FloatField'
-      | 'CharField'
-      | 'DateField'
-      | 'Booleano';
-  }[];
-};
+import { MapeoBuscarAvanzado } from "@comun/type/mapeo-buscar-avanzados.type";
 
-export const mapeo: Mapeo = {
+export const mapeo: Partial<MapeoBuscarAvanzado> = {
   GenContacto: [
     {
       nombre: 'ID',

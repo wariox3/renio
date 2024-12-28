@@ -34,6 +34,7 @@ import {
 } from '@angular/animations';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
+import { Modelo } from '@comun/type/modelo.type';
 
 @Component({
   selector: 'app-base-filtro',
@@ -400,10 +401,18 @@ export class BaseFiltroComponent extends General implements OnInit {
     const filtro = this.filtros.controls[index] as FormGroup;
     this.tituloModal = filtro.get('modeloBusquedaAvanzada')?.value;
     this.initFormulularioModal();
-    let posicion: keyof typeof mapeo = this.tituloModal;
-    this.arrPropiedadBusquedaAvanzada = mapeo[posicion].filter(
-      (propiedad) => propiedad.visibleFiltro === true
-    );
+
+    const posicion = this.tituloModal as keyof typeof mapeo;
+
+    // Validar que posicion exista en mapeo
+    if (posicion && mapeo[posicion] !== undefined) {
+      this.arrPropiedadBusquedaAvanzada = mapeo[posicion]!.filter(
+        (propiedad) => propiedad.visibleFiltro === true
+      );
+    } else {
+      this.arrPropiedadBusquedaAvanzada = []; // En caso de que no exista, asigna un arreglo vacío
+    }
+
     this.agregarNuevoFiltroModal();
     this.criteriosBusquedaModal = [];
     this.consultarLista([], this.tituloModal);
@@ -413,6 +422,8 @@ export class BaseFiltroComponent extends General implements OnInit {
     });
     this.changeDetectorRef.detectChanges();
   }
+
+
 
   cerrarModal(item: any) {
     const filtro = this.filtros.controls[
