@@ -426,6 +426,8 @@ export default class EgresoFormularioComponent
   }
 
   agregarCuentaSeleccionado(cuenta: any, index: number) {
+    this.documentoDetalleSeleccionarTodos = false;
+
     this.detalles.controls[index].patchValue({
       cuenta: cuenta.cuenta_id,
       cuenta_codigo: cuenta.cuenta_codigo,
@@ -442,7 +444,6 @@ export default class EgresoFormularioComponent
     this.formularioEgreso?.markAsDirty();
     this.formularioEgreso?.markAsTouched();
     const detallesArray = this.formularioEgreso.get('detalles') as FormArray;
-
     // Iterar de manera inversa
     for (let index = detallesArray.controls.length - 1; index >= 0; index--) {
       const detalleControl = detallesArray.controls[index];
@@ -524,13 +525,14 @@ export default class EgresoFormularioComponent
   agregarRegistrosEliminar(index: number, id: number) {
     // Busca el índice del registro en el array de registros a eliminar
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    detalleFormGroup.get('seleccionado')?.patchValue(true);
     const posicion = this.arrRegistrosEliminar.indexOf(id);
     // Si el registro ya está en el array, lo elimina
     if (posicion !== -1) {
       this.arrRegistrosEliminar.splice(posicion, 1);
+      detalleFormGroup.get('seleccionado')?.patchValue(false);
     } else {
       // Si el registro no está en el array, lo agrega
+      detalleFormGroup.get('seleccionado')?.patchValue(true);
       this.arrRegistrosEliminar.push(posicion);
     }
   }
@@ -544,6 +546,7 @@ export default class EgresoFormularioComponent
   }
 
   agregarDocumentosPago() {
+    this.documentoDetalleSeleccionarTodos = false;
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id
