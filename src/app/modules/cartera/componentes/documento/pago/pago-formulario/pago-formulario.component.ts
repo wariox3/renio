@@ -33,6 +33,7 @@ import ContactoFormulario from '../../../../../general/componentes/contacto/cont
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -57,6 +58,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
   ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
+  private _operacionesService = inject(OperacionesService);
+
   formularioFactura: FormGroup;
   active: Number;
   arrContactos: any[] = [];
@@ -485,7 +488,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     });
     this.total += this.totalCredito - this.totalDebito;
     this.formularioFactura.patchValue({
-      total: this.total,
+      total: this._operacionesService.redondear(this.total, 2),
     });
   }
 
