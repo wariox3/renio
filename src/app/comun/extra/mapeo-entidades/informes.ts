@@ -828,7 +828,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'BASE_IMPUESTO',
       campoTipo: 'IntegerField',
-      visibleTabla: true,
+      visibleTabla: false,
       visibleFiltro: false,
       aplicaFormatoNumerico: true,
       ordenable: false,
