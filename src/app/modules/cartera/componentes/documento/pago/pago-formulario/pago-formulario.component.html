@@ -180,7 +180,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 1}"
+                [ngClass]="{ 'text-primary': active === 1 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -415,7 +415,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 2}"
+                [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
@@ -513,7 +513,7 @@
                   id="agregarDocumentoSeleccionarTodos"
                   [checked]="agregarDocumentoSeleccionarTodos"
                   [value]="agregarDocumentoSeleccionarTodos"
-                  (change)="agregarDocumentosToggleSelectAll()"
+                  (change)="agregarDocumentosToggleSelectAll($event)"
                 />
               </label>
             </th>
@@ -567,8 +567,8 @@
                   type="checkbox"
                   [id]="item['id']"
                   [value]="item['id']"
-                  (change)="agregarDocumentoSeleccionado(item)"
-                  [checked]="item.selected"
+                  (change)="agregarDocumentoSeleccionado(item['id'])"
+                  [checked]="estoyEnListaAgregar(item['id'])"
                 />
               </label>
             </td>

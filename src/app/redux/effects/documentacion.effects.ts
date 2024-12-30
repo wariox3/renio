@@ -12,7 +12,6 @@ export class DocumentacionEffects {
       this.actions$.pipe(
         ofType(asignarDocumentacion), // Intercepta la acción de establecer documentacionId
         tap(({ id, nombre }) => {
-          console.log({ id, nombre });
 
           // Guardar en localStorage
           localStorage.setItem(

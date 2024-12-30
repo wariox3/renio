@@ -374,15 +374,18 @@ export default class PagoFormularioComponent extends General implements OnInit {
       });
   }
 
-  agregarDocumentoSeleccionado(documento: any) {
-    const index = this.arrDocumentosSeleccionados.indexOf(documento);
+  // Esta función agrega o elimina un registro del array de registros a eliminar según su presencia actual en el array.
+  agregarDocumentoSeleccionado(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const index = this.arrDocumentosSeleccionados.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
     if (index !== -1) {
-      this.totalSeleccionado -= documento.total;
       this.arrDocumentosSeleccionados.splice(index, 1);
     } else {
-      this.totalSeleccionado += documento.total;
-      this.arrDocumentosSeleccionados.push(documento);
+      // Si el registro no está en el array, lo agrega
+      this.arrDocumentosSeleccionados.push(id);
     }
+    this.calcularTotalDocumentosAgregados();
   }
 
   agregarDocumentosPago() {
@@ -424,22 +427,45 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarDocumentosToggleSelectAll() {
-    this.arrDocumentos.forEach((item: any) => {
-      item.selected = !item.selected;
-      const index = this.arrDocumentosSeleccionados.find(
-        (documento) => documento.id === item.id
-      );
-      if (index) {
-        this.totalSeleccionado -= item.total;
-        this.arrDocumentosSeleccionados.splice(index, 1);
-      } else {
-        this.totalSeleccionado += item.total;
-        this.arrDocumentosSeleccionados.push(item);
-      }
-    });
+  // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
+  agregarDocumentosToggleSelectAll(event: Event) {
+    const seleccionarTodos = event.target as HTMLInputElement;
     this.agregarDocumentoSeleccionarTodos =
       !this.agregarDocumentoSeleccionarTodos;
+
+    if (seleccionarTodos.checked) {
+      this.arrDocumentos.forEach((item: any) => {
+        item.selected = !item.selected;
+        const index = this.arrDocumentosSeleccionados.indexOf(item.id);
+        if (index === -1) {
+          this.arrDocumentosSeleccionados.push(item.id);
+        }
+        this.changeDetectorRef.detectChanges();
+      });
+    } else {
+      this.arrDocumentos.forEach((item: any) => {
+        item.selected = !item.selected;
+      });
+
+      this.arrDocumentosSeleccionados = [];
+    }
+    this.calcularTotalDocumentosAgregados();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  estoyEnListaAgregar(id: number): boolean {
+    return this.arrDocumentosSeleccionados.indexOf(id) !== -1;
+  }
+
+  calcularTotalDocumentosAgregados() {
+    this.totalSeleccionado = 0;
+    this.arrDocumentosSeleccionados.map((id) => {
+      console.log(id);
+      let documentoSeleccionado = this.arrDocumentos.find(
+        (documento: any) => documento.id === id
+      );
+      this.totalSeleccionado += documentoSeleccionado.total;
+    });
     this.changeDetectorRef.detectChanges();
   }
 
