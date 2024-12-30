@@ -486,23 +486,33 @@ export default class EgresoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarDocumentosToggleSelectAll() {
+
+  // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
+  agregarDocumentosToggleSelectAll(event: Event) {
     this.mostrarTodasCuentasPorPagar = false;
-    this.arrDocumentos.forEach((item: any) => {
-      item.selected = !item.selected;
-      const index = this.arrDocumentosSeleccionados.find(
-        (documento) => documento.id === item.id
-      );
-      if (index) {
-        this.arrDocumentosSeleccionados.splice(index, 1);
-      } else {
-        this.arrDocumentosSeleccionados.push(item);
-      }
-    });
+    const seleccionarTodos = event.target as HTMLInputElement;
     this.agregarDocumentoSeleccionarTodos =
       !this.agregarDocumentoSeleccionarTodos;
+
+    if (seleccionarTodos.checked) {
+      this.arrDocumentos.forEach((item: any) => {
+        item.selected = !item.selected;
+        const index = this.arrDocumentosSeleccionados.indexOf(item.id);
+        if (index === -1) {
+          this.arrDocumentosSeleccionados.push(item.id);
+        }
+        this.changeDetectorRef.detectChanges();
+      });
+    } else {
+      this.arrDocumentos.forEach((item: any) => {
+        item.selected = !item.selected;
+      });
+
+      this.arrDocumentosSeleccionados = [];
+    }
     this.changeDetectorRef.detectChanges();
   }
+
 
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
@@ -555,13 +565,21 @@ export default class EgresoFormularioComponent
     this.calcularTotales();
   }
 
-  agregarDocumentoSeleccionado(documento: any) {
-    const index = this.arrDocumentosSeleccionados.indexOf(documento);
+  // Esta función agrega o elimina un registro del array de registros a eliminar según su presencia actual en el array.
+  agregarDocumentoSeleccionado(id: number) {
+    // Busca el índice del registro en el array de registros a eliminar
+    const index = this.arrDocumentosSeleccionados.indexOf(id);
+    // Si el registro ya está en el array, lo elimina
     if (index !== -1) {
       this.arrDocumentosSeleccionados.splice(index, 1);
     } else {
-      this.arrDocumentosSeleccionados.push(documento);
+      // Si el registro no está en el array, lo agrega
+      this.arrDocumentosSeleccionados.push(id);
     }
+  }
+
+  estoyEnListaAgregar(id: number): boolean {
+    return this.arrDocumentosSeleccionados.indexOf(id) !== -1;
   }
 
   abrirModalContactoNuevo(content: any) {

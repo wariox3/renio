@@ -547,7 +547,7 @@
                   id="agregarDocumentoSeleccionarTodos"
                   [checked]="agregarDocumentoSeleccionarTodos"
                   [value]="agregarDocumentoSeleccionarTodos"
-                  (change)="agregarDocumentosToggleSelectAll()"
+                  (change)="agregarDocumentosToggleSelectAll($event)"
                 />
               </label>
             </th>
@@ -593,7 +593,7 @@
                 <i
                   class="cursor-pointer"
                   [ngClass]="
-                    checked.checked
+                    estoyEnListaAgregar(item['id'])
                       ? 'fa-solid fa-square-check text-danger fs-1'
                       : 'fa-regular fa-square text-gray-500 fs-1'
                   "
@@ -602,13 +602,12 @@
                   <span class="path2"></span>
                 </i>
                 <input
-                  #checked
                   class="d-none"
                   type="checkbox"
                   [id]="item['id']"
                   [value]="item['id']"
                   (change)="agregarDocumentoSeleccionado(item)"
-                  [checked]="item.selected"
+                  [checked]="estoyEnListaAgregar(item['id'])"
                 />
               </label>
             </td>
