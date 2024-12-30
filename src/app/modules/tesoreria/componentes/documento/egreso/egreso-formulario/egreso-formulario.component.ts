@@ -34,6 +34,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -62,6 +63,8 @@ export default class EgresoFormularioComponent
   extends General
   implements OnInit
 {
+  private readonly _operacionesService = inject(OperacionesService);
+
   tapActivo = 1;
   formularioEgreso: FormGroup;
   estado_aprobado: false;
@@ -231,7 +234,7 @@ export default class EgresoFormularioComponent
     });
     this.total += this.totalDebito - this.totalCredito;
     this.formularioEgreso.patchValue({
-      total: this.total,
+      total: this._operacionesService.redondear(this.total, 2),
     });
   }
 
