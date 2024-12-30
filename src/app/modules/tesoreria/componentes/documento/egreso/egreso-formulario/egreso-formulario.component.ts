@@ -459,8 +459,7 @@ export default class EgresoFormularioComponent
     }
 
     this.calcularTotales();
-    this.agregarDocumentoSeleccionarTodos =
-      !this.agregarDocumentoSeleccionarTodos;
+    this.documentoDetalleSeleccionarTodos = false;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -482,7 +481,6 @@ export default class EgresoFormularioComponent
           ?.setValue(!detalleControl.get('seleccionado')?.value);
       });
     }
-
     this.changeDetectorRef.detectChanges();
   }
 
