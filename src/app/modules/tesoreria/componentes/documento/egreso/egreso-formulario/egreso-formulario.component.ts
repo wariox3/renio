@@ -477,14 +477,11 @@ export default class EgresoFormularioComponent
       });
     } else {
       detallesArray.controls.forEach((detalleControl: any) => {
-        detalleControl
-          .get('seleccionado')
-          ?.setValue(!detalleControl.get('seleccionado')?.value);
+        detalleControl.get('seleccionado')?.setValue(false);
       });
     }
     this.changeDetectorRef.detectChanges();
   }
-
 
   // Esta función alterna la selección de todos los registros y actualiza el array de registros a eliminar en consecuencia.
   agregarDocumentosToggleSelectAll(event: Event) {
@@ -512,7 +509,6 @@ export default class EgresoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-
   actualizarDetalle(index: number, campo: string, evento: any) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
 
@@ -523,18 +519,10 @@ export default class EgresoFormularioComponent
   }
 
   agregarRegistrosEliminar(index: number, id: number) {
-    // Busca el índice del registro en el array de registros a eliminar
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
-    const posicion = this.arrRegistrosEliminar.indexOf(id);
-    // Si el registro ya está en el array, lo elimina
-    if (posicion !== -1) {
-      this.arrRegistrosEliminar.splice(posicion, 1);
-      detalleFormGroup.get('seleccionado')?.patchValue(false);
-    } else {
-      // Si el registro no está en el array, lo agrega
-      detalleFormGroup.get('seleccionado')?.patchValue(true);
-      this.arrRegistrosEliminar.push(posicion);
-    }
+    detalleFormGroup
+      .get('seleccionado')
+      ?.patchValue(!detalleFormGroup.get('seleccionado')?.value);
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
