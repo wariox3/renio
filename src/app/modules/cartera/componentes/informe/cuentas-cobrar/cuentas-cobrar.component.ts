@@ -21,7 +21,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     TablaComponent,
     TranslateModule,
     BaseFiltroComponent,
-],
+  ],
   templateUrl: './cuentas-cobrar.component.html',
 })
 export class CuentasCobrarComponent extends General implements OnInit {
@@ -38,13 +38,11 @@ export class CuentasCobrarComponent extends General implements OnInit {
     ordenamientos: [],
     limite_conteo: 10000,
     modelo: 'GenDocumento',
-    serializador: "Informe"
+    serializador: 'Informe',
   };
   private _generalService = inject(GeneralService);
 
-  constructor(
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+  constructor(private descargarArchivosService: DescargarArchivosService) {
     super();
   }
 
@@ -68,33 +66,14 @@ export class CuentasCobrarComponent extends General implements OnInit {
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          fecha_contable: documento.fecha_contable,
-          contacto: documento.contacto_nombre_corto,
+          documento_tipo_id: documento.documento_tipo_id,
+          documento_tipo_nombre: documento.documento_tipo_nombre,
+          contacto_nombre_corto: documento.contacto_nombre_corto,
           subtotal: documento.subtotal,
-          base_impuesto: documento.base_impuesto,
           impuesto: documento.impuesto,
-          descuento: documento.descuento,
           total: documento.total,
           afectado: documento.afectado,
-          estado_anulado: documento.estado_anulado,
-          estado_aprobado: documento.estado_aprobado,
-          estado_electronico: documento.estado_electronico,
-          estado_electronico_enviado: documento.estado_electronico_enviado,
-          estado_electronico_notificado:
-            documento.estado_electronico_notificado,
-          pendiente: documento.pendiente,
-          documento_tipo: documento.documento_tipo,
-          metodo_pago: documento.metodo_pago,
-          contacto_id: documento.contacto_id,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
-          soporte: documento.soporte,
-          orden_compra: documento.orden_compra,
-          cue: documento.cue,
-          empresa: documento,
-          resolucion: documento,
-          documento_referencia: documento,
-          plazo_pago: documento.plazo_pago,
-          comentario: documento.comentario,
+          pendiente: documento.pendiente
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -135,7 +114,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,
-        excel: true
+        excel: true,
       },
     });
   }

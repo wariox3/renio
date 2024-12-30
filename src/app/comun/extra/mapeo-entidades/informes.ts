@@ -126,14 +126,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'FECHA_CONTABLE',
-      campoTipo: 'DateField',
-      visibleFiltro: false,
-      visibleTabla: false,
-      ordenable: false,
-    },
-    {
-      nombre: 'documento_tipo',
+      nombre: 'documento_tipo_id',
       nombreAbreviadoFiltro: 'DOCUMENTO_TIPO_ID_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO_TIPO_ID',
       campoTipo: 'Fk',
