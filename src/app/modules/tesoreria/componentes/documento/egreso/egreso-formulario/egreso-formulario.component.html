@@ -606,7 +606,7 @@
                   type="checkbox"
                   [id]="item['id']"
                   [value]="item['id']"
-                  (change)="agregarDocumentoSeleccionado(item)"
+                  (change)="agregarDocumentoSeleccionado(item['id'])"
                   [checked]="estoyEnListaAgregar(item['id'])"
                 />
               </label>

@@ -78,7 +78,7 @@ export default class EgresoFormularioComponent
   arrDocumentos: any[] = [];
   arrBancos: any[] = [];
   arrDetallesEliminado: number[] = [];
-  arrDocumentosSeleccionados: any[] = [];
+  arrDocumentosSeleccionados: number[] = [];
   arrRegistrosEliminar: number[] = [];
   arrFiltrosEmitidosAgregarDocumento: any[] = [];
   arrFiltrosPermanenteAgregarDocumento: any[] = [
@@ -546,18 +546,21 @@ export default class EgresoFormularioComponent
   }
 
   agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((documento) => {
+    this.arrDocumentosSeleccionados.map((id) => {
+      let documentoSeleccionado = this.arrDocumentos.find(
+        (documento: any) => documento.id === id
+      );
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
-        documento_afectado: [documento.id],
-        numero: [documento.numero],
-        contacto: [documento.contacto],
-        contacto_nombre: [documento.contacto_nombre],
-        pago: [documento.pendiente],
+        documento_afectado: [documentoSeleccionado.id],
+        numero: [documentoSeleccionado.numero],
+        contacto: [documentoSeleccionado.contacto],
+        contacto_nombre: [documentoSeleccionado.contacto_nombre],
+        pago: [documentoSeleccionado.pendiente],
         seleccionado: [false],
-        cuenta: [documento.cuenta],
-        cuenta_codigo: [documento.cuenta_codigo],
-        naturaleza: [documento.naturaleza],
+        cuenta: [documentoSeleccionado.cuenta],
+        cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
+        naturaleza: [documentoSeleccionado.naturaleza],
       });
       this.detalles.push(detalleFormGroup);
     });

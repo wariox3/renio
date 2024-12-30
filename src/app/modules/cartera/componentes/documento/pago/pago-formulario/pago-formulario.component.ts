@@ -64,7 +64,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   active: Number;
   arrContactos: any[] = [];
   arrDocumentos: any[] = [];
-  arrDocumentosSeleccionados: any[] = [];
+  arrDocumentosSeleccionados: number[] = [];
   arrDetallesEliminado: number[] = [];
   arrRegistrosEliminar: number[] = [];
   documentoDetalleSeleccionarTodos = false;
@@ -389,18 +389,21 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((documento) => {
+    this.arrDocumentosSeleccionados.map((id) => { 
+      let documentoSeleccionado = this.arrDocumentos.find(
+        (documento: any) => documento.id === id
+      );
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
-        documento_afectado: [documento.id],
-        numero: [documento.numero],
-        contacto: [documento.contacto],
-        contacto_nombre: [documento.contacto_nombre],
-        pago: [documento.pendiente],
+        documento_afectado: [documentoSeleccionado.id],
+        numero: [documentoSeleccionado.numero],
+        contacto: [documentoSeleccionado.contacto],
+        contacto_nombre: [documentoSeleccionado.contacto_nombre],
+        pago: [documentoSeleccionado.pendiente],
         seleccionado: [false],
-        cuenta: [documento.cuenta],
-        cuenta_codigo: [documento.cuenta_codigo],
-        naturaleza: [documento.naturaleza],
+        cuenta: [documentoSeleccionado.cuenta],
+        cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
+        naturaleza: [documentoSeleccionado.naturaleza],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -460,7 +463,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
   calcularTotalDocumentosAgregados() {
     this.totalSeleccionado = 0;
     this.arrDocumentosSeleccionados.map((id) => {
-      console.log(id);
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id
       );
