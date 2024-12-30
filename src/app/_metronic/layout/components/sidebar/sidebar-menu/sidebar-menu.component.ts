@@ -1,12 +1,27 @@
+import {
+  CommonModule,
+  LowerCasePipe,
+  NgClass,
+  NgFor,
+  UpperCasePipe,
+} from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  Router,
-  RouterLinkActive,
-  RouterLink,
   ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
 } from '@angular/router';
+import { informacionMenuItem } from '@interfaces/menu/menu';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { TranslateModule } from '@ngx-translate/core';
+import { asignarArchivoImportacionLista } from '@redux/actions/archivo-importacion.actions';
+import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
+import {
+  ActualizarDataItem,
+  selecionModuloAction,
+} from '@redux/actions/menu.actions';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerMenuInformacion,
@@ -14,19 +29,7 @@ import {
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
-import {
-  NgFor,
-  NgClass,
-  UpperCasePipe,
-  LowerCasePipe,
-  CommonModule,
-} from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { informacionMenuItem } from '@interfaces/menu/menu';
-import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
-import { asignarArchivoImportacionLista } from '@redux/actions/archivo-importacion.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -97,7 +100,7 @@ export class SidebarMenuComponent implements OnInit {
     this._cargarReducerData(childrenFound);
   }
 
-  private _cargarReducerData(item: informacionMenuItem | undefined) {
+  private _cargarReducerData(item: informacionMenuItem) {
     if (item?.archivoImportacionLista !== undefined) {
       this.store.dispatch(
         asignarArchivoImportacionLista({
@@ -106,8 +109,10 @@ export class SidebarMenuComponent implements OnInit {
       );
     }
 
+    this.store.dispatch(ActualizarDataItem({ dataItem: item }));
+
     this.store.dispatch(
-      asignarDocumentacionId({ id: item?.documentacionId || 0 })
+      asignarDocumentacion({ id: item?.documentacionId || 0, nombre: item.nombre })
     );
   }
 
@@ -159,8 +164,13 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
+
+    this.store.dispatch(ActualizarDataItem({ dataItem: item }));
     this.store.dispatch(
-      asignarDocumentacionId({ id: item?.documentacionId || 0 })
+      asignarDocumentacion({
+        id: item?.documentacionId || 0,
+        nombre: item.nombre,
+      })
     );
 
     if (item?.data?.filtrosLista) {
@@ -189,8 +199,12 @@ export class SidebarMenuComponent implements OnInit {
 
   navegarNuevo(item: informacionMenuItem) {
     this.store.dispatch(
-      asignarDocumentacionId({ id: item?.documentacionId || 0 })
+      asignarDocumentacion({
+        id: item?.documentacionId || 0,
+        nombre: item.nombre,
+      })
     );
+
     let parametros = this.construirParametros(item);
     localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
     localStorage.setItem('itemNombre_filtros', JSON.stringify({}));

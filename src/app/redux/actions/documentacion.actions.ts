@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-export const asignarDocumentacionId = createAction(
-  '[Documentacion] asignar documentacion id',
-  props<{ id: number }>()
+export const asignarDocumentacion = createAction(
+  '[Documentacion] asignar documentacion',
+  props<{ id: number, nombre: string }>()
 );

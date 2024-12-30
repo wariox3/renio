@@ -17,10 +17,19 @@ import {
   obtenerUsuarioId,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
-import { catchError, combineLatest, debounceTime, finalize, of, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  debounceTime,
+  finalize,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
-import { ContenedorInvitacionComponent } from "../contenedor-invitacion/contenedor-invitacion.component";
-import { ContenedorEditarComponent } from "../contenedor-editar/contenedor-editar.component";
+import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
+import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
+import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -37,8 +46,8 @@ import { ContenedorEditarComponent } from "../contenedor-editar/contenedor-edita
     NgbDropdownModule,
     SkeletonLoadingComponent,
     ContenedorInvitacionComponent,
-    ContenedorEditarComponent
-],
+    ContenedorEditarComponent,
+  ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
@@ -56,7 +65,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   constructor(
     private contenedorService: ContenedorService,
     private subdominioService: SubdominioService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -70,6 +79,8 @@ export class ContenedorListaComponent extends General implements OnInit {
         environment.dominioHttp
       }://${environment.dominioApp.slice(1)}/contenedor/lista`;
     }
+
+    this.store.dispatch(asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' }));
 
     this.consultarLista();
     this.limpiarEmpresa();
@@ -204,7 +215,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         if (respuesta.isConfirmed) {
           if (respuesta.value === empresa_subdominio) {
             this.procesando = true;
-            this.changeDetectorRef.detectChanges()
+            this.changeDetectorRef.detectChanges();
             this.contenedorService
               .eliminarEmpresa(empresa_id)
               .pipe(
@@ -219,7 +230,7 @@ export class ContenedorListaComponent extends General implements OnInit {
                 debounceTime(500),
                 finalize(() => {
                   this.procesando = false;
-                }),
+                })
               )
               .subscribe();
           } else {
@@ -260,12 +271,11 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   abrirModal(content: any, contenedor_id: number) {
-    this.contenedorId = contenedor_id
+    this.contenedorId = contenedor_id;
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
     this.changeDetectorRef.detectChanges();
   }
-
 }

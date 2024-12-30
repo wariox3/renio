@@ -6,7 +6,10 @@ import { General } from '@comun/clases/general';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { obtenerDocumentacionIdSeleccion } from '@redux/selectors/documentacion.selector';
+import {
+  obtenerDocumentacionIdSeleccion,
+  obtenerDocumentacionNombreSeleccion,
+} from '@redux/selectors/documentacion.selector';
 
 @Component({
   selector: 'app-help-drawer',
@@ -41,9 +44,16 @@ export class HelpDrawerComponent extends General implements OnInit {
   }
 
   tooltipTexto(): string {
-    return (
-      'Ir a la documentación de: ' +
-      this.translateService.instant('MENU.FUNCIONALIDAD.' + this.modelo)
-    );
+    let tooltip = '';
+    this.store
+      .select(obtenerDocumentacionNombreSeleccion)
+      .subscribe((nombre) => {
+        tooltip =
+          'Ir a la documentación de: ' +
+          this.translateService.instant('MENU.FUNCIONALIDAD.' + nombre);
+      })
+      .unsubscribe();
+
+    return tooltip;
   }
 }

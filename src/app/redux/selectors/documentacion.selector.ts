@@ -7,3 +7,8 @@ export const obtenerDocumentacionIdSeleccion = createSelector(
   Documentacion,
   (Documentacion) => Documentacion.id
 );
+
+export const obtenerDocumentacionNombreSeleccion = createSelector(
+  Documentacion,
+  (Documentacion) => Documentacion.nombre
+);

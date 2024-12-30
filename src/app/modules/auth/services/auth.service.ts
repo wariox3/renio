@@ -6,7 +6,7 @@ import { Usuario } from '@interfaces/usuario/usuario';
 import { Token } from '@modulos/auth/interfaces/token.interface';
 import { Store } from '@ngrx/store';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
+import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -80,7 +80,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.authLocalStorageToken);
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
-    this.store.dispatch(asignarDocumentacionId({ id: 0 }));
+    this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
     removeCookie('usuario', { path: '/', domain: environment.dominioApp });
     removeCookie('usuario', { path: '/' });
     const patrones = ['empresa-', 'contenedor-', 'configuracion'];

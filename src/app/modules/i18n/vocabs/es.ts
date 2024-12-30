@@ -97,6 +97,7 @@ export const locale = {
         CUENTADECOBRO: 'Cuenta de cobro',
         APORTE: 'Aporte',
         EVENTOSDIAN: 'Eventos DIAN',
+        CONTENEDORES: 'Contenedores',
       },
     },
     FORMULARIOS: {

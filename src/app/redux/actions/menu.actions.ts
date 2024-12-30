@@ -1,3 +1,4 @@
+import { informacionMenuItem } from '@interfaces/menu/menu';
 import { createAction, props } from '@ngrx/store';
 
 export const selecionModuloAction = createAction(
@@ -13,4 +14,9 @@ export const ActualizarMapeo = createAction(
 export const ActualizarCampoMapeo = createAction(
   '[Menu] Actualizar campo mapeo',
   props<{ dataMapeo: any }>()
+);
+
+export const ActualizarDataItem = createAction(
+  '[Menu] Actualizar data mapeo',
+  props<{ dataItem: informacionMenuItem }>()
 );

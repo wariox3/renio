@@ -1,18 +1,20 @@
 import { Documentacion } from '@interfaces/comunes/documentacion/documentacion';
 import { createReducer, on } from '@ngrx/store';
-import { asignarDocumentacionId } from '@redux/actions/documentacion.actions';
-
+import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 
 export const initialState: Documentacion = {
-  id: localStorage.getItem('documentacionId')
-    ? parseInt(localStorage.getItem('documentacionId') || '0', 10)
+  id: localStorage.getItem('documentacion')
+    ? JSON.parse(localStorage.getItem('documentacion') || '{}').id || 0
     : 0,
+  nombre: localStorage.getItem('documentacion')
+    ? JSON.parse(localStorage.getItem('documentacion') || '{}').nombre || ''
+    : '',
 };
-
 export const documentacionReducer = createReducer(
   initialState,
-  on(asignarDocumentacionId, (state, { id }) => ({
+  on(asignarDocumentacion, (state, { id, nombre }) => ({
     ...state,
     id,
+    nombre,
   }))
 );

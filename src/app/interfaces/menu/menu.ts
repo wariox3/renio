@@ -58,5 +58,6 @@ export interface MenuItem {
   seleccion: string;
   informacion: informacionMenuItem[];
   dataMapeo: any[];
+  dataItem:  informacionMenuItem;
   modulos: AplicacionModulo[];
 }

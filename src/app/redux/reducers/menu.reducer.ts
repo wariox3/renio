@@ -2,6 +2,7 @@ import { MenuItem } from '@interfaces/menu/menu';
 import { createReducer, on } from '@ngrx/store';
 import {
   ActualizarCampoMapeo,
+  ActualizarDataItem,
   ActualizarMapeo,
   selecionModuloAction,
 } from '../actions/menu.actions';
@@ -869,6 +870,9 @@ export const initialState: MenuItem = {
     'transporte',
   ],
   dataMapeo: [],
+  dataItem: {
+    nombre: ''
+  },
 };
 
 export const menuReducer = createReducer(
@@ -884,5 +888,9 @@ export const menuReducer = createReducer(
   on(ActualizarCampoMapeo, (state, { dataMapeo }) => ({
     ...state,
     dataMapeo,
+  })),
+  on(ActualizarDataItem, (state, { dataItem }) => ({
+    ...state,
+    dataItem,
   }))
 );
