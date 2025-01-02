@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(pago.id)"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="pago.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>

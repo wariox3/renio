@@ -42,10 +42,6 @@ export default class PagoDetalleComponent extends General {
     detalles: [],
     impuestos: [],
   };
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-  };
   tabActive = 1;
   constructor(
     private httpService: HttpService,
@@ -82,8 +78,6 @@ export default class PagoDetalleComponent extends General {
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.pago = respuestaConsultaDetalle.documento;
-            this.arrEstados.estado_aprobado =
-              respuestaConsultaDetalle.documento.estado_aprobado;
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
             );
