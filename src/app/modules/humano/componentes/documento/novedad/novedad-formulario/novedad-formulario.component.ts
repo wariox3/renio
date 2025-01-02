@@ -12,7 +12,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
@@ -244,7 +244,7 @@ export default class CreditoFormularioComponent
       ]);
       this.setValidators('dias_disfrutados', [
         Validators.required,
-        Validators.min(1),
+        Validators.min(0),
       ]);
       this.setValidators('dias_disfrutados_reales', [
         Validators.required,

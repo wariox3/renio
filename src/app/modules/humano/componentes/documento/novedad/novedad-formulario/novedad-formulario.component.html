@@ -222,7 +222,7 @@
             formControlName="dias_disfrutados"
             class="form-control"
             type="number"
-            min="1"
+            min="0"
             [ngClass]="{
               'is-invalid':
                 (formularioAdicional.controls['dias_disfrutados'].touched &&
@@ -237,7 +237,7 @@
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'min',
-              cantidadCaracteres: '1',
+              cantidadCaracteres: '0',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
               control: formularioAdicional.controls['dias_disfrutados']
