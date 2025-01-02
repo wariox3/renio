@@ -15,18 +15,10 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(documento.id)"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
-      <!-- <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="aprobar()" [disabled]="arrEstados.estado_aprobado">
-        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
-      </button>
-      <button type="button" class="btn btn-sm btn-danger" (click)="anular()"
-        [disabled]="!arrEstados.estado_aprobado || arrEstados.estado_anulado">
-        {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
-      </button> -->
       <button
         type="submit"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -36,26 +28,7 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
-      <!-- <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          (click)="emitir()" [disabled]="
-            !arrEstados.estado_aprobado ||
-            arrEstados.estado_electronico_enviado ||
-            arrEstados.estado_anulado
-          ">
-          {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
-        </button>
-      </div> -->
     </div>
-    <!-- <div class="btn-group btn-sm shadow-sm">
-      <app-log-electronico
-        [estadoElectronicoNotificado]="
-          arrEstados.estado_electronico_notificado
-        "
-        [estadoAnulado]="arrEstados.estado_anulado"
-        (emitirRenotificar)="consultardetalle()"
-      ></app-log-electronico>
-    </div> -->
   </section>
   <section class="encabezadoDetalleEstados">
     <app-base-estados [documento]="documento"></app-base-estados>

@@ -1,19 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -21,9 +13,10 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { EMPTY, of, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { EMPTY, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -37,19 +30,13 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
-    BuscarAvanzadoComponent,
-    SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
     KeysPipe,
-    LogElectronicoComponent,
     BaseEstadosComponent,
     DetallesTotalesComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaRecurrenteDetalleComponent extends General {
   active: Number;
@@ -67,6 +54,11 @@ export default class FacturaRecurrenteDetalleComponent extends General {
     metodo_pago: null,
     detalles: [],
     impuestos: [],
+    estado_aprobado: false,
+    estado_anulado: false,
+    estado_electronico: false,
+    estado_electronico_enviado: false,
+    estado_electronico_notificado: false,
   };
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -83,13 +75,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   arrValidaciones: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-    estado_electronico: false,
-    estado_electronico_enviado: false,
-    estado_electronico_notificado: false,
-  };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -129,15 +114,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
           this.totalBase += item.base_impuesto;
           this.changeDetectorRef.detectChanges();
         });
-        this.arrEstados = {
-          estado_aprobado: respuesta.documento.estado_aprobado,
-          estado_anulado: respuesta.documento.estado_anulado,
-          estado_electronico: respuesta.documento.estado_electronico,
-          estado_electronico_enviado:
-            respuesta.documento.estado_electronico_enviado,
-          estado_electronico_notificado:
-            respuesta.documento.estado_electronico_notificado,
-        };
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -160,8 +136,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
-            this.arrEstados.estado_aprobado =
-              respuestaConsultaDetalle.documento.estado_aprobado;
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
             );
@@ -191,8 +165,6 @@ export default class FacturaRecurrenteDetalleComponent extends General {
           if (respuesta) {
             this.documento = respuesta.documento;
             this._reniciarTotales();
-            this.arrEstados.estado_anulado =
-            respuesta.documento.estado_anulado;
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
             );
@@ -283,14 +255,13 @@ export default class FacturaRecurrenteDetalleComponent extends General {
     this.navegarDocumentoNuevo();
   }
 
-
-  private _reniciarTotales(){
+  private _reniciarTotales() {
     this.totalCantidad = 0;
     this.subtotalGeneral = 0;
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
     this.totalGeneral = 0;
     this.totalBase = 0;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 }

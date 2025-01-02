@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(documento.id)"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
@@ -23,7 +23,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -32,9 +32,9 @@
         class="btn btn-sm btn-danger"
         (click)="anular()"
         [disabled]="
-          !arrEstados.estado_aprobado ||
-          arrEstados.estado_anulado ||
-          arrEstados.estado_electronico_enviado
+          !documento.estado_aprobado ||
+          documento.estado_anulado ||
+          documento.estado_electronico_enviado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
@@ -54,9 +54,9 @@
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
           (click)="emitir()"
           [disabled]="
-            !arrEstados.estado_aprobado ||
-            arrEstados.estado_electronico_enviado ||
-            arrEstados.estado_anulado
+            !documento.estado_aprobado ||
+            documento.estado_electronico_enviado ||
+            documento.estado_anulado
           "
         >
           {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
@@ -66,8 +66,8 @@
     </div>
     <div class="btn-group btn-sm shadow-sm">
       <app-log-electronico
-        [estadoElectronicoNotificado]="arrEstados.estado_electronico_notificado"
-        [estadoAnulado]="arrEstados.estado_anulado"
+        [estadoElectronicoNotificado]="documento.estado_electronico_notificado"
+        [estadoAnulado]="documento.estado_anulado"
         (emitirRenotificar)="consultardetalle()"
       ></app-log-electronico>
     </div>
@@ -170,7 +170,7 @@
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 1}"
+              [ngClass]="{ 'text-primary': active === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -259,7 +259,7 @@
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 2}"
+              [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.PAGOS"
