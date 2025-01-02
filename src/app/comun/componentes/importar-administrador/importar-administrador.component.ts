@@ -65,7 +65,7 @@ export class ImportarAdministradorComponent
   }
 
   abrirModalContactoNuevo(content: any) {
-    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+    this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
       this.ubicacion,
       this.detalle
@@ -91,6 +91,7 @@ export class ImportarAdministradorComponent
             this.errorImportar = [];
             this.modalService.open(content, {
               ariaLabelledBy: 'modal-basic-title',
+              backdrop: 'static',
               size: 'xl',
             });
           })
@@ -118,6 +119,7 @@ export class ImportarAdministradorComponent
             this.errorImportar = [];
             this.modalService.open(content, {
               ariaLabelledBy: 'modal-basic-title',
+              backdrop: 'static',
               size: 'xl',
             });
           })

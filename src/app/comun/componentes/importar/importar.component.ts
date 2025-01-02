@@ -63,7 +63,7 @@ export class ImportarComponent extends General {
   }
 
   abrirModalContactoNuevo(content: any) {
-    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
+    this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
       this.ubicacion,
       undefined
@@ -90,6 +90,7 @@ export class ImportarComponent extends General {
           this.errorImportar = [];
           this.modalService.open(content, {
             ariaLabelledBy: 'modal-basic-title',
+            backdrop: 'static',
             size: 'xl',
           });
         })

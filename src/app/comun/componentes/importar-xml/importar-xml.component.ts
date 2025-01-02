@@ -55,6 +55,7 @@ export class ImportarXmlComponent  extends General {
   abrirModalContactoNuevo(content: any) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
       size: 'xl',
     });
   }

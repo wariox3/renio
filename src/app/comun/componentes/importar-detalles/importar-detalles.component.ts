@@ -49,6 +49,7 @@ export class ImportarDetallesComponent extends General {
     this.archivoNombre = '';
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
       size: 'xl',
     });
   }
