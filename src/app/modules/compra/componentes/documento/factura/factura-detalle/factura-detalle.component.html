@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(documento.id)"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
@@ -23,7 +23,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -131,7 +131,7 @@
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 1}"
+              [ngClass]="{ 'text-primary': active === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -188,7 +188,8 @@
                           }}
                         </td>
                         <td class="w-50 text-start">
-                          {{ detalle.item_nombre }} {{ detalle.cuenta_codigo }} {{detalle.cuenta_nombre}}
+                          {{ detalle.item_nombre }} {{ detalle.cuenta_codigo }}
+                          {{ detalle.cuenta_nombre }}
                         </td>
                         <td style="width: 10rem">
                           {{ detalle.cantidad }}
@@ -226,7 +227,7 @@
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 2}"
+              [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

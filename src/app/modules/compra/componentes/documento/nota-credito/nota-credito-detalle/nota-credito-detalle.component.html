@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(documento.id)"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
@@ -23,7 +23,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="arrEstados.estado_aprobado"
+        [disabled]="documento.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -45,7 +45,7 @@
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="emitir()"
         [disabled]="
-          !arrEstados.estado_aprobado || arrEstados.estado_electronico_enviado
+          !documento.estado_aprobado || documento.estado_electronico_enviado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
@@ -107,7 +107,7 @@
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 1}"
+              [ngClass]="{ 'text-primary': active === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -196,7 +196,7 @@
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 2}"
+              [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

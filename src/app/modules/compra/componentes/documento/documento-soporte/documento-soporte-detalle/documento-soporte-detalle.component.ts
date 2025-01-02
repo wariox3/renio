@@ -1,24 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { General } from '@comun/clases/general';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { HttpService } from '@comun/services/http.service';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { EMPTY, switchMap, tap } from 'rxjs';
-import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAnularComponent } from '@comun/componentes/btn-anular/btn-anular.component';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { HttpService } from '@comun/services/http.service';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { EMPTY, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-documento-soporte-detalle',
@@ -32,18 +26,13 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    TablaComponent,
-    ImpuestosComponent,
-    ProductosComponent,
-    BuscarAvanzadoComponent,
-    SoloNumerosDirective,
     CardComponent,
     BtnAtrasComponent,
     DetallesTotalesComponent,
     BaseEstadosComponent,
     BtnAnularComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -61,6 +50,11 @@ export default class FacturaDetalleComponent extends General {
     metodo_pago: null,
     detalles: [],
     impuestos: [],
+    estado_aprobado: false,
+    estado_anulado: false,
+    estado_electronico: false,
+    estado_electronico_enviado: false,
+    estado_electronico_notificado: false,
   };
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -74,13 +68,6 @@ export default class FacturaDetalleComponent extends General {
   arrMetodosPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-    estado_electronico: false,
-    estado_electronico_enviado: false,
-    estado_electronico_notificado: false,
-  };
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -120,15 +107,6 @@ export default class FacturaDetalleComponent extends General {
           this.totalBase += baseImpuesto;
           this.changeDetectorRef.detectChanges();
         });
-        this.arrEstados = {
-          estado_aprobado: respuesta.documento.estado_aprobado,
-          estado_anulado: respuesta.documento.estado_anulado,
-          estado_electronico: respuesta.documento.estado_electronico,
-          estado_electronico_enviado:
-            respuesta.documento.estado_electronico_enviado,
-          estado_electronico_notificado:
-            respuesta.documento.estado_electronico_notificado,
-        };
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -151,8 +129,6 @@ export default class FacturaDetalleComponent extends General {
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
-            this.arrEstados.estado_aprobado =
-              respuestaConsultaDetalle.documento.estado_aprobado;
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
             );
@@ -226,13 +202,13 @@ export default class FacturaDetalleComponent extends General {
       .subscribe();
   }
 
-  private _reniciarTotales(){
+  private _reniciarTotales() {
     this.totalCantidad = 0;
     this.subtotalGeneral = 0;
     this.totalDescuento = 0;
     this.totalImpuestos = 0;
     this.totalGeneral = 0;
     this.totalBase = 0;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 }
