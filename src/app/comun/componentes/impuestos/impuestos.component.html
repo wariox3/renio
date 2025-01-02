@@ -17,7 +17,8 @@
       </ng-container>
     </div>
     <div
-      class="col-4 d-flex align-items-end flex-column justify-content-center"
+      class="col-4 d-flex align-items-end flex-column justify-content-center "
+
     >
       <div
         ngbDropdown
@@ -41,7 +42,8 @@
         <div
           ngbDropdownMenu
           aria-labelledby="dropdownBasic1"
-          class="dropdown-menu z-3 position-absolute p-3 rounded-3"
+          class="dropdown-menu z-3  p-3 rounded-3"
+          style="max-height: 150px; overflow-y: scroll;"
          >
           <ng-container *ngFor="let impuesto of arrImpuestoLista">
             <button
