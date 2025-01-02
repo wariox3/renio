@@ -9,9 +9,7 @@
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(programacion.id)"
         [disabled]="
-          arrEstados.estado_aprobado ||
-          programacion.estado_aprobado ||
-          programacion.estado_generado
+          programacion.estado_aprobado || programacion.estado_generado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
@@ -48,9 +46,7 @@
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
         [disabled]="
-          arrEstados.estado_aprobado ||
-          !programacion.estado_generado ||
-          programacion.estado_aprobado
+          !programacion.estado_generado || programacion.estado_aprobado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
@@ -89,22 +85,20 @@
             }
           </button>
           @if(programacion.estado_aprobado){
-            <button
-              (click)="notificar()"
-              ngbDropdownItem
-              [disabled]="
-              notificando
-            "
-            >
+          <button
+            (click)="notificar()"
+            ngbDropdownItem
+            [disabled]="notificando"
+          >
             @if(notificando){
-              <div class="spinner-border spinner-border-sm" role="status">
-                <span class="sr-only"></span>
-              </div>
-              {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only"></span>
+            </div>
+            {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
             }@else {
-              {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
+            {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
             }
-            </button>
+          </button>
           }
         </div>
       </div>
@@ -325,7 +319,7 @@
           >
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 1}"
+              [ngClass]="{ 'text-primary': active === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -733,8 +727,7 @@
           >
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 2}"
-
+              [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"
@@ -1049,7 +1042,9 @@
               'is-invalid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
                 formularioAdicionalProgramacion.controls['valor'].invalid &&
-                formularioAdicionalProgramacion.controls['valor'].hasError('valorCero'),
+                formularioAdicionalProgramacion.controls['valor'].hasError(
+                  'valorCero'
+                ),
               'is-valid':
                 formularioAdicionalProgramacion.controls['valor'].touched &&
                 formularioAdicionalProgramacion.controls['valor'].valid

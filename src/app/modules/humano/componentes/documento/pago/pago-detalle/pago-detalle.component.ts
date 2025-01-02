@@ -53,13 +53,6 @@ export default class ProgramacionDetalleComponent
     fecha_hasta: '',
     detalles: [],
   };
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-    estado_electronico: false,
-    estado_electronico_enviado: false,
-    estado_electronico_notificado: false,
-  };
 
   constructor(private pagoService: PagoService, private httpService: HttpService) {
     super();
@@ -74,15 +67,6 @@ export default class ProgramacionDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.pago = respuesta.documento;
-        this.arrEstados = {
-          estado_aprobado: respuesta.documento.estado_aprobado,
-          estado_anulado: respuesta.documento.estado_anulado,
-          estado_electronico: respuesta.documento.estado_electronico,
-          estado_electronico_enviado:
-            respuesta.documento.estado_electronico_enviado,
-          estado_electronico_notificado:
-            respuesta.documento.estado_electronico_notificado,
-        };
         this.changeDetectorRef.detectChanges();
       });
   }

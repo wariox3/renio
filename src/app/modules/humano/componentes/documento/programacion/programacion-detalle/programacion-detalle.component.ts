@@ -108,14 +108,6 @@ export default class ProgramacionDetalleComponent
     estado_generado: false,
     estado_aprobado: false,
   };
-
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-    estado_electronico: false,
-    estado_electronico_enviado: false,
-    estado_electronico_notificado: false,
-  };
   pago: any = {};
   pagoDetalles: any = {};
   arrParametrosConsulta: ParametrosFiltros;
