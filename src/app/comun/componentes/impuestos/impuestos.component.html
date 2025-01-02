@@ -1,4 +1,4 @@
-<div class="form-control form-control-sm">
+<div class="form-control form-control-sm cursor-pointer" (click)="ImpuestoDropdown.open()">
   <div class="row justify-content-between">
     <div class="col-8 d-flex flex-wrap align-items-start gap-1">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
@@ -9,8 +9,9 @@
           {{ impuesto.impuesto_nombre }}
           <i
             class="bi bi-x fs-1x text-white cursor-pointer"
-            (click)="removerItem(impuesto)"
-            title="Retirar {{ impuesto.impuesto_nombre_extendido }}"
+            (click)="removerItem(impuesto); $event.stopPropagation()"
+            placement="top"
+            ngbTooltip="Retirar {{ impuesto.impuesto_nombre_extendido }}"
             *ngIf="estadoAprobado"
           ></i>
         </span>

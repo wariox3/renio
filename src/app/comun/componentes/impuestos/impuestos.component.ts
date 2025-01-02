@@ -12,7 +12,7 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { tap } from 'rxjs';
 import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
@@ -24,6 +24,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     CommonModule,
     TranslateModule,
     NgbDropdownModule,
+    NgbTooltipModule,
     SoloNumerosDirective,
   ],
   templateUrl: './impuestos.component.html',
