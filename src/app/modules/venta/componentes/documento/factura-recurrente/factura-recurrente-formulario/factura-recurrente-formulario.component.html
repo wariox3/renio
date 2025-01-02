@@ -5,7 +5,7 @@
       <app-comun-titulo-accion></app-comun-titulo-accion>
     </section>
     <section card-body>
-      <div class="row mb-5">
+        <div class="row mb-5">
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
             class="form-label required"
@@ -725,8 +725,8 @@
                                     pago.get('pago')?.value === 0
                                 }"
                                 rows="1"
-                                spellcheck="true"
                                 appSoloNumeros
+                                [permiteDecimales]="true"
                               />
                               <div
                                 *ngIf="
