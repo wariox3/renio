@@ -240,7 +240,7 @@ export default class CreditoFormularioComponent
       // 7 es igual a vacaciones
       this.setValidators('dias_dinero', [
         Validators.required,
-        Validators.min(1),
+        Validators.min(0),
       ]);
       this.setValidators('dias_disfrutados', [
         Validators.required,
