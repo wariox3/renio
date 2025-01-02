@@ -60,7 +60,7 @@ export default class GenerarComponent extends General {
       }))
       .subscribe((respuesta) => {
         this.alertaService.mensajaExitoso(
-          '¡Facturas electrónicas generadas exitosamente!'
+          '¡Nóminas electrónicas generadas exitosamente!'
         );
         this.modalDinamicoService.emitirEvento(true);
       });
