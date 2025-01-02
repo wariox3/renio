@@ -1,12 +1,15 @@
-<div class="form-control form-control-sm cursor-pointer" (click)="ImpuestoDropdown.open()">
+<div
+  class="form-control form-control-sm cursor-pointer"
+  (click)="ImpuestoDropdown.open()"
+>
   <div class="row justify-content-between">
     <div class="col-8 d-flex flex-wrap align-items-start gap-1">
       <ng-container *ngFor="let impuesto of arrImpuestoSeleccionados">
-        <span
-          class="badge badge-primary badge-sm"
-          title="{{ impuesto.impuesto_nombre_extendido }}"
-        >
-          {{ impuesto.impuesto_nombre }}
+        <span class="badge badge-primary badge-sm">
+          <span ngbTooltip={{impuesto.impuesto_nombre_extendido}}
+          >
+            {{ impuesto.impuesto_nombre }}
+          </span>
           <i
             class="bi bi-x fs-1x text-white cursor-pointer"
             (click)="removerItem(impuesto); $event.stopPropagation()"
@@ -18,8 +21,7 @@
       </ng-container>
     </div>
     <div
-      class="col-4 d-flex align-items-end flex-column justify-content-center "
-
+      class="col-4 d-flex align-items-end flex-column justify-content-center"
     >
       <div
         ngbDropdown
@@ -44,7 +46,7 @@
           ngbDropdownMenu
           aria-labelledby="dropdownBasic1"
           class="dropdown-menu z-3 p-3 rounded-3"
-         >
+        >
           <ng-container *ngFor="let impuesto of arrImpuestoLista">
             <button
               (click)="agregarImpuesto(impuesto)"
