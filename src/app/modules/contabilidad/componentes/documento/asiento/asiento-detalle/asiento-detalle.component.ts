@@ -44,10 +44,6 @@ export default class PagoDetalleComponent extends General {
     comprobante: 0,
     comprobante_nombre: ''
   };
-  arrEstados = {
-    estado_aprobado: false,
-    estado_anulado: false,
-  };
   detalles: any[] = [];
   tabActive = 1;
   constructor(
