@@ -1,14 +1,10 @@
 <!--begin::Header container-->
+
 <div
   class="app-container"
   id="kt_app_header_container"
   [ngClass]="headerContainerCssClass"
-  [ngStyle]="{
-    background:
-      theme_value === 'light' && currentLayoutType !== 'dark-header'
-        ? 'white'
-        : ''
-  }"
+  [ngStyle]="getBackground()"
 >
   <ng-container *ngIf="appSidebarDefaultCollapseDesktopEnabled">
     <div class="app-sidebar-collapse-d-flex align-items-center me-3">

@@ -1,3 +1,4 @@
+import { RegistroAutocompletarGenCuentaBanco } from './../../../../interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -28,7 +29,7 @@ import { NgClass, NgIf, NgStyle } from '@angular/common';
 export class HeaderComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   // Public props
-  currentLayoutType: LayoutType | null;
+  currentLayoutType: LayoutType | null = 'light-header';
 
   appHeaderDisplay: boolean;
   appHeaderDefaultFixedDesktop: boolean;
@@ -149,6 +150,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     this.unsubscribe.push(layoutSubscr);
   }
+
+  getBackground(){
+    let color = '#fff'
+    if(this.theme_value === 'dark'){
+      color = '#0c0e13'
+    }
+    if(this.currentLayoutType === 'dark-header'){
+      color = '#0c0e13'
+    }
+    return {
+      'background-color': color
+    }
+  }
+
 
   routingChanges() {
     const routerSubscription = this.router.events.subscribe((event) => {
