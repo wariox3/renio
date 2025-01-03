@@ -30,6 +30,7 @@ import {
 } from '@redux/selectors/menu.selectors';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -62,6 +63,13 @@ export class SidebarMenuComponent implements OnInit {
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit(): void {
+    this.store.dispatch(
+      configuracionVisualizarAction({
+        configuracion: {
+          visualizarApps: true,
+        },
+      })
+    );
     this.store
       .select(obtenerMenuSeleccion)
       .pipe(
@@ -112,7 +120,10 @@ export class SidebarMenuComponent implements OnInit {
     this.store.dispatch(ActualizarDataItem({ dataItem: item }));
 
     this.store.dispatch(
-      asignarDocumentacion({ id: item?.documentacionId || 0, nombre: item.nombre })
+      asignarDocumentacion({
+        id: item?.documentacionId || 0,
+        nombre: item.nombre,
+      })
     );
   }
 
@@ -164,7 +175,6 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   navegar(item: informacionMenuItem) {
-
     this.store.dispatch(ActualizarDataItem({ dataItem: item }));
     this.store.dispatch(
       asignarDocumentacion({
