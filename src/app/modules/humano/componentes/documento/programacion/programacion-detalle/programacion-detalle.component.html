@@ -2150,7 +2150,46 @@
             <tr>
               <td style="width: 50px">{{ detalle.id }}</td>
               <td>{{ detalle.concepto_id }}</td>
-              <td>{{ detalle.concepto_nombre }}</td>
+              <td>
+                <div>
+                  @if(detalle.editarLinea) {
+                    <div>
+                      <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+                        <div>
+                          <input
+                            #inputItem
+                            type="text"
+                            formControlName="impuestos"
+                            (focus)="consultarConceptos($event); ItemDropdown.open()"
+                            ngbDropdownAnchor
+                            class="cursor-pointer form-select form-select-sm w-100"
+                          />
+                          <div
+                            ngbDropdownMenu
+                            aria-labelledby="dropdownBasic1"
+                            class="dropdown-menu dropdown-menu-custom-width"
+                          >
+                            <ng-container *ngFor="let item of arrConceptos">
+                              <button
+                                class="text-wrap"
+                                type="button"
+                                (click)="agregarConcepto(item)"
+                                ngbDropdownItem
+                              >
+                                {{ item.concepto_nombre }}
+                              </button>
+                            </ng-container>
+                            <div class="dropdown-divider"></div>
+                  
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  } @else {
+                  {{ detalle.concepto_nombre }}
+                  }
+                </div>
+              </td>
               <td>{{ detalle.detalle }}</td>
               <td>{{ detalle.credito_id }}</td>
               <td class="text-end">{{ detalle.porcentaje }}</td>

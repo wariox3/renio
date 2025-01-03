@@ -1166,6 +1166,10 @@ export default class ProgramacionDetalleComponent
 
   }
 
+  agregarConcepto(concepto: any) {
+    console.log(concepto);
+  }
+
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();
