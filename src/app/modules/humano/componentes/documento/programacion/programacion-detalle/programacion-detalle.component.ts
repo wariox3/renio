@@ -586,7 +586,7 @@ export default class ProgramacionDetalleComponent
       .subscribe((respuesta) => {
         if (respuesta.registros.length) {
           const { registros } = respuesta;
-          const registro = registros[0];
+          const registro = registros?.[0];
           this.formularioEditarDetalleProgramacion.patchValue({
             programacion: this.programacion.id,
             diurna: registro.diurna,
@@ -618,6 +618,7 @@ export default class ProgramacionDetalleComponent
             adicional: registro.adicional,
             descuento_credito: registro.descuento_credito,
             descuento_embargo: registro.descuento_embargo,
+            dias_transporte: registro.dias_transporte
           });
         }
       });
@@ -680,6 +681,7 @@ export default class ProgramacionDetalleComponent
       adicional: [false],
       descuento_credito: [false],
       descuento_embargo: [false],
+      dias_transporte: [0, Validators.required]
     });
   }
 

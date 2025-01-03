@@ -220,6 +220,7 @@ export const locale = {
           TIPO: '',
           MES: 'Mes',
           ANIO: 'Año',
+          DIASTRANSPORTE: 'Días transporte'
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',

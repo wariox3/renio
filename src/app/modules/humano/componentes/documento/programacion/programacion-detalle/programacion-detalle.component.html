@@ -1728,6 +1728,38 @@
             }"
           ></ng-container>
         </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.DIASTRANSPORTE"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="dias_transporte"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+            }"
+          ></ng-container>
+        </div>
       </div>
 
       <!-- Checkboxes -->
@@ -1954,6 +1986,7 @@
       type="submit"
       class="btn btn-primary"
       (click)="actualizarDetalleProgramacion()"
+      [disabled]="!formularioEditarDetalleProgramacion.valid"
     >
       Guardar
     </button>
