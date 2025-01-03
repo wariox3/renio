@@ -1166,8 +1166,14 @@ export default class ProgramacionDetalleComponent
 
   }
 
-  agregarConcepto(concepto: any) {
+  agregarConcepto(concepto: any, index: number) {
     console.log(concepto);
+    this.pagoDetalles[index] = {
+      ...this.pagoDetalles[index],
+      ...{
+        concepto_nombre: concepto.concepto_nombre
+      }
+    }
   }
 
   ngOnDestroy(): void {

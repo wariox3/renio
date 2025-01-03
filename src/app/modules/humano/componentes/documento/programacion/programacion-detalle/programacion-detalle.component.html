@@ -2159,7 +2159,8 @@
                           <input
                             #inputItem
                             type="text"
-                            formControlName="impuestos"
+                            [value]="detalle.concepto_nombre??''"
+                            (change)="consultarConceptos($event)"
                             (focus)="consultarConceptos($event); ItemDropdown.open()"
                             ngbDropdownAnchor
                             class="cursor-pointer form-select form-select-sm w-100"
@@ -2173,14 +2174,14 @@
                               <button
                                 class="text-wrap"
                                 type="button"
-                                (click)="agregarConcepto(item)"
+                                (click)="agregarConcepto(item, i)"
                                 ngbDropdownItem
                               >
                                 {{ item.concepto_nombre }}
                               </button>
                             </ng-container>
                             <div class="dropdown-divider"></div>
-                  
+
                           </div>
                         </div>
                       </div>
