@@ -1,5 +1,6 @@
+import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -109,7 +110,7 @@ export default class ProgramacionDetalleComponent
     estado_aprobado: false,
   };
   pago: any = {};
-  pagoDetalles: any = {};
+  pagoDetalles: any = [];
   arrParametrosConsulta: ParametrosFiltros;
   arrParametrosConsultaDetalle: any;
   arrParametrosConsultaAdicional: ParametrosFiltros;
@@ -132,6 +133,8 @@ export default class ProgramacionDetalleComponent
   mostrarMasDetalles: boolean = false;
   arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
   ordenadoTabla: string = '';
+  visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
+
 
   private _unsubscribe$ = new Subject<void>();
   private readonly _generalService = inject(GeneralService);
@@ -618,7 +621,7 @@ export default class ProgramacionDetalleComponent
             adicional: registro.adicional,
             descuento_credito: registro.descuento_credito,
             descuento_embargo: registro.descuento_embargo,
-            dias_transporte: registro.dias_transporte
+            dias_transporte: registro.dias_transporte,
           });
         }
       });
@@ -681,7 +684,7 @@ export default class ProgramacionDetalleComponent
       adicional: [false],
       descuento_credito: [false],
       descuento_embargo: [false],
-      dias_transporte: [0, Validators.required]
+      dias_transporte: [0, Validators.required],
     });
   }
 
@@ -1035,6 +1038,14 @@ export default class ProgramacionDetalleComponent
             modelo: 'GenDocumentoDetalle',
           });
         }),
+        map((respuestaDetalle) => {
+          let registros = respuestaDetalle.registros.map((registro) => ({
+            ...registro,
+            editarLinea: false, // Campo booleano inicializado como falso
+          }));
+          respuestaDetalle.registros = registros;
+          return respuestaDetalle;
+        }),
         tap((respuestaDetalle) => {
           this.pagoDetalles = respuestaDetalle.registros;
         })
@@ -1128,6 +1139,31 @@ export default class ProgramacionDetalleComponent
       .subscribe(() => {
         this.consultarDatos();
       });
+  }
+
+  editarNominaProgramacionDetalleResumen(index: number) {
+    this.visualizarBtnGuardarNominaProgramacionDetalleResumen.update((valor) => !valor);
+    let registros = this.pagoDetalles.map((pago: any, indexPago: number)=> {
+      if(indexPago === index){
+        pago.editarLinea = !pago.editarLinea
+      }
+      return pago
+    })
+    this.pagoDetalles = registros;
+    this.changeDetectorRef.detectChanges()
+  }
+
+  agregarNuevaLineaNominaProgramacionDetalleResumen() {
+    this.pagoDetalles.push({
+      editarLinea: true,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  retirarNominaProgramacionDetalleResumen(index: number){
+    this.pagoDetalles = this.pagoDetalles.filter((pago: any, indexPago: number) => (indexPago !== index))
+    this.changeDetectorRef.detectChanges();
+
   }
 
   ngOnDestroy(): void {
