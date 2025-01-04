@@ -112,6 +112,7 @@ export default class ProgramacionDetalleComponent
   pago: any = {};
   pagoDetalles: any = [];
   arrParametrosConsulta: ParametrosFiltros;
+  arrParametrosConsultaAdicionalEditar: ParametrosFiltros;
   arrParametrosConsultaDetalle: any;
   arrParametrosConsultaAdicional: ParametrosFiltros;
   arrProgramacionDetalle: TablaRegistroLista[] = [];
@@ -301,7 +302,7 @@ export default class ProgramacionDetalleComponent
   }
 
   inicializarParametrosConsultaAdicionalDetalle(id: number) {
-    this.arrParametrosConsulta = {
+    this.arrParametrosConsultaAdicionalEditar = {
       filtros: [
         {
           operador: '',
@@ -632,7 +633,7 @@ export default class ProgramacionDetalleComponent
       .consultarDatosLista<{
         registros: any[];
         cantidad_registros: number;
-      }>(this.arrParametrosConsulta)
+      }>(this.arrParametrosConsultaAdicionalEditar)
       .subscribe((respuesta) => {
         if (respuesta.registros.length) {
           const { registros } = respuesta;
