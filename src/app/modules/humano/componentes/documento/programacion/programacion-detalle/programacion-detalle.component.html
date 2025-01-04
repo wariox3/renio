@@ -2075,13 +2075,13 @@
       </table>
     </div>
     <div class="d-flex justify-content-end my-3">
-      <button
+      <!-- <button
         type="button"
         class="btn btn-sm btn-primary"
         (click)="agregarNuevaLineaNominaProgramacionDetalleResumen()"
       >
         Nuevo
-      </button>
+      </button> -->
       @if(visualizarBtnGuardarNominaProgramacionDetalleResumen()){
       <button type="button" class="btn btn-sm btn-primary">Guardar</button>
       }
@@ -2141,8 +2141,8 @@
               class="bg-gray-100"
               translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.BASE"
             ></th>
-            <th class="bg-gray-100"></th>
-            <th class="bg-gray-100"></th>
+            <!-- <th class="bg-gray-100"></th>
+            <th class="bg-gray-100"></th> -->
           </tr>
         </thead>
         <tbody>
@@ -2222,7 +2222,7 @@
               <td class="text-end">{{ detalle.base_prestacion | number }}</td>
               <td class="text-end">{{ detalle.base_cotizacion | number }}</td>
               <td class="text-end">{{ detalle.base_impuesto | number }}</td>
-              <td>
+              <!-- <td>
                 <label
                   (click)="editarNominaProgramacionDetalleResumen(i)"
                   class="cursor-pointer"
@@ -2248,7 +2248,7 @@
                   </i>
                 </label>
                 }
-              </td>
+              </td> -->
             </tr>
           </ng-container>
         </tbody>
