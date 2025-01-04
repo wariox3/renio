@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { Contenedor } from '@interfaces/usuario/contenedor';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-login',
@@ -215,7 +216,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         acceso_restringido: respuesta.empresa.acceso_restringido,
       };
       this.store.dispatch(ContenedorActionInit({ contenedor }));
-
+      this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
       this.store.dispatch(
         configuracionVisualizarAction({
           configuracion: {

@@ -7,7 +7,9 @@ import {
   selecionModuloAction,
 } from '../actions/menu.actions';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
-let nombreSeleccion: AplicacionModulo = localStorage.getItem('ruta') as AplicacionModulo;
+let nombreSeleccion: AplicacionModulo = localStorage.getItem(
+  'ruta'
+) as AplicacionModulo;
 
 export const initialState: MenuItem = {
   seleccion: nombreSeleccion == null ? 'GENERAL' : nombreSeleccion,
@@ -22,11 +24,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'PAGO',
               documentacionId: 1019,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'cartera',
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -48,6 +51,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'CUENTASCOBRAR',
               tipo: 'informe',
+              modulo: 'cartera',
               url: 'cartera/informe/cuentas_cobrar',
             },
           ],
@@ -64,11 +68,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURACOMPRA',
               documentacionId: 1007,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'compra',
               data: {
                 documento_clase: 300,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -76,11 +81,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTACREDITO',
               documentacionId: 1007,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'compra',
               data: {
                 documento_clase: 301,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -88,23 +94,25 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTADEBITO',
               documentacionId: 1009,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'compra',
               data: {
                 documento_clase: 302,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
-              nombre: 'DOCUMENTOSOPORTE',
+              nombre: 'documentoSOPORTE',
               documentacionId: 1010,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'compra',
               data: {
                 documento_clase: 303,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -112,11 +120,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTAAJUSTE',
               documentacionId: 1011,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'compra',
               data: {
                 documento_clase: 304,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -128,21 +137,24 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'Item',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenItem' },
+              modulo: 'compra',
             },
             {
               nombre: 'Contacto',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
               },
-              archivoImportacionLista: 'GenContacto.xlsx'
+              modulo: 'compra',
+              archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
               nombre: 'RESOLUCION',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'compra',
               data: { modelo: 'GenResolucion', resoluciontipo: 'compra' },
             },
           ],
@@ -151,13 +163,15 @@ export const initialState: MenuItem = {
           nombre: 'utilidad',
           children: [
             {
-              nombre: 'DOCUMENTOELECTRONICO',
+              nombre: 'documentoELECTRONICO',
               tipo: 'utilidad',
+              modulo: 'compra',
               url: 'compra/utilidad/documento_electronico',
             },
             {
               nombre: 'EVENTOSDIAN',
               tipo: 'utilidad',
+              modulo: 'compra',
               url: 'compra/utilidad/eventos_dian',
             },
           ],
@@ -171,6 +185,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'CUENTASPAGAR',
               tipo: 'informe',
+              modulo: 'compra',
               url: 'compra/informe/cuentas_pagar',
             },
           ],
@@ -187,19 +202,21 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'PERIODO',
-              tipo: 'Independiente',
+              tipo: 'independiente',
+              modulo: 'contabilidad',
               urlIndependientes: {
                 lista: 'contabilidad/periodo',
               },
               consultaHttp: false,
               data: {
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
             },
             {
               nombre: 'MOVIMIENTO',
-              tipo: 'Independiente',
+              tipo: 'independiente',
+              modulo: 'contabilidad',
               archivoImportacionLista: 'ConMovimiento.xlsx',
               urlIndependientes: {
                 lista: 'contabilidad/movimiento',
@@ -208,7 +225,7 @@ export const initialState: MenuItem = {
               data: {
                 modelo: 'ConMovimiento',
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
             },
           ],
@@ -219,18 +236,19 @@ export const initialState: MenuItem = {
             {
               nombre: 'ASIENTO',
               documentacionId: 1020,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'contabilidad',
               data: {
                 documento_clase: 601,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             // {
             //   nombre: 'MOVIMIENTO',
-            //   tipo: 'Documento',
+            //   tipo: 'documento',
             //   data: { documento_clase: 'ConMovimiento' },
             //   visualiazarIconoDeracha: true,
             //   consultaHttp: false,
@@ -242,30 +260,33 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'CONTACTO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'contabilidad',
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
                 dataPersonalizada: JSON.stringify({ cliente: 'si' }),
               },
-              archivoImportacionLista: 'GenContacto.xlsx'
+              archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
               nombre: 'CUENTA',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'contabilidad',
               archivoImportacionLista: 'ConCuenta.xlxs',
               data: { modelo: 'ConCuenta' },
             },
             // {
             //   nombre: 'COMPROBANTE',
-            //   tipo: 'Administrador',
+            //   tipo: 'administrador',
             //   data: { modelo: 'ConComprobante' },
             // },
             {
               nombre: 'GRUPO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'contabilidad',
               data: { modelo: 'ConGrupo' },
-              archivoImportacionLista: 'ConGrupo.xml'
+              archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
         },
@@ -281,6 +302,7 @@ export const initialState: MenuItem = {
             {
               nombre: 'BALANCEPRUEBA',
               tipo: 'informe',
+              modulo: 'contabilidad',
               url: 'contabilidad/informe/balance_prueba',
             },
           ],
@@ -296,20 +318,22 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'PROGRAMACION',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 'HumProgramacion',
                 ordenamiento: '-fecha_desde',
                 modelo: 'HumProgramacionDetalleAdicional',
                 visualizarBtnExportarZip: 'si',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
             {
               nombre: 'ADICIONAL',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 'HumAdicional',
                 ordenamiento: '-id',
@@ -325,29 +349,31 @@ export const initialState: MenuItem = {
                     valor1: true,
                   },
                 ],
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
             {
               nombre: 'CREDITO',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 'HumCredito',
                 ordenamiento: '-id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
             },
             {
               nombre: 'NOVEDAD',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 'HumNovedad',
                 ordenamiento: '-id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -360,12 +386,13 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'APORTE',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 'HumAporte',
                 ordenamiento: '-fecha_desde',
                 modelo: 'HumAporte',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: false,
@@ -378,7 +405,8 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'NOMINA',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 701,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
@@ -394,7 +422,8 @@ export const initialState: MenuItem = {
             },
             {
               nombre: 'NOMINAELECTRONICA',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'humano',
               data: {
                 documento_clase: 702,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
@@ -415,29 +444,33 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'EMPLEADO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'humano',
               data: {
                 modelo: 'GenContacto',
                 submodelo: 'GenEmpleado',
                 ordenamiento: '-id',
                 importarSoloNuevos: 'si',
               },
-              archivoImportacionLista: 'GenContacto.xlsx'
+              archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
               nombre: 'CONTRATO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'HumContrato' },
+              modulo: 'humano',
             },
             {
               nombre: 'GRUPO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'HumGrupo' },
+              modulo: 'humano',
             },
             {
               nombre: 'CARGO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'HumCargo' },
+              modulo: 'humano',
             },
           ],
         },
@@ -454,16 +487,19 @@ export const initialState: MenuItem = {
               nombre: 'NOMINA',
               tipo: 'informe',
               url: 'humano/informe/nomina',
+              modulo: 'humano',
             },
             {
               nombre: 'NOMINADETALLE',
               tipo: 'informe',
               url: 'humano/informe/nomina_detalle',
+              modulo: 'humano',
             },
             {
               nombre: 'NOMINAELECTRONICA',
               tipo: 'informe',
               url: 'humano/informe/nomina_electronica',
+              modulo: 'humano',
             },
           ],
         },
@@ -479,7 +515,8 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURARECURRENTE',
               documentacionId: 1013,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 103,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
@@ -492,12 +529,13 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               documentacionId: 1014,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 100,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarBtnExportarZip: 'si',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -505,11 +543,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTACREDITO',
               documentacionId: 1015,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 101,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -517,11 +556,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTADEBITO',
               documentacionId: 1016,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 102,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -529,11 +569,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'PAGO',
               documentacionId: 1017,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -541,11 +582,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'CUENTADECOBRO',
               documentacionId: 1018,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'venta',
               data: {
                 documento_clase: 104,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -558,38 +600,44 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'CONTACTO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
+              modulo: 'venta',
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
                 dataPersonalizada: JSON.stringify({ cliente: 'si' }),
               },
-              archivoImportacionLista: 'GenContacto.xlsx'
+              archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
               nombre: 'ITEM',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenItem' },
+              modulo: 'venta',
             },
             {
               nombre: 'PRECIO',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenPrecio' },
+              modulo: 'venta',
             },
             {
               nombre: 'ASESOR',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenAsesor' },
+              modulo: 'venta',
             },
             {
               nombre: 'RESOLUCION',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenResolucion', resoluciontipo: 'venta' },
+              modulo: 'venta',
             },
             {
               nombre: 'CuentaBanco',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenCuentaBanco' },
+              modulo: 'venta',
             },
           ],
         },
@@ -601,6 +649,7 @@ export const initialState: MenuItem = {
               nombre: 'FACTURAELECTRONICA',
               tipo: 'utilidad',
               url: 'venta/utilidad/factura_electronica',
+              modulo: 'venta',
             },
           ],
         },
@@ -619,6 +668,7 @@ export const initialState: MenuItem = {
               nombre: 'VENTASITEM',
               tipo: 'informe',
               url: 'venta/informe/ventas_items',
+              modulo: 'venta',
             },
             // {
             //   nombre: 'VENTASCLIENTE',
@@ -644,11 +694,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'FACTURAVENTA',
               documentacionId: 1014,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'general',
               data: {
                 documento_clase: 100,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -656,11 +707,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'NOTACREDITO',
               documentacionId: 1015,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'general',
               data: {
                 documento_clase: 101,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -668,11 +720,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'PAGO',
               documentacionId: 1017,
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'general',
               data: {
                 documento_clase: 200,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -684,24 +737,28 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'Contacto',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
-              archivoImportacionLista: 'GenContacto.xlsx'
+              archivoImportacionLista: 'GenContacto.xlsx',
+              modulo: 'general',
             },
             {
               nombre: 'Item',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenItem' },
+              modulo: 'general',
             },
             {
               nombre: 'Sede',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenSede' },
+              modulo: 'general',
             },
             {
               nombre: 'CuentaBanco',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenCuentaBanco' },
+              modulo: 'general',
             },
           ],
         },
@@ -712,11 +769,13 @@ export const initialState: MenuItem = {
               nombre: 'VENTASITEM',
               tipo: 'informe',
               url: 'venta/informe/ventas_items',
+              modulo: 'general',
             },
             {
               nombre: 'CUENTASCOBRAR',
               tipo: 'informe',
               url: 'cartera/informe/cuentas_cobrar',
+              modulo: 'general',
             },
           ],
         },
@@ -731,22 +790,26 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'ENTRADA',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'inventario',
+
               data: {
                 documento_clase: 500,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
             {
               nombre: 'SALIDA',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'inventario',
+
               data: {
                 documento_clase: 501,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -758,8 +821,9 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'Almacen',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'InvAlmacen' },
+              modulo: 'inventario',
             },
           ],
         },
@@ -784,11 +848,12 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'EGRESO',
-              tipo: 'Documento',
+              tipo: 'documento',
+              modulo: 'inventario',
               data: {
                 documento_clase: 400,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
-                visualizarBtnImportar: 'no'
+                visualizarBtnImportar: 'no',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
@@ -800,8 +865,9 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'CuentaBanco',
-              tipo: 'Administrador',
+              tipo: 'administrador',
               data: { modelo: 'GenCuentaBanco' },
+              modulo: 'inventario',
             },
           ],
         },
@@ -818,6 +884,7 @@ export const initialState: MenuItem = {
               nombre: 'CUENTASPAGAR',
               tipo: 'informe',
               url: 'tesoreria/informe/cuentas_pagar',
+              modulo: 'inventario',
             },
           ],
         },
@@ -833,11 +900,12 @@ export const initialState: MenuItem = {
           children: [
             {
               nombre: 'GUIA',
-              tipo: 'Independiente',
+              tipo: 'independiente',
               urlIndependientes: {
                 lista: 'transporte/guia',
               },
               consultaHttp: false,
+              modulo: 'inventario',
             },
           ],
         },
@@ -871,7 +939,7 @@ export const initialState: MenuItem = {
   ],
   dataMapeo: [],
   dataItem: {
-    nombre: ''
+    nombre: '',
   },
 };
 

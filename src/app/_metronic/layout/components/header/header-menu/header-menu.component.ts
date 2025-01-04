@@ -90,7 +90,7 @@ export class HeaderMenuComponent extends General implements OnInit {
     }
   }
 
-  seleccionarMenu(ruta: string) {
+  seleccionarMenu(ruta: AplicacionModulo) {
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
 }

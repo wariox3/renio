@@ -30,6 +30,7 @@ import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -175,6 +176,9 @@ export class ContenedorListaComponent extends General implements OnInit {
                 visualizarApps: true,
               },
             })
+          );
+          this.store.dispatch(
+            selecionModuloAction({ seleccion: 'general' })
           );
           this.visualizarLoader[i] = false;
           this.changeDetectorRef.detectChanges();

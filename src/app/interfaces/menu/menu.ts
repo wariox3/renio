@@ -1,4 +1,6 @@
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
+import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
+import { AplicacionUbicaciones } from '@comun/type/aplicaciones-ubicaciones.type';
 import { ArchivoImportacion } from '@interfaces/comunes/importar/archivo-importacion';
 export interface Menu {
   name?: string;
@@ -18,7 +20,7 @@ export interface informacionMenuItem {
   archivoImportacionLista?: string;
   archivoImportacionNuevo?: string;
   archivoImportacionDetalle?: string;
-  tipo?: string;
+  tipo?: AplicacionUbicaciones;
   url?: string;
   urlIndependientes?: {
     lista?: string;
@@ -30,6 +32,7 @@ export interface informacionMenuItem {
   consultaHttp?: boolean;
   configuracionExtra?: boolean;
   esIndependiente?: boolean;
+  modulo?: AplicacionModulo;
   data?: {
     documento_clase?: number | string;
     ordenamiento?: string;
@@ -58,6 +61,6 @@ export interface MenuItem {
   seleccion: string;
   informacion: informacionMenuItem[];
   dataMapeo: any[];
-  dataItem:  informacionMenuItem;
+  dataItem: informacionMenuItem;
   modulos: AplicacionModulo[];
 }

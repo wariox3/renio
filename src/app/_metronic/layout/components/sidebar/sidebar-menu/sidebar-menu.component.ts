@@ -8,6 +8,7 @@ import {
 import { Component, inject, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
+  NavigationEnd,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -28,9 +29,10 @@ import {
   obtenerMenuModulos,
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
-import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { filter, switchMap, tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -57,8 +59,19 @@ export class SidebarMenuComponent implements OnInit {
   modulo: string;
   arrMenu: any = [];
   arrMenuApps: string[];
+  moduloAplicacion: AplicacionModulo[] = [
+    'compra',
+    'venta',
+    'contabilidad',
+    'cartera',
+    'humano',
+    'inventario',
+    'general',
+    'transporte',
+    'tesoreria',
+  ];
 
-  private _route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
 
   constructor(private router: Router, private store: Store) {}
 
@@ -83,13 +96,39 @@ export class SidebarMenuComponent implements OnInit {
         })
       )
       .subscribe();
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        ) // Asegura que el evento es NavigationEnd
+      )
+      .subscribe((evento: NavigationEnd) => {
+        const url = evento.urlAfterRedirects; // Obtener la URL actual
+        const moduloKey = url.replace('/', ''); // Eliminar el "/"
+        // Verificar si el módulo existe en el array `moduloAplicacion`
+        if (this.moduloAplicacion.includes(moduloKey as AplicacionModulo)) {
+          // Despachar la acción con el módulo encontrado
+          this.store.dispatch(
+            selecionModuloAction({ seleccion: moduloKey as AplicacionModulo })
+          );
+        } else if(moduloKey === 'dashboard'){
+          this.store.dispatch(
+            selecionModuloAction({ seleccion: 'general' })
+          );
+        }
+      });
+
     this.cambiarMenu();
     this._cargarModulo();
     this.cambiarMenu();
   }
 
   private _cargarModulo() {
-    this._route.queryParams.subscribe((params) => {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      if (params.modulo !== undefined) {
+        this.store.dispatch(selecionModuloAction({ seleccion: params.modulo }));
+      }
       this.arrMenu.forEach((item: any) => {
         this._cargarDatosMenu(item, params);
       });
@@ -234,10 +273,11 @@ export class SidebarMenuComponent implements OnInit {
 
   construirParametros(item: informacionMenuItem) {
     switch (item.tipo) {
-      case 'Administrador':
+      case 'administrador':
         if (item.data?.submodelo) {
           return {
             alias: item.nombre,
+            modulo: item.modulo,
             itemNombre: item.data?.modelo,
             submodelo: item.data?.submodelo,
             itemTipo: item.nombre,
@@ -247,23 +287,26 @@ export class SidebarMenuComponent implements OnInit {
         }
         return {
           alias: item.nombre,
+          modulo: item.modulo,
           itemNombre: item.data?.modelo,
           itemTipo: item.nombre,
           consultaHttp: item.consultaHttp ? 'si' : 'no',
           esIndependiente: 'no',
         };
-      case 'Documento':
+      case 'documento':
         return {
           alias: item.nombre,
+          modulo: item.modulo,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
           consultaHttp: item.consultaHttp ? 'si' : 'no',
           esIndependiente: 'no',
           configuracionExtra: item.configuracionExtra ? 'si' : 'no',
         };
-      case 'Independiente':
+      case 'independiente':
         return {
           alias: item.nombre,
+          modulo: item.modulo,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
           consultaHttp: item.consultaHttp ? 'si' : 'no',
@@ -272,12 +315,14 @@ export class SidebarMenuComponent implements OnInit {
       case 'utilidad':
         return {
           alias: item.nombre,
+          modulo: item.modulo,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
         };
       case 'informe':
         return {
           alias: item.nombre,
+          modulo: item.modulo,
           itemNombre: item.nombre,
           itemTipo: 'DOCUMENTO',
         };

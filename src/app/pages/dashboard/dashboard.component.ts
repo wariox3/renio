@@ -27,6 +27,8 @@ import {
 import { CardComponent } from '../../comun/componentes/card/card.component';
 import { InicioHumanoComponent } from './../../modules/humano/componentes/inicio/inicio-humano/inicio-humano.component';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
+import { obtenerMenuSeleccion } from '@redux/selectors/menu.selectors';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,7 +56,7 @@ import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 })
 export class DashboardComponent extends General implements OnInit {
 
-  ruta: AplicacionModulo = localStorage.getItem('ruta')! as AplicacionModulo;
+  ruta = 'general';
   asistente_electronico: boolean;
 
   constructor(
@@ -66,6 +68,14 @@ export class DashboardComponent extends General implements OnInit {
 
   ngOnInit() {
     this.consultarInformacion();
+    this.store
+      .select(obtenerMenuSeleccion)
+      .pipe(
+        tap((nombreSeleccion) => {
+          this.ruta = nombreSeleccion;
+        })
+      )
+      .subscribe();
   }
 
   consultarInformacion() {
