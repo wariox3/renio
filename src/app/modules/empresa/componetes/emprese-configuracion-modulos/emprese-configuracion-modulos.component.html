@@ -20,7 +20,7 @@
           <a
             class="nav-link text-active-primary cursor-pointer"
             (click)="seleccionarConfiguracion(item)"
-            [translate]="'MENU.TITULOS.' + item"
+            [translate]="'MENU.TITULOS.'+(item | uppercase)"
             [ngClass]="{ active: menuSeleccionado === item }"
           >
           </a>
