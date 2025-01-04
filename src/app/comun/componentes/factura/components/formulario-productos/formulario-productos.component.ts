@@ -264,14 +264,19 @@ export class FormularioProductosComponent
     this._limpiarPosicionEnImpuestoCache(indexFormulario);
     this._reiniciarSelectorItem(indexFormulario);
 
+    const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
+      this.formularioTipo,
+      item
+    );
+
     this.detalles.controls[indexFormulario].patchValue({
-      precio: item.precio,
+      precio: precioDiscriminadoPorTipo,
       item: item.id,
       cantidad: 1,
       subtotal,
       porcentaje_descuento: 0,
       item_nombre: item.nombre,
-      total: item.precio * 1,
+      total: precioDiscriminadoPorTipo * 1,
     });
 
     this.changeDetectorRef.detectChanges();
@@ -288,6 +293,13 @@ export class FormularioProductosComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _discriminarPrecioPorTipo(
+    formularioTipo: 'venta' | 'compra',
+    item: DocumentoDetalleFactura
+  ) {
+    return formularioTipo === 'compra' ? item.costo : item.precio;
   }
 
   private _reiniciarSelectorItem(indexFormulario: number) {
