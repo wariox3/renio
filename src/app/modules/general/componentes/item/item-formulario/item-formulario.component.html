@@ -1,5 +1,6 @@
 <form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
+    [ocultarBtnAtras]="ocultarBtnAtras"
     [estadoAprobado]="false"
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>

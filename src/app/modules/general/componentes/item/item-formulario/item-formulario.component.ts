@@ -3,8 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -23,7 +25,7 @@ import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.compo
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-item-formulario',
@@ -191,7 +193,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
           impuestosItem
         );
       case 'venta':
-      default:  
+      default:
         return this._filtrarImpuestosPorNombre('impuesto_venta', impuestosItem);
     }
   }

@@ -20,7 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { ProductosComponent } from '@comun/componentes/productos/productos.component';
+import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import {
   DocumentoDetalleFactura,
@@ -30,17 +30,15 @@ import {
   ImpuestoRespuestaConsulta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
+import { CuentasComponent } from '../../../cuentas/cuentas.component';
 import { AdapterService } from '../../services/adapter.service';
 import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
-import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { CuentasComponent } from '../../../cuentas/cuentas.component';
-import { validarCantidad } from '@comun/validaciones/validar-cantidad.validator';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -49,7 +47,6 @@ import { validarCantidad } from '@comun/validaciones/validar-cantidad.validator'
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    ProductosComponent,
     TranslateModule,
     SeleccionarImpuestosComponent,
     SeleccionarProductoComponent,
