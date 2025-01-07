@@ -27,8 +27,14 @@
             @if(arrContenedores.length > 0) {
             <thead>
               <tr class="bg-gray-100">
-                <th class="min-w-120px text-center">Nombre</th>
-                <th class="min-w-150px text-center">Plan</th>
+                <th
+                  class="min-w-120px text-center"
+                  translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
+                ></th>
+                <th
+                  class="min-w-150px text-center"
+                  translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
+                ></th>
                 <th
                   translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
                   class="min-w-100px text-center"
@@ -300,9 +306,9 @@
 </div>
 
 @if(procesando){
-  <div class="fake-loading">
-    <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINANDOCONTENDOR"></span>
-  </div>
+<div class="fake-loading">
+  <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINANDOCONTENDOR"></span>
+</div>
 }
 
 <!--end::Alert-->
