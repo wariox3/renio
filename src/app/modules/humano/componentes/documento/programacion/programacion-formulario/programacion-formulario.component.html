@@ -127,7 +127,6 @@
             formControlName="fecha_desde"
             class="form-control"
             type="date"
-            autocomplete="off"
             [ngClass]="{
               'is-invalid':
                 formularioProgramacion.controls['fecha_desde'].touched &&
@@ -173,8 +172,6 @@
             formControlName="fecha_hasta"
             class="form-control"
             type="date"
-            autocomplete="off"
-            [min]="formularioProgramacion.controls['fecha_desde'].value"
             (change)="
               modificarCampoFormulario(
                 'fecha_hasta_periodo',

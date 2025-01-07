@@ -50,7 +50,7 @@ export default class ContratoFormularioComponent
 {
   grupoSeleccionado: any;
   arrPagoTipo: RegistroAutocompletarHumPagoTipo[];
-  arrGrupo: RegistroAutocompletarHumGrupo[];
+  arrGrupo: RegistroAutocompletarHumGrupo[] = [];
   formularioProgramacion: FormGroup;
 
   private _generalService = inject(GeneralService);
@@ -64,12 +64,12 @@ export default class ContratoFormularioComponent
 
   ngOnInit() {
     this.consultarInformacion();
-    this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
     }
+    this.iniciarFormulario();
     this.changeDetectorRef.detectChanges();
-    this.inicializarCamposReactivos();
+
   }
 
   inicializarCamposReactivos() {
@@ -77,15 +77,16 @@ export default class ContratoFormularioComponent
       .get('grupo')
       ?.valueChanges.subscribe((value) => {
         if (value) {
-          this.grupoSeleccionado = this.arrGrupo?.find((grupo) => {
+          this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
             let valor = Number(value);
             return grupo.grupo_id === valor;
           });
-
-          this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
-          this.formularioProgramacion.patchValue({
-            periodo: this.grupoSeleccionado.grupo_periodo_id,
-          });
+          if(this.grupoSeleccionado !== undefined){
+            this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
+            this.formularioProgramacion.patchValue({
+              periodo: this.grupoSeleccionado.grupo_periodo_id,
+            });
+          }
         } else {
           this.actualizarValidacion(0);
         }
@@ -205,6 +206,7 @@ export default class ContratoFormularioComponent
     ).subscribe((respuesta) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
+      this.inicializarCamposReactivos();
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -300,10 +302,11 @@ export default class ContratoFormularioComponent
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;
-
-      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
-      if (desde && hasta && new Date(desde) > new Date(hasta)) {
-        return { fechaInvalida: true };
+      if(desde !== '' && hasta !== ''){
+        // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+        if (desde && hasta && new Date(desde) > new Date(hasta)) {
+          return { fechaInvalida: true };
+        }
       }
       return null;
     };
