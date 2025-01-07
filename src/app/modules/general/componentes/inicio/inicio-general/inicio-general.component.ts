@@ -17,7 +17,7 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { zip } from 'rxjs';
-import { dashboardService } from 'src/app/pages/dashboard/dashboard.service';
+import { dashboardService } from '@modulos/general/servicios/dashboard.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
