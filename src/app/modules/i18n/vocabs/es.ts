@@ -192,6 +192,8 @@ export const locale = {
           CARGARARCHIVOS: 'Cargar archivo',
           GENERAL: 'General',
           COLUMNAS: 'Columnas',
+          CODIGO: 'Código',
+          BUSCAR: 'Buscar',
           MENU: {
             PERFIL: 'Mi perfil',
             FACTURACION: 'Facturación',

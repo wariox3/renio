@@ -189,6 +189,8 @@ export const locale = {
           CARGARARCHIVOS: 'Upload files',
           GENERAL: 'General',
           COLUMNAS: 'Columns',
+          CODIGO: 'Code',
+          BUSCAR: 'Search',
           MENU: {
             PERFIL: 'My profile',
             FACTURACION: 'Billing',
