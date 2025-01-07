@@ -169,7 +169,7 @@ export const locale = {
         },
         ELECTRONICO: {
           LOG: 'Log',
-          LOGNOTIFICAR: 'Log noficar',
+          LOGNOTIFICAR: 'Log notificar',
           EVENTOSDIAN: 'Eventos DIAN',
           RENOTIFICAR: 'Re-notificar',
         },
