@@ -8,7 +8,7 @@ import { General } from '@comun/clases/general';
 import { HttpService } from '@comun/services/http.service';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { InicioCarteraComponent } from '@modulos/cartera/paginas/inicio/inicio-cartera/inicio-cartera.component';
-import { InicioCompraComponent } from '@modulos/compra/componentes/inicio/inicio-compra/inicio-compra.component';
+import { InicioCompraComponent } from '@modulos/compra/paginas/inicio/inicio-compra/inicio-compra.component';
 import { InicioContabilidadComponent } from '@modulos/contabilidad/componentes/inicio/inicio-contabilida.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';

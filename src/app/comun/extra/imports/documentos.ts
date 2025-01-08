@@ -64,51 +64,51 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   300: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/factura/factura-detalle/factura-detalle.component'
+        '../../../modules/compra/paginas/documento/factura/factura-detalle/factura-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/factura/factura-formulario/factura-formulario.component'
+        '../../../modules/compra/paginas/documento/factura/factura-formulario/factura-formulario.component'
       ),
   },
   301: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
+        '../../../modules/compra/paginas/documento/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
+        '../../../modules/compra/paginas/documento/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
       ),
   },
   302: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
+        '../../../modules/compra/paginas/documento/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
+        '../../../modules/compra/paginas/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
       ),
   },
   303: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/documento-soporte/documento-soporte-detalle/documento-soporte-detalle.component'
+        '../../../modules/compra/paginas/documento/documento-soporte/documento-soporte-detalle/documento-soporte-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/documento-soporte/documento-soporte-formulario/documento-soporte-formulario.component'
+        '../../../modules/compra/paginas/documento/documento-soporte/documento-soporte-formulario/documento-soporte-formulario.component'
       ),
   },
   304: {
     detalle: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-ajuste/nota-ajuste-detalle/nota-ajuste-detalle.component'
+        '../../../modules/compra/paginas/documento/nota-ajuste/nota-ajuste-detalle/nota-ajuste-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/compra/componentes/documento/nota-ajuste/nota-ajuste-formulario/nota-ajuste-formulario.component'
+        '../../../modules/compra/paginas/documento/nota-ajuste/nota-ajuste-formulario/nota-ajuste-formulario.component'
       ),
   },
   400: {

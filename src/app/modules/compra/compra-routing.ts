@@ -32,14 +32,14 @@ export const routes: Route[] = [
         path: 'documento_electronico',
         loadComponent: () =>
           import(
-            './componentes/utilidades/documento-electronico/documento-electronico.component'
+            './paginas/utilidades/documento-electronico/documento-electronico.component'
           ).then((c) => c.DocumentoElectronicoComponent),
       },
       {
         path: 'eventos_dian',
         loadComponent: () =>
           import(
-            './componentes/utilidades/eventos-dian/eventos-dian.component'
+            './paginas/utilidades/eventos-dian/eventos-dian.component'
           ).then((c) => c.EventosDianComponent),
       },
     ],
