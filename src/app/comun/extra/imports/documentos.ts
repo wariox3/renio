@@ -54,11 +54,11 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   200: {
     detalle: async () =>
       await import(
-        '../../../modules/cartera/componentes/documento/pago/pago-detalle/pago-detalle.component'
+        '../../../modules/cartera/paginas/documento/pago/pago-detalle/pago-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/cartera/componentes/documento/pago/pago-formulario/pago-formulario.component'
+        '../../../modules/cartera/paginas/documento/pago/pago-formulario/pago-formulario.component'
       ),
   },
   300: {
