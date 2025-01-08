@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, signal } from '@angular/core';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
+import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
@@ -18,13 +19,12 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
 export class TablaResumenComponent {
   mostrarMasDetalles = signal(false);
 
-  @Input() programacion: any = {
+  @Input() programacion: ProgramacionRespuesta = {
     id: 0,
     fecha_desde: '',
     fecha_hasta: '',
     fecha_hasta_periodo: '',
     nombre: '',
-    cantidad: 0,
     dias: 0,
     total: 0,
     descuento_pension: false,
@@ -41,6 +41,16 @@ export class TablaResumenComponent {
     pago_vacacion: false,
     estado_generado: false,
     estado_aprobado: false,
+    devengado: 0,
+    deduccion: 0,
+    contratos: 0,
+    comentario: undefined,
+    pago_tipo_id: 0,
+    pago_tipo_nombre: '',
+    grupo_id: 0,
+    grupo_nombre: '',
+    periodo_id: 0,
+    periodo_nombre: ''
   };
 
   mostrarTodosLosDetalles() {

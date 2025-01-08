@@ -52,6 +52,7 @@ import {
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { TablaResumenComponent } from "./componentes/tabla-resumen/tabla-resumen.component";
+import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -82,13 +83,12 @@ export default class ProgramacionDetalleComponent
   private _descargarArchivosService = inject(DescargarArchivosService);
 
   active: Number;
-  programacion: any = {
+  programacion: ProgramacionRespuesta = {
     id: 0,
     fecha_desde: '',
     fecha_hasta: '',
     fecha_hasta_periodo: '',
     nombre: '',
-    cantidad: 0,
     dias: 0,
     total: 0,
     descuento_pension: false,
@@ -105,6 +105,16 @@ export default class ProgramacionDetalleComponent
     pago_vacacion: false,
     estado_generado: false,
     estado_aprobado: false,
+    devengado: 0,
+    deduccion: 0,
+    contratos: 0,
+    comentario: undefined,
+    pago_tipo_id: 0,
+    pago_tipo_nombre: '',
+    grupo_id: 0,
+    grupo_nombre: '',
+    periodo_id: 0,
+    periodo_nombre: ''
   };
   pago: any = {};
   pagoDetalles: any = [];
