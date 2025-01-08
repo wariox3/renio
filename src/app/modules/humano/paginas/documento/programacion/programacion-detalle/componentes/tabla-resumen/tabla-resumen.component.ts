@@ -47,8 +47,5 @@ export class TablaResumenComponent {
     this.mostrarMasDetalles.update(
       (mostrarMasDetalles) => (mostrarMasDetalles = !mostrarMasDetalles)
     );
-
-    console.log(this.mostrarMasDetalles());
-
   }
 }
