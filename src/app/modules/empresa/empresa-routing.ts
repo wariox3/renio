@@ -9,14 +9,14 @@ export const routes: Route[] = [
   {
     path: 'lista',
     loadComponent: () =>
-      import('./componetes/empresa-detalle/empresa-detalle.component').then(
+      import('./paginas/empresa-detalle/empresa-detalle.component').then(
         (c) => c.EmpresaDetalleComponent
       ),
   },
   {
     path: 'detalle/:empresacodigo',
     loadComponent: () =>
-      import('./componetes/empresa-detalle/empresa-detalle.component').then(
+      import('./paginas/empresa-detalle/empresa-detalle.component').then(
         (c) => c.EmpresaDetalleComponent
       ),
     children: [
@@ -28,7 +28,7 @@ export const routes: Route[] = [
       {
         path: 'general',
         loadComponent: () =>
-          import('./componetes/empresa-editar/empresa-editar.component').then(
+          import('./paginas/empresa-editar/empresa-editar.component').then(
             (c) => c.EmpresaEditarComponent
           ),
       },
@@ -36,21 +36,21 @@ export const routes: Route[] = [
         path: 'facturacionelectronica',
         loadComponent: () =>
           import(
-            './componetes/empresa-facturacion-electronica/empresa-facturacion-electronica.component'
+            './paginas/empresa-facturacion-electronica/empresa-facturacion-electronica.component'
           ).then((c) => c.EmpresaFacturacionElectronicaComponent),
       },
       {
         path: 'configuracion',
         loadComponent: () =>
           import(
-            './componetes/empresa-configuracion/empresa-configuracion.component'
+            './paginas/empresa-configuracion/empresa-configuracion.component'
           ).then((c) => c.EmpresaConfiguracionComponent),
       },
       {
         path: 'documento_tipo',
         loadComponent: () =>
           import(
-            './componetes/documento-tipo/empresa-documento-tipo-lista/empresa-documento-tipo.component'
+            './paginas/documento-tipo/empresa-documento-tipo-lista/empresa-documento-tipo.component'
           ).then((c) => c.DocumentoDocumentoTipoComponent),
       },
     ],
@@ -58,14 +58,14 @@ export const routes: Route[] = [
   {
     path: 'configuracion_modulos/:empresacodigo',
     loadComponent: () =>
-      import('./componetes/emprese-configuracion-modulos/emprese-configuracion-modulos.component').then(
+      import('./paginas/emprese-configuracion-modulos/emprese-configuracion-modulos.component').then(
         (c) => c.EmpreseConfiguracionModulosComponent
       ),
   },
   {
     path: 'configuracion_inicial',
     loadComponent: () =>
-      import('./componetes/empresa-pasoapaso/empresa-pasoapaso.component').then(
+      import('./paginas/empresa-pasoapaso/empresa-pasoapaso.component').then(
         (c) => c.EmpresaPasoapasoComponent
       ),
   },
