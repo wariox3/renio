@@ -32,7 +32,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';

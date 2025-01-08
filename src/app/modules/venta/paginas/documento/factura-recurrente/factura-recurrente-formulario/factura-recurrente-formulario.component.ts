@@ -29,7 +29,7 @@ import {
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import ContactoFormulario from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,

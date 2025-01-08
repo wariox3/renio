@@ -4,9 +4,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 import { General } from '@comun/clases/general';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 import { CardComponent } from "../../../../comun/componentes/card/card.component";
 import { TranslateModule } from '@ngx-translate/core';
+import ResolucionFormularioComponent from '@modulos/general/paginas/resolucion/resolucion-formulario/resolucion-formulario.component';
 
 @Component({
     selector: 'app-empresa-resolucion',

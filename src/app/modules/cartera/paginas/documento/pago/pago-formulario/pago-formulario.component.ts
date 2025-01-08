@@ -29,7 +29,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
+import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
@@ -389,7 +389,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   agregarDocumentosPago() {
-    this.arrDocumentosSeleccionados.map((id) => { 
+    this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id
       );

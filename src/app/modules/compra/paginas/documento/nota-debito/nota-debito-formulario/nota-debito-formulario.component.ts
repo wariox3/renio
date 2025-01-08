@@ -31,13 +31,13 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import ContactoFormulario from '../../../../../general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -54,7 +54,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     BuscarAvanzadoComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
-    ContactoFormulario,
+    ContactDetalleComponent,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,

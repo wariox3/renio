@@ -5,20 +5,20 @@ export const Componentes: Partial<FormulariosDetalles>  = {
     modulo: 'general',
     modelo: 'contacto',
     detalle: async () => await import(
-      '../../../modules/general/componentes/contacto/contacto-detalle/contacto-detalle.component'
+      '../../../modules/general/paginas/contacto/contacto-detalle/contacto-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/contacto/contacto-formulario/contacto-formulario.component'
+      '../../../modules/general/paginas/contacto/contacto-formulario/contacto-formulario.component'
     ),
   },
   GenItem: {
     modulo: 'general',
     modelo: 'item',
     detalle: async () => await import(
-      '../../../modules/general/componentes/item/item-detalle/item-detalle.component'
+      '../../../modules/general/paginas/item/item-detalle/item-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/item/item-formulario/item-formulario.component'
+      '../../../modules/general/paginas/item/item-formulario/item-formulario.component'
     ),
   },
   GenResolucion: {
@@ -26,30 +26,30 @@ export const Componentes: Partial<FormulariosDetalles>  = {
     modelo: 'resolucion',
     tipo: 'administrador',
     detalle: async () => await import(
-      '../../../modules/general/componentes/resolucion/resolucion-detalle/resolucion-detalle.component'
+      '../../../modules/general/paginas/resolucion/resolucion-detalle/resolucion-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component'
+      '../../../modules/general/paginas/resolucion/resolucion-formulario/resolucion-formulario.component'
     ),
   },
   GenPrecio: {
     modulo: 'general',
     modelo: 'precio',
     detalle: async () => await import(
-      '../../../modules/general/componentes/precio/precio-detalle/precio-detalle.component'
+      '../../../modules/general/paginas/precio/precio-detalle/precio-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/precio/precio-formulario/precio-formulario.component'
+      '../../../modules/general/paginas/precio/precio-formulario/precio-formulario.component'
     ),
   },
   GenAsesor: {
     modulo: 'general',
     modelo: 'asesor',
     detalle: async () => await import(
-      '../../../modules/general/componentes/asesor/asesor-detalle/asesor-detalle.component'
+      '../../../modules/general/paginas/asesor/asesor-detalle/asesor-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/asesor/asesor-formulario/asesor-formulario.component'
+      '../../../modules/general/paginas/asesor/asesor-formulario/asesor-formulario.component'
     ),
   },
   GenEmpleado: {
@@ -106,20 +106,20 @@ export const Componentes: Partial<FormulariosDetalles>  = {
     modulo: 'general',
     modelo: 'sede',
     detalle: async () => await import(
-      '../../../modules/general/componentes/sede/sede-detalle/sede-detalle.component'
+      '../../../modules/general/paginas/sede/sede-detalle/sede-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/sede/sede-formulario/sede-formulario.component'
+      '../../../modules/general/paginas/sede/sede-formulario/sede-formulario.component'
     ),
   },
   GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',
     detalle: async () => await import(
-      '../../../modules/general/componentes/cuenta-banco/cuenta-banco-detalle/cuenta-banco-detalle.component'
+      '../../../modules/general/paginas/cuenta-banco/cuenta-banco-detalle/cuenta-banco-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/general/componentes/cuenta-banco/cuenta-banco-formulario/cuenta-banco-formulario.component'
+      '../../../modules/general/paginas/cuenta-banco/cuenta-banco-formulario/cuenta-banco-formulario.component'
     ),
   },
   ConCuenta: {

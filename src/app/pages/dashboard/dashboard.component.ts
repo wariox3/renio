@@ -11,7 +11,6 @@ import { InicioCarteraComponent } from '@modulos/cartera/paginas/inicio/inicio-c
 import { InicioCompraComponent } from '@modulos/compra/paginas/inicio/inicio-compra/inicio-compra.component';
 import { InicioContabilidadComponent } from '@modulos/contabilidad/paginas/inicio/inicio-contabilida.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   empresaActionInit,
@@ -28,6 +27,7 @@ import { InicioVentaComponent } from '@modulos/venta/paginas/inicio/inicio-venta
 import { InicioInventarioComponent } from '@modulos/inventario/paginas/inicio/inicio-inventario/inicio-inventario.component';
 import { InicioHumanoComponent } from '@modulos/humano/paginas/inicio/inicio-humano/inicio-humano.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { InicioGeneralComponent } from '@modulos/general/paginas/inicio/inicio-general/inicio-general.component';
 
 @Component({
   selector: 'app-dashboard',

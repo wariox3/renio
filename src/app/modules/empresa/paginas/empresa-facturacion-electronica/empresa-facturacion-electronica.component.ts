@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,10 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { HttpService } from '@comun/services/http.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import ResolucionFormularioComponent from '@modulos/general/componentes/resolucion/resolucion-formulario/resolucion-formulario.component';
 import {
   NgbDropdownModule,
   NgbModal,
@@ -33,10 +30,8 @@ import { switchMap, tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    CardComponent,
     NgbDropdownModule,
     NgbModalModule,
-    ResolucionFormularioComponent,
   ],
   templateUrl: './empresa-facturacion-electronica.html',
 })

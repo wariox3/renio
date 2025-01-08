@@ -20,7 +20,6 @@ import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocom
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
-import ContactDetalleComponent from '@modulos/general/componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -32,6 +31,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-pago-formulario',
