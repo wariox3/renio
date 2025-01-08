@@ -4,7 +4,7 @@ export const routes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('./componentes/facturacion/facturacion.component').then(
+      import('./paginas/facturacion/facturacion.component').then(
         (c) => c.FacturacionComponent
       ),
   },
