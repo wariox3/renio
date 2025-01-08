@@ -5,7 +5,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { ConfiguracionCarteraComponent } from '@modulos/cartera/paginas/configuracion/configuracion-cartera.component';
 import { ConfiguracionCompraComponent } from '@modulos/compra/paginas/configuracion/configuracion-compra.component';
-import { ConfiguracionContabilidadComponent } from '@modulos/contabilidad/componentes/configuracion/configuracion-contabilidad.component';
+import { ConfiguracionContabilidadComponent } from '@modulos/contabilidad/paginas/configuracion/configuracion-contabilidad.component';
 import { ConfiguracionGeneralComponent } from '@modulos/general/componentes/configuracion/configuracion-general.component';
 import { ConfiguracionHumanoComponent } from '@modulos/humano/componentes/configuracion/configuracion-humano.component';
 import { ConfiguracionInventarioComponent } from '@modulos/inventario/paginas/configuracion/configuracion-inventario.component';

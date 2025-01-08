@@ -126,30 +126,30 @@ export const Componentes: Partial<FormulariosDetalles>  = {
     modulo: 'contabilidad',
     modelo: 'ConCuenta',
     detalle: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/cuenta/cuenta-detalle/cuenta-detalle.component'
+      '../../../modules/contabilidad/paginas/administrador/cuenta/cuenta-detalle/cuenta-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/cuenta/cuenta-formulario/cuenta-formulario.component'
+      '../../../modules/contabilidad/paginas/administrador/cuenta/cuenta-formulario/cuenta-formulario.component'
     ),
   },
   ConComprobante: {
     modulo: 'contabilidad',
     modelo: 'ConComprobante',
     detalle: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-detalle/comprobante-detalle.component'
+      '../../../modules/contabilidad/paginas/administrador/comprobante/comprobante-detalle/comprobante-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/comprobante/comprobante-formulario/comprobante-formulario.component'
+      '../../../modules/contabilidad/paginas/administrador/comprobante/comprobante-formulario/comprobante-formulario.component'
     ),
   },
   ConGrupo: {
     modulo: 'contabilidad',
     modelo: 'ConGrupo',
     detalle: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/grupo/grupo-detalle/grupo-detalle.component'
+      '../../../modules/contabilidad/paginas/administrador/grupo/grupo-detalle/grupo-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/contabilidad/componentes/administrador/grupo/grupo-formulario/grupo-formulario.component'
+      '../../../modules/contabilidad/paginas/administrador/grupo/grupo-formulario/grupo-formulario.component'
     ),
   },
   InvAlmacen: {

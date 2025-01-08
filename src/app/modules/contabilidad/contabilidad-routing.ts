@@ -17,14 +17,14 @@ export const routes: Route[] = [
     path: 'movimiento',
     loadComponent: () =>
       import(
-        './componentes/independientes/movimiento/movimiento-lista/movimiento-lista.component'
+        './paginas/independientes/movimiento/movimiento-lista/movimiento-lista.component'
       ).then((c) => c.MovimientoListaComponent),
   },
   {
     path: 'periodo',
     loadComponent: () =>
       import(
-        './componentes/independientes/periodo/periodo-detalle/periodo-detalle.component'
+        './paginas/independientes/periodo/periodo-detalle/periodo-detalle.component'
       ).then((c) => c.PeriodoDetalleComponent),
   },
   {
@@ -34,7 +34,7 @@ export const routes: Route[] = [
         path: 'balance_prueba',
         loadComponent: () =>
           import(
-            './componentes/informes/balance-prueba/balance-prueba.component'
+            './paginas/informes/balance-prueba/balance-prueba.component'
           ).then((c) => c.BalancePruebaComponent),
       },
     ],

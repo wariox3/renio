@@ -144,11 +144,11 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   601: {
     detalle: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/documento/asiento/asiento-detalle/asiento-detalle.component'
+        '../../../modules/contabilidad/paginas/documento/asiento/asiento-detalle/asiento-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
+        '../../../modules/contabilidad/paginas/documento/asiento/asiento-formulario/asiento-formulario.component'
       ),
   },
   701: {
@@ -158,7 +158,7 @@ export const Componentes: Partial<FormulariosDetalles>  = {
       ),
     formulario: async () =>
       await import(
-        '../../../modules/contabilidad/componentes/documento/asiento/asiento-formulario/asiento-formulario.component'
+        '../../../modules/contabilidad/paginas/documento/asiento/asiento-formulario/asiento-formulario.component'
       ),
   },
   702: {
