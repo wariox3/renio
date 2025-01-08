@@ -4,51 +4,51 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   100: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/factura/factura-detalle/factura-detalle.component'
+        '../../../modules/venta/paginas/documento/factura/factura-detalle/factura-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/factura/factura-formulario/factura-formulario.component'
+        '../../../modules/venta/paginas/documento/factura/factura-formulario/factura-formulario.component'
       ),
   },
   101: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
+        '../../../modules/venta/paginas/documento/nota-credito/nota-credito-detalle/nota-credito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
+        '../../../modules/venta/paginas/documento/nota-credito/nota-credito-formulario/nota-credito-formulario.component'
       ),
   },
   102: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
+        '../../../modules/venta/paginas/documento/nota-debito/nota-debito-detalle/nota-debito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
+        '../../../modules/venta/paginas/documento/nota-debito/nota-debito-formulario/nota-debito-formulario.component'
       ),
   },
   103: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/factura-recurrente/factura-recurrente-detalle/factura-recurrente-detalle.component'
+        '../../../modules/venta/paginas/documento/factura-recurrente/factura-recurrente-detalle/factura-recurrente-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/factura-recurrente/factura-recurrente-formulario/factura-recurrente-formulario.component'
+        '../../../modules/venta/paginas/documento/factura-recurrente/factura-recurrente-formulario/factura-recurrente-formulario.component'
       ),
   },
   104: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/cuenta-cobro/cuenta-cobro-detalle/cuenta-cobro-detalle.component'
+        '../../../modules/venta/paginas/documento/cuenta-cobro/cuenta-cobro-detalle/cuenta-cobro-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/componentes/documento/cuenta-cobro/cuenta-cobro-formulario/cuenta-cobro-formulario.component'
+        '../../../modules/venta/paginas/documento/cuenta-cobro/cuenta-cobro-formulario/cuenta-cobro-formulario.component'
       ),
   },
   200: {
@@ -114,11 +114,11 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   400: {
     detalle: async () =>
       await import(
-        '../../../modules/tesoreria/componentes/documento/egreso/egreso-detalle/egreso-detalle.component'
+        '../../../modules/tesoreria/paginas/documento/egreso/egreso-detalle/egreso-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/tesoreria/componentes/documento/egreso/egreso-formulario/egreso-formulario.component'
+        '../../../modules/tesoreria/paginas/documento/egreso/egreso-formulario/egreso-formulario.component'
       ),
   },
   500: {

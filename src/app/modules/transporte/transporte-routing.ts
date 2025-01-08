@@ -19,7 +19,7 @@ export const routes: Route[] = [
   // },
   {
     path: 'guia',
-    loadComponent: () => import('./componentes/independientes/guia/guia-lista/guia-lista.component').then((c)=> c.GuiaListaComponent)
+    loadComponent: () => import('./paginas/independientes/guia/guia-lista/guia-lista.component').then((c)=> c.GuiaListaComponent)
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },

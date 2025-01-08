@@ -13,22 +13,21 @@ import { InicioContabilidadComponent } from '@modulos/contabilidad/componentes/i
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { InicioGeneralComponent } from '@modulos/general/componentes/inicio/inicio-general/inicio-general.component';
 import { InicioInventarioComponent } from '@modulos/inventario/componentes/inicio/inicio-inventario/inicio-inventario.component';
-import { InicioTesoreriaComponent } from '@modulos/tesoreria/componentes/inicio/inicio-tesoreria/inicio-tesoreria.component';
-import { InicioTransporteComponent } from '@modulos/transporte/componentes/inicio/inicio-transporte/inicio-transporte.component';
-import { InicioVentaComponent } from '@modulos/venta/componentes/inicio/inicio-venta/inicio-venta.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   empresaActionInit,
   empresaActualizacionAsisteneElectronico,
 } from '@redux/actions/empresa.actions';
+import { obtenerMenuSeleccion } from '@redux/selectors/menu.selectors';
 import {
   NgApexchartsModule
 } from 'ng-apexcharts';
+import { tap } from 'rxjs';
 import { CardComponent } from '../../comun/componentes/card/card.component';
 import { InicioHumanoComponent } from './../../modules/humano/componentes/inicio/inicio-humano/inicio-humano.component';
-import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
-import { obtenerMenuSeleccion } from '@redux/selectors/menu.selectors';
-import { tap } from 'rxjs';
+import { InicioTesoreriaComponent } from '@modulos/tesoreria/paginas/inicio/inicio-tesoreria/inicio-tesoreria.component';
+import { InicioTransporteComponent } from '@modulos/transporte/paginas/inicio/inicio-transporte/inicio-transporte.component';
+import { InicioVentaComponent } from '@modulos/venta/paginas/inicio/inicio-venta/inicio-venta.component';
 
 @Component({
   selector: 'app-dashboard',

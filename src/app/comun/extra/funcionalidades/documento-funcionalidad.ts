@@ -11,7 +11,7 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
     generar: {
       componente: async () =>
         await import(
-          '../../../modules/venta/componentes/documento/extras/generar/generar.component'
+          '../../../modules/venta/paginas/documento/extras/generar/generar.component'
         ),
     },
   },

@@ -20,7 +20,7 @@ export const routes: Route[] = [
         path: 'cuentas_pagar',
         loadComponent: () =>
           import(
-            '../tesoreria/componentes/informe/cuentas-pagar/cuentas-pagar.component'
+            '../tesoreria/paginas/informe/cuentas-pagar/cuentas-pagar.component'
           ).then((c) => c.CuentasPagarComponent),
       },
     ],

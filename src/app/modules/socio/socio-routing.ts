@@ -4,7 +4,7 @@ export const routes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('./componentes/socio/socio.component').then(
+      import('./paginas/socio/socio.component').then(
         (c) => c.SocioComponent
       ),
   },

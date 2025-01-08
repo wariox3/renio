@@ -25,7 +25,7 @@ export const routes: Route[] = [
         path: 'cuentas_pagar',
         loadComponent: () =>
           import(
-            './componentes/informe/cuentas-pagar/cuentas-pagar.component'
+            './paginas/informe/cuentas-pagar/cuentas-pagar.component'
           ).then((c) => c.CuentasPagarComponent),
       },
     ],

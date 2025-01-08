@@ -9,10 +9,9 @@ import { ConfiguracionContabilidadComponent } from '@modulos/contabilidad/compon
 import { ConfiguracionGeneralComponent } from '@modulos/general/componentes/configuracion/configuracion-general.component';
 import { ConfiguracionHumanoComponent } from '@modulos/humano/componentes/configuracion/configuracion-humano.component';
 import { ConfiguracionInventarioComponent } from '@modulos/inventario/componentes/configuracion/configuracion-inventario.component';
-import { ConfiguracionTesoreriaComponent } from '@modulos/tesoreria/componentes/configuracion/configuracion-tesoreria.component';
-import { ConfiguracionTransporteComponent } from '@modulos/transporte/componentes/configuracion/configuracion-transporte.component';
-import { ConfiguracionVentaComponent } from '@modulos/venta/componentes/configuracion/configuracion-venta.component';
-
+import { ConfiguracionTesoreriaComponent } from '@modulos/tesoreria/paginas/configuracion/configuracion-tesoreria.component';
+import { ConfiguracionTransporteComponent } from '@modulos/transporte/paginas/configuracion/configuracion-transporte.component';
+import { ConfiguracionVentaComponent } from '@modulos/venta/paginas/configuracion/configuracion-venta.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';

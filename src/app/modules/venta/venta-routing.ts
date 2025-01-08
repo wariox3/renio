@@ -20,7 +20,7 @@ export const routes: Route[] = [
         path: 'factura_electronica',
         loadComponent: () =>
           import(
-            './componentes/utilidades/factura-electronica/factura-electronica.component'
+            './paginas/utilidades/factura-electronica/factura-electronica.component'
           ).then((c) => c.FacturaElectronicaComponent),
       },
     ],
@@ -32,28 +32,28 @@ export const routes: Route[] = [
         path: 'ventas_general',
         loadComponent: () =>
           import(
-            './componentes/utilidades/factura-electronica/factura-electronica.component'
+            './paginas/utilidades/factura-electronica/factura-electronica.component'
           ).then((c) => c.FacturaElectronicaComponent),
       },
       {
         path: 'ventas_items',
         loadComponent: () =>
           import(
-            './componentes/informes/ventas-items/ventas-items.component'
+            './paginas/informes/ventas-items/ventas-items.component'
           ).then((c) => c.VentasItemsComponent),
       },
       {
         path: 'ventas_cliente',
         loadComponent: () =>
           import(
-            './componentes/utilidades/factura-electronica/factura-electronica.component'
+            './paginas/utilidades/factura-electronica/factura-electronica.component'
           ).then((c) => c.FacturaElectronicaComponent),
       },
       {
         path: 'ventas_vendedores',
         loadComponent: () =>
           import(
-            './componentes/utilidades/factura-electronica/factura-electronica.component'
+            './paginas/utilidades/factura-electronica/factura-electronica.component'
           ).then((c) => c.FacturaElectronicaComponent),
       },
     ],
