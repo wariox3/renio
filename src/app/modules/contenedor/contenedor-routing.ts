@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
-import { ContenedorListaComponent } from './componentes/contenedor-lista/contenedor-lista.component';
-import { ContenedorNuevoComponent } from './componentes/contenedor-nuevo/contenedor-nuevo.component';
-import { ContenedorDetalleComponent } from './componentes/contenedor-detalle/contenedor-detalle.component';
+import { ContenedorListaComponent } from './paginas/contenedor-lista/contenedor-lista.component';
+import { ContenedorNuevoComponent } from './paginas/contenedor-nuevo/contenedor-nuevo.component';
+import { ContenedorDetalleComponent } from './paginas/contenedor-detalle/contenedor-detalle.component';
 
-import { ContenedorInvitacionComponent } from './componentes/contenedor-invitacion/contenedor-invitacion.component';
+import { ContenedorInvitacionComponent } from './paginas/contenedor-invitacion/contenedor-invitacion.component';
 
 export const routes: Route[] = [
   {
