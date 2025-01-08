@@ -1,4 +1,3 @@
-import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
@@ -13,12 +12,14 @@ import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estad
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
-import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
+import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
+import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   ProgramacionDetalleRegistro,
   TablaRegistroLista,
@@ -49,17 +50,13 @@ import {
   tap,
   throttleTime,
 } from 'rxjs';
-import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { TablaResumenComponent } from "./componentes/tabla-resumen/tabla-resumen.component";
 
 @Component({
   selector: 'app-programacion-detalle',
   standalone: true,
   imports: [
-    KeeniconComponent,
     CommonModule,
     FormsModule,
     TranslateModule,
@@ -69,12 +66,12 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     NgbNavModule,
     ReactiveFormsModule,
     NgbTooltipModule,
-    AnimacionFadeInOutDirective,
     ImportarAdministradorComponent,
     NgSelectModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-  ],
+    TablaResumenComponent
+],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -131,7 +128,6 @@ export default class ProgramacionDetalleComponent
   generando: boolean = false;
   desgenerando: boolean = false;
   notificando: boolean = false;
-  mostrarMasDetalles: boolean = false;
   arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
   ordenadoTabla: string = '';
   visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
@@ -847,12 +843,6 @@ export default class ProgramacionDetalleComponent
       // Marca todos los campos como tocados para activar las validaciones en la UI
       this.formularioAdicionalProgramacion.markAllAsTouched();
     }
-  }
-
-  // detalles visuales
-  mostrarTodosLosDetalles() {
-    this.mostrarMasDetalles = !this.mostrarMasDetalles;
-    this.changeDetectorRef.detectChanges();
   }
 
   // funcionalidades de eliminar registros
