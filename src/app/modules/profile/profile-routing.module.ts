@@ -5,7 +5,7 @@ import { CampaignsComponent } from './campaigns/campaigns.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { CambioClaveComponent } from '@modulos/seguridad/componentes/cambio-clave/cambio-clave.component';
+import { CambioClaveComponent } from '@modulos/seguridad/paginas/cambio-clave/cambio-clave.component';
 
 const routes: Routes = [
   {

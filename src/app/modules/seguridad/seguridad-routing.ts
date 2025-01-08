@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { CambioClaveComponent } from './componentes/cambio-clave/cambio-clave.component';
+import { CambioClaveComponent } from './paginas/cambio-clave/cambio-clave.component';
 
 export const routes: Route[] = [
   {

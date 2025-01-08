@@ -156,10 +156,10 @@ export const Componentes: Partial<FormulariosDetalles>  = {
     modulo: 'inventario',
     modelo: 'InvAlmacen',
     detalle: async () => await import(
-      '../../../modules/inventario/componentes/administrador/almacen/almacen-detalle/almacen-detalle.component'
+      '../../../modules/inventario/paginas/administrador/almacen/almacen-detalle/almacen-detalle.component'
     ),
     formulario: async () => await import(
-      '../../../modules/inventario/componentes/administrador/almacen/almacen-formulario/almacen-formulario.component'
+      '../../../modules/inventario/paginas/administrador/almacen/almacen-formulario/almacen-formulario.component'
     ),
   },
 

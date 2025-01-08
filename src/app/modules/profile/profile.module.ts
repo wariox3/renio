@@ -8,7 +8,6 @@ import { DocumentsComponent } from './documents/documents.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { CambioClaveComponent } from '../seguridad/componentes/cambio-clave/cambio-clave.component';
 import {
   CardsModule,
   DropdownMenusModule,
@@ -18,13 +17,13 @@ import { SharedModule } from '../../_metronic/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CambioClaveComponent } from '@modulos/seguridad/paginas/cambio-clave/cambio-clave.component';
 
 @NgModule({
     imports: [

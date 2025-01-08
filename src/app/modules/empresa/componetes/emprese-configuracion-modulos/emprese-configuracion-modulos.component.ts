@@ -8,7 +8,7 @@ import { ConfiguracionCompraComponent } from '@modulos/compra/paginas/configurac
 import { ConfiguracionContabilidadComponent } from '@modulos/contabilidad/componentes/configuracion/configuracion-contabilidad.component';
 import { ConfiguracionGeneralComponent } from '@modulos/general/componentes/configuracion/configuracion-general.component';
 import { ConfiguracionHumanoComponent } from '@modulos/humano/componentes/configuracion/configuracion-humano.component';
-import { ConfiguracionInventarioComponent } from '@modulos/inventario/componentes/configuracion/configuracion-inventario.component';
+import { ConfiguracionInventarioComponent } from '@modulos/inventario/paginas/configuracion/configuracion-inventario.component';
 import { ConfiguracionTesoreriaComponent } from '@modulos/tesoreria/paginas/configuracion/configuracion-tesoreria.component';
 import { ConfiguracionTransporteComponent } from '@modulos/transporte/paginas/configuracion/configuracion-transporte.component';
 import { ConfiguracionVentaComponent } from '@modulos/venta/paginas/configuracion/configuracion-venta.component';
