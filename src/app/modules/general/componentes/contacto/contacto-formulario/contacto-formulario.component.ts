@@ -43,6 +43,7 @@ import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocomplet
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { Contacto } from '@interfaces/general/contacto';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -76,19 +77,19 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
-  arrCiudades: any[];
-  arrIdentificacion: any[];
-  arrTipoPersona: any[];
-  arrRegimen: any[];
-  arrAsesores: any[];
-  arrPrecios: any[];
-  arrPagos: any[];
-  ciudadSeleccionada: string | null;
+  arrCiudades: RegistroAutocompletarGenCiudad[];
+  arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
+  arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
+  arrRegimen: RegistroAutocompletarGenRegimen[];
+  arrAsesores: RegistroAutocompletarGenAsesor[];
+  arrPrecios: RegistroAutocompletarGenPrecio[];
+  arrPagos: RegistroAutocompletarGenPlazoPago[];
+  ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
   @Input() esCliente = true;
   @Input() esProvedor = false;
-  @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
+  @Output() emitirGuardoRegistro: EventEmitter<Contacto> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
   private readonly _generalService = inject(GeneralService);
