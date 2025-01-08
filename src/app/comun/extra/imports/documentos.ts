@@ -154,7 +154,7 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   701: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/pago/pago-detalle/pago-detalle.component'
+        '../../../modules/humano/paginas/documento/pago/pago-detalle/pago-detalle.component'
       ),
     formulario: async () =>
       await import(
@@ -164,7 +164,7 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   702: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/nomina-electronica/nominaElectronicaDetalle/nominaElectronicaDetalle.component'
+        '../../../modules/humano/paginas/documento/nomina-electronica/nominaElectronicaDetalle/nominaElectronicaDetalle.component'
       ),
       formulario: function (): Promise<{ default: any; }> {
         throw new Error('Function not implemented.');
@@ -173,51 +173,51 @@ export const Componentes: Partial<FormulariosDetalles>  = {
   HumProgramacion: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/programacion/programacion-detalle/programacion-detalle.component'
+        '../../../modules/humano/paginas/documento/programacion/programacion-detalle/programacion-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/programacion/programacion-formulario/programacion-formulario.component'
+        '../../../modules/humano/paginas/documento/programacion/programacion-formulario/programacion-formulario.component'
       ),
   },
   HumAdicional: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/adicional/adicional-detalle/adicional-detalle.component'
+        '../../../modules/humano/paginas/documento/adicional/adicional-detalle/adicional-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/adicional/adicional-formulario/adicional-formulario.component'
+        '../../../modules/humano/paginas/documento/adicional/adicional-formulario/adicional-formulario.component'
       ),
   },
   HumCredito: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/credito/credito-detalle/credito-detalle.component'
+        '../../../modules/humano/paginas/documento/credito/credito-detalle/credito-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/credito/credito-formulario/credito-formulario.component'
+        '../../../modules/humano/paginas/documento/credito/credito-formulario/credito-formulario.component'
       ),
   },
   HumNovedad: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/novedad/novedad-detalle/novedad-detalle.component'
+        '../../../modules/humano/paginas/documento/novedad/novedad-detalle/novedad-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/novedad/novedad-formulario/novedad-formulario.component'
+        '../../../modules/humano/paginas/documento/novedad/novedad-formulario/novedad-formulario.component'
       ),
   },
   HumAporte: {
     detalle: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/aporte/aporte-detalle/aporte-detalle.component'
+        '../../../modules/humano/paginas/documento/aporte/aporte-detalle/aporte-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/humano/componentes/documento/aporte/aporte-formulario/aporte-formulario.component'
+        '../../../modules/humano/paginas/documento/aporte/aporte-formulario/aporte-formulario.component'
       ),
   }
 };

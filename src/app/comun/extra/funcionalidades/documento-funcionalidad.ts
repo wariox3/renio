@@ -19,7 +19,7 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
     generar: {
       componente: async () =>
         await import(
-          '../../../modules/humano/componentes/documento/extras/generar/generar.component'
+          '../../../modules/humano/paginas/documento/extras/generar/generar.component'
         ),
     },
   },

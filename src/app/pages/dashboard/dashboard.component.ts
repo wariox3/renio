@@ -22,12 +22,12 @@ import {
   NgApexchartsModule
 } from 'ng-apexcharts';
 import { tap } from 'rxjs';
-import { CardComponent } from '../../comun/componentes/card/card.component';
-import { InicioHumanoComponent } from './../../modules/humano/componentes/inicio/inicio-humano/inicio-humano.component';
 import { InicioTesoreriaComponent } from '@modulos/tesoreria/paginas/inicio/inicio-tesoreria/inicio-tesoreria.component';
 import { InicioTransporteComponent } from '@modulos/transporte/paginas/inicio/inicio-transporte/inicio-transporte.component';
 import { InicioVentaComponent } from '@modulos/venta/paginas/inicio/inicio-venta/inicio-venta.component';
 import { InicioInventarioComponent } from '@modulos/inventario/paginas/inicio/inicio-inventario/inicio-inventario.component';
+import { InicioHumanoComponent } from '@modulos/humano/paginas/inicio/inicio-humano/inicio-humano.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 
 @Component({
   selector: 'app-dashboard',

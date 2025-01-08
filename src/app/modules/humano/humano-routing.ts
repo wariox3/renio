@@ -20,21 +20,21 @@ export const routes: Route[] = [
         path: 'nomina',
         loadComponent: () =>
           import(
-            './componentes/informes/nomina/nomina.component'
+            './paginas/informes/nomina/nomina.component'
           ).then((c) => c.NominaComponent),
       },
       {
         path: 'nomina_detalle',
         loadComponent: () =>
           import(
-            './componentes/informes/nomina-detalle/nomina-detalle.component'
+            './paginas/informes/nomina-detalle/nomina-detalle.component'
           ).then((c) => c.NominaDetalleComponent),
       },
       {
         path: 'nomina_electronica',
         loadComponent: () =>
           import(
-            './componentes/informes/nomina-electronica/nomina-electronica.component'
+            './paginas/informes/nomina-electronica/nomina-electronica.component'
           ).then((c) => c.NominaElectronicaComponent),
       },
     ],
