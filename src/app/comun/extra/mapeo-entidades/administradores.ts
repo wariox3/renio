@@ -416,9 +416,11 @@ export const mapeo: MapeoAdministrador = {
       },
       {
         nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+        nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+        nombreFiltroRelacion: 'contacto__numero_identificacion',
         campoTipo: 'CharField',
         visibleTabla: true,
-        visibleFiltro: false,
+        visibleFiltro: true,
         ordenable: false,
       },
       {

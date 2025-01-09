@@ -1014,6 +1014,7 @@ export const locale = {
         GRUPO_NOMBRE: 'Group Name',
         CONTACTO_ID: 'Code',
         CONTACTO_NUMERO_IDENTIFICACION: 'Identification',
+        CONTACTO_IDENTIFICACION_FILTRO: '[contact] Identification',
         CONTACTO_NOMBRE_CORTO: 'Short Name',
         CONTACTO: 'Contact',
         SALARIO: 'Salary',
