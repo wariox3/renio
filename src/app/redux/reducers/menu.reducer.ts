@@ -265,7 +265,6 @@ export const initialState: MenuItem = {
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
-                dataPersonalizada: JSON.stringify({ cliente: 'si' }),
               },
               archivoImportacionLista: 'GenContacto.xlsx',
             },
@@ -605,7 +604,6 @@ export const initialState: MenuItem = {
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
-                dataPersonalizada: JSON.stringify({ cliente: 'si' }),
               },
               archivoImportacionLista: 'GenContacto.xlsx',
             },
