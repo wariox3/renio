@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -23,7 +24,7 @@ import { minimumDaysBetweenDates } from '@comun/validaciones/dia-minimo-entre-fe
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { tap, zip } from 'rxjs';
+import { Subject, takeUntil, tap, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumPagoTipo } from '@interfaces/comunes/autocompletar/humano/hum-pago-tipo.interface';
 import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar/humano/hum-grupo.interface';
@@ -46,7 +47,7 @@ import { RegistroAutocompletarHumGrupo } from '@interfaces/comunes/autocompletar
 })
 export default class ContratoFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   grupoSeleccionado: any;
   arrPagoTipo: RegistroAutocompletarHumPagoTipo[];
@@ -54,6 +55,7 @@ export default class ContratoFormularioComponent
   formularioProgramacion: FormGroup;
 
   private _generalService = inject(GeneralService);
+  private _destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,20 +71,24 @@ export default class ContratoFormularioComponent
     }
     this.iniciarFormulario();
     this.changeDetectorRef.detectChanges();
-
   }
 
   inicializarCamposReactivos() {
+    this._campoReactivoTipo();
+
     this.formularioProgramacion
       .get('grupo')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(takeUntil(this._destroy$))
+      .subscribe((value) => {
         if (value) {
           this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
             let valor = Number(value);
             return grupo.grupo_id === valor;
           });
-          if(this.grupoSeleccionado !== undefined){
-            this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
+          if (this.grupoSeleccionado !== undefined) {
+            this.actualizarValidacion(
+              this.grupoSeleccionado.grupo_periodo_dias
+            );
             this.formularioProgramacion.patchValue({
               periodo: this.grupoSeleccionado.grupo_periodo_id,
             });
@@ -95,11 +101,48 @@ export default class ContratoFormularioComponent
       });
   }
 
-  actualizarValidacion(dias: number) {
+  private _campoReactivoTipo() {
+    this.formularioProgramacion
+      .get('pago_tipo')
+      ?.valueChanges.pipe(takeUntil(this._destroy$))
+      .subscribe((value) => {
+        if (value === '2') {
+          // limpiar validaciones
+          this._limpiarValidacionFechaHasta();
+        } else {
+          // llamar actualizar validacion
+          if (this.grupoSeleccionado) {
+            this.actualizarValidacion(
+              this.grupoSeleccionado.grupo_periodo_dias
+            );
+          }
+        }
+      });
+  }
+
+  private _limpiarValidacionFechaHasta() {
+    this.formularioProgramacion.get('fecha_hasta')?.clearValidators();
+    this.formularioProgramacion.get('fecha_hasta')?.clearAsyncValidators();
     this.formularioProgramacion.setValidators([
       this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
-      minimumDaysBetweenDates(dias),
     ]);
+    this.formularioProgramacion.get('fecha_hasta')?.updateValueAndValidity();
+  }
+
+  actualizarValidacion(dias: number) {
+    const pagoId = this.formularioProgramacion.get('pago_tipo')?.value;
+    if (pagoId == 2) {
+      this.formularioProgramacion.setValidators([
+        this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
+      ]);
+    } else {
+      this.formularioProgramacion.setValidators([
+        this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
+        minimumDaysBetweenDates(dias),
+      ]);
+    }
+
+    this.formularioProgramacion.get('fecha_hasta')?.updateValueAndValidity();
   }
 
   iniciarFormulario() {
@@ -302,7 +345,7 @@ export default class ContratoFormularioComponent
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;
-      if(desde !== '' && hasta !== ''){
+      if (desde !== '' && hasta !== '') {
         // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
         if (desde && hasta && new Date(desde) > new Date(hasta)) {
           return { fechaInvalida: true };
@@ -310,5 +353,10 @@ export default class ContratoFormularioComponent
       }
       return null;
     };
+  }
+
+  ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }
