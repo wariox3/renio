@@ -1684,6 +1684,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_EMPLEADO_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__nombre_corto',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
