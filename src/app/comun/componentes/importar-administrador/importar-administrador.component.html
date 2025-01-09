@@ -80,14 +80,22 @@
       </label>
     </div>
     }
-    <div class="d-flex justify-content-between mb-2">
+    <div
+      class="d-flex mb-2"
+      [ngClass]="
+        inhabilitarBtnEjemploImportar
+          ? 'justify-content-between'
+          : 'justify-content-end'
+      "
+    >
+      @if(inhabilitarBtnEjemploImportar){
       <button
         type="submit"
         class="btn btn-sm btn-primary me-2"
         (click)="descargarExcelImportar()"
         translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
-        [disabled]="inhabilitarBtnEjemploImportar"
       ></button>
+      }
       <div>
         @if(!cargardoDocumento){
         <button
