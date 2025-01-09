@@ -1,3 +1,4 @@
+import { PaginadorComponent } from './../../../../../../comun/componentes/paginador/paginador.component';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
@@ -71,7 +72,8 @@ import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.i
     NgSelectModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-    TablaResumenComponent
+    TablaResumenComponent,
+    PaginadorComponent
 ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -141,7 +143,7 @@ export default class ProgramacionDetalleComponent
   arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
   ordenadoTabla: string = '';
   visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
-
+  cantidadRegistrosProgramacionDetalle = 0
 
   private _unsubscribe$ = new Subject<void>();
   private readonly _generalService = inject(GeneralService);
@@ -213,6 +215,7 @@ export default class ProgramacionDetalleComponent
           }))
         ),
         tap((registros: any) => {
+          this.cantidadRegistrosProgramacionDetalle = registros.length
           this.arrProgramacionDetalle = registros;
         })
       )
@@ -1048,6 +1051,7 @@ export default class ProgramacionDetalleComponent
           return respuestaDetalle;
         }),
         tap((respuestaDetalle) => {
+          this.cantidadRegistrosProgramacionDetalle = respuestaDetalle.cantidad_registros;
           this.pagoDetalles = respuestaDetalle.registros;
         })
       )
@@ -1168,13 +1172,24 @@ export default class ProgramacionDetalleComponent
   }
 
   agregarConcepto(concepto: any, index: number) {
-    console.log(concepto);
     this.pagoDetalles[index] = {
       ...this.pagoDetalles[index],
       ...{
         concepto_nombre: concepto.concepto_nombre
       }
     }
+  }
+
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    this.arrParametrosConsulta.limite = data.desplazamiento;
+    this.arrParametrosConsulta.desplazar = data.limite;
+    this.changeDetectorRef.detectChanges();
+    this.consultarDatos();
+  }
+
+  cambiarDesplazamiento(desplazamiento: number) {
+    this.arrParametrosConsulta.desplazar = desplazamiento;
+    this.consultarDatos();
   }
 
   ngOnDestroy(): void {

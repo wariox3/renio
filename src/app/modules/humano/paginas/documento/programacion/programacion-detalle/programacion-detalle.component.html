@@ -137,7 +137,12 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
             ></a>
             <ng-template ngbNavContent>
-              <div class="d-flex justify-content-end mb-4">
+              <div class="d-flex justify-content-between mb-4">
+                <app-comun-paginador
+                  [cantidadRegistros]="cantidadRegistrosProgramacionDetalle"
+                  (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+                  (emitirPaginacion)="cambiarPaginacion($event)"
+                ></app-comun-paginador>
                 <div class="btn-group" role="group">
                   <div
                     class="btn-group"

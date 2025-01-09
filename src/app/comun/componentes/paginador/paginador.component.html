@@ -1,0 +1,29 @@
+<div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
+  <button
+    class="btn btn-sm btn-icon btn-secondary p-2"
+    (click)="disminuirDesplazamiento()"
+  >
+    <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
+      ><span class="path1"></span><span class="path2"></span
+      ><span class="path3"></span><span class="path4"></span
+    ></i>
+  </button>
+
+  <input
+    type="text"
+    class="form-control form-control-sm w-100px"
+    [value]="lado() + 1 + '-' + al()"
+    (keyup.enter)="calcularValorMostrar($event)"
+  />
+  <span>de</span>
+  <span> {{ _cantidadRegistros() }} </span>
+  <button
+    class="btn btn-sm btn-icon btn-secondary p-2"
+    (click)="aumentarDesplazamiento()"
+  >
+    <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
+      ><span class="path1"></span><span class="path2"></span
+      ><span class="path3"></span><span class="path4"></span
+    ></i>
+  </button>
+</div>
