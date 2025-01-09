@@ -12,7 +12,8 @@
           (emitirContrato)="modificarCampoFormulario('contrato', $event)"
           [requerido]="true"
           [informacionContrato]="{
-            identificacion: formularioAdicional.value.contrato_numero_identificacion,
+            identificacion:
+              formularioAdicional.value.contrato_numero_identificacion,
             contrato: formularioAdicional.value.contrato,
             contrato_nombre: formularioAdicional.value.contrato_nombre
           }"
@@ -23,11 +24,14 @@
           "
         >
         </app-buscar-contrato>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioAdicional.controls['contrato']
-        }"></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioAdicional.controls['contrato']
+          }"
+        ></ng-container>
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
@@ -37,7 +41,6 @@
           ></label>
           <ng-select
             [items]="arrConceptosAdicional"
-            bindLabel="concepto_nombre"
             bindValue="concepto_id"
             formControlName="concepto"
             notFoundText="Sin elementos"
@@ -45,6 +48,13 @@
             placeholder="Selecciona un elemento"
             class="select2Custom"
           >
+            <ng-template ng-label-tmp let-item="item">
+              {{ item.concepto_id }} - {{ item.concepto_nombre }}
+            </ng-template>
+
+            <ng-template ng-option-tmp let-item="item">
+              {{ item.concepto_id }} - {{ item.concepto_nombre }}
+            </ng-template>
           </ng-select>
           <ng-container
             [ngTemplateOutlet]="formError"
