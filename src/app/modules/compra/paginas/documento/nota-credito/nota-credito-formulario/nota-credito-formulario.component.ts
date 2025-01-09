@@ -714,7 +714,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       {
         operador: '',
         propiedad: 'documento_tipo__documento_clase_id',
-        valor1: 5,
+        valor1: 300,
       },
       {
         operador: '',
@@ -844,7 +844,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           operador: '',
           propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 5,
+          valor1: 300,
         },
       ],
       limite: 5,
@@ -865,7 +865,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           this.referencias = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         })
-      );
+      )
+      .subscribe();
   }
 
   actualizarDatos(event: any, campo: string) {
