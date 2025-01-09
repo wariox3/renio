@@ -299,14 +299,18 @@
                       <th class="bg-gray-100">
                         <div>Salario</div>
                       </th>
-                      <th class="bg-gray-100">
-                        <div placement="top" ngbTooltip="Dias transporte">
-                          DT
-                        </div>
-                      </th>
+                      @if (programacion.pago_tipo_id !== 2) {
+                        <th class="bg-gray-100">
+                          <div placement="top" ngbTooltip="Dias transporte">
+                            DT
+                          </div>
+                        </th>
+                      }
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Dias">DIAS</div>
                       </th>
+                      <!-- desde aqui -->
+                      @if (programacion.pago_tipo_id !== 2) {
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Diurna">D</div>
                       </th>
@@ -357,6 +361,7 @@
                           RFD
                         </div>
                       </th>
+                      <!-- hasta aqui -->
                       <th class="bg-gray-100">
                         <div
                           placement="top"
@@ -365,6 +370,7 @@
                           RFN
                         </div>
                       </th>
+                      }
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Valor neto">TOTAL</div>
                       </th>
@@ -435,12 +441,16 @@
                         <td class="text-end">
                           {{ programacionDetalle.salario | number }}
                         </td>
-                        <td class="text-end">
-                          {{ programacionDetalle.dias_transporte | number }}
-                        </td>
+                        @if (programacion.pago_tipo_id !== 2) {
+                          <td class="text-end">
+                            {{ programacionDetalle.dias_transporte | number }}
+                          </td>
+                        }
                         <td class="text-end">
                           {{ programacionDetalle.dias | number }}
                         </td>
+
+                        @if (programacion.pago_tipo_id !== 2) {
                         <td>{{ programacionDetalle.diurna }}</td>
                         <td>{{ programacionDetalle.nocturna }}</td>
                         <td>{{ programacionDetalle.festiva_diurna }}</td>
@@ -458,6 +468,8 @@
                         <td>
                           {{ programacionDetalle.recargo_festivo_nocturno }}
                         </td>
+                        }
+                        
                         <td class="text-end">
                           {{ programacionDetalle.total | number }}
                         </td>
