@@ -30,6 +30,7 @@ export interface ProgramacionDetalleRegistro {
   fecha_desde: Date;
   fecha_hasta: Date;
   salario: number;
+  salario_promedio: number;
   dias: number;
   dias_transporte: number;
   neto: number;
