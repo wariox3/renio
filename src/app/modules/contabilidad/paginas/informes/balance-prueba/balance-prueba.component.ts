@@ -5,24 +5,24 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
-import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
-import { map, Observable, of, tap } from 'rxjs';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { General } from '@comun/clases/general';
+import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { FechasService } from '@comun/services/fechas.service';
+import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { HttpService } from '@comun/services/http.service';
+import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
 interface DataAgrupada {
   [cuentaClaseId: number | string]: {
@@ -53,6 +53,7 @@ interface DataAgrupada {
     ReactiveFormsModule,
     TranslateModule,
     SoloNumerosDirective,
+    BtnExportarComponent
   ],
   templateUrl: './balance-prueba.component.html',
   styleUrl: './balance-prueba.component.scss',
@@ -104,6 +105,10 @@ export class BalancePruebaComponent extends General implements OnInit {
 
   public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
   public formularioFiltros: FormGroup;
+  private _httpService = inject(HttpService);
+  private _descargarArchivosService = inject(DescargarArchivosService);
+
+
 
   constructor() {
     super();
@@ -147,57 +152,6 @@ export class BalancePruebaComponent extends General implements OnInit {
       },
     });
   }
-
-  // private _groupData(data: MovimientoBalancePrueba[]): DataAgrupada {
-  //   return data.reduce((acumulador, registro) => {
-  //     const { cuenta_clase_id, cuenta_grupo_id, cuenta_cuenta_id } = registro;
-
-  //     if (!acumulador[cuenta_clase_id]) {
-  //       acumulador[cuenta_clase_id] = {
-  //         total: {
-  //           vr_debito: 0,
-  //           vr_credito: 0,
-  //         },
-  //       };
-  //     }
-
-  //     if (!acumulador[cuenta_clase_id][cuenta_grupo_id]) {
-  //       acumulador[cuenta_clase_id][cuenta_grupo_id] = {
-  //         total: {
-  //           vr_debito: 0,
-  //           vr_credito: 0,
-  //         },
-  //       };
-  //     }
-
-  //     if (!acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id]) {
-  //       acumulador[cuenta_clase_id][cuenta_grupo_id][cuenta_cuenta_id] = {
-  //         vr_debito: 0,
-  //         vr_credito: 0,
-  //       };
-  //     }
-
-  //     // Actualizar valores a nivel de subcuenta
-  //     acumulador[cuenta_clase_id][cuenta_grupo_id][
-  //       cuenta_cuenta_id
-  //     ].vr_debito += registro.vr_debito ?? 0;
-  //     acumulador[cuenta_clase_id][cuenta_grupo_id][
-  //       cuenta_cuenta_id
-  //     ].vr_credito += registro.vr_credito ?? 0;
-
-  //     // Actualizar valores a nivel de grupo
-  //     acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_debito +=
-  //       registro.vr_debito ?? 0;
-  //     acumulador[cuenta_clase_id][cuenta_grupo_id]['total'].vr_credito +=
-  //       registro.vr_credito ?? 0;
-
-  //     // Actualizar valores a nivel de clase
-  //     acumulador[cuenta_clase_id].total.vr_debito += registro.vr_debito ?? 0;
-  //     acumulador[cuenta_clase_id].total.vr_credito += registro.vr_credito ?? 0;
-
-  //     return acumulador;
-  //   }, {} as DataAgrupada);
-  // }
 
   private _construirFiltros() {
     this._limpiarFiltros();
@@ -259,5 +213,19 @@ export class BalancePruebaComponent extends General implements OnInit {
   aplicarFiltro() {
     this._construirFiltros();
     this._consultarInformes(this._parametrosConsulta);
+  }
+
+  imprimir() {
+    this._httpService.descargarArchivo('general/documento/imprimir/', this._parametrosConsulta);
+  }
+
+  descargarExcel(){
+    this._descargarArchivosService.descargarExcelDocumentos({
+      ...this._parametrosConsulta,
+      excel: true,
+      ...{
+        limite: 5000,
+      },
+    });
   }
 }

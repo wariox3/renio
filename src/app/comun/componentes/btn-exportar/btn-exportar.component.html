@@ -1,0 +1,20 @@
+<div class="btn-group btn-group-sm" ngbDropdown role="group">
+  <button
+    type="button"
+    class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+    ngbDropdownToggle
+  >
+    {{ "FORMULARIOS.BOTONES.COMUNES.EXPORTAR" | translate }}
+  </button>
+  <div class="dropdown-menu p-2" ngbDropdownMenu>
+    @if (visualizarBtnExportarExcel) {
+    <button ngbDropdownItem (click)="exportarExcel()">
+      {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+    </button>
+    } @if (visualizarBtnExportarZip) {
+    <button ngbDropdownItem (click)="exportarZip()">
+      {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+    </button>
+    }
+  </div>
+</div>

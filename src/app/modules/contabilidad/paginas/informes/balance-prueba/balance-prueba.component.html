@@ -5,7 +5,10 @@
       <form [formGroup]="formularioFiltros">
         <section class="row mb-5">
           <div class="col-md-6 col-sm-12">
-            <label class="form-label required">Fecha desde</label>
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+            ></label>
             <input
               formControlName="fecha_desde"
               class="form-control"
@@ -31,7 +34,10 @@
             ></ng-container>
           </div>
           <div class="col-md-6 col-sm-12">
-            <label class="form-label required">Fecha hasta</label>
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+            ></label>
             <input
               formControlName="fecha_hasta"
               class="form-control"
@@ -58,7 +64,10 @@
           </div>
         </section>
         <section class="row mb-5">
-          <label class="form-label required">Año</label>
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.ANIO"
+          ></label>
           <div class="col-md-6">
             <input
               formControlName="anio"
@@ -102,25 +111,42 @@
 
 <app-card [titulo]="'MENU.FUNCIONALIDAD.BALANCEPRUEBA'">
   <section card-body>
+    <div class="d-flex justify-content-end mb-2">
+      <div class="btn-group btn-sm shadow-sm">
+        <app-comun-btn-exportar
+          (emitirExportarExcel)="descargarExcel()"
+        />
+        <button
+          type="submit"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          #btnGuardar
+          translate="FORMULARIOS.BOTONES.COMUNES.PDF"
+          (click)="imprimir()"
+        ></button>
+      </div>
+    </div>
     <div class="table-responsive">
       <table
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
-          <tr class="text-gray-800">
-            <th class="text-center">Cuenta</th>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">Anterior</th>
-            <th class="text-center">Debito</th>
-            <th class="text-center">Credito</th>
-            <th class="text-center">Actual</th>
+          <tr class="text-gray-800 bg-gray-100">
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.ANTERIOR"
+            ></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.DEBITO"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.CREDITO"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.ACTUAL"></th>
           </tr>
         </thead>
         <tbody>
           @for (item of cuentasAgrupadas; track $index) {
           <tr>
             <td>{{ item.codigo }}</td>
-            <td style="text-align: left;">{{ item.nombre }}</td>
+            <td style="text-align: left">{{ item.nombre }}</td>
             <td>{{ item.saldo_anterior | currency : "$" }}</td>
             <td>{{ item.debito | currency : "$" }}</td>
             <td>{{ item.credito | currency : "$" }}</td>
@@ -130,77 +156,6 @@
         </tbody>
       </table>
     </div>
-    <!-- <div ngbAccordion>
-      @for (cuentaClase of cuentasAgrupadas$ | async | keyvalue; track $index) {
-      <div ngbAccordionItem [collapsed]="false">
-        <h2 ngbAccordionHeader>
-          <button ngbAccordionButton>
-            <section class="w-100 d-flex justify-content-between">
-              <span class="fw-bold fs-5">
-                {{ cuentaClase.key }}
-              </span>
-              <section class="fw-bold fs-5 me-3">
-                <span class="me-1 badge bg-secondary"> Débito: </span>
-                <span>
-                  {{ cuentaClase.value.total.vr_debito | currency : "$" }}
-                </span>
-                <span class="me-1 badge bg-secondary"> Crédito: </span>
-                <span class="me-3">
-                  {{ cuentaClase.value.total.vr_credito | currency : "$" }}
-                </span>
-              </section>
-            </section>
-          </button>
-        </h2>
-        <div ngbAccordionCollapse>
-          <div ngbAccordionBody>
-            <ng-template>
-              @for (cuentaGrupo of cuentaClase.value | keyvalue; track $index) {
-              @if (cuentaGrupo.key !== 'total') {
-              <div class="">
-                <h5 class="indent bg-secondary p-2">{{ cuentaGrupo.key }}</h5>
-
-                <div class="table-responsive double-indent">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr class="cuenta-col">
-                        <th>Cuenta</th>
-                        <th>Débito</th>
-                        <th>Crédito</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (item of cuentaGrupo.value | keyvalue; track $index)
-                      { @if (item.key === 'total') {
-                      <tr>
-                        <td class="cuenta-col fw-bold">
-                          {{ item.key | titlecase }}
-                        </td>
-                        <td class="fw-bold">
-                          {{ item.value.vr_debito | currency : "$" }}
-                        </td>
-                        <td class="fw-bold">
-                          {{ item.value.vr_credito | currency : "$" }}
-                        </td>
-                      </tr>
-                      } @else {
-                      <tr>
-                        <td class="cuenta-col">{{ item.key }}</td>
-                        <td>{{ item.value.vr_debito | currency : "$" }}</td>
-                        <td>{{ item.value.vr_credito | currency : "$" }}</td>
-                      </tr>
-                      } }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              } }
-            </ng-template>
-          </div>
-        </div>
-      </div>
-      }
-    </div> -->
   </section>
 </app-card>
 

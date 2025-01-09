@@ -1070,6 +1070,14 @@ export const locale = {
         ESTADO_INACTIVO: 'Estado inactivo',
         ESTADO_INACTIVO_ABREVIATURA: 'INA',
       },
+      CONMOVIENTO: {
+        CUENTA: 'Cuenta',
+        NOMBRE: 'Nombre',
+        ANTERIOR: 'Anterior',
+        DEBITO: 'Debito',
+        CREDITO: 'Credito',
+        ACTUAL: 'Actual',
+      }
     },
     TEMA: {
       CLARO: 'Claro',
