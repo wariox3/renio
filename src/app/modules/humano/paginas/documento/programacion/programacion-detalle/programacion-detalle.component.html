@@ -299,12 +299,17 @@
                       <th class="bg-gray-100">
                         <div>Salario</div>
                       </th>
-                      @if (programacion.pago_tipo_id !== 2) {
-                        <th class="bg-gray-100">
-                          <div placement="top" ngbTooltip="Dias transporte">
-                            DT
-                          </div>
-                        </th>
+
+                      @if (programacion.pago_tipo_id === 2) {
+                      <th class="bg-gray-100">
+                        <div>Promedio</div>
+                      </th>
+                      } @if (programacion.pago_tipo_id !== 2) {
+                      <th class="bg-gray-100">
+                        <div placement="top" ngbTooltip="Dias transporte">
+                          DT
+                        </div>
+                      </th>
                       }
                       <th class="bg-gray-100">
                         <div placement="top" ngbTooltip="Dias">DIAS</div>
@@ -441,10 +446,17 @@
                         <td class="text-end">
                           {{ programacionDetalle.salario | number }}
                         </td>
-                        @if (programacion.pago_tipo_id !== 2) {
+
+                        @if (programacion.pago_tipo_id === 2) {
                           <td class="text-end">
-                            {{ programacionDetalle.dias_transporte | number }}
+                            {{ programacionDetalle.salario_promedio | number }}
                           </td>
+                          }
+
+                        @if (programacion.pago_tipo_id !== 2) {
+                        <td class="text-end">
+                          {{ programacionDetalle.dias_transporte | number }}
+                        </td>
                         }
                         <td class="text-end">
                           {{ programacionDetalle.dias | number }}
@@ -469,7 +481,7 @@
                           {{ programacionDetalle.recargo_festivo_nocturno }}
                         </td>
                         }
-                        
+
                         <td class="text-end">
                           {{ programacionDetalle.total | number }}
                         </td>
