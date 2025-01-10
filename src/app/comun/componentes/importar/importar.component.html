@@ -102,7 +102,7 @@
           translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
           type="submit"
           class="btn btn-sm btn-primary"
-          [disabled]="archivoNombre === '' || habilitarBtnEjemploImportar"
+          [disabled]="archivoNombre === '' || !habilitarBtnEjemploImportar"
           (click)="guardarArchivo()"
         ></button>
         } @else {
