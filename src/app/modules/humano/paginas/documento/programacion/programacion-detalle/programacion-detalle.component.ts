@@ -1221,6 +1221,7 @@ export default class ProgramacionDetalleComponent
   }
 
   obtenerFiltrosContratos(data: any[]){
+    this.inicializarParametrosConsulta()
     if(data.length > 0){
       this.arrParametrosConsulta.filtros = [
         ...this.arrParametrosConsulta.filtros,
