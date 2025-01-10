@@ -25,19 +25,19 @@
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
         <thead>
-          <tr class="fw-bold fs-6 text-gray-800">
+          <tr class="fw-bold fs-6 text-gray-800 bg-gray-100">
             <th
               *ngFor="let campo of campoLista; let i = index"
               class="cursor-pointer user-select-none"
             >
               <div class="d-flex justify-content-between">
                 <span>
-                {{
-                  "LISTAS." +
-                    (consultarModelo.substring(3) | uppercase) +
-                    "." +
-                    (campo.titulo| uppercase) | translate
-                }}
+                  {{
+                    "LISTAS." +
+                      (consultarModelo.substring(3) | uppercase) +
+                      "." +
+                      (campo.titulo | uppercase) | translate
+                  }}
                 </span>
               </div>
             </th>
@@ -46,8 +46,16 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of arrItems">
-            <td *ngFor="let key of item | keys">
-              {{ item[key] }}
+            <td
+              *ngFor="let key of item | keys"
+              [ngClass]="{
+                'text-end':
+                  item[key].aplicaFormatoNumerico ||
+                  item[key].alinearAlaIzquierda,
+                'text-center': item[key].campoTipo === 'Booleano'
+              }"
+            >
+              {{ getTipoDato(item[key]) }}
             </td>
             <td class="text-center">
               <button

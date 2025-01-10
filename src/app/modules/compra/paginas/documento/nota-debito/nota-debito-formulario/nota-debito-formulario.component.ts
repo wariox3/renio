@@ -110,32 +110,45 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'numero',
       titulo: 'numero',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'contacto_numero_identificacion',
       titulo: 'contacto_numero_identificacion',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'contacto_nombre_corto',
       titulo: 'contacto_nombre_corto',
+      campoTipo: 'CharField'
+    },
+    {
+      propiedad: 'total',
+      titulo: 'total',
+      campoTipo: 'IntegerField',
+      aplicaFormatoNumerico: true
     },
   ];
   public campoListaContacto: CampoLista[] = [
     {
       propiedad: 'id',
       titulo: 'id',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
+      campoTipo: 'IntegerField'
     },
   ];
   public filtrosPermanentes = [

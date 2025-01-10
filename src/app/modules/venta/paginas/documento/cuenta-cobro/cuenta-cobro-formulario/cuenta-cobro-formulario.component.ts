@@ -113,14 +113,17 @@ export default class CuentaCobroFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
+      campoTipo: 'IntegerField'
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
+      campoTipo: 'IntegerField'
     },
   ];
   public filtrosPermanentes = [

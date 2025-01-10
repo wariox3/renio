@@ -14,6 +14,7 @@ import { KeysPipe } from '@pipe/keys.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
 import { Modelo } from '@comun/type/modelo.type';
+import { MapeoDocumentos } from '@comun/type/mapeo-documentos.type';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -62,9 +63,7 @@ export class BuscarAvanzadoComponent extends General {
     this.arrParametrosConsulta.filtros = [];
     this.consultarLista();
     let posicion: keyof typeof mapeo = this.consultarModelo as Modelo;
-
     this.store.dispatch(ActualizarMapeo({ dataMapeo: mapeo[posicion] }));
-
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -111,14 +110,20 @@ export class BuscarAvanzadoComponent extends General {
         // Mapea cada registro en respuesta.registros para crear un nuevo array this.arrItems
         this.arrItems = respuesta.registros.map((registro) => {
           // Inicializa un objeto vacío para almacenar los valores de los campos especificados
-          let valores: any = {};
+          let valores: any[] = [];
           // Itera sobre cada campo en this.campoLista
           this.campoLista.forEach((campo) => {
             // Si el campo existe en el registro, agrégalo al objeto valores
             if (registro[campo.propiedad] !== undefined) {
-              valores[campo.propiedad] = registro[campo.propiedad];
+               valores.push(
+                {
+                  ...campo,
+                  valor: registro[campo.propiedad],
+                }
+               )
             }
           });
+
           // Si el objeto valores no está vacío (tiene al menos un campo), devuélvelo
           if (Object.keys(valores).length > 0) {
             return valores;
@@ -138,5 +143,51 @@ export class BuscarAvanzadoComponent extends General {
   seleccionar(item: any) {
     this.modalService.dismissAll();
     this.emitirRegistroSeleccionado.emit(item);
+  }
+
+
+  // Función para determinar el tipo de dato y aplicar formato si es necesario
+  getTipoDato(campo: any) {
+    console.log(campo);
+
+    // Verifica si se proporciona un campo
+    if (campo) {
+      // Switch para manejar diferentes tipos de campo
+      switch (campo.campoTipo) {
+        // Si el campo es FloatField o IntegerField
+        case 'FloatField':
+        case 'IntegerField':
+          // Verifica si se debe aplicar formato numérico
+          if (campo.aplicaFormatoNumerico) {
+            // Formatea el valor con dos decimales y comas para separar miles
+            let formattedValue = campo.valor
+              .toFixed(2)
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            return `${formattedValue}`;
+          }
+          // Si no se aplica formato numérico, devuelve el valor sin modificar
+          return campo.valor;
+        // Si el campo es de tipo booleano
+        case 'Booleano':
+          // Convierte el valor booleano a 'Si' si es verdadero y a 'No' si es falso
+          return campo.valor ? 'SI' : 'NO';
+        case 'Porcentaje':
+          // Verifica si `valor` es una cadena antes de aplicar `replace`
+          if (typeof campo.valor === 'string') {
+            return `${parseFloat(campo.valor.replace(',', '.'))}`;
+          } else if (campo.valor !== null && campo.valor !== undefined) {
+            // Convierte `valor` a cadena si no es null o undefined
+            return `${parseFloat(String(campo.valor).replace(',', '.'))}`;
+          } else {
+            // Maneja el caso cuando `valor` es null o undefined
+            return '0'; // O algún valor predeterminado adecuado
+          }
+        // En caso de que el tipo de campo no sea ninguno de los anteriores
+        default:
+          // Devuelve el valor sin modificar
+          return campo.valor;
+      }
+    }
   }
 }
