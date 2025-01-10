@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { asignarArchivoImportacionDetalle, asignarArchivoImportacionLista, asignarArchivoImportacionNuevo } from '@redux/actions/archivo-importacion.actions';
+import {
+  asignarArchivoImportacionDetalle,
+  asignarArchivoImportacionLista,
+  asignarArchivoImportacionNuevo,
+} from '@redux/actions/archivo-importacion.actions';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
@@ -13,7 +17,9 @@ export class ArchivoImportacionEffects {
         ofType(asignarArchivoImportacionLista), // Intercepta la acción de establecer documentacionId
         tap(({ lista }) => {
           // Guardar en localStorage
-          localStorage.setItem('asignarArchivoImportacionLista', lista);
+          if (lista) {
+            localStorage.setItem('asignarArchivoImportacionLista', lista);
+          }
         })
       ),
     { dispatch: false } // No emite una nueva acción al store
@@ -25,7 +31,9 @@ export class ArchivoImportacionEffects {
         ofType(asignarArchivoImportacionNuevo), // Intercepta la acción de establecer documentacionId
         tap(({ nuevo }) => {
           // Guardar en localStorage
-          localStorage.setItem('asignarArchivoImportacionNuevo', nuevo);
+          if (nuevo) {
+            localStorage.setItem('asignarArchivoImportacionNuevo', nuevo);
+          }
         })
       ),
     { dispatch: false } // No emite una nueva acción al store
@@ -37,7 +45,9 @@ export class ArchivoImportacionEffects {
         ofType(asignarArchivoImportacionDetalle), // Intercepta la acción de establecer documentacionId
         tap(({ detalle }) => {
           // Guardar en localStorage
-          localStorage.setItem('asignarArchivoImportacionDetalle', detalle);
+          if (detalle) {
+            localStorage.setItem('asignarArchivoImportacionDetalle', detalle);
+          }
         })
       ),
     { dispatch: false } // No emite una nueva acción al store

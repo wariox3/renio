@@ -46,7 +46,7 @@ export class ImportarAdministradorComponent
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
-  inhabilitarBtnEjemploImportar: boolean = false;
+  habilitarBtnEjemploImportar: boolean = false;
   cantidadErrores: number = 0;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
@@ -74,12 +74,12 @@ export class ImportarAdministradorComponent
       this.store
         .select(obtenerArchivoImportacionDetalle)
         .pipe(
-          tap((archivoImportacionDetalle) => {
-            if (
-              archivoImportacionDetalle === null ||
-              archivoImportacionDetalle === ''
-            ) {
-              this.inhabilitarBtnEjemploImportar = true;
+          tap((archivoImportacionLista) => {
+            if (archivoImportacionLista) {
+              this.habilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            } else {
+              this.habilitarBtnEjemploImportar = false;
               this.changeDetectorRef.detectChanges();
             }
           }),
@@ -103,11 +103,11 @@ export class ImportarAdministradorComponent
         .select(obtenerArchivoImportacionLista)
         .pipe(
           tap((archivoImportacionLista) => {
-            if (
-              archivoImportacionLista === null ||
-              archivoImportacionLista === ''
-            ) {
-              this.inhabilitarBtnEjemploImportar = true;
+            if (archivoImportacionLista) {
+              this.habilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            } else {
+              this.habilitarBtnEjemploImportar = false;
               this.changeDetectorRef.detectChanges();
             }
           }),

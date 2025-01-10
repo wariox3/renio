@@ -83,12 +83,12 @@
     <div
       class="d-flex mb-2"
       [ngClass]="
-        inhabilitarBtnEjemploImportar
+        habilitarBtnEjemploImportar
           ? 'justify-content-between'
           : 'justify-content-end'
       "
     >
-      @if(inhabilitarBtnEjemploImportar){
+      @if(habilitarBtnEjemploImportar){
       <button
         type="submit"
         class="btn btn-sm btn-primary me-2"
@@ -102,7 +102,7 @@
           translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
           type="submit"
           class="btn btn-sm btn-primary"
-          [disabled]="archivoNombre === '' || inhabilitarBtnEjemploImportar"
+          [disabled]="archivoNombre === '' || habilitarBtnEjemploImportar"
           (click)="guardarArchivo()"
         ></button>
         } @else {

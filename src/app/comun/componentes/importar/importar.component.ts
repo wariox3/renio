@@ -45,7 +45,7 @@ export class ImportarComponent extends General {
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   importarSoloNuevos: boolean = false;
-  inhabilitarBtnEjemploImportar: boolean = false;
+  habilitarBtnEjemploImportar: boolean = false;
   soloNuevos: boolean;
   cantidadErrores: number = 0;
   modalRef: any;
@@ -73,11 +73,11 @@ export class ImportarComponent extends General {
       .pipe(
         tap(
           (archivoImportacionLista) => {
-            if (
-              archivoImportacionLista === null ||
-              archivoImportacionLista === ''
-            ) {
-              this.inhabilitarBtnEjemploImportar = true;
+            if (archivoImportacionLista) {
+              this.habilitarBtnEjemploImportar = true;
+              this.changeDetectorRef.detectChanges();
+            } else {
+              this.habilitarBtnEjemploImportar = false;
               this.changeDetectorRef.detectChanges();
             }
           }

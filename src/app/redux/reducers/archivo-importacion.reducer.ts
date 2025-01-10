@@ -3,9 +3,9 @@ import { createReducer, on } from '@ngrx/store';
 import { asignarArchivoImportacionDetalle, asignarArchivoImportacionLista, asignarArchivoImportacionNuevo } from '@redux/actions/archivo-importacion.actions';
 
 export const initialState: ArchivoImportacion =  {
-  lista: '',
-  detalle: '',
-  nuevo: ''
+  lista: null,
+  detalle: null,
+  nuevo: null
 };
 
 export const ArchivoImportacionReducer = createReducer(

@@ -154,6 +154,12 @@ export class SidebarMenuComponent implements OnInit {
           lista: item?.archivoImportacionLista,
         })
       );
+    } else {
+      this.store.dispatch(
+        asignarArchivoImportacionLista({
+          lista: null,
+        })
+      );
     }
 
     this.store.dispatch(ActualizarDataItem({ dataItem: item }));
