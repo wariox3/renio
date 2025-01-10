@@ -1,6 +1,13 @@
 import { PaginadorComponent } from './../../../../../../comun/componentes/paginador/paginador.component';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -52,8 +59,11 @@ import {
   throttleTime,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { TablaResumenComponent } from "./componentes/tabla-resumen/tabla-resumen.component";
+import { TablaResumenComponent } from './componentes/tabla-resumen/tabla-resumen.component';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FiltrosDetalleProgramacionContratos } from './constantes';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -73,8 +83,9 @@ import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.i
     BaseEstadosComponent,
     TituloAccionComponent,
     TablaResumenComponent,
-    PaginadorComponent
-],
+    PaginadorComponent,
+    BaseFiltroComponent,
+  ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -116,7 +127,7 @@ export default class ProgramacionDetalleComponent
     grupo_id: 0,
     grupo_nombre: '',
     periodo_id: 0,
-    periodo_nombre: ''
+    periodo_nombre: '',
   };
   pago: any = {};
   pagoDetalles: any = [];
@@ -143,7 +154,7 @@ export default class ProgramacionDetalleComponent
   arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
   ordenadoTabla: string = '';
   visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
-  cantidadRegistrosProgramacionDetalle = 0
+  cantidadRegistrosProgramacionDetalle = 0;
 
   private _unsubscribe$ = new Subject<void>();
   private readonly _generalService = inject(GeneralService);
@@ -215,13 +226,17 @@ export default class ProgramacionDetalleComponent
           }))
         ),
         tap((registros: any) => {
-          this.cantidadRegistrosProgramacionDetalle = registros.length
+          this.cantidadRegistrosProgramacionDetalle = registros.length;
           this.arrProgramacionDetalle = registros;
         })
       )
       .subscribe(() => {
         this.changeDetectorRef.detectChanges();
       });
+
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: FiltrosDetalleProgramacionContratos })
+    );
   }
 
   consultarAdicionalesTab() {
@@ -259,6 +274,17 @@ export default class ProgramacionDetalleComponent
       limite_conteo: 10000,
       modelo: 'HumProgramacionDetalle',
     };
+    const filtroDetalleContratos = localStorage.getItem(
+      `documento_programacion`
+    );
+    if (filtroDetalleContratos !== null) {
+      let filtroPermamente = JSON.parse(filtroDetalleContratos);
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...filtroPermamente
+      ];
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -1051,7 +1077,8 @@ export default class ProgramacionDetalleComponent
           return respuestaDetalle;
         }),
         tap((respuestaDetalle) => {
-          this.cantidadRegistrosProgramacionDetalle = respuestaDetalle.cantidad_registros;
+          this.cantidadRegistrosProgramacionDetalle =
+            respuestaDetalle.cantidad_registros;
           this.pagoDetalles = respuestaDetalle.registros;
         })
       )
@@ -1073,6 +1100,16 @@ export default class ProgramacionDetalleComponent
       filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
       limite: 10000,
     };
+    const filtroDetalleContratos = localStorage.getItem(
+      `documento_programacion`
+    );
+    if (filtroDetalleContratos !== null) {
+      let filtroPermamente = JSON.parse(filtroDetalleContratos);
+      params.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...filtroPermamente
+      ];
+    }
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
     this.dropdown.close();
@@ -1147,15 +1184,17 @@ export default class ProgramacionDetalleComponent
   }
 
   editarNominaProgramacionDetalleResumen(index: number) {
-    this.visualizarBtnGuardarNominaProgramacionDetalleResumen.update((valor) => !valor);
-    let registros = this.pagoDetalles.map((pago: any, indexPago: number)=> {
-      if(indexPago === index){
-        pago.editarLinea = !pago.editarLinea
+    this.visualizarBtnGuardarNominaProgramacionDetalleResumen.update(
+      (valor) => !valor
+    );
+    let registros = this.pagoDetalles.map((pago: any, indexPago: number) => {
+      if (indexPago === index) {
+        pago.editarLinea = !pago.editarLinea;
       }
-      return pago
-    })
+      return pago;
+    });
     this.pagoDetalles = registros;
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   agregarNuevaLineaNominaProgramacionDetalleResumen() {
@@ -1165,19 +1204,33 @@ export default class ProgramacionDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  retirarNominaProgramacionDetalleResumen(index: number){
-    this.pagoDetalles = this.pagoDetalles.filter((pago: any, indexPago: number) => (indexPago !== index))
+  retirarNominaProgramacionDetalleResumen(index: number) {
+    this.pagoDetalles = this.pagoDetalles.filter(
+      (pago: any, indexPago: number) => indexPago !== index
+    );
     this.changeDetectorRef.detectChanges();
-
   }
 
   agregarConcepto(concepto: any, index: number) {
     this.pagoDetalles[index] = {
       ...this.pagoDetalles[index],
       ...{
-        concepto_nombre: concepto.concepto_nombre
-      }
+        concepto_nombre: concepto.concepto_nombre,
+      },
+    };
+  }
+
+  obtenerFiltrosContratos(data: any[]){
+    if(data.length > 0){
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...data
+      ];
+    } else {
+      this.inicializarParametrosConsulta()
     }
+    this.changeDetectorRef.detectChanges();
+    this.consultarDatos();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
@@ -1195,5 +1248,6 @@ export default class ProgramacionDetalleComponent
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();
+    localStorage.removeItem('documento_programacion')
   }
 }
