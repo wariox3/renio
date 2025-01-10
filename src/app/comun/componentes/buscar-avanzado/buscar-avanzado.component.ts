@@ -141,11 +141,9 @@ export class BuscarAvanzadoComponent extends General {
     }
   }
 
-  seleccionar(item: any) {
-    console.log(item);
-
+  seleccionar(item: any, index: number) {
     this.modalService.dismissAll();
-    this.emitirRegistroSeleccionado.emit(item);
+    this.emitirRegistroSeleccionado.emit(item[index][0]);
   }
 
 
