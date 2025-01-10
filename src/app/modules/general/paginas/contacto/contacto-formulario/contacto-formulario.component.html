@@ -921,6 +921,45 @@
             </option>
           </select>
         </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CORREOFACTURACIONELECTRONICA"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="correo_facturacion_electronica"
+            class="form-control bg-transparent"
+            type="email"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['correo_facturacion_electronica'].touched &&
+                formularioContacto.controls['correo_facturacion_electronica'].invalid,
+              'is-valid':
+                formularioContacto.controls['correo_facturacion_electronica'].touched &&
+                formularioContacto.controls['correo_facturacion_electronica'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioContacto.controls['correo_facturacion_electronica']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'email',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
+              control: formularioContacto.controls['correo_facturacion_electronica']
+            }"
+          ></ng-container>
+        </div>
       </div>
     </section>
   </app-card>

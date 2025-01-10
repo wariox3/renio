@@ -37,4 +37,5 @@ export interface Contacto {
   identificacion_id: number;
   ciudad_id: number;
   codigo: number;
+  correo_facturacion_electronica: string;
 }

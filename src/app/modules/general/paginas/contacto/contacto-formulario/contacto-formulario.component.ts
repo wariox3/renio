@@ -181,7 +181,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([
             Validators.required,
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
-            Validators.maxLength(50)
+            Validators.maxLength(50),
           ]),
         ],
         nombre2: [
@@ -235,6 +235,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
         empleado: [false],
+        correo_facturacion_electronica: ['', Validators.email],
       },
       {
         validator: [MultiplesEmailValidator.validarCorreos],
@@ -545,14 +546,18 @@ export default class ContactDetalleComponent extends General implements OnInit {
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
           empleado: respuesta.empleado,
+          correo_facturacion_electronica: respuesta.correo_facturacion_electronica
         });
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
-          this.setValidators('nombre1', [Validators.pattern(/^[a-zA-ZÑñ ]+$/), Validators.maxLength(50)]);
+          this.setValidators('nombre1', [
+            Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            Validators.maxLength(50),
+          ]);
           this.setValidators('apellido1', [
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
-            Validators.maxLength(50)
+            Validators.maxLength(50),
           ]);
           this.setValidators('nombre_corto', [
             Validators.required,

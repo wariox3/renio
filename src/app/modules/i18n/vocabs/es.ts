@@ -408,6 +408,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           DEPARTAMENTO: 'Departamento',
           AREA: 'Area',
+          CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -435,6 +436,7 @@ export const locale = {
             CLIENTE: 'Cliente',
             PROVEEDOR: 'Proveedor',
             EMPLEADO: 'Empleado',
+            CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica'
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',

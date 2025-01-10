@@ -11,7 +11,7 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-contacto-detalle',
@@ -31,8 +31,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     NgxMaskPipe,
     NgSwitch,
     NgSwitchCase,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   providers: [provideNgxMask()],
 })
 export default class ContactoDetalleComponent
@@ -77,6 +77,7 @@ export default class ContactoDetalleComponent
     ciudad_id: 0,
     identificacion_id: 0,
     codigo: 0,
+    correo_facturacion_electronica: '',
   };
 
   constructor(private contactoService: ContactoService) {
