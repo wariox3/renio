@@ -198,7 +198,7 @@ export default class EmpleadoFormularioComponent
         cuenta_banco_clase: ['', Validators.compose([Validators.required])],
       },
       {
-        validator: [MultiplesEmailValidator.validarCorreos],
+        validator: [MultiplesEmailValidator.validarCorreos(['correo'])],
       }
     );
   }

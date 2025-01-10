@@ -235,10 +235,15 @@ export default class ContactDetalleComponent extends General implements OnInit {
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
         empleado: [false],
-        correo_facturacion_electronica: ['', Validators.email],
+        correo_facturacion_electronica: ['', Validators.maxLength(255)],
       },
       {
-        validator: [MultiplesEmailValidator.validarCorreos],
+        validator: [
+          MultiplesEmailValidator.validarCorreos([
+            'correo',
+            'correo_facturacion_electronica',
+          ]),
+        ],
       }
     );
 
@@ -546,7 +551,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
           empleado: respuesta.empleado,
-          correo_facturacion_electronica: respuesta.correo_facturacion_electronica
+          correo_facturacion_electronica:
+            respuesta.correo_facturacion_electronica,
         });
 
         if (respuesta.tipo_persona_id === 1) {
