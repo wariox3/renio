@@ -45,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of arrItems">
+          <tr *ngFor="let item of arrItems; let i = index">
             <td
               *ngFor="let key of item | keys"
               [ngClass]="{
@@ -60,7 +60,7 @@
             <td class="text-center">
               <button
                 class="btn btn-active-light-primary p-1"
-                (click)="seleccionar(item)"
+                (click)="seleccionar(item[i])"
                 placement="top"
                 ngbTooltip="Seleccionar registro"
                 container="body"

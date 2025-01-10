@@ -119,6 +119,7 @@ export class BuscarAvanzadoComponent extends General {
                 {
                   ...campo,
                   valor: registro[campo.propiedad],
+                  ...registro
                 }
                )
             }
@@ -141,6 +142,8 @@ export class BuscarAvanzadoComponent extends General {
   }
 
   seleccionar(item: any) {
+    console.log(item);
+
     this.modalService.dismissAll();
     this.emitirRegistroSeleccionado.emit(item);
   }
@@ -148,8 +151,6 @@ export class BuscarAvanzadoComponent extends General {
 
   // Función para determinar el tipo de dato y aplicar formato si es necesario
   getTipoDato(campo: any) {
-    console.log(campo);
-
     // Verifica si se proporciona un campo
     if (campo) {
       // Switch para manejar diferentes tipos de campo
