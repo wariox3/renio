@@ -137,7 +137,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         usuario: [this.informacionFacturacion.usuario],
       },
       {
-        validator: MultiplesEmailValidator.validarCorreos,
+        validator: MultiplesEmailValidator.validarCorreos(['correo']),
       }
     );
   }
@@ -189,13 +189,13 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         this.ciudadSeleccionada = null;
       } else {
         this.ciudadSeleccionada = dato.nombre;
-          this.formularioInformacion
+        this.formularioInformacion
           .get('ciudad_nombre')
           ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
         this.formularioInformacion.get('ciudad')?.setValue(dato.id);
       }
     }
-    if(campo === 'ciudad_nombre'){
+    if (campo === 'ciudad_nombre') {
       this.formularioInformacion.get('ciudad_nombre')?.setValue(dato);
     }
 

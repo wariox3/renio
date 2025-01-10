@@ -953,7 +953,7 @@
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
-              validation: 'email',
+              validation: 'pattern',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
               control: formularioContacto.controls['correo_facturacion_electronica']
