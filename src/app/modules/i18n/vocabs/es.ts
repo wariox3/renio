@@ -862,6 +862,7 @@ export const locale = {
         CONTACTO_ID_FILTRO: '[Contacto] id',
         CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
         CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        NOVEDAD_TIPO_NOMBRE_FILTRO: '[Novedad tipo] nombre',
         CONTACTO_EMPLEADO_FILTRO: '[Contacto] empleado',
         EMPLEADO_IDENTIFICACION_FILTRO: '[Empleado] identificación',
         EMPLEADO_NOMBRE_FILTRO: '[Empleado] nombre',
