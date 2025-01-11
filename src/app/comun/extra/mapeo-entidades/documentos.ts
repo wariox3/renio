@@ -1659,10 +1659,12 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'NOVEDAD_TIPO_NOMBRE',
+      nombreAbreviadoFiltro: 'NOVEDAD_TIPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'novedad_tipo__nombre',
       nombreAbreviado: 'TIPO',
-      campoTipo: 'Fk',
+      campoTipo: 'CharField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
     },
     {
