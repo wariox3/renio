@@ -119,6 +119,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       campoTipo: 'IntegerField'
     },
     {
+      propiedad: 'fecha',
+      titulo: 'fecha',
+      campoTipo: 'DateField'
+    },
+    {
       propiedad: 'contacto_numero_identificacion',
       titulo: 'contacto_numero_identificacion',
       campoTipo: 'IntegerField'
