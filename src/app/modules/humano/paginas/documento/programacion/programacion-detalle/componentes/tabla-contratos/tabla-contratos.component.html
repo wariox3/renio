@@ -1,0 +1,314 @@
+<div>
+  <app-base-filtro
+    (emitirFiltros)="obtenerFiltrosContratos($event)"
+  ></app-base-filtro>
+</div>
+<div class="d-flex justify-content-between my-4">
+  <app-comun-paginador
+    [cantidadRegistros]="cantidadRegistros()"
+    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+    (emitirPaginacion)="cambiarPaginacion($event)"
+  ></app-comun-paginador>
+  <div class="btn-group" role="group">
+    <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button (click)="descargarExcelDetalle()" ngbDropdownItem>
+          {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+        </button>
+        <butto (click)="descargarExcelNomina()" ngbDropdownItem>
+          {{ "FORMULARIOS.BOTONES.COMUNES.NOMINA" | translate }}
+        </butto>
+        <button (click)="descargarExcelNominaDetalle()" ngbDropdownItem>
+          {{ "FORMULARIOS.BOTONES.COMUNES.NOMINADETALLE" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      [disabled]="programacion.estado_generado || cargandoContratos()"
+      (click)="cargarContratos()"
+      class="btn btn-sm btn-primary"
+    >
+      @if (cargandoContratos()) {
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="sr-only">Cargando...</span>
+      </div>
+      Cargando... } @else {
+      {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
+      }
+    </button>
+
+    <button
+      type="button"
+      [disabled]="programacion.estado_generado"
+      (click)="eliminarRegistros()"
+      class="btn btn-sm btn-danger"
+      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+    ></button>
+  </div>
+</div>
+<div class="table-responsive">
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr>
+        <th class="bg-gray-100" style="width: 50px">Id</th>
+        <th class="bg-gray-100">
+          <div>Identificación</div>
+        </th>
+        <th
+          (click)="orderPor('contrato__contacto__nombre_corto', 0)"
+          [ngClass]="{ 'cursor-pointer user-select-none': true }"
+          class="bg-gray-100"
+        >
+          <div class="d-flex justify-content-between">
+            <div style="flex: 1; text-align: center">Nombre</div>
+            <div>
+              @if(this.ordenadoTabla() === 'contrato__contacto__nombre_corto' ||
+              this.ordenadoTabla() === '-contrato__contacto__nombre_corto';){
+              @if(this.ordenadoTabla() === 'contrato__contacto__nombre_corto'){
+              <i class="ki-outline ki-arrow-up fs-2"></i>
+              } @else {
+              <i class="ki-outline ki-arrow-down fs-2"></i>
+              } } @else {
+              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+              }
+            </div>
+          </div>
+        </th>
+        <th
+          (click)="orderPor('contrato_id', 0)"
+          [ngClass]="{ 'cursor-pointer user-select-none': true }"
+          class="bg-gray-100"
+        >
+          <div class="d-flex justify-content-between">
+            <div
+              style="flex: 1; text-align: center"
+              placement="top"
+              ngbTooltip="Código contrato"
+            >
+              Cont
+            </div>
+            <div>
+              @if(this.ordenadoTabla() === 'contrato_id' || this.ordenadoTabla()
+              === '-contrato_id'){ @if(this.ordenadoTabla() === 'contrato_id'){
+              <i class="ki-outline ki-arrow-up fs-2"></i>
+              }@else {
+              <i class="ki-outline ki-arrow-down fs-2"></i>
+              } } @else {
+              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+              }
+            </div>
+          </div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Fecha desde contrato">Desde</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Fecha hasta contrato">Hasta</div>
+        </th>
+        <th class="bg-gray-100">
+          <div>Salario</div>
+        </th>
+
+        @if (programacion.pago_tipo_id === 2) {
+        <th class="bg-gray-100">
+          <div>Promedio</div>
+        </th>
+        } @if (programacion.pago_tipo_id !== 2) {
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Dias transporte">DT</div>
+        </th>
+        }
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Dias">DIAS</div>
+        </th>
+        <!-- desde aqui -->
+        @if (programacion.pago_tipo_id !== 2) {
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Diurna">D</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Nocturna">N</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Festiva diurna">FD</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Festiva nocturna">FN</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Extra diurna">ED</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Extra nocturna">EN</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Extra festiva diurna">EFD</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Extra festiva nocturna">EFN</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Recargo nocturno">RN</div>
+        </th>
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Recargo festivo diurno">RFD</div>
+        </th>
+        <!-- hasta aqui -->
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Recargo festivo nocturno">RFN</div>
+        </th>
+        }
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Valor neto">TOTAL</div>
+        </th>
+        <th class="bg-gray-100"></th>
+        <th class="bg-gray-100"></th>
+        <th class="text-center bg-gray-100">
+          <label for="seleccionarTodos">
+            <i
+              class="cursor-pointer"
+              [ngClass]="
+                this.isCheckedSeleccionarTodos()
+                  ? 'fa-solid fa-square-check text-danger'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+
+            <input
+              class="d-none"
+              type="checkbox"
+              #checkboxSelectAll
+              id="seleccionarTodos"
+              [checked]="isCheckedSeleccionarTodos()"
+              [value]="isCheckedSeleccionarTodos()"
+              (click)="toggleSelectAll($event)"
+            />
+          </label>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(programacionDetalle of arrProgramacionDetalle(); track $index){
+      <tr>
+        <td style="width: 50px">
+          {{ programacionDetalle.id }}
+        </td>
+        <td>
+          {{ programacionDetalle.contrato_contacto_numero_identificacion }}
+        </td>
+        <td>
+          {{ programacionDetalle.contrato_contacto_nombre_corto }}
+        </td>
+        <td>
+          {{ programacionDetalle.contrato_id }}
+        </td>
+        <td
+          [ngClass]="{
+            'marcar-ingreso': programacionDetalle.ingreso
+          }"
+        >
+          {{ programacionDetalle.fecha_desde }}
+        </td>
+        <td
+          [ngClass]="{
+            'marcar-ingreso': programacionDetalle.retiro
+          }"
+        >
+          {{ programacionDetalle.fecha_hasta }}
+        </td>
+        <td class="text-end">
+          {{ programacionDetalle.salario | number }}
+        </td>
+
+        @if (programacion.pago_tipo_id === 2) {
+        <td class="text-end">
+          {{ programacionDetalle.salario_promedio | number }}
+        </td>
+        } @if (programacion.pago_tipo_id !== 2) {
+        <td class="text-end">
+          {{ programacionDetalle.dias_transporte | number }}
+        </td>
+        }
+        <td class="text-end">
+          {{ programacionDetalle.dias | number }}
+        </td>
+
+        @if (programacion.pago_tipo_id !== 2) {
+        <td>{{ programacionDetalle.diurna }}</td>
+        <td>{{ programacionDetalle.nocturna }}</td>
+        <td>{{ programacionDetalle.festiva_diurna }}</td>
+        <td>{{ programacionDetalle.festiva_nocturna }}</td>
+        <td>{{ programacionDetalle.extra_diurna }}</td>
+        <td>{{ programacionDetalle.extra_nocturna }}</td>
+        <td>{{ programacionDetalle.extra_festiva_diurna }}</td>
+        <td>
+          {{ programacionDetalle.extra_festiva_nocturna }}
+        </td>
+        <td>{{ programacionDetalle.recargo_nocturno }}</td>
+        <td>
+          {{ programacionDetalle.recargo_festivo_diurno }}
+        </td>
+        <td>
+          {{ programacionDetalle.recargo_festivo_nocturno }}
+        </td>
+        }
+
+        <td class="text-end">
+          {{ programacionDetalle.total | number }}
+        </td>
+        <td class="w-45px">
+          @if(!programacion.estado_generado){
+          <app-modal-programacion-detalle-editar-contrato
+            [programacionDetalleId]="programacionDetalle.id"
+            [programacionId]="programacion.id"
+            (emitirConsultarLista)="consultarDatos()"
+          >
+          </app-modal-programacion-detalle-editar-contrato>
+          }
+        </td>
+        <td class="w-45px">
+          <app-modal-programacion-detalle-nomina-resumen
+            [programacionId]="programacionDetalle.id"
+          ></app-modal-programacion-detalle-nomina-resumen>
+        </td>
+        <td class="w-20px">
+          <label [for]="programacionDetalle.id">
+            <i
+              class="cursor-pointer"
+              [ngClass]="
+                programacionDetalle.selected
+                  ? 'fa-solid fa-square-check text-danger'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+            <input
+              class="d-none"
+              type="checkbox"
+              [id]="programacionDetalle.id"
+              [value]="programacionDetalle.id"
+              [checked]="programacionDetalle.selected"
+              (click)="agregarRegistrosEliminar(programacionDetalle.id)"
+            />
+          </label>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

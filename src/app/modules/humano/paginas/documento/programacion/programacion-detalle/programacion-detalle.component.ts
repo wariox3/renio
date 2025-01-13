@@ -64,6 +64,7 @@ import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.i
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleProgramacionContratos } from './constantes';
+import { TablaContratosComponent } from "./componentes/tabla-contratos/tabla-contratos.component";
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -85,7 +86,8 @@ import { FiltrosDetalleProgramacionContratos } from './constantes';
     TablaResumenComponent,
     PaginadorComponent,
     BaseFiltroComponent,
-  ],
+    TablaContratosComponent
+],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })

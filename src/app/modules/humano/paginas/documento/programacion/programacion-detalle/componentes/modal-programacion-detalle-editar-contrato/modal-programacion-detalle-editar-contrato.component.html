@@ -1,0 +1,683 @@
+<label class="cursor-pointer" (click)="abrirModal(contentModalEditarRegistro)">
+  <i class="ki-duotone ki-notepad-edit hover-primary">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </i>
+</label>
+
+<ng-template #contentModalEditarRegistro let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar registro</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <form
+      [formGroup]="formularioEditarDetalleProgramacion"
+      (ngSubmit)="actualizarDetalleProgramacion()"
+    >
+      <div class="row mb-5">
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.DIURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="diurna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['diurna'].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['diurna'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['diurna']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.NOCTURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="nocturna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['nocturna']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['nocturna'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['nocturna']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.FESTIVADIURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="festiva_diurna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['festiva_diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['festiva_diurna']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['festiva_diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['festiva_diurna']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['festiva_diurna']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.FESTIVANOCTURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="festiva_nocturna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['festiva_nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['festiva_nocturna']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['festiva_nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['festiva_nocturna']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['festiva_nocturna']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.EXTRADIURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="extra_diurna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['extra_diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['extra_diurna']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['extra_diurna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['extra_diurna']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['extra_diurna']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.EXTRANOCTURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="extra_nocturna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['extra_nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['extra_nocturna']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['extra_nocturna']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['extra_nocturna']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['extra_nocturna']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVADIURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="extra_festiva_diurna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_diurna'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_diurna'
+                ].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_diurna'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_diurna'
+                ].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_diurna'
+                ]
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.EXTRAFESTIVANOCTURNA"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="extra_festiva_nocturna"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_nocturna'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_nocturna'
+                ].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_nocturna'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_nocturna'
+                ].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls[
+                  'extra_festiva_nocturna'
+                ]
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVODIURNO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="recargo_festivo_diurno"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_diurno'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_diurno'
+                ].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_diurno'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_diurno'
+                ].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_diurno'
+                ]
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.RECARGOFESTIVONOCTURNO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="recargo_festivo_nocturno"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_nocturno'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_nocturno'
+                ].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_nocturno'
+                ].touched &&
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_nocturno'
+                ].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls[
+                  'recargo_festivo_nocturno'
+                ]
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.RECARGONOCTURNO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="recargo_nocturno"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['recargo_nocturno']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['recargo_nocturno']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['recargo_nocturno']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['recargo_nocturno']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['recargo_nocturno']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.DIASTRANSPORTE"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="dias_transporte"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control:
+                formularioEditarDetalleProgramacion.controls['dias_transporte']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <!-- Checkboxes -->
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="pago_horas"
+              formControlName="pago_horas"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="pago_horas"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.HORAS"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_salud"
+              formControlName="descuento_salud"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_salud"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOSALUD"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="pago_auxilio_transporte"
+              formControlName="pago_auxilio_transporte"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="pago_auxilio_transporte"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.AUXILIOTRANSPORTE"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_pension"
+              formControlName="descuento_pension"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_pension"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOPENSION"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="adicional"
+              formControlName="adicional"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="adicional"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.ADICIONAL"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_fondo_solidaridad"
+              formControlName="descuento_fondo_solidaridad"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_fondo_solidaridad"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.FONDO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="pago_vacacion"
+              formControlName="pago_vacacion"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="pago_vacacion"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.VACACION"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_retencion_fuente"
+              formControlName="descuento_retencion_fuente"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_retencion_fuente"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.RETENCION"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="pago_incapacidad"
+              formControlName="pago_incapacidad"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="pago_incapacidad"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.INCAPACIDAD"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_credito"
+              formControlName="descuento_credito"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_credito"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOCREDITO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="pago_licencia"
+              formControlName="pago_licencia"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="pago_licencia"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.LICENCIA"
+            >
+            </label>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="descuento_embargo"
+              formControlName="descuento_embargo"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="descuento_embargo"
+              translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.DESCUENTOEMBARGO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="actualizarDetalleProgramacion()"
+      [disabled]="!formularioEditarDetalleProgramacion.valid"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
+<!-- Errores -->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
