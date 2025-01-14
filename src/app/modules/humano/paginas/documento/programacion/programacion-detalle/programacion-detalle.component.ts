@@ -65,6 +65,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleProgramacionContratos } from './constantes';
 import { TablaContratosComponent } from "./componentes/tabla-contratos/tabla-contratos.component";
+import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla-adicionales.component";
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -86,7 +87,8 @@ import { TablaContratosComponent } from "./componentes/tabla-contratos/tabla-con
     TablaResumenComponent,
     PaginadorComponent,
     BaseFiltroComponent,
-    TablaContratosComponent
+    TablaContratosComponent,
+    TablaAdicionalesComponent
 ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
@@ -166,6 +168,7 @@ export default class ProgramacionDetalleComponent
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
+  @ViewChild(TablaAdicionalesComponent) tablaAdicionalesComponent: TablaAdicionalesComponent;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -242,22 +245,7 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarAdicionalesTab() {
-    this.isCheckedSeleccionarTodosAdicional = false;
-    this.store.dispatch(
-      asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' })
-    );
-    this.inicializarParametrosConsultaAdicional();
-    this._generalService
-      .consultarDatosLista(this.arrParametrosConsultaAdicional)
-      .subscribe((respuesta: any) => {
-        this.arrProgramacionAdicional = respuesta.registros.map(
-          (registro: TablaRegistroLista) => ({
-            ...registro,
-            selected: false,
-          })
-        );
-        this.changeDetectorRef.detectChanges();
-      });
+    this.tablaAdicionalesComponent.consultarDatos()
   }
 
   inicializarParametrosConsulta() {
