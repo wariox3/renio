@@ -80,7 +80,7 @@ export default class ProgramacionDetalleComponent
       limite_conteo: 10000,
       modelo: '',
       tipo: '',
-      documento_tipo_id: 1,
+      documento_tipo_id: 14,
       documento_id: this.detalle,
     });
   }
