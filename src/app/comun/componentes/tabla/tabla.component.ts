@@ -49,7 +49,7 @@ import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.comp
     AnimationFadeInUpDirective,
     ImportarAdministradorComponent,
     NgbTooltipModule,
-    SpinnerLoaderComponent
+    SpinnerLoaderComponent,
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
@@ -132,6 +132,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.construirTabla();
   }
 
+  private _limpiarTablaSelectores() {
+    this.arrRegistrosEliminar = [];
+    this.selectAll = false;
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     // Verifica el ancho de la pantalla y actualiza el estado de btnGrupoResponsive
@@ -139,6 +144,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   construirTabla() {
+    this._limpiarTablaSelectores();
+
     this.cargandoTabla = true;
     // se reinicia la tabla
     this.datosFiltrados = [];
@@ -439,7 +446,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.emitirExportarExcel.emit(true);
   }
 
-  exportarZip(){
+  exportarZip() {
     this.emitirExportarZip.emit(true);
   }
 
@@ -447,9 +454,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     // Verificar si item tiene la propiedad estado_aprobado
     if (item.hasOwnProperty('estado_aprobado')) {
       return !item['estado_aprobado'].valor;
-      } else if (item.hasOwnProperty('estado_terminado')) {
+    } else if (item.hasOwnProperty('estado_terminado')) {
       return !item['estado_terminado'].valor;
-      } else {
+    } else {
       return true;
     }
   }
