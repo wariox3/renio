@@ -1,0 +1,57 @@
+table#tableDetalles {
+  td {
+    vertical-align: middle;
+  }
+
+  th{
+    text-align: center;
+  }
+
+  .textarea-container {
+    display: flex;
+    align-items: center; /* Esto centra verticalmente el contenido */
+  }
+
+  textarea {
+    border-width: 0px;
+    padding: 0px;
+    resize: none;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: #f9f9f9;
+    }
+  }
+
+  .disabled-cursor {
+    cursor: not-allowed;
+  }
+}
+
+.arrow {
+  transition: transform 0.5s ease;
+}
+
+.marcar-ingreso {
+  background-color: rgba(117, 212, 153, 0.699);
+}
+
+.dropdown {
+  flex-grow: 1;
+}
+
+.dropdown-busqueda {
+  border-radius: 0px 5px 5px 0px;
+}
+
+
+
+
+
