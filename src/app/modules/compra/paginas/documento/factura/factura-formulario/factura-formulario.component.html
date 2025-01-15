@@ -44,7 +44,6 @@
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
                 {{ contacto.contacto_nombre_corto }}
               </button>
@@ -110,7 +109,7 @@
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid
             }"
-            (change)="cambiarFechaVence($event)"
+            (change)="cambiarFechaVence()"
           />
           <ng-container
             [ngTemplateOutlet]="formError"
@@ -473,7 +472,6 @@
             }"
           ></ng-container>
         </div>
-
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
@@ -519,13 +517,16 @@
             <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 1}"
+                [ngClass]="{ 'text-primary': active === 1 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
                 <app-formulario-productos
+                  (emitirDocumentoDetalle)="
+                    recibirDocumentoDetalleRespuesta($event)
+                  "
                   (emitirImpuestosAcumulados)="
                     actualizarImpuestosAcumulados($event)
                   "
@@ -801,7 +802,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 2}"
+                [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

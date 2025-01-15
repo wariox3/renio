@@ -25,6 +25,7 @@ import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
+  DocumentoFacturaRespuesta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
@@ -176,7 +177,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
   }
 
-  recibirDocumentoDetalleRespuesta(evento: any) {
+  recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
     this._actualizarPlazoPago(evento.plazo_pago_id);
   }
 
