@@ -158,10 +158,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           this.httpService
             .post<{
               registros: any;
+              cantidad_registros: number
             }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
             .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-            .subscribe((respuesta: any) => {
-              this.cantidad_registros = respuesta.length;
+            .subscribe((respuesta) => {
+              this.cantidad_registros = respuesta.cantidad_registros;
               this.arrItems = respuesta.registros;
               this.changeDetectorRef.detectChanges();
             });
