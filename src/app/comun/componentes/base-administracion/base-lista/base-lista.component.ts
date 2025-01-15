@@ -13,6 +13,7 @@ import { HttpService } from '@comun/services/http.service';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -52,6 +53,8 @@ export class BaseListaComponent extends General implements OnInit {
   submodelo: string | undefined;
   cargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
+  private _filtrosModuloPermanentes: Filtros[] = [];
+
   constructor(
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService
@@ -78,26 +81,30 @@ export class BaseListaComponent extends General implements OnInit {
       );
       if (parametro.submodelo) {
         this.submodelo = parametro.submodelo!;
-        this.arrParametrosConsulta.filtros = [
+        const filtro = [
           {
             operador: '',
             propiedad: 'empleado',
             valor1: true,
           },
         ];
+        this.arrParametrosConsulta.filtros = filtro;
+        this._filtrosModuloPermanentes = filtro;
       } else {
         this.submodelo = undefined;
 
         this.arrParametrosConsulta.filtros = [];
       }
       if (parametro.resoluciontipo) {
-        this.arrParametrosConsulta.filtros = [
+        const filtro = [
           {
             operador: '',
             propiedad: parametro.resoluciontipo,
             valor1: true,
           },
         ];
+        this.arrParametrosConsulta.filtros = filtro;
+        this._filtrosModuloPermanentes = filtro;
       }
       this.changeDetectorRef.detectChanges();
 
@@ -154,9 +161,16 @@ export class BaseListaComponent extends General implements OnInit {
   obtenerFiltros(arrfiltros: any[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
     } else {
       this.arrParametrosConsulta.filtros = [];
+    }
+
+    // cargamos los filtros predeterminados del modulo para no perderlos al limpiar
+    if (this._filtrosModuloPermanentes.length > 0) {
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...this._filtrosModuloPermanentes,
+      ];
     }
 
     this.changeDetectorRef.detectChanges();
