@@ -60,7 +60,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
     this._generalService
       .consultarDatosLista(this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length;
+        this.cantidad_registros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
