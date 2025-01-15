@@ -145,17 +145,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   ngOnInit() {
     this._consultarInformacion().subscribe(() => {
-      this.arrPlazoPago.find((plazoPago) => {
-        if (
-          plazoPago.plazo_pago_id ===
-          this.formularioFactura.get('plazo_pago')?.value
-        ) {
-          this.plazo_pago_dias = plazoPago.plazo_dias;
-          this.cambiarFechaVence();
-          this.changeDetectorRef.detectChanges();
-        }
-      });
+      this._actualizarPlazoPago(
+        this.formularioFactura.get('plazo_pago')?.value
+      );
     });
+
     this.active = 1; // navigation tab
 
     if (this.parametrosUrl) {
@@ -171,6 +165,19 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _actualizarPlazoPago(plazoPagoId: number) {
+    this.arrPlazoPago.find((plazoPago) => {
+      if (plazoPago.plazo_pago_id === plazoPagoId) {
+        this.plazo_pago_dias = plazoPago.plazo_dias;
+        this.cambiarFechaVence();
+      }
+    });
+  }
+
+  recibirDocumentoDetalleRespuesta(evento: any) {
+    this._actualizarPlazoPago(evento.plazo_pago_id);
   }
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
@@ -583,6 +590,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this._modalService.dismissAll();
   }
 
+  private _convertirFecha(fecha: string) {
+    const fechaString = fecha; // Obtener la fecha como string
+    const [year, month, day] = fechaString.split('-').map(Number); // Dividir en año, mes, día
+    const fechaFactura = new Date(year, month - 1, day); // Crear el objeto Date
+
+    return fechaFactura;
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -604,7 +619,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10);
-        const fechaActual = new Date(); // Obtener la fecha actual
+        const fechaActual = this._convertirFecha(this.formularioFactura.get('fecha')?.value)
+
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
           fechaActual.getMonth() + 1
@@ -617,6 +633,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       } else {
+        this.plazo_pago_dias = 0;
         this.formularioFactura
           .get('fecha_vence')
           ?.setValue(this.formularioFactura.get('fecha')?.value);
