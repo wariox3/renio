@@ -127,10 +127,15 @@
         <th class="bg-gray-100">
           <div placement="top" ngbTooltip="Dias transporte">DT</div>
         </th>
-        }
+        } @if (programacion.pago_tipo_id !== 2) {
         <th class="bg-gray-100">
           <div placement="top" ngbTooltip="Dias">DIAS</div>
         </th>
+        } @else {
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Dias">Días</div>
+        </th>
+        }
         <!-- desde aqui -->
         @if (programacion.pago_tipo_id !== 2) {
         <th class="bg-gray-100">
@@ -167,10 +172,15 @@
         <th class="bg-gray-100">
           <div placement="top" ngbTooltip="Recargo festivo nocturno">RFN</div>
         </th>
-        }
+        } @if (programacion.pago_tipo_id !== 2) {
         <th class="bg-gray-100">
           <div placement="top" ngbTooltip="Valor neto">TOTAL</div>
         </th>
+        } @else {
+        <th class="bg-gray-100">
+          <div placement="top" ngbTooltip="Valor neto">Total</div>
+        </th>
+        }
         <th class="bg-gray-100"></th>
         <th class="bg-gray-100"></th>
         <th class="text-center bg-gray-100">
