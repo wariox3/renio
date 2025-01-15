@@ -43,7 +43,6 @@
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
                 {{ contacto.contacto_nombre_corto }}
               </button>
@@ -108,7 +107,7 @@
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid
             }"
-            (change)="cambiarFechaVence($event)"
+            (change)="cambiarFechaVence()"
           />
           <ng-container
             [ngTemplateOutlet]="formError"

@@ -1,3 +1,4 @@
+import { ValorFiltro } from '@comun/type/valor-filtro.type';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
@@ -110,17 +111,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   public filtrosPermanentes = [
@@ -143,7 +144,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    this._consultarInformacion();
+    this._consultarInformacion().subscribe(() => {
+      this.arrPlazoPago.find((plazoPago) => {
+        if (
+          plazoPago.plazo_pago_id ===
+          this.formularioFactura.get('plazo_pago')?.value
+        ) {
+          this.plazo_pago_dias = plazoPago.plazo_dias;
+          this.cambiarFechaVence();
+          this.changeDetectorRef.detectChanges();
+        }
+      });
+    });
     this.active = 1; // navigation tab
 
     if (this.parametrosUrl) {
@@ -152,6 +164,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+
       this.modoEdicion = true;
     } else {
       this.modoEdicion = false;
@@ -528,7 +541,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
-  cambiarFechaVence(event: any) {
+  cambiarFechaVence() {
     const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
@@ -587,6 +600,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ?.setValue(dato.nombre_corto);
       }
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+      console.log(dato.plazo_pago_dias);
+
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
@@ -602,6 +617,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      } else {
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
 
       if (
@@ -638,7 +657,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   private _consultarInformacion() {
-    zip(
+    return zip(
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
           modelo: 'GenMetodoPago',
@@ -664,14 +683,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1)
-    ).subscribe((respuesta) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
-      this.requiereAsesor = respuesta[4].venta_asesor;
-      this.requiereSede = respuesta[4].venta_sede;
-      this.changeDetectorRef.detectChanges();
-    });
+    ).pipe(
+      tap((respuesta) => {
+        this.arrMetodosPago = respuesta[0].registros;
+        this.arrPlazoPago = respuesta[1].registros;
+        this.arrAsesor = respuesta[2].registros;
+        this.arrSede = respuesta[3].registros;
+        this.requiereAsesor = respuesta[4].venta_asesor;
+        this.requiereSede = respuesta[4].venta_sede;
+        this.changeDetectorRef.detectChanges();
+      })
+    );
   }
 }
