@@ -600,11 +600,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ?.setValue(dato.nombre_corto);
       }
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
-      console.log(dato.plazo_pago_dias);
 
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
-        const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
+        const diasNumero = parseInt(this.plazo_pago_dias, 10);
         const fechaActual = new Date(); // Obtener la fecha actual
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
