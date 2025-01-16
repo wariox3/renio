@@ -217,15 +217,15 @@
               }"
             />
             <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioContacto.controls['apellido1']
-            }"
-          ></ng-container>
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '50',
+                control: formularioContacto.controls['apellido1']
+              }"
+            ></ng-container>
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
@@ -331,6 +331,24 @@
               control: formularioContacto.controls['numero_identificacion']
             }"
           ></ng-container>
+          <div
+            *ngIf="
+              formularioContacto.controls.numero_identificacion?.touched &&
+              formularioContacto.controls.numero_identificacion?.hasError(
+                'numeroIdentificacionExistente'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.COMUNES.NUMEROIDENTIFICACIONEXISTEN"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-md-2 col-sm-12">
           <label
@@ -933,11 +951,15 @@
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioContacto.controls['correo_facturacion_electronica'].touched &&
-                formularioContacto.controls['correo_facturacion_electronica'].invalid,
+                formularioContacto.controls['correo_facturacion_electronica']
+                  .touched &&
+                formularioContacto.controls['correo_facturacion_electronica']
+                  .invalid,
               'is-valid':
-                formularioContacto.controls['correo_facturacion_electronica'].touched &&
-                formularioContacto.controls['correo_facturacion_electronica'].valid
+                formularioContacto.controls['correo_facturacion_electronica']
+                  .touched &&
+                formularioContacto.controls['correo_facturacion_electronica']
+                  .valid
             }"
           />
           <ng-container
@@ -947,7 +969,8 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioContacto.controls['correo_facturacion_electronica']
+              control:
+                formularioContacto.controls['correo_facturacion_electronica']
             }"
           ></ng-container>
           <ng-container
@@ -956,7 +979,8 @@
               validation: 'pattern',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-              control: formularioContacto.controls['correo_facturacion_electronica']
+              control:
+                formularioContacto.controls['correo_facturacion_electronica']
             }"
           ></ng-container>
         </div>

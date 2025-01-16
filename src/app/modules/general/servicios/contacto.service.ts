@@ -23,7 +23,13 @@ export class ContactoService extends Subdominio {
     return this.httpService.put<Contacto>(`general/contacto/${id}/`, data);
   }
 
-  validarNumeroIdentificacion(data: any){
-    return this.httpService.post<{validacion: boolean, codigo: number}>(`general/contacto/validar/`, data);
+  validarNumeroIdentificacion(data: {
+    identificacion_id: number;
+    numero_identificacion: string;
+  }) {
+    return this.httpService.post<{ validacion: boolean; codigo: number }>(
+      `general/contacto/validar/`,
+      data
+    );
   }
 }

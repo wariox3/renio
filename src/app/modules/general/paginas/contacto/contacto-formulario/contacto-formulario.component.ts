@@ -28,23 +28,23 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
+import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/general/gen-precio.interface';
+import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
+import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { Contacto } from '@interfaces/general/contacto';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { provideNgxMask } from 'ngx-mask';
+import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
-import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
-import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
-import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
-import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { Contacto } from '@interfaces/general/contacto';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -70,7 +70,6 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.va
     NgbDropdownModule,
     SoloNumerosDirective,
     CardComponent,
-    NgxMaskDirective,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
   ],
@@ -78,6 +77,7 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.va
 })
 export default class ContactDetalleComponent extends General implements OnInit {
   formularioContacto: FormGroup;
+  informacionContacto: any;
   arrCiudades: RegistroAutocompletarGenCiudad[];
   arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
   arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
@@ -94,12 +94,12 @@ export default class ContactDetalleComponent extends General implements OnInit {
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
   private readonly _generalService = inject(GeneralService);
+  private readonly _contactoService = inject(ContactoService);
 
   selectedDateIndex: number = -1;
 
   constructor(
     private formBuilder: FormBuilder,
-    private contactoService: ContactoService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
   ) {
     super();
@@ -111,6 +111,90 @@ export default class ContactDetalleComponent extends General implements OnInit {
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
+
+    this._iniciarSuscripcionesFormularioContacto();
+  }
+
+  private _iniciarSuscripcionesFormularioContacto() {
+    this.formularioContacto
+      .get('numero_identificacion')!
+      .valueChanges.pipe(debounceTime(300))
+      .subscribe((value) => {
+        if (value !== null) {
+          this._validarNumeroIdenficacionExistente();
+        }
+      });
+
+    this.formularioContacto
+      .get('identificacion')!
+      .valueChanges.subscribe((value) => {
+        this._validarNumeroIdenficacionExistente();
+      });
+  }
+
+  private _validarNumeroIdenficacionExistente() {
+    if (!this.detalle) {
+      this._consultarIdentificacionEnServicio();
+    } else {
+      this._procesarValidacionNumeroIdentificacion();
+    }
+  }
+
+  private _procesarValidacionNumeroIdentificacion() {
+    if (!this._seHanModificadoDatosDeIdentificacion()) {
+      // No hay errores si los datos no han cambiado
+      this.formularioContacto.get('numero_identificacion')!.setErrors(null);
+      return;
+    }
+
+    // Si los datos han cambiado, consulta al servicio
+    this._consultarIdentificacionEnServicio();
+  }
+
+  private _seHanModificadoDatosDeIdentificacion() {
+    const numeroIdentificacionCambio =
+      parseInt(this.informacionContacto.numero_identificacion) !==
+      parseInt(this.formularioContacto.get('numero_identificacion')?.value);
+
+    const identificacionIdCambio =
+      parseInt(this.informacionContacto.identificacion_id) !==
+      parseInt(this.formularioContacto.get('identificacion')?.value);
+
+    return numeroIdentificacionCambio || identificacionIdCambio;
+  }
+
+  private _consultarIdentificacionEnServicio() {
+    const identificacionId = parseInt(
+      this.formularioContacto.get('identificacion')?.value
+    );
+    const numeroIdentificacion = this.formularioContacto.get(
+      'numero_identificacion'
+    )?.value;
+
+    if (!identificacionId || !numeroIdentificacion) {
+      return; // Salir si no hay valores para validar
+    }
+
+    this._contactoService
+      .validarNumeroIdentificacion({
+        identificacion_id: identificacionId,
+        numero_identificacion: numeroIdentificacion,
+      })
+      .subscribe({
+        next: (respuesta) => {
+          this._actualizarErroresNumeroIdentificacion(respuesta.validacion);
+        },
+      });
+  }
+
+  private _actualizarErroresNumeroIdentificacion(esValido: boolean) {
+    const errores: { numeroIdentificacionExistente: boolean } | null = esValido
+      ? { numeroIdentificacionExistente: true }
+      : null;
+
+    this.formularioContacto.get('numero_identificacion')!.setErrors(errores);
+    this.formularioContacto.get('numero_identificacion')!.markAsTouched();
+    this.changeDetectorRef.detectChanges();
   }
 
   trackByFn(index: number, item: any) {
@@ -344,7 +428,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.activatedRoute.snapshot.queryParams['detalle'] &&
         this.ocultarBtnAtras === false
       ) {
-        this.contactoService
+        this._contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
           .subscribe((respuesta) => {
             this.formularioContacto.patchValue({
@@ -381,7 +465,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.contactoService
+        this._contactoService
           .guardarContacto(this.formularioContacto.value)
           .pipe(
             tap((respuesta) => {
@@ -524,9 +608,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   consultardetalle() {
-    this.contactoService
+    this._contactoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        this.informacionContacto = respuesta;
         this.ciudadSeleccionada = respuesta.ciudad_nombre;
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
