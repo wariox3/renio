@@ -44,6 +44,7 @@ import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/auto
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -235,7 +236,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
         empleado: [false],
-        correo_facturacion_electronica: ['', Validators.maxLength(255)],
+        correo_facturacion_electronica: [
+          '',
+          [Validators.maxLength(255), cambiarVacioPorNulo.validar],
+        ],
       },
       {
         validator: [
