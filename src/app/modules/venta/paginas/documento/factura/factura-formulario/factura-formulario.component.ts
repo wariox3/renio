@@ -1,3 +1,4 @@
+import { ValorFiltro } from '@comun/type/valor-filtro.type';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
@@ -24,6 +25,7 @@ import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   AcumuladorImpuestos,
+  DocumentoFacturaRespuesta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
@@ -110,17 +112,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   public filtrosPermanentes = [
@@ -143,7 +145,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    this._consultarInformacion();
+    this._consultarInformacion().subscribe(() => {
+      this._actualizarPlazoPago(
+        this.formularioFactura.get('plazo_pago')?.value
+      );
+    });
+
     this.active = 1; // navigation tab
 
     if (this.parametrosUrl) {
@@ -152,12 +159,26 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+
       this.modoEdicion = true;
     } else {
       this.modoEdicion = false;
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _actualizarPlazoPago(plazoPagoId: number) {
+    this.arrPlazoPago.find((plazoPago) => {
+      if (plazoPago.plazo_pago_id === plazoPagoId) {
+        this.plazo_pago_dias = plazoPago.plazo_dias;
+        this.cambiarFechaVence();
+      }
+    });
+  }
+
+  recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
+    this._actualizarPlazoPago(evento.plazo_pago_id);
   }
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
@@ -528,7 +549,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
-  cambiarFechaVence(event: any) {
+  cambiarFechaVence() {
     const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
@@ -570,6 +591,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this._modalService.dismissAll();
   }
 
+  private _convertirFecha(fecha: string) {
+    const fechaString = fecha; // Obtener la fecha como string
+    const [year, month, day] = fechaString.split('-').map(Number); // Dividir en año, mes, día
+    const fechaFactura = new Date(year, month - 1, day); // Crear el objeto Date
+
+    return fechaFactura;
+  }
+
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -587,10 +616,12 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           ?.setValue(dato.nombre_corto);
       }
       this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
-        const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        const fechaActual = new Date(); // Obtener la fecha actual
+        const diasNumero = parseInt(this.plazo_pago_dias, 10);
+        const fechaActual = this._convertirFecha(this.formularioFactura.get('fecha')?.value)
+
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
           fechaActual.getMonth() + 1
@@ -602,6 +633,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      } else {
+        this.plazo_pago_dias = 0;
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
 
       if (
@@ -638,7 +674,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   private _consultarInformacion() {
-    zip(
+    return zip(
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
           modelo: 'GenMetodoPago',
@@ -664,14 +700,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         }
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1)
-    ).subscribe((respuesta) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
-      this.requiereAsesor = respuesta[4].venta_asesor;
-      this.requiereSede = respuesta[4].venta_sede;
-      this.changeDetectorRef.detectChanges();
-    });
+    ).pipe(
+      tap((respuesta) => {
+        this.arrMetodosPago = respuesta[0].registros;
+        this.arrPlazoPago = respuesta[1].registros;
+        this.arrAsesor = respuesta[2].registros;
+        this.arrSede = respuesta[3].registros;
+        this.requiereAsesor = respuesta[4].venta_asesor;
+        this.requiereSede = respuesta[4].venta_sede;
+        this.changeDetectorRef.detectChanges();
+      })
+    );
   }
 }

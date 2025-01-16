@@ -6,6 +6,7 @@
     </section>
     <section card-body>
       <!-- <app-factura-formulario-documento [formularioFactura]="formularioFactura"></app-factura-formulario-documento> -->
+       
       <div class="row mb-5">
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
@@ -43,7 +44,6 @@
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
                 {{ contacto.contacto_nombre_corto }}
               </button>
@@ -108,7 +108,7 @@
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid
             }"
-            (change)="cambiarFechaVence($event)"
+            (change)="cambiarFechaVence()"
           />
           <ng-container
             [ngTemplateOutlet]="formError"
@@ -505,6 +505,7 @@
               ></a>
               <ng-template ngbNavContent>
                 <app-formulario-productos
+                (emitirDocumentoDetalle)="recibirDocumentoDetalleRespuesta($event)"
                   (emitirImpuestosAcumulados)="
                     actualizarImpuestosAcumulados($event)
                   "
