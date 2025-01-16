@@ -9,7 +9,7 @@ export function validarConsecutivos(): ValidatorFn {
     if (
       consecutivoDesde !== null &&
       consecutivoHasta !== null &&
-      consecutivoHasta < consecutivoDesde
+      parseInt(consecutivoHasta) < parseInt(consecutivoDesde)
     ) {
       return { consecutivosInvalidos: true }; // Error personalizado
     }

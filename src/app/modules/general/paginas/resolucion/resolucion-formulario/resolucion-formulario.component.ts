@@ -84,11 +84,11 @@ export default class ResolucionFormularioComponent
         ],
         consecutivo_desde: [
           null,
-          Validators.compose([Validators.required, Validators.maxLength(200)]),
+          Validators.compose([Validators.required, Validators.maxLength(200), Validators.max(2147483647)]),
         ],
         consecutivo_hasta: [
           null,
-          Validators.compose([Validators.required, Validators.maxLength(200)]),
+          Validators.compose([Validators.required, Validators.maxLength(200), Validators.max(2147483647)]),
         ],
         fecha_desde: [
           fechaVencimientoInicial,
