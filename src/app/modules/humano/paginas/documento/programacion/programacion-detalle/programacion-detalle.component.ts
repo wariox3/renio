@@ -169,6 +169,7 @@ export default class ProgramacionDetalleComponent
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
   @ViewChild(TablaAdicionalesComponent) tablaAdicionalesComponent: TablaAdicionalesComponent;
+  @ViewChild(TablaContratosComponent) tablaContratosComponent: TablaContratosComponent;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -478,6 +479,7 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
+          this.tablaContratosComponent.consultarDatos()
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -497,6 +499,7 @@ export default class ProgramacionDetalleComponent
           this.desgenerando = false;
           this.reiniciarSelectoresEliminar();
           this.dropdown.close();
+          this.tablaContratosComponent.consultarDatos()
           this.changeDetectorRef.detectChanges();
         })
       )
