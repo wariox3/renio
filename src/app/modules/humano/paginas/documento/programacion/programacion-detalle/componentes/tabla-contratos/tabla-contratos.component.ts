@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  EventEmitter,
   inject,
   Input,
   OnChanges,
   OnInit,
+  Output,
   signal,
   SimpleChanges,
   ViewChild,
@@ -22,14 +24,14 @@ import { ProgramacionService } from '@modulos/humano/servicios/programacion.serv
 import {
   NgbDropdown,
   NgbDropdownModule,
-  NgbTooltipModule
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { finalize, tap } from 'rxjs';
 import { FiltrosDetalleProgramacionContratos } from '../../constantes';
 import { ModalProgramacionDetalleNominaResumenComponent } from '../modal-programacion-detalle-nomina-resumen/modal-programacion-detalle-nomina-resumen.component';
-import { ModalProgramacionDetalleEditarContratoComponent } from "../modal-programacion-detalle-editar-contrato/modal-programacion-detalle-editar-contrato.component";
+import { ModalProgramacionDetalleEditarContratoComponent } from '../modal-programacion-detalle-editar-contrato/modal-programacion-detalle-editar-contrato.component';
 import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
 
 @Component({
@@ -43,11 +45,10 @@ import { PaginadorComponent } from '@comun/componentes/paginador/paginador.compo
     TranslateModule,
     CommonModule,
     ModalProgramacionDetalleNominaResumenComponent,
-    ModalProgramacionDetalleEditarContratoComponent
-],
+    ModalProgramacionDetalleEditarContratoComponent,
+  ],
   templateUrl: './tabla-contratos.component.html',
   styleUrl: './tabla-contratos.component.scss',
-
 })
 export class TablaContratosComponent extends General implements OnInit {
   cantidadRegistros = signal(0);
@@ -71,6 +72,7 @@ export class TablaContratosComponent extends General implements OnInit {
   private _programacionService = inject(ProgramacionService);
   private _programacionDetalleService = inject(ProgramacionDetalleService);
 
+  @Output() emitirEventoConsultarLista = new EventEmitter<void>();
   @Input() programacion: ProgramacionRespuesta = {
     id: 0,
     fecha_desde: '',
@@ -264,6 +266,7 @@ export class TablaContratosComponent extends General implements OnInit {
         }),
         finalize(() => {
           this.cargandoContratos.set(false);
+          this.emitirEventoConsultarLista.emit();
         })
       )
       .subscribe();
@@ -277,6 +280,7 @@ export class TablaContratosComponent extends General implements OnInit {
           .pipe(
             finalize(() => {
               this.isCheckedSeleccionarTodos.set(false);
+              this.emitirEventoConsultarLista.emit();
             })
           )
           .subscribe(() => {

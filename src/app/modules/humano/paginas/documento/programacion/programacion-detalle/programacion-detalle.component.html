@@ -138,6 +138,7 @@
             ></a>
             <ng-template ngbNavContent>
               <app-tabla-contratos
+                (emitirEventoConsultarLista)="consultarDatos()"
                 [programacion]="programacion"
               ></app-tabla-contratos>
             </ng-template>
