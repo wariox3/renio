@@ -123,6 +123,16 @@
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
+              validation: 'max',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMAXIMO' | translate,
+              cantidadCaracteres: '2147483647',
+              control: formularioResolucion.controls['consecutivo_desde']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'maxlength',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
@@ -178,6 +188,16 @@
             </div>
           </div>
           }
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'max',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMAXIMO' | translate,
+              cantidadCaracteres: '2147483647',
+              control: formularioResolucion.controls['consecutivo_hasta']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
