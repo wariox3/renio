@@ -94,7 +94,8 @@ export const locale = {
         EVENTOSDIAN: 'DIAN events',
         CONTENEDORES: 'Containers',
         CUENTABANCO: 'Bank Account',
-        NOTAAJUSTE: 'Adjustment note'
+        NOTAAJUSTE: 'Adjustment note',
+        SALDOINICIAL: 'initial balance',
       },
     },
     FORMULARIOS: {

@@ -34,6 +34,18 @@ export const initialState: MenuItem = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
+            {
+              nombre: 'SALDOINICIAL',
+              tipo: 'documento',
+              modulo: 'cartera',
+              data: {
+                documento_clase: 201,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'si',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
           ],
         },
         {
@@ -852,6 +864,18 @@ export const initialState: MenuItem = {
                 documento_clase: 400,
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
                 visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
+            {
+              nombre: 'SALDOINICIAL',
+              tipo: 'documento',
+              modulo: 'tesoreria',
+              data: {
+                documento_clase: 401,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'si',
               },
               visualiazarIconoDeracha: true,
               consultaHttp: true,
