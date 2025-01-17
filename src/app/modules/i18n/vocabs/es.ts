@@ -98,7 +98,8 @@ export const locale = {
         APORTE: 'Aporte',
         EVENTOSDIAN: 'Eventos DIAN',
         CONTENEDORES: 'Contenedores',
-        SALDOINICIAL: 'Initial balance',
+        SALDOINICIAL: 'Saldo inicial',
+
       },
     },
     FORMULARIOS: {
