@@ -95,8 +95,7 @@ export const locale = {
         CONTENEDORES: 'Containers',
         CUENTABANCO: 'Bank Account',
         NOTAAJUSTE: 'Adjustment note',
-        SALDOINICIAL: 'Saldo inicial',
-
+        SALDOINICIAL: 'initial balance',
       },
     },
     FORMULARIOS: {
