@@ -133,6 +133,7 @@ export class ImportarComponent extends General {
 
         let data: any = {
           archivo_base64,
+          documento_tipo_id: Number(parametros?.documento_clase)
         };
 
         if (this.soloNuevos) {
@@ -150,8 +151,9 @@ export class ImportarComponent extends General {
           });
         }
 
+        // TODO: Refactor
         this.httpService
-          .post<ImportarDetalles>(url, data)
+          .post<ImportarDetalles>('general/documento/importar/', data)
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
