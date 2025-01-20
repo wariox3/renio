@@ -60,7 +60,7 @@ export const initialState: MenuItem = {
               },
               archivoImportacionLista: 'GenContacto.xlsx',
             },
-          ]
+          ],
         },
         {
           nombre: 'utilidad',
@@ -296,7 +296,7 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               modulo: 'contabilidad',
               archivoImportacionLista: 'ConCuenta.xlxs',
-              data: { modelo: 'ConCuenta' },
+              data: { modelo: 'ConCuenta', ordenamiento: '-id' },
             },
             // {
             //   nombre: 'COMPROBANTE',
