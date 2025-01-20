@@ -371,6 +371,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
           pendiente: documento.pendiente,
           cuenta: documento.documento_tipo_cuenta_cobrar_id,
           cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
+          documento_tipo_operacion: documento.documento_tipo_operacion,
+          documento_tipo: documento.documento_tipo,
+          documento_tipo_nombre: documento.documento_tipo_nombre,
           naturaleza: 'C',
         }));
         this.changeDetectorRef.detectChanges();
@@ -391,11 +394,18 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.calcularTotalDocumentosAgregados();
   }
 
+  private _definirNaturaleza(tipoOperacion: number) {
+    return tipoOperacion === -1 ? 'D' : 'C';
+  }
+
   agregarDocumentosPago() {
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
-        (documento: any) => documento.id === id
+        (documento) => documento.id === id
       );
+
+      const naturaleza = this._definirNaturaleza(documentoSeleccionado.documento_tipo_operacion)
+      
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
@@ -406,7 +416,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
-        naturaleza: [documentoSeleccionado.naturaleza],
+        naturaleza: [naturaleza],
       });
       this.detalles.push(detalleFormGroup);
     });

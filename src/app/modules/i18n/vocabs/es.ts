@@ -20,7 +20,7 @@ export const locale = {
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
-        ADMINISTRACION: 'Administración',
+        ADMINISTRACION: 'Administración', 
         UTILIDAD: 'Utilidad',
         PROCESO: 'Proceso',
         INFORME: 'Informe',
@@ -876,6 +876,7 @@ export const locale = {
         SUCURSAL_NOMBRE: 'Sucursal',
         PROVEEDOR: 'Proveedor',
         DOCUMENTOTIPONOMBRE: 'Documento',
+        TIPODOCUMENTO: 'Tipo documento'
       },
       ITEM: {
         ID: 'ID',
