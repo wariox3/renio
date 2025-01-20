@@ -66,16 +66,16 @@ export class BalancePruebaComponent extends General implements OnInit {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
     filtros: [
-      {
-        propiedad: 'anio',
-        operador: 'igual',
-        valor1: '2024',
-        valor2: '',
-        tipo: 'IntegerField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        campo: 'anio',
-      },
+      // {
+      //   propiedad: 'anio',
+      //   operador: 'igual',
+      //   valor1: '2024',
+      //   valor2: '',
+      //   tipo: 'IntegerField',
+      //   busquedaAvanzada: 'false',
+      //   modeloBusquedaAvanzada: '',
+      //   campo: 'anio',
+      // },
       {
         propiedad: 'fecha_desde__gte',
         operador: '__gte',
@@ -138,7 +138,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).toISOString().split('T')[0];
 
     this.formularioFiltros = this._formBuilder.group({
-      anio: [currentYear, Validators.required],
+      // anio: [currentYear, Validators.required],
       fecha_desde: [firstDayOfMonth, Validators.required],
       fecha_hasta: [lastDayOfMonth, Validators.required],
     });
@@ -156,20 +156,20 @@ export class BalancePruebaComponent extends General implements OnInit {
   private _construirFiltros() {
     this._limpiarFiltros();
 
-    const anio = this.formularioFiltros.get('anio')?.value;
+    // const anio = this.formularioFiltros.get('anio')?.value;
     const fechaDesde = this.formularioFiltros.get('fecha_desde')?.value;
     const fechaHasta = this.formularioFiltros.get('fecha_hasta')?.value;
 
-    this._parametrosConsulta.filtros.push({
-      propiedad: 'anio',
-      operador: 'igual',
-      valor1: anio,
-      valor2: '',
-      tipo: 'IntegerField',
-      busquedaAvanzada: 'false',
-      modeloBusquedaAvanzada: '',
-      campo: 'anio',
-    });
+    // this._parametrosConsulta.filtros.push({
+    //   propiedad: 'anio',
+    //   operador: 'igual',
+    //   valor1: anio,
+    //   valor2: '',
+    //   tipo: 'IntegerField',
+    //   busquedaAvanzada: 'false',
+    //   modeloBusquedaAvanzada: '',
+    //   campo: 'anio',
+    // });
 
     this._parametrosConsulta.filtros.push({
       propiedad: 'fecha_desde__gte',
