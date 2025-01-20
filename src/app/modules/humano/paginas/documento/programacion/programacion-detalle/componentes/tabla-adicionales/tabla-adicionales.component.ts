@@ -12,6 +12,8 @@ import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importa
 import { finalize } from 'rxjs';
 import { ModalProgramacionDetalleAdicionalComponent } from '../modal-programacion-detalle-adicional/modal-programacion-detalle-adicional.component';
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalProgramacionEditarAdicionalComponent } from '../modal-programacion-editar-adiciona/modal-programacion-editar-adicional.component';
 
 @Component({
   selector: 'app-tabla-adicionales',
@@ -19,8 +21,10 @@ import { ImportarAdministradorComponent } from '@comun/componentes/importar-admi
   imports: [
     CommonModule,
     TranslateModule,
+    NgbTooltipModule,
     ImportarAdministradorComponent,
     ModalProgramacionDetalleAdicionalComponent,
+    ModalProgramacionEditarAdicionalComponent,
   ],
   templateUrl: './tabla-adicionales.component.html',
   styleUrl: './tabla-adicionales.component.scss',
@@ -86,6 +90,8 @@ export class TablaAdicionalesComponent extends General {
   };
   @ViewChild(ModalProgramacionDetalleAdicionalComponent)
   modalProgramacionDetalleAdicionalComponent: ModalProgramacionDetalleAdicionalComponent;
+  @ViewChild(ModalProgramacionEditarAdicionalComponent)
+  modalProgramacionEditarAdicionalComponent: ModalProgramacionEditarAdicionalComponent;
 
   consultarDatos() {
     this.isCheckedSeleccionarTodos.set(false);
@@ -194,10 +200,15 @@ export class TablaAdicionalesComponent extends General {
   }
 
   abrirModalNuevo(){
-    this.modalProgramacionDetalleAdicionalComponent.abrirModalNuevo()
+    this.modalProgramacionEditarAdicionalComponent.abrirModalNuevo()
   }
 
   abrirModalEditar(id: number){
-    this.modalProgramacionDetalleAdicionalComponent.abrirModalEditar(id)
+    this.modalProgramacionEditarAdicionalComponent.abrirModalEditar(id)
+  }
+
+  abrirModalDetalle(id: number){
+    this.modalProgramacionDetalleAdicionalComponent.abrirModal(id)
+
   }
 }
