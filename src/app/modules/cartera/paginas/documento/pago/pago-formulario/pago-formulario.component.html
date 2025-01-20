@@ -308,9 +308,11 @@
                             </ng-container>
                             <ng-template #selectDisabled>
                               <select
-                                disabled
                                 class="form-select form-select-sm"
-                              >
+                                disabled
+                                [value]="detalle.value.naturaleza"
+                                >
+                                <option value="D">Débito</option>
                                 <option value="C">Crédito</option>
                               </select>
                             </ng-template>
@@ -485,6 +487,7 @@
         <thead>
           <tr class="bg-gray-100">
             <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.TIPODOCUMENTO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA_VENCE'"></th>
@@ -523,6 +526,9 @@
           <tr *ngFor="let item of arrDocumentos">
             <td>
               {{ item["id"] }}
+            </td>
+            <td>
+              {{ item["documento_tipo_nombre"] }}
             </td>
             <td>
               {{ item["numero"] }}

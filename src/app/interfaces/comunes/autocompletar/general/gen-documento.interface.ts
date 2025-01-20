@@ -11,6 +11,9 @@ export interface RegistroAutocompletarGenDocumento {
   pendiente: boolean;
   documento_tipo_cuenta_cobrar_id: number;
   documento_tipo_cuenta_cobrar_cuenta_codigo: number;
+  documento_tipo_operacion: number;
+  documento_tipo: number;
+  documento_tipo_nombre: string;
   naturaleza?: 'C';
 }
 
