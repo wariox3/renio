@@ -81,17 +81,17 @@ export default class PagoFormularioComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
 
@@ -319,7 +319,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         valor1: this.formularioFactura.get('contacto')?.value,
         tipo: 'CharField',
       },
-      { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+      { propiedad: 'documento_tipo__cobrar', valor1: true },
       { propiedad: 'pendiente__gt', valor1: 0 },
     ];
     if (arrFiltrosExtra !== null) {
@@ -330,7 +330,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             valor1: this.formularioFactura.get('contacto')?.value,
             tipo: 'CharField',
           },
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+          { propiedad: 'documento_tipo__cobrar', valor1: true },
           { propiedad: 'pendiente__gt', valor1: 0 },
           ...arrFiltrosExtra,
         ];
@@ -341,7 +341,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             valor1: this.formularioFactura.get('contacto')?.value,
             tipo: 'CharField',
           },
-          { propiedad: 'documento_tipo__documento_clase__grupo', valor1: 1 },
+          { propiedad: 'documento_tipo__cobrar', valor1: true },
           { propiedad: 'pendiente__gt', valor1: 0 },
         ];
       }
