@@ -51,6 +51,16 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'administracion',
+          children: [
+            {
+              nombre: 'Contacto',
+              tipo: 'administrador',
+              data: {
+                modelo: 'GenContacto',
+              },
+              archivoImportacionLista: 'GenContacto.xlsx',
+            },
+          ]
         },
         {
           nombre: 'utilidad',
@@ -892,6 +902,14 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               data: { modelo: 'GenCuentaBanco' },
               modulo: 'tesoreria',
+            },
+            {
+              nombre: 'Contacto',
+              tipo: 'administrador',
+              data: {
+                modelo: 'GenContacto',
+              },
+              archivoImportacionLista: 'GenContacto.xlsx',
             },
           ],
         },
