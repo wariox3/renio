@@ -44,6 +44,7 @@ export type Modelo =
   | 'ConCuenta'
   | 'ConCuentaClase'
   | 'ConCuentaGrupo'
+  | 'ConCuentaCuenta'
   | 'ConCuentaSubcuenta'
   | 'ConComprobante'
   | 'ConGrupo'
