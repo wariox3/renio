@@ -121,23 +121,9 @@
             class="form-label required"
           >
           </label>
-          <!-- <input
-            formControlName="cuenta_clase"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['cuenta_clase'].touched &&
-                formularioConCuenta.controls['cuenta_clase'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['cuenta_clase'].touched &&
-                formularioConCuenta.controls['cuenta_clase'].valid
-            }"
-            readonly
-          /> -->
           <ng-select
             [items]="cuentaClaseLista"
+            bindLabel="id"
             bindValue="id"
             formControlName="cuenta_clase"
             notFoundText="Sin elementos"
@@ -160,42 +146,7 @@
               control: formularioConCuenta.controls['cuenta_clase']
             }"
           ></ng-container>
-          <!-- @if(formularioConCuenta.get('cuenta_clase')?.hasError('primerCaracterInvalido')){
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span role="alert"> El primer carácter no puede ser "0". </span>
-            </div>
-          </div>
-          }
-          @if(formularioConCuenta.get('cuenta_clase')?.hasError('grupoNoValido')){
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span role="alert"> No se encuentra la cuenta contable </span>
-            </div>
-          </div>
-          } -->
         </div>
-        <!-- <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.NIVEL"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="nivel"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['nivel'].touched &&
-                formularioConCuenta.controls['nivel'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['nivel'].touched &&
-                formularioConCuenta.controls['nivel'].valid
-            }"
-            readonly
-          />
-        </div> -->
       </div>
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
@@ -204,24 +155,9 @@
             class="form-label required"
           >
           </label>
-          <!-- <input
-            formControlName="cuenta_grupo"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            appSoloNumeros
-            [ngClass]="{
-              'is-invalid':
-                formularioConCuenta.controls['cuenta_grupo'].touched &&
-                formularioConCuenta.controls['cuenta_grupo'].invalid,
-              'is-valid':
-                formularioConCuenta.controls['cuenta_grupo'].touched &&
-                formularioConCuenta.controls['cuenta_grupo'].valid
-            }"
-            readonly
-          /> -->
           <ng-select
             [items]="cuentaGrupoLista"
+            bindLabel="id"
             bindValue="id"
             formControlName="cuenta_grupo"
             notFoundText="Sin elementos"
@@ -244,37 +180,6 @@
               control: formularioConCuenta.controls['cuenta_grupo']
             }"
           ></ng-container>
-          <!-- @if(formularioConCuenta.get('cuenta_grupo')?.hasError('primerCaracterInvalido')){
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span role="alert"> El primer carácter no puede ser "0". </span>
-            </div>
-          </div>
-          } -->
-          <!-- <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '20',
-              control: formularioConCuenta.controls['cuenta_grupo']
-            }"
-          ></ng-container> -->
-          <!-- <div
-            *ngIf="
-              formularioConCuenta.controls['cuenta_grupo']?.getError(
-                'grupoNoValido'
-              )
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert"> No se encuentra la cuenta contable </span>
-              </div>
-            </div>
-          </div>
-        </div> -->
         </div>
       </div>
       <div class="row mb-5">
@@ -286,7 +191,7 @@
           </label>
           <ng-select
             [items]="cuentaCuentaLista"
-            bindLabel="nombre"
+            bindLabel="id"
             bindValue="id"
             formControlName="cuenta_cuenta"
             notFoundText="Sin elementos"
@@ -310,42 +215,6 @@
             }"
           ></ng-container>
         </div>
-
-        <!-- <div class="col-md-6 col-sm-12">
-        <label
-          translate="FORMULARIOS.CAMPOS.COMUNES.SUBCUENTA"
-          class="form-label"
-        ></label>
-        <input
-          formControlName="cuenta_subcuenta"
-          class="form-control bg-transparent"
-          type="text"
-          autocomplete="off"
-          appSoloNumeros
-          [ngClass]="{
-            'is-invalid':
-              formularioConCuenta.controls['cuenta_subcuenta'].touched &&
-              formularioConCuenta.controls['cuenta_subcuenta'].invalid,
-            'is-valid':
-              formularioConCuenta.controls['cuenta_subcuenta'].touched &&
-              formularioConCuenta.controls['cuenta_subcuenta'].valid
-          }"
-          readonly
-        />
-        @if(formularioConCuenta.get('cuenta_subcuenta')?.hasError('primerCaracterInvalido')){
-        <div class="fv-plugins-message-container">
-          <div class="fv-help-block">
-            <span role="alert"> El primer carácter no puede ser "0". </span>
-          </div>
-        </div>
-        }
-        @if(formularioConCuenta.get('cuenta_subcuenta')?.hasError('grupoNoValido')){
-        <div class="fv-plugins-message-container">
-          <div class="fv-help-block">
-            <span role="alert"> No se encuentra la cuenta contable </span>
-          </div>
-        </div>
-      } -->
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6 d-flex flex-column gap-2">
