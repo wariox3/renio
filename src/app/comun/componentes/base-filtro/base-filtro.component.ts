@@ -392,6 +392,7 @@ export class BaseFiltroComponent extends General implements OnInit {
                   'data-modelo-busqueda-avanzada'
                 ),
                 operadorFiltro: item.valor,
+                valor1: '',
                 valor2: null,
               });
             }
@@ -399,7 +400,7 @@ export class BaseFiltroComponent extends General implements OnInit {
           if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
-              valor1: null,
+              valor1: '',
               valor2: null,
               operadorFiltro: '',
             });
