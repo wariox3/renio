@@ -20,7 +20,7 @@ export const locale = {
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
-        ADMINISTRACION: 'Administración', 
+        ADMINISTRACION: 'Administración',
         UTILIDAD: 'Utilidad',
         PROCESO: 'Proceso',
         INFORME: 'Informe',
@@ -195,6 +195,8 @@ export const locale = {
           GENERAL: 'General',
           COLUMNAS: 'Columnas',
           CODIGO: 'Código',
+          DESDE: 'Desde',
+          HASTA: 'hasta',
           BUSCAR: 'Buscar',
           MENU: {
             PERFIL: 'Mi perfil',
@@ -537,6 +539,7 @@ export const locale = {
             CONTIENE: 'Contiene',
             ES: 'Si',
             NO: 'No',
+            RANGE: 'Rango'
           },
         },
         HUMANO: {

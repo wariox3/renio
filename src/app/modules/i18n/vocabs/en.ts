@@ -191,6 +191,8 @@ export const locale = {
           GENERAL: 'General',
           COLUMNAS: 'Columns',
           CODIGO: 'Code',
+          DESDE: 'From',
+          HASTA: 'To',
           BUSCAR: 'Search',
           MENU: {
             PERFIL: 'My profile',
@@ -530,6 +532,7 @@ export const locale = {
             CONTIENE: 'Contains',
             ES: 'Is',
             NO: 'Not',
+            RANGE: 'Range'
           },
         },
         HUMANO: {
