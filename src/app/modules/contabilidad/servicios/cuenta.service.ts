@@ -4,15 +4,14 @@ import { HttpService } from '@comun/services/http.service';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CuentaService extends Subdominio {
-
   constructor(private httpService: HttpService) {
     super();
-   }
+  }
 
-   guardarCuenta(data: ConCuenta) {
+  guardarCuenta(data: ConCuenta) {
     return this.httpService.post<ConCuenta>(`contabilidad/cuenta/`, data);
   }
 
@@ -22,5 +21,19 @@ export class CuentaService extends Subdominio {
 
   actualizarDatos(id: number, data: Partial<ConCuenta>) {
     return this.httpService.put<ConCuenta>(`contabilidad/cuenta/${id}/`, data);
+  }
+
+  // logica de negocio
+
+  // calculamos el rango de ids para los selectores
+  calcularRangoIds(
+    id: number,
+    multiplicador: number,
+    desplazamiento: number
+  ): { idDesde: number; idHasta: number } {
+    const idDesde = id * multiplicador;
+    const idHasta = id * multiplicador + desplazamiento;
+
+    return { idDesde, idHasta };
   }
 }
