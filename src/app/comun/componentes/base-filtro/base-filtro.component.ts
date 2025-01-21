@@ -290,7 +290,11 @@ export class BaseFiltroComponent extends General implements OnInit {
               },
             };
           } else {
-            let propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
+            let propiedad = filtro.propiedad;
+            if (filtro.tipo !== 'Fk') {
+              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
+            }
+
             nuevoFiltro = {
               ...filtro,
               ...{
