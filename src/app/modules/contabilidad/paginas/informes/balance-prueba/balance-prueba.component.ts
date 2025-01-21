@@ -6,15 +6,16 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
@@ -52,8 +53,7 @@ interface DataAgrupada {
     NgbAccordionModule,
     ReactiveFormsModule,
     TranslateModule,
-    SoloNumerosDirective,
-    BtnExportarComponent
+    BtnExportarComponent,
   ],
   templateUrl: './balance-prueba.component.html',
   styleUrl: './balance-prueba.component.scss',
@@ -108,8 +108,6 @@ export class BalancePruebaComponent extends General implements OnInit {
   private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
 
-
-
   constructor() {
     super();
   }
@@ -132,16 +130,28 @@ export class BalancePruebaComponent extends General implements OnInit {
     const currentMonth = currentDate.getMonth();
 
     // Primer día del mes actual
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).toISOString().split('T')[0];
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+      .toISOString()
+      .split('T')[0];
 
     // Último día del mes actual
-    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).toISOString().split('T')[0];
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
+      .toISOString()
+      .split('T')[0];
 
-    this.formularioFiltros = this._formBuilder.group({
-      // anio: [currentYear, Validators.required],
-      fecha_desde: [firstDayOfMonth, Validators.required],
-      fecha_hasta: [lastDayOfMonth, Validators.required],
-    });
+    this.formularioFiltros = this._formBuilder.group(
+      {
+        // anio: [currentYear, Validators.required],
+        fecha_desde: [firstDayOfMonth, Validators.required],
+        fecha_hasta: [lastDayOfMonth, Validators.required],
+      },
+      {
+        validator: this.fechaDesdeMenorQueFechaHasta(
+          'fecha_desde',
+          'fecha_hasta'
+        ),
+      }
+    );
   }
 
   private _consultarInformes(parametros: any) {
@@ -216,10 +226,13 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   imprimir() {
-    this._httpService.descargarArchivo('general/documento/imprimir/', this._parametrosConsulta);
+    this._httpService.descargarArchivo(
+      'general/documento/imprimir/',
+      this._parametrosConsulta
+    );
   }
 
-  descargarExcel(){
+  descargarExcel() {
     this._descargarArchivosService.descargarExcelDocumentos({
       ...this._parametrosConsulta,
       excel: true,
@@ -227,5 +240,21 @@ export class BalancePruebaComponent extends General implements OnInit {
         limite: 5000,
       },
     });
+  }
+
+  fechaDesdeMenorQueFechaHasta(
+    fechaDesde: string,
+    fechaHasta: string
+  ): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const desde = formGroup.get(fechaDesde)?.value;
+      const hasta = formGroup.get(fechaHasta)?.value;
+
+      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+        return { fechaInvalida: true };
+      }
+      return null;
+    };
   }
 }
