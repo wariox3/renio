@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -289,7 +290,11 @@ export class BaseFiltroComponent extends General implements OnInit {
               },
             };
           } else {
-            let propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
+            let propiedad = filtro.propiedad;
+            if (filtro.tipo !== 'Fk') {
+              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
+            }
+
             nuevoFiltro = {
               ...filtro,
               ...{
@@ -375,6 +380,7 @@ export class BaseFiltroComponent extends General implements OnInit {
                   'data-modelo-busqueda-avanzada'
                 ),
                 operadorFiltro: item.valor,
+                valor2: null,
               });
             }
           });
@@ -382,6 +388,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
               valor1: null,
+              valor2: null,
               operadorFiltro: '',
             });
           }
@@ -555,4 +562,25 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
     return valorFiltro.toLocaleLowerCase();
   }
+
+  definirPlaceholder(filtro: AbstractControl){
+
+    let placeholder = 'FORMULARIOS.TITULOS.COMUNES.CODIGO';
+
+    if(filtro.get('busquedaAvanzada')?.value === 'true'){
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.BUSCAR'
+    }
+    if(filtro.get('operadorFiltro')?.value === 'range'){
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.DESDE'
+    }
+
+    return this.translateService.instant(placeholder)
+  }
+
+  limpiarCampoValor2(filtro: AbstractControl){
+    if(filtro.get('operadorFiltro')?.value !== 'range'){
+      filtro.get('valor2')?.setValue(null)
+    }
+  }
+
 }

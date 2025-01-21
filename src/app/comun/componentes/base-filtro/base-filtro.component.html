@@ -1,3 +1,4 @@
+<pre>{{formularioFiltros.value | json}}</pre>
 <form [formGroup]="formularioFiltros">
   <div formArrayName="filtros">
     <div
@@ -52,7 +53,11 @@
           </select>
         </div>
         <div class="col-12 col-md-4 mb-2">
-          <select formControlName="operadorFiltro" class="form-select form-select-sm">
+          <select
+            formControlName="operadorFiltro"
+            class="form-select form-select-sm"
+            (change)="limpiarCampoValor2(filtro)"
+          >
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
@@ -73,11 +78,7 @@
               #inputValor1
               [id]="'inputValor1' + i"
               class="form-control form-control-sm"
-              [placeholder]="
-                filtro.get('busquedaAvanzada')?.value !== 'true'
-                  ? ('FORMULARIOS.TITULOS.COMUNES.CODIGO' | translate)
-                  : ('FORMULARIOS.TITULOS.COMUNES.BUSCAR' | translate)
-              "
+              [placeholder]="definirPlaceholder(filtro)"
               formControlName="valor1"
               [ngClass]="{
                   'animate__animated animate__fadeOut': filtro.get('tipo')?.value  === 'Booleano',
@@ -93,10 +94,30 @@
                 filtro.get('busquedaAvanzada')?.value === 'true'
               "
             />
-            <div
-              class="input-group-append"
-              *ngIf="filtro.get('busquedaAvanzada')?.value === 'true'"
-            >
+            @if(filtro.get('operadorFiltro')?.value === 'range'){
+            <input
+              #inputValor2
+              [@fadeInOut]
+              [id]="'inputValor2' + i"
+              class="form-control form-control-sm"
+              [placeholder]="'FORMULARIOS.TITULOS.COMUNES.HASTA' | translate"
+              formControlName="valor2"
+              [ngClass]="{
+                  'animate__animated animate__fadeOut': filtro.get('tipo')?.value  === 'Booleano',
+                }"
+              [type]="
+                filtro.get('tipo')?.value === 'IntegerField'
+                  ? 'number'
+                  : filtro.get('tipo')?.value === 'DateField'
+                  ? 'date'
+                  : 'text'
+              "
+              [appSoloNumeros]="
+                filtro.get('busquedaAvanzada')?.value === 'true'
+              "
+            />
+            } @if(filtro.get('busquedaAvanzada')?.value === 'true'){
+            <div class="input-group-append">
               <button
                 style="border-top-left-radius: 0; border-bottom-left-radius: 0"
                 class="btn btn-primary btn-sm rounded-left-0"
@@ -106,6 +127,7 @@
                 {{ "FORMULARIOS.TITULOS.COMUNES.BUSCAR" | translate }}
               </button>
             </div>
+            }
           </div>
         </div>
         <div class="col-12 col-md-1 mb-2" [@fadeInOut]>

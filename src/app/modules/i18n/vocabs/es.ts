@@ -20,7 +20,7 @@ export const locale = {
       },
       COMUNES: {
         DOCUMENTO: 'Documento',
-        ADMINISTRACION: 'Administración', 
+        ADMINISTRACION: 'Administración',
         UTILIDAD: 'Utilidad',
         PROCESO: 'Proceso',
         INFORME: 'Informe',
@@ -195,6 +195,8 @@ export const locale = {
           GENERAL: 'General',
           COLUMNAS: 'Columnas',
           CODIGO: 'Código',
+          DESDE: 'Desde',
+          HASTA: 'hasta',
           BUSCAR: 'Buscar',
           MENU: {
             PERFIL: 'Mi perfil',
@@ -537,6 +539,7 @@ export const locale = {
             CONTIENE: 'Contiene',
             ES: 'Si',
             NO: 'No',
+            RANGE: 'Rango'
           },
         },
         HUMANO: {
@@ -871,6 +874,10 @@ export const locale = {
         EMPLEADO_NOMBRE_FILTRO: '[Empleado] nombre',
         ITEM_NOMBRE_FILTRO: '[Ítem] nombre',
         ITEM_ID_FILTRO: '[Ítem] id',
+        GRUPO_NOMBRE_FILTRO: '[Grupo] nombre',
+        PERIODO_NOMBRE_FILTRO: '[Período] nombre',
+        PAGO_TIPO_NOMBRE_FILTRO: '[Pago tipo] nombre',
+        CONTRATO_ID_FILTRO: '[Contrato] id',
         TOTAL_BRUTO: 'Total',
         MES: 'Mes',
         ANIO: 'Año',

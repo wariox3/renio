@@ -31,6 +31,10 @@ export const initialState: CriteriosFiltro = {
       valor: '__lte',
       texto: 'MENORIGUALQUE',
     },
+    {
+      valor: 'range',
+      texto: 'range',
+    },
   ],
   FloatField: [
     {
@@ -54,6 +58,10 @@ export const initialState: CriteriosFiltro = {
       valor: '__lte',
       texto: 'MENORIGUALQUE',
     },
+    {
+      valor: 'range',
+      texto: 'range',
+    },
   ],
   CharField: [
     {
@@ -68,7 +76,7 @@ export const initialState: CriteriosFiltro = {
   ],
   DateField: [
     {
-      valor: '__exact',
+      valor: 'exact',
       texto: 'IGUAL',
       defecto: true,
     },
@@ -87,6 +95,10 @@ export const initialState: CriteriosFiltro = {
     {
       valor: '__lte',
       texto: 'MENORIGUALQUE',
+    },
+    {
+      valor: 'range',
+      texto: 'range',
     },
   ],
   Booleano: [
