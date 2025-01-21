@@ -10,4 +10,7 @@ export interface ConCuenta {
   cuenta_clase_id: number;
   cuenta_grupo_id: number;
   cuenta_cuenta_id: number;
+  cuenta_clase_nombre: string;
+  cuenta_grupo_nombre: string;
+  cuenta_cuenta_nombre: string;
 }
