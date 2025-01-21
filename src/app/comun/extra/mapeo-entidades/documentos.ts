@@ -1954,6 +1954,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'COMPROBANTE',
+      nombreAbreviadoFiltro: 'COMPROBANTE_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'comprobante__nombre',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1968,6 +1970,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1975,6 +1979,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CUENTA',
+      nombreAbreviadoFiltro: 'CUENTA_CODIGO_FILTRO',
+      nombreFiltroRelacion: 'cuenta__codigo',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1982,6 +1988,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'GRUPO',
+      nombreAbreviadoFiltro: 'GRUPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'grupo__nombre',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
