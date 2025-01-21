@@ -291,10 +291,9 @@ export class BaseFiltroComponent extends General implements OnInit {
             };
           } else {
             let propiedad = filtro.propiedad;
-            if (filtro.tipo !== 'Fk') {
+            if (filtro.tipo !== 'Fk' && filtro.operadorFiltro !== 'range') {
               propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
             }
-
             nuevoFiltro = {
               ...filtro,
               ...{
@@ -302,6 +301,19 @@ export class BaseFiltroComponent extends General implements OnInit {
                 campo: filtro.propiedad,
               },
             };
+
+            if (filtro.operadorFiltro === 'range') {
+              nuevoFiltro = {
+                ...filtro,
+                ...{
+                  propiedad,
+                  campo: filtro.propiedad,
+                  operador: 'range'
+                },
+              };
+            }
+
+
           }
           listaFiltros.push(nuevoFiltro);
         }
