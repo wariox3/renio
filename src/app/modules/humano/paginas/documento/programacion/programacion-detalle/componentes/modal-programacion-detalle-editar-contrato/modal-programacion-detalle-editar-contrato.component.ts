@@ -92,16 +92,12 @@ export class ModalProgramacionDetalleEditarContratoComponent extends General {
     this.arrParametrosConsultaDetalle = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.detalle,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'id',
           valor1: this.programacionDetalleId,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -122,7 +118,7 @@ export class ModalProgramacionDetalleEditarContratoComponent extends General {
         .subscribe(() => {
           this._alertaService.mensajaExitoso('Se actualizó la información');
           this._modalService.dismissAll();
-          this.emitirConsultarLista.emit()
+          this.emitirConsultarLista.emit();
         });
     }
   }

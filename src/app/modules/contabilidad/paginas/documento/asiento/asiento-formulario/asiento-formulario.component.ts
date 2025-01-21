@@ -272,10 +272,8 @@ export default class AsientoFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,

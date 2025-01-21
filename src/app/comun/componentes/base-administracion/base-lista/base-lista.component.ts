@@ -83,7 +83,6 @@ export class BaseListaComponent extends General implements OnInit {
         this.submodelo = parametro.submodelo!;
         const filtro = [
           {
-            operador: '',
             propiedad: 'empleado',
             valor1: true,
           },
@@ -98,7 +97,6 @@ export class BaseListaComponent extends General implements OnInit {
       if (parametro.resoluciontipo) {
         const filtro = [
           {
-            operador: '',
             propiedad: parametro.resoluciontipo,
             valor1: true,
           },

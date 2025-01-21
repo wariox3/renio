@@ -149,10 +149,8 @@ export default class FacturaRecurrenteFormularioComponent
 
   public filtrosPermanentes = [
     {
-      operador: '',
       propiedad: 'cliente',
       valor1: 'True',
-      valor2: '',
     },
   ];
 
@@ -858,16 +856,12 @@ export default class FacturaRecurrenteFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'cliente',
           valor1: 'True',
-          valor2: '',
         },
       ],
       limite: 10,
@@ -894,10 +888,8 @@ export default class FacturaRecurrenteFormularioComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 5,

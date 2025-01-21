@@ -75,10 +75,8 @@ export default class CreditoDetalleComponent extends General {
       .consultarDatosAutoCompletar<any>({
         filtros: [
           {
-            operador: '',
             propiedad: 'credito_id',
             valor1: this.credito.id,
-            valor2: '',
           },
         ],
         limite: 10,

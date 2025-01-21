@@ -66,21 +66,9 @@ export class BalancePruebaComponent extends General implements OnInit {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
     filtros: [
-      // {
-      //   propiedad: 'anio',
-      //   operador: 'igual',
-      //   valor1: '2024',
-      //   valor2: '',
-      //   tipo: 'IntegerField',
-      //   busquedaAvanzada: 'false',
-      //   modeloBusquedaAvanzada: '',
-      //   campo: 'anio',
-      // },
       {
         propiedad: 'fecha_desde__gte',
-        operador: '__gte',
         valor1: '2024-12-01',
-        valor2: '',
         tipo: 'DateField',
         busquedaAvanzada: 'false',
         modeloBusquedaAvanzada: '',
@@ -88,9 +76,7 @@ export class BalancePruebaComponent extends General implements OnInit {
       },
       {
         propiedad: 'fecha_hasta__lte',
-        operador: '__lte',
         valor1: '2024-12-31',
-        valor2: '',
         tipo: 'DateField',
         busquedaAvanzada: 'false',
         modeloBusquedaAvanzada: '',
@@ -170,22 +156,9 @@ export class BalancePruebaComponent extends General implements OnInit {
     const fechaDesde = this.formularioFiltros.get('fecha_desde')?.value;
     const fechaHasta = this.formularioFiltros.get('fecha_hasta')?.value;
 
-    // this._parametrosConsulta.filtros.push({
-    //   propiedad: 'anio',
-    //   operador: 'igual',
-    //   valor1: anio,
-    //   valor2: '',
-    //   tipo: 'IntegerField',
-    //   busquedaAvanzada: 'false',
-    //   modeloBusquedaAvanzada: '',
-    //   campo: 'anio',
-    // });
-
     this._parametrosConsulta.filtros.push({
       propiedad: 'fecha_desde__gte',
-      operador: '__gte',
       valor1: fechaDesde,
-      valor2: '',
       tipo: 'DateField',
       busquedaAvanzada: 'false',
       modeloBusquedaAvanzada: '',
@@ -194,9 +167,7 @@ export class BalancePruebaComponent extends General implements OnInit {
 
     this._parametrosConsulta.filtros.push({
       propiedad: 'fecha_hasta__lte',
-      operador: '__lte',
       valor1: fechaHasta,
-      valor2: '',
       tipo: 'DateField',
       busquedaAvanzada: 'false',
       modeloBusquedaAvanzada: '',

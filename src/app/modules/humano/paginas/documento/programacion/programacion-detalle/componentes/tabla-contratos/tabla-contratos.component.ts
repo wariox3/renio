@@ -157,10 +157,8 @@ export class TablaContratosComponent extends General implements OnInit {
     this.arrParametrosConsulta.set({
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.detalle,
-          valor2: '',
         },
       ],
       limite: 1000,
