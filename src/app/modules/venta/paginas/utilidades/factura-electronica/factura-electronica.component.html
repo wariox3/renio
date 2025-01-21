@@ -55,6 +55,13 @@
                 >
                   <button
                     type="button"
+                    class="btn btn-sm btn-danger"
+                    id="dropdownBasic1"
+                    (click)="confirmarDescartar()"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.DESCARTAR"
+                  ></button>
+                  <button
+                    type="button"
                     class="btn btn-sm btn-primary"
                     id="dropdownBasic1"
                     (click)="emitir()"
@@ -120,6 +127,10 @@
                       {{ documentoEmitir.total | number }}
                     </td>
                     <td class="text-center">
+                      @if (documentoEmitir.estado_electronico_descartado) { 
+                        <span class="badge badge-danger">Descartado</span>
+                      }
+                      @else {
                       <ng-container
                         *ngIf="
                           documentoEmitir.estado_electronico_enviado === true;
@@ -131,8 +142,9 @@
                         >
                       </ng-container>
                       <ng-template #esperando>
-                        <span class="badge badge-danger">Pendiente</span>
+                        <span class="badge badge-warning">Pendiente</span>
                       </ng-template>
+                      }
                     </td>
                     <td class="w-20px">
                       <label
