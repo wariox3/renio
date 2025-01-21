@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
@@ -10,8 +16,9 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { GeneralService } from '@comun/services/general.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { tap, zip } from 'rxjs';
+import { finalize, forkJoin, tap, zip } from 'rxjs';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { FacturaElectronicaService } from '@modulos/venta/servicios/factura-electronica.service';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -85,7 +92,13 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   cantidad_registros: number = 0;
   arrDocumentosEmitirCantidadRegistros: number = 0;
   arrDocumentosNotificarCantidadRegistros: number = 0;
+
+  @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
+
   private readonly _generalService = inject(GeneralService);
+  private readonly _facturaElectronicaService = inject(
+    FacturaElectronicaService
+  );
 
   constructor(private httpService: HttpService) {
     super();
@@ -103,6 +116,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   }
 
   consultarLista() {
+    this._limpiarSeleccionados();
     zip(
       this._generalService.consultarDatosLista(
         this.arrParametrosConsultaEmitir
@@ -253,7 +267,12 @@ export class FacturaElectronicaComponent extends General implements OnInit {
     this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
     this.arrParametrosConsultaNotificar.filtros =
       this.filtroPermanenteNotificar;
+    // limpiar
     this.consultarLista();
+  }
+
+  private _limpiarSeleccionados() {
+    this.arrRegistrosSeleccionadosEmitir = [];
   }
 
   obtenerFiltrosEmitir(arrFiltrosExtra: any) {
@@ -394,4 +413,44 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.consultarLista();
     }
   }
+
+  confirmarDescartar() {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de descartar?',
+        texto:
+          'Esta acción no se puede revertir. Si descarta un documento, ya no podrá ser enviado electrónicamente en otro momento.',
+        textoBotonCofirmacion: 'Si, descartar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._descartar();
+        }
+      });
+  }
+
+  private _descartar() {
+    const solicitudes = this.arrRegistrosSeleccionadosEmitir.map(
+      (registroId) => {
+        return this._facturaElectronicaService.descartarFacturas({
+          id: registroId,
+        });
+      }
+    );
+
+    forkJoin(solicitudes)
+      .pipe(
+        finalize(() => {
+          this.checkboxAll.nativeElement.checked = false;
+          this.emitirSelectTodo = false;
+          this.consultarLista();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.alertaService.mensajaExitoso('Se han descartado correctamente ');
+        },
+      });
+  }
 }
+  
