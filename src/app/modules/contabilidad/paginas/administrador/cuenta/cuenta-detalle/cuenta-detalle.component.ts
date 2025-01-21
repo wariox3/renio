@@ -38,6 +38,9 @@ export default class CuentaDetalleComponent extends General implements OnInit {
     cuenta_clase_id: 0,
     cuenta_grupo_id: 0,
     cuenta_cuenta_id: 0,
+    cuenta_clase_nombre: '',
+    cuenta_grupo_nombre: '',
+    cuenta_cuenta_nombre: '',
   };
   @Input() informacionFormulario: any;
 
