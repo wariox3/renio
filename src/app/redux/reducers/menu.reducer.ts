@@ -302,7 +302,7 @@ export const initialState: MenuItem = {
             //   nombre: 'COMPROBANTE',
             //   tipo: 'administrador',
             //   data: { modelo: 'ConComprobante' },
-            // },
+            // }, 
             {
               nombre: 'GRUPO',
               tipo: 'administrador',

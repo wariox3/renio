@@ -76,7 +76,7 @@ export const initialState: CriteriosFiltro = {
   ],
   DateField: [
     {
-      valor: 'exact',
+      valor: '__exact',
       texto: 'IGUAL',
       defecto: true,
     },
