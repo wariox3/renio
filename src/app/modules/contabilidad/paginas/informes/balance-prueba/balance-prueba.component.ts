@@ -198,7 +198,7 @@ export class BalancePruebaComponent extends General implements OnInit {
 
   imprimir() {
     this._httpService.descargarArchivo(
-      'general/documento/imprimir/',
+      'contabilidad/movimiento/imprimir/',
       this._parametrosConsulta
     );
   }
