@@ -128,10 +128,8 @@ export class BuscarContratoComponent
       .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>({
         filtros: [
           {
-            operador: '',
             propiedad,
             valor1: valor,
-            valor2: '',
           },
         ],
         limite: 1000,
@@ -158,7 +156,6 @@ export class BuscarContratoComponent
       filtros = [
         ...filtros,
         {
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
           valor2: '',
@@ -168,7 +165,6 @@ export class BuscarContratoComponent
       filtros = [
         ...filtros,
         {
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
           valor2: '',
@@ -178,7 +174,6 @@ export class BuscarContratoComponent
       filtros = [
         ...filtros,
         {
-          operador: '',
           propiedad: 'contacto__numero_identificacion__icontains',
           valor1: `${Number(valor)}`,
           valor2: '',

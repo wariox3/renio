@@ -92,10 +92,8 @@ export default class AporteDetalleComponent extends General implements OnInit {
     this.arrParametrosConsulta = {
       filtros: [
         {
-          operador: '',
           propiedad: 'aporte_id',
           valor1: this.detalle,
-          valor2: '',
         },
       ],
       limite: 1000,

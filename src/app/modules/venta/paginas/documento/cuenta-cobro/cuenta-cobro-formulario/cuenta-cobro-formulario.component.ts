@@ -113,25 +113,23 @@ export default class CuentaCobroFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   public filtrosPermanentes = [
     {
-      operador: '',
       propiedad: 'cliente',
       valor1: 'True',
-      valor2: '',
     },
   ];
 
@@ -446,16 +444,12 @@ export default class CuentaCobroFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'cliente',
           valor1: 'True',
-          valor2: '',
         },
       ],
       limite: 10,
@@ -482,10 +476,8 @@ export default class CuentaCobroFormularioComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 5,

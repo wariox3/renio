@@ -109,17 +109,10 @@ export class ModalProgramacionDetalleAdicionalComponent {
   inicializarParametrosConsultaAdicionalDetalle(id: number) {
     this.arrParametrosConsultaAdicionalEditar = {
       filtros: [
+        { propiedad: 'programacion_id', valor1: this.programacionId },
         {
-          operador: '',
-          propiedad: 'programacion_id',
-          valor1: this.programacionId,
-          valor2: '',
-        },
-        {
-          operador: '',
           propiedad: 'id',
           valor1: id,
-          valor2: '',
         },
       ],
       limite: 10,

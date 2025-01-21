@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  signal,
-  ViewChild
-} from '@angular/core';
+import { Component, inject, Input, signal, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
@@ -85,7 +79,7 @@ export class ModalProgramacionDetalleNominaResumenComponent {
     grupo_contabilidad_id: undefined,
     grupo_contabilidad_nombre: '',
     detalles: [],
-    pagos: []
+    pagos: [],
   };
   pagoDetalles: any = [];
   cantidadRegistrosProgramacionDetalle = signal(0);
@@ -111,10 +105,8 @@ export class ModalProgramacionDetalleNominaResumenComponent {
       .consultarDatosLista<{ cantidad_registros: number; registros: any[] }>({
         filtros: [
           {
-            operador: '',
             propiedad: 'programacion_detalle_id',
             valor1: this.programacionId,
-            valor2: '',
           },
         ],
         ordenamientos: [],
@@ -131,10 +123,8 @@ export class ModalProgramacionDetalleNominaResumenComponent {
           }>({
             filtros: [
               {
-                operador: '',
                 propiedad: 'documento_id',
                 valor1: respuestaLista.registros[0].id,
-                valor2: '',
               },
             ],
             desplazar: 0,
@@ -152,7 +142,9 @@ export class ModalProgramacionDetalleNominaResumenComponent {
           return respuestaDetalle;
         }),
         tap((respuestaDetalle) => {
-          this.cantidadRegistrosProgramacionDetalle.set(respuestaDetalle.cantidad_registros);
+          this.cantidadRegistrosProgramacionDetalle.set(
+            respuestaDetalle.cantidad_registros
+          );
           this.pagoDetalles = respuestaDetalle.registros;
         })
       )
@@ -188,10 +180,8 @@ export class ModalProgramacionDetalleNominaResumenComponent {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 1000,

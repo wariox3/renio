@@ -64,8 +64,8 @@ import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.i
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleProgramacionContratos } from './constantes';
-import { TablaContratosComponent } from "./componentes/tabla-contratos/tabla-contratos.component";
-import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla-adicionales.component";
+import { TablaContratosComponent } from './componentes/tabla-contratos/tabla-contratos.component';
+import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -88,8 +88,8 @@ import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla
     PaginadorComponent,
     BaseFiltroComponent,
     TablaContratosComponent,
-    TablaAdicionalesComponent
-],
+    TablaAdicionalesComponent,
+  ],
   templateUrl: './programacion-detalle.component.html',
   styleUrl: './programacion-detalle.component.scss',
 })
@@ -168,8 +168,10 @@ export default class ProgramacionDetalleComponent
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
-  @ViewChild(TablaAdicionalesComponent) tablaAdicionalesComponent: TablaAdicionalesComponent;
-  @ViewChild(TablaContratosComponent) tablaContratosComponent: TablaContratosComponent;
+  @ViewChild(TablaAdicionalesComponent)
+  tablaAdicionalesComponent: TablaAdicionalesComponent;
+  @ViewChild(TablaContratosComponent)
+  tablaContratosComponent: TablaContratosComponent;
 
   constructor(
     private programacionService: ProgramacionService,
@@ -246,17 +248,15 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarAdicionalesTab() {
-    this.tablaAdicionalesComponent.consultarDatos()
+    this.tablaAdicionalesComponent.consultarDatos();
   }
 
   inicializarParametrosConsulta() {
     this.arrParametrosConsulta = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.detalle,
-          valor2: '',
         },
       ],
       limite: 1000,
@@ -272,7 +272,7 @@ export default class ProgramacionDetalleComponent
       let filtroPermamente = JSON.parse(filtroDetalleContratos);
       this.arrParametrosConsulta.filtros = [
         ...this.arrParametrosConsulta.filtros,
-        ...filtroPermamente
+        ...filtroPermamente,
       ];
     }
 
@@ -283,16 +283,12 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsulta = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacion.id,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'id',
           valor1: id,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -307,16 +303,12 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsultaDetalle = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacion.id,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'id',
           valor1: id,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -331,16 +323,12 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsultaAdicionalEditar = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacion.id,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'id',
           valor1: id,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -355,10 +343,8 @@ export default class ProgramacionDetalleComponent
     this.arrParametrosConsultaAdicional = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacion.id,
-          valor2: '',
         },
       ],
       limite: 1000,
@@ -479,7 +465,7 @@ export default class ProgramacionDetalleComponent
       .pipe(
         finalize(() => {
           this.generando = false;
-          this.tablaContratosComponent.consultarDatos()
+          this.tablaContratosComponent.consultarDatos();
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -499,7 +485,7 @@ export default class ProgramacionDetalleComponent
           this.desgenerando = false;
           this.reiniciarSelectoresEliminar();
           this.dropdown.close();
-          this.tablaContratosComponent.consultarDatos()
+          this.tablaContratosComponent.consultarDatos();
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -721,10 +707,8 @@ export default class ProgramacionDetalleComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 1000,
@@ -756,30 +740,24 @@ export default class ProgramacionDetalleComponent
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
-          valor2: '',
         },
       ];
     } else if (isNaN(Number(valor))) {
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
-          valor2: '',
         },
       ];
     } else {
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__numero_identificacion__icontains',
           valor1: `${Number(valor)}`,
-          valor2: '',
         },
       ];
     }
@@ -810,10 +788,8 @@ export default class ProgramacionDetalleComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '',
           propiedad,
           valor1: valor,
-          valor2: '',
         },
       ],
       limite: 1000,
@@ -1029,10 +1005,8 @@ export default class ProgramacionDetalleComponent
       .consultarDatosLista<{ cantidad_registros: number; registros: any[] }>({
         filtros: [
           {
-            operador: '',
             propiedad: 'programacion_detalle_id',
             valor1: this.registroSeleccionado,
-            valor2: '',
           },
         ],
         ordenamientos: [],
@@ -1049,10 +1023,8 @@ export default class ProgramacionDetalleComponent
           }>({
             filtros: [
               {
-                operador: '',
                 propiedad: 'documento_id',
                 valor1: respuestaLista.registros[0].id,
-                valor2: '',
               },
             ],
             desplazar: 0,
@@ -1100,7 +1072,7 @@ export default class ProgramacionDetalleComponent
       let filtroPermamente = JSON.parse(filtroDetalleContratos);
       params.filtros = [
         ...this.arrParametrosConsulta.filtros,
-        ...filtroPermamente
+        ...filtroPermamente,
       ];
     }
 
@@ -1213,15 +1185,15 @@ export default class ProgramacionDetalleComponent
     };
   }
 
-  obtenerFiltrosContratos(data: any[]){
-    this.inicializarParametrosConsulta()
-    if(data.length > 0){
+  obtenerFiltrosContratos(data: any[]) {
+    this.inicializarParametrosConsulta();
+    if (data.length > 0) {
       this.arrParametrosConsulta.filtros = [
         ...this.arrParametrosConsulta.filtros,
-        ...data
+        ...data,
       ];
     } else {
-      this.inicializarParametrosConsulta()
+      this.inicializarParametrosConsulta();
     }
     this.changeDetectorRef.detectChanges();
     this.consultarDatos();
@@ -1242,6 +1214,6 @@ export default class ProgramacionDetalleComponent
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();
-    localStorage.removeItem('documento_programacion')
+    localStorage.removeItem('documento_programacion');
   }
 }

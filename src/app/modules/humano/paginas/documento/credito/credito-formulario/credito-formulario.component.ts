@@ -147,10 +147,8 @@ export default class CreditoFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -178,16 +176,12 @@ export default class CreditoFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'concepto_tipo',
           valor1: '8',
-          valor2: '',
         },
       ],
       limite: 10,

@@ -159,10 +159,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ];
   public filtrosPermanentes = [
     {
-      operador: '',
       propiedad: 'cliente',
       valor1: 'True',
-      valor2: '',
     },
   ];
 
@@ -763,17 +761,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   private _inicializarFormulario(contactoId: string) {
     this.filtrosPermanentesNotaCredito = [
       {
-        operador: '',
         propiedad: 'contacto_id',
         valor1: contactoId,
       },
       {
-        operador: '',
         propiedad: 'documento_tipo__documento_clase_id',
         valor1: 100,
       },
       {
-        operador: '',
         propiedad: 'estado_aprobado',
         valor1: true,
       },
@@ -838,13 +833,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
         {
-          operador: '',
           propiedad: 'cliente',
           valor1: 'True',
           valor2: '',
@@ -874,18 +867,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
         },
         {
-          operador: '',
           propiedad: 'contacto_id',
           valor1: this.formularioFactura.get('contacto')?.value,
         },
         {
-          operador: '',
           propiedad: 'documento_tipo__documento_clase_id',
           valor1: 100,
         },
