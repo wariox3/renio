@@ -869,6 +869,8 @@ export const locale = {
         PERIODO_NOMBRE_FILTRO: '[Period] name',
         PAGO_TIPO_NOMBRE_FILTRO: '[Payment type] name',
         CONTRATO_ID_FILTRO: '[Contract] id',
+        CUENTA_CODIGO_FILTRO: '[Account] code',
+        COMPROBANTE_NOMBRE_FILTRO: '[Proof] name',
         TOTAL_BRUTO: 'Gross Total',
         MES: 'Month',
         ANIO: 'Year',
