@@ -204,13 +204,16 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this._descargarArchivosService.descargarExcelDocumentos({
-      ...this._parametrosConsulta,
-      excel: true,
-      ...{
-        limite: 5000,
+    this._descargarArchivosService.descargarExcel(
+      {
+        ...this._parametrosConsulta,
+        excel: true,
+        ...{
+          limite: 5000,
+        },
       },
-    });
+      'contabilidad/movimiento/excel/'
+    );
   }
 
   fechaDesdeMenorQueFechaHasta(
