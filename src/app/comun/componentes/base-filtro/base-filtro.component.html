@@ -55,7 +55,7 @@
           <select
             formControlName="operadorFiltro"
             class="form-select form-select-sm"
-            (change)="limpiarCampoValor2(filtro)"
+            (change)="actualizarFormularioPorOperadorFiltro(filtro)"
           >
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
@@ -179,6 +179,8 @@
     ></button>
   </div>
   <div class="modal-body">
+    <pre>{{formularioFiltrosModal.value | json}}</pre>
+
     <form [formGroup]="formularioFiltrosModal">
       <div formArrayName="filtros">
         <ng-container
