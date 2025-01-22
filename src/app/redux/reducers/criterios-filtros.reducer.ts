@@ -73,6 +73,10 @@ export const initialState: CriteriosFiltro = {
       texto: 'CONTIENE',
       defecto: true,
     },
+    {
+      valor: '__startswith',
+      texto: 'EMPIEZAPOR',
+    }
   ],
   DateField: [
     {
