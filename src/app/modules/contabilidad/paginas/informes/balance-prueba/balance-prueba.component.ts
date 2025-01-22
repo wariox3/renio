@@ -207,10 +207,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     this._descargarArchivosService.descargarExcel(
       {
         ...this._parametrosConsulta,
-        excel: true,
-        ...{
-          limite: 5000,
-        },
+        limite: 5000,
       },
       'contabilidad/movimiento/excel/'
     );
