@@ -21,6 +21,13 @@ export class DescargarArchivosService {
     );
   }
 
+  descargarExcel(arrParametrosConsulta: any, url: string) {
+    this.httpService.descargarArchivo(
+      url,
+      arrParametrosConsulta
+    );
+  }
+
   descargarZipDocumentos(arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       'general/funcionalidad/lista/',
