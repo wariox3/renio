@@ -44,6 +44,10 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       valor1: false,
     },
     {
+      propiedad: 'estado_electronico_descartado',
+      valor1: false,
+    },
+    {
       propiedad: 'documento_tipo__documento_clase__grupo',
       valor1: 1,
     },
