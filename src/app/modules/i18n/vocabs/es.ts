@@ -539,7 +539,8 @@ export const locale = {
             CONTIENE: 'Contiene',
             ES: 'Si',
             NO: 'No',
-            RANGE: 'Rango'
+            RANGE: 'Rango',
+            EMPIEZAPOR: 'Empieza por'
           },
         },
         HUMANO: {

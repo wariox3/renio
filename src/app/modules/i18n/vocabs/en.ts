@@ -533,6 +533,7 @@ export const locale = {
             ES: 'Is',
             NO: 'Not',
             RANGE: 'Range',
+            EMPIEZAPOR: 'Start with'
           },
         },
         HUMANO: {

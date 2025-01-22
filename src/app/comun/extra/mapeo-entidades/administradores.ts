@@ -685,7 +685,7 @@ export const mapeo: MapeoAdministrador = {
       },
       {
         nombre: 'CODIGO',
-        campoTipo: 'IntegerField',
+        campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,

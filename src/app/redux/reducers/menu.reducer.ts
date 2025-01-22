@@ -296,13 +296,13 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               modulo: 'contabilidad',
               archivoImportacionLista: 'ConCuenta.xlxs',
-              data: { modelo: 'ConCuenta', ordenamiento: '-id' },
+              data: { modelo: 'ConCuenta', ordenamiento: 'codigo' },
             },
             // {
             //   nombre: 'COMPROBANTE',
             //   tipo: 'administrador',
             //   data: { modelo: 'ConComprobante' },
-            // }, 
+            // },
             {
               nombre: 'GRUPO',
               tipo: 'administrador',
