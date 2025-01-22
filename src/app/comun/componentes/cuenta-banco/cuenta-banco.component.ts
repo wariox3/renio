@@ -70,10 +70,8 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -96,10 +94,8 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,

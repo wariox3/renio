@@ -1280,6 +1280,7 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1288,6 +1289,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
       nombreAbreviado: 'EMPLEADO',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1376,7 +1379,9 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_ID',
-      campoTipo: 'Fk',
+      nombreAbreviadoFiltro: 'CONTACTO_ID_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__id',
+      campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: false,
       ordenable: false,
@@ -1384,6 +1389,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1391,6 +1398,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__nombre_corto',
       nombreAbreviado: 'EMPLEADO',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1399,6 +1408,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_ID',
+      nombreAbreviadoFiltro: 'CONTRATO_ID_FILTRO',
+      nombreFiltroRelacion: 'contrato__id',
       nombreAbreviado: 'CONT',
       toolTip: 'CONTRATO',
       campoTipo: 'IntegerField',
@@ -1495,13 +1506,6 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'PAGO_TIPO_NOMBRE',
-      campoTipo: 'CharField',
-      visibleTabla: true,
-      visibleFiltro: true,
-      ordenable: true,
-    },
-    {
       nombre: 'NOMBRE',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1509,7 +1513,18 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'PAGO_TIPO_NOMBRE',
+      nombreAbreviadoFiltro: 'PAGO_TIPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'pago_tipo__nombre',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
+    {
       nombre: 'GRUPO_NOMBRE',
+      nombreAbreviadoFiltro: 'GRUPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'grupo__nombre',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1517,6 +1532,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'PERIODO_NOMBRE',
+      nombreAbreviadoFiltro: 'PERIODO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'periodo__nombre',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1581,6 +1598,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_ID',
+      nombreAbreviadoFiltro: 'CONTACTO_ID_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__id',
       nombreAbreviado: 'CODIGO',
       campoTipo: 'IntegerField',
       visibleTabla: true,
@@ -1589,6 +1608,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__numero_identificacion',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1596,6 +1617,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__nombre_corto',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1603,6 +1626,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_ID',
+      nombreAbreviadoFiltro: 'CONTRATO_ID_FILTRO',
+      nombreFiltroRelacion: 'contrato__id',
       nombreAbreviado: 'CONT',
       campoTipo: 'IntegerField',
       toolTip: 'CONTRATO',
@@ -1694,6 +1719,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__numero_identificacion',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1701,6 +1728,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contrato__contacto__nombre_corto',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1838,6 +1867,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTRATO_ID',
+      nombreAbreviadoFiltro: 'CONTRATO_ID_FILTRO',
+      nombreFiltroRelacion: 'contrato__id',
       nombreAbreviado: 'CONTRATO',
       campoTipo: 'CharField',
       visibleTabla: true,
@@ -1923,6 +1954,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'COMPROBANTE',
+      nombreAbreviadoFiltro: 'COMPROBANTE_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'comprobante__nombre',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1937,6 +1970,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1944,6 +1979,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CUENTA',
+      nombreAbreviadoFiltro: 'CUENTA_CODIGO_FILTRO',
+      nombreFiltroRelacion: 'cuenta__codigo',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1951,6 +1988,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'GRUPO',
+      nombreAbreviadoFiltro: 'GRUPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'grupo__nombre',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,

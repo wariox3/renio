@@ -229,10 +229,8 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       {
         filtros: [
           {
-            operador: '__icontains',
             propiedad: 'nombre__icontains',
             valor1: `${event?.target.value}`,
-            valor2: '',
           },
         ],
         limite: 10,

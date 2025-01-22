@@ -126,7 +126,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ];
   public filtrosPermanentes = [
     {
-      operador: '',
       propiedad: 'proveedor',
       valor1: 'True',
     },
@@ -809,12 +808,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
         },
         {
-          operador: '',
           propiedad: 'proveedor',
           valor1: 'True',
         },
@@ -843,7 +840,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',

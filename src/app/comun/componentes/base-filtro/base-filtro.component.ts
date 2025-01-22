@@ -1,15 +1,21 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
   Output,
-  EventEmitter,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -17,24 +23,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
-import { obtenerCriteriosFiltro } from '@redux/selectors/criterios-fiItro.selectors';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { mapeo } from '@comun/extra/mapeo-entidades/buscar-avanzados';
 import { HttpService } from '@comun/services/http.service';
-import { KeysPipe } from '@pipe/keys.pipe';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
-import { Modelo } from '@comun/type/modelo.type';
+import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { KeysPipe } from '@pipe/keys.pipe';
+import { obtenerCriteriosFiltro } from '@redux/selectors/criterios-fiItro.selectors';
+import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.selectors';
 
 @Component({
   selector: 'app-base-filtro',
@@ -77,7 +77,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   filtrosAplicados: FiltrosAplicados[] = [
     {
       propiedad: '',
-      operador: '',
+      operadorFiltro: '',
       valor1: '',
       valor2: '',
       visualizarBtnAgregarFiltro: true,
@@ -133,7 +133,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         this.filtrosAplicados = [
           {
             propiedad: '',
-            operador: '',
+            operadorFiltro: '',
             valor1: '',
             valor2: '',
             visualizarBtnAgregarFiltro: true,
@@ -189,7 +189,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     let valor1 = '';
     let valor2 = '';
     let propiedad = '';
-    let operador = '';
+    let operadorFiltro = '';
     let tipo = '';
     let busquedaAvanzada = 'false';
     let modeloBusquedaAvanzada = '';
@@ -197,7 +197,7 @@ export class BaseFiltroComponent extends General implements OnInit {
       valor1 = propiedades.valor1;
       valor2 = propiedades.valor2;
       propiedad = propiedades.campo;
-      operador = propiedades.operador;
+      operadorFiltro = propiedades.operadorFiltro;
       tipo = propiedades.tipo;
       busquedaAvanzada = propiedades.busquedaAvanzada;
       modeloBusquedaAvanzada = propiedades.modeloBusquedaAvanzada;
@@ -209,7 +209,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
     return this.formBuilder.group({
       propiedad: [propiedad],
-      operador: [operador],
+      operadorFiltro: [operadorFiltro],
       valor1: [valor1, [Validators.required]],
       valor2: [valor2],
       tipo: [tipo],
@@ -222,7 +222,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.filtros.push(
       this.formBuilder.group({
         propiedad: [''],
-        operador: [''],
+        operadorFiltro: [''],
         valor1: ['', [Validators.required]],
         valor2: [''],
         tipo: [''],
@@ -236,7 +236,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.filtrosModal.push(
       this.formBuilder.group({
         propiedad: [''],
-        operador: [''],
+        operadorFiltro: [''],
         valor1: ['', [Validators.required]],
         valor2: [''],
       })
@@ -286,13 +286,13 @@ export class BaseFiltroComponent extends General implements OnInit {
               ...{
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
-                valor1: filtro.operador === 'true' ? true : false,
+                valor1: filtro.operadorFiltro === 'true' ? true : false,
               },
             };
           } else {
             let propiedad = filtro.propiedad;
-            if (filtro.operador !== 'igual') {
-              propiedad = `${filtro.propiedad}${filtro.operador}`;
+            if (filtro.tipo !== 'Fk' && filtro.operadorFiltro !== 'range') {
+              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
             }
             nuevoFiltro = {
               ...filtro,
@@ -301,6 +301,19 @@ export class BaseFiltroComponent extends General implements OnInit {
                 campo: filtro.propiedad,
               },
             };
+
+            if (filtro.operadorFiltro === 'range') {
+              nuevoFiltro = {
+                ...filtro,
+                ...{
+                  propiedad,
+                  campo: filtro.propiedad,
+                  operador: 'range'
+                },
+              };
+            }
+
+
           }
           listaFiltros.push(nuevoFiltro);
         }
@@ -328,9 +341,9 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
   }
 
-  actualizarOperador(operador: string, index: number) {
+  actualizaroperadorFiltro(operadorFiltro: string, index: number) {
     const filtroPorActualizar = this.filtros.controls[index] as FormGroup;
-    filtroPorActualizar.patchValue({ operador: operador });
+    filtroPorActualizar.patchValue({ operadorFiltro: operadorFiltro });
   }
 
   actualizarValor1(valor1: string, index: number) {
@@ -378,15 +391,18 @@ export class BaseFiltroComponent extends General implements OnInit {
                 modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
                   'data-modelo-busqueda-avanzada'
                 ),
-                operador: item.valor,
+                operadorFiltro: item.valor,
+                valor1: '',
+                valor2: null,
               });
             }
           });
           if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
-              valor1: null,
-              operador: '',
+              valor1: '',
+              valor2: null,
+              operadorFiltro: '',
             });
           }
           let inputValor1Modal: HTMLInputElement | null =
@@ -478,7 +494,7 @@ export class BaseFiltroComponent extends General implements OnInit {
                 modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
                   'data-modelo-busqueda-avanzada'
                 ),
-                operador: item.valor,
+                operadorFiltro: item.valor,
               });
             }
           });
@@ -486,7 +502,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
               valor1: null,
-              operador: '',
+              operadorFiltro: '',
             });
           }
           let inputValor1Modal: HTMLInputElement | null =
@@ -513,13 +529,13 @@ export class BaseFiltroComponent extends General implements OnInit {
               ...{
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
-                valor1: filtro.operador === 'true' ? true : false,
+                valor1: filtro.operadorFiltro === 'true' ? true : false,
               },
             };
           } else {
             let propiedad = filtro.propiedad;
-            if (filtro.operador !== 'igual') {
-              propiedad = `${filtro.propiedad}${filtro.operador}`;
+            if (filtro.operadorFiltro !== 'igual') {
+              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
             }
             nuevoFiltro = {
               ...filtro,
@@ -559,4 +575,25 @@ export class BaseFiltroComponent extends General implements OnInit {
     }
     return valorFiltro.toLocaleLowerCase();
   }
+
+  definirPlaceholder(filtro: AbstractControl){
+
+    let placeholder = 'FORMULARIOS.TITULOS.COMUNES.CODIGO';
+
+    if(filtro.get('busquedaAvanzada')?.value === 'true'){
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.BUSCAR'
+    }
+    if(filtro.get('operadorFiltro')?.value === 'range'){
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.DESDE'
+    }
+
+    return this.translateService.instant(placeholder)
+  }
+
+  limpiarCampoValor2(filtro: AbstractControl){
+    if(filtro.get('operadorFiltro')?.value !== 'range'){
+      filtro.get('valor2')?.setValue(null)
+    }
+  }
+
 }

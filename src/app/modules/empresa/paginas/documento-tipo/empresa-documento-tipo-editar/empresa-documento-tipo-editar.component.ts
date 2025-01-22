@@ -127,10 +127,8 @@ export class EmpresaDocumentoTipoEditarComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: ``,
-          valor2: '',
         },
         {
           propiedad: this.tipoRolucion,

@@ -50,10 +50,8 @@ export class ContactosComponent extends General {
       .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
         filtros: [
           {
-            operador: '__icontains',
             propiedad: 'nombre_corto__icontains',
             valor1: `${event?.target.value}`,
-            valor2: '',
           },
         ],
         limite: 10,
@@ -74,10 +72,8 @@ export class ContactosComponent extends General {
       .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
         filtros: [
           {
-            operador: '__icontains',
             propiedad: 'nombre_corto__icontains',
             valor1: `${event?.target.value}`,
-            valor2: '',
           },
         ],
         limite: 10,

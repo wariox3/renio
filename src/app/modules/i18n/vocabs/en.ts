@@ -191,6 +191,8 @@ export const locale = {
           GENERAL: 'General',
           COLUMNAS: 'Columns',
           CODIGO: 'Code',
+          DESDE: 'From',
+          HASTA: 'To',
           BUSCAR: 'Search',
           MENU: {
             PERFIL: 'My profile',
@@ -530,6 +532,7 @@ export const locale = {
             CONTIENE: 'Contains',
             ES: 'Is',
             NO: 'Not',
+            RANGE: 'Range',
           },
         },
         HUMANO: {
@@ -862,6 +865,12 @@ export const locale = {
         EMPLEADO_NOMBRE_FILTRO: '[Employee] Name',
         ITEM_NOMBRE_FILTRO: '[Item] Name',
         ITEM_ID_FILTRO: '[Item] ID',
+        GRUPO_NOMBRE_FILTRO: '[Group] name',
+        PERIODO_NOMBRE_FILTRO: '[Period] name',
+        PAGO_TIPO_NOMBRE_FILTRO: '[Payment type] name',
+        CONTRATO_ID_FILTRO: '[Contract] id',
+        CUENTA_CODIGO_FILTRO: '[Account] code',
+        COMPROBANTE_NOMBRE_FILTRO: '[Proof] name',
         TOTAL_BRUTO: 'Gross Total',
         MES: 'Month',
         ANIO: 'Year',
@@ -1069,7 +1078,7 @@ export const locale = {
         DEBITO: 'debit',
         CREDITO: 'Credit',
         ACTUAL: 'Current',
-      }
+      },
     },
     TEMA: {
       CLARO: 'Light',

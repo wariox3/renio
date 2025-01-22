@@ -9,7 +9,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-cuenta-detalle',
@@ -20,11 +20,10 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
 })
 export default class CuentaDetalleComponent extends General implements OnInit {
   cuenta: ConCuenta = {
@@ -36,6 +35,12 @@ export default class CuentaDetalleComponent extends General implements OnInit {
     exige_tercero: false,
     permite_movimiento: false,
     cuenta_clase: null,
+    cuenta_clase_id: 0,
+    cuenta_grupo_id: 0,
+    cuenta_cuenta_id: 0,
+    cuenta_clase_nombre: '',
+    cuenta_grupo_nombre: '',
+    cuenta_cuenta_nombre: '',
   };
   @Input() informacionFormulario: any;
 

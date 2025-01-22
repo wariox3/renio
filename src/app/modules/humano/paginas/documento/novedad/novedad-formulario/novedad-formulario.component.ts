@@ -192,10 +192,8 @@ export default class CreditoFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,

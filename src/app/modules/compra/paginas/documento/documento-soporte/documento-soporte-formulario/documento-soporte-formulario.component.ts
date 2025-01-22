@@ -106,25 +106,23 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   public filtrosPermanentes = [
     {
-      operador: '',
       propiedad: 'proveedor',
       valor1: 'True',
-      valor2: '',
     },
   ];
 
@@ -904,12 +902,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
         },
         {
-          operador: '',
           propiedad: 'proveedor',
           valor1: 'True',
         },
@@ -938,10 +934,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 5,

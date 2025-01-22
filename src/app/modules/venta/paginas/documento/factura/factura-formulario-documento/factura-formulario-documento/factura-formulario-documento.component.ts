@@ -161,16 +161,12 @@ export class FacturaFormularioDocumentoComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'cliente',
           valor1: 'True',
-          valor2: '',
         },
       ],
       limite: 10,
@@ -197,10 +193,8 @@ export class FacturaFormularioDocumentoComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'numero__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 5,
@@ -294,10 +288,8 @@ export class FacturaFormularioDocumentoComponent
         {
           filtros: [
             {
-              operador: '__icontains',
               propiedad: 'nombre__icontains',
               valor1: '',
-              valor2: '',
             },
           ],
           limite: 10,

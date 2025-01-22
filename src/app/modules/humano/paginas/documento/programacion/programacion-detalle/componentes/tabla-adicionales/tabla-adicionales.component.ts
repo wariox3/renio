@@ -116,10 +116,8 @@ export class TablaAdicionalesComponent extends General {
     this.arrParametrosConsulta.set({
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacion.id,
-          valor2: '',
         },
       ],
       limite: 1000,

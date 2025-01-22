@@ -45,13 +45,23 @@
               autocomplete="off"
               [ngClass]="{
                 'is-invalid':
-                  formularioFiltros.controls['fecha_hasta'].touched &&
-                  formularioFiltros.controls['fecha_hasta'].invalid,
+                  (formularioFiltros.controls['fecha_hasta'].touched &&
+                    formularioFiltros.controls['fecha_hasta'].invalid) ||
+                  formularioFiltros.errors?.fechaInvalida,
                 'is-valid':
                   formularioFiltros.controls['fecha_hasta'].touched &&
                   formularioFiltros.controls['fecha_hasta'].valid
               }"
             />
+            <div *ngIf="formularioFiltros.errors?.fechaInvalida">
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    La fecha desde no puede ser mayor que la fecha hasta.
+                  </span>
+                </div>
+              </div>
+            </div>
             <ng-container
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
@@ -113,9 +123,7 @@
   <section card-body>
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
-        <app-comun-btn-exportar
-          (emitirExportarExcel)="descargarExcel()"
-        />
+        <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
         <button
           type="submit"
           class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"

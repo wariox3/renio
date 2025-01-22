@@ -111,7 +111,6 @@ export default class ContratoFormularioComponent
     },
   ];
   filtrosPermanentesEmpleado: FiltrosAplicados = {
-    operador: '',
     propiedad: 'empleado',
     valor1: true,
   };
@@ -353,10 +352,8 @@ export default class ContratoFormularioComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
         this.filtrosPermanentesEmpleado,
       ],
@@ -549,10 +546,8 @@ export default class ContratoFormularioComponent
     let arrFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -577,10 +572,8 @@ export default class ContratoFormularioComponent
     const arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
-          valor2: '',
         },
       ],
       limite: 10,

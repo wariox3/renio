@@ -47,7 +47,7 @@ import { BehaviorSubject, finalize, Subject, tap } from 'rxjs';
     NgSelectModule,
   ],
   templateUrl: './modal-programacion-editar-adicional.component.html',
-  styleUrl: './modal-programacion-editar-adicional.component.scss'
+  styleUrl: './modal-programacion-editar-adicional.component.scss',
 })
 export class ModalProgramacionEditarAdicionalComponent {
   accion = signal<Extract<AplicacionAccion, 'nuevo' | 'detalle'>>;
@@ -158,30 +158,24 @@ export class ModalProgramacionEditarAdicionalComponent {
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
-          valor2: '',
         },
       ];
     } else if (isNaN(Number(valor))) {
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__nombre_corto__icontains',
           valor1: `${valor}`,
-          valor2: '',
         },
       ];
     } else {
       filtros = [
         {
           ...filtros,
-          operador: '',
           propiedad: 'contacto__numero_identificacion__icontains',
           valor1: `${Number(valor)}`,
-          valor2: '',
         },
       ];
     }
@@ -211,10 +205,8 @@ export class ModalProgramacionEditarAdicionalComponent {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '',
           propiedad,
           valor1: valor,
-          valor2: '',
         },
       ],
       limite: 1000,
@@ -295,16 +287,12 @@ export class ModalProgramacionEditarAdicionalComponent {
     this.arrParametrosConsultaAdicionalEditar = {
       filtros: [
         {
-          operador: '',
           propiedad: 'programacion_id',
           valor1: this.programacionId,
-          valor2: '',
         },
         {
-          operador: '',
           propiedad: 'id',
           valor1: id,
-          valor2: '',
         },
       ],
       limite: 10,
@@ -329,7 +317,6 @@ export class ModalProgramacionEditarAdicionalComponent {
         });
     }
   }
-
 
   consultarRegistroDetalleAdicional() {
     this._generalService
@@ -357,5 +344,4 @@ export class ModalProgramacionEditarAdicionalComponent {
         }
       });
   }
-
 }

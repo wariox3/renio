@@ -286,7 +286,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          operador: '__icontains',
           propiedad: 'nombre_corto__icontains',
           valor1: `${event?.target.value}`,
           valor2: '',
@@ -405,7 +404,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       );
 
       const naturaleza = this._definirNaturaleza(documentoSeleccionado.documento_tipo_operacion)
-      
+
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
