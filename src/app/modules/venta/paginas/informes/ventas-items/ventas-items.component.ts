@@ -38,6 +38,8 @@ export class VentasItemsComponent extends General implements OnInit {
     ordenamientos: [],
     limite_conteo: 10000,
     documento_clase_id: 100,
+    modelo: 'GenDocumentoDetalle',
+    serializador: 'Informe',
   };
 
   constructor(
@@ -59,15 +61,15 @@ export class VentasItemsComponent extends General implements OnInit {
 
   consultarLista() {
     this.httpService
-      .post('general/documento_detalle/informe/', this.arrParametrosConsulta)
+      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.length;
-        this.arrDocumentos = respuesta.map((documento: any) => ({
+        this.cantidad_registros = respuesta.cantidad_registros;
+        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
           id: documento.id,
           documento_tipo: documento.documento_tipo_nombre,
-          documento__numero: documento.documento_numero,
-          documento__fecha: documento.documento_fecha,
-          contacto: documento.documento_contacto_nombre,
+          documento_numero: documento.documento_numero,
+          documento_fecha: documento.documento_fecha,
+          documento_contacto_nombre: documento.documento_contacto_nombre,
           item_id: documento.item_id,
           item_nombre: documento.item_nombre,
           cantidad: documento.cantidad,
@@ -111,10 +113,11 @@ export class VentasItemsComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentoDetalle({
+    this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
       ...{
         limite: 5000,
+        excel: true,
       },
     });
   }
