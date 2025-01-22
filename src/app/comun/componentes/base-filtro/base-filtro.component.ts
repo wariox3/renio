@@ -284,6 +284,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             nuevoFiltro = {
               ...filtro,
               ...{
+                operador: 'exact',
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
               },
@@ -508,6 +509,7 @@ export class BaseFiltroComponent extends General implements OnInit {
             nuevoFiltro = {
               ...filtro,
               ...{
+                operador: 'exact',
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
               },
