@@ -131,7 +131,7 @@ export class ImportarPersonalizadoComponent
         finalize(() => this.cargardoDocumento$.next(false)),
         tap((respuesta) => {
           this.alertaService.mensajaExitoso(
-            `Se guardo la información registros importados: ${respuesta.registros_importados}`
+            `${respuesta.mensaje}: ${respuesta.registros_importados}`
           );
           this.modalService.dismissAll();
           this.errorImportar = [];
