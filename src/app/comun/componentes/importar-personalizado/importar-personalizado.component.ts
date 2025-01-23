@@ -58,6 +58,7 @@ export class ImportarPersonalizadoComponent
 
   @Input({ required: true }) configuracionCargarArchivo: {
     endpoint: string;
+    datosOpcionalesPayload?: object;
   };
   @Input({ required: true }) configuracionDescargarEjemplo: {
     modelo: string;
@@ -69,7 +70,7 @@ export class ImportarPersonalizadoComponent
     filtros: [],
   };
 
-  @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
+  @Output() emitirPeticionCompletada: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
@@ -121,6 +122,7 @@ export class ImportarPersonalizadoComponent
 
     const payload = {
       archivo_base64: archivoBase64,
+      ...this.configuracionCargarArchivo.datosOpcionalesPayload,
     };
 
     this.httpService
@@ -134,7 +136,7 @@ export class ImportarPersonalizadoComponent
           this.modalService.dismissAll();
           this.errorImportar = [];
           this.changeDetectorRef.detectChanges();
-          this.emitirDetallesAgregados.emit(respuesta);
+          this.emitirPeticionCompletada.emit(respuesta);
         }),
         catchError((respuesta: ImportarDetallesErrores) => {
           if (respuesta.errores_validador) {
