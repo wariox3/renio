@@ -66,6 +66,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleProgramacionContratos } from './constantes';
 import { TablaContratosComponent } from './componentes/tabla-contratos/tabla-contratos.component';
 import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
+import { ImportarPersonalizadoComponent } from '@comun/componentes/importar-personalizado/importar-personalizado.component';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -80,13 +81,11 @@ import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla
     NgbNavModule,
     ReactiveFormsModule,
     NgbTooltipModule,
-    ImportarAdministradorComponent,
+    ImportarPersonalizadoComponent,
     NgSelectModule,
     BaseEstadosComponent,
     TituloAccionComponent,
     TablaResumenComponent,
-    PaginadorComponent,
-    BaseFiltroComponent,
     TablaContratosComponent,
     TablaAdicionalesComponent,
   ],
@@ -502,6 +501,13 @@ export default class ProgramacionDetalleComponent
           detalle: id,
         },
       });
+    });
+  }
+
+  desplegarModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
     });
   }
 

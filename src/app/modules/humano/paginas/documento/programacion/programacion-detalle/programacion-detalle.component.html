@@ -102,6 +102,31 @@
           }
         </div>
       </div>
+
+      <div
+        class="btn-group"
+        ngbDropdown
+        autoClose="outside"
+        #OpcionesDropdown="ngbDropdown"
+      >
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Utilidades
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            ngbDropdownItem
+            (click)="abrirModal(content)"
+            [disabled]="arrProgramacionDetalle.length <= 0"
+          >
+            Importar horas
+          </button>
+        </div>
+      </div>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">
@@ -186,4 +211,29 @@
       </div>
     </div>
   </ng-container>
+</ng-template>
+
+<!-- Modales -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Importar horas</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-importar-personalizado
+      [configuracionCargarArchivo]="{
+        endpoint: 'humano/programacion/importar_horas/'
+      }"
+      [configuracionDescargarEjemplo]="{
+        modelo: 'HumProgramacionDetalle',
+        serializador: 'ImportarHoras',
+        filtros: [{ propiedad: 'programacion_id', valor1: programacion.id }]
+      }"
+    />
+  </div>
 </ng-template>
