@@ -27,6 +27,8 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'documento_fecha',
+      nombreAbreviadoFiltro: 'DOCUMENTO_FECHA_FILTRO',
+      nombreFiltroRelacion: 'DOCUMENTO__FECHA',
       campoTipo: 'DateField',
       visibleFiltro: true,
       visibleTabla: true,
