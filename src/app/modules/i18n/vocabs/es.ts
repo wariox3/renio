@@ -882,6 +882,7 @@ export const locale = {
         CUENTA_CODIGO_FILTRO: '[Cuenta] código',
         COMPROBANTE_NOMBRE_FILTRO: '[Comprobante] nombre',
         DOCUMENTO_NUMERO_FILTRO: '[Documento] número',
+        DOCUMENTO_FECHA_FILTRO: '[Documento] fecha',
         TOTAL_BRUTO: 'Total',
         MES: 'Mes',
         ANIO: 'Año',
