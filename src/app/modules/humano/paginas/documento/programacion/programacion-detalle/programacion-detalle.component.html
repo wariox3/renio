@@ -121,7 +121,9 @@
           <button
             ngbDropdownItem
             (click)="abrirModal(content)"
-            [disabled]="arrProgramacionDetalle.length <= 0"
+            [disabled]="
+              arrProgramacionDetalle.length <= 0 || programacion.estado_generado
+            "
           >
             Importar horas
           </button>
@@ -226,8 +228,12 @@
   </div>
   <div class="modal-body">
     <app-importar-personalizado
+      (emitirPeticionCompletada)="tablaContratosComponent.consultarDatos()"
       [configuracionCargarArchivo]="{
-        endpoint: 'humano/programacion/importar_horas/'
+        endpoint: 'humano/programacion/importar_horas/',
+        datosOpcionalesPayload: {
+          programacion_id: programacion.id
+        }
       }"
       [configuracionDescargarEjemplo]="{
         modelo: 'HumProgramacionDetalle',
