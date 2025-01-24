@@ -426,8 +426,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
         documentoSeleccionado.documento_tipo_operacion
       );
 
-      console.log(documentoSeleccionado);
-
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
