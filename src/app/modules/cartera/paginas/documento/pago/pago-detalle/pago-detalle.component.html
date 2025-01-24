@@ -129,6 +129,7 @@
                         style="width: 50px"
                       ></th>
                       <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
@@ -143,6 +144,9 @@
                       </td>
                       <td>
                         {{ documento.documento_afectado_id }}
+                      </td>
+                      <td>
+                        {{ documento.documento_afectado_documento_tipo_nombre}}
                       </td>
                       <td>
                         {{ documento.documento_afectado_numero }}

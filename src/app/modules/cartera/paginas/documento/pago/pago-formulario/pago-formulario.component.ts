@@ -182,6 +182,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
+            documento_afectado_documento_tipo_nombre: [detalle.documento_afectado_documento_tipo_nombre],
             documento_afectado: [detalle.documento_afectado_id],
             numero: [numero],
             contacto: [
@@ -425,9 +426,12 @@ export default class PagoFormularioComponent extends General implements OnInit {
         documentoSeleccionado.documento_tipo_operacion
       );
 
+      console.log(documentoSeleccionado);
+
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
+        documento_afectado_documento_tipo_nombre: [documentoSeleccionado.documento_tipo_nombre],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto_nombre: [documentoSeleccionado.contacto_nombre],
