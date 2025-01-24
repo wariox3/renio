@@ -40,4 +40,5 @@ export interface RespuestaProgramacionContrato {
   descuento_embargo: boolean;
   adicional: boolean;
   selected: boolean;
+  error_terminacion: boolean;
 }
