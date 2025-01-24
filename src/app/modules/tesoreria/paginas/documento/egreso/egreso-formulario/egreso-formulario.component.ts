@@ -152,7 +152,6 @@ export default class EgresoFormularioComponent
       contactoNombre: [''],
       cuenta_banco_nombre: [''],
       cuenta_banco: ['', Validators.compose([Validators.required])],
-      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([

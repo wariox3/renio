@@ -17,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -36,7 +37,8 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     BaseEstadosComponent,
     DetallesTotalesComponent,
     TituloAccionComponent,
-  ],
+    DocumentoOpcionesComponent
+],
 })
 export default class FacturaRecurrenteDetalleComponent extends General {
   active: Number;
