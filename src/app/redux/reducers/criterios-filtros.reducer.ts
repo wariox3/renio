@@ -11,94 +11,98 @@ export type CriteriosFiltro = {
 export const initialState: CriteriosFiltro = {
   IntegerField: [
     {
-      valor: '__exact',
+      valor: 'exact',
       texto: 'IGUAL',
       defecto: true,
     },
     {
-      valor: '__gt',
+      valor: 'gt',
       texto: 'MAYORQUE',
     },
     {
-      valor: '__gte',
+      valor: 'gte',
       texto: 'MAYORIGUALQUE',
     },
     {
-      valor: '__lt',
+      valor: 'lt',
       texto: 'MENORQUE',
     },
     {
-      valor: '__lte',
+      valor: 'lte',
       texto: 'MENORIGUALQUE',
     },
     {
       valor: 'range',
-      texto: 'range',
+      texto: 'RANGE',
     },
   ],
   FloatField: [
     {
-      valor: '__exact',
+      valor: 'exact',
       texto: 'IGUAL',
       defecto: true,
     },
     {
-      valor: '__gt',
+      valor: 'gt',
       texto: 'MAYORQUE',
     },
     {
-      valor: '__gte',
+      valor: 'gte',
       texto: 'MAYORIGUALQUE',
     },
     {
-      valor: '__lt',
+      valor: 'lt',
       texto: 'MENORQUE',
     },
     {
-      valor: '__lte',
+      valor: 'lte',
       texto: 'MENORIGUALQUE',
     },
     {
       valor: 'range',
-      texto: 'range',
+      texto: 'RANGE',
     },
   ],
   CharField: [
     {
-      valor: '__exact',
+      valor: 'exact',
       texto: 'IGUAL',
     },
     {
-      valor: '__icontains',
+      valor: 'icontains',
       texto: 'CONTIENE',
       defecto: true,
     },
+    {
+      valor: 'startswith',
+      texto: 'EMPIEZAPOR',
+    }
   ],
   DateField: [
     {
-      valor: '__exact',
+      valor: 'exact',
       texto: 'IGUAL',
       defecto: true,
     },
     {
-      valor: '__gt',
+      valor: 'gt',
       texto: 'MAYORQUE',
     },
     {
-      valor: '__gte',
+      valor: 'gte',
       texto: 'MAYORIGUALQUE',
     },
     {
-      valor: '__lt',
+      valor: 'lt',
       texto: 'MENORQUE',
     },
     {
-      valor: '__lte',
+      valor: 'lte',
       texto: 'MENORIGUALQUE',
     },
     {
       valor: 'range',
-      texto: 'range',
+      texto: 'RANGE',
     },
   ],
   Booleano: [
@@ -113,7 +117,7 @@ export const initialState: CriteriosFiltro = {
   ],
   Fk: [
     {
-      valor: 'igual',
+      valor: 'exact',
       texto: 'IGUAL',
       defecto: true,
     },

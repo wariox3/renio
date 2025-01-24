@@ -533,6 +533,7 @@ export const locale = {
             ES: 'Is',
             NO: 'Not',
             RANGE: 'Range',
+            EMPIEZAPOR: 'Start with'
           },
         },
         HUMANO: {
@@ -871,6 +872,7 @@ export const locale = {
         CONTRATO_ID_FILTRO: '[Contract] id',
         CUENTA_CODIGO_FILTRO: '[Account] code',
         COMPROBANTE_NOMBRE_FILTRO: '[Proof] name',
+        DOCUMENTO_FECHA_FILTRO: '[Document] date',
         TOTAL_BRUTO: 'Gross Total',
         MES: 'Month',
         ANIO: 'Year',

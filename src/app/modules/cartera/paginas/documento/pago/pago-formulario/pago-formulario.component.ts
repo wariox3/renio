@@ -34,6 +34,7 @@ import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -76,6 +77,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   totalDebito: number = 0;
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+  arrBancos: RegistroAutocompletarGenCuentaBanco[] = [];
 
   public campoLista: CampoLista[] = [
     {
@@ -107,7 +109,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   ngOnInit() {
     this.active = 1;
-    this.initForm();
+    this.consultarInformacion()
+    this.inicializarFormulario();
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
@@ -115,7 +118,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  initForm() {
+  inicializarFormulario() {
     const fechaActual = new Date(); // Obtener la fecha actual
     const fechaVencimientoInicial = `${fechaActual.getFullYear()}-${(
       fechaActual.getMonth() + 1
@@ -137,10 +140,23 @@ export default class PagoFormularioComponent extends General implements OnInit {
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
+      cuenta_banco: ['', Validators.compose([Validators.required])],
       comentario: [null],
       total: [0],
       detalles: this.formBuilder.array([]),
     });
+  }
+
+  consultarInformacion() {
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBanco>({
+        modelo: 'GenCuentaBanco',
+        serializador: 'ListaAutocompletar',
+      })
+      .subscribe((respuesta) => {
+        this.arrBancos = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   consultardetalle() {
@@ -154,6 +170,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
           fecha: respuesta.documento.fecha,
           comentario: respuesta.documento.comentario,
           total: respuesta.documento.total,
+          cuenta_banco: respuesta.documento.cuenta_banco_id,
+          cuenta_banco_nombre: respuesta.documento.cuenta_banco_nombre,
         });
 
         respuesta.documento.detalles.forEach((detalle: any) => {
@@ -403,7 +421,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
         (documento) => documento.id === id
       );
 
-      const naturaleza = this._definirNaturaleza(documentoSeleccionado.documento_tipo_operacion)
+      const naturaleza = this._definirNaturaleza(
+        documentoSeleccionado.documento_tipo_operacion
+      );
 
       const detalleFormGroup = this.formBuilder.group({
         id: [null],

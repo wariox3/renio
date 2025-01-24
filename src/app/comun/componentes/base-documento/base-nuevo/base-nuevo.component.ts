@@ -31,15 +31,19 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   async loadComponente() {
-    this.componenteDinamico.clear();
-    const componenteClase = Componentes[this.parametrosUrl?.documento_clase as any];
-    if (componenteClase && componenteClase.formulario) {
-      let componete = await (await componenteClase.formulario()).default;
-      let componeteCargado = this.componenteDinamico.createComponent(componete);
-      componeteCargado.changeDetectorRef.detectChanges();
-    } else {
-      console.error('El componente o su método formulario es indefinido');
-    }
+    this.activatedRoute.queryParams.subscribe(async () => {
+      this.componenteDinamico.clear();
+      const componenteClase =
+        Componentes[this.parametrosUrl?.documento_clase as any];
+      if (componenteClase && componenteClase.formulario) {
+        let componete = await (await componenteClase.formulario()).default;
+        let componeteCargado =
+          this.componenteDinamico.createComponent(componete);
+        componeteCargado.changeDetectorRef.detectChanges();
+      } else {
+        console.error('El componente o su método formulario es indefinido');
+      }
+    });
   }
 
   emitir() {

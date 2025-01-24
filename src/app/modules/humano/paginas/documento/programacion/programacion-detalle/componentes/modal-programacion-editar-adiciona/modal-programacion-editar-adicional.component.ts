@@ -33,7 +33,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, finalize, Subject, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-modal-programacion-editar-adicional',
@@ -75,6 +75,10 @@ export class ModalProgramacionEditarAdicionalComponent {
   private _formBuilder = inject(FormBuilder);
   private _adicionalService = inject(AdicionalService);
   private _alertaService = inject(AlertaService);
+
+  constructor(){
+    this._inicializarBusqueda();
+  }
 
   abrirModalNuevo() {
     this._generalService
@@ -133,6 +137,18 @@ export class ModalProgramacionEditarAdicionalComponent {
     });
   }
 
+  private _inicializarBusqueda() {
+    this.busquedaContrato
+      .pipe(
+        debounceTime(600),
+        distinctUntilChanged(),
+        switchMap((valor: string) => {
+          return this.consultarContratosPorNombre(valor);
+        })
+      )
+      .subscribe();
+  }
+
   onSearch(event: any) {
     const searchTerm = event.target.value;
     if (!searchTerm) {
@@ -158,7 +174,8 @@ export class ModalProgramacionEditarAdicionalComponent {
       filtros = [
         {
           ...filtros,
-          propiedad: 'contacto__nombre_corto__icontains',
+          operador: 'icontains',
+          propiedad: 'contacto__nombre_corto',
           valor1: `${valor}`,
         },
       ];
@@ -166,7 +183,8 @@ export class ModalProgramacionEditarAdicionalComponent {
       filtros = [
         {
           ...filtros,
-          propiedad: 'contacto__nombre_corto__icontains',
+          operador: 'icontains',
+          propiedad: 'contacto__nombre_corto',
           valor1: `${valor}`,
         },
       ];
@@ -174,7 +192,8 @@ export class ModalProgramacionEditarAdicionalComponent {
       filtros = [
         {
           ...filtros,
-          propiedad: 'contacto__numero_identificacion__icontains',
+          operador: 'icontains',
+          propiedad: 'contacto__numero_identificacion',
           valor1: `${Number(valor)}`,
         },
       ];
@@ -205,6 +224,7 @@ export class ModalProgramacionEditarAdicionalComponent {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
+          operador: 'icontains',
           propiedad,
           valor1: valor,
         },

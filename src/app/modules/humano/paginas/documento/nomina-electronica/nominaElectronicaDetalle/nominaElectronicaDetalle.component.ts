@@ -12,6 +12,7 @@ import { BaseEstadosComponent } from '../../../../../../comun/componentes/base-e
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
 import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -24,7 +25,8 @@ import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica
     NgbNavModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-  ],
+    DocumentoOpcionesComponent
+],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
 })
@@ -105,9 +107,8 @@ export default class NominaElectronicaDetalleComponent
         modelo: 'GenDocumento',
       })
     ).subscribe((respuesta) => {
-      this.nominaElectronica = respuesta[0];
-      this.arrNominas = respuesta[1].registros;
-
+      this.nominaElectronica = respuesta[0].documento;
+      this.arrNominas = respuesta[1].registros;      
       this.changeDetectorRef.detectChanges();
     });
   }

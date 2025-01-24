@@ -123,6 +123,10 @@ export default class CuentaCobroDetalleComponent extends General {
       });
   }
 
+  itemDesaprobadoEvent() {
+    this.consultardetalle();
+  }
+
   aprobar() {
     this.alertaService
       .confirmarSinReversa()

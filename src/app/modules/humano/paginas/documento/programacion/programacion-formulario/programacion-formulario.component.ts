@@ -65,11 +65,8 @@ export default class ContratoFormularioComponent
   }
 
   ngOnInit() {
-    this.consultarInformacion();
-    if (this.detalle) {
-      this.consultarDetalle();
-    }
     this.iniciarFormulario();
+    this.consultarInformacion();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -249,6 +246,11 @@ export default class ContratoFormularioComponent
     ).subscribe((respuesta) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
+
+      if (this.detalle) {
+        this.consultarDetalle();
+      }
+
       this.inicializarCamposReactivos();
       this.changeDetectorRef.detectChanges();
     });
@@ -325,6 +327,19 @@ export default class ContratoFormularioComponent
           cantidad: respuesta.contratos,
           periodo: respuesta.periodo_id,
         });
+
+        this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
+          let valor = Number(respuesta.grupo_id);
+          return grupo.grupo_id === valor;
+        });
+        
+        if (this.grupoSeleccionado !== undefined) {
+          this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
+          this.formularioProgramacion.patchValue({
+            periodo: this.grupoSeleccionado.grupo_periodo_id,
+          });
+        }
+
         this.changeDetectorRef.detectChanges();
       });
   }

@@ -14,6 +14,7 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { BtnAnularComponent } from '../../../../../../comun/componentes/btn-anular/btn-anular.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -34,7 +35,8 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     BtnAnularComponent,
     TituloAccionComponent,
     LogElectronicoComponent,
-  ],
+    DocumentoOpcionesComponent
+],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;

@@ -6,11 +6,7 @@ import {
   inject,
   Output,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { ExtraService } from '@modulos/venta/servicios/extra.service';
@@ -26,7 +22,6 @@ import { finalize } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GenerarComponent extends General {
-  // private formBuilder = inject(FormBuilder);
   private extraService = inject(ExtraService);
   private modalDinamicoService = inject(ModalDinamicoService);
   @Output() emitirConsultaLista: EventEmitter<any> = new EventEmitter();
@@ -52,11 +47,13 @@ export default class GenerarComponent extends General {
   formSubmit() {
     this.generando = true;
     this.extraService
-      .generarMasivo()
-      .pipe(finalize(() => {
-        this.generando = false
-        this.changeDetectorRef.detectChanges()
-      }))
+      .generarMasivo({ generar_todos: true })
+      .pipe(
+        finalize(() => {
+          this.generando = false;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
       .subscribe((respuesta) => {
         this.alertaService.mensajaExitoso(
           '¡Facturas electrónicas generadas exitosamente!'

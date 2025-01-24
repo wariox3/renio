@@ -62,6 +62,10 @@
           class="bg-gray-100"
           translate="FORMULARIOS.TITULOS.COMUNES.VALOR"
         ></th>
+        <th
+          class="bg-gray-100"
+          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+        ></th>
         <th class="bg-gray-100">
           <div
             placement="top"
@@ -72,7 +76,7 @@
             ADL
           </div>
         </th>
-        <th class="bg-gray-100"></th>
+
         @if(!programacion.estado_generado){
         <th class="text-center bg-gray-100"></th>
         }
@@ -127,22 +131,11 @@
           <td class="text-end">
             {{ programacionAdicional.valor | number }}
           </td>
+          <td style="width: 185px;">
+            {{ programacionAdicional.detalle }}
+          </td>
           <td class="text-center">
             {{ programacionAdicional.aplica_dia_laborado ? "SI" : "NO" }}
-          </td>
-          <td class="w-20px">
-            <label
-              class="cursor-pointer"
-              (click)="abrirModalDetalle(programacionAdicional.id)"
-            >
-              <i class="ki-duotone ki-notepad hover-primary">
-                <span class="path1"></span>
-                <span class="path2"></span>
-                <span class="path3"></span>
-                <span class="path4"></span>
-                <span class="path5"></span>
-              </i>
-            </label>
           </td>
 
           @if(!programacion.estado_generado){

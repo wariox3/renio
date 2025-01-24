@@ -99,7 +99,6 @@ export const locale = {
         EVENTOSDIAN: 'Eventos DIAN',
         CONTENEDORES: 'Contenedores',
         SALDOINICIAL: 'Saldo inicial',
-
       },
     },
     FORMULARIOS: {
@@ -539,7 +538,8 @@ export const locale = {
             CONTIENE: 'Contiene',
             ES: 'Si',
             NO: 'No',
-            RANGE: 'Rango'
+            RANGE: 'Rango',
+            EMPIEZAPOR: 'Empieza por'
           },
         },
         HUMANO: {
@@ -778,6 +778,7 @@ export const locale = {
         ITEM_NOMBRE: 'Item nombre',
         DOCUMENTO__FECHA: 'Fecha',
         DOCUMENTO__NUMERO: 'Número',
+        DOCUMENTO_NUMERO: 'Número',
         CANTIDAD: 'Cantidad',
         PRECIO: 'Precio',
         FECHA_VENCE: 'Vence',
@@ -880,6 +881,8 @@ export const locale = {
         CONTRATO_ID_FILTRO: '[Contrato] id',
         CUENTA_CODIGO_FILTRO: '[Cuenta] código',
         COMPROBANTE_NOMBRE_FILTRO: '[Comprobante] nombre',
+        DOCUMENTO_NUMERO_FILTRO: '[Documento] número',
+        DOCUMENTO_FECHA_FILTRO: '[Documento] fecha',
         TOTAL_BRUTO: 'Total',
         MES: 'Mes',
         ANIO: 'Año',

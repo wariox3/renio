@@ -89,7 +89,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
+        <div class="col-md-6 col-sm-12">
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
@@ -134,6 +134,44 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="cuenta_banco"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['cuenta_banco'].touched &&
+                formularioFactura.controls['cuenta_banco'].invalid,
+              'is-valid':
+                formularioFactura.controls['cuenta_banco'].touched &&
+                formularioFactura.controls['cuenta_banco'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of arrBancos">
+              <option
+                [value]="banco.cuenta_banco_id"
+                [selected]="
+                  banco.cuenta_banco_id === formularioFactura.value.cuenta_banco
+                "
+              >
+                {{ banco.cuenta_banco_nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['cuenta_banco']
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -311,7 +349,7 @@
                                 class="form-select form-select-sm"
                                 disabled
                                 [value]="detalle.value.naturaleza"
-                                >
+                              >
                                 <option value="D">Débito</option>
                                 <option value="C">Crédito</option>
                               </select>

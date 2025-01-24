@@ -37,7 +37,7 @@ export class ImpuestosComponent extends General implements OnChanges {
     filtros: [],
     limite: 10,
     desplazar: 0,
-    ordenamientos: [],
+    ordenamientos: ["impuesto_tipo_id"],
     limite_conteo: 10000,
     modelo: 'GenImpuesto',
     serializador: 'ListaAutocompletar',

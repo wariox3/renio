@@ -284,36 +284,21 @@ export class BaseFiltroComponent extends General implements OnInit {
             nuevoFiltro = {
               ...filtro,
               ...{
+                operador: 'exact',
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
-                valor1: filtro.operadorFiltro === 'true' ? true : false,
               },
             };
           } else {
             let propiedad = filtro.propiedad;
-            if (filtro.tipo !== 'Fk' && filtro.operadorFiltro !== 'range') {
-              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
-            }
             nuevoFiltro = {
               ...filtro,
               ...{
                 propiedad,
+                operador: filtro.operadorFiltro,
                 campo: filtro.propiedad,
               },
             };
-
-            if (filtro.operadorFiltro === 'range') {
-              nuevoFiltro = {
-                ...filtro,
-                ...{
-                  propiedad,
-                  campo: filtro.propiedad,
-                  operador: 'range'
-                },
-              };
-            }
-
-
           }
           listaFiltros.push(nuevoFiltro);
         }
@@ -439,8 +424,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-
-
   cerrarModal(item: any) {
     const filtro = this.filtros.controls[
       this.indexBusquedaAvanzada
@@ -501,7 +484,6 @@ export class BaseFiltroComponent extends General implements OnInit {
           if (propiedadSeleccionada.getAttribute('data-tipo') === 'Booleano') {
             filtroPorActualizar.patchValue({
               tipo: propiedadSeleccionada.getAttribute('data-tipo'),
-              valor1: null,
               operadorFiltro: '',
             });
           }
@@ -527,20 +509,18 @@ export class BaseFiltroComponent extends General implements OnInit {
             nuevoFiltro = {
               ...filtro,
               ...{
+                operador: 'exact',
                 propiedad: `${filtro.propiedad}`,
                 campo: filtro.propiedad,
-                valor1: filtro.operadorFiltro === 'true' ? true : false,
               },
             };
           } else {
             let propiedad = filtro.propiedad;
-            if (filtro.operadorFiltro !== 'igual') {
-              propiedad = `${filtro.propiedad}${filtro.operadorFiltro}`;
-            }
             nuevoFiltro = {
               ...filtro,
               ...{
                 propiedad,
+                operador: filtro.operadorFiltro,
                 campo: filtro.propiedad,
               },
             };
@@ -576,24 +556,32 @@ export class BaseFiltroComponent extends General implements OnInit {
     return valorFiltro.toLocaleLowerCase();
   }
 
-  definirPlaceholder(filtro: AbstractControl){
-
+  definirPlaceholder(filtro: AbstractControl) {
     let placeholder = 'FORMULARIOS.TITULOS.COMUNES.CODIGO';
 
-    if(filtro.get('busquedaAvanzada')?.value === 'true'){
-      placeholder = 'FORMULARIOS.TITULOS.COMUNES.BUSCAR'
+    if (filtro.get('busquedaAvanzada')?.value === 'true') {
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.BUSCAR';
     }
-    if(filtro.get('operadorFiltro')?.value === 'range'){
-      placeholder = 'FORMULARIOS.TITULOS.COMUNES.DESDE'
+    if (filtro.get('operadorFiltro')?.value === 'range') {
+      placeholder = 'FORMULARIOS.TITULOS.COMUNES.DESDE';
     }
 
-    return this.translateService.instant(placeholder)
+    return this.translateService.instant(placeholder);
   }
 
-  limpiarCampoValor2(filtro: AbstractControl){
-    if(filtro.get('operadorFiltro')?.value !== 'range'){
-      filtro.get('valor2')?.setValue(null)
+  actualizarFormularioPorOperadorFiltro(filtro: AbstractControl) {
+    if (filtro.get('tipo')?.value === 'Booleano') {
+      filtro
+        .get('valor1')
+        ?.setValue(
+          filtro.get('operadorFiltro')?.value === 'true' ? true : false
+        );
     }
   }
 
+  limpiarCampoValor2(filtro: AbstractControl) {
+    if (filtro.get('operadorFiltro')?.value !== 'range') {
+      filtro.get('valor2')?.setValue(null);
+    }
+  }
 }

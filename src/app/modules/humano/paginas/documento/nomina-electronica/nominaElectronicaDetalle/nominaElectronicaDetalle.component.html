@@ -23,6 +23,17 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
       </button>
+      <app-comun-documento-opciones
+        [opciones]="{
+          modelo: 'ConMovimiento'
+        }"
+        (itemDesaprobadoEvent)="consultarDetalle()"
+        [opcionesDesaprobarBoton]="{
+          deshabilitado:
+            !nominaElectronica.estado_aprobado ||
+            nominaElectronica.estado_anulado
+        }"
+      ></app-comun-documento-opciones>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">

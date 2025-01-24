@@ -48,6 +48,15 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
+      <app-comun-documento-opciones
+        [opciones]="{
+          modelo: 'ConMovimiento'
+        }"
+        (itemDesaprobadoEvent)="consultardetalle()"
+        [opcionesDesaprobarBoton]="{
+          deshabilitado: !asiento.estado_aprobado || asiento.estado_anulado
+        }"
+      ></app-comun-documento-opciones>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">
@@ -57,7 +66,6 @@
 <app-card>
   <section card-titulo>
     <app-comun-titulo-accion></app-comun-titulo-accion>
-
   </section>
   <section card-body>
     <table class="table table-bordered table-sm">
@@ -113,7 +121,7 @@
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': tabActive === 1}"
+              [ngClass]="{ 'text-primary': tabActive === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -151,7 +159,8 @@
                         {{ documento.contacto_nombre_corto }}
                       </td>
                       <td>
-                        {{ documento.cuenta_codigo }} {{ documento.cuenta_nombre}}
+                        {{ documento.cuenta_codigo }}
+                        {{ documento.cuenta_nombre }}
                       </td>
                       <td>
                         {{ documento.naturaleza }}
@@ -199,7 +208,7 @@
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': tabActive === 2}"
+              [ngClass]="{ 'text-primary': tabActive === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
