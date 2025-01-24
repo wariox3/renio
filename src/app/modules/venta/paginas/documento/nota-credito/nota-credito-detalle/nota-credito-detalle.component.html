@@ -47,6 +47,16 @@
         >
           {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
         </button>
+        <app-comun-documento-opciones
+          [opciones]="{
+            modelo: 'ConMovimiento'
+          }"
+          (itemDesaprobadoEvent)="consultardetalle()"
+          [opcionesDesaprobarBoton]="{
+            deshabilitado:
+              !documento.estado_aprobado || documento.estado_anulado
+          }"
+        ></app-comun-documento-opciones>
       </div>
     </div>
     <div class="btn-group btn-sm shadow-sm">

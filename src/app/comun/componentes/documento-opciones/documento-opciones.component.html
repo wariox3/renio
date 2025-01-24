@@ -8,6 +8,7 @@
     Opciones
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <ng-content select="[extra-buttons]"></ng-content>
     <button
       [disabled]="opcionesDesaprobarBoton.deshabilitado"
       ngbDropdownItem
@@ -49,11 +50,5 @@
       >
       </app-comun-tabla>
     </div>
-    <!--
-          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-      (emitirOrdenamiento)="cambiarOrdemiento($event)"
-      (emitirPaginacion)="cambiarPaginacion($event)"
-      (emitirConsultarLista)="consultarLista()"
-    -->
   </div>
 </ng-template>
