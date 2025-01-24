@@ -8,14 +8,20 @@
     Opciones
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <button
+      [disabled]="opcionesDesaprobarBoton.deshabilitado"
+      ngbDropdownItem
+      (click)="desaprobarDocumento(documentoId)"
+    >
+      Desaprobar
+    </button>
     <button ngbDropdownItem (click)="abirModal(content)">Contabilidad</button>
   </div>
 </div>
+
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      Contabilidad
-    </h4>
+    <h4 class="modal-title" id="modal-basic-title">Contabilidad</h4>
     <button
       type="button"
       class="btn-close"
@@ -24,26 +30,24 @@
     ></button>
   </div>
   <div class="modal-body">
-
     <div class="row">
       <app-comun-tabla
-      [modelo]="modelo"
-      [datos]="arrDocumentos"
-      [cantidad_registros]="cantidad_registros"
-      [visualizarColumnaEditar]="false"
-      [visualizarColumnaDetalle]="false"
-      [visualizarColumnaSeleccionar]="false"
-      [visualizarBtnImportar]="true"
-      [visualizarBtnExportar]="true"
-      [visualizarBtnNuevo]="false"
-      [visualizarBtnEliminar]="false"
-      [visualizarBtnImportar]="false"
-      [visualizarBtnColumnas]="false"
-      [visualizarBtnExportarZip]="false"
-      (emitirExportarExcel)="descargarExcel()"
-
-    >
-    </app-comun-tabla>
+        [modelo]="modelo"
+        [datos]="arrDocumentos"
+        [cantidad_registros]="cantidadRegistros"
+        [visualizarColumnaEditar]="false"
+        [visualizarColumnaDetalle]="false"
+        [visualizarColumnaSeleccionar]="false"
+        [visualizarBtnImportar]="true"
+        [visualizarBtnExportar]="true"
+        [visualizarBtnNuevo]="false"
+        [visualizarBtnEliminar]="false"
+        [visualizarBtnImportar]="false"
+        [visualizarBtnColumnas]="false"
+        [visualizarBtnExportarZip]="false"
+        (emitirExportarExcel)="descargarExcel()"
+      >
+      </app-comun-tabla>
     </div>
     <!--
           (emitirDesplazamiento)="cambiarDesplazamiento($event)"
