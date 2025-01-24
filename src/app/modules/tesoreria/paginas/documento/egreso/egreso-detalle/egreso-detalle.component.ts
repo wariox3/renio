@@ -22,6 +22,7 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-egreso-detalle',
@@ -37,6 +38,7 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     ReactiveFormsModule,
     BaseEstadosComponent,
     TituloAccionComponent,
+    DocumentoOpcionesComponent
 ],
   templateUrl: './egreso-detalle.component.html',
 })

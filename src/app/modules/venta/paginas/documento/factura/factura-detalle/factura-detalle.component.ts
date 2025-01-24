@@ -189,6 +189,10 @@ export default class FacturaDetalleComponent extends General {
       });
   }
 
+  itemDesaprobadoEvent() {
+    this.consultardetalle();
+  }
+
   imprimir() {
     this.httpService.descargarArchivo('general/documento/imprimir/', {
       filtros: [],

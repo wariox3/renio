@@ -10,6 +10,7 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-asiento-detalle',
@@ -22,7 +23,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     NgbNavModule,
     NgbDropdownModule,
     BaseEstadosComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    DocumentoOpcionesComponent
 ],
   templateUrl: './asiento-detalle.component.html',
 })
