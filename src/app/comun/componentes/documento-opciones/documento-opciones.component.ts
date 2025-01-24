@@ -83,7 +83,21 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  desaprobarDocumento(documentoId: number) {
+  confirmarDesaprobarDocumento() {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de desaprobar?',
+        texto: '',
+        textoBotonCofirmacion: 'Si, desaprobar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._desaprobarDocumento(this.documentoId);
+        }
+      });
+  }
+
+  private _desaprobarDocumento(documentoId: number) {
     this._documentoService.desaprobarDocumento({ id: documentoId }).subscribe({
       next: () => {
         this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
