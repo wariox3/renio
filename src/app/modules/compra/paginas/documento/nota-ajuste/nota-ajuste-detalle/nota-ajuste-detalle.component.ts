@@ -13,6 +13,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-nota-ajuste-detalle',
@@ -31,7 +32,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     BaseEstadosComponent,
     DetallesTotalesComponent,
     BtnAnularComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    DocumentoOpcionesComponent
 ],
 })
 export default class FacturaDetalleComponent extends General {

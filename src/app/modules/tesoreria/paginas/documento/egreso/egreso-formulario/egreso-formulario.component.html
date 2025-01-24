@@ -339,8 +339,13 @@
                               </select>
                             </ng-container>
                             <ng-template #selectDisabled>
-                              <select disabled class="form-select">
+                              <select
+                                class="form-select form-select-sm"
+                                disabled
+                                [value]="detalle.value.naturaleza"
+                              >
                                 <option value="D">Débito</option>
+                                <option value="C">Crédito</option>
                               </select>
                             </ng-template>
                           </td>

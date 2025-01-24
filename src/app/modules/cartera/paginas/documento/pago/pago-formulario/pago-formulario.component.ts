@@ -130,7 +130,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
       empresa: [1],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
-      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([

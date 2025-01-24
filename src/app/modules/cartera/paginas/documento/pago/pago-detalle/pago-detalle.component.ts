@@ -11,6 +11,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
   selector: 'app-pago-detalle',
@@ -22,7 +23,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbNavModule,
     BaseEstadosComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    DocumentoOpcionesComponent
 ],
   templateUrl: './pago-detalle.component.html',
 })

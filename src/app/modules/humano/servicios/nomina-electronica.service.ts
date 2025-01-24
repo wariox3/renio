@@ -15,7 +15,7 @@ export class NominaElectronicaService extends Subdominio {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<NominaElectronica>(`general/documento/${id}/`);
+    return this.httpService.getDetalle<{ documento: NominaElectronica }>(`general/documento/${id}/`);
   }
 
   generarNominaElectronica(data: NominaElectronicaGenerar) {

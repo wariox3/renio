@@ -91,17 +91,17 @@ export default class EgresoFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   private _generalService = inject(GeneralService);
@@ -152,7 +152,6 @@ export default class EgresoFormularioComponent
       contactoNombre: [''],
       cuenta_banco_nombre: [''],
       cuenta_banco: ['', Validators.compose([Validators.required])],
-      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -404,6 +403,7 @@ export default class EgresoFormularioComponent
           cuenta: documento.documento_tipo_cuenta_pagar_id,
           cuenta_codigo: documento.documento_tipo_cuenta_pagar_cuenta_codigo,
           naturaleza: 'D',
+          documento_tipo_operacion: documento.documento_tipo_operacion,
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -534,12 +534,22 @@ export default class EgresoFormularioComponent
     this.consultarDocumentos();
   }
 
+  private _definirNaturaleza(tipoOperacion: number) {
+    return tipoOperacion === 1 ? 'D' : 'C';
+  }
+
   agregarDocumentosPago() {
     this.documentoDetalleSeleccionarTodos = false;
+
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id
       );
+
+      const naturaleza = this._definirNaturaleza(
+        documentoSeleccionado.documento_tipo_operacion
+      );
+
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
@@ -550,7 +560,7 @@ export default class EgresoFormularioComponent
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
-        naturaleza: [documentoSeleccionado.naturaleza],
+        naturaleza,
       });
       this.detalles.push(detalleFormGroup);
     });

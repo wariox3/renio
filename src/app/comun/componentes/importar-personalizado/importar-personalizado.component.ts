@@ -64,10 +64,12 @@ export class ImportarPersonalizadoComponent
     modelo: string;
     serializador: string;
     filtros: Filtros[];
+    ordenamientos: string[];
   } = {
     modelo: '',
     serializador: '',
     filtros: [],
+    ordenamientos: [],
   };
 
   @Output() emitirPeticionCompletada: EventEmitter<any> = new EventEmitter();
@@ -160,6 +162,7 @@ export class ImportarPersonalizadoComponent
             serializador: this.configuracionDescargarEjemplo.serializador,
             excel: true,
             filtros: [...this.configuracionDescargarEjemplo.filtros],
+            ordenamientos: this.configuracionDescargarEjemplo.ordenamientos,
           }
         );
       })
