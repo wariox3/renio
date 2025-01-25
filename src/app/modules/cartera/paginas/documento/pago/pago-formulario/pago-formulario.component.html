@@ -238,12 +238,6 @@
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
                     ></button>
-                    <!-- <button
-                      (click)="eliminarDocumento()"
-                      class="btn btn-sm btn-danger"
-                      type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                    ></button> -->
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -255,36 +249,15 @@
                       <tr class="bg-gray-100">
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"
+                        ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
-                        <th class="w-100px text-center">
-                          <!-- <label [for]="documentoDetalleSeleccionarTodos">
-                            <i
-                              class="cursor-pointer"
-                              [ngClass]="
-                                checkboxDocumentoDetalleSeleccionarTodos.checked
-                                  ? 'fa-solid fa-square-check text-danger fs-1'
-                                  : 'fa-regular fa-square text-gray-500 fs-1'
-                              "
-                            >
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                            </i>
-                            <input
-                              class="d-none"
-                              type="checkbox"
-                              #checkboxDocumentoDetalleSeleccionarTodos
-                              [id]="documentoDetalleSeleccionarTodos"
-                              [checked]="documentoDetalleSeleccionarTodos"
-                              [value]="documentoDetalleSeleccionarTodos"
-                              (change)="detalleToggleSelectAll()"
-                            />
-                          </label> -->
-                        </th>
+                        <th class="w-100px text-center"></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -298,7 +271,10 @@
                             {{ detalle.value.documento_afectado }}
                           </td>
                           <td>
-                            {{ detalle.value.documento_afectado_documento_tipo_nombre}}
+                            {{
+                              detalle.value
+                                .documento_afectado_documento_tipo_nombre
+                            }}
                           </td>
                           <td>
                             {{ detalle.value.numero }}
@@ -388,32 +364,6 @@
                               }"
                             ></ng-container>
                           </td>
-                          <!-- <td class="w-20px text-center">
-                            <label [for]="detalle.value.id">
-                              <i
-                                class="cursor-pointer"
-                                [ngClass]="
-                                  checked.checked
-                                    ? 'fa-solid fa-square-check text-danger fs-1'
-                                    : 'fa-regular fa-square text-gray-500 fs-1'
-                                "
-                              >
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                              </i>
-                              <input
-                                #checked
-                                class="d-none"
-                                type="checkbox"
-                                [id]="detalle.value.id"
-                                [value]="detalle.value.id"
-                                (change)="
-                                  agregarRegistrosEliminar(i, detalle.value.id)
-                                "
-                                [checked]="detalle.value.seleccionado"
-                              />
-                            </label>
-                          </td> -->
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
