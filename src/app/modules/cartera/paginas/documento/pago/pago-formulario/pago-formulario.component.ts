@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -273,6 +274,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      this._actualizarDetallesContactoSinDocumentoAfectado()
     }
     if (campo === 'contacto-vermas') {
       this.formularioFactura.get('contacto')?.setValue(dato.id);
@@ -576,8 +578,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
-      contacto: [null],
-      contacto_nombre: [null],
+      contacto: [this.formularioFactura.get('contacto')?.value !== '' ? this.formularioFactura.get('contacto')?.value : null],
+      contacto_nombre: [this.formularioFactura.get('contactoNombre')?.value !== '' ? this.formularioFactura.get('contactoNombre')?.value : null],
       pago: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
@@ -618,5 +620,22 @@ export default class PagoFormularioComponent extends General implements OnInit {
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  private _actualizarDetallesContactoSinDocumentoAfectado(){
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    if(detallesArray.length > 0){
+      detallesArray.controls.forEach((control: AbstractControl) =>{
+        if(control.get('documento_afectado')?.value === null){
+          control.patchValue({
+            contacto: this.formularioFactura.get('contacto')?.value !== '' ? this.formularioFactura.get('contacto')?.value : null,
+            contacto_nombre: this.formularioFactura.get('contactoNombre')?.value !== '' ? this.formularioFactura.get('contactoNombre')?.value : null,
+          });
+          this.formularioFactura.markAsTouched();
+          this.formularioFactura.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+    }
   }
 }
