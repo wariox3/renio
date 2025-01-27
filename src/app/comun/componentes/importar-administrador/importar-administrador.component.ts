@@ -1,10 +1,11 @@
-import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archivo-importacion.selectors';
 import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,14 +14,17 @@ import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
+import { MenuReducerService } from '@comun/services/menu-reducer.service';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { informacionMenuItem, Maestros } from '@interfaces/menu/menu';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archivo-importacion.selectors';
 @Component({
   selector: 'app-importar-administrador',
   standalone: true,
@@ -30,13 +34,14 @@ import * as XLSX from 'xlsx';
     AnimationFadeInUpDirective,
     AnimationFadeInLeftDirective,
     FormsModule,
+    NgbDropdownModule,
   ],
   templateUrl: './importar-administrador.component.html',
   styleUrl: './importar-administrador.component.scss',
 })
 export class ImportarAdministradorComponent
   extends General
-  implements OnDestroy
+  implements OnDestroy, OnInit
 {
   archivoNombre: string = '';
   archivo_base64: string = '';
@@ -48,6 +53,9 @@ export class ImportarAdministradorComponent
   soloNuevos: boolean;
   habilitarBtnEjemploImportar: boolean = false;
   cantidadErrores: number = 0;
+  public maestros: Maestros[] = [];
+  public alias: string;
+  public moduloNombre: string;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -55,6 +63,7 @@ export class ImportarAdministradorComponent
   @Input() exportarArchivoFijo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
+  private _menuReducerService = inject(MenuReducerService);
 
   constructor(
     private modalService: NgbModal,
@@ -62,6 +71,13 @@ export class ImportarAdministradorComponent
     private descargarArchivosService: DescargarArchivosService
   ) {
     super();
+  }
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((parametros) => {
+      this.alias = parametros.alias;
+      this.moduloNombre = parametros.modulo;
+    });
   }
 
   abrirModalContactoNuevo(content: any) {
@@ -84,6 +100,7 @@ export class ImportarAdministradorComponent
             }
           }),
           tap(() => {
+            this._cargarMaestros();
             this.importarSoloNuevos =
               this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
             (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
@@ -112,6 +129,7 @@ export class ImportarAdministradorComponent
             }
           }),
           tap(() => {
+            this._cargarMaestros();
             this.importarSoloNuevos =
               this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
             (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
@@ -127,6 +145,30 @@ export class ImportarAdministradorComponent
         .subscribe()
         .unsubscribe();
     }
+  }
+
+  // maestros son los botones del dropdown que permiten descargar acrhivos del S3
+  private _cargarMaestros() {
+    this._menuReducerService
+      .getModuloItemInformacion(this.moduloNombre, this.alias)
+      .subscribe({
+        next: (categoriaItem) => {
+          // con esto obtenemos la informacion precisa del item en el que estemos parados
+          this._cargarInformacionMaestros(categoriaItem);
+        },
+      });
+  }
+
+  //
+  private _cargarInformacionMaestros(
+    categoriaItem: informacionMenuItem | undefined | null
+  ) {
+    if (!categoriaItem || !categoriaItem.maestros) {
+      this.maestros = [];
+      return;
+    }
+
+    this.maestros = categoriaItem.maestros;
   }
 
   cerrarModal() {
