@@ -75,7 +75,9 @@
         <tr class="bg-gray-100">
           <th class="bg-gray-100" style="width: 50px">Id</th>
           <th class="bg-gray-100">Nombre</th>
-          <th class="bg-gray-100">Tipo</th>
+          <th class="bg-gray-100">Fecha</th>
+          <th class="bg-gray-100">Tamaño</th>
+          <th class="bg-gray-100" style="width: 50px"></th>
           <th class="bg-gray-100" style="width: 50px"></th>
         </tr>
       </thead>
@@ -84,7 +86,8 @@
         <tr>
           <td class="w-40px">{{ archivo.id }}</td>
           <td>{{ archivo.nombre }}</td>
-          <td>{{ archivo.tipo }}</td>
+          <td>{{ archivo.fecha | date : "YYYY-MM-dd" }}</td>
+          <td>{{ archivo.tamano | tamanoArchivo }}</td>
           <td>
             <button
               style="padding-top: 0; padding-bottom: 0; font-weight: bold"
@@ -92,6 +95,15 @@
               class="btn"
             >
               <i class="bi bi-download"></i>
+            </button>
+          </td>
+          <td>
+            <button
+              style="padding-top: 0; padding-bottom: 0; font-weight: bold"
+              class="btn"
+              (click)="eliminarArchivo(archivo.id)"
+            >
+              <i class="bi bi-trash delete-btn"></i>
             </button>
           </td>
         </tr>
