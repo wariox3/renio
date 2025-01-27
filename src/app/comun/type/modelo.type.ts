@@ -2,6 +2,7 @@ export type Modelo =
   | 'GenDocumento'
   | 'GenCiudad'
   | 'GenIdentificacion'
+  | 'GenArchivo'
   | 'GenRegimen'
   | 'GenTipoPersona'
   | 'GenPrecio'

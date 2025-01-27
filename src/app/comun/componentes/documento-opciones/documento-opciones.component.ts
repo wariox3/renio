@@ -17,6 +17,10 @@ import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocomp
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { TablaComponent } from '../tabla/tabla.component';
+import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
+import { ArchivosService } from '@comun/services/archivos/archivos.service';
+import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
+import { BehaviorSubject, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -30,9 +34,15 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private readonly _generalService = inject(GeneralService);
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _documentoService = inject(DocumentoService);
+  private readonly _archivosService = inject(ArchivosService);
+  private readonly _procesadorArchivosService = inject(
+    ProcesadorArchivosService
+  );
 
   public arrDocumentos: any[];
   public cantidadRegistros: number;
+  public listaArchivos: ArchivoRespuesta[] = [];
+  public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
 
   public documentoId: number;
 
@@ -58,15 +68,92 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  abirModal(content: any) {
-    this._consultarInformacionTabla();
-
-    this._cargarDatosMapeo(this.opciones.modelo);
-
+  private _abirModal(content: any) {
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
+  }
+
+  abrirModalContabilidad(content: any) {
+    this._consultarInformacionTabla();
+    this._cargarDatosMapeo(this.opciones.modelo);
+    this._abirModal(content);
+  }
+
+  abrirModalArchivos(content: any) {
+    this._consultarArchivos();
+    this._abirModal(content);
+  }
+
+  private _consultarArchivos() {
+    this._generalService
+      .consultarDatosAutoCompletar<ArchivoRespuesta>({
+        modelo: 'GenArchivo',
+        filtros: [
+          {
+            propiedad: 'documento_id',
+            valor1: this.documentoId,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaArchivos = response.registros;
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
+
+  cargarArchivo(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const name = file.name;
+
+      // Usamos el servicio para convertir el archivo a Base64
+      this._procesadorArchivosService
+        .convertToBase64(file)
+        .then((base64) => {
+          this._submitArchivo(base64, name, this.documentoId);
+        })
+        .catch((error) => {
+          console.error('Error al procesar el archivo:', error);
+        });
+    }
+  }
+
+  descargarArchivo(archivo: ArchivoRespuesta) {
+    this._archivosService.descargarArchivoGeneral({
+      id: archivo.id,
+    });
+  }
+
+  private _submitArchivo(
+    base64: string,
+    nombreArchivo: string,
+    documentoId: number
+  ) {
+    this.subiendoArchivo$.next(true);
+    this._archivosService
+      .cargarArchivoGeneral({
+        archivoBase64: base64,
+        nombreArchivo,
+        documentoId,
+      })
+      .pipe(
+        finalize(() => {
+          this.subiendoArchivo$.next(false);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this._consultarArchivos();
+          this.alertaService.mensajaExitoso(
+            'El archivo se ha cargado exitosamente!'
+          );
+        },
+      });
   }
 
   descargarExcel() {
