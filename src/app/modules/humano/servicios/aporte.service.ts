@@ -21,7 +21,10 @@ export class AporteService extends Subdominio {
   }
 
   cargarContratos(data: Pick<Aporte, 'id'>) {
-    return this.httpService.post<AporteCargarContratos>(`humano/aporte/cargar-contrato/`, data);
+    return this.httpService.post<AporteCargarContratos>(
+      `humano/aporte/cargar-contrato/`,
+      data
+    );
   }
 
   guardarAporte(data: Aporte) {
@@ -36,8 +39,11 @@ export class AporteService extends Subdominio {
     return this.httpService.post<any>(`humano/aporte/desgenerar/`, data);
   }
 
-
   eliminarRegistro(id: number, data: any) {
     return this.httpService.delete(`humano/aporte_contrato/${id}/`, {});
+  }
+
+  planoOperador(data: Pick<Aporte, 'id'>) {
+    return this.httpService.descargarArchivo(`humano/aporte/plano-operador/`, data);
   }
 }

@@ -8,8 +8,7 @@ import { AlertaService } from './alerta.service';
   providedIn: 'root',
 })
 export class HttpService extends Subdominio {
-
-  private alertaService = inject(AlertaService)
+  private alertaService = inject(AlertaService);
 
   constructor(private http: HttpClient) {
     super();
@@ -47,7 +46,7 @@ export class HttpService extends Subdominio {
 
   public descargarArchivo(endpoint: string, data: any): void {
     const url = `${this.urlSubDominio}/${endpoint}`;
-    this.alertaService.mensajaEspera('Cargando')
+    this.alertaService.mensajaEspera('Cargando');
     this.http
       .post<HttpResponse<Blob>>(url, data, {
         observe: 'response',
@@ -55,9 +54,12 @@ export class HttpService extends Subdominio {
       })
       .pipe(
         catchError((error) => {
-          this.alertaService.cerrarMensajes()
-          this.alertaService.mensajeError(`Error 15`, "El documento no tiene un formato");
-          return of(null)
+          this.alertaService.cerrarMensajes();
+          this.alertaService.mensajeError(
+            `Error 15`,
+            'El documento no tiene un formato'
+          );
+          return of(null);
         })
       )
       .subscribe((response) => {
@@ -88,7 +90,7 @@ export class HttpService extends Subdominio {
             a.setAttribute('download', nombreArchivo);
             a.click();
             URL.revokeObjectURL(objectUrl);
-            setTimeout(() => this.alertaService.cerrarMensajes(), 1000)
+            setTimeout(() => this.alertaService.cerrarMensajes(), 1000);
           }
         }
       });
@@ -96,7 +98,7 @@ export class HttpService extends Subdominio {
 
   public descargarArchivoDominio(endpoint: string, data: any): void {
     const url = `${this.urlMuup}/${endpoint}`;
-    this.alertaService.mensajaEspera('Cargando')
+    this.alertaService.mensajaEspera('Cargando');
     this.http
       .post<HttpResponse<Blob>>(url, data, {
         // observe: 'response',
@@ -130,10 +132,9 @@ export class HttpService extends Subdominio {
             a.setAttribute('download', nombreArchivo);
             a.click();
             URL.revokeObjectURL(objectUrl);
-            setTimeout(() => this.alertaService.cerrarMensajes(), 1000)
+            setTimeout(() => this.alertaService.cerrarMensajes(), 1000);
           }
         }
       });
   }
-
 }
