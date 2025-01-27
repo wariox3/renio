@@ -34,6 +34,14 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     },
     {
       propiedad: 'estado_electronico',
+      valor1: false,
+    },
+    {
+      propiedad: 'estado_electronico_descartado',
+      valor1: false,
+    },
+    {
+      propiedad: 'documento_tipo__electronico',
       valor1: true,
     },
     {
