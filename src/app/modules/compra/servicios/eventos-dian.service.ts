@@ -12,6 +12,6 @@ export class EventosDianService {
   }
 
   descartar(id: number){
-    return this.httpService.post<any>('', {id});
+    return this.httpService.post<any>('general/documento/electronico_descartar/', {id});
   }
 }
