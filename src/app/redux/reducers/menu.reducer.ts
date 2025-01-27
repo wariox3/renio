@@ -55,9 +55,17 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'administrador',
+              modulo: 'cartera',
               data: {
                 modelo: 'GenContacto',
               },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'GenContacto.xlsx',
             },
           ],
@@ -296,6 +304,13 @@ export const initialState: MenuItem = {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
               },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
@@ -635,6 +650,13 @@ export const initialState: MenuItem = {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
               },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
@@ -767,6 +789,13 @@ export const initialState: MenuItem = {
               nombre: 'Contacto',
               tipo: 'administrador',
               data: { modelo: 'GenContacto', importarSoloNuevos: 'si' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'GenContacto.xlsx',
               modulo: 'general',
             },
@@ -913,9 +942,17 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'administrador',
+              modulo: 'tesoreria',
               data: {
                 modelo: 'GenContacto',
               },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'GenContacto.xlsx',
             },
           ],
