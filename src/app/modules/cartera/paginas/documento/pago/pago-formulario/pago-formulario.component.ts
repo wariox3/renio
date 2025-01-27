@@ -80,6 +80,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrBancos: RegistroAutocompletarGenCuentaBanco[] = [];
   mostrarTodosLosClientes = signal(false);
+  arrFiltrosEmitidosAgregarDocumento: any[] = [];
+  arrFiltrosPermanenteAgregarDocumento: any[] = [
+    { propiedad: 'documento_tipo__cobrar', valor1: true },
+    { propiedad: 'pendiente__gt', valor1: 0 },
+  ];
 
   public campoLista: CampoLista[] = [
     {
@@ -288,7 +293,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   agregarDocumento(content: any) {
     if (this.formularioFactura.get('contacto')?.value !== '') {
-      this.consultarDocumentos(null);
+      this.consultarDocumentos();
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
       );
@@ -334,31 +339,30 @@ export default class PagoFormularioComponent extends General implements OnInit {
       .subscribe();
   }
 
-  consultarDocumentos(arrFiltrosExtra: any) {
-
-    let filtros: any[] = [{
-        propiedad: 'contacto_id',
-        valor1: this.formularioFactura.get('contacto')?.value,
-        tipo: 'CharField',
-      },
-      { propiedad: 'documento_tipo__cobrar', valor1: true },
-      { propiedad: 'pendiente__gt', valor1: 0 },
-    ];;
+  consultarDocumentos() {
+    let filtros: any[] = [];
     if (this.mostrarTodosLosClientes()) {
-      filtros = [
-        { propiedad: 'documento_tipo__cobrar', valor1: true },
-        { propiedad: 'pendiente__gt', valor1: 0 },
-      ];
-    } else {
-
-    }
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
+      filtros = this.arrFiltrosPermanenteAgregarDocumento;
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
         filtros = [
-          ...filtros,
-          ...arrFiltrosExtra,
+          ...this.arrFiltrosPermanenteAgregarDocumento,
+          ...this.arrFiltrosEmitidosAgregarDocumento,
         ];
+        this.changeDetectorRef.detectChanges();
       }
+    } else {
+      filtros = [
+        {
+          propiedad: 'contacto_id',
+          valor1: this.formularioFactura.get('contacto')?.value,
+          tipo: 'CharField',
+        },
+        ...this.arrFiltrosPermanenteAgregarDocumento,
+      ];
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
+        filtros = [...filtros, ...this.arrFiltrosEmitidosAgregarDocumento];
+      }
+      this.changeDetectorRef.detectChanges();
     }
 
     this._generalService
@@ -519,7 +523,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
-    this.consultarDocumentos(arrfiltros);
+    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+    if (arrfiltros.length === 0 && this.mostrarTodosLosClientes() === true) {
+      this.mostrarTodosLosClientes.set(false);
+    }
+    this.consultarDocumentos();
   }
 
   actualizarDetalle(index: number, campo: string, evento: any) {
@@ -655,6 +663,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
       (mostrarTodosLosClientes) =>
         (mostrarTodosLosClientes = !mostrarTodosLosClientes)
     );
-    this.consultarDocumentos(null);
+    this.consultarDocumentos();
   }
 }
