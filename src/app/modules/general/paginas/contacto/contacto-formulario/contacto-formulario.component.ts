@@ -311,7 +311,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         ],
         tipo_persona: ['', Validators.compose([Validators.required])],
         regimen: ['', Validators.compose([Validators.required])],
-        codigo_ciuu: [null, Validators.compose([Validators.maxLength(200)])],
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
@@ -448,7 +447,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
               correo: respuesta.correo,
               tipo_persona: respuesta.tipo_persona_id,
               regimen: respuesta.regimen_id,
-              codigo_ciuu: respuesta.codigo_ciuu,
               barrio: respuesta.barrio,
               cliente: respuesta.cliente,
               proveedor: respuesta.proveedor,
@@ -592,11 +590,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.formularioContacto.get(campo)?.setValue(null);
       }
     }
-    if (campo === 'codigo_ciuu') {
-      if (this.formularioContacto.get(campo)?.value === '') {
-        this.formularioContacto.get(campo)?.setValue(null);
-      }
-    }
     if (campo === 'nombre2') {
       if (this.formularioContacto.get(campo)?.value === '') {
         this.formularioContacto.get(campo)?.setValue(null);
@@ -630,7 +623,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
           tipo_persona: respuesta.tipo_persona_id,
           regimen: respuesta.regimen_id,
           barrio: respuesta.barrio,
-          codigo_ciuu: respuesta.codigo_ciuu,
           precio: respuesta.precio_id,
           plazo_pago: respuesta.plazo_pago_id,
           plazo_pago_proveedor: parseInt(respuesta.plazo_pago_proveedor_id),

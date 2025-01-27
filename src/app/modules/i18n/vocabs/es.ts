@@ -432,7 +432,7 @@ export const locale = {
           },
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
-            REGIMEN: 'Régimen',
+            REGIMEN: 'Régimen fiscal',
             CODIGOCIUU: 'Código CIUU',
             PLAZOPAGO: 'Plazo de pago',
             LISTAPRECIO: 'Lista de precio',
