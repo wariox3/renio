@@ -34,11 +34,11 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     },
     {
       propiedad: 'estado_electronico',
-      valor1: false,
+      valor1: true,
     },
     {
-      propiedad: 'documento_tipo',
-      valor1: 5,
+      propiedad: 'documento_tipo__documento_clase__grupo',
+      valor1: 3,
     },
   ];
   arrParametrosConsultaEmitir: ParametrosFiltros = {
@@ -80,7 +80,7 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     zip(
       this._generalService.consultarDatosLista(this.arrParametrosConsultaEmitir)
     ).subscribe((respuesta: any) => {
-      this.cantidad_registros = respuesta[0].cantidad_registros
+      this.cantidad_registros = respuesta[0].cantidad_registros;
       this.arrDocumentosEmitir = respuesta[0].registros.map(
         (documento: any) => ({
           ...documento,
