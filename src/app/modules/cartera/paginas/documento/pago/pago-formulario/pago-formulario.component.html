@@ -456,10 +456,29 @@
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
     ></app-base-filtro>
-    <div class="row justify-content-between my-3">
+    <div class="row">
       <div class="col d-flex align-items-center">
         <p class="text-gray-400 fw-bolder me-1">Recaudo</p>
         <p class="text-gray-700 fs-1">{{ totalSeleccionado | number }}</p>
+      </div>
+    </div>
+    <div class="row justify-content-between my-3">
+      <div class="col-12 col-md-6">
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="mostrarTodosLosClientes()"
+            (click)="toggleMostrarTodosLosClientes()"
+            [id]="'descuento_fondo_solidaridad'"
+          />
+          <label
+            class="form-check-label text-gray-700"
+            for="descuento_fondo_solidaridad"
+            translate="FORMULARIOS.CAMPOS.COMUNES.MOSTARTODOSLOSCONTACTOS"
+          >
+          </label>
+        </div>
       </div>
       <div class="col offset-md-4">
         <div class="float-end">
