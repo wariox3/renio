@@ -329,4 +329,10 @@ export default class AporteDetalleComponent extends General implements OnInit {
       this.registrosAEliminar.push(id);
     }
   }
+
+  generarPlanoOperador(){
+    this.aporteService.planoOperador({
+      id: this.detalle
+    })
+  }
 }
