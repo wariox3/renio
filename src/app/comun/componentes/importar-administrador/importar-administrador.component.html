@@ -88,14 +88,38 @@
           : 'justify-content-end'
       "
     >
-      @if(habilitarBtnEjemploImportar){
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary me-2"
-        (click)="descargarExcelImportar()"
-        translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
-      ></button>
-      }
+      <div>
+        @if(habilitarBtnEjemploImportar){
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary me-2"
+          (click)="descargarExcelImportar()"
+          translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
+        ></button>
+        } @if (maestros.length > 0) {
+        <div
+          class="btn-group"
+          ngbDropdown
+          autoClose="outside"
+          #OpcionesDropdown="ngbDropdown"
+        >
+          <button
+            type="button"
+            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            Maestros
+          </button>
+          @for (maestro of maestros; track $index) {
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <a [href]="maestro.endpoint" ngbDropdownItem>{{ maestro.name }}</a>
+          </div>
+          }
+        </div>
+        }
+      </div>
+
       <div>
         @if(!cargardoDocumento){
         <button

@@ -33,6 +33,7 @@ export interface informacionMenuItem {
   configuracionExtra?: boolean;
   esIndependiente?: boolean;
   modulo?: AplicacionModulo;
+  maestros?: Maestros[];
   data?: {
     documento_clase?: number | string;
     ordenamiento?: string;
@@ -55,6 +56,11 @@ export interface informacionMenuItem {
     parametro?: string;
   };
   children?: informacionMenuItem[];
+}
+
+export interface Maestros {
+  endpoint: string;
+  name: string;
 }
 
 export interface MenuItem {

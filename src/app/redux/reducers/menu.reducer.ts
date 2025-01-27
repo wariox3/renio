@@ -167,6 +167,13 @@ export const initialState: MenuItem = {
             {
               nombre: 'Contacto',
               tipo: 'administrador',
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               data: {
                 modelo: 'GenContacto',
                 importarSoloNuevos: 'si',
