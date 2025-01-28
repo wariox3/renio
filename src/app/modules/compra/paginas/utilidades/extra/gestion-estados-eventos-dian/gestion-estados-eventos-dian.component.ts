@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
-import { HttpService } from '@comun/services/http.service';
 import { TipoIdentificacion } from '@interfaces/general/tipo-identificacion.interface';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, finalize, tap } from 'rxjs';
+import { obtenerUsuarioApellido, obtenerUsuarioCargo, obtenerUsuarioNombre, obtenerUsuarioNumeroIdentificacion } from '@redux/selectors/usuario.selectors';
+import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
 
 @Component({
   selector: 'app-gestion-estados-eventos-dian',
@@ -49,7 +49,6 @@ export class GestionEstadosEventosDianComponent
   @Output() emitirConsultarLista: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
-    private httpService: HttpService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private facturaService: FacturaService,
@@ -106,15 +105,23 @@ export class GestionEstadosEventosDianComponent
   }
 
   private _inicializarFormulario() {
-    this.formularioModal = this.formBuilder.group({
-      nombre: ['', Validators.compose([Validators.required])],
-      apellido: ['', Validators.compose([Validators.required])],
-      identificacion: [13, Validators.compose([Validators.required])],
-      numero_identificacion: ['', Validators.compose([Validators.required])],
-      cargo: ['', Validators.compose([Validators.required])],
-      area: ['', Validators.compose([Validators.required])],
-      id: [this.documento.id],
-    });
+    zip(
+      this.store.select(obtenerUsuarioNombre),
+      this.store.select(obtenerUsuarioApellido),
+      this.store.select(obtenerUsuarioNumeroIdentificacion),
+      this.store.select(obtenerUsuarioCargo),
+    ).subscribe( respuesta => {
+      this.formularioModal = this.formBuilder.group({
+        nombre: [respuesta[0], Validators.compose([Validators.required])],
+        apellido: [respuesta[1], Validators.compose([Validators.required])],
+        identificacion: [13, Validators.compose([Validators.required])],
+        numero_identificacion: [respuesta[2], Validators.compose([Validators.required])],
+        cargo: [respuesta[3], Validators.compose([Validators.required])],
+        area: ['compras', Validators.compose([Validators.required])],
+        id: [this.documento.id],
+      });
+    })
+
   }
 
   consultarInformacion() {

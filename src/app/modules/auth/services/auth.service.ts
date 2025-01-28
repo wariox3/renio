@@ -206,6 +206,8 @@ export class AuthService implements OnDestroy {
           es_socio: usuario.es_socio,
           socio_id: usuario.socio_id,
           is_active: usuario.is_active,
+          numero_identificacion: usuario.numero_identificacion,
+          cargo: usuario.cargo
         },
       })
     );

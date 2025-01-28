@@ -31,7 +31,9 @@ let parsedState: Usuario = {
   verificado: false,
   es_socio: false,
   socio_id: '',
-  is_active: false
+  is_active: false,
+  numero_identificacion: '',
+  cargo: ''
 };
 
 export const initialState: Usuario = usuarioData

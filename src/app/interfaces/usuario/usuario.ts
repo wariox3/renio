@@ -16,4 +16,6 @@ export interface Usuario {
   es_socio: boolean;
   socio_id: string;
   is_active: boolean;
+  numero_identificacion: string;
+  cargo: string;
 }
