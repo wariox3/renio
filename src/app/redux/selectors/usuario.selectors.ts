@@ -10,32 +10,32 @@ export const obtenerUsuarioTelefono = createSelector(Usuario, (Usuario) => {
 
 export const obtenerUsuarioUserName = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.username}`
+  (Usuario) => Usuario.username
 );
 
 export const obtenerUsuarioNombre = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.nombre}`
+  (Usuario) => Usuario.nombre
 );
 
 export const obtenerUsuarioNombreCorto = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.nombre_corto}`
+  (Usuario) => Usuario.nombre_corto
 );
 
 export const obtenerUsuarioApellido = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.apellido}`
+  (Usuario) => Usuario.apellido
 );
 
 export const obtenerUsuarioNumeroIdentificacion = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.numero_identificacion}`
+  (Usuario) => Usuario.numero_identificacion
 );
 
 export const obtenerUsuarioCargo = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.cargo}`
+  (Usuario) => Usuario.cargo
 );
 
 export const obtenerUsuarioNombreCompleto = createSelector(
@@ -49,17 +49,17 @@ export const obtenerUsuarioNombreCompleto = createSelector(
 
 export const obtenerUsuarioImagen = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.imagen}`
+  (Usuario) => Usuario.imagen
 );
 
 export const obtenerUsuarioidioma = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.idioma}`
+  (Usuario) => Usuario.idioma
 );
 
 export const obtenerUsuarioId = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.id}`
+  (Usuario) => Usuario.id
 );
 
 export const obtenerUsuarioFechaLimitePago = createSelector(
