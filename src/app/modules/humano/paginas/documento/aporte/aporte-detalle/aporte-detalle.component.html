@@ -82,38 +82,33 @@
         </div>
       </div>
       <div
-      class="btn-group"
-      ngbDropdown
-      autoClose="outside"
-      #OpcionesDropdown="ngbDropdown"
-    >
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        id="dropdownBasic1"
-        ngbDropdownToggle
+        class="btn-group"
+        ngbDropdown
+        autoClose="outside"
+        #OpcionesDropdown="ngbDropdown"
       >
-        Utilidades
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button
-          ngbDropdownItem
-          (click)="generarPlanoOperador()"
-          [disabled]="
-            !aporte.estado_generado
-          "
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
         >
-
-        @if (desgenerando) {
-          <div class="spinner-border spinner-border-sm" role="status">
-            <span class="sr-only">Desgenerando...</span>
-          </div>
-          Desgenerando... } @else {
-            Plano operador
-          }
+          Utilidades
         </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            ngbDropdownItem
+            (click)="generarPlanoOperador()"
+            [disabled]="!aporte.estado_generado"
+          >
+            @if (desgenerando) {
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Desgenerando...</span>
+            </div>
+            Desgenerando... } @else { Plano operador }
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">
@@ -176,6 +171,12 @@
               Contratos
             </a>
             <ng-template ngbNavContent>
+              <div class="mb-4">
+                <app-base-filtro
+                  (emitirFiltros)="obtenerFiltros($event)"
+                  [nombreFiltroCustom]="'HumAporteContrato'"
+                ></app-base-filtro>
+              </div>
               <div class="d-flex justify-content-end mb-4">
                 <div class="btn-group" role="group">
                   <div
@@ -230,17 +231,17 @@
                   class="table table-bordered table-row-gray-500"
                 >
                   <thead>
-                    <tr>
-                      <th class="bg-gray-100" style="width: 50px">Id</th>
-                      <th class="bg-gray-100">
+                    <tr class="bg-gray-100">
+                      <th style="width: 50px">Id</th>
+                      <th>
                         <div placement="top" ngbTooltip="Código empleado">
                           Cod
                         </div>
                       </th>
-                      <th class="bg-gray-100">
+                      <th>
                         <div>Identificación</div>
                       </th>
-                      <th class="bg-gray-100">
+                      <th>
                         <div>Nombre</div>
                       </th>
                       <th
@@ -279,16 +280,76 @@
                           </div>
                         </div>
                       </th>
-                      <th class="bg-gray-100">
+                      <th
+                        (click)="orderPor('fecha_desde', 0)"
+                        [ngClass]="{ 'cursor-pointer user-select-none': true }"
+                        class="bg-gray-100"
+                      >
+                        <div class="d-flex justify-content-between">
+                          Fecha desde
+                          <div>
+                            <ng-container
+                              *ngIf="
+                                this.ordenadoTabla === 'fecha_desde' ||
+                                  this.ordenadoTabla === '-fecha_desde';
+                                else iconopordefecto
+                              "
+                            >
+                              <i
+                                class="ki-outline ki-arrow-up fs-2"
+                                *ngIf="this.ordenadoTabla === 'fecha_desde'"
+                              ></i>
+                              <i
+                                class="ki-outline ki-arrow-down fs-2"
+                                *ngIf="this.ordenadoTabla === '-fecha_desde'"
+                              ></i>
+                            </ng-container>
+                            <ng-template #iconopordefecto>
+                              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </th>
+                      <th
+                        (click)="orderPor('fecha_hasta', 0)"
+                        [ngClass]="{ 'cursor-pointer user-select-none': true }"
+                        class="bg-gray-100"
+                      >
+                        <div class="d-flex justify-content-between">
+                          Fecha hasta
+                          <div>
+                            <ng-container
+                              *ngIf="
+                                this.ordenadoTabla === 'fecha_hasta' ||
+                                  this.ordenadoTabla === '-fecha_hasta';
+                                else iconopordefecto
+                              "
+                            >
+                              <i
+                                class="ki-outline ki-arrow-up fs-2"
+                                *ngIf="this.ordenadoTabla === 'fecha_hasta'"
+                              ></i>
+                              <i
+                                class="ki-outline ki-arrow-down fs-2"
+                                *ngIf="this.ordenadoTabla === '-fecha_hasta'"
+                              ></i>
+                            </ng-container>
+                            <ng-template #iconopordefecto>
+                              <i class="ki-outline ki-arrow-up-down fs-2"></i>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </th>
+                      <th>
                         <div placement="top" ngbTooltip="Base cotización">
                           IBC
                         </div>
                       </th>
 
-                      <th class="bg-gray-100">
+                      <th>
                         <div>Días</div>
                       </th>
-                      <th class="bg-gray-100">
+                      <th>
                         <div>Salario</div>
                       </th>
                       <th class="text-center bg-gray-100">
@@ -340,6 +401,22 @@
                         <td>
                           {{ aporteDetalle.cotrato_id }}
                         </td>
+                        <td
+                          [ngClass]="{
+                            'marcar-ingreso': aporteDetalle.ingreso,
+                            'marcar-error': aporteDetalle.error_terminacion
+                          }"
+                        >
+                          {{ aporteDetalle.fecha_desde }}
+                        </td>
+                        <td
+                          [ngClass]="{
+                            'marcar-ingreso': aporteDetalle.retiro,
+                            'marcar-error': aporteDetalle.error_terminacion
+                          }"
+                        >
+                          {{ aporteDetalle.fecha_hasta }}
+                        </td>
                         <td class="text-end">
                           {{ aporteDetalle.base_cotizacion | number : "1.2-2" }}
                         </td>
@@ -380,6 +457,24 @@
                   </tbody>
                 </table>
               </div>
+            </ng-template>
+          </li>
+          <li
+            [ngbNavItem]="2"
+            [destroyOnHide]="true"
+            class="nav-item"
+            (click)="consultarDatosDetalle()"
+          >
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 2 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+            >
+              Detalle
+            </a>
+            <ng-template ngbNavContent>
+              <app-table-detalles></app-table-detalles>
             </ng-template>
           </li>
         </ul>
