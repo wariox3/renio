@@ -54,7 +54,7 @@ export const obtenerUsuarioImagen = createSelector(
 
 export const obtenerUsuarioidioma = createSelector(
   Usuario,
-  (Usuario) => Usuario.idioma
+  (Usuario) => `${Usuario.idioma}`
 );
 
 export const obtenerUsuarioId = createSelector(
