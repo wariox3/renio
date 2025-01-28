@@ -8,7 +8,7 @@ export const obtenerUsuarioTelefono = createSelector(Usuario, (Usuario) => {
   return `${telefono}`;
 });
 
-export const obtenerUsuarioNombre = createSelector(
+export const obtenerUsuarioUserName = createSelector(
   Usuario,
   (Usuario) => `${Usuario.username}`
 );

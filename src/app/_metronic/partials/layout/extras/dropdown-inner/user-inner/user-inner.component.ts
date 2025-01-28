@@ -6,7 +6,7 @@ import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioImagen,
   obtenerUsuarioNombreCorto,
-  obtenerUsuarioNombre,
+  obtenerUsuarioUserName,
   obtenerUsuarioidioma,
   obtenerUsuarioSocio,
 } from '@redux/selectors/usuario.selectors';
@@ -49,7 +49,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   langs = languages;
   usuarioNombreCorto$ = this.store.select(obtenerUsuarioNombreCorto);
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
+  usuarioCorreo = this.store.select(obtenerUsuarioUserName);
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   obtenerEsSocio$ = this.store.select(obtenerUsuarioSocio);
   private unsubscribe: Subscription[] = [];
