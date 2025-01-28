@@ -392,6 +392,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           documento_tipo_operacion: documento.documento_tipo_operacion,
           documento_tipo: documento.documento_tipo,
           documento_tipo_nombre: documento.documento_tipo_nombre,
+          afectado: documento.afectado,
           naturaleza: 'C',
         }));
         this.changeDetectorRef.detectChanges();
