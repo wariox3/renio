@@ -56,13 +56,15 @@ export const usuarioReducer = createReducer(
   }),
   on(
     usuarioActionActualizarInformacionUsuario,
-    (state, { nombre_corto, nombre, apellido, telefono }) => {
+    (state, { nombre_corto, nombre, apellido, telefono, cargo, numero_identificacion }) => {
       return {
         ...state,
         nombre_corto,
         nombre,
         apellido,
         telefono,
+        cargo,
+        numero_identificacion
       };
     }
   ),
