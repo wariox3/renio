@@ -15,6 +15,7 @@ export interface RegistroAutocompletarGenDocumento {
   documento_tipo: number;
   documento_tipo_nombre: string;
   naturaleza?: 'C';
+  afectado: number;
 }
 
 export interface RegistroAutocompletarGenDocumentoReferencia {

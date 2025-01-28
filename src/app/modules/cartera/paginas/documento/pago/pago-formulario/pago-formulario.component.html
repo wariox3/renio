@@ -506,6 +506,7 @@
             <th [translate]="'LISTAS.DOCUMENTO.SUBTOTAL'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.IMPUESTO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.AFECTADO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.PENDIENTE'"></th>
             <th class="text-center">
               <label for="agregarDocumentoSeleccionarTodos">
@@ -561,6 +562,9 @@
             </td>
             <td class="text-end">
               {{ item["total"] | number }}
+            </td>
+            <td class="text-end">
+              {{ item["afectado"] | number }}
             </td>
             <td class="text-end">
               {{ item["pendiente"] | number }}
