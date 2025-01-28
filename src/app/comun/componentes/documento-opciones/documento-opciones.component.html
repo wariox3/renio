@@ -74,8 +74,8 @@
       <thead>
         <tr class="bg-gray-100">
           <th class="bg-gray-100" style="width: 50px">Id</th>
+          <th class="bg-gray-100">Fecha Y Hora</th>
           <th class="bg-gray-100">Nombre</th>
-          <th class="bg-gray-100">Fecha</th>
           <th class="bg-gray-100">Tamaño</th>
           <th class="bg-gray-100" style="width: 50px"></th>
           <th class="bg-gray-100" style="width: 50px"></th>
@@ -85,8 +85,8 @@
         @for (archivo of listaArchivos; track $index) {
         <tr>
           <td class="w-40px">{{ archivo.id }}</td>
+          <td>{{ archivo.fecha | date : "YYYY-MM-d h:mm a" }}</td>
           <td>{{ archivo.nombre }}</td>
-          <td>{{ archivo.fecha | date : "YYYY-MM-dd" }}</td>
           <td>{{ archivo.tamano | tamanoArchivo }}</td>
           <td>
             <button
