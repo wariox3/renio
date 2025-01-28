@@ -13,9 +13,29 @@ export const obtenerUsuarioUserName = createSelector(
   (Usuario) => `${Usuario.username}`
 );
 
+export const obtenerUsuarioNombre = createSelector(
+  Usuario,
+  (Usuario) => `${Usuario.nombre}`
+);
+
 export const obtenerUsuarioNombreCorto = createSelector(
   Usuario,
   (Usuario) => `${Usuario.nombre_corto}`
+);
+
+export const obtenerUsuarioApellido = createSelector(
+  Usuario,
+  (Usuario) => `${Usuario.apellido}`
+);
+
+export const obtenerUsuarioNumeroIdentificacion = createSelector(
+  Usuario,
+  (Usuario) => `${Usuario.numero_identificacion}`
+);
+
+export const obtenerUsuarioCargo = createSelector(
+  Usuario,
+  (Usuario) => `${Usuario.cargo}`
 );
 
 export const obtenerUsuarioNombreCompleto = createSelector(

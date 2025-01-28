@@ -6,4 +6,6 @@ export interface enviarDatosUsuario {
   telefono: string;
   idioma: string;
   imagen: string | null;
+  cargo:  string,
+  numero_identificacion: string,
 }

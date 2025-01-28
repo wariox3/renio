@@ -54,6 +54,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
     telefono: '',
     indicativoPais: '',
     idioma: '',
+    numero_identificacion: '',
+    cargo: '',
   };
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   arrPaises = arrPaises;
@@ -119,9 +121,12 @@ export class InformacionUsuarioComponent extends General implements OnInit {
         this.usuarioInformacion.idioma,
         Validators.compose([Validators.minLength(2)]),
       ],
+      cargo: [this.usuarioInformacion.cargo, Validators.compose([Validators.maxLength(255)])],
+      numero_identificacion: [this.usuarioInformacion.numero_identificacion, Validators.compose([Validators.maxLength(20)])],
       imagen: null,
     });
   }
+
   get formFields() {
     return this.formularioResumen.controls;
   }
@@ -151,6 +156,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
             nombreCorto: this.formularioResumen.value.nombreCorto,
             idioma: this.formularioResumen.value.idioma,
             imagen: this.formularioResumen.value.imagen,
+            cargo:  this.formularioResumen.value.cargo,
+            numero_identificacion:  this.formularioResumen.value.numero_identificacion,
           })
           .subscribe({
             next: (respuesta) => {
@@ -207,6 +214,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
           nombre_corto: respuesta.nombre_corto,
           indicativoPais: indicativo,
           idioma: respuesta.idioma,
+          cargo: respuesta.cargo,
+          numero_identificacion: respuesta.numero_identificacion
         };
         this.changeDetectorRef.detectChanges();
         this.initForm();

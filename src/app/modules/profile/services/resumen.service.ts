@@ -27,6 +27,8 @@ export class ResumenService {
         nombre_corto: data.nombreCorto,
         telefono: data.telefono,
         idioma: data.idioma,
+        cargo:  data.cargo,
+        numero_identificacion:  data.numero_identificacion,
       }
     );
   }
