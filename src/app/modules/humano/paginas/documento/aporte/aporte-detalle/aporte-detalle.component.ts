@@ -356,6 +356,10 @@ export default class AporteDetalleComponent extends General implements OnInit, O
       this.inicializarParametrosConsulta();
     }
     this.consultarDatos();
+    if (this.tableDetallesComponent) {
+      this.tableDetallesComponent.inicializarParametrosConsulta()
+      this.tableDetallesComponent.consultarDatos();
+    }
   }
 
   generarPlanoOperador() {
