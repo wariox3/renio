@@ -413,6 +413,7 @@ export const locale = {
           DEPARTAMENTO: 'Departamento',
           AREA: 'Area',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
+          CARGO: 'Cargo'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
