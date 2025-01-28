@@ -168,6 +168,8 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                   apellido: this.formularioResumen.value.apellido,
                   telefono: telefono,
                   idioma: this.formularioResumen.value.idioma,
+                  cargo:  this.formularioResumen.value.cargo,
+                  numero_identificacion:  this.formularioResumen.value.numero_identificacion,
                 })
               );
               this.store.dispatch(
