@@ -23,6 +23,7 @@ export type Modelo =
   | 'HumPeriodo'
   | 'HumConcepto'
   | 'HumAdicional'
+  | 'HumAporteDetalle'
   | 'HumProgramacion'
   | 'HumCredito'
   | 'HumNovedad'
