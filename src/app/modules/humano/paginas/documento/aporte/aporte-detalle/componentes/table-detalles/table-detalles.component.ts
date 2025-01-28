@@ -80,7 +80,7 @@ export class TableDetallesComponent extends General {
         },
       ],
     });
-    let filtroDetalleContratos = localStorage.getItem(`documento_HumAporteDetalle`);
+    let filtroDetalleContratos = localStorage.getItem(`documento_aporte`);
     if (filtroDetalleContratos !== null) {
       let filtroPermanente = JSON.parse(filtroDetalleContratos);
       this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
@@ -121,7 +121,6 @@ export class TableDetallesComponent extends General {
   }
 
   descargarExcelDetalle() {
-
     const modelo = 'HumAporteDetalle';
     const params = {
       modelo,
