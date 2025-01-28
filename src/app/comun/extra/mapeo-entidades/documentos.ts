@@ -232,6 +232,15 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'contacto__numero_identificacion',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
       nombre: 'CONTACTO_NOMBRE_CORTO',
       campoTipo: 'Fk',
       visibleTabla: true,
