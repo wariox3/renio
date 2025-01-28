@@ -3,7 +3,7 @@ import { obtenerContenedorNombre } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
-  obtenerUsuarioNombre,
+  obtenerUsuarioUserName,
   obtenerUsuarioNombreCompleto,
   obtenerUsuarioNombreCorto,
   obtenerUsuarioTelefono,
@@ -39,7 +39,7 @@ import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/car
 export class ProfileComponent extends General {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   contenedorNombre = this.store.select(obtenerContenedorNombre);
-  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
+  usuarioCorreo = this.store.select(obtenerUsuarioUserName);
   usuarioNombreMostrar = this.store.select(obtenerUsuarioNombreCorto);
   usuarioNombreCompleto = this.store.select(obtenerUsuarioNombreCompleto);
   usuarioTelefono = this.store.select(obtenerUsuarioTelefono);
