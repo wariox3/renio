@@ -24,7 +24,7 @@ import {
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
-  obtenerUsuarioNombre,
+  obtenerUsuarioUserName,
 } from '@redux/selectors/usuario.selectors';
 import { arrPaises } from '../overview/listaPaises';
 import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
@@ -60,7 +60,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   formularioResumen: FormGroup;
   srcResult: string = '';
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
+  usuarioCorreo = this.store.select(obtenerUsuarioUserName);
   codigoUsuario = '';
   btnGuardar!: ElementRef<HTMLButtonElement>;
   modalRef: any;
