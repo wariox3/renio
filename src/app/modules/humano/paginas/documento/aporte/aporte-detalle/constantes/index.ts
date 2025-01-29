@@ -1,4 +1,4 @@
-import { MapaDatos } from "@comun/type/mapeo-data.type";
+import { MapaDatos } from '@comun/type/mapeo-data.type';
 
 export const FiltrosDetalleAporteDetalle: MapaDatos[] = [
   {
@@ -8,8 +8,7 @@ export const FiltrosDetalleAporteDetalle: MapaDatos[] = [
     visibleFiltro: true,
     ordenable: true,
   },
-]
-
+];
 
 export const FiltrosDetalleAporteContratos: MapaDatos[] = [
   {
@@ -19,4 +18,13 @@ export const FiltrosDetalleAporteContratos: MapaDatos[] = [
     visibleFiltro: true,
     ordenable: true,
   },
-]
+  {
+    nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+    nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+    nombreFiltroRelacion: 'CONTRATO__CONTACTO__NUMERO_IDENTIFICACION',
+    campoTipo: 'CharField',
+    visibleTabla: true,
+    visibleFiltro: true,
+    ordenable: false,
+  },
+];
