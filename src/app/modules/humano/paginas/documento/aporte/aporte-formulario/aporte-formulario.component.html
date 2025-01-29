@@ -1,7 +1,7 @@
 <form [formGroup]="formularioAporte" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
-  [estadoAprobado]="false"
-></app-comun-encabezado-formulario-nuevo>
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -31,7 +31,9 @@
             <option
               *ngFor="let sucursal of arrSucursales"
               [value]="sucursal.id"
-              [selected]="sucursal.id === formularioAporte.controls.sucursal.value"
+              [selected]="
+                sucursal.id === formularioAporte.controls.sucursal.value
+              "
             >
               {{ sucursal.nombre }}
             </option>
@@ -42,6 +44,41 @@
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioAporte.controls['sucursal']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.FORMAPRESENTACION"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="presentacion"
+            [ngClass]="{
+              'is-invalid':
+                formularioAporte.controls['presentacion'].touched &&
+                formularioAporte.controls['presentacion'].invalid,
+              'is-valid':
+                formularioAporte.controls['presentacion'].touched &&
+                formularioAporte.controls['presentacion'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            @for (presentacion of presentacionLista; track $index) {
+            <option [value]="presentacion.value">
+              {{ presentacion.nombre }}
+            </option>
+            }
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAporte.controls['presentacion']
             }"
           ></ng-container>
         </div>
@@ -94,14 +131,13 @@
                 formularioAporte.controls['mes'].touched &&
                 formularioAporte.controls['mes'].valid
             }"
-
           >
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
             <option
               *ngFor="let mes of fechasService.meses.es; let i = index"
-              [value]="(i+1)"
+              [value]="i + 1"
             >
               {{ mes }}
             </option>
@@ -115,7 +151,6 @@
             }"
           ></ng-container>
         </div>
-
       </div>
     </section>
   </app-card>

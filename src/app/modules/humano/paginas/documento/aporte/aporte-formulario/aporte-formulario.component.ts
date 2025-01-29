@@ -17,7 +17,7 @@ import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-aporte-formulario',
@@ -30,8 +30,8 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
     TranslateModule,
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   templateUrl: './aporte-formulario.component.html',
   styleUrl: './aporte-formulario.component.scss',
 })
@@ -39,6 +39,16 @@ export default class AporteFormularioComponent
   extends General
   implements OnInit
 {
+  public presentacionLista = [
+    {
+      nombre: 'Sucursal',
+      value: 'S',
+    },
+    {
+      nombre: 'Única',
+      value: 'U',
+    },
+  ];
   formularioAporte: FormGroup;
   arrSucursales: any = [];
 
@@ -70,6 +80,7 @@ export default class AporteFormularioComponent
       sucursal: [1, Validators.compose([Validators.required])],
       anio: [anioActual, Validators.compose([Validators.required])],
       mes: [mesActual, Validators.compose([Validators.required])],
+      presentacion: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -121,6 +132,7 @@ export default class AporteFormularioComponent
           sucursal: respuesta.sucursal_id,
           anio: respuesta.anio,
           mes: respuesta.mes,
+          presentacion: respuesta.presentacion
         });
         this.changeDetectorRef.detectChanges();
       });
