@@ -122,17 +122,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       });
   }
 
-  eliminarArchivo(archivoId: number) {
-    this._archivosService.eliminarArchivoGeneral({ id: archivoId }).subscribe({
-      next: () => {
-        this._consultarArchivos();
-        this.alertaService.mensajaExitoso(
-          'El archivo se eliminó correctamente!'
-        );
-      },
-    });
-  }
-
   cargarArchivo(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -182,6 +171,21 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
+  confirmarEliminarArchivo(id: number) {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de eliminar?',
+        texto:
+          'Esta acción no se puede revertir.',
+        textoBotonCofirmacion: 'Si, eliminar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._eliminarArchivo(id);
+        }
+      });
+  }
+
   confirmarDesaprobarDocumento() {
     this.alertaService
       .confirmar({
@@ -194,6 +198,17 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this._desaprobarDocumento(this.documentoId);
         }
       });
+  }
+
+  private _eliminarArchivo(archivoId: number) {
+    this._archivosService.eliminarArchivoGeneral({ id: archivoId }).subscribe({
+      next: () => {
+        this._consultarArchivos();
+        this.alertaService.mensajaExitoso(
+          'El archivo se eliminó correctamente!'
+        );
+      },
+    });
   }
 
   private _desaprobarDocumento(documentoId: number) {

@@ -121,10 +121,30 @@ export class InformacionUsuarioComponent extends General implements OnInit {
         this.usuarioInformacion.idioma,
         Validators.compose([Validators.minLength(2)]),
       ],
-      cargo: [this.usuarioInformacion.cargo, Validators.compose([Validators.maxLength(255)])],
-      numero_identificacion: [this.usuarioInformacion.numero_identificacion, Validators.compose([Validators.maxLength(20)])],
+      cargo: [
+        this.usuarioInformacion.cargo,
+        Validators.compose([Validators.maxLength(255)]),
+      ],
+      numero_identificacion: [
+        this.usuarioInformacion.numero_identificacion,
+        Validators.compose([Validators.maxLength(20)]),
+      ],
       imagen: null,
     });
+
+    this.formularioResumen.get('cargo')?.valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.formularioResumen.get('cargo')?.setValue(null);
+      }
+    });
+
+    this.formularioResumen
+      .get('numero_identificacion')
+      ?.valueChanges.subscribe((value) => {
+        if (value === '') {
+          this.formularioResumen.get('numero_identificacion')?.setValue(null);
+        }
+      });
   }
 
   get formFields() {
@@ -156,8 +176,9 @@ export class InformacionUsuarioComponent extends General implements OnInit {
             nombreCorto: this.formularioResumen.value.nombreCorto,
             idioma: this.formularioResumen.value.idioma,
             imagen: this.formularioResumen.value.imagen,
-            cargo:  this.formularioResumen.value.cargo,
-            numero_identificacion:  this.formularioResumen.value.numero_identificacion,
+            cargo: this.formularioResumen.value.cargo,
+            numero_identificacion:
+              this.formularioResumen.value.numero_identificacion,
           })
           .subscribe({
             next: (respuesta) => {
@@ -168,8 +189,9 @@ export class InformacionUsuarioComponent extends General implements OnInit {
                   apellido: this.formularioResumen.value.apellido,
                   telefono: telefono,
                   idioma: this.formularioResumen.value.idioma,
-                  cargo:  this.formularioResumen.value.cargo,
-                  numero_identificacion:  this.formularioResumen.value.numero_identificacion,
+                  cargo: this.formularioResumen.value.cargo,
+                  numero_identificacion:
+                    this.formularioResumen.value.numero_identificacion,
                 })
               );
               this.store.dispatch(
@@ -217,7 +239,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
           indicativoPais: indicativo,
           idioma: respuesta.idioma,
           cargo: respuesta.cargo,
-          numero_identificacion: respuesta.numero_identificacion
+          numero_identificacion: respuesta.numero_identificacion,
         };
         this.changeDetectorRef.detectChanges();
         this.initForm();
