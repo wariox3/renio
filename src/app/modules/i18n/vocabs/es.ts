@@ -413,6 +413,7 @@ export const locale = {
           DEPARTAMENTO: 'Departamento',
           AREA: 'Area',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
+          CARGO: 'Cargo'
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -432,7 +433,7 @@ export const locale = {
           },
           CONTACTO: {
             PERSONATIPO: 'Persona tipo',
-            REGIMEN: 'Régimen',
+            REGIMEN: 'Régimen fiscal',
             CODIGOCIUU: 'Código CIUU',
             PLAZOPAGO: 'Plazo de pago',
             LISTAPRECIO: 'Lista de precio',

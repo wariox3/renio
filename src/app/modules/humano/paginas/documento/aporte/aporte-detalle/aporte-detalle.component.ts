@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import {
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -18,13 +14,17 @@ import {
   NgbDropdown,
   NgbDropdownModule,
   NgbNavModule,
-  NgbTooltipModule
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { TableDetallesComponent } from './componentes/table-detalles/table-detalles.component';
+import { BaseFiltroComponent } from '../../../../../../comun/componentes/base-filtro/base-filtro.component';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FiltrosDetalleAporteContratos } from './constantes';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -43,11 +43,13 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     NgSelectModule,
     TranslateModule,
     TituloAccionComponent,
+    TableDetallesComponent,
+    BaseFiltroComponent,
   ],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })
-export default class AporteDetalleComponent extends General implements OnInit {
+export default class AporteDetalleComponent extends General implements OnInit, OnDestroy {
   active: Number;
   aporte: any = {
     id: null,
@@ -73,12 +75,15 @@ export default class AporteDetalleComponent extends General implements OnInit {
 
   // Nos permite manipular el dropdown desde el codigo
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
+  @ViewChild(TableDetallesComponent)
+  tableDetallesComponent: TableDetallesComponent;
+
   private readonly _generalService = inject(GeneralService);
 
   constructor(
     private aporteService: AporteService,
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService,
+    private descargarArchivosService: DescargarArchivosService
   ) {
     super();
   }
@@ -86,6 +91,10 @@ export default class AporteDetalleComponent extends General implements OnInit {
   ngOnInit(): void {
     this.inicializarParametrosConsulta();
     this.consultarDatos();
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('documento_aporte');
   }
 
   inicializarParametrosConsulta() {
@@ -112,6 +121,10 @@ export default class AporteDetalleComponent extends General implements OnInit {
         this.aporte = respuesta;
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  consultarDatosDetalle() {
+    this.tableDetallesComponent.consultarDatos();
   }
 
   imprimir() {
@@ -213,7 +226,9 @@ export default class AporteDetalleComponent extends General implements OnInit {
                 selected: false,
               })
             );
-
+            this.store.dispatch(
+              ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteContratos })
+            );
             this.changeDetectorRef.detectChanges();
           });
       });
@@ -225,8 +240,8 @@ export default class AporteDetalleComponent extends General implements OnInit {
       modelo,
       serializador: 'Excel',
       excel: true,
-      filtros: [{ propiedad: 'aporte_id', valor1: this.aporte.id }],
       limite: 10000,
+      ...this.arrParametrosConsulta.filtros
     };
 
     this.descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -328,5 +343,28 @@ export default class AporteDetalleComponent extends General implements OnInit {
       // Si el registro no está en el array, lo agrega
       this.registrosAEliminar.push(id);
     }
+  }
+
+  obtenerFiltros(data: any[]) {
+    this.inicializarParametrosConsulta();
+    if (data.length > 0) {
+      this.arrParametrosConsulta.filtros = [
+        ...this.arrParametrosConsulta.filtros,
+        ...data,
+      ];
+    } else {
+      this.inicializarParametrosConsulta();
+    }
+    this.consultarDatos();
+    if (this.tableDetallesComponent) {
+      this.tableDetallesComponent.inicializarParametrosConsulta()
+      this.tableDetallesComponent.consultarDatos();
+    }
+  }
+
+  generarPlanoOperador() {
+    this.aporteService.planoOperador({
+      id: this.detalle,
+    });
   }
 }

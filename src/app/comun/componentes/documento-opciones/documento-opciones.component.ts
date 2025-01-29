@@ -9,19 +9,24 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
+import { ArchivosService } from '@comun/services/archivos/archivos.service';
+import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/contabilidad/con-movimiento.interface';
+import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TamanoArchivoPipe } from '@pipe/tamano-archivo.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BehaviorSubject, finalize } from 'rxjs';
 import { TablaComponent } from '../tabla/tabla.component';
 
 @Component({
   selector: 'app-comun-documento-opciones',
   standalone: true,
-  imports: [CommonModule, NgbDropdownModule, TablaComponent],
+  imports: [CommonModule, NgbDropdownModule, TablaComponent, TamanoArchivoPipe],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
 })
@@ -30,9 +35,15 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private readonly _generalService = inject(GeneralService);
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _documentoService = inject(DocumentoService);
+  private readonly _archivosService = inject(ArchivosService);
+  private readonly _procesadorArchivosService = inject(
+    ProcesadorArchivosService
+  );
 
   public arrDocumentos: any[];
   public cantidadRegistros: number;
+  public listaArchivos: ArchivoRespuesta[] = [];
+  public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
 
   public documentoId: number;
 
@@ -58,15 +69,103 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  abirModal(content: any) {
-    this._consultarInformacionTabla();
-
-    this._cargarDatosMapeo(this.opciones.modelo);
-
+  private _abirModal(content: any) {
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
+  }
+
+  private _consultarArchivos() {
+    this._generalService
+      .consultarDatosAutoCompletar<ArchivoRespuesta>({
+        modelo: 'GenArchivo',
+        filtros: [
+          {
+            propiedad: 'documento_id',
+            valor1: this.documentoId,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaArchivos = response.registros;
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
+
+  private _submitArchivo(
+    base64: string,
+    nombreArchivo: string,
+    documentoId: number
+  ) {
+    this.subiendoArchivo$.next(true);
+    this._archivosService
+      .cargarArchivoGeneral({
+        archivoBase64: base64,
+        nombreArchivo,
+        documentoId,
+      })
+      .pipe(
+        finalize(() => {
+          this.subiendoArchivo$.next(false);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this._consultarArchivos();
+          this.alertaService.mensajaExitoso(
+            'El archivo se ha cargado exitosamente!'
+          );
+        },
+      });
+  }
+
+  eliminarArchivo(archivoId: number) {
+    this._archivosService.eliminarArchivoGeneral({ id: archivoId }).subscribe({
+      next: () => {
+        this._consultarArchivos();
+        this.alertaService.mensajaExitoso(
+          'El archivo se eliminó correctamente!'
+        );
+      },
+    });
+  }
+
+  cargarArchivo(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const name = file.name;
+
+      // Usamos el servicio para convertir el archivo a Base64
+      this._procesadorArchivosService
+        .convertToBase64(file)
+        .then((base64) => {
+          this._submitArchivo(base64, name, this.documentoId);
+        })
+        .catch((error) => {
+          console.error('Error al procesar el archivo:', error);
+        });
+    }
+  }
+
+  descargarArchivo(archivo: ArchivoRespuesta) {
+    this._archivosService.descargarArchivoGeneral({
+      id: archivo.id,
+    });
+  }
+
+  abrirModalContabilidad(content: any) {
+    this._consultarInformacionTabla();
+    this._cargarDatosMapeo(this.opciones.modelo);
+    this._abirModal(content);
+  }
+
+  abrirModalArchivos(content: any) {
+    this._consultarArchivos();
+    this._abirModal(content);
   }
 
   descargarExcel() {

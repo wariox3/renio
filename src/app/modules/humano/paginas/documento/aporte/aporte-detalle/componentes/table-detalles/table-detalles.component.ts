@@ -1,0 +1,136 @@
+import { Component, inject, signal, ViewChild } from '@angular/core';
+import { General } from '@comun/clases/general';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FiltrosDetalleAporteDetalle } from '../../constantes';
+import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { RespuestaAporteDetalle } from '@modulos/humano/interfaces/respuesta-aporte-detalle';
+import { GeneralService } from '@comun/services/general.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { AporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
+
+@Component({
+  selector: 'app-table-detalles',
+  standalone: true,
+  imports: [
+    BaseFiltroComponent,
+    PaginadorComponent,
+    TranslateModule,
+    NgbDropdownModule,
+  ],
+  templateUrl: './table-detalles.component.html',
+})
+export class TableDetallesComponent extends General {
+  cantidadRegistros = signal(0);
+  ordenadoTabla = signal('');
+  cargandoContratos = signal(false);
+  arrParametrosConsulta = signal<ParametrosFiltros>({
+    limite: 50,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 0,
+    modelo: 'HumAporteDetalle',
+    filtros: [],
+  });
+  arrAporteDetalle = signal<RespuestaAporteDetalle[]>([]);
+
+  private _generalService = inject(GeneralService);
+  private _descargarArchivosService = inject(DescargarArchivosService);
+
+  @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
+
+  constructor() {
+    super();
+    this.inicializarParametrosConsulta();
+  }
+
+  consultarDatos() {
+    this._generalService
+      .consultarDatosLista<AporteDetalle>(this.arrParametrosConsulta())
+      .subscribe((respuesta) => {
+        this.cantidadRegistros.set(respuesta.cantidad_registros)
+        this.arrAporteDetalle.set(
+          respuesta.registros.map((registro: any) => ({
+            ...registro,
+            selected: false,
+          }))
+        );
+        this.changeDetectorRef.detectChanges();
+      });
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteDetalle })
+    );
+  }
+
+  inicializarParametrosConsulta() {
+    this.arrParametrosConsulta.set({
+      limite: 50,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 0,
+      modelo: 'HumAporteDetalle',
+      filtros: [
+        {
+          propiedad: 'aporte_contrato__aporte_id',
+          operador: 'exact',
+          valor1: this.detalle,
+        },
+      ],
+    });
+    let filtroDetalleContratos = localStorage.getItem(`documento_aporte`);
+    if (filtroDetalleContratos !== null) {
+      let filtroPermanente = JSON.parse(filtroDetalleContratos);
+      this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
+        ...arrParametrosConsulta,
+        filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
+      }));
+    }
+  }
+
+  obtenerFiltros(data: any[]) {
+    this.inicializarParametrosConsulta();
+    if (data.length > 0) {
+      this.arrParametrosConsulta.update((parametros) => ({
+        ...parametros,
+        filtros: [...parametros.filtros, ...data],
+      }));
+    } else {
+      this.inicializarParametrosConsulta();
+    }
+    this.consultarDatos();
+  }
+
+  cambiarDesplazamiento(desplazamiento: number) {
+    this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
+      ...arrParametrosConsulta,
+      desplazar: desplazamiento,
+    }));
+    this.consultarDatos();
+  }
+
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
+      ...arrParametrosConsulta,
+      limite: data.desplazamiento,
+      desplazar: data.limite,
+    }));
+    this.consultarDatos();
+  }
+
+  descargarExcelDetalle() {
+    const modelo = 'HumAporteDetalle';
+    const params = {
+      modelo,
+      serializador: 'Excel',
+      excel: true,
+      limite: 10000,
+      ...this.arrParametrosConsulta().filtros
+    };
+
+    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this.dropdown.close();
+  }
+}

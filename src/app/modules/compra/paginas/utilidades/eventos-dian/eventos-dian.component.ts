@@ -47,6 +47,7 @@ export class EventosDianComponent extends General implements OnInit {
     { propiedad: 'documento_tipo', valor1: '5' },
     { propiedad: 'estado_aprobado', valor1: true },
     { propiedad: 'estado_electronico_evento', valor1: false },
+    { propiedad: 'estado_electronico_descartado', valor1: false },
   ];
   arrParametrosConsultaLista: ParametrosFiltros = {
     filtros: this.filtroPermanenteLista,
@@ -91,7 +92,7 @@ export class EventosDianComponent extends General implements OnInit {
     zip(
       this._generalService.consultarDatosLista(this.arrParametrosConsultaLista)
     ).subscribe((respuesta: any) => {
-      this.cantidad_registros = respuesta[0].cantidad_registros
+      this.cantidad_registros = respuesta[0].cantidad_registros;
       this.arrDocumentosEmitir = respuesta[0].registros.map(
         (documento: any) => ({
           ...documento,
@@ -278,7 +279,22 @@ export class EventosDianComponent extends General implements OnInit {
     }
   }
 
-  descartar(id: number) {
+  confirmarDescartar(id: number) {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de descartar?',
+        texto:
+          'Esta acción no se puede revertir.',
+        textoBotonCofirmacion: 'Si, descartar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._descartar(id);
+        }
+      });
+  }
+
+  private _descartar(id: number) {
     this.eventosDianService.descartar(id).subscribe(() => {
       this.consultarLista();
     });

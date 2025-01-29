@@ -13,6 +13,15 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
+      <app-comun-documento-opciones
+        [opciones]="{
+          modelo: 'ConMovimiento'
+        }"
+        (itemDesaprobadoEvent)="consultarDetalle()"
+        [opcionesDesaprobarBoton]="{
+          deshabilitado: !pago.estado_aprobado || pago.estado_anulado
+        }"
+      ></app-comun-documento-opciones>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">
@@ -147,7 +156,7 @@
           <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
             <a
               class="nav-link"
-              [ngClass]="{'text-primary': active === 1}"
+              [ngClass]="{ 'text-primary': active === 1 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -201,9 +210,9 @@
                         translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEVENGADO"
                       ></th>
                       <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEDUCCION"
-                    ></th>
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.CAMPOS.HUMANO.PAGODETALLE.DEDUCCION"
+                      ></th>
                       <th class="bg-gray-100">
                         <div
                           placement="top"

@@ -130,7 +130,6 @@ export default class AsientoFormularioComponent
       soporte: ['', Validators.compose([Validators.required])],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
-      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([

@@ -198,6 +198,10 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       )
       .subscribe();
   }
+  
+  navegarNuevo() {
+    this.navegarDocumentoNuevo();
+  }
 
   navegarEditar(id: number) {
     this.activatedRoute.queryParams.subscribe((parametro) => {

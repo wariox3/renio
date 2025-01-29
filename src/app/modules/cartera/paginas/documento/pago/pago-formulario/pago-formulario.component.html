@@ -238,12 +238,6 @@
                       type="button"
                       translate="FORMULARIOS.BOTONES.COMUNES.ADICIONAR"
                     ></button>
-                    <!-- <button
-                      (click)="eliminarDocumento()"
-                      class="btn btn-sm btn-danger"
-                      type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-                    ></button> -->
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -255,35 +249,15 @@
                       <tr class="bg-gray-100">
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"
+                        ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
-                        <th class="w-100px text-center">
-                          <!-- <label [for]="documentoDetalleSeleccionarTodos">
-                            <i
-                              class="cursor-pointer"
-                              [ngClass]="
-                                checkboxDocumentoDetalleSeleccionarTodos.checked
-                                  ? 'fa-solid fa-square-check text-danger fs-1'
-                                  : 'fa-regular fa-square text-gray-500 fs-1'
-                              "
-                            >
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                            </i>
-                            <input
-                              class="d-none"
-                              type="checkbox"
-                              #checkboxDocumentoDetalleSeleccionarTodos
-                              [id]="documentoDetalleSeleccionarTodos"
-                              [checked]="documentoDetalleSeleccionarTodos"
-                              [value]="documentoDetalleSeleccionarTodos"
-                              (change)="detalleToggleSelectAll()"
-                            />
-                          </label> -->
-                        </th>
+                        <th class="w-100px text-center"></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -295,6 +269,12 @@
                           <td class="w-40px">{{ detalle.value.id }}</td>
                           <td>
                             {{ detalle.value.documento_afectado }}
+                          </td>
+                          <td>
+                            {{
+                              detalle.value
+                                .documento_afectado_documento_tipo_nombre
+                            }}
                           </td>
                           <td>
                             {{ detalle.value.numero }}
@@ -384,32 +364,6 @@
                               }"
                             ></ng-container>
                           </td>
-                          <!-- <td class="w-20px text-center">
-                            <label [for]="detalle.value.id">
-                              <i
-                                class="cursor-pointer"
-                                [ngClass]="
-                                  checked.checked
-                                    ? 'fa-solid fa-square-check text-danger fs-1'
-                                    : 'fa-regular fa-square text-gray-500 fs-1'
-                                "
-                              >
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                              </i>
-                              <input
-                                #checked
-                                class="d-none"
-                                type="checkbox"
-                                [id]="detalle.value.id"
-                                [value]="detalle.value.id"
-                                (change)="
-                                  agregarRegistrosEliminar(i, detalle.value.id)
-                                "
-                                [checked]="detalle.value.seleccionado"
-                              />
-                            </label>
-                          </td> -->
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
@@ -502,10 +456,29 @@
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
     ></app-base-filtro>
-    <div class="row justify-content-between my-3">
+    <div class="row">
       <div class="col d-flex align-items-center">
         <p class="text-gray-400 fw-bolder me-1">Recaudo</p>
         <p class="text-gray-700 fs-1">{{ totalSeleccionado | number }}</p>
+      </div>
+    </div>
+    <div class="row justify-content-between my-3">
+      <div class="col-12 col-md-6">
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="mostrarTodosLosClientes()"
+            (click)="toggleMostrarTodosLosClientes()"
+            [id]="'descuento_fondo_solidaridad'"
+          />
+          <label
+            class="form-check-label text-gray-700"
+            for="descuento_fondo_solidaridad"
+            translate="FORMULARIOS.CAMPOS.COMUNES.MOSTARTODOSLOSCONTACTOS"
+          >
+          </label>
+        </div>
       </div>
       <div class="col offset-md-4">
         <div class="float-end">
@@ -533,6 +506,7 @@
             <th [translate]="'LISTAS.DOCUMENTO.SUBTOTAL'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.IMPUESTO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+            <th [translate]="'LISTAS.DOCUMENTO.AFECTADO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.PENDIENTE'"></th>
             <th class="text-center">
               <label for="agregarDocumentoSeleccionarTodos">
@@ -588,6 +562,9 @@
             </td>
             <td class="text-end">
               {{ item["total"] | number }}
+            </td>
+            <td class="text-end">
+              {{ item["afectado"] | number }}
             </td>
             <td class="text-end">
               {{ item["pendiente"] | number }}

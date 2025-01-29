@@ -23,6 +23,8 @@ export const usuarioActionActualizarInformacionUsuario = createAction(
     apellido: string;
     telefono: string;
     idioma: string;
+    cargo: string;
+    numero_identificacion: string;
   }>()
 );
 
@@ -45,5 +47,3 @@ export const usuarioActionActualizarEstadoVerificado = createAction(
   '[Usuario] actualizar estado verificado',
   props<{ estado_verificado: boolean }>()
 );
-
-

@@ -747,39 +747,6 @@
         </div>
       </div>
       <div class="row mb-8">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.CODIGOCIUU"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="codigo_ciuu"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('codigo_ciuu', null)"
-            [ngClass]="{
-              'is-invalid':
-                formularioContacto.controls['codigo_ciuu'].touched &&
-                formularioContacto.controls['codigo_ciuu'].invalid,
-              'is-valid':
-                formularioContacto.controls['codigo_ciuu'].touched &&
-                formularioContacto.controls['codigo_ciuu'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioContacto.controls['codigo_ciuu']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-8">
         <div class="row mb-5 gap-3">
           <div class="form-check form-check-custom form-check-solid">
             <input

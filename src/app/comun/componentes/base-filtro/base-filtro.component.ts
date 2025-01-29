@@ -94,6 +94,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     defecto?: boolean;
   }[][] = [];
   @Input() modeloPersonalizado: string = '';
+  @Input() nombreFiltroCustom: string = '';
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
@@ -118,6 +119,11 @@ export class BaseFiltroComponent extends General implements OnInit {
       }
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
+
+      if(this.nombreFiltroCustom !== ''){
+        this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`
+      }
+
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
           localStorage.getItem(this.nombreFiltro)!

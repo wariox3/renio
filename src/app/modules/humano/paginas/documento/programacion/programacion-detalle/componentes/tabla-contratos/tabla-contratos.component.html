@@ -227,14 +227,16 @@
         </td>
         <td
           [ngClass]="{
-            'marcar-ingreso': programacionDetalle.ingreso
+            'marcar-ingreso': programacionDetalle.ingreso,
+            'marcar-error': programacionDetalle.error_terminacion
           }"
         >
           {{ programacionDetalle.fecha_desde }}
         </td>
         <td
           [ngClass]="{
-            'marcar-ingreso': programacionDetalle.retiro
+            'marcar-ingreso': programacionDetalle.retiro,
+            'marcar-error': programacionDetalle.error_terminacion
           }"
         >
           {{ programacionDetalle.fecha_hasta }}

@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
-  obtenerUsuarioNombre,
+  obtenerUsuarioUserName,
 } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 import { ContenedorService } from '../../../contenedor/servicios/contenedor.service';
@@ -27,7 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class OverviewComponent extends General implements OnInit {
   arrContenedores: Contenedor[] = [];
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
-  usuarioCorreo = this.store.select(obtenerUsuarioNombre);
+  usuarioCorreo = this.store.select(obtenerUsuarioUserName);
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';

@@ -477,6 +477,8 @@ export default class ContratoFormularioComponent
           entidad_cesantias: respuesta.entidad_cesantias_id,
         });
 
+        this._modificarFechasContratoIndefinido(respuesta.fecha_desde);
+
         this.changeDetectorRef.detectChanges();
       });
   }

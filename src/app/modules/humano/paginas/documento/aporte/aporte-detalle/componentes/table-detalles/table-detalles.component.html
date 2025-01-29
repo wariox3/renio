@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between my-4">
+  <app-comun-paginador
+    [cantidadRegistros]="cantidadRegistros()"
+    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+    (emitirPaginacion)="cambiarPaginacion($event)"
+  ></app-comun-paginador>
+  <div class="btn-group" role="group">
+    <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button (click)="descargarExcelDetalle()" ngbDropdownItem>
+          {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr class="bg-gray-100" >
+        <th style="width: 50px">Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(aporteDetalle of arrAporteDetalle(); track $index){
+      <tr>
+        <td style="width: 50px">
+          {{ aporteDetalle.id }}
+        </td>
+
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

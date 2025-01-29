@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -78,6 +79,12 @@ export default class PagoFormularioComponent extends General implements OnInit {
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrBancos: RegistroAutocompletarGenCuentaBanco[] = [];
+  mostrarTodosLosClientes = signal(false);
+  arrFiltrosEmitidosAgregarDocumento: any[] = [];
+  arrFiltrosPermanenteAgregarDocumento: any[] = [
+    { propiedad: 'documento_tipo__cobrar', valor1: true },
+    { propiedad: 'pendiente__gt', valor1: 0 },
+  ];
 
   public campoLista: CampoLista[] = [
     {
@@ -109,7 +116,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   ngOnInit() {
     this.active = 1;
-    this.consultarInformacion()
+    this.consultarInformacion();
     this.inicializarFormulario();
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
@@ -130,7 +137,6 @@ export default class PagoFormularioComponent extends General implements OnInit {
       empresa: [1],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
-      numero: [null],
       fecha: [
         fechaVencimientoInicial,
         Validators.compose([
@@ -182,6 +188,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
             : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
+            documento_afectado_documento_tipo_nombre: [
+              detalle.documento_afectado_documento_tipo_nombre,
+            ],
             documento_afectado: [detalle.documento_afectado_id],
             numero: [numero],
             contacto: [
@@ -273,6 +282,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      this._actualizarDetallesContactoSinDocumentoAfectado();
     }
     if (campo === 'contacto-vermas') {
       this.formularioFactura.get('contacto')?.setValue(dato.id);
@@ -283,7 +293,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   agregarDocumento(content: any) {
     if (this.formularioFactura.get('contacto')?.value !== '') {
-      this.consultarDocumentos(null);
+      this.consultarDocumentos();
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
       );
@@ -329,39 +339,30 @@ export default class PagoFormularioComponent extends General implements OnInit {
       .subscribe();
   }
 
-  consultarDocumentos(arrFiltrosExtra: any) {
-    let filtros = [
-      {
-        propiedad: 'contacto_id',
-        valor1: this.formularioFactura.get('contacto')?.value,
-        tipo: 'CharField',
-      },
-      { propiedad: 'documento_tipo__cobrar', valor1: true },
-      { propiedad: 'pendiente__gt', valor1: 0 },
-    ];
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
+  consultarDocumentos() {
+    let filtros: any[] = [];
+    if (this.mostrarTodosLosClientes()) {
+      filtros = this.arrFiltrosPermanenteAgregarDocumento;
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
         filtros = [
-          {
-            propiedad: 'contacto_id',
-            valor1: this.formularioFactura.get('contacto')?.value,
-            tipo: 'CharField',
-          },
-          { propiedad: 'documento_tipo__cobrar', valor1: true },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-          ...arrFiltrosExtra,
+          ...this.arrFiltrosPermanenteAgregarDocumento,
+          ...this.arrFiltrosEmitidosAgregarDocumento,
         ];
-      } else {
-        filtros = [
-          {
-            propiedad: 'contacto_id',
-            valor1: this.formularioFactura.get('contacto')?.value,
-            tipo: 'CharField',
-          },
-          { propiedad: 'documento_tipo__cobrar', valor1: true },
-          { propiedad: 'pendiente__gt', valor1: 0 },
-        ];
+        this.changeDetectorRef.detectChanges();
       }
+    } else {
+      filtros = [
+        {
+          propiedad: 'contacto_id',
+          valor1: this.formularioFactura.get('contacto')?.value,
+          tipo: 'CharField',
+        },
+        ...this.arrFiltrosPermanenteAgregarDocumento,
+      ];
+      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
+        filtros = [...filtros, ...this.arrFiltrosEmitidosAgregarDocumento];
+      }
+      this.changeDetectorRef.detectChanges();
     }
 
     this._generalService
@@ -391,6 +392,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           documento_tipo_operacion: documento.documento_tipo_operacion,
           documento_tipo: documento.documento_tipo,
           documento_tipo_nombre: documento.documento_tipo_nombre,
+          afectado: documento.afectado,
           naturaleza: 'C',
         }));
         this.changeDetectorRef.detectChanges();
@@ -428,6 +430,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
         documento_afectado: [documentoSeleccionado.id],
+        documento_afectado_documento_tipo_nombre: [
+          documentoSeleccionado.documento_tipo_nombre,
+        ],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto_nombre: [documentoSeleccionado.contacto_nombre],
@@ -519,7 +524,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
-    this.consultarDocumentos(arrfiltros);
+    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+    if (arrfiltros.length === 0 && this.mostrarTodosLosClientes() === true) {
+      this.mostrarTodosLosClientes.set(false);
+    }
+    this.consultarDocumentos();
   }
 
   actualizarDetalle(index: number, campo: string, evento: any) {
@@ -575,8 +584,16 @@ export default class PagoFormularioComponent extends General implements OnInit {
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
-      contacto: [null],
-      contacto_nombre: [null],
+      contacto: [
+        this.formularioFactura.get('contacto')?.value !== ''
+          ? this.formularioFactura.get('contacto')?.value
+          : null,
+      ],
+      contacto_nombre: [
+        this.formularioFactura.get('contactoNombre')?.value !== ''
+          ? this.formularioFactura.get('contactoNombre')?.value
+          : null,
+      ],
       pago: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
@@ -617,5 +634,36 @@ export default class PagoFormularioComponent extends General implements OnInit {
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  private _actualizarDetallesContactoSinDocumentoAfectado() {
+    const detallesArray = this.formularioFactura.get('detalles') as FormArray;
+    if (detallesArray.length > 0) {
+      detallesArray.controls.forEach((control: AbstractControl) => {
+        if (control.get('documento_afectado')?.value === null) {
+          control.patchValue({
+            contacto:
+              this.formularioFactura.get('contacto')?.value !== ''
+                ? this.formularioFactura.get('contacto')?.value
+                : null,
+            contacto_nombre:
+              this.formularioFactura.get('contactoNombre')?.value !== ''
+                ? this.formularioFactura.get('contactoNombre')?.value
+                : null,
+          });
+          this.formularioFactura.markAsTouched();
+          this.formularioFactura.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+        }
+      });
+    }
+  }
+
+  toggleMostrarTodosLosClientes() {
+    this.mostrarTodosLosClientes.update(
+      (mostrarTodosLosClientes) =>
+        (mostrarTodosLosClientes = !mostrarTodosLosClientes)
+    );
+    this.consultarDocumentos();
   }
 }
