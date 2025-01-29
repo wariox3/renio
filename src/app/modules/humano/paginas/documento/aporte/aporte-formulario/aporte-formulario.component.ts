@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,10 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { GeneralService } from '@comun/services/general.service';
+import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { Configuracion } from '@modulos/humano/interfaces/aporte';
 
 @Component({
   selector: 'app-aporte-formulario',
@@ -31,6 +35,8 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    NgSelectModule,
+    NgbDropdownModule,
   ],
   templateUrl: './aporte-formulario.component.html',
   styleUrl: './aporte-formulario.component.scss',
@@ -51,6 +57,9 @@ export default class AporteFormularioComponent
   ];
   formularioAporte: FormGroup;
   arrSucursales: any = [];
+  public listaEntidadesRiesgo: RegistroHumEntidadLista[] = [];
+
+  private _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,7 +75,11 @@ export default class AporteFormularioComponent
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
+    } else {
+      this._consultarEntidadRiesgoPredefinida();
     }
+
+    this._consultarEntidadesRiesgoLista();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -74,13 +87,15 @@ export default class AporteFormularioComponent
     const fechaActual = new Date();
 
     const anioActual = `${fechaActual.getFullYear()}`;
-    const mesActual = `${fechaActual.getMonth()}`;
+    // se suma un + 1 debido a que el back solo permite valores entre 1..12
+    const mesActual = fechaActual.getMonth() + 1;
 
     this.formularioAporte = this.formBuilder.group({
       sucursal: [1, Validators.compose([Validators.required])],
       anio: [anioActual, Validators.compose([Validators.required])],
       mes: [mesActual, Validators.compose([Validators.required])],
       presentacion: ['', Validators.compose([Validators.required])],
+      entidad_riesgo: [null, [Validators.required]],
     });
   }
 
@@ -132,7 +147,8 @@ export default class AporteFormularioComponent
           sucursal: respuesta.sucursal_id,
           anio: respuesta.anio,
           mes: respuesta.mes,
-          presentacion: respuesta.presentacion
+          presentacion: respuesta.presentacion,
+          entidad_riesgo: respuesta.entidad_riesgo_id,
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -145,5 +161,43 @@ export default class AporteFormularioComponent
       this.arrSucursales = respuesta[0];
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  private _consultarEntidadRiesgoPredefinida() {
+    this._generalService
+      .consultarConfiguracion<Configuracion>({
+        campos: ['hum_entidad_riesgo'],
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.configuracion?.length > 0) {
+            const entidadRiesgoId =
+              response.configuracion[0]?.hum_entidad_riesgo;
+            this.formularioAporte.patchValue({
+              entidad_riesgo: entidadRiesgoId,
+            });
+          }
+        },
+      });
+  }
+
+  private _consultarEntidadesRiesgoLista() {
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
+        modelo: 'HumEntidad',
+        filtros: [
+          {
+            operador: 'exact',
+            propiedad: 'riesgo',
+            valor1: true,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaEntidadesRiesgo = response.registros;
+          this.changeDetectorRef.detectChanges();
+        },
+      });
   }
 }

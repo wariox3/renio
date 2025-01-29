@@ -49,7 +49,10 @@ import { FiltrosDetalleAporteContratos } from './constantes';
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })
-export default class AporteDetalleComponent extends General implements OnInit, OnDestroy {
+export default class AporteDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   active: Number;
   aporte: any = {
     id: null,
@@ -59,7 +62,8 @@ export default class AporteDetalleComponent extends General implements OnInit, O
     estado_aprobado: false,
     estado_generado: false,
     sucursal_nombre: '',
-    presentacion: ''
+    presentacion: '',
+    entidad_riesgo_nombre: '',
   };
   arrAporteDetalle: any = [];
   generando: boolean = false;
@@ -242,7 +246,7 @@ export default class AporteDetalleComponent extends General implements OnInit, O
       serializador: 'Excel',
       excel: true,
       limite: 10000,
-      ...this.arrParametrosConsulta.filtros
+      ...this.arrParametrosConsulta.filtros,
     };
 
     this.descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
@@ -358,7 +362,7 @@ export default class AporteDetalleComponent extends General implements OnInit, O
     }
     this.consultarDatos();
     if (this.tableDetallesComponent) {
-      this.tableDetallesComponent.inicializarParametrosConsulta()
+      this.tableDetallesComponent.inicializarParametrosConsulta();
       this.tableDetallesComponent.consultarDatos();
     }
   }

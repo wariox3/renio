@@ -12,3 +12,11 @@ export interface Aporte {
   sucursal_id: number;
   sucursal_nombre: string;
 }
+
+export interface Configuracion {
+  configuracion: ConfiguracionHumanoEntidad[];
+}
+
+export interface ConfiguracionHumanoEntidad {
+  hum_entidad_riesgo: number;
+}
