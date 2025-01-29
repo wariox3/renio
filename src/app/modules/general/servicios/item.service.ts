@@ -9,16 +9,14 @@ import { Item } from '@interfaces/general/item.interface';
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private httpService: HttpService, private store: Store) { }
+  constructor(private httpService: HttpService, private store: Store) {}
 
   guardarItem(data: any) {
     return this.store
       .select(obtenerUsuarioId)
       .pipe(
-        switchMap(([usuarioId]) =>
-          this.httpService.post<Item>('general/item/', data)
-        )
-      )
+        switchMap(() => this.httpService.post<Item>('general/item/', data))
+      );
   }
 
   consultarDetalle(id: number) {
