@@ -94,7 +94,7 @@ export default class AporteFormularioComponent
       sucursal: [1, Validators.compose([Validators.required])],
       anio: [anioActual, Validators.compose([Validators.required])],
       mes: [mesActual, Validators.compose([Validators.required])],
-      presentacion: ['', Validators.compose([Validators.required])],
+      presentacion: ['S', Validators.compose([Validators.required])],
       entidad_riesgo: [null, [Validators.required]],
     });
   }
