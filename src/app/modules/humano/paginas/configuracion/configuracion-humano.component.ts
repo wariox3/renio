@@ -12,11 +12,13 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
 import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -28,6 +30,8 @@ import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocomple
     TranslateModule,
     SoloNumerosDirective,
     CardComponent,
+    NgSelectModule,
+    NgbDropdownModule,
   ],
   templateUrl: './configuracion-humano.component.html',
 })
@@ -37,6 +41,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   arrConceptosNomina: any;
   arrConceptosHumano: RegistroAutocompletarHumConcepto[];
   conceptoSelecionado: any;
+  public listaEntidadesRiesgo: RegistroHumEntidadLista[] = [];
 
   private readonly _generalService = inject(GeneralService);
 
@@ -44,7 +49,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private conceptoService: ConceptoService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -52,6 +57,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   ngOnInit() {
     this.consultarInformacion();
     this.consultarConceptoNomina();
+    this._consultarEntidadesRiesgoLista();
     this.initForm();
   }
 
@@ -73,6 +79,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
+      hum_entidad_riesgo: [null, [Validators.required]],
     });
   }
 
@@ -84,6 +91,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           hum_factor: respuesta.hum_factor,
           hum_salario_minimo: parseInt(respuesta.hum_salario_minimo),
           hum_auxilio_transporte: parseInt(respuesta.hum_auxilio_transporte),
+          hum_entidad_riesgo: respuesta.hum_entidad_riesgo,
         });
       });
   }
@@ -93,6 +101,26 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
       this.arrConceptosNomina = respuesta;
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  private _consultarEntidadesRiesgoLista() {
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
+        modelo: 'HumEntidad',
+        filtros: [
+          {
+            operador: 'exact',
+            propiedad: 'riesgo',
+            valor1: true,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaEntidadesRiesgo = response.registros;
+          this.changeDetectorRef.detectChanges();
+        },
+      });
   }
 
   formSubmit() {

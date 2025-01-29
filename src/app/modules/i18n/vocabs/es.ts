@@ -474,6 +474,7 @@ export const locale = {
             ESTADOTERMINADO: 'Estado terminado',
             INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social',
             FECHATERMINACION: 'Fecha terminación',
+            ENTIDADRIESGO: 'Entidad riesgo',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -644,7 +645,7 @@ export const locale = {
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
             BASE: 'Base',
-          },  
+          },
           NOVEDAD: {
             NOVEDADTIPO: 'Novedad tipo',
             DIASDINERO: 'Días dinero',

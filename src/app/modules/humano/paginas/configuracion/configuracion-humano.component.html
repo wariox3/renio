@@ -14,7 +14,7 @@
     ></button>
   </div>
   <div class="row mb-5">
-    <div class="col-md-12 col-sm-12">
+    <div class="col-12 col-md-6">
       <label
         translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.FACTOR"
         class="form-label required"
@@ -55,6 +55,30 @@
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
           control: formularioConfiguracion.controls['hum_factor']
+        }"
+      ></ng-container>
+    </div>
+    <div class="col-12 col-md-6">
+      <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.ENTIDADRIESGO"
+      ></label>
+      <ng-select
+        [items]="listaEntidadesRiesgo"
+        bindLabel="nombre_extendido"
+        bindValue="id"
+        formControlName="hum_entidad_riesgo"
+        notFoundText="Sin elementos"
+        placeholder="Selecciona un elemento"
+        class="select2Custom"
+      >
+      </ng-select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioConfiguracion.controls['hum_entidad_riesgo']
         }"
       ></ng-container>
     </div>
