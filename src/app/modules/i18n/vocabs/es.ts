@@ -661,6 +661,7 @@ export const locale = {
           APORTE: {
             SUCURSAL: 'Sucursal',
             FORMAPRESENTACION: 'Forma presentación',
+            ENTIDADRIESGO: 'Entidad riesgo',
           },
         },
         CONTABILIDAD: {
