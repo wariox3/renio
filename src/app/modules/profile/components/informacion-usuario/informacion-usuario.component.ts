@@ -47,7 +47,7 @@ import { UsuarioInformacionPerfil } from '@modulos/profile/interfaces/usuario-In
 })
 export class InformacionUsuarioComponent extends General implements OnInit {
   usuarioInformacion: UsuarioInformacionPerfil = {
-    id: '',
+    id: 0,
     nombre_corto: '',
     nombre: '',
     apellido: '',
@@ -63,7 +63,7 @@ export class InformacionUsuarioComponent extends General implements OnInit {
   srcResult: string = '';
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioUserName);
-  codigoUsuario = '';
+  codigoUsuario = 0;
   btnGuardar!: ElementRef<HTMLButtonElement>;
   modalRef: any;
   language: LanguageFlag;

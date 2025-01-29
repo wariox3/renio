@@ -30,7 +30,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];
   formularioEmpresaInvitacion: FormGroup;
   contenedorNombre: string;
-  usuarioCodigo = '';
+  usuarioCodigo = 0;
   @Input() contenedorCodigo: number;
 
   constructor(

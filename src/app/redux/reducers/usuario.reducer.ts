@@ -15,7 +15,7 @@ import { Usuario } from '@interfaces/usuario/usuario';
 let usuarioData = getCookie('usuario');
 
 let parsedState: Usuario = {
-  id: '',
+  id: 0,
   username: '',
   imagen: '',
   nombre_corto: '',
@@ -78,7 +78,7 @@ export const usuarioReducer = createReducer(
     return {
       ...state,
       ...{
-        id: '',
+        id: 0,
         username: '',
       },
     };

@@ -22,7 +22,7 @@ import { Movimientos } from '@interfaces/facturacion/Facturacion';
 export class ContenedorService {
   constructor(private http: HttpClient, private fechaServices: FechasService) {}
 
-  lista(usuario_id: string) {
+  lista(usuario_id: number) {
     return this.http.post<ContenedorLista>(
       `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-usuario/`,
       {
@@ -32,7 +32,7 @@ export class ContenedorService {
     );
   }
 
-  nuevo(data: ContenedorFormulario, usuario_id: string) {
+  nuevo(data: ContenedorFormulario, usuario_id: number) {
     return this.http.post(
       `${environment.URL_API_MUUP}/contenedor/contenedor/`,
       {
@@ -65,7 +65,7 @@ export class ContenedorService {
 
   editar(
     data: ContenedorFormulario,
-    codigoUsuario: string,
+    codigoUsuario: number,
     empresa_id: number
   ) {
     return this.http.put(
@@ -206,7 +206,7 @@ export class ContenedorService {
     );
   }
 
-  consultaUsuario(usuario_id: string) {
+  consultaUsuario(usuario_id: number) {
     return this.http.post<Movimientos>(
       `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-usuario/`,
       {
