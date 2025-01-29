@@ -225,7 +225,8 @@ export const locale = {
           TIPO: '',
           MES: 'Mes',
           ANIO: 'Año',
-          DIASTRANSPORTE: 'Días transporte'
+          DIASTRANSPORTE: 'Días transporte',
+          FORMAPRESENTACION: 'Forma presentación',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -327,7 +328,7 @@ export const locale = {
           PAGO: 'Pago',
           INFORMACIONFACTURACION: 'Información de facturación',
           PRODUCTOCUENTA: 'Item / Cuenta',
-          DESCARTAR: 'Descartar'
+          DESCARTAR: 'Descartar',
         },
         GENERAL: {
           ITEM: {
@@ -413,7 +414,7 @@ export const locale = {
           DEPARTAMENTO: 'Departamento',
           AREA: 'Area',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
-          CARGO: 'Cargo'
+          CARGO: 'Cargo',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -441,7 +442,7 @@ export const locale = {
             CLIENTE: 'Cliente',
             PROVEEDOR: 'Proveedor',
             EMPLEADO: 'Empleado',
-            CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica'
+            CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
           },
           RESOLUCION: {
             PREFIJO: 'Prefijo',
@@ -540,7 +541,7 @@ export const locale = {
             ES: 'Si',
             NO: 'No',
             RANGE: 'Rango',
-            EMPIEZAPOR: 'Empieza por'
+            EMPIEZAPOR: 'Empieza por',
           },
         },
         HUMANO: {
@@ -643,7 +644,7 @@ export const locale = {
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
             BASE: 'Base',
-          },
+          },  
           NOVEDAD: {
             NOVEDADTIPO: 'Novedad tipo',
             DIASDINERO: 'Días dinero',
@@ -658,6 +659,7 @@ export const locale = {
           },
           APORTE: {
             SUCURSAL: 'Sucursal',
+            FORMAPRESENTACION: 'Forma presentación',
           },
         },
         CONTABILIDAD: {
@@ -682,7 +684,8 @@ export const locale = {
           CAMPOMAXIMO: 'Caracteres Máxima es de',
           TIPOCORREO: 'Correo electrónico válido',
           NOVALIDO: 'Contiene caracteres no válidos',
-          RANGOFECHASDESDEHASTA: 'La fecha desde no puede ser mayor que la fecha hasta.',
+          RANGOFECHASDESDEHASTA:
+            'La fecha desde no puede ser mayor que la fecha hasta.',
           NUMEROIDENTIFICACIONEXISTEN:
             'El empleado con el número y tipo de identificación seleccionados ya existe.',
         },
@@ -700,9 +703,10 @@ export const locale = {
           FECHAVENCEINFERIORNOVALIDA:
             'La fecha vencimiento no puede ser inferior a la fecha factura',
         },
-        NOVEDAD:{
-          ERRORFECHAPERIODOSINVALIDA: "La fecha hasta periodo no puede ser mayor que la fecha desde periodo."
-        }
+        NOVEDAD: {
+          ERRORFECHAPERIODOSINVALIDA:
+            'La fecha hasta periodo no puede ser mayor que la fecha desde periodo.',
+        },
       },
       MENSAJES: {
         COMUNES: {
@@ -890,7 +894,7 @@ export const locale = {
         SUCURSAL_NOMBRE: 'Sucursal',
         PROVEEDOR: 'Proveedor',
         DOCUMENTOTIPONOMBRE: 'Documento',
-        TIPODOCUMENTO: 'Tipo documento'
+        TIPODOCUMENTO: 'Tipo documento',
       },
       ITEM: {
         ID: 'ID',
@@ -1110,7 +1114,7 @@ export const locale = {
         DEBITO: 'Debito',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
-      }
+      },
     },
     TEMA: {
       CLARO: 'Claro',

@@ -59,6 +59,7 @@ export default class AporteDetalleComponent extends General implements OnInit, O
     estado_aprobado: false,
     estado_generado: false,
     sucursal_nombre: '',
+    presentacion: ''
   };
   arrAporteDetalle: any = [];
   generando: boolean = false;
