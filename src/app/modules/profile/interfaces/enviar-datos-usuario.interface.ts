@@ -1,5 +1,5 @@
 export interface enviarDatosUsuario {
-  id: string;
+  id: number;
   nombreCorto: string;
   nombre: string;
   apellido: string;

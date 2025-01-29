@@ -27,7 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 
 export class CambioClaveComponent extends General implements OnInit {
-  codigoUsuario = '';
+  codigoUsuario = 0;
   formularioCambioClave: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoNuevaClave: 'text' | 'password' = 'password';

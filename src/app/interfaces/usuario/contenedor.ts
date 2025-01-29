@@ -27,7 +27,7 @@ export interface ContenedorLista {
 
 export interface ContenedorInvitacion {
   contenedor_id: number;
-  usuario_id: string;
+  usuario_id: number;
   invitado: string;
 }
 

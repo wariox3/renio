@@ -12,7 +12,7 @@ import { UsuarioInformacionPerfil } from '../interfaces/usuario-Informacion-perf
 export class ResumenService {
   constructor(private http: HttpClient, private fechaServices: FechasService) {}
 
-  perfil(codigoUsuario: string) {
+  perfil(codigoUsuario: number) {
     return this.http.get<UsuarioInformacionPerfil>(
       `${environment.URL_API_MUUP}/seguridad/usuario/${codigoUsuario}/`
     );

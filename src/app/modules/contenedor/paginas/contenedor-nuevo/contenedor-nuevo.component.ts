@@ -30,7 +30,7 @@ import { NgIf } from '@angular/common';
 export class ContenedorNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
-  codigoUsuario = '';
+  codigoUsuario = 0;
   visualizarBtnAtras = true;
   procesando = false;
 

@@ -62,7 +62,7 @@ export class InformacionFacturacionComponent extends General implements OnInit {
   };
   arrCiudades: any[];
   arrIdentificacion: any[];
-  codigoUsuario = '';
+  codigoUsuario = 0;
   ciudadSeleccionada: string | null;
 
   constructor(

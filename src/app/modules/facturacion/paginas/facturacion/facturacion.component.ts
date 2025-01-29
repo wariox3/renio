@@ -61,7 +61,7 @@ export class FacturacionComponent extends General implements OnInit {
   consumos: Consumo[] = [];
   active: number = 1;
   consumoTotal = 0;
-  codigoUsuario = '';
+  codigoUsuario = 0;
   arrFacturasSeleccionados: any[] = [];
   arrFacturacionInformacion: any[] = [];
   totalPagar = new BehaviorSubject(0);
