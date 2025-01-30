@@ -847,6 +847,7 @@ export const locale = {
         PAGO_TIPO_NOMBRE: 'Tipo',
         DIAS: 'Días',
         CONTRATOS: 'Cantidad',
+        CONTRS: 'Contratos',
         DEDUCCION: 'Deducción',
         DEVENGADO: 'Devengado',
         SALARIO: 'Salario',
@@ -908,6 +909,8 @@ export const locale = {
         PROVEEDOR: 'Proveedor',
         DOCUMENTOTIPONOMBRE: 'Documento',
         TIPODOCUMENTO: 'Tipo documento',
+        EMPLEADOS: 'Empleados',
+        LINEAS: 'Lineas',
       },
       ITEM: {
         ID: 'ID',
