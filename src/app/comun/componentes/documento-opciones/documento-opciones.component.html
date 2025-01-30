@@ -83,6 +83,7 @@
       </thead>
       <tbody>
         @for (archivo of listaArchivos; track $index) {
+
         <tr>
           <td class="w-40px">{{ archivo.id }}</td>
           <td>{{ archivo.fecha | date : "YYYY-MM-d h:mm a" }}</td>
@@ -97,14 +98,25 @@
               <i class="bi bi-download"></i>
             </button>
           </td>
-          <td>
+          <td class="text-center">
+            @if ((estadosBotonEliminar$ | async)?.[$index]) {
+            <div
+              class="spinner-border spinner-border-sm text-danger"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+
+            } @else {
             <button
               style="padding-top: 0; padding-bottom: 0; font-weight: bold"
               class="btn"
-              (click)="confirmarEliminarArchivo(archivo.id)"
+              (click)="confirmarEliminarArchivo(archivo.id, $index)"
             >
               <i class="bi bi-trash delete-btn"></i>
             </button>
+
+            }
           </td>
         </tr>
         }
