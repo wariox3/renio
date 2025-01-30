@@ -193,6 +193,7 @@ export default class AporteDetalleComponent
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
+        this.tableDetallesComponent.consultarDatos();
       });
   }
 
@@ -212,6 +213,7 @@ export default class AporteDetalleComponent
       )
       .subscribe(() => {
         this.consultarDatos();
+        this.tableDetallesComponent.consultarDatos();
       });
   }
 
