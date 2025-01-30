@@ -12,6 +12,7 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
 import { FiltrosDetalleAporteDetalle } from '../../constantes';
+import { BaseFiltroComponent } from "../../../../../../../../comun/componentes/base-filtro/base-filtro.component";
 
 @Component({
   selector: 'app-table-detalles',
@@ -22,7 +23,8 @@ import { FiltrosDetalleAporteDetalle } from '../../constantes';
     NgbDropdownModule,
     CommonModule,
     SiNoPipe,
-    NgbTooltipModule
+    NgbTooltipModule,
+    BaseFiltroComponent
 ],
   templateUrl: './table-detalles.component.html',
 })
@@ -83,14 +85,6 @@ export class TableDetallesComponent extends General {
         },
       ],
     });
-    let filtroDetalleContratos = localStorage.getItem(`documento_aporte`);
-    if (filtroDetalleContratos !== null) {
-      let filtroPermanente = JSON.parse(filtroDetalleContratos);
-      this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-        ...arrParametrosConsulta,
-        filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
-      }));
-    }
   }
 
   obtenerFiltros(data: any[]) {
