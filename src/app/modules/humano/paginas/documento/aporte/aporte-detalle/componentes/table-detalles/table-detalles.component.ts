@@ -1,26 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { FiltrosDetalleAporteDetalle } from '../../constantes';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { RespuestaAporteDetalle } from '@modulos/humano/interfaces/respuesta-aporte-detalle';
-import { GeneralService } from '@comun/services/general.service';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { AporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
+import { RespuestaAporteDetalle } from '@modulos/humano/interfaces/respuesta-aporte-detalle';
+import { NgbDropdown, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { SiNoPipe } from '@pipe/si-no.pipe';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
+import { FiltrosDetalleAporteDetalle } from '../../constantes';
 
 @Component({
   selector: 'app-table-detalles',
   standalone: true,
   imports: [
-    BaseFiltroComponent,
     PaginadorComponent,
     TranslateModule,
     NgbDropdownModule,
-  ],
+    CommonModule,
+    SiNoPipe,
+    NgbTooltipModule
+],
   templateUrl: './table-detalles.component.html',
 })
 export class TableDetallesComponent extends General {
