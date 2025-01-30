@@ -867,6 +867,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: 300,
           valor2: 301,
         },
+        {
+          propiedad: 'estado_aprobado',
+          valor1: true,
+        },
       ],
       limite: 5,
       desplazar: 0,

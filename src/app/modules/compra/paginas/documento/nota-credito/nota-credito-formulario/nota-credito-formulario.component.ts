@@ -853,6 +853,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           valor1: this.formularioFactura.get('contacto')?.value,
         },
         { propiedad: 'documento_tipo__documento_clase_id', valor1: 300 },
+        {
+          propiedad: 'estado_aprobado',
+          valor1: true,
+        },
       ],
       limite: 5,
       desplazar: 0,
