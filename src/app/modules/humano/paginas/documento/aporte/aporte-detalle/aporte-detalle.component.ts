@@ -25,6 +25,7 @@ import { TableDetallesComponent } from './componentes/table-detalles/table-detal
 import { BaseFiltroComponent } from '../../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleAporteContratos } from './constantes';
+import { RespuestaEncabezadoAporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -54,15 +55,35 @@ export default class AporteDetalleComponent
   implements OnInit, OnDestroy
 {
   active: Number;
-  aporte: any = {
-    id: null,
-    sucursal: 0,
+  aporte: RespuestaEncabezadoAporteDetalle = {
+    id: 0,
+    fecha_desde: '',
+    fecha_hasta: '',
+    fecha_hasta_periodo: '',
     anio: 0,
     mes: 0,
-    estado_aprobado: false,
-    estado_generado: false,
-    sucursal_nombre: '',
+    anio_salud: 0,
+    mes_salud: 0,
     presentacion: '',
+    estado_generado: false,
+    estado_aprobado: false,
+    cotizacion_pension: 0.0,
+    cotizacion_voluntario_pension_afiliado: 0.0,
+    cotizacion_voluntario_pension_aportante: 0.0,
+    cotizacion_solidaridad_solidaridad: 0.0,
+    cotizacion_solidaridad_subsistencia: 0.0,
+    cotizacion_salud: 0.0,
+    cotizacion_riesgos: 0.0,
+    cotizacion_caja: 0.0,
+    cotizacion_sena: 0.0,
+    cotizacion_icbf: 0.0,
+    cotizacion_total: 0.0,
+    contratos: 0,
+    empleados: 0,
+    lineas: 0,
+    sucursal_id: 0,
+    sucursal_nombre: '',
+    entidad_riesgo_id: 0,
     entidad_riesgo_nombre: '',
   };
   arrAporteDetalle: any = [];

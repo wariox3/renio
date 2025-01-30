@@ -227,6 +227,8 @@ export const locale = {
           ANIO: 'Año',
           DIASTRANSPORTE: 'Días transporte',
           FORMAPRESENTACION: 'Forma presentación',
+          PENSION: 'Pension',
+          SOLIDARIDAD: 'Solidaridad',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -415,7 +417,7 @@ export const locale = {
           AREA: 'Area',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
           CARGO: 'Cargo',
-          NOMBRES: 'Nombres'
+          NOMBRES: 'Nombres',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -663,6 +665,14 @@ export const locale = {
             SUCURSAL: 'Sucursal',
             FORMAPRESENTACION: 'Forma presentación',
             ENTIDADRIESGO: 'Entidad riesgo',
+            SUBSISTENCIA: 'Subsistencia',
+            VOLAFILIADO: 'Vol afiliado',
+            VOLAPORTANTE: 'Vol aportante',
+            SALUD: 'Salud',
+            RIESGOS: 'Riesgos',
+            CAJA: 'Caja',
+            SENA: 'SENA',
+            TOTAL: 'Total',
           },
         },
         CONTABILIDAD: {
