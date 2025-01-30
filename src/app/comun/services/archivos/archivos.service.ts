@@ -28,7 +28,7 @@ export class ArchivosService {
 
   eliminarArchivoGeneral(payload: { id: number }) {
     return this._httpService.delete(
-      `general/archivo/eliminar/${payload.id}/`,
+      `general/archivo/${payload.id}/`,
       payload
     );
   }

@@ -44,8 +44,8 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public cantidadRegistros: number;
   public listaArchivos: ArchivoRespuesta[] = [];
   public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
-
   public documentoId: number;
+  public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
 
   @Input() opcionesDesaprobarBoton: {
     deshabilitado: boolean;
@@ -69,6 +69,34 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
+  private _agregarEstadoABotonesEliminar() {
+    const estados = [...this.estadosBotonEliminar$.value, false];
+    this.estadosBotonEliminar$.next(estados);
+  }
+
+  private _toggleEstadoBotonEliminarPorIndex(index: number) {
+    const estados = [...this.estadosBotonEliminar$.value];
+    if (index >= 0 && index < estados.length) {
+      estados[index] = !estados[index];
+      this.estadosBotonEliminar$.next(estados);
+    }
+  }
+
+  private _eliminarPosicionBotonesEliminar(index: number) {
+    const estados = this.estadosBotonEliminar$.value.filter(
+      (_, i) => i !== index
+    );
+    this.estadosBotonEliminar$.next(estados);
+  }
+
+  private _limpiarBotonesEliminar() {
+    this.estadosBotonEliminar$.next([]);
+  }
+
+  getEstadosBotonEliminar$() {
+    return this.estadosBotonEliminar$.asObservable();
+  }
+
   private _abirModal(content: any) {
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -89,7 +117,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          this._limpiarBotonesEliminar();
           this.listaArchivos = response.registros;
+
+          this.listaArchivos.forEach(() =>
+            this._agregarEstadoABotonesEliminar()
+          );
+
           this.changeDetectorRef.detectChanges();
         },
       });
@@ -171,17 +205,16 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  confirmarEliminarArchivo(id: number) {
+  confirmarEliminarArchivo(id: number, index: number) {
     this.alertaService
       .confirmar({
         titulo: '¿Estas seguro de eliminar?',
-        texto:
-          'Esta acción no se puede revertir.',
+        texto: 'Esta acción no se puede revertir.',
         textoBotonCofirmacion: 'Si, eliminar',
       })
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
-          this._eliminarArchivo(id);
+          this._eliminarArchivo(id, index);
         }
       });
   }
@@ -200,15 +233,24 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       });
   }
 
-  private _eliminarArchivo(archivoId: number) {
-    this._archivosService.eliminarArchivoGeneral({ id: archivoId }).subscribe({
-      next: () => {
-        this._consultarArchivos();
-        this.alertaService.mensajaExitoso(
-          'El archivo se eliminó correctamente!'
-        );
-      },
-    });
+  private _eliminarArchivo(archivoId: number, index: number) {
+    this._toggleEstadoBotonEliminarPorIndex(index);
+    this._archivosService
+      .eliminarArchivoGeneral({ id: archivoId })
+      .pipe(
+        finalize(() => {
+          this._toggleEstadoBotonEliminarPorIndex(index);
+        })
+      )
+      .subscribe({
+        next: () => {
+          this._eliminarPosicionBotonesEliminar(index);
+          this._consultarArchivos();
+          this.alertaService.mensajaExitoso(
+            'El archivo se eliminó correctamente!'
+          );
+        },
+      });
   }
 
   private _desaprobarDocumento(documentoId: number) {
