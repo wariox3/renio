@@ -227,6 +227,8 @@ export const locale = {
           ANIO: 'Año',
           DIASTRANSPORTE: 'Días transporte',
           FORMAPRESENTACION: 'Forma presentación',
+          PENSION: 'Pension',
+          SOLIDARIDAD: 'Solidaridad',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -415,6 +417,7 @@ export const locale = {
           AREA: 'Area',
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
           CARGO: 'Cargo',
+          NOMBRES: 'Nombres',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -474,6 +477,7 @@ export const locale = {
             ESTADOTERMINADO: 'Estado terminado',
             INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social',
             FECHATERMINACION: 'Fecha terminación',
+            ENTIDADRIESGO: 'Entidad riesgo',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -644,7 +648,7 @@ export const locale = {
             DIAS: 'Dias',
             VRHORA: 'Valor hora',
             BASE: 'Base',
-          },  
+          },
           NOVEDAD: {
             NOVEDADTIPO: 'Novedad tipo',
             DIASDINERO: 'Días dinero',
@@ -660,6 +664,15 @@ export const locale = {
           APORTE: {
             SUCURSAL: 'Sucursal',
             FORMAPRESENTACION: 'Forma presentación',
+            ENTIDADRIESGO: 'Entidad riesgo',
+            SUBSISTENCIA: 'Subsistencia',
+            VOLAFILIADO: 'Vol afiliado',
+            VOLAPORTANTE: 'Vol aportante',
+            SALUD: 'Salud',
+            RIESGOS: 'Riesgos',
+            CAJA: 'Caja',
+            SENA: 'SENA',
+            TOTAL: 'Total',
           },
         },
         CONTABILIDAD: {
@@ -834,6 +847,7 @@ export const locale = {
         PAGO_TIPO_NOMBRE: 'Tipo',
         DIAS: 'Días',
         CONTRATOS: 'Cantidad',
+        CONTRS: 'Contratos',
         DEDUCCION: 'Deducción',
         DEVENGADO: 'Devengado',
         SALARIO: 'Salario',
@@ -895,6 +909,8 @@ export const locale = {
         PROVEEDOR: 'Proveedor',
         DOCUMENTOTIPONOMBRE: 'Documento',
         TIPODOCUMENTO: 'Tipo documento',
+        EMPLEADOS: 'Empleados',
+        LINEAS: 'Lineas',
       },
       ITEM: {
         ID: 'ID',

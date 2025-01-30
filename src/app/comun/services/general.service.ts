@@ -57,4 +57,11 @@ export class GeneralService {
   ): Observable<T> {
     return this._httpService.post<T>('general/funcionalidad/lista/', filtros);
   }
+
+  consultarConfiguracion<T>(parametros: { campos?: string[] }): Observable<T> {
+    return this._httpService.post<T>(
+      'general/configuracion/consulta/',
+      parametros
+    );
+  }
 }

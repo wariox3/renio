@@ -1,4 +1,4 @@
-import { MapeoDocumentos } from "@comun/type/mapeo-documentos.type";
+import { MapeoDocumentos } from '@comun/type/mapeo-documentos.type';
 
 export const documentos: MapeoDocumentos = {
   100: [
@@ -808,7 +808,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ELECTRONICO',
       nombreAbreviado: 'ELE',
-      toolTip: "ESTADOELECTRONICO",
+      toolTip: 'ESTADOELECTRONICO',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1437,7 +1437,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'BASE_COTIZACION',
       nombreAbreviado: 'IBC',
-      toolTip: "INGRESOBASECOTIZACION",
+      toolTip: 'INGRESOBASECOTIZACION',
       campoTipo: 'FloatField',
       visibleTabla: true,
       visibleFiltro: false,
@@ -1447,7 +1447,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'BASE_PRESTACION',
       nombreAbreviado: 'IBP',
-      toolTip: "INGRESOBASEPRESTACION",
+      toolTip: 'INGRESOBASEPRESTACION',
       campoTipo: 'FloatField',
       visibleTabla: true,
       visibleFiltro: false,
@@ -1481,7 +1481,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_APROBADO',
       nombreAbreviado: 'ESTADO_APROBADO_ABREVIATURA',
-      toolTip: "ESTADO_APROBADO",
+      toolTip: 'ESTADO_APROBADO',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1490,7 +1490,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
-      toolTip: "ESTADO_ANULADO",
+      toolTip: 'ESTADO_ANULADO',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1499,7 +1499,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ELECTRONICO',
       nombreAbreviado: 'ELE',
-      toolTip: "ESTADOELECTRONICO",
+      toolTip: 'ESTADOELECTRONICO',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1709,7 +1709,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
-    }
+    },
   ],
   HumCredito: [
     {
@@ -1943,6 +1943,28 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'CharField',
       visibleTabla: true,
       visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'EMPLEADOS',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'CONTRATOS',
+      nombreAbreviado: 'CONTRS',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'LINEAS',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: false,
       ordenable: false,
     },
   ],
