@@ -244,24 +244,37 @@
         </ng-container>
       </ng-template>
     </div>
-    <div class="modal-footer">
-      @if (visualizarBtnCargando$ | async) {
-      <button
-        class="btn btn-sm btn-bg-primary btn-color-white"
-        type="button"
-        disabled
-      >
-        <span
-          class="spinner-border spinner-border-sm me-1"
-          aria-hidden="true"
-        ></span>
-        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
-      </button>
-      } @else {
-      <button type="submit" class="btn btn-sm btn-primary">
-        {{ textoBtnGuardarFormulario }}
-      </button>
-      }
+    <div class="modal-footer d-flex justify-content-between">
+      <div>
+        <section>
+          <div role="alert">
+            <p class="mb-0">
+              * Para no ingresar esta información cada que generas un evento,
+              puede editar
+            </p>
+            <p class="mb-0">esta información en tu perfil</p>
+          </div>
+        </section>
+      </div>
+      <div>
+        @if (visualizarBtnCargando$ | async) {
+        <button
+          class="btn btn-sm btn-bg-primary btn-color-white"
+          type="button"
+          disabled
+        >
+          <span
+            class="spinner-border spinner-border-sm me-1"
+            aria-hidden="true"
+          ></span>
+          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        </button>
+        } @else {
+        <button type="submit" class="btn btn-sm btn-primary">
+          {{ textoBtnGuardarFormulario }}
+        </button>
+        }
+      </div>
     </div>
   </form>
 </ng-template>
