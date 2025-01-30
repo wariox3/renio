@@ -10,11 +10,22 @@ export const FiltrosDetalleAporteDetalle: MapaDatos[] = [
   },
   {
     nombre: 'Identificacion',
+    nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+    nombreFiltroRelacion: 'aporte_contrato__contrato__contacto__numero_identificacion',
     campoTipo: 'CharField',
     visibleTabla: true,
-    visibleFiltro: false,
+    visibleFiltro: true,
     ordenable: false,
   },
+  // {
+  //   nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+  //   nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+  //   nombreFiltroRelacion: 'CONTRATO__CONTACTO__NUMERO_IDENTIFICACION',
+  //   campoTipo: 'CharField',
+  //   visibleTabla: true,
+  //   visibleFiltro: true,
+  //   ordenable: false,
+  // },
   {
     nombre: 'Empleado',
     campoTipo: 'CharField',
@@ -24,9 +35,11 @@ export const FiltrosDetalleAporteDetalle: MapaDatos[] = [
   },
   {
     nombre: 'Contrato',
+    nombreAbreviadoFiltro: 'CONTRATO_ID_FILTRO',
+    nombreFiltroRelacion: 'aporte_contrato__contrato_id',
     campoTipo: 'IntegerField',
     visibleTabla: true,
-    visibleFiltro: false,
+    visibleFiltro: true,
     ordenable: false,
   },
   {

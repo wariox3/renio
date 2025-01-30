@@ -1,10 +1,14 @@
+<app-base-filtro
+  (emitirFiltros)="obtenerFiltros($event)"
+  [nombreFiltroCustom]="'aporte_detalle'"
+></app-base-filtro>
 <div class="d-flex justify-content-between my-4">
   <app-comun-paginador
     [cantidadRegistros]="cantidadRegistros()"
     (emitirDesplazamiento)="cambiarDesplazamiento($event)"
     (emitirPaginacion)="cambiarPaginacion($event)"
   ></app-comun-paginador>
-  <div class="btn-group" role="group">
+  <div class="btn-group contenedor-btn-group" role="group">
     <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
       <button
         type="button"
@@ -32,42 +36,126 @@
         <th>Contrato</th>
         <th ngbTooltip="Ingreso" placement="top" container="body">ING</th>
         <th ngbTooltip="Retiro" placement="top" container="body">RET</th>
-        <th ngbTooltip="Variacion permanente salario" placement="top" container="body">VSP</th>
-        <th ngbTooltip="Variacion transitoria salario" placement="top" container="body">VST</th>
-        <th ngbTooltip="suspension temporal contrato" placement="top" container="body">SLN</th>
-        <th ngbTooltip="Incapacidad general" placement="top" container="body">IGE</th>
-        <th ngbTooltip="Licencia maternidad" placement="top" container="body">LM</th>
+        <th
+          ngbTooltip="Variacion permanente salario"
+          placement="top"
+          container="body"
+        >
+          VSP
+        </th>
+        <th
+          ngbTooltip="Variacion transitoria salario"
+          placement="top"
+          container="body"
+        >
+          VST
+        </th>
+        <th
+          ngbTooltip="suspension temporal contrato"
+          placement="top"
+          container="body"
+        >
+          SLN
+        </th>
+        <th ngbTooltip="Incapacidad general" placement="top" container="body">
+          IGE
+        </th>
+        <th ngbTooltip="Licencia maternidad" placement="top" container="body">
+          LM
+        </th>
         <th ngbTooltip="Vacaciones" placement="top" container="body">VAC</th>
-        <th ngbTooltip="Licencia remunerada" placement="top" container="body">LRM</th>
-        <th ngbTooltip="Dias incapacidad laboral" placement="top" container="body">DIRP</th>
-        <th ngbTooltip="Salario integral" placement="top" container="body">SI</th>
+        <th ngbTooltip="Licencia remunerada" placement="top" container="body">
+          LRM
+        </th>
+        <th
+          ngbTooltip="Dias incapacidad laboral"
+          placement="top"
+          container="body"
+        >
+          DIRP
+        </th>
+        <th ngbTooltip="Salario integral" placement="top" container="body">
+          SI
+        </th>
         <th>Salario</th>
         <th ngbTooltip="Horas" placement="top" container="body">H</th>
         <th ngbTooltip="Dias pensión" placement="top" container="body">DP</th>
         <th ngbTooltip="Dias salud" placement="top" container="body">DS</th>
         <th ngbTooltip="Dias riesgos" placement="top" container="body">DR</th>
         <th ngbTooltip="Dias caja" placement="top" container="body">DC</th>
-        <th ngbTooltip="Base cotización pensión" placement="top" container="body">BCP</th>
-        <th ngbTooltip="Base cotización salud" placement="top" container="body">BCS</th>
-        <th ngbTooltip="Base cotizacion riesgos" placement="top" container="body">BCR</th>
-        <th ngbTooltip="Base cotizacion caja" placement="top" container="body">BCC</th>
+        <th
+          ngbTooltip="Base cotización pensión"
+          placement="top"
+          container="body"
+        >
+          BCP
+        </th>
+        <th ngbTooltip="Base cotización salud" placement="top" container="body">
+          BCS
+        </th>
+        <th
+          ngbTooltip="Base cotizacion riesgos"
+          placement="top"
+          container="body"
+        >
+          BCR
+        </th>
+        <th ngbTooltip="Base cotizacion caja" placement="top" container="body">
+          BCC
+        </th>
         <th ngbTooltip="Tarifa pensión" placement="top" container="body">TP</th>
         <th ngbTooltip="Tarifa salud" placement="top" container="body">TS</th>
         <th ngbTooltip="Tarifa riesgos" placement="top" container="body">TR</th>
         <th ngbTooltip="Tarifa caja" placement="top" container="body">TC</th>
         <th ngbTooltip="Tarifa sena" placement="top" container="body">TSENA</th>
         <th ngbTooltip="Tarifa icbf" placement="top" container="body">TICBF</th>
-        <th ngbTooltip="Cotización pensión" placement="top" container="body">CP</th>
-        <th ngbTooltip="Aporte solidaridad solidaridad" placement="top" container="body">FSOL</th>
-        <th ngbTooltip="Aporte solidaridad subsistencia" placement="top" container="body">FSUB</th>
-        <th ngbTooltip="Aporte voluntario pension afiliado" placement="top" container="body">VOLAFI</th>
-        <th ngbTooltip="Aporte voluntario pension aportante" placement="top" container="body">VOLAPO</th>
-        <th ngbTooltip="Cotización salud" placement="top" container="body">CS</th>
-        <th ngbTooltip="Cotización riesgos" placement="top" container="body">CR</th>
-        <th ngbTooltip="Cotización caja" placement="top" container="body">CC</th>
-        <th ngbTooltip="Cotización sena" placement="top" container="body">CSENA</th>
-        <th ngbTooltip="Cotización icbf" placement="top" container="body">CICBF</th>
-        <th >Total</th>
+        <th ngbTooltip="Cotización pensión" placement="top" container="body">
+          CP
+        </th>
+        <th
+          ngbTooltip="Aporte solidaridad solidaridad"
+          placement="top"
+          container="body"
+        >
+          FSOL
+        </th>
+        <th
+          ngbTooltip="Aporte solidaridad subsistencia"
+          placement="top"
+          container="body"
+        >
+          FSUB
+        </th>
+        <th
+          ngbTooltip="Aporte voluntario pension afiliado"
+          placement="top"
+          container="body"
+        >
+          VOLAFI
+        </th>
+        <th
+          ngbTooltip="Aporte voluntario pension aportante"
+          placement="top"
+          container="body"
+        >
+          VOLAPO
+        </th>
+        <th ngbTooltip="Cotización salud" placement="top" container="body">
+          CS
+        </th>
+        <th ngbTooltip="Cotización riesgos" placement="top" container="body">
+          CR
+        </th>
+        <th ngbTooltip="Cotización caja" placement="top" container="body">
+          CC
+        </th>
+        <th ngbTooltip="Cotización sena" placement="top" container="body">
+          CSENA
+        </th>
+        <th ngbTooltip="Cotización icbf" placement="top" container="body">
+          CICBF
+        </th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
