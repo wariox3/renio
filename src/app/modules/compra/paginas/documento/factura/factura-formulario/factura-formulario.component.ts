@@ -146,11 +146,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.formularioFactura = this._formularioFacturaService.createForm();
 
-    this.consultarInformacion().subscribe(() => {
-      this._actualizarPlazoPago(
-        this.formularioFactura.get('plazo_pago')?.value
-      );
-    });
     this.active = 1;
 
     if (this.parametrosUrl) {
@@ -163,6 +158,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       // this.consultardetalle();
     } else {
       this.modoEdicion = false;
+      this.consultarInformacion().subscribe(() => {
+        this._actualizarPlazoPago(
+          this.formularioFactura.get('plazo_pago')?.value
+        );
+      });
     }
 
     this.changeDetectorRef.detectChanges();
@@ -172,13 +172,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.arrPlazoPago.find((plazoPago) => {
       if (plazoPago.plazo_pago_id === plazoPagoId) {
         this.plazo_pago_dias = plazoPago.plazo_dias;
-        this.cambiarFechaVence();
       }
     });
   }
 
   recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
-    this._actualizarPlazoPago(evento.plazo_pago_id);
+    this.consultarInformacion().subscribe(() => {
+      this._actualizarPlazoPago(evento.plazo_pago_id);
+    });
   }
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
@@ -725,14 +726,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  // private _convertirFecha(fecha: string) {
-  //   const fechaString = fecha; // Obtener la fecha como string
-  //   const [year, month, day] = fechaString.split('-').map(Number); // Dividir en año, mes, día
-  //   const fechaFactura = new Date(year, month - 1, day); // Crear el objeto Date
-
-  //   return fechaFactura;
-  // }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -966,6 +959,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    this.changeDetectorRef.detectChanges();
   }
 
   capturarDias(event: any) {
