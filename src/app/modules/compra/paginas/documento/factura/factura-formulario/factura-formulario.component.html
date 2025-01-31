@@ -1,17 +1,28 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <section class="d-flex align-items-center gap-4">
-    <app-comun-encabezado-formulario-nuevo
-      [estadoAprobado]="estado_aprobado"
-    ></app-comun-encabezado-formulario-nuevo>
-    <div class="btn-group contenedor-btn-group mb-5">
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary shadow-sm"
-        (click)="abrirModal(modalImportar)"
-      >
-        Cargar zip
-      </button>
-    </div>
+    <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <div ngbDropdown>
+          <button
+            type="button"
+            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            Utilidad
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModal(modalImportar)"
+            >
+              Importar zip
+            </button>
+          </div>
+        </div>
+      </div>
+    </app-comun-encabezado-formulario-nuevo>
   </section>
   <app-card>
     <section card-titulo>
@@ -647,7 +658,7 @@
 
 <ng-template #modalImportar let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Importar horas</h4>
+    <h4 class="modal-title" id="modal-basic-title">Importar zip</h4>
     <button
       type="button"
       class="btn-close"
