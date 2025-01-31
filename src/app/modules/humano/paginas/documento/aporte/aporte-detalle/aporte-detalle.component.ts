@@ -94,6 +94,7 @@ export default class AporteDetalleComponent
     sucursal_nombre: '',
     entidad_riesgo_id: 0,
     entidad_riesgo_nombre: '',
+    base_cotizacion: 0.0,
   };
   arrAporteDetalle: any = [];
   generando: boolean = false;
@@ -193,6 +194,7 @@ export default class AporteDetalleComponent
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
+        this.tableDetallesComponent.consultarDatos();
       });
   }
 
@@ -212,6 +214,7 @@ export default class AporteDetalleComponent
       )
       .subscribe(() => {
         this.consultarDatos();
+        this.tableDetallesComponent.consultarDatos();
       });
   }
 

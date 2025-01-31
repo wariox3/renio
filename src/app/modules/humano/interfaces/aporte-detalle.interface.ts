@@ -35,4 +35,5 @@ export interface RespuestaEncabezadoAporteDetalle {
   sucursal_nombre: string;
   entidad_riesgo_id: number;
   entidad_riesgo_nombre: string;
+  base_cotizacion: number;
 }

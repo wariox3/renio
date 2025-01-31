@@ -114,6 +114,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       campoTipo: 'IntegerField'
     },
     {
+      propiedad: 'documento_tipo_nombre',
+      titulo: 'documento_tipo',
+      campoTipo: 'CharField',
+    },
+    {
       propiedad: 'numero',
       titulo: 'numero',
       campoTipo: 'IntegerField'
@@ -878,6 +883,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           propiedad: 'documento_tipo__documento_clase_id',
           valor1: 100,
+        },
+        {
+          propiedad: 'estado_aprobado',
+          valor1: true,
         },
       ],
       limite: 5,

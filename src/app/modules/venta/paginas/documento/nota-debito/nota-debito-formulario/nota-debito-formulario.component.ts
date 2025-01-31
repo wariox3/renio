@@ -111,45 +111,55 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
+    },
+    {
+      propiedad: 'documento_tipo_nombre',
+      titulo: 'documento_tipo',
+      campoTipo: 'CharField',
     },
     {
       propiedad: 'numero',
       titulo: 'numero',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
+    },
+    {
+      propiedad: 'fecha',
+      titulo: 'fecha',
+      campoTipo: 'CharField',
     },
     {
       propiedad: 'contacto_numero_identificacion',
       titulo: 'contacto_numero_identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'contacto_nombre_corto',
       titulo: 'contacto_nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'total',
       titulo: 'total',
       campoTipo: 'IntegerField',
-      aplicaFormatoNumerico: true
+      aplicaFormatoNumerico: true,
     },
   ];
   public campoListaContacto: CampoLista[] = [
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   public filtrosPermanentes = [
@@ -818,6 +828,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           propiedad: 'documento_tipo__documento_clase_id',
           valor1: 100,
+        },
+        {
+          propiedad: 'estado_aprobado',
+          valor1: true,
         },
       ],
       limite: 5,

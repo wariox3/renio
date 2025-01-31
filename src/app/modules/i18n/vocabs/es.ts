@@ -673,6 +673,10 @@ export const locale = {
             CAJA: 'Caja',
             SENA: 'SENA',
             TOTAL: 'Total',
+            BASECOTIZACION: 'Base cotización',
+            EMPLEADOS: 'Empleados',
+            CONTRATOS: 'Contratos',
+            LINEAS: 'Lineas',
           },
         },
         CONTABILIDAD: {
