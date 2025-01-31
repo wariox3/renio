@@ -1,7 +1,18 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="estado_aprobado"
-  ></app-comun-encabezado-formulario-nuevo>
+  <section class="d-flex align-items-center gap-4">
+    <app-comun-encabezado-formulario-nuevo
+      [estadoAprobado]="estado_aprobado"
+    ></app-comun-encabezado-formulario-nuevo>
+    <div class="btn-group contenedor-btn-group mb-5">
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary shadow-sm"
+        (click)="abrirModal(modalImportar)"
+      >
+        Cargar zip
+      </button>
+    </div>
+  </section>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -538,265 +549,6 @@
                   [cuentasConImpuestos]="true"
                   [visualizarAgregarCuenta]="true"
                 ></app-formulario-productos>
-                <!-- <div class="table-responsive-sm">
-                  <table
-                    id="tableDetalles"
-                    class="table table-bordered table-sm"
-                  >
-                    <thead>
-                      <tr class="bg-gray-100">
-                        <th class="w-40px">Id</th>
-                        <th
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                        ></th>
-                        <th
-                          class="w-50px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
-                        ></th>
-                        <th
-                          class="w-100px text-center"
-                          *ngIf="!estado_aprobado"
-                        >
-                          <button
-                            (click)="agregarProductos()"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                          ></button>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody formArrayName="detalles">
-                      <ng-container
-                        *ngFor="let detalle of detalles.controls; let i = index"
-                        [formGroupName]="i"
-                      >
-                        <tr>
-                          <td class="w-40px">{{ detalle.value.id }}</td>
-                          <td>
-                            <app-comun-productos
-                              [itemNombre]="detalle.value.item_nombre"
-                              [estado_aprobado]="estado_aprobado"
-                              [compra]="true"
-                              [venta]="false"
-                              [campoInvalido]="
-                                detalle.get('item')?.touched &&
-                                detalle.get('item')?.invalid
-                              "
-                              (emitirArrItems)="
-                                agregarItemSeleccionado($event, i)
-                              "
-                              (emitirLineaVacia)="
-                                eliminarProducto(i, detalle.value.id)
-                              "
-                            ></app-comun-productos>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              [value]="detalle.value.cantidad"
-                              formControlName="cantidad"
-                              (change)="
-                                actualizarDetalle(i, 'cantidad', $event)
-                              "
-                              class="form-control-sm"
-                              [attr.disabled]="estado_aprobado"
-                              [readonly]="estado_aprobado"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                          </td>
-                          <td>
-                            <input
-                              formControlName="precio"
-                              [value]="detalle.value.precio"
-                              (change)="actualizarDetalle(i, 'precio', $event)"
-                              [attr.disabled]="estado_aprobado"
-                              [readonly]="estado_aprobado"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                          </td>
-                          <td>
-                            <div class="position-relative">
-                              <input
-                                formControlName="descuento"
-                                [value]="detalle.value.descuento"
-                                (change)="
-                                  actualizarDetalle(i, 'descuento', $event)
-                                "
-                                [attr.disabled]="estado_aprobado"
-                                [readonly]="estado_aprobado"
-                                class="form-control-sm"
-                                [ngClass]="{
-                                  'disabled-cursor bg-transparent':
-                                    estado_aprobado,
-                                  'text-white':
-                                    theme_value === 'dark' && estado_aprobado
-                                }"
-                                rows="1"
-                                spellcheck="true"
-                                appSoloNumeros
-                              />
-                              <div
-                                class="position-absolute translate-middle-y top-50 end-0 me-3"
-                              >
-                                <i class="bi bi-percent"></i>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <input
-                              class="form-control form-control-sm"
-                              disabled
-                              rows="1"
-                              spellcheck="true"
-                              class="disabled-cursor bg-transparent"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white bg-transparent':
-                                  theme_value === 'dark'
-                              }"
-                              readonly
-                              [value]="detalle.value.subtotal"
-                            />
-                          </td>
-                          <td>
-                            <app-comun-impuestos
-                              (emitirImpuestoAgregado)="
-                                agregarImpuesto($event, i, 'agregar')
-                              "
-                              (emitirImpuestoElimiando)="
-                                removerImpuesto($event, i)
-                              "
-                              [arrLista]="detalles.controls[i].value.impuestos"
-                              [estado_aprobado]="!estado_aprobado"
-                              [visualizarImpuestosCompra]="true"
-                            ></app-comun-impuestos>
-                          </td>
-                          <td>
-                            <input
-                              readonly
-                              rows="1"
-                              spellcheck="true"
-                              (blur)="onImpuestoBlur(i, estado_aprobado)"
-                              class="disabled-cursor"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'bg-transparent': estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              [value]="detalle.value.total"
-                            />
-                          </td>
-                          <td class="text-center" *ngIf="!estado_aprobado">
-                            <i
-                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="eliminarProducto(i, detalle.value.id)"
-                            ></i>
-                          </td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="d-flex justify-content-end mb-5">
-                  <table>
-                    <tr *ngIf="totalCantidad > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                      ></td>
-                      <td class="text-end">{{ totalCantidad }}</td>
-                    </tr>
-                    <tr *ngIf="subtotalGeneral > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                      ></td>
-                      <td class="text-end">
-                        {{ subtotalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalBase > 0">
-                      <td class="text-end">Total base</td>
-                      <td class="text-end">
-                        {{ totalBase | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
-                      <td class="text-end">{{ impuesto.key }}</td>
-                      <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalDescuento > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalDescuento | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalImpuestos > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalImpuestos | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr class="border-top">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                      ></td>
-                      <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                  </table>
-                </div> -->
               </ng-template>
             </li>
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
@@ -891,4 +643,27 @@
       </div>
     </div>
   </ng-container>
+</ng-template>
+
+<ng-template #modalImportar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Importar horas</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-importar-personalizado
+      [extensionesPermitidas]="'.zip'"
+      [mensajeExitoso]="'El archivo zip se ha cargado con exito '"
+      (emitirPeticionCompletada)="autocompletarEncabezado($event)"
+      [configuracionCargarArchivo]="{
+        endpoint: 'general/documento/importar-compra-zip/',
+        datosOpcionalesPayload: {}
+      }"
+    />
+  </div>
 </ng-template>
