@@ -673,6 +673,7 @@ export const locale = {
             CAJA: 'Caja',
             SENA: 'SENA',
             TOTAL: 'Total',
+            BASECOTIZACION: 'Base cotización',
           },
         },
         CONTABILIDAD: {
