@@ -13,10 +13,10 @@ import { TranslateModule } from '@ngx-translate/core';
   template: `
     <div class="ayuda">
       <button
+        type="button"
         (click)="navegarAtras()"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
       >
-
         <i class="bi bi-arrow-left fs-6"
           ><span class="path1"></span><span class="path2"></span
         ></i>
