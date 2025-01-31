@@ -7,21 +7,12 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
-import {
-  ImportarDetalles,
-} from '@interfaces/comunes/importar/importar-detalles.interface';
+import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
-import {
-  catchError,
-  mergeMap,
-  of,
-  take,
-  tap,
-  toArray
-} from 'rxjs';
+import { catchError, mergeMap, of, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -49,6 +40,7 @@ export class ImportarComponent extends General {
   soloNuevos: boolean;
   cantidadErrores: number = 0;
   modalRef: any;
+  nombreArchivoEjemplo: string | null;
   @Input() estadoHabilitado: boolean = false;
   @Input() modelo: string;
   @Input() esBotonFinal: boolean;
@@ -63,25 +55,20 @@ export class ImportarComponent extends General {
   }
 
   abrirModalContactoNuevo(content: any) {
-    this.descargarArchivosService._construirNombreArchivo(
-      this.parametrosUrl,
-      this.ubicacion,
-      undefined
-    );
     this.store
       .select(obtenerArchivoImportacionLista)
       .pipe(
-        tap(
-          (archivoImportacionLista) => {
-            if (archivoImportacionLista) {
-              this.habilitarBtnEjemploImportar = true;
-              this.changeDetectorRef.detectChanges();
-            } else {
-              this.habilitarBtnEjemploImportar = false;
-              this.changeDetectorRef.detectChanges();
-            }
+        tap((archivoImportacionLista) => {
+          if (archivoImportacionLista) {
+            this.nombreArchivoEjemplo = archivoImportacionLista;
+            this.habilitarBtnEjemploImportar = true;
+            this.changeDetectorRef.detectChanges();
+          } else {
+            this.nombreArchivoEjemplo = null;
+            this.habilitarBtnEjemploImportar = false;
+            this.changeDetectorRef.detectChanges();
           }
-        ),
+        }),
         tap(() => {
           this.importarSoloNuevos =
             this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
@@ -104,15 +91,13 @@ export class ImportarComponent extends General {
   }
 
   descargarEjemploImportar() {
-    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
-      this.parametrosUrl,
-      this.ubicacion,
-      undefined
-    );
-
-    this.descargarArchivosService
-      .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
-      .subscribe();
+    if (this.nombreArchivoEjemplo) {
+      this.descargarArchivosService
+        .descargarArchivoLocal(
+          `assets/ejemplos/modelo/${this.nombreArchivoEjemplo}`
+        )
+        .subscribe();
+    }
   }
 
   async guardarArchivo() {
@@ -133,7 +118,7 @@ export class ImportarComponent extends General {
 
         let data: any = {
           archivo_base64,
-          documento_tipo_id: Number(parametros?.documento_clase)
+          documento_tipo_id: Number(parametros?.documento_clase),
         };
 
         if (this.soloNuevos) {
