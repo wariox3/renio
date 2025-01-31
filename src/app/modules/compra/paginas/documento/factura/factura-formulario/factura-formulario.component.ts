@@ -39,6 +39,8 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
+import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-formulario.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -60,6 +62,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     SoloNumerosDirective,
+    ImportarPersonalizadoComponent,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -995,5 +998,101 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  abrirModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {
+    this._getContacto({
+      filtros: [
+        {
+          operador: 'exact',
+          propiedad: 'numero_identificacion',
+          valor1: respuestaFacturaCompra.contacto_identificacion,
+        },
+        {
+          propiedad: 'proveedor',
+          valor1: 'True',
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'GenContacto',
+      serializador: 'ListaAutocompletar',
+    }).subscribe({
+      next: (respuesta) => {
+        if (respuesta.registros.length > 0) {
+          this.formularioFactura.patchValue({
+            contacto_numero_identificacion:
+              respuestaFacturaCompra.contacto_identificacion,
+            referencia_numero: respuestaFacturaCompra.referencia_numero,
+            referencia_cue: respuestaFacturaCompra.referencia_cue,
+            referencia_prefijo: respuestaFacturaCompra.referencia_prefijo,
+            fecha: respuestaFacturaCompra.fecha,
+            fecha_vence: respuestaFacturaCompra.fecha_vence,
+            comentario: respuestaFacturaCompra.comentario,
+          });
+          this._asignarContactoAFormulario(respuesta.registros);
+        } else {
+          this.alertaService.mensajeError(
+            'Error al importar',
+            'El contacto no fue encontrado'
+          );
+        }
+      },
+    });
+  }
+
+  private _asignarContactoAFormulario(
+    contactosEncontrados: RegistroAutocompletarGenContacto[]
+  ) {
+    if (contactosEncontrados.length > 0) {
+      const contacto = contactosEncontrados[0];
+      this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
+      this.formularioFactura.patchValue({
+        contactoNombre: contacto.contacto_nombre_corto,
+        contacto: contacto.contacto_id,
+        plazo_pago: contacto.plazo_pago_proveedor_id,
+      });
+      this.changeDetectorRef.detectChanges();
+    }
+  }
+
+  private _getContacto(filtros: ParametrosFiltros) {
+    return this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(
+      filtros
+    );
+  }
+
+  private _actualizarFechas(plazoPagoDias: number) {
+    if (plazoPagoDias > 0) {
+      this.plazo_pago_dias = plazoPagoDias;
+      const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
+      let fechaInicio = this.formularioFactura.get('fecha')?.value;
+      const fechaActual = new Date(fechaInicio); // Obtener la fecha actual
+      fechaActual.setDate(fechaActual.getDate() + diasNumero);
+      const fechaVencimiento = `${fechaActual.getFullYear()}-${(
+        fechaActual.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}-${fechaActual
+        .getDate()
+        .toString()
+        .padStart(2, '0')}`;
+      // Suma los días a la fecha actual
+      this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    } else {
+      this.plazo_pago_dias = 0;
+      this.formularioFactura
+        .get('fecha_vence')
+        ?.setValue(this.formularioFactura.get('fecha')?.value);
+    }
   }
 }

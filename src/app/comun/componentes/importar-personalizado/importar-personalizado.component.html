@@ -6,7 +6,7 @@
       id="myfile"
       #fileInput
       (change)="archivoSeleccionado($event)"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      [accept]="extensionesPermitidas"
     />
     <button
       type="button"
@@ -45,13 +45,22 @@
   <img src="" alt="" />
 </form>
 
-<div class="d-flex mb-2 justify-content-between">
+<div
+  class="d-flex mb-2"
+  [ngClass]="
+    configuracionDescargarEjemplo
+      ? 'justify-content-between'
+      : 'justify-content-end'
+  "
+>
+  @if (configuracionDescargarEjemplo) {
   <button
     type="submit"
     class="btn btn-sm btn-primary me-2"
     (click)="descargarEjemplo()"
     translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
   ></button>
+  }
   <div>
     @if((cargardoDocumento$ | async)){
     <button class="btn btn-sm btn-primary" type="button" disabled>
