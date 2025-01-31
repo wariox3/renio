@@ -20,12 +20,17 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-formulario.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -34,13 +39,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
-import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
-import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-formulario.interface';
+import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -52,7 +52,6 @@ import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-fo
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    NgbDropdownModule,
     NgbNavModule,
     BuscarAvanzadoComponent,
     CardComponent,
@@ -63,6 +62,7 @@ import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-fo
     TituloAccionComponent,
     SoloNumerosDirective,
     ImportarPersonalizadoComponent,
+    NgbDropdownModule,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -1039,7 +1039,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             fecha_vence: respuestaFacturaCompra.fecha_vence,
             comentario: respuestaFacturaCompra.comentario,
           });
-          this._asignarContactoAFormulario(respuesta.registros);
+
+          this._asignarContactoAFormulario(
+            respuesta.registros,
+            respuestaFacturaCompra.fecha_vence
+          );
         } else {
           this.alertaService.mensajeError(
             'Error al importar',
@@ -1051,11 +1055,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   private _asignarContactoAFormulario(
-    contactosEncontrados: RegistroAutocompletarGenContacto[]
+    contactosEncontrados: RegistroAutocompletarGenContacto[],
+    fechaVence: string
   ) {
     if (contactosEncontrados.length > 0) {
       const contacto = contactosEncontrados[0];
-      this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
+
+      if (!fechaVence) {
+        this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
+      }
+
       this.formularioFactura.patchValue({
         contactoNombre: contacto.contacto_nombre_corto,
         contacto: contacto.contacto_id,
