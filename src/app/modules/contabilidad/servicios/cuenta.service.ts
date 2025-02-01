@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
+import { cuentaTraslado } from '../interfaces/cuenta-traslado';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +36,9 @@ export class CuentaService extends Subdominio {
     const idHasta = id * multiplicador + desplazamiento;
 
     return { idDesde, idHasta };
+  }
+
+  traslado(data: cuentaTraslado){
+    return this.httpService.post<ConCuenta>(`contabilidad/cuenta/trasladar/`, data);
   }
 }

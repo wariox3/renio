@@ -1,0 +1,40 @@
+<ng-template #contentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Trasladar movimientos</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioTranslado" (ngSubmit)="enviarFormulario()">
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label class="form-label">Cuenta origen</label>
+          <app-comun-cuentas
+            [cuentaCodigo]="formularioTranslado.value.cuenta_origen_codigo"
+            [cuentaNombre]="formularioTranslado.value.cuenta_origen_nombre"
+            [campoInvalido]="
+              formularioTranslado.get('cuenta_origen_id')?.touched &&
+              formularioTranslado.get('cuenta_origen_id')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaSeleccionado($event)"
+          ></app-comun-cuentas>
+          <div class="alert alert-info mt-5" role="alert">
+            Todos los movimientos de la cuenta seleccionada se trasladan a la cuenta <strong>{{this.codigoCuenta}}</strong>
+          </div>
+        </div>
+
+      </div>
+      <div class=" d-flex justify-content-end">
+          <button
+            translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+            type="submit"
+            class="btn btn-primary btn-sm"
+          ></button>
+      </div>
+    </form>
+  </div>
+</ng-template>
