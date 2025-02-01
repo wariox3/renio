@@ -103,7 +103,7 @@ export default class ContratoFormularioComponent
       .get('pago_tipo')
       ?.valueChanges.pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
-        if (value === '2') {
+        if (value === '2' || value === '3') {
           // limpiar validaciones
           this._limpiarValidacionFechaHasta();
         } else {
@@ -128,7 +128,7 @@ export default class ContratoFormularioComponent
 
   actualizarValidacion(dias: number) {
     const pagoId = this.formularioProgramacion.get('pago_tipo')?.value;
-    if (pagoId == 2) {
+    if (pagoId == 2 || pagoId === '3') {
       this.formularioProgramacion.setValidators([
         this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
       ]);
@@ -332,7 +332,7 @@ export default class ContratoFormularioComponent
           let valor = Number(respuesta.grupo_id);
           return grupo.grupo_id === valor;
         });
-        
+
         if (this.grupoSeleccionado !== undefined) {
           this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
           this.formularioProgramacion.patchValue({
