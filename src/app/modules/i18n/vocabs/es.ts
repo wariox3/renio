@@ -619,6 +619,9 @@ export const locale = {
             CONTRATOS: 'Contratos',
             DIAS: 'Días',
             PERIODO: 'Período',
+            PRIMA: 'Prima',
+            CESANTIA: 'Cesantía',
+            INTERES: 'Interes'
           },
           PAGO: {
             DESDE: 'Desde',

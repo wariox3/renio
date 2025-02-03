@@ -75,6 +75,9 @@ export class TablaEncabezadoCesantiaComponent
     grupo_nombre: '',
     periodo_id: 0,
     periodo_nombre: '',
+    pago_prima: false,
+    pago_interes: false,
+    pago_cesantia: false
   };
 
   constructor() {

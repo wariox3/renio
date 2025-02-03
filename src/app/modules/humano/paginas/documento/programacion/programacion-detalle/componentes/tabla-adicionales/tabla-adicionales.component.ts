@@ -87,6 +87,9 @@ export class TablaAdicionalesComponent extends General {
     grupo_nombre: '',
     periodo_id: 0,
     periodo_nombre: '',
+    pago_prima: false,
+    pago_interes: false,
+    pago_cesantia: false
   };
   @ViewChild(ModalProgramacionDetalleAdicionalComponent)
   modalProgramacionDetalleAdicionalComponent: ModalProgramacionDetalleAdicionalComponent;
