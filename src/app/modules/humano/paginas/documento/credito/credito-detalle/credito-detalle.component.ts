@@ -10,6 +10,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { Credito } from '@modulos/humano/interfaces/credito.interface';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-credito-detalle',
@@ -22,6 +23,7 @@ import { Credito } from '@modulos/humano/interfaces/credito.interface';
     BtnAtrasComponent,
     NgbNavModule,
     TituloAccionComponent,
+    SiNoPipe
   ],
   templateUrl: './credito-detalle.component.html',
   styleUrl: './credito-detalle.component.scss',
@@ -45,7 +47,9 @@ export default class CreditoDetalleComponent extends General {
     contrato_contacto_numero_identificacion: '',
     contrato_contacto_nombre_corto: '',
     concepto_id: 0,
-    concepto_nombre: ''
+    concepto_nombre: '',
+    aplica_prima: false,
+    aplica_cesantia: false
   };
 
   arrCreditoPagos: any;
