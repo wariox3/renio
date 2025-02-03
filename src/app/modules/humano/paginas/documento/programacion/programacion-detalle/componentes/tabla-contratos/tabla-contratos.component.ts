@@ -4,19 +4,16 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnChanges,
   OnInit,
   Output,
   signal,
-  SimpleChanges,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { ProgramacionContratos } from '@modulos/humano/interfaces/programacion-contratos.interface';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { RespuestaProgramacionContrato } from '@modulos/humano/interfaces/respuesta-programacion-contratos.interface';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
@@ -27,12 +24,11 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { finalize, tap } from 'rxjs';
-import { FiltrosDetalleProgramacionContratos } from '../../constantes';
-import { ModalProgramacionDetalleNominaResumenComponent } from '../modal-programacion-detalle-nomina-resumen/modal-programacion-detalle-nomina-resumen.component';
-import { ModalProgramacionDetalleEditarContratoComponent } from '../modal-programacion-detalle-editar-contrato/modal-programacion-detalle-editar-contrato.component';
-import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
+import { TablaEncabezadoCesantiaComponent } from "./componentes/tabla-encabezado-cesantia/tabla-encabezado-cesantia.component.component";
+import { TablaEncabezadoGeneralComponent } from './componentes/tabla-encabezado-general/tabla-encabezado-general.component';
+import { TablaEncabezadoPrimaComponent } from './componentes/tabla-encabezado-prima/tabla-encabezado-prima.component';
+import { TablaContratosService } from './services/tabla-contratos.service';
 
 @Component({
   selector: 'app-tabla-contratos',
@@ -44,17 +40,24 @@ import { PaginadorComponent } from '@comun/componentes/paginador/paginador.compo
     NgbTooltipModule,
     TranslateModule,
     CommonModule,
-    ModalProgramacionDetalleNominaResumenComponent,
-    ModalProgramacionDetalleEditarContratoComponent,
-  ],
+    TablaEncabezadoPrimaComponent,
+    TablaEncabezadoGeneralComponent,
+    TablaEncabezadoCesantiaComponent
+],
   templateUrl: './tabla-contratos.component.html',
   styleUrl: './tabla-contratos.component.scss',
 })
 export class TablaContratosComponent extends General implements OnInit {
+  private _descargarArchivosService = inject(DescargarArchivosService);
+  private _programacionService = inject(ProgramacionService);
+  private _programacionDetalleService = inject(ProgramacionDetalleService);
+  private _tablaContratosService = inject(TablaContratosService);
+
   cantidadRegistros = signal(0);
   ordenadoTabla = signal('');
   cargandoContratos = signal(false);
-  isCheckedSeleccionarTodos = signal(false);
+  isCheckedSeleccionarTodos =
+    this._tablaContratosService.isCheckedSeleccionarTodos;
   arrParametrosConsulta = signal<ParametrosFiltros>({
     limite: 0,
     desplazar: 0,
@@ -64,13 +67,8 @@ export class TablaContratosComponent extends General implements OnInit {
     filtros: [],
   });
   arrProgramacionDetalle = signal<RespuestaProgramacionContrato[]>([]);
-  registrosAEliminar = signal<number[]>([]);
+  registrosAEliminar = this._tablaContratosService.registrosAEliminar;
   registroSeleccionado = signal<number>(0);
-
-  private _descargarArchivosService = inject(DescargarArchivosService);
-  private _generalService = inject(GeneralService);
-  private _programacionService = inject(ProgramacionService);
-  private _programacionDetalleService = inject(ProgramacionDetalleService);
 
   @Output() emitirEventoConsultarLista = new EventEmitter<void>();
   @Input() programacion: ProgramacionRespuesta = {
@@ -118,26 +116,9 @@ export class TablaContratosComponent extends General implements OnInit {
   }
 
   consultarDatos() {
-    this.reiniciarSelectoresEliminar();
-    this._generalService
-      .consultarDatosLista<ProgramacionContratos>(this.arrParametrosConsulta())
-      .pipe(
-        tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.arrProgramacionDetalle.set(
-            respuesta.registros.map(
-              (registro: RespuestaProgramacionContrato) => ({
-                ...registro,
-                selected: false,
-              })
-            )
-          );
-        })
-      )
+    this._tablaContratosService
+      .consultarListaContratos(this.arrParametrosConsulta())
       .subscribe();
-    this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: FiltrosDetalleProgramacionContratos })
-    );
   }
 
   obtenerFiltrosContratos(data: any[]) {
@@ -294,52 +275,7 @@ export class TablaContratosComponent extends General implements OnInit {
     }
     this.registrosAEliminar.set([]);
   }
-
-  orderPor(nombre: string, i: number) {
-    if (this.ordenadoTabla().charAt(0) == '-') {
-      this.ordenadoTabla.set(nombre.toLowerCase());
-    } else {
-      this.ordenadoTabla.set(`-${nombre.toLowerCase()}`);
-    }
-
-    this.arrParametrosConsulta.update((parametros) => {
-      const nuevosOrdenamientos = [...parametros.ordenamientos];
-      nuevosOrdenamientos[i] = this.ordenadoTabla();
-
-      return {
-        ...parametros,
-        ordenamientos: nuevosOrdenamientos,
-      };
-    });
-
-    this.consultarDatos();
-  }
-
-  toggleSelectAll(event: Event) {
-    const seleccionarTodos = event.target as HTMLInputElement;
-    this.isCheckedSeleccionarTodos.update((checked) => (checked = !checked));
-    let registros = this.arrProgramacionDetalle();
-
-    if (seleccionarTodos.checked) {
-      registros.map((item: RespuestaProgramacionContrato) => {
-        item.selected = true;
-        const index = this.registrosAEliminar().indexOf(item.id);
-        if (index === -1) {
-          let registros = this.registrosAEliminar();
-          this.registrosAEliminar.set([...registros, item.id]);
-        }
-      });
-
-      this.arrProgramacionDetalle.set(registros);
-    } else {
-      registros.map((item: RespuestaProgramacionContrato) => {
-        item.selected = false;
-      });
-      this.arrProgramacionDetalle.set(registros);
-      this.registrosAEliminar.set([]);
-    }
-  }
-
+  
   abrirModalDeEditarRegistro(content: any, id: number) {
     this.registroSeleccionado.set(id);
     // this.iniciarFormularioEditarDetalles();
