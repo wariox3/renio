@@ -40,6 +40,7 @@ export class ModalTransladarMovimientosComponent extends General {
   private _cuentaService = inject(CuentaService);
   private _alertaService = inject(AlertaService);
 
+  @Input() cuentaId: number;
   @Input() codigoCuenta: string;
   @ViewChild('contentModal') contentModal: TemplateRef<any>;
 
@@ -57,7 +58,7 @@ export class ModalTransladarMovimientosComponent extends General {
 
   iniciarFormulario() {
     this.formularioTranslado = this._formBuilder.group({
-      cuenta_destino_codigo: [this.codigoCuenta],
+      cuenta_destino_id: [this.cuentaId],
       cuenta_origen_id: ['', Validators.compose([Validators.required])],
       cuenta_origen_codigo: [''],
       cuenta_origen_nombre: [''],
@@ -77,13 +78,16 @@ export class ModalTransladarMovimientosComponent extends General {
             this._cuentaService
               .traslado({
                 cuenta_destino_id: this.formularioTranslado.get(
-                  'cuenta_destino_codigo'
+                  'cuenta_destino_id'
                 )?.value,
                 cuenta_origen_id: this.formularioTranslado.get(
-                  'cuenta_origen_codigo'
+                  'cuenta_origen_id'
                 )?.value,
               })
               .subscribe((respuesta) => {
+                if(respuesta.mensaje){
+                  this.alertaService.mensajaExitoso(respuesta.mensaje)
+                }
                 this._modalService.dismissAll();
               });
           }
