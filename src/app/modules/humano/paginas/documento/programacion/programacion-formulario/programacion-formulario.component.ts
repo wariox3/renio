@@ -128,7 +128,7 @@ export default class ContratoFormularioComponent
 
   actualizarValidacion(dias: number) {
     const pagoId = this.formularioProgramacion.get('pago_tipo')?.value;
-    if (pagoId == 2 || pagoId === '3') {
+    if (pagoId == 2 || pagoId == 3) {
       this.formularioProgramacion.setValidators([
         this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
       ]);
