@@ -574,6 +574,8 @@ export const locale = {
             ABONO: 'Payment',
             SALDO: 'Balance',
             PAGADO: 'Paid',
+            APLICAPRIMA: 'Applies premium',
+            APLICACESANTIA: 'Applies severance'
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Health Discount',
