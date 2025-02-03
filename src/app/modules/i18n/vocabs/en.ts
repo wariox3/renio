@@ -427,7 +427,7 @@ export const locale = {
             DISPONIBLE: 'Available',
           },
           CONTACTO: {
-            PERSONATIPO: 'Person Type',
+            PERSONATIPO: 'Type person',
             REGIMEN: 'Tax regime',
             CODIGOCIUU: 'CIIU Code',
             PLAZOPAGO: 'Payment Term',
