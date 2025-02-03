@@ -213,6 +213,9 @@ export default class ContratoFormularioComponent
         descuento_credito: [true],
         descuento_embargo: [true],
         adicional: [true],
+        pago_prima: [true],
+        pago_cesantia: [true],
+        pago_interes: [true],
         comentario: [
           null,
           Validators.compose([
@@ -327,6 +330,9 @@ export default class ContratoFormularioComponent
           dias: respuesta.dias,
           cantidad: respuesta.contratos,
           periodo: respuesta.periodo_id,
+          pago_prima: respuesta.pago_prima,
+          pago_cesantia: respuesta.pago_cesantia,
+          pago_interes: respuesta.pago_interes,
         });
 
         this.grupoSeleccionado = this.arrGrupo.find((grupo) => {

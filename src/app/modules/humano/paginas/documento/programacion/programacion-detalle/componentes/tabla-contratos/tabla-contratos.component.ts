@@ -103,6 +103,9 @@ export class TablaContratosComponent extends General implements OnInit {
     grupo_nombre: '',
     periodo_id: 0,
     periodo_nombre: '',
+    pago_prima: false,
+    pago_interes: false,
+    pago_cesantia: false
   };
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
 
@@ -275,7 +278,7 @@ export class TablaContratosComponent extends General implements OnInit {
     }
     this.registrosAEliminar.set([]);
   }
-  
+
   abrirModalDeEditarRegistro(content: any, id: number) {
     this.registroSeleccionado.set(id);
     // this.iniciarFormularioEditarDetalles();
