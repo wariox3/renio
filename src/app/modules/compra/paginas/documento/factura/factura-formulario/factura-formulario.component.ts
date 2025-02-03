@@ -30,7 +30,10 @@ import {
   DocumentoFacturaRespuesta,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
-import { RespuestaFacturaCompraZip } from '@modulos/compra/interfaces/factura-formulario.interface';
+import {
+  ContactoFacturaZip,
+  RespuestaFacturaCompraZip,
+} from '@modulos/compra/interfaces/factura-formulario.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -1002,76 +1005,27 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {
-    this._getContacto({
-      filtros: [
-        {
-          operador: 'exact',
-          propiedad: 'numero_identificacion',
-          valor1: respuestaFacturaCompra.contacto_identificacion,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    }).subscribe({
-      next: (respuesta) => {
-        if (respuesta.registros.length > 0) {
-          this.formularioFactura.patchValue({
-            contacto_numero_identificacion:
-              respuestaFacturaCompra.contacto_identificacion,
-            referencia_numero: respuestaFacturaCompra.referencia_numero,
-            referencia_cue: respuestaFacturaCompra.referencia_cue,
-            referencia_prefijo: respuestaFacturaCompra.referencia_prefijo,
-            fecha: respuestaFacturaCompra.fecha,
-            fecha_vence: respuestaFacturaCompra.fecha_vence,
-            comentario: respuestaFacturaCompra.comentario,
-          });
-
-          this._asignarContactoAFormulario(
-            respuesta.registros,
-            respuestaFacturaCompra.fecha_vence
-          );
-        } else {
-          this.alertaService.mensajeError(
-            'Error al importar',
-            'El contacto no fue encontrado'
-          );
-        }
-      },
+    this.formularioFactura.patchValue({
+      referencia_numero: respuestaFacturaCompra.referencia_numero,
+      referencia_cue: respuestaFacturaCompra.referencia_cue,
+      referencia_prefijo: respuestaFacturaCompra.referencia_prefijo,
+      fecha: respuestaFacturaCompra.fecha,
+      comentario: respuestaFacturaCompra.comentario,
     });
+
+    this._asignarContactoAFormulario(respuestaFacturaCompra.contacto);
   }
 
-  private _asignarContactoAFormulario(
-    contactosEncontrados: RegistroAutocompletarGenContacto[],
-    fechaVence: string
-  ) {
-    if (contactosEncontrados.length > 0) {
-      const contacto = contactosEncontrados[0];
+  private _asignarContactoAFormulario(contacto: ContactoFacturaZip) {
+    this.formularioFactura.patchValue({
+      contactoNombre: contacto.nombre_corto,
+      contacto: contacto.id,
+      plazo_pago: contacto.plazo_pago_proveedor_id,
+    });
 
-      if (!fechaVence) {
-        this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
-      }
+    this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
 
-      this.formularioFactura.patchValue({
-        contactoNombre: contacto.contacto_nombre_corto,
-        contacto: contacto.contacto_id,
-        plazo_pago: contacto.plazo_pago_proveedor_id,
-      });
-      this.changeDetectorRef.detectChanges();
-    }
-  }
-
-  private _getContacto(filtros: ParametrosFiltros) {
-    return this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(
-      filtros
-    );
+    this.changeDetectorRef.detectChanges();
   }
 
   private _actualizarFechas(plazoPagoDias: number) {
