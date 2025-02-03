@@ -436,7 +436,7 @@ export const locale = {
             DISPONIBLE: 'Disponible',
           },
           CONTACTO: {
-            PERSONATIPO: 'Persona tipo',
+            PERSONATIPO: 'Tipo persona',
             REGIMEN: 'Régimen fiscal',
             CODIGOCIUU: 'Código CIUU',
             PLAZOPAGO: 'Plazo de pago',
