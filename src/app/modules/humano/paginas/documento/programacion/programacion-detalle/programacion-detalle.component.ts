@@ -1,4 +1,3 @@
-import { PaginadorComponent } from './../../../../../../comun/componentes/paginador/paginador.component';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -19,7 +18,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
+import { ImportarPersonalizadoComponent } from '@comun/componentes/importar-personalizado/importar-personalizado.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
@@ -32,6 +31,7 @@ import {
   ProgramacionDetalleRegistro,
   TablaRegistroLista,
 } from '@interfaces/humano/programacion';
+import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
 import { ProgramacionService } from '@modulos/humano/servicios/programacion.service';
@@ -44,7 +44,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import {
   asyncScheduler,
   BehaviorSubject,
@@ -59,14 +59,11 @@ import {
   throttleTime,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { TablaResumenComponent } from './componentes/tabla-resumen/tabla-resumen.component';
-import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { FiltrosDetalleProgramacionContratos } from './constantes';
-import { TablaContratosComponent } from './componentes/tabla-contratos/tabla-contratos.component';
 import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
-import { ImportarPersonalizadoComponent } from '@comun/componentes/importar-personalizado/importar-personalizado.component';
+import { TablaContratosService } from './componentes/tabla-contratos/services/tabla-contratos.service';
+import { TablaContratosComponent } from './componentes/tabla-contratos/tabla-contratos.component';
+import { TablaResumenComponent } from './componentes/tabla-resumen/tabla-resumen.component';
+import { FiltrosDetalleProgramacionContratos } from './constantes';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -97,6 +94,7 @@ export default class ProgramacionDetalleComponent
   implements OnInit, OnDestroy
 {
   private _descargarArchivosService = inject(DescargarArchivosService);
+  private _tablaContratosService = inject(TablaContratosService);
 
   active: Number;
   programacion: ProgramacionRespuesta = {
@@ -133,7 +131,7 @@ export default class ProgramacionDetalleComponent
     periodo_nombre: '',
     pago_prima: false,
     pago_interes: false,
-    pago_cesantia: false
+    pago_cesantia: false,
   };
   pago: any = {};
   pagoDetalles: any = [];
@@ -227,7 +225,9 @@ export default class ProgramacionDetalleComponent
           this.programacion = respuesta;
         }),
         switchMap(() =>
-          this._generalService.consultarDatosLista(this.arrParametrosConsulta)
+          this._tablaContratosService.consultarListaContratos(
+            this.arrParametrosConsulta
+          )
         ),
         map((respuesta: any) =>
           respuesta.registros.map((registro: TablaRegistroLista) => ({

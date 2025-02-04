@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
   signal,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -24,8 +24,8 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { finalize, tap } from 'rxjs';
-import { TablaEncabezadoCesantiaComponent } from "./componentes/tabla-encabezado-cesantia/tabla-encabezado-cesantia.component.component";
+import { finalize, forkJoin, tap } from 'rxjs';
+import { TablaEncabezadoCesantiaComponent } from './componentes/tabla-encabezado-cesantia/tabla-encabezado-cesantia.component.component';
 import { TablaEncabezadoGeneralComponent } from './componentes/tabla-encabezado-general/tabla-encabezado-general.component';
 import { TablaEncabezadoPrimaComponent } from './componentes/tabla-encabezado-prima/tabla-encabezado-prima.component';
 import { TablaContratosService } from './services/tabla-contratos.service';
@@ -42,8 +42,8 @@ import { TablaContratosService } from './services/tabla-contratos.service';
     CommonModule,
     TablaEncabezadoPrimaComponent,
     TablaEncabezadoGeneralComponent,
-    TablaEncabezadoCesantiaComponent
-],
+    TablaEncabezadoCesantiaComponent,
+  ],
   templateUrl: './tabla-contratos.component.html',
   styleUrl: './tabla-contratos.component.scss',
 })
@@ -105,7 +105,7 @@ export class TablaContratosComponent extends General implements OnInit {
     periodo_nombre: '',
     pago_prima: false,
     pago_interes: false,
-    pago_cesantia: false
+    pago_cesantia: false,
   };
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
 
@@ -256,20 +256,20 @@ export class TablaContratosComponent extends General implements OnInit {
 
   eliminarRegistros() {
     if (this.registrosAEliminar().length > 0) {
-      this.registrosAEliminar().forEach((id) => {
-        this._programacionDetalleService
-          .eliminarRegistro(id, {})
-          .pipe(
-            finalize(() => {
-              this.isCheckedSeleccionarTodos.set(false);
-              this.emitirEventoConsultarLista.emit();
-            })
-          )
-          .subscribe(() => {
-            this.alertaService.mensajaExitoso('Registro eliminado');
-            this.consultarDatos();
-          });
+      const eliminarSolicitudes = this.registrosAEliminar().map((id) => {
+        return this._programacionDetalleService.eliminarRegistro(id, {});
       });
+
+      forkJoin(eliminarSolicitudes)
+        .pipe(
+          finalize(() => {
+            this.isCheckedSeleccionarTodos.set(false);
+            this.emitirEventoConsultarLista.emit();
+          })
+        )
+        .subscribe(() => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+        });
     } else {
       this.alertaService.mensajeError(
         'Error',
