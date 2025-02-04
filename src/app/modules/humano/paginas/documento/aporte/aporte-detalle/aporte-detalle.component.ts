@@ -95,6 +95,10 @@ export default class AporteDetalleComponent
     entidad_riesgo_id: 0,
     entidad_riesgo_nombre: '',
     base_cotizacion: 0.0,
+    entidad_sena_id: 0,
+    entidad_sena_nombre: '',
+    entidad_icbf_id: 0,
+    entidad_icbf_nombre: '',
   };
   arrAporteDetalle: any = [];
   generando: boolean = false;

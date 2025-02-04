@@ -177,6 +177,59 @@
             }"
           ></ng-container>
         </div>
+
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.ENTIDADSENA"
+          ></label>
+          <ng-select
+            [items]="listaEntidadesSena"
+            bindLabel="nombre_extendido"
+            bindValue="id"
+            formControlName="entidad_sena"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAporte.controls['entidad_sena']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-12 col-md-6"></div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.ENTIDADICBF"
+          ></label>
+          <ng-select
+            [items]="listaEntidadesIcbf"
+            bindLabel="nombre_extendido"
+            bindValue="id"
+            formControlName="entidad_icbf"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAporte.controls['entidad_icbf']
+            }"
+          ></ng-container>
+        </div>
       </div>
     </section>
   </app-card>

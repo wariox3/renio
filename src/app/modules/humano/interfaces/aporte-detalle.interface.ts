@@ -36,4 +36,8 @@ export interface RespuestaEncabezadoAporteDetalle {
   entidad_riesgo_id: number;
   entidad_riesgo_nombre: string;
   base_cotizacion: number;
+  entidad_sena_id: number;
+  entidad_sena_nombre: string;
+  entidad_icbf_id: number;
+  entidad_icbf_nombre: string;
 }
