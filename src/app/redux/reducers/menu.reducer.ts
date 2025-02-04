@@ -260,6 +260,13 @@ export const initialState: MenuItem = {
                 lista: 'contabilidad/movimiento',
               },
               consultaHttp: false,
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/con_comprobante.xlsx',
+                  name: 'Códigos comprobantes',
+                },
+              ],
               data: {
                 modelo: 'ConMovimiento',
                 ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
