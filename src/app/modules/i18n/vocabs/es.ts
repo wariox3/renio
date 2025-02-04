@@ -478,6 +478,9 @@ export const locale = {
             INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social',
             FECHATERMINACION: 'Fecha terminación',
             ENTIDADRIESGO: 'Entidad riesgo',
+            ENTIDADSENA: 'Entidad SENA',
+            ENTIDADICBF: 'Entidad ICBF',
+
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -682,6 +685,8 @@ export const locale = {
             EMPLEADOS: 'Empleados',
             CONTRATOS: 'Contratos',
             LINEAS: 'Lineas',
+            ENTIDADSENA: 'Entidad SENA',
+            ENTIDADICBF: 'Entidad ICBF',
           },
         },
         CONTABILIDAD: {
