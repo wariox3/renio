@@ -175,6 +175,12 @@ export class ContenedorFormularioComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     }
+    if (campo === 'correo') {
+      const correoControl = this.formularioContenedor.get('correo');
+      if (correoControl) {
+        correoControl.setValue(correoControl.value.toLowerCase(), { emitEvent: false });
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 
