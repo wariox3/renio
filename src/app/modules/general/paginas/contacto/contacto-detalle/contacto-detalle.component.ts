@@ -78,6 +78,11 @@ export default class ContactoDetalleComponent
     identificacion_id: 0,
     codigo: 0,
     correo_facturacion_electronica: '',
+    banco_id: 0,
+    banco_nombre: '',
+    cuenta_banco_clase_id: 0,
+    cuenta_banco_clase_nombre: '',
+    numero_cuenta: '',
   };
 
   constructor(private contactoService: ContactoService) {

@@ -1,5 +1,5 @@
 export interface Contacto {
-  readonly id?: number
+  readonly id?: number;
   identificacion: number;
   numero_identificacion: number;
   identificacion_abreviatura: string;
@@ -38,4 +38,9 @@ export interface Contacto {
   ciudad_id: number;
   codigo: number;
   correo_facturacion_electronica: string;
+  banco_id: number;
+  banco_nombre: string;
+  cuenta_banco_clase_id: number;
+  cuenta_banco_clase_nombre: string;
+  numero_cuenta: string;
 }

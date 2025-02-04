@@ -45,6 +45,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
+import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -81,6 +83,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrCiudades: RegistroAutocompletarGenCiudad[];
   arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
   arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
+  arrBancos: RegistroAutocompletarGenBanco[];
+  arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
   arrRegimen: RegistroAutocompletarGenRegimen[];
   arrAsesores: RegistroAutocompletarGenAsesor[];
   arrPrecios: RegistroAutocompletarGenPrecio[];
@@ -318,7 +322,14 @@ export default class ContactDetalleComponent extends General implements OnInit {
         asesor: [null],
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
+        banco_nombre: [''],
+        banco: [''],
         empleado: [false],
+        numero_cuenta: [
+          '',
+          [Validators.maxLength(20), cambiarVacioPorNulo.validar],
+        ],
+        cuenta_banco_clase: [''],
         correo_facturacion_electronica: [
           '',
           [Validators.maxLength(255), cambiarVacioPorNulo.validar],
@@ -554,6 +565,18 @@ export default class ContactDetalleComponent extends General implements OnInit {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
+        {
+          modelo: 'GenBanco',
+          serializador: 'ListaAutocompletar',
+        }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
+        {
+          modelo: 'GenCuentaBancoClase',
+          serializador: 'ListaAutocompletar',
+        }
       )
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
@@ -562,6 +585,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.arrPrecios = respuesta[3].registros;
       this.arrAsesores = respuesta[4].registros;
       this.arrPagos = respuesta[5].registros;
+      this.arrBancos = respuesta[6].registros;
+      this.arrCuentasBancos = respuesta[7].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -632,6 +657,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
           empleado: respuesta.empleado,
           correo_facturacion_electronica:
             respuesta.correo_facturacion_electronica,
+          cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
+          banco_nombre: respuesta.banco_nombre,
+          banco: respuesta.banco_id,
+          numero_cuenta: respuesta.numero_cuenta,
         });
 
         if (respuesta.tipo_persona_id === 1) {
