@@ -85,7 +85,7 @@ export const FiltrosDetalleAporteDetalle: MapaDatos[] = [
     ordenable: false,
   },
   {
-    nombre: 'LM',
+    nombre: 'LMA',
     campoTipo: 'IntegerField',
     visibleTabla: true,
     visibleFiltro: false,

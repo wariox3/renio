@@ -103,7 +103,8 @@ export default class ContratoFormularioComponent
       .get('pago_tipo')
       ?.valueChanges.pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
-        if (value === '2') {
+        const numericValue = Number(value); // Convertimos a número
+        if (numericValue == 2 || numericValue == 3) {
           // limpiar validaciones
           this._limpiarValidacionFechaHasta();
         } else {
@@ -128,7 +129,7 @@ export default class ContratoFormularioComponent
 
   actualizarValidacion(dias: number) {
     const pagoId = this.formularioProgramacion.get('pago_tipo')?.value;
-    if (pagoId == 2) {
+    if (pagoId == 2 || pagoId == 3) {
       this.formularioProgramacion.setValidators([
         this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
       ]);
@@ -212,6 +213,9 @@ export default class ContratoFormularioComponent
         descuento_credito: [true],
         descuento_embargo: [true],
         adicional: [true],
+        pago_prima: [true],
+        pago_cesantia: [true],
+        pago_interes: [true],
         comentario: [
           null,
           Validators.compose([
@@ -326,13 +330,16 @@ export default class ContratoFormularioComponent
           dias: respuesta.dias,
           cantidad: respuesta.contratos,
           periodo: respuesta.periodo_id,
+          pago_prima: respuesta.pago_prima,
+          pago_cesantia: respuesta.pago_cesantia,
+          pago_interes: respuesta.pago_interes,
         });
 
         this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
           let valor = Number(respuesta.grupo_id);
           return grupo.grupo_id === valor;
         });
-        
+
         if (this.grupoSeleccionado !== undefined) {
           this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
           this.formularioProgramacion.patchValue({

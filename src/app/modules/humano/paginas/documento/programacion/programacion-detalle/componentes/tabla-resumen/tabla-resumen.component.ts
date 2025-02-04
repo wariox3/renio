@@ -3,6 +3,7 @@ import { Component, Input, signal } from '@angular/core';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { TranslateModule } from '@ngx-translate/core';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { KeeniconComponent } from 'src/app/_metronic/shared/keenicon/keenicon.co
     CommonModule,
     KeeniconComponent,
     TranslateModule,
+    SiNoPipe
   ],
   templateUrl: './tabla-resumen.component.html',
 })
@@ -50,7 +52,10 @@ export class TablaResumenComponent {
     grupo_id: 0,
     grupo_nombre: '',
     periodo_id: 0,
-    periodo_nombre: ''
+    periodo_nombre: '',
+    pago_prima: false,
+    pago_interes: false,
+    pago_cesantia: false
   };
 
   mostrarTodosLosDetalles() {

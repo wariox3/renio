@@ -427,7 +427,7 @@ export const locale = {
             DISPONIBLE: 'Available',
           },
           CONTACTO: {
-            PERSONATIPO: 'Person Type',
+            PERSONATIPO: 'Type person',
             REGIMEN: 'Tax regime',
             CODIGOCIUU: 'CIIU Code',
             PLAZOPAGO: 'Payment Term',
@@ -574,6 +574,8 @@ export const locale = {
             ABONO: 'Payment',
             SALDO: 'Balance',
             PAGADO: 'Paid',
+            APLICAPRIMA: 'Applies premium',
+            APLICACESANTIA: 'Applies severance'
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Health Discount',
@@ -605,6 +607,9 @@ export const locale = {
             CONTRATOS: 'Contracts',
             DIAS: 'Days',
             PERIODO: 'Period',
+            PRIMA: 'Premium',
+            CESANTIA: 'Severance',
+            INTERES: 'Interest'
           },
           PAGO: {
             DESDE: 'From',

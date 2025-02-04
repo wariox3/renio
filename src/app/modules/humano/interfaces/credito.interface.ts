@@ -17,4 +17,6 @@ export interface Credito {
   inactivo: boolean;
   inactivo_periodo: boolean;
   pagado: boolean;
+  aplica_prima: boolean;
+  aplica_cesantia: boolean;
 }

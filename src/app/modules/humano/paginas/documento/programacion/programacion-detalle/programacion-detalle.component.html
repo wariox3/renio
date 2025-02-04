@@ -229,6 +229,9 @@
   <div class="modal-body">
     <app-importar-personalizado
       (emitirPeticionCompletada)="tablaContratosComponent.consultarDatos()"
+      [extensionesPermitidas]="
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+      "
       [configuracionCargarArchivo]="{
         endpoint: 'humano/programacion/importar_horas/',
         datosOpcionalesPayload: {

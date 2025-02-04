@@ -58,6 +58,8 @@ export default class AporteFormularioComponent
   formularioAporte: FormGroup;
   arrSucursales: any = [];
   public listaEntidadesRiesgo: RegistroHumEntidadLista[] = [];
+  public listaEntidadesSena: RegistroHumEntidadLista[] = [];
+  public listaEntidadesIcbf: RegistroHumEntidadLista[] = [];
 
   private _generalService = inject(GeneralService);
 
@@ -80,6 +82,8 @@ export default class AporteFormularioComponent
     }
 
     this._consultarEntidadesRiesgoLista();
+    this._consultarEntidadesSenaLista();
+    this._consultarEntidadesIcbfLista();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -96,6 +100,8 @@ export default class AporteFormularioComponent
       mes: [mesActual, Validators.compose([Validators.required])],
       presentacion: ['S', Validators.compose([Validators.required])],
       entidad_riesgo: [null, [Validators.required]],
+      entidad_sena: [null, [Validators.required]],
+      entidad_icbf: [null, [Validators.required]],
     });
   }
 
@@ -149,6 +155,8 @@ export default class AporteFormularioComponent
           mes: respuesta.mes,
           presentacion: respuesta.presentacion,
           entidad_riesgo: respuesta.entidad_riesgo_id,
+          entidad_sena: respuesta.entidad_sena_id,
+          entidad_icbf: respuesta.entidad_icbf_id,
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -196,6 +204,63 @@ export default class AporteFormularioComponent
       .subscribe({
         next: (response) => {
           this.listaEntidadesRiesgo = response.registros;
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
+
+  private _consultarEntidadesIcbfLista() {
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
+        modelo: 'HumEntidad',
+        filtros: [
+          {
+            operador: 'exact',
+            propiedad: 'icbf',
+            valor1: true,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaEntidadesIcbf = response.registros;
+          if (!this.detalle) {
+            this._sugerirSeleccion(response.registros?.[0], 'entidad_icbf');
+          }
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
+
+  private _sugerirSeleccion(
+    registro: RegistroHumEntidadLista,
+    campo: 'entidad_icbf' | 'entidad_sena'
+  ) {
+    if (registro) {
+      this.formularioAporte.patchValue({
+        [campo]: registro.id,
+      });
+    }
+  }
+
+  private _consultarEntidadesSenaLista() {
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
+        modelo: 'HumEntidad',
+        filtros: [
+          {
+            operador: 'exact',
+            propiedad: 'sena',
+            valor1: true,
+          },
+        ],
+      })
+      .subscribe({
+        next: (response) => {
+          this.listaEntidadesSena = response.registros;
+          if (!this.detalle) {
+            this._sugerirSeleccion(response.registros?.[0], 'entidad_sena');
+          }
           this.changeDetectorRef.detectChanges();
         },
       });

@@ -436,7 +436,7 @@ export const locale = {
             DISPONIBLE: 'Disponible',
           },
           CONTACTO: {
-            PERSONATIPO: 'Persona tipo',
+            PERSONATIPO: 'Tipo persona',
             REGIMEN: 'Régimen fiscal',
             CODIGOCIUU: 'Código CIUU',
             PLAZOPAGO: 'Plazo de pago',
@@ -478,6 +478,9 @@ export const locale = {
             INFORMACIONSEGURIDADSOCIAL: 'Información seguridad social',
             FECHATERMINACION: 'Fecha terminación',
             ENTIDADRIESGO: 'Entidad riesgo',
+            ENTIDADSENA: 'Entidad SENA',
+            ENTIDADICBF: 'Entidad ICBF',
+
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -586,6 +589,8 @@ export const locale = {
             ABONO: 'Abono',
             SALDO: 'Saldo',
             PAGADO: 'Pagado',
+            APLICAPRIMA: 'Aplica prima',
+            APLICACESANTIA: 'Aplica cesantía'
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Descuento salud',
@@ -617,6 +622,9 @@ export const locale = {
             CONTRATOS: 'Contratos',
             DIAS: 'Días',
             PERIODO: 'Período',
+            PRIMA: 'Prima',
+            CESANTIA: 'Cesantía',
+            INTERES: 'Interes'
           },
           PAGO: {
             DESDE: 'Desde',
@@ -677,6 +685,8 @@ export const locale = {
             EMPLEADOS: 'Empleados',
             CONTRATOS: 'Contratos',
             LINEAS: 'Lineas',
+            ENTIDADSENA: 'Entidad SENA',
+            ENTIDADICBF: 'Entidad ICBF',
           },
         },
         CONTABILIDAD: {

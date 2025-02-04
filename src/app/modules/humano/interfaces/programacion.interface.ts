@@ -44,4 +44,7 @@ export interface ProgramacionRespuesta {
   periodo_nombre: string;
   estado_generado: boolean;
   estado_aprobado: boolean;
+  pago_prima: boolean;
+  pago_interes: boolean;
+  pago_cesantia: boolean;
 }

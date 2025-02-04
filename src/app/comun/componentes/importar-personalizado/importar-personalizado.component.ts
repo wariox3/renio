@@ -56,20 +56,17 @@ export class ImportarPersonalizadoComponent
 
   private readonly _unsubscribe$ = new Subject<void>();
 
+  @Input() extensionesPermitidas: string;
+  @Input() mensajeExitoso: string;
   @Input({ required: true }) configuracionCargarArchivo: {
     endpoint: string;
     datosOpcionalesPayload?: object;
   };
-  @Input({ required: true }) configuracionDescargarEjemplo: {
+  @Input() configuracionDescargarEjemplo: {
     modelo: string;
     serializador: string;
     filtros: Filtros[];
     ordenamientos: string[];
-  } = {
-    modelo: '',
-    serializador: '',
-    filtros: [],
-    ordenamientos: [],
   };
 
   @Output() emitirPeticionCompletada: EventEmitter<any> = new EventEmitter();
@@ -132,9 +129,13 @@ export class ImportarPersonalizadoComponent
       .pipe(
         finalize(() => this.cargardoDocumento$.next(false)),
         tap((respuesta) => {
-          this.alertaService.mensajaExitoso(
-            `${respuesta.mensaje}: ${respuesta.registros_importados}`
-          );
+          if (this.mensajeExitoso) {
+            this.alertaService.mensajaExitoso(`${this.mensajeExitoso}`);
+          } else {
+            this.alertaService.mensajaExitoso(
+              `${respuesta.mensaje}: ${respuesta.registros_importados}`
+            );
+          }
           this.modalService.dismissAll();
           this.errorImportar = [];
           this.changeDetectorRef.detectChanges();

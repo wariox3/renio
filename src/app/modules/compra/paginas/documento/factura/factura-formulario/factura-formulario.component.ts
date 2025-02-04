@@ -20,12 +20,20 @@ import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import {
+  ContactoFacturaZip,
+  RespuestaFacturaCompraZip,
+} from '@modulos/compra/interfaces/factura-formulario.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -34,11 +42,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
-import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -50,7 +55,6 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    NgbDropdownModule,
     NgbNavModule,
     BuscarAvanzadoComponent,
     CardComponent,
@@ -60,6 +64,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     SoloNumerosDirective,
+    ImportarPersonalizadoComponent,
+    NgbDropdownModule,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -143,11 +149,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   ngOnInit() {
     this.formularioFactura = this._formularioFacturaService.createForm();
 
-    this.consultarInformacion().subscribe(() => {
-      this._actualizarPlazoPago(
-        this.formularioFactura.get('plazo_pago')?.value
-      );
-    });
     this.active = 1;
 
     if (this.parametrosUrl) {
@@ -160,6 +161,11 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       // this.consultardetalle();
     } else {
       this.modoEdicion = false;
+      this.consultarInformacion().subscribe(() => {
+        this._actualizarPlazoPago(
+          this.formularioFactura.get('plazo_pago')?.value
+        );
+      });
     }
 
     this.changeDetectorRef.detectChanges();
@@ -169,13 +175,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.arrPlazoPago.find((plazoPago) => {
       if (plazoPago.plazo_pago_id === plazoPagoId) {
         this.plazo_pago_dias = plazoPago.plazo_dias;
-        this.cambiarFechaVence();
       }
     });
   }
 
   recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
-    this._actualizarPlazoPago(evento.plazo_pago_id);
+    this.consultarInformacion().subscribe(() => {
+      this._actualizarPlazoPago(evento.plazo_pago_id);
+    });
   }
 
   actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
@@ -722,14 +729,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  // private _convertirFecha(fecha: string) {
-  //   const fechaString = fecha; // Obtener la fecha como string
-  //   const [year, month, day] = fechaString.split('-').map(Number); // Dividir en año, mes, día
-  //   const fechaFactura = new Date(year, month - 1, day); // Crear el objeto Date
-
-  //   return fechaFactura;
-  // }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -963,6 +962,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     // Suma los días a la fecha actual
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    this.changeDetectorRef.detectChanges();
   }
 
   capturarDias(event: any) {
@@ -995,5 +995,61 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this.modalService.dismissAll();
+  }
+
+  abrirModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {
+    this.formularioFactura.patchValue({
+      referencia_numero: respuestaFacturaCompra.referencia_numero,
+      referencia_cue: respuestaFacturaCompra.referencia_cue,
+      referencia_prefijo: respuestaFacturaCompra.referencia_prefijo,
+      fecha: respuestaFacturaCompra.fecha,
+      comentario: respuestaFacturaCompra.comentario,
+    });
+
+    this._asignarContactoAFormulario(respuestaFacturaCompra.contacto);
+  }
+
+  private _asignarContactoAFormulario(contacto: ContactoFacturaZip) {
+    this.formularioFactura.patchValue({
+      contactoNombre: contacto.nombre_corto,
+      contacto: contacto.id,
+      plazo_pago: contacto.plazo_pago_proveedor_id,
+    });
+
+    this._actualizarFechas(contacto.plazo_pago_proveedor_dias);
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _actualizarFechas(plazoPagoDias: number) {
+    if (plazoPagoDias > 0) {
+      this.plazo_pago_dias = plazoPagoDias;
+      const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
+      let fechaInicio = this.formularioFactura.get('fecha')?.value;
+      const fechaActual = new Date(fechaInicio); // Obtener la fecha actual
+      fechaActual.setDate(fechaActual.getDate() + diasNumero);
+      const fechaVencimiento = `${fechaActual.getFullYear()}-${(
+        fechaActual.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, '0')}-${fechaActual
+        .getDate()
+        .toString()
+        .padStart(2, '0')}`;
+      // Suma los días a la fecha actual
+      this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    } else {
+      this.plazo_pago_dias = 0;
+      this.formularioFactura
+        .get('fecha_vence')
+        ?.setValue(this.formularioFactura.get('fecha')?.value);
+    }
   }
 }
