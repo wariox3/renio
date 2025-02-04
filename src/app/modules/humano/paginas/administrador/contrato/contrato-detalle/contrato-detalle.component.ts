@@ -96,6 +96,9 @@ export default class ContratoDetalleComponent
     entidad_pension_nombre: '',
     entidad_salud_id: 0,
     entidad_salud_nombre: '',
+    fecha_ultimo_pago: null,
+    fecha_ultimo_pago_prima: null,
+    fecha_ultimo_pago_cesantia: null
   };
 
   ngOnInit() {

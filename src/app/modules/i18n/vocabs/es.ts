@@ -480,7 +480,9 @@ export const locale = {
             ENTIDADRIESGO: 'Entidad riesgo',
             ENTIDADSENA: 'Entidad SENA',
             ENTIDADICBF: 'Entidad ICBF',
-
+            FECHAULTIMOPAGO: 'Último pago realizado',
+            FECHAULTIMOPAGOPRIMA: 'Último pago de prima',
+            FECHAULTIMOPAGOCESANTIA: 'Último pago de cesantía',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -590,7 +592,7 @@ export const locale = {
             SALDO: 'Saldo',
             PAGADO: 'Pagado',
             APLICAPRIMA: 'Aplica prima',
-            APLICACESANTIA: 'Aplica cesantía'
+            APLICACESANTIA: 'Aplica cesantía',
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Descuento salud',
@@ -624,7 +626,7 @@ export const locale = {
             PERIODO: 'Período',
             PRIMA: 'Prima',
             CESANTIA: 'Cesantía',
-            INTERES: 'Interes'
+            INTERES: 'Interes',
           },
           PAGO: {
             DESDE: 'Desde',
