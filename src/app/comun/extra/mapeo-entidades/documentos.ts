@@ -1257,6 +1257,14 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
+      nombre: 'DOCUMENTO_TIPO_NOMBRE',
+      nombreAbreviado: 'TIPO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
       nombre: 'NUMERO',
       campoTipo: 'IntegerField',
       visibleTabla: true,

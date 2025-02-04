@@ -5,10 +5,8 @@ export function minimumDaysBetweenDates(days: number): ValidatorFn {
     const fechaDesde = control.get('fecha_desde')?.value;
     const fechaHasta = control.get('fecha_hasta')?.value;
 
-    let minDaysRequired = days;
-
     if (esFebrero(fechaDesde)) {
-      minDaysRequired = casoEspecialFebrero(fechaDesde, days);
+      days = casoEspecialFebrero(fechaDesde, days);
     }
 
     if (!fechaDesde || !fechaHasta) {
@@ -24,7 +22,7 @@ export function minimumDaysBetweenDates(days: number): ValidatorFn {
     const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
 
     // Si la diferencia en días es menor al mínimo requerido, retorna un error
-    return diffInDays === minDaysRequired - 1 ? null : { minimoDias: true };
+    return diffInDays === days - 1 ? null : { minimoDias: true };
   };
 }
 
