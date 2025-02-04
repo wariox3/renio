@@ -467,6 +467,12 @@ export const locale = {
             ESTADOTERMINADO: 'Completed Status',
             INFORMACIONSEGURIDADSOCIAL: 'Social Security Information',
             FECHATERMINACION: 'Termination Date',
+            ENTIDADRIESGO: 'Risk entity',
+            ENTIDADSENA: 'SENA entity',
+            ENTIDADICBF: 'ICBF entity',
+            FECHAULTIMOPAGO: "Last payment made",
+            FECHAULTIMOPAGOPRIMA: "Last premium payment",
+            FECHAULTIMOPAGOCESANTIA: "Last severance payment"
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -533,7 +539,7 @@ export const locale = {
             ES: 'Is',
             NO: 'Not',
             RANGE: 'Range',
-            EMPIEZAPOR: 'Start with'
+            EMPIEZAPOR: 'Start with',
           },
         },
         HUMANO: {
@@ -575,7 +581,7 @@ export const locale = {
             SALDO: 'Balance',
             PAGADO: 'Paid',
             APLICAPRIMA: 'Applies premium',
-            APLICACESANTIA: 'Applies severance'
+            APLICACESANTIA: 'Applies severance',
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Health Discount',
@@ -609,7 +615,7 @@ export const locale = {
             PERIODO: 'Period',
             PRIMA: 'Premium',
             CESANTIA: 'Severance',
-            INTERES: 'Interest'
+            INTERES: 'Interest',
           },
           PAGO: {
             DESDE: 'From',

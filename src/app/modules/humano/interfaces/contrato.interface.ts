@@ -40,4 +40,7 @@ export interface ProgramacionContrato {
   entidad_pension_nombre: string;
   entidad_salud_id: number;
   entidad_salud_nombre: string;
+  fecha_ultimo_pago: string | null;
+  fecha_ultimo_pago_prima: string | null;
+  fecha_ultimo_pago_cesantia: string | null;
 }
