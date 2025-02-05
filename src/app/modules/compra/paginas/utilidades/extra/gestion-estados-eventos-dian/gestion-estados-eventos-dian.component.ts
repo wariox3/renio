@@ -13,7 +13,12 @@ import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.servi
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { obtenerUsuarioApellido, obtenerUsuarioCargo, obtenerUsuarioNombre, obtenerUsuarioNumeroIdentificacion } from '@redux/selectors/usuario.selectors';
+import {
+  obtenerUsuarioApellido,
+  obtenerUsuarioCargo,
+  obtenerUsuarioNombre,
+  obtenerUsuarioNumeroIdentificacion,
+} from '@redux/selectors/usuario.selectors';
 import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
 
 @Component({
@@ -42,7 +47,7 @@ export class GestionEstadosEventosDianComponent
   tituloModal: string;
   textoBtnOpenModal: string;
   textoBtnGuardarFormulario: string;
-  visualizarBtnAbrirModal: boolean = true
+  visualizarBtnAbrirModal: boolean = true;
   visualizarBtnCargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   @Input() documento: any;
@@ -52,7 +57,7 @@ export class GestionEstadosEventosDianComponent
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private facturaService: FacturaService,
-    private eventosDianService: EventosDianService,
+    private eventosDianService: EventosDianService
   ) {
     super();
   }
@@ -83,7 +88,7 @@ export class GestionEstadosEventosDianComponent
       this.textoBtnGuardarFormulario = 'Aceptar factura';
       this.evento_id = 33;
     } else {
-      this.visualizarBtnAbrirModal = false
+      this.visualizarBtnAbrirModal = false;
     }
   }
 
@@ -94,7 +99,6 @@ export class GestionEstadosEventosDianComponent
   }
 
   abrirModal(content: any) {
-    this.consultarInformacion();
     this._inicializarFormulario();
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -109,34 +113,48 @@ export class GestionEstadosEventosDianComponent
       this.store.select(obtenerUsuarioNombre),
       this.store.select(obtenerUsuarioApellido),
       this.store.select(obtenerUsuarioNumeroIdentificacion),
-      this.store.select(obtenerUsuarioCargo),
-    ).subscribe( respuesta => {
+      this.store.select(obtenerUsuarioCargo)
+    ).subscribe((respuesta) => {
       this.formularioModal = this.formBuilder.group({
         nombre: [respuesta[0], Validators.compose([Validators.required])],
         apellido: [respuesta[1], Validators.compose([Validators.required])],
         identificacion: [13, Validators.compose([Validators.required])],
-        numero_identificacion: [respuesta[2], Validators.compose([Validators.required])],
+        numero_identificacion: [
+          respuesta[2],
+          Validators.compose([Validators.required]),
+        ],
         cargo: [respuesta[3], Validators.compose([Validators.required])],
         area: ['compras', Validators.compose([Validators.required])],
         id: [this.documento.id],
       });
-    })
-
-  }
-
-  consultarInformacion() {
+    });
   }
 
   formSubmit() {
     if (this.formularioModal.valid) {
-      this.visualizarBtnCargando$.next(true)
-      this.eventosDianService
-        .emitirEvento({
+      this.visualizarBtnCargando$.next(true);
+
+      let data = {
+        ...this.formularioModal.value,
+        ...{
+          evento_id: this.evento_id,
+        },
+      };
+      if (
+        this.documento.evento_documento !== 'PE' &&
+        this.documento.evento_recepcion !== 'PE'
+      ) {
+        data = {
           ...this.formularioModal.value,
           ...{
             evento_id: this.evento_id,
+            estado_electronico_evento: false,
           },
-        })
+        };
+      }
+
+      this.eventosDianService
+        .emitirEvento(data)
         .pipe(
           tap((respuesta: any) => {
             this.alertaService.mensajaExitoso(
@@ -152,7 +170,6 @@ export class GestionEstadosEventosDianComponent
           })
         )
         .subscribe();
-
     } else {
       this.formularioModal.markAllAsTouched();
     }
