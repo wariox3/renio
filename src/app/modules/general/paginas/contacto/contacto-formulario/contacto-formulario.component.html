@@ -409,7 +409,7 @@
           >
             <option value="">Seleccionar...</option>
             <option
-              *ngFor="let identificacion of arrIdentificacion"
+              *ngFor="let identificacion of filteredIdentificacionSignal()"
               [value]="identificacion.identificacion_id"
               [selected]="
                 identificacion.identificacion_id ===
