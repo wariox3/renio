@@ -163,11 +163,13 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             return of(null);
           }),
           tap((respuesta: any) => {
+            
             if (respuesta?.empresa.acceso_restringido) {
               location.href = `${
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
             } else {
+              console.log('empresa.acceso_restringido', respuesta);
               this.validarSubdominioYrediccionar(respuesta);
             }
           }),
@@ -201,6 +203,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   }
 
   validarSubdominioYrediccionar(respuesta: any) {
+    console.log('validarSubdominioYrediccionar', respuesta);
+
     if (this.subdominioService.esSubdominioActual()) {
       const contenedor: Contenedor = {
         nombre: respuesta.empresa.nombre,
