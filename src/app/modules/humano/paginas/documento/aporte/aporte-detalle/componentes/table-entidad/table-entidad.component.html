@@ -45,7 +45,7 @@
         <td>
           {{ entidad.entidad_nombre }}
         </td>
-        <td>
+        <td class="text-end">
           {{ entidad.cotizacion | number }}
         </td>
       </tr>
@@ -54,7 +54,14 @@
         <td></td>
         <td></td>
         <td class="fw-bold">Total</td>
-        <td>{{ aporteDetalle.cotizacionTotal | number }}</td>
+        <td class="text-end">{{ aporteDetalle.cotizacionTotal | number }}</td>
+      </tr>
+      } @if (entidadesAgrupadas().length) {
+      <tr>
+        <td></td>
+        <td class="fw-bold">Total general</td>
+        <td></td>
+        <td class="text-end fw-bold">{{ totalGeneral() | number }}</td>
       </tr>
       }
     </tbody>

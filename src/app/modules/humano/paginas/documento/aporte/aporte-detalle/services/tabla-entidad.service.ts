@@ -19,6 +19,8 @@ export class TablaEntidadService {
     filtros: [],
   });
 
+  public cantidadRegistros = signal(0);
+  public totalGeneral = signal(0);
   public aporteEntidadLista = signal<RespuestaAporteEntidad[]>([]);
   public aporteEntidadListaAgrupada = signal<
     {
@@ -26,22 +28,6 @@ export class TablaEntidadService {
       entidades: RespuestaAporteEntidad[];
     }[]
   >([]);
-  public cantidadRegistros = signal(0);
-
-  public consultarListaEntidades() {
-    return this._generalService
-      .consultarDatosAutoCompletar<RespuestaAporteEntidad>(
-        this._parametrosConsulta()
-      )
-      .pipe(
-        tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.aporteEntidadLista.set(respuesta.registros);
-          const registrosAgrupados = this._groupByTipo(respuesta.registros);
-          this.aporteEntidadListaAgrupada.set(registrosAgrupados);
-        })
-      );
-  }
 
   private _groupByTipo(data: any[]): {
     cotizacionTotal: number;
@@ -65,6 +51,29 @@ export class TablaEntidadService {
     }, {});
 
     return Object.values(grouped);
+  }
+
+  public consultarListaEntidades() {
+    return this._generalService
+      .consultarDatosAutoCompletar<RespuestaAporteEntidad>(
+        this._parametrosConsulta()
+      )
+      .pipe(
+        tap((respuesta) => {
+          this.cantidadRegistros.set(respuesta.cantidad_registros);
+          this.aporteEntidadLista.set(respuesta.registros);
+          const registrosAgrupados = this._groupByTipo(respuesta.registros);
+          this.totalGeneral.set(this.getTotalGeneral());
+          this.aporteEntidadListaAgrupada.set(registrosAgrupados);
+        })
+      );
+  }
+
+  private getTotalGeneral() {
+    return this.aporteEntidadListaAgrupada().reduce(
+      (sum, item) => sum + item.cotizacionTotal,
+      0
+    );
   }
 
   public inicializarParametros(detalleId: number) {
