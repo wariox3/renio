@@ -136,7 +136,10 @@
                         (click)="
                           seleccionarEmpresa(contenedor.subdominio, i)
                         "
-                        [disabled]="contenedor.acceso_restringido"
+                        [disabled]="
+                          contenedor.acceso_restringido &&
+                          contenedor.rol !== 'control'
+                        "
                       ></button>
                       }
                     </div>

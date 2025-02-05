@@ -240,6 +240,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     this._documentoService.contabilizar({ id: this.documento.id }).subscribe({
       next: () => {
         this.itemDesaprobadoEvent.emit();
+        this._consultarInformacionTabla();
         this.alertaService.mensajaExitoso('El documento se ha contabilizado!');
       },
     });
@@ -251,6 +252,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .subscribe({
         next: () => {
           this.itemDesaprobadoEvent.emit();
+          this._consultarInformacionTabla();
           this.alertaService.mensajaExitoso(
             'El documento se ha descontabilizado!'
           );
