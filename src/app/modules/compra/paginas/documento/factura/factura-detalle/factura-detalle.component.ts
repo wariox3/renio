@@ -59,6 +59,7 @@ export default class FacturaDetalleComponent extends General {
     estado_electronico: false,
     estado_electronico_enviado: false,
     estado_electronico_notificado: false,
+    estado_contabilizado: false,
   };
   totalCantidad: number = 0;
   totalDescuento: number = 0;

@@ -1,5 +1,7 @@
 <div class="d-flex gap-1">
-  @if(documento.estado_aprobado){
+  @if(documento.estado_contabilizado){
+  <span class="badge badge-success">Contabilizado</span>
+  } @if(documento.estado_aprobado){
   <span class="badge badge-success">Aprobado</span>
   } @if(documento.estado_anulado){
   <span class="badge badge-danger">Anulado</span>
