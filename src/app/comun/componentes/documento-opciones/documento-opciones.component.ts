@@ -58,10 +58,12 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   @Input({ required: true }) documento: any;
 
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
+  @Output() recargarDatosEvent: EventEmitter<void>;
 
   constructor() {
     super();
     this.itemDesaprobadoEvent = new EventEmitter();
+    this.recargarDatosEvent = new EventEmitter();
   }
 
   ngOnInit(): void {
@@ -235,13 +237,21 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   contabilizar() {
-    this._documentoService.contabilizar({ id: this.documento.id }).subscribe();
+    this._documentoService.contabilizar({ id: this.documento.id }).subscribe({
+      next: () => {
+        this.itemDesaprobadoEvent.emit();
+      },
+    });
   }
 
   descontabilizar() {
     this._documentoService
       .descontabilizar({ id: this.documento.id })
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.itemDesaprobadoEvent.emit();
+        },
+      });
   }
 
   private _eliminarArchivo(archivoId: number, index: number) {
