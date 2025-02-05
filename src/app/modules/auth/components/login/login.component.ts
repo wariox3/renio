@@ -162,14 +162,15 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             }
             return of(null);
           }),
-          tap((respuesta: any) => {
-            
-            if (respuesta?.empresa.acceso_restringido) {
+          tap((respuesta) => {
+            if (respuesta?.acceso_restringido) {
+              console.log('1');
               location.href = `${
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
             } else {
-              console.log('empresa.acceso_restringido', respuesta);
+              console.log('2');
+
               this.validarSubdominioYrediccionar(respuesta);
             }
           }),
@@ -202,42 +203,47 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
   }
 
-  validarSubdominioYrediccionar(respuesta: any) {
+  validarSubdominioYrediccionar(respuesta: Contenedor | null) {
     console.log('validarSubdominioYrediccionar', respuesta);
 
     if (this.subdominioService.esSubdominioActual()) {
-      const contenedor: Contenedor = {
-        nombre: respuesta.empresa.nombre,
-        imagen: respuesta.empresa.imagen,
-        contenedor_id: respuesta.empresa.id,
-        subdominio: respuesta.empresa.subdominio,
-        id: respuesta.empresa.id,
-        usuario_id: 1,
-        seleccion: true,
-        rol: respuesta.empresa.rol,
-        plan_id: respuesta.empresa.plan_id,
-        plan_nombre: respuesta.empresa.plan_nombre,
-        usuarios: 1,
-        usuarios_base: 0,
-        ciudad: 0,
-        correo: '',
-        direccion: '',
-        identificacion: 0,
-        nombre_corto: '',
-        numero_identificacion: 0,
-        telefono: '',
-        acceso_restringido: respuesta.empresa.acceso_restringido,
-      };
-      this.store.dispatch(ContenedorActionInit({ contenedor }));
-      this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
-      this.store.dispatch(
-        configuracionVisualizarAction({
-          configuracion: {
-            visualizarApps: true,
-          },
+      if(respuesta){
+        this.contenedorServices.detalle(respuesta.contenedor_id).subscribe((respuesta)=> {
+          const contenedor: Contenedor = {
+            nombre: respuesta.nombre,
+            imagen: respuesta.imagen,
+            contenedor_id: respuesta.id,
+            subdominio: respuesta.subdominio,
+            id: respuesta.id,
+            usuario_id: 1,
+            seleccion: true,
+            rol: respuesta.rol,
+            plan_id: respuesta.plan_id,
+            plan_nombre: respuesta.plan_nombre,
+            usuarios: 1,
+            usuarios_base: 0,
+            ciudad: 0,
+            correo: '',
+            direccion: '',
+            identificacion: 0,
+            nombre_corto: '',
+            numero_identificacion: 0,
+            telefono: '',
+            acceso_restringido: respuesta.acceso_restringido,
+          };
+          this.store.dispatch(ContenedorActionInit({ contenedor }));
+          this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
+          this.store.dispatch(
+            configuracionVisualizarAction({
+              configuracion: {
+                visualizarApps: true,
+              },
+            })
+          );
+          this.router.navigate(['/dashboard']);
         })
-      );
-      this.router.navigate(['/dashboard']);
+      }
+
     } else {
       this.router.navigate(['/contenedor/lista']);
     }

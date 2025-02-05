@@ -42,7 +42,7 @@ export class ContenedorService {
     );
   }
 
-  detalle(codigoContenedor: string) {
+  detalle(codigoContenedor: number) {
     return this.http.get<Contenedor>(
       `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}/`
     );
