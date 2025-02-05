@@ -105,6 +105,13 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         ]),
       ],
     });
+
+    this.loginForm.get('email')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.loginForm.get('email')?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   submit() {
@@ -149,7 +156,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           switchMap(() => {
             if (this.subdominioService.esSubdominioActual()) {
-              return this.contenedorServices.varios(
+              return this.contenedorServices.contenedorConectar(
                 this.subdominioService.subdominioNombre()
               );
             }

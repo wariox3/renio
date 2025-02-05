@@ -183,6 +183,13 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       tipo_persona: ['', Validators.compose([Validators.required])],
       regimen: ['', Validators.compose([Validators.required])],
     });
+
+    this.formularioEmpresa.get('correo')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioEmpresa.get('correo')?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   formSubmit() {

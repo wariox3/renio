@@ -140,10 +140,10 @@ export class ContenedorListaComponent extends General implements OnInit {
       .subscribe();
   }
 
-  seleccionarEmpresa(empresaSeleccionada: number, i: number) {
+  seleccionarEmpresa(subdominio: string, i: number) {
     this.visualizarLoader[i] = true;
     this.contenedorService
-      .detalle(`${empresaSeleccionada}`)
+      .contenedorConectar(subdominio)
       .pipe(
         tap((respuesta) => {
           const contenedor: Contenedor = {

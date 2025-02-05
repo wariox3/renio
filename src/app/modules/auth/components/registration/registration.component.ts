@@ -102,6 +102,17 @@ export class RegistrationComponent extends General implements OnInit {
         validator: ConfirmPasswordValidator.validarClave,
       }
     );
+
+    this.formularioRegistro
+    .get('usuario')
+    ?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioRegistro
+          .get('usuario')
+          ?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   get formFields() {

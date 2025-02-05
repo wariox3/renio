@@ -96,7 +96,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
   filtroIdentificacionSignal = signal(0);
-  identificacionIdApiDetalleSignal  = signal(0);
+  identificacionIdApiDetalleSignal = signal(0);
 
   filteredIdentificacionSignal = computed(() =>
     this.arrIdentificacionSignal().filter(
@@ -368,6 +368,17 @@ export default class ContactDetalleComponent extends General implements OnInit {
           this.formularioContacto.get('apellido2')?.setValue(null);
         }
       });
+
+    this.formularioContacto
+      .get('correo')
+      ?.valueChanges.subscribe((value: string) => {
+        if (value) {
+          const lowerCaseValue = value.toLowerCase();
+          this.formularioContacto
+            .get('correo')
+            ?.setValue(lowerCaseValue, { emitEvent: false });
+        }
+      });
   }
 
   get obtenerFormularioCampos() {
@@ -425,11 +436,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
           nombre2: null,
           apellido1: null,
           apellido2: null,
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       } else {
         this.formularioContacto.patchValue({
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       }
     } else {
@@ -447,12 +460,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
       if (this.accion === 'nuevo') {
         this.formularioContacto.patchValue({
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       }
       if (this.accion === 'editar') {
         this.formularioContacto.patchValue({
-          identificacion: this.identificacionIdApiDetalleSignal()
+          identificacion: this.identificacionIdApiDetalleSignal(),
         });
       }
     }
@@ -696,7 +710,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
           banco: respuesta.banco_id,
           numero_cuenta: respuesta.numero_cuenta,
         });
-        this.identificacionIdApiDetalleSignal.update(() => respuesta.identificacion_id)
+        this.identificacionIdApiDetalleSignal.update(
+          () => respuesta.identificacion_id
+        );
         this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
         if (respuesta.tipo_persona_id === 1) {
