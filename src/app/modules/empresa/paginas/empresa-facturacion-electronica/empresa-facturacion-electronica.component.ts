@@ -44,7 +44,7 @@ export class EmpresaFacturacionElectronicaComponent
   rededoc_id: string;
   empresa_id: string;
   arrResoluciones: any[] = [];
-  @Input() visualizarBtnSiguiente = true
+  @Input() visualizarBtnSiguiente = true;
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -72,7 +72,7 @@ export class EmpresaFacturacionElectronicaComponent
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-          Validators.maxLength(36)
+          Validators.maxLength(36),
         ]),
       ],
       correo_facturacion_electronica: [
@@ -81,6 +81,28 @@ export class EmpresaFacturacionElectronicaComponent
       ],
       copia_correo_facturacion_electronica: [false],
     });
+
+    this.formularioDian
+      .get('correo_facturacion_electronica')
+      ?.valueChanges.subscribe((value: string) => {
+        if (value) {
+          const lowerCaseValue = value.toLowerCase();
+          this.formularioDian
+            .get('correo_facturacion_electronica')
+            ?.setValue(lowerCaseValue, { emitEvent: false });
+        }
+      });
+
+    this.formularioDian
+      .get('copia_correo_facturacion_electronica')
+      ?.valueChanges.subscribe((value: string) => {
+        if (value) {
+          const lowerCaseValue = value.toLowerCase();
+          this.formularioDian
+            .get('copia_correo_facturacion_electronica')
+            ?.setValue(lowerCaseValue, { emitEvent: false });
+        }
+      });
   }
 
   inicializFormularioDianEditar() {
@@ -167,7 +189,7 @@ export class EmpresaFacturacionElectronicaComponent
     }
   }
 
-  emitirRegistro(){
+  emitirRegistro() {
     return this.emitirRegistroGuardado.emit(true);
   }
 }

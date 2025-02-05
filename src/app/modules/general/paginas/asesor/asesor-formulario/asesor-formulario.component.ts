@@ -69,6 +69,13 @@ export default class AsesorFormularioComponent
         ]),
       ],
     });
+
+    this.formularioAsesor.get('correo')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioAsesor.get('correo')?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   get obtenerFormularioCampos() {

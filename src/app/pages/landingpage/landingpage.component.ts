@@ -94,6 +94,17 @@ export class LandingpageComponent implements OnInit {
       empresa: [null],
       descripcion: [null],
     });
+
+    this.formularioContacto
+    .get('correo')
+    ?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioContacto
+          .get('correo')
+          ?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   abrirMenu() {

@@ -201,6 +201,17 @@ export default class EmpleadoFormularioComponent
         validator: [MultiplesEmailValidator.validarCorreos(['correo'])],
       }
     );
+
+    this.formularioEmpleado
+    .get('correo')
+    ?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioEmpleado
+          .get('correo')
+          ?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   getErroresFormulario() {

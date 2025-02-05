@@ -158,6 +158,18 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       reddoc: [true],
       ruteo: [false],
     });
+
+
+    this.formularioContenedor
+    .get('correo')
+    ?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioContenedor
+          .get('correo')
+          ?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   modificarCampoFormulario(campo: string, dato: any) {

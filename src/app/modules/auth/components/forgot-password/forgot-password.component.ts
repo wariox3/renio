@@ -57,6 +57,17 @@ export class ForgotPasswordComponent extends General implements OnInit {
         ]),
       ],
     });
+
+    this.formularioRestablecerClave
+    .get('usuario')
+    ?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioRestablecerClave
+          .get('usuario')
+          ?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   submit() {

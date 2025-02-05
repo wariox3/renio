@@ -140,6 +140,13 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         validator: MultiplesEmailValidator.validarCorreos(['correo']),
       }
     );
+
+    this.formularioInformacion.get('correo')?.valueChanges.subscribe((value: string) => {
+      if (value) {
+        const lowerCaseValue = value.toLowerCase();
+        this.formularioInformacion.get('correo')?.setValue(lowerCaseValue, { emitEvent: false });
+      }
+    });
   }
 
   consultarCiudad(event: any) {
