@@ -99,7 +99,7 @@
                 {{ documentoEmitir.total | number }}
               </td>
               <td class="text-center">
-                {{ documentoEmitir.estado_electronico ? "SI" : "NO" }}
+                {{ documentoEmitir.estado_electronico | siNo }}
               </td>
               <td>
                 <app-visualizar-estados-eventos-dian
@@ -128,7 +128,9 @@
                 }
               </td>
               <td>
-                @if(documentoEmitir.estado_electronico === false){
+                @if(documentoEmitir.estado_electronico === false || (
+                documentoEmitir.estado_electronico === true &&
+                documentoEmitir.evento_documento === 'PE' ) ){
                 <button
                   class="btn btn-secondary btn-sm"
                   (click)="confirmarDescartar(documentoEmitir.id)"

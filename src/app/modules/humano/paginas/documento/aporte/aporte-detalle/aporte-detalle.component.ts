@@ -34,6 +34,8 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { FiltrosDetalleAporteContratos } from './constantes';
 import { RespuestaEncabezadoAporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
 import { PaginadorComponent } from '../../../../../../comun/componentes/paginador/paginador.component';
+import { TableEntidadComponent } from './componentes/table-entidad/table-entidad.component';
+import { TablaEntidadService } from './services/tabla-entidad.service';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -55,6 +57,7 @@ import { PaginadorComponent } from '../../../../../../comun/componentes/paginado
     TableDetallesComponent,
     BaseFiltroComponent,
     PaginadorComponent,
+    TableEntidadComponent,
   ],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
@@ -63,6 +66,8 @@ export default class AporteDetalleComponent
   extends General
   implements OnInit, OnDestroy
 {
+  private readonly _tableEntidadService = inject(TablaEntidadService);
+
   active: Number;
   aporte: RespuestaEncabezadoAporteDetalle = {
     id: 0,
@@ -159,6 +164,11 @@ export default class AporteDetalleComponent
     this.tableDetallesComponent.consultarDatos();
   }
 
+  consultarDatosEntidades() {
+    this._tableEntidadService.inicializarParametros(this.detalle);
+    this._tableEntidadService.consultarListaEntidades().subscribe();
+  }
+
   imprimir() {
     this.httpService.descargarArchivo('general/documento/imprimir/', {
       filtros: [],
@@ -198,7 +208,8 @@ export default class AporteDetalleComponent
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
-        this.tableDetallesComponent.consultarDatos();
+        this.tableDetallesComponent?.consultarDatos();
+        this._tableEntidadService.consultarListaEntidades().subscribe();
       });
   }
 
@@ -218,7 +229,8 @@ export default class AporteDetalleComponent
       )
       .subscribe(() => {
         this.consultarDatos();
-        this.tableDetallesComponent.consultarDatos();
+        this.tableDetallesComponent?.consultarDatos();
+        this._tableEntidadService.consultarListaEntidades().subscribe();
       });
   }
 

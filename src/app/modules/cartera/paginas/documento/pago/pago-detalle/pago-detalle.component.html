@@ -55,7 +55,8 @@
         (itemDesaprobadoEvent)="consultardetalle()"
         [opcionesDesaprobarBoton]="{
           deshabilitado: !pago.estado_aprobado || pago.estado_anulado
-        }"  
+        }"
+        [documento]="pago"
       ></app-comun-documento-opciones>
     </div>
   </section>
@@ -155,7 +156,7 @@
                         {{ documento.documento_afectado_id }}
                       </td>
                       <td>
-                        {{ documento.documento_afectado_documento_tipo_nombre}}
+                        {{ documento.documento_afectado_documento_tipo_nombre }}
                       </td>
                       <td>
                         {{ documento.documento_afectado_numero }}

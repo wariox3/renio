@@ -1,28 +1,28 @@
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { General } from '@comun/clases/general';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { HttpService } from '@comun/services/http.service';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 
-import {
-  NgbDropdownModule,
-  NgbModal,
-  NgbNavModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
-import { catchError, of, tap, zip } from 'rxjs';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
-import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
-import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import {
+  NgbDropdownModule,
+  NgbNavModule,
+  NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
+import { SiNoPipe } from '@pipe/si-no.pipe';
+import { catchError, of, tap, zip } from 'rxjs';
+import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
+import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
+import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -40,6 +40,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     EditarEventosDianComponent,
     ImportarXmlComponent,
     NgbTooltipModule,
+    SiNoPipe
   ],
 })
 export class EventosDianComponent extends General implements OnInit {
@@ -72,7 +73,6 @@ export class EventosDianComponent extends General implements OnInit {
   constructor(
     private httpService: HttpService,
     private eventosDianService: EventosDianService,
-    private modalService: NgbModal
   ) {
     super();
   }

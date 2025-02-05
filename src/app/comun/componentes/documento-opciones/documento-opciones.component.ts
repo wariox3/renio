@@ -55,12 +55,15 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   } = {
     modelo: 'ConMovimiento',
   };
+  @Input({ required: true }) documento: any;
 
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
+  @Output() recargarDatosEvent: EventEmitter<void>;
 
   constructor() {
     super();
     this.itemDesaprobadoEvent = new EventEmitter();
+    this.recargarDatosEvent = new EventEmitter();
   }
 
   ngOnInit(): void {
@@ -230,6 +233,30 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
         if (respuesta.isConfirmed) {
           this._desaprobarDocumento(this.documentoId);
         }
+      });
+  }
+
+  contabilizar() {
+    this._documentoService.contabilizar({ id: this.documento.id }).subscribe({
+      next: () => {
+        this.itemDesaprobadoEvent.emit();
+        this._consultarInformacionTabla();
+        this.alertaService.mensajaExitoso('El documento se ha contabilizado!');
+      },
+    });
+  }
+
+  descontabilizar() {
+    this._documentoService
+      .descontabilizar({ id: this.documento.id })
+      .subscribe({
+        next: () => {
+          this.itemDesaprobadoEvent.emit();
+          this._consultarInformacionTabla();
+          this.alertaService.mensajaExitoso(
+            'El documento se ha descontabilizado!'
+          );
+        },
       });
   }
 
