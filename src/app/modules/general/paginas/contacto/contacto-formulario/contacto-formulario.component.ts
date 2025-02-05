@@ -8,11 +8,13 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -82,6 +84,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
   informacionContacto: any;
   arrCiudades: RegistroAutocompletarGenCiudad[];
   arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
+  arrIdentificacionSignal = signal<RegistroAutocompletarGenIdentificacion[]>(
+    []
+  );
   arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
   arrBancos: RegistroAutocompletarGenBanco[];
   arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
@@ -90,6 +95,17 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrPrecios: RegistroAutocompletarGenPrecio[];
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
+  filtroIdentificacionSignal = signal(0);
+  identificacionIdApiDetalleSignal  = signal(0);
+
+  filteredIdentificacionSignal = computed(() =>
+    this.arrIdentificacionSignal().filter(
+      (item) =>
+        item.identificacion_tipo_persona_id ===
+        this.filtroIdentificacionSignal()
+    )
+  );
+
   @Input() ocultarBtnAtras = false;
   @Input() tituloFijo: Boolean = false;
   @Input() esCliente = true;
@@ -110,8 +126,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
-    this.consultarInformacion();
     this.iniciarFormulario();
+    this.consultarInformacion();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
@@ -388,6 +404,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
 
   tipoPersonaSeleccionado($event: any) {
     let valorPersonaTipo = parseInt($event.target.value);
+    this.filtroIdentificacionSignal.update(() => valorPersonaTipo);
     if (valorPersonaTipo === 1) {
       //1 es igual a juridico
       this.setValidators('nombre1', [
@@ -408,6 +425,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
           nombre2: null,
           apellido1: null,
           apellido2: null,
+          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+        });
+      } else {
+        this.formularioContacto.patchValue({
+          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
         });
       }
     } else {
@@ -423,6 +445,16 @@ export default class ContactDetalleComponent extends General implements OnInit {
         Validators.maxLength(50),
       ]);
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
+      if (this.accion === 'nuevo') {
+        this.formularioContacto.patchValue({
+          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+        });
+      }
+      if (this.accion === 'editar') {
+        this.formularioContacto.patchValue({
+          identificacion: this.identificacionIdApiDetalleSignal()
+        });
+      }
     }
     this.formularioContacto.patchValue({
       tipo_persona: valorPersonaTipo,
@@ -534,6 +566,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         {
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
+          ordenamientos: ['orden'],
         }
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
@@ -579,6 +612,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
         }
       )
     ).subscribe((respuesta: any) => {
+      this.arrIdentificacionSignal.set(respuesta[0].registros);
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
@@ -662,6 +696,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
           banco: respuesta.banco_id,
           numero_cuenta: respuesta.numero_cuenta,
         });
+        this.identificacionIdApiDetalleSignal.update(() => respuesta.identificacion_id)
+        this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
@@ -684,7 +720,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
             apellido2: null,
           });
         }
-
         this.changeDetectorRef.detectChanges();
       });
   }
