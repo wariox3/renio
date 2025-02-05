@@ -74,19 +74,12 @@ export class TableEntidadComponent extends General implements OnInit {
   }
 
   cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-      ...arrParametrosConsulta,
-      desplazar: desplazamiento,
-    }));
+    this._tableEntidadService.cambiarDesplazamiento(desplazamiento);
     this.consultarDatos();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-      ...arrParametrosConsulta,
-      limite: data.desplazamiento,
-      desplazar: data.limite,
-    }));
+    this._tableEntidadService.actualizarPaginacion(data);
     this.consultarDatos();
   }
 
