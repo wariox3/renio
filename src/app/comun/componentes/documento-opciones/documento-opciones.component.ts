@@ -55,6 +55,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   } = {
     modelo: 'ConMovimiento',
   };
+  @Input({ required: true }) documento: any;
 
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
 
@@ -231,6 +232,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this._desaprobarDocumento(this.documentoId);
         }
       });
+  }
+
+  contabilizar() {
+    this._documentoService.contabilizar(this.documento.id).subscribe();
+  }
+
+  descontabilizar() {
+    this._documentoService.descontabilizar(this.documento.id).subscribe();
   }
 
   private _eliminarArchivo(archivoId: number, index: number) {

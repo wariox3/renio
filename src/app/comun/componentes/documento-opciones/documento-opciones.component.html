@@ -53,6 +53,23 @@
         [visualizarBtnExportarZip]="false"
         (emitirExportarExcel)="descargarExcel()"
       >
+        <section botones-extra-derecha>
+          @if(documento) {
+          <button
+            (click)="contabilizar()"
+            class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          >
+            Contabilizar
+          </button>
+          } @else {
+          <button
+            (click)="descontabilizar()"
+            class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          >
+            Descontabilizar
+          </button>
+          }
+        </section>
       </app-comun-tabla>
     </div>
   </div>
