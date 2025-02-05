@@ -632,6 +632,24 @@
               <app-table-detalles></app-table-detalles>
             </ng-template>
           </li>
+          <li
+            [ngbNavItem]="3"
+            [destroyOnHide]="true"
+            class="nav-item"
+            (click)="consultarDatosEntidades()"
+          >
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 3 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+            >
+              Entidad
+            </a>
+            <ng-template ngbNavContent>
+              <app-table-entidad></app-table-entidad>
+            </ng-template>
+          </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>

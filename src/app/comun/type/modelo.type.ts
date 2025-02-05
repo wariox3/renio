@@ -28,6 +28,7 @@ export type Modelo =
   | 'HumCredito'
   | 'HumNovedad'
   | 'HumAporte'
+  | 'HumAporteEntidad'
   | 'HumProgramacionDetalle'
   | 'HumContrato'
   | 'HumGrupo'
