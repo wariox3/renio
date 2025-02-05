@@ -100,6 +100,24 @@ export class TablaEntidadService {
     }));
   }
 
+  public actualizarPaginacion(data: {
+    desplazamiento: number;
+    limite: number;
+  }) {
+    this._parametrosConsulta.update((parametros) => ({
+      ...parametros,
+      limite: data.desplazamiento,
+      desplazar: data.limite,
+    }));
+  }
+
+  public cambiarDesplazamiento(desplazamiento: number) {
+    this._parametrosConsulta.update((parametros) => ({
+      ...parametros,
+      desplazar: desplazamiento,
+    }));
+  }
+
   get getParametrosConsular() {
     return this._parametrosConsulta();
   }
