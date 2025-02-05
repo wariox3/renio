@@ -208,7 +208,7 @@ export default class AporteDetalleComponent
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
-        this.tableDetallesComponent.consultarDatos();
+        this.tableDetallesComponent?.consultarDatos();
         this._tableEntidadService.consultarListaEntidades().subscribe();
       });
   }
@@ -229,7 +229,7 @@ export default class AporteDetalleComponent
       )
       .subscribe(() => {
         this.consultarDatos();
-        this.tableDetallesComponent.consultarDatos();
+        this.tableDetallesComponent?.consultarDatos();
         this._tableEntidadService.consultarListaEntidades().subscribe();
       });
   }

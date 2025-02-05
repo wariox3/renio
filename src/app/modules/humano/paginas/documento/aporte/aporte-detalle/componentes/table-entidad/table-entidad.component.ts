@@ -31,7 +31,9 @@ export class TableEntidadComponent extends General implements OnInit {
 
   public entidadesAgrupadas =
     this._tableEntidadService.aporteEntidadListaAgrupada;
-  cantidadRegistros = this._tableEntidadService.cantidadRegistros;
+  public totalGeneral = this._tableEntidadService.totalGeneral;
+  public cantidadRegistros = this._tableEntidadService.cantidadRegistros;
+  public parametrosConsulta = this._tableEntidadService.getParametrosConsular;
   cargandoContratos = signal(false);
   arrParametrosConsulta = signal<ParametrosFiltros>({
     limite: 50,
@@ -89,13 +91,13 @@ export class TableEntidadComponent extends General implements OnInit {
   }
 
   descargarExcelDetalle() {
-    const modelo = 'HumAporteDetalle';
+    const modelo = 'HumAporteEntidad';
     const params = {
       modelo,
       serializador: 'Excel',
       excel: true,
       limite: 10000,
-      ...this.arrParametrosConsulta().filtros,
+      ...this.parametrosConsulta.filtros,
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
