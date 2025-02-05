@@ -208,7 +208,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
     if (this.subdominioService.esSubdominioActual()) {
       if(respuesta){
-        this.contenedorServices.detalle(respuesta.contenedor_id).subscribe((respuesta)=> {
+        this.contenedorServices.detalle(respuesta.id).subscribe((respuesta)=> {
           const contenedor: Contenedor = {
             nombre: respuesta.nombre,
             imagen: respuesta.imagen,
