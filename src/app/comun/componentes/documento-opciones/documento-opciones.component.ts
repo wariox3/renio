@@ -235,11 +235,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   contabilizar() {
-    this._documentoService.contabilizar(this.documento.id).subscribe();
+    this._documentoService.contabilizar({ id: this.documento.id }).subscribe();
   }
 
   descontabilizar() {
-    this._documentoService.descontabilizar(this.documento.id).subscribe();
+    this._documentoService
+      .descontabilizar({ id: this.documento.id })
+      .subscribe();
   }
 
   private _eliminarArchivo(archivoId: number, index: number) {
