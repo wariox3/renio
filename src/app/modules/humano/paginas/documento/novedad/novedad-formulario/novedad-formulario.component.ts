@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -21,17 +21,26 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { GeneralService } from '@comun/services/general.service';
 import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { RegistroAutocompletarHumNovedadTipo } from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
+import {
+  HumNovedadLista,
+  RegistroAutocompletarHumNovedadTipo,
+} from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 
 @Component({
   selector: 'app-novedad-formulario',
   standalone: true,
+  templateUrl: './novedad-formulario.component.html',
+  styleUrl: './novedad-formulario.component.scss',
   imports: [
     CommonModule,
     FormsModule,
@@ -42,9 +51,9 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     BuscarContratoComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    NgSelectModule,
+    BuscarAvanzadoComponent,
   ],
-  templateUrl: './novedad-formulario.component.html',
-  styleUrl: './novedad-formulario.component.scss',
   animations: [
     trigger('fadeInOut', [
       state(
@@ -61,10 +70,31 @@ export default class CreditoFormularioComponent
   extends General
   implements OnInit
 {
+  private readonly _generalService = inject(GeneralService);
+
   formularioAdicional: FormGroup;
   arrContratos: any[] = [];
   arrNovedadTipos: RegistroAutocompletarHumNovedadTipo[] = [];
-  private _generalService = inject(GeneralService);
+  public novedadReferenciaLista = signal<HumNovedadLista[]>([]);
+  public filtrosNovedadReferencia = signal<Filtros[]>([]);
+  public mostrarCampoNovedadReferencia = signal<boolean>(false);
+  public campoLista: CampoLista[] = [
+    {
+      propiedad: 'id',
+      titulo: 'id',
+      campoTipo: 'IntegerField',
+    },
+    {
+      propiedad: 'fecha_desde',
+      titulo: 'FECHADESDE',
+      campoTipo: 'DateField',
+    },
+    {
+      propiedad: 'fecha_hasta',
+      titulo: 'FECHAHASTA',
+      campoTipo: 'DateField',
+    },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,6 +110,39 @@ export default class CreditoFormularioComponent
     if (this.detalle) {
       this.consultarDetalle();
     }
+
+    this._iniciarCamposReactivos();
+  }
+
+  private _iniciarCamposReactivos() {
+    this._campoReactivoContrato();
+    this._campoReactivoNovedadTipo();
+    this._campoReactivoNovedadReferencia();
+  }
+
+  private _campoReactivoContrato() {
+    this.formularioAdicional.get('contrato')?.valueChanges.subscribe({
+      next: () => {
+        this._consultarNovedadesReferencia();
+      },
+    });
+  }
+
+  private _campoReactivoNovedadTipo() {
+    this.formularioAdicional.get('novedad_tipo')?.valueChanges.subscribe({
+      next: () => {
+        this.formularioAdicional.get('novedad_referencia')?.setValue(null);
+        this._consultarNovedadesReferencia();
+      },
+    });
+  }
+
+  private _campoReactivoNovedadReferencia() {
+    this.formularioAdicional.get('novedad_referencia')?.valueChanges.subscribe({
+      next: (valor) => {
+        this._buscarNovedadReferenciaListaById(valor);
+      },
+    });
   }
 
   iniciarFormulario() {
@@ -103,6 +166,7 @@ export default class CreditoFormularioComponent
         dias_disfrutados_reales: [0],
         fecha_desde_periodo: [null],
         fecha_hasta_periodo: [null],
+        novedad_referencia: [null],
       },
       {
         validator: [
@@ -183,6 +247,7 @@ export default class CreditoFormularioComponent
           fecha_hasta_periodo: respuesta.fecha_hasta_periodo,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
+          novedad_referencia: respuesta.novedad_referencia_id,
         });
         this.changeDetectorRef.detectChanges();
       });
@@ -228,7 +293,19 @@ export default class CreditoFormularioComponent
         .get('contrato_identificacion')
         ?.setValue(dato.contrato_contacto_numero_identificacion);
     }
+
+    switch (campo) {
+      case 'novedad_referencia':
+        this._actualizarCampoNovedadReferencia(dato);
+        break;
+      default:
+    }
+
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _actualizarCampoNovedadReferencia(registro: HumNovedadLista) {
+    this.formularioAdicional.get('novedad_referencia')?.setValue(registro.id);
   }
 
   novedadTipoSeleccionado($event: Event) {
@@ -295,5 +372,70 @@ export default class CreditoFormularioComponent
     control?.clearValidators();
     control?.setValidators(validators);
     control?.updateValueAndValidity();
+  }
+
+  private _consultarNovedadesReferencia() {
+    const novedadTipo = this.formularioAdicional.get('novedad_tipo')?.value;
+    const contratoId = this.formularioAdicional.get('contrato')?.value;
+
+    if (novedadTipo == 1 && contratoId) {
+      this._setFiltrosNovedadReferencia(contratoId, novedadTipo)
+      this.mostrarCampoNovedadReferencia.set(true);
+      this._getNovedadesReferenciaLista(
+        this.filtrosNovedadReferencia()
+      ).subscribe({
+        next: (response) => {
+          this.novedadReferenciaLista.set(response.registros);
+        },
+      });
+    } else {
+      this.mostrarCampoNovedadReferencia.set(false);
+    }
+  }
+
+  private _getNovedadesReferenciaLista(filtros: Filtros[]) {
+    return this._generalService.consultarDatosAutoCompletar<HumNovedadLista>({
+      modelo: 'HumNovedad',
+      filtros,
+    });
+  }
+
+  private _buscarNovedadReferenciaListaById(id: number) {
+    let filtros: Filtros[] = [...this.filtrosNovedadReferencia()];
+
+    if (id) {
+      filtros = [
+        ...filtros,
+        {
+          operador: 'exact',
+          propiedad: 'id',
+          valor1: id,
+        },
+      ];
+    }
+
+    this._getNovedadesReferenciaLista(filtros).subscribe({
+      next: (response) => {
+        this.novedadReferenciaLista.set(response.registros);
+      },
+    });
+  }
+
+  private _setFiltrosNovedadReferencia(
+    contratoId: number,
+    novedadTipoId: number
+  ) {
+    this.filtrosNovedadReferencia.set([
+      {
+        operador: 'exact',
+        propiedad: 'contrato_id',
+        valor1: contratoId,
+      },
+      {
+        operador: 'exact',
+        propiedad: 'novedad_tipo_id',
+        valor1: novedadTipoId,
+      },
+    ]);
   }
 }
