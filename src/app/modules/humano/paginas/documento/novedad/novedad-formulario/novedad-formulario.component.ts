@@ -240,6 +240,7 @@ export default class CreditoFormularioComponent
           fecha_hasta: respuesta.fecha_hasta,
           novedad_referencia: respuesta.novedad_referencia_id,
         });
+        this.changeDetectorRef.detectChanges();
       });
   }
 
