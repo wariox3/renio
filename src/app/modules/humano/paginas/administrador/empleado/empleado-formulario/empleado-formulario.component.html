@@ -233,15 +233,15 @@
             }"
           />
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message:
-              'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '50',
-            control: formularioEmpleado.controls['apellido1']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioEmpleado.controls['apellido1']
+            }"
+          ></ng-container>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -530,6 +530,8 @@
                 formularioEmpleado.controls['correo'].touched &&
                 formularioEmpleado.controls['correo'].valid
             }"
+            appInputValuecaseDirective
+            [appInputValueCase]="'minuscula'"
           />
           <ng-container
             [ngTemplateOutlet]="formError"
