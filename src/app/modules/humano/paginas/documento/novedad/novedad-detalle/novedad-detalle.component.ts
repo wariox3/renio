@@ -57,6 +57,7 @@ export default class CreditoDetalleComponent extends General {
     contrato_contacto_id: 0,
     novedad_tipo_id: 0,
     novedad_tipo_nombre: '',
+    novedad_referencia_id: 0,
   };
 
   constructor(private novedadService: NovedadService) {

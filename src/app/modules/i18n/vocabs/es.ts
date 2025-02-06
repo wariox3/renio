@@ -418,6 +418,7 @@ export const locale = {
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
           CARGO: 'Cargo',
           NOMBRES: 'Nombres',
+          NOVEDADREFERENCIA: 'Novedad referencia',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -1146,6 +1147,11 @@ export const locale = {
         DEBITO: 'Debito',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
+      },
+      NOVEDAD: {
+        ID: 'Id',
+        FECHADESDE: 'Fecha desde',
+        FECHAHASTA: 'Fecha hasta',
       },
     },
     TEMA: {
