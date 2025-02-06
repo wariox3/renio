@@ -164,13 +164,10 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           tap((respuesta) => {
             if (respuesta?.acceso_restringido) {
-              console.log('1');
               location.href = `${
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
             } else {
-              console.log('2');
-
               this.validarSubdominioYrediccionar(respuesta);
             }
           }),
@@ -204,8 +201,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   }
 
   validarSubdominioYrediccionar(respuesta: Contenedor | null) {
-    console.log('validarSubdominioYrediccionar', respuesta);
-
     if (this.subdominioService.esSubdominioActual()) {
       if(respuesta){
         this.contenedorServices.detalle(respuesta.id).subscribe((respuesta)=> {
