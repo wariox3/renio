@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -26,6 +27,11 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { GeneralService } from '@comun/services/general.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-item-formulario',
@@ -41,13 +47,19 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
     NgxMaskDirective,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    NgbDropdownModule,
   ],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
+  private readonly _generalService = inject(GeneralService);
+
+  arrCuentasLista: any[];
   formularioItem: FormGroup;
   arrImpuestosEliminado: number[] = [];
   arrImpuestos: any[] = [];
+  cuentaCodigo = '';
+  cuentaNombre = '';
   @Input() informacionFormulario: any;
   @Input() itemTipo: 'compra' | 'venta' = 'venta';
   @Input() ocultarBtnAtras = false;
@@ -68,6 +80,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
+
+    this._getCuentaLista([]);
   }
 
   iniciarFormulario() {
@@ -88,6 +102,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
       servicio: [false],
       inventario: [false],
       impuestos: this.formBuilder.array([]),
+      cuenta_venta: [null],
     });
   }
 
@@ -259,7 +274,11 @@ export default class ItemFormularioComponent extends General implements OnInit {
           inventario: respuesta.item.inventario,
           producto: respuesta.item.producto,
           servicio: respuesta.item.servicio,
+          cuenta_venta: respuesta.item.cuenta_venta_id,
         });
+
+        this.cuentaCodigo = respuesta.item.cuenta_venta_codigo;
+        this.cuentaNombre = respuesta.item.cuenta_venta_nombre;
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
 
@@ -300,5 +319,114 @@ export default class ItemFormularioComponent extends General implements OnInit {
       }
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _getCuentaLista(filtros: Filtros[]) {
+    this._generalService
+      .consultarDatosAutoCompletar({
+        modelo: 'ConCuenta',
+        filtros,
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+      });
+  }
+
+  consultarCuentas(event: any) {
+    const valor = event?.target?.value;
+    const valorBusqueda = valor.split(' ')?.[0] || '';
+
+    let arrFiltros: ParametrosFiltros = {
+      filtros: [
+        {
+          propiedad: 'codigo__startswith',
+          valor1: `${valorBusqueda}`,
+        },
+        {
+          propiedad: 'permite_movimiento',
+          valor1: true,
+        },
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: ['codigo'],
+      limite_conteo: 10000,
+      modelo: 'ConCuenta',
+      serializador: 'ListaAutocompletar',
+    };
+
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
+      .subscribe((respuesta) => {
+        this.arrCuentasLista = respuesta.registros;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  aplicarFiltrosCuentas(event: any) {
+    const valor = event?.target?.value;
+    const valorCasteado = Number(valor);
+    const filtros = [];
+
+    if (!valor) {
+      this.formularioItem.get('cuenta_venta')?.setValue(null);
+    }
+
+    // la busqueda es por codigo
+    if (!isNaN(valorCasteado)) {
+      filtros.push({
+        propiedad: 'codigo__startswith',
+        valor1: `${valor}`,
+      });
+    } else {
+      // la busqueda es por texto
+      filtros.push({
+        propiedad: 'nombre__icontains',
+        valor1: `${valor}`,
+      });
+    }
+
+    let arrFiltros: ParametrosFiltros = {
+      filtros: [
+        {
+          propiedad: 'permite_movimiento',
+          valor1: true,
+        },
+        ...filtros,
+      ],
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: ['codigo'],
+      limite_conteo: 10000,
+      modelo: 'ConCuenta',
+      serializador: 'ListaAutocompletar',
+    };
+
+    this._generalService
+      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
+      .pipe(
+        tap((respuesta) => {
+          this.arrCuentasLista = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        })
+      )
+      .subscribe();
+  }
+
+  construirNombre() {
+    const cuentaCodigo = this.cuentaCodigo || '';
+    const cuentaNombre = this.cuentaNombre || '';
+    if (!cuentaCodigo && !cuentaNombre) {
+      return null;
+    }
+    return `${cuentaCodigo} ${cuentaNombre}`;
+  }
+
+  agregarCuenta(cuenta: any) {
+    this.formularioItem.get('cuenta_venta')?.setValue(cuenta.cuenta_id);
+    this.cuentaNombre = cuenta.cuenta_nombre;
+    this.cuentaCodigo = cuenta.cuenta_codigo;
   }
 }

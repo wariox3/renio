@@ -411,6 +411,44 @@
       </div>
     </section>
   </app-card>
+
+  <app-card>
+    <section card-titulo>Contabilidad</section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.CUENTAVENTA"
+            class="form-label"
+          ></label>
+          <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+            <div>
+              <input
+                #inputItem
+                type="text"
+                ngbDropdownAnchor
+                class="cursor-pointer form-select form-select-sm w-100"
+                (focus)="consultarCuentas($event); ItemDropdown.open()"
+                (keyup)="aplicarFiltrosCuentas($event); ItemDropdown.open()"
+                [value]="construirNombre()"
+              />
+              <div
+                ngbDropdownMenu
+                aria-labelledby="dropdownBasic1"
+                class="dropdown-menu"
+              >
+                <ng-container *ngFor="let cuenta of arrCuentasLista">
+                  <button (click)="agregarCuenta(cuenta)" type="button" ngbDropdownItem>
+                    {{ cuenta.cuenta_codigo }} {{ cuenta.cuenta_nombre }}
+                  </button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </app-card>
 </form>
 <ng-template
   #formError

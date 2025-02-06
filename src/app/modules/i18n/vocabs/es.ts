@@ -435,6 +435,7 @@ export const locale = {
             INVENTARIO: 'Inventario',
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
+            CUENTAVENTA: 'Cuenta venta'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
