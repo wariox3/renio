@@ -168,6 +168,8 @@
             formularioContenedor.controls['correo'].touched &&
             formularioContenedor.controls['correo'].valid
         }"
+        appInputValuecaseDirective
+        [appInputValueCase]="'minuscula'"
       />
       <ng-container
         [ngTemplateOutlet]="formError"

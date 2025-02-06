@@ -14,6 +14,7 @@ import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 
 @Component({
   selector: 'app-asesor-formulario',
@@ -27,7 +28,8 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     CardComponent,
     NgxMaskDirective,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    InputValueCaseDirective
 ],
   providers: [provideNgxMask()],
 })
@@ -68,13 +70,6 @@ export default class AsesorFormularioComponent
           Validators.pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
         ]),
       ],
-    });
-
-    this.formularioAsesor.get('correo')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const lowerCaseValue = value.toLowerCase();
-        this.formularioAsesor.get('correo')?.setValue(lowerCaseValue, { emitEvent: false });
-      }
     });
   }
 

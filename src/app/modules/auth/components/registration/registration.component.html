@@ -85,6 +85,8 @@
             formularioRegistro.controls['usuario'].touched &&
             formularioRegistro.controls['usuario'].valid
         }"
+        appInputValuecaseDirective
+        [appInputValueCase]="'minuscula'"
       />
       <ng-container
         [ngTemplateOutlet]="formError"
@@ -320,7 +322,10 @@
       ></button>
       <ng-template #loader>
         <button class="btn btn-primary" type="button" disabled>
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true"
+          ></span>
           <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
         </button>
       </ng-template>
