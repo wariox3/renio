@@ -161,6 +161,7 @@
                 ngbDropdownAnchor
                 formControlName="novedad_referencia"
                 (focus)="ClienteDropdown.open()"
+                (keyup)="recibirEventoNovedadReferencia($event)"
               />
               <div
                 class="position-absolute translate-middle-y top-50 end-0 me-3"

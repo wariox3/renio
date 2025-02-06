@@ -117,7 +117,6 @@ export default class CreditoFormularioComponent
   private _iniciarCamposReactivos() {
     this._campoReactivoContrato();
     this._campoReactivoNovedadTipo();
-    this._campoReactivoNovedadReferencia();
   }
 
   private _campoReactivoContrato() {
@@ -133,14 +132,6 @@ export default class CreditoFormularioComponent
       next: () => {
         this.formularioAdicional.get('novedad_referencia')?.setValue(null);
         this._consultarNovedadesReferencia();
-      },
-    });
-  }
-
-  private _campoReactivoNovedadReferencia() {
-    this.formularioAdicional.get('novedad_referencia')?.valueChanges.subscribe({
-      next: (valor) => {
-        this._buscarNovedadReferenciaListaById(valor);
       },
     });
   }
@@ -249,7 +240,6 @@ export default class CreditoFormularioComponent
           fecha_hasta: respuesta.fecha_hasta,
           novedad_referencia: respuesta.novedad_referencia_id,
         });
-        this.changeDetectorRef.detectChanges();
       });
   }
 
@@ -379,7 +369,7 @@ export default class CreditoFormularioComponent
     const contratoId = this.formularioAdicional.get('contrato')?.value;
 
     if (novedadTipo == 1 && contratoId) {
-      this._setFiltrosNovedadReferencia(contratoId, novedadTipo)
+      this._setFiltrosNovedadReferencia(contratoId, novedadTipo);
       this.mostrarCampoNovedadReferencia.set(true);
       this._getNovedadesReferenciaLista(
         this.filtrosNovedadReferencia()
@@ -398,6 +388,13 @@ export default class CreditoFormularioComponent
       modelo: 'HumNovedad',
       filtros,
     });
+  }
+
+  public recibirEventoNovedadReferencia(evento: Event) {
+    const propiedad = evento.target as HTMLSelectElement;
+    if (this._isHabilitadoConsultaNovedadReferencia()) {
+      this._buscarNovedadReferenciaListaById(Number(propiedad.value));
+    }
   }
 
   private _buscarNovedadReferenciaListaById(id: number) {
@@ -419,6 +416,13 @@ export default class CreditoFormularioComponent
         this.novedadReferenciaLista.set(response.registros);
       },
     });
+  }
+
+  private _isHabilitadoConsultaNovedadReferencia(): boolean {
+    const novedadTipo = this.formularioAdicional.get('novedad_tipo')?.value;
+    const contratoId = this.formularioAdicional.get('contrato')?.value;
+
+    return novedadTipo == 1 && contratoId;
   }
 
   private _setFiltrosNovedadReferencia(
