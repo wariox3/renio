@@ -1312,6 +1312,7 @@ export const locale = {
       CARGANDO: 'Cargando',
       EVENTOCOMPLEADO: 'Evento dian completado',
       ACTUALIZARINFORMACION: 'Se actualizó la información',
+      CARGANDOCONFIGURACIONINICIAL: 'Cargando configuración inicial ...',
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',
