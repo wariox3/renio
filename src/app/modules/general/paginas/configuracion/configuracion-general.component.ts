@@ -1,11 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
+import { DocumentoDocumentoTipoComponent } from './componentes/documento-tipo/empresa-documento-tipo-lista/empresa-documento-tipo.component';
+import { ImpuestosListaComponent } from './componentes/impuestos/impuestos-lista/impuestos-lista.component';
 
 @Component({
   selector: 'app-configuracion-general',
@@ -16,11 +25,16 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     SoloNumerosDirective,
+    NgbNavModule,
+    DocumentoDocumentoTipoComponent,
+    ImpuestosListaComponent
   ],
   templateUrl: './configuracion-general.component.html',
 })
-export class ConfiguracionGeneralComponent  extends General implements OnInit  {
+export class ConfiguracionGeneralComponent extends General implements OnInit {
+
   formularioConfiguracion: FormGroup;
+  tabActive = 1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,6 +86,5 @@ export class ConfiguracionGeneralComponent  extends General implements OnInit  {
     } else {
       this.formularioConfiguracion.markAllAsTouched();
     }
- }
-
+  }
 }
