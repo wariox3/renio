@@ -49,51 +49,49 @@ export class General {
         this.modelo = parametros.itemNombre;
       }
       this.detalle = parametros.detalle;
-      this.changeDetectorRef.detectChanges;
+
+      switch (true) {
+        case this.router.url.includes('documento'):
+          this.ubicacion = 'documento';
+          break;
+        case this.router.url.includes('administrador'):
+          this.ubicacion = 'administrador';
+          // Obtener el prefijo a partir del modelo
+          const prefijo: AplicacionPrefijoModulo = this.modelo
+            .toLowerCase()
+            .substring(0, 3) as AplicacionPrefijoModulo;
+  
+          // Verificar si el prefijo existe en las claves de moduloAplicacion
+          const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
+  
+          if (posicion !== -1) {
+            // Si el prefijo es válido, mostrar la posición
+            this.modulo = this.moduloAplicacion[prefijo];
+          }
+          break;
+        case this.router.url.includes('utilidad'):
+          this.ubicacion = 'utilidad';
+          break;
+        case this.router.url.includes('informe'):
+          this.ubicacion = 'informe';
+          break;
+        default:
+          this.ubicacion = 'independiente';
+          break;
+      }
+  
+      switch (true) {
+        case this.router.url.includes('/nuevo'):
+          this.accion = 'nuevo';
+          break;
+        case this.router.url.includes('/detalle'):
+          this.accion = 'detalle';
+          break;
+        case this.router.url.includes('/editar'):
+          this.accion = 'editar';
+          break;
+      }
     });
-    this.changeDetectorRef.detectChanges;
-
-    switch (true) {
-      case this.router.url.includes('documento'):
-        this.ubicacion = 'documento';
-        break;
-      case this.router.url.includes('administrador'):
-        this.ubicacion = 'administrador';
-        // Obtener el prefijo a partir del modelo
-        const prefijo: AplicacionPrefijoModulo = this.modelo
-          .toLowerCase()
-          .substring(0, 3) as AplicacionPrefijoModulo;
-
-        // Verificar si el prefijo existe en las claves de moduloAplicacion
-        const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
-
-        if (posicion !== -1) {
-          // Si el prefijo es válido, mostrar la posición
-          this.modulo = this.moduloAplicacion[prefijo];
-        }
-        break;
-      case this.router.url.includes('utilidad'):
-        this.ubicacion = 'utilidad';
-        break;
-      case this.router.url.includes('informe'):
-        this.ubicacion = 'informe';
-        break;
-      default:
-        this.ubicacion = 'independiente';
-        break;
-    }
-
-    switch (true) {
-      case this.router.url.includes('/nuevo'):
-        this.accion = 'nuevo';
-        break;
-      case this.router.url.includes('/detalle'):
-        this.accion = 'detalle';
-        break;
-      case this.router.url.includes('/editar'):
-        this.accion = 'editar';
-        break;
-    }
   }
 
   navegarDocumentoNuevo() {
