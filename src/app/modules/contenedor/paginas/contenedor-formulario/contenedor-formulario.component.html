@@ -168,7 +168,8 @@
             formularioContenedor.controls['correo'].touched &&
             formularioContenedor.controls['correo'].valid
         }"
-        (keyup)="modificarCampoFormulario('correo', null)"
+        appInputValuecaseDirective
+        [appInputValueCase]="'minuscula'"
       />
       <ng-container
         [ngTemplateOutlet]="formError"

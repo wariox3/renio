@@ -21,7 +21,7 @@ export class TablaContratosService {
   public ordernamientoValor = signal('');
   public registrosAEliminar = signal<number[]>([]);
   public isCheckedSeleccionarTodos = signal(false);
- 
+
 
   public consultarListaContratos(parametrosConsulta: ParametrosFiltros) {
     this.reiniciarSelectoresEliminar();
@@ -30,7 +30,7 @@ export class TablaContratosService {
       .pipe(
         tap((respuesta) => {
           this._actualizarMapeo(FiltrosDetalleProgramacionContratos);
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
+          this.cantidadRegistros.update(() => respuesta.cantidad_registros);
           this.arrProgramacionDetalle.set(
             respuesta.registros.map(
               (registro: RespuestaProgramacionContrato) => ({

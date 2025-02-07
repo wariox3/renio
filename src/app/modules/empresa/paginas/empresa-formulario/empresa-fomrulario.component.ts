@@ -17,10 +17,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
-import {
-} from '@interfaces/comunes/autocompletar/autocompletar';
+import { } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
+import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
+import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
+import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
 import { Regimen } from '@interfaces/general/regimen.interface';
 import { TipoIdentificacion } from '@interfaces/general/tipo-identificacion.interface';
 import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
@@ -36,10 +40,6 @@ import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
-import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
-import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
-import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
-import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -55,6 +55,7 @@ import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/auto
     NgbDropdownMenu,
     NgbDropdownItem,
     CommonModule,
+    InputValueCaseDirective
   ],
   providers: [provideNgxMask()],
 })

@@ -1,10 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { TranslationService } from '@modulos/i18n';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { CountUpModule } from 'ngx-countup';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,10 +8,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { AlertaService } from '@comun/services/alerta.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseLandingpageComponent } from '@comun/componentes/base-landingpage/base-landingpage.component';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { AlertaService } from '@comun/services/alerta.service';
 import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
+import { TranslationService } from '@modulos/i18n';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { CountUpModule } from 'ngx-countup';
 
 @Component({
   selector: 'app-landingpage',
@@ -31,7 +32,8 @@ import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.in
     CountUpModule,
     FormsModule,
     ReactiveFormsModule,
-],
+    InputValueCaseDirective,
+  ],
 })
 export class LandingpageComponent implements OnInit {
   estadoMenu = false;
@@ -59,7 +61,7 @@ export class LandingpageComponent implements OnInit {
     private translationService: TranslationService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private alertaService: AlertaService,
+    private alertaService: AlertaService
   ) {}
 
   ngOnInit() {

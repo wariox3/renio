@@ -418,6 +418,7 @@ export const locale = {
           CORREOFACTURACIONELECTRONICA: 'Correo facturación electrónica',
           CARGO: 'Cargo',
           NOMBRES: 'Nombres',
+          NOVEDADREFERENCIA: 'Novedad referencia',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -434,6 +435,7 @@ export const locale = {
             INVENTARIO: 'Inventario',
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
+            CUENTAVENTA: 'Cuenta venta'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
@@ -1146,6 +1148,11 @@ export const locale = {
         DEBITO: 'Debito',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
+      },
+      NOVEDAD: {
+        ID: 'Id',
+        FECHADESDE: 'Fecha desde',
+        FECHAHASTA: 'Fecha hasta',
       },
     },
     TEMA: {

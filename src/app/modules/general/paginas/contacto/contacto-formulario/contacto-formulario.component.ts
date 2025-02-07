@@ -33,7 +33,9 @@ import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
+import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/general/gen-precio.interface';
@@ -47,8 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
-import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -76,6 +77,7 @@ import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/au
     CardComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    InputValueCaseDirective
   ],
   providers: [provideNgxMask()],
 })
@@ -96,7 +98,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
   filtroIdentificacionSignal = signal(0);
-  identificacionIdApiDetalleSignal  = signal(0);
+  identificacionIdApiDetalleSignal = signal(0);
 
   filteredIdentificacionSignal = computed(() =>
     this.arrIdentificacionSignal().filter(
@@ -425,11 +427,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
           nombre2: null,
           apellido1: null,
           apellido2: null,
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       } else {
         this.formularioContacto.patchValue({
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       }
     } else {
@@ -447,12 +451,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
       if (this.accion === 'nuevo') {
         this.formularioContacto.patchValue({
-          identificacion: this.filteredIdentificacionSignal()[0].identificacion_id
+          identificacion:
+            this.filteredIdentificacionSignal()[0].identificacion_id,
         });
       }
       if (this.accion === 'editar') {
         this.formularioContacto.patchValue({
-          identificacion: this.identificacionIdApiDetalleSignal()
+          identificacion: this.identificacionIdApiDetalleSignal(),
         });
       }
     }
@@ -696,7 +701,9 @@ export default class ContactDetalleComponent extends General implements OnInit {
           banco: respuesta.banco_id,
           numero_cuenta: respuesta.numero_cuenta,
         });
-        this.identificacionIdApiDetalleSignal.update(() => respuesta.identificacion_id)
+        this.identificacionIdApiDetalleSignal.update(
+          () => respuesta.identificacion_id
+        );
         this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
         if (respuesta.tipo_persona_id === 1) {

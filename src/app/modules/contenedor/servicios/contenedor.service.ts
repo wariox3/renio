@@ -27,7 +27,7 @@ export class ContenedorService {
       `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-usuario/`,
       {
         usuario_id,
-        reddoc: true
+        reddoc: true,
       }
     );
   }
@@ -42,7 +42,7 @@ export class ContenedorService {
     );
   }
 
-  detalle(codigoContenedor: string) {
+  detalle(codigoContenedor: number) {
     return this.http.get<Contenedor>(
       `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}/`
     );
@@ -168,7 +168,7 @@ export class ContenedorService {
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
-    return this.http.post<{ cargar: boolean, imagen: string }>(
+    return this.http.post<{ cargar: boolean; imagen: string }>(
       `${environment.URL_API_MUUP}/contenedor/contenedor/cargar-logo/`,
       {
         empresa_id,
@@ -219,19 +219,18 @@ export class ContenedorService {
     return this.http.post<any>(
       `${environment.URL_API_MUUP}/contenedor/movimiento/descargar/`,
       {
-        'id' : documento_id
+        id: documento_id,
       }
     );
   }
 
-  reenviarCorreoVerificacion(usuario_id: string){
+  reenviarCorreoVerificacion(usuario_id: string) {
     return this.http.post<Movimientos>(
       `${environment.URL_API_MUUP}/contenedor/verificacion/reenviar-verificacion/ `,
       {
         usuario_id,
       }
     );
-
   }
 
   consultarMovimientoSocio(socio_id: string) {
@@ -243,9 +242,9 @@ export class ContenedorService {
     );
   }
 
-  varios(subdominio: string) {
-    return this.http.post(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/consulta-subdominio/`,
+  contenedorConectar(subdominio: string) {
+    return this.http.post<Contenedor>(
+      `${environment.URL_API_MUUP}/contenedor/contenedor/conectar/`,
       {
         subdominio,
       }

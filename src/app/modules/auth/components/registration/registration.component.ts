@@ -13,6 +13,7 @@ import { ConfirmPasswordValidator } from '@comun/validaciones/confirm-password.v
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 
 @Component({
   selector: 'app-registration',
@@ -27,6 +28,7 @@ import { AuthService } from '../../services/auth.service';
     NgTemplateOutlet,
     NgIf,
     RouterLink,
+    InputValueCaseDirective
   ],
 })
 export class RegistrationComponent extends General implements OnInit {

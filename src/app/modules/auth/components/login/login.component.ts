@@ -1,26 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { usuarioActionInit } from '@redux/actions/usuario.actions';
-import { General } from '@comun/clases/general';
-import { SubdominioService } from '@comun/services/subdominio.service';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-import { environment } from '@env/environment';
-import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { SubdominioService } from '@comun/services/subdominio.service';
+import { environment } from '@env/environment';
 import { Contenedor } from '@interfaces/usuario/contenedor';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
     NgClass,
     NgTemplateOutlet,
     RouterLink,
+    InputValueCaseDirective
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
@@ -105,6 +107,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         ]),
       ],
     });
+
+
   }
 
   submit() {
@@ -149,14 +153,14 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           switchMap(() => {
             if (this.subdominioService.esSubdominioActual()) {
-              return this.contenedorServices.varios(
+              return this.contenedorServices.contenedorConectar(
                 this.subdominioService.subdominioNombre()
               );
             }
             return of(null);
           }),
-          tap((respuesta: any) => {
-            if (respuesta?.empresa.acceso_restringido) {
+          tap((respuesta) => {
+            if (respuesta?.acceso_restringido) {
               location.href = `${
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
@@ -193,40 +197,45 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     }
   }
 
-  validarSubdominioYrediccionar(respuesta: any) {
+  validarSubdominioYrediccionar(respuesta: Contenedor | null) {
     if (this.subdominioService.esSubdominioActual()) {
-      const contenedor: Contenedor = {
-        nombre: respuesta.empresa.nombre,
-        imagen: respuesta.empresa.imagen,
-        contenedor_id: respuesta.empresa.id,
-        subdominio: respuesta.empresa.subdominio,
-        id: respuesta.empresa.id,
-        usuario_id: 1,
-        seleccion: true,
-        rol: respuesta.empresa.rol,
-        plan_id: respuesta.empresa.plan_id,
-        plan_nombre: respuesta.empresa.plan_nombre,
-        usuarios: 1,
-        usuarios_base: 0,
-        ciudad: 0,
-        correo: '',
-        direccion: '',
-        identificacion: 0,
-        nombre_corto: '',
-        numero_identificacion: 0,
-        telefono: '',
-        acceso_restringido: respuesta.empresa.acceso_restringido,
-      };
-      this.store.dispatch(ContenedorActionInit({ contenedor }));
-      this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
-      this.store.dispatch(
-        configuracionVisualizarAction({
-          configuracion: {
-            visualizarApps: true,
-          },
+      if(respuesta){
+        this.contenedorServices.detalle(respuesta.id).subscribe((respuesta)=> {
+          const contenedor: Contenedor = {
+            nombre: respuesta.nombre,
+            imagen: respuesta.imagen,
+            contenedor_id: respuesta.id,
+            subdominio: respuesta.subdominio,
+            id: respuesta.id,
+            usuario_id: 1,
+            seleccion: true,
+            rol: respuesta.rol,
+            plan_id: respuesta.plan_id,
+            plan_nombre: respuesta.plan_nombre,
+            usuarios: 1,
+            usuarios_base: 0,
+            ciudad: 0,
+            correo: '',
+            direccion: '',
+            identificacion: 0,
+            nombre_corto: '',
+            numero_identificacion: 0,
+            telefono: '',
+            acceso_restringido: respuesta.acceso_restringido,
+          };
+          this.store.dispatch(ContenedorActionInit({ contenedor }));
+          this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
+          this.store.dispatch(
+            configuracionVisualizarAction({
+              configuracion: {
+                visualizarApps: true,
+              },
+            })
+          );
+          this.router.navigate(['/dashboard']);
         })
-      );
-      this.router.navigate(['/dashboard']);
+      }
+
     } else {
       this.router.navigate(['/contenedor/lista']);
     }

@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import {
   NgbDropdownModule,
@@ -32,6 +33,7 @@ import { switchMap, tap } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     NgbModalModule,
+    InputValueCaseDirective
   ],
   templateUrl: './empresa-facturacion-electronica.html',
 })
@@ -44,7 +46,7 @@ export class EmpresaFacturacionElectronicaComponent
   rededoc_id: string;
   empresa_id: string;
   arrResoluciones: any[] = [];
-  @Input() visualizarBtnSiguiente = true
+  @Input() visualizarBtnSiguiente = true;
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -72,7 +74,7 @@ export class EmpresaFacturacionElectronicaComponent
         Validators.compose([
           Validators.required,
           Validators.pattern(/^[a-z-A-Z-0-9]*$/),
-          Validators.maxLength(36)
+          Validators.maxLength(36),
         ]),
       ],
       correo_facturacion_electronica: [
@@ -167,7 +169,7 @@ export class EmpresaFacturacionElectronicaComponent
     }
   }
 
-  emitirRegistro(){
+  emitirRegistro() {
     return this.emitirRegistroGuardado.emit(true);
   }
 }
