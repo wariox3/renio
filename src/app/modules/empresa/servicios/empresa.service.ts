@@ -109,4 +109,8 @@ export class EmpresaService {
       null
     );
   }
+
+  configuracionPredeterminada(){
+    return this.httpService.post<{mensaje: string}>('general/funcionalidad/predeterminado/', null)
+  }
 }
