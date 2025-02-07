@@ -1,5 +1,6 @@
 export interface Plan {
-  id: Number;
+  id: number;
   nombre: string;
-  precio: number
+  precio: number;
+  plan_tipo_id: 'F' | 'E';
 }

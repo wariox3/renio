@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   Renderer2,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -53,6 +54,10 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   srcResult: string = '/metronic8/demo1/assets/media/svg/avatars/blank.svg';
   nombreEmpresa = '';
   dominioApp = environment.dominioApp;
+  informacionPlanes = this.contenedorService.informacionPlan;
+
+  public planesAgrupadosPorTipo = signal<Plan[]>([]);
+  public activePlanTab = signal<'F' | 'E'>('F');
 
   @Input() informacionContenedor!: ContenedorFormulario;
   @Input() visualizarBtnAtras: boolean = true;
@@ -76,12 +81,20 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     this.consultarInformacion();
   }
 
+  public cambiarTipoPlanes(planTipo: 'F' | 'E') {
+    this.activePlanTab.set(planTipo);
+    this.planesAgrupadosPorTipo.update(() => {
+      return this.arrPlanes.filter((plan) => plan.plan_tipo_id === planTipo);
+    });
+  }
+
   consultarInformacion() {
     zip(
       this.contenedorService.listaPlanes(),
       this.store.select(obtenerUsuarioCorreo)
     ).subscribe((respuesta: any) => {
       this.arrPlanes = respuesta[0];
+      this.cambiarTipoPlanes('F');
       let posicion: keyof typeof this.contenedorService.informacionPlan = 3;
       this.informacionPlan = this.contenedorService.informacionPlan[posicion];
       this.formularioContenedor.get('correo')?.setValue(respuesta[2]);
@@ -159,17 +172,16 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       ruteo: [false],
     });
 
-
     this.formularioContenedor
-    .get('correo')
-    ?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const lowerCaseValue = value.toLowerCase();
-        this.formularioContenedor
-          .get('correo')
-          ?.setValue(lowerCaseValue, { emitEvent: false });
-      }
-    });
+      .get('correo')
+      ?.valueChanges.subscribe((value: string) => {
+        if (value) {
+          const lowerCaseValue = value.toLowerCase();
+          this.formularioContenedor
+            .get('correo')
+            ?.setValue(lowerCaseValue, { emitEvent: false });
+        }
+      });
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -190,7 +202,9 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     if (campo === 'correo') {
       const correoControl = this.formularioContenedor.get('correo');
       if (correoControl) {
-        correoControl.setValue(correoControl.value.toLowerCase(), { emitEvent: false });
+        correoControl.setValue(correoControl.value.toLowerCase(), {
+          emitEvent: false,
+        });
       }
     }
     this.changeDetectorRef.detectChanges();
@@ -230,10 +244,9 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     }
   }
 
-  seleccionarPlan(plan: any) {
+  seleccionarPlan(plan: Plan) {
     this.planSeleccionado = plan.id;
-    let posicion: keyof typeof this.contenedorService.informacionPlan = plan.id;
-    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
+    this.formularioContenedor.get('plan_id')?.setValue(plan.id);
     this.changeDetectorRef.detectChanges();
   }
 
