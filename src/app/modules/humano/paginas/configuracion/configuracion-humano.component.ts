@@ -79,7 +79,6 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
-      hum_entidad_riesgo: [null, [Validators.required]],
     });
   }
 

@@ -147,6 +147,7 @@ export const locale = {
           NOTIFICANDO: 'Notificando',
           ZIP: 'Zip',
           CERRAR: 'Cerrar',
+          IMPUESTOS: 'Impuestos',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
