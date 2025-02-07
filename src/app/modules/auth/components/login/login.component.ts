@@ -1,26 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { Subscription, Observable, switchMap, tap, of, catchError } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { usuarioActionInit } from '@redux/actions/usuario.actions';
-import { General } from '@comun/clases/general';
-import { SubdominioService } from '@comun/services/subdominio.service';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-import { environment } from '@env/environment';
-import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgClass, NgTemplateOutlet } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { SubdominioService } from '@comun/services/subdominio.service';
+import { environment } from '@env/environment';
 import { Contenedor } from '@interfaces/usuario/contenedor';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
     NgClass,
     NgTemplateOutlet,
     RouterLink,
+    InputValueCaseDirective
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
@@ -106,12 +108,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
       ],
     });
 
-    this.loginForm.get('email')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const lowerCaseValue = value.toLowerCase();
-        this.loginForm.get('email')?.setValue(lowerCaseValue, { emitEvent: false });
-      }
-    });
+
   }
 
   submit() {

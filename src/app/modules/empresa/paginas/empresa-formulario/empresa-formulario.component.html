@@ -5,12 +5,7 @@
   (ngSubmit)="formSubmit()"
 >
   <div class="fv-row d-flex mb-5">
-    <button
-      translate=""
-      type="submit"
-      class="btn btn-primary"
-      type="submit"
-    >
+    <button translate="" type="submit" class="btn btn-primary" type="submit">
       @if(visualizarLabelSiguiente){
       {{ "FORMULARIOS.BOTONES.COMUNES.SIGUIENTE" | translate }}
       } @else {
@@ -241,8 +236,8 @@
             ngbDropdownItem
             (click)="modificarCampoFormulario('ciudad', ciudad)"
           >
-          {{ ciudad.nombre }} - {{ciudad.estado_nombre}}
-        </button>
+            {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
+          </button>
         </ng-container>
         <div class="dropdown-divider"></div>
       </div>
@@ -304,6 +299,8 @@
             formularioEmpresa.controls['correo'].touched &&
             formularioEmpresa.controls['correo'].valid
         }"
+        appInputValuecaseDirective
+        [appInputValueCase]="'minuscula'"
       />
       <ng-container
         [ngTemplateOutlet]="formError"

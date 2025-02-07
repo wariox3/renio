@@ -17,10 +17,11 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { environment } from '@env/environment';
-import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
+import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,6 +39,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownModule,
     FormsModule,
     ReactiveFormsModule,
+    InputValueCaseDirective,
   ],
 })
 export class ContenedorFormularioComponent extends General implements OnInit {
@@ -171,17 +173,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       reddoc: [true],
       ruteo: [false],
     });
-
-    this.formularioContenedor
-      .get('correo')
-      ?.valueChanges.subscribe((value: string) => {
-        if (value) {
-          const lowerCaseValue = value.toLowerCase();
-          this.formularioContenedor
-            .get('correo')
-            ?.setValue(lowerCaseValue, { emitEvent: false });
-        }
-      });
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -197,14 +188,6 @@ export class ContenedorFormularioComponent extends General implements OnInit {
           .toLocaleLowerCase();
         this.formularioContenedor.get(campo)?.setValue(this.nombreEmpresa);
         this.changeDetectorRef.detectChanges();
-      }
-    }
-    if (campo === 'correo') {
-      const correoControl = this.formularioContenedor.get('correo');
-      if (correoControl) {
-        correoControl.setValue(correoControl.value.toLowerCase(), {
-          emitEvent: false,
-        });
       }
     }
     this.changeDetectorRef.detectChanges();

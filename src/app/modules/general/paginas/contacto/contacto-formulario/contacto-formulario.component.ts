@@ -33,7 +33,9 @@ import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
+import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/general/gen-precio.interface';
@@ -47,8 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
 import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
-import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -76,6 +77,7 @@ import { RegistroAutocompletarGenCuentaBancoClase } from '@interfaces/comunes/au
     CardComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    InputValueCaseDirective
   ],
   providers: [provideNgxMask()],
 })
@@ -366,17 +368,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
       ?.valueChanges.subscribe((valor) => {
         if (valor === '') {
           this.formularioContacto.get('apellido2')?.setValue(null);
-        }
-      });
-
-    this.formularioContacto
-      .get('correo')
-      ?.valueChanges.subscribe((value: string) => {
-        if (value) {
-          const lowerCaseValue = value.toLowerCase();
-          this.formularioContacto
-            .get('correo')
-            ?.setValue(lowerCaseValue, { emitEvent: false });
         }
       });
   }

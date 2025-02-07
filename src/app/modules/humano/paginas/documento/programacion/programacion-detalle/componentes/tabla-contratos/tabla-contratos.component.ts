@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
   inject,
   Input,
@@ -53,7 +54,7 @@ export class TablaContratosComponent extends General implements OnInit {
   private _programacionDetalleService = inject(ProgramacionDetalleService);
   private _tablaContratosService = inject(TablaContratosService);
 
-  cantidadRegistros = signal(0);
+  cantidadRegistros = computed(() => this._tablaContratosService.cantidadRegistros());
   ordenadoTabla = signal('');
   cargandoContratos = signal(false);
   isCheckedSeleccionarTodos =

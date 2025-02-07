@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import {
   NgbDropdownModule,
@@ -32,6 +33,7 @@ import { switchMap, tap } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     NgbModalModule,
+    InputValueCaseDirective
   ],
   templateUrl: './empresa-facturacion-electronica.html',
 })
@@ -81,28 +83,6 @@ export class EmpresaFacturacionElectronicaComponent
       ],
       copia_correo_facturacion_electronica: [false],
     });
-
-    this.formularioDian
-      .get('correo_facturacion_electronica')
-      ?.valueChanges.subscribe((value: string) => {
-        if (value) {
-          const lowerCaseValue = value.toLowerCase();
-          this.formularioDian
-            .get('correo_facturacion_electronica')
-            ?.setValue(lowerCaseValue, { emitEvent: false });
-        }
-      });
-
-    this.formularioDian
-      .get('copia_correo_facturacion_electronica')
-      ?.valueChanges.subscribe((value: string) => {
-        if (value) {
-          const lowerCaseValue = value.toLowerCase();
-          this.formularioDian
-            .get('copia_correo_facturacion_electronica')
-            ?.setValue(lowerCaseValue, { emitEvent: false });
-        }
-      });
   }
 
   inicializFormularioDianEditar() {

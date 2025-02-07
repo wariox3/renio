@@ -128,6 +128,8 @@
                 formularioDian.controls['correo_facturacion_electronica'].touched &&
                 formularioDian.controls['correo_facturacion_electronica'].valid
             }"
+          appInputValuecaseDirective
+          [appInputValueCase]="'minuscula'"
         />
         <ng-container
           [ngTemplateOutlet]="formError"

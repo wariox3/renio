@@ -12,7 +12,6 @@ import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-e
 @Component({
   selector: 'app-empresa-documento-tipo',
   templateUrl: './empresa-documento-tipo.component.html',
-  styleUrls: ['./empresa-documento-tipo.component.scss'],
   standalone: true,
   imports: [
     CommonModule,

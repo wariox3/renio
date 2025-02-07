@@ -208,4 +208,21 @@ export class AlertaService {
       })
     );
   }
+
+  confimarConfigracionPrederminada(): Observable<SweetAlertResult> {
+    return from(
+      Swal.fire({
+        title: 'Configuración rapida',
+        text: ' Establece los valores predeterminados y haz que el sistema funcione al instante.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#1B84FF',
+        cancelButtonColor: '#F8285A',
+        reverseButtons: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Cancelar`,
+      })
+    );
+  }
 }

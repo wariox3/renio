@@ -103,6 +103,8 @@
             loginForm.controls['email'].touched &&
             loginForm.controls['email'].valid
         }"
+        appInputValuecaseDirective
+        [appInputValueCase]="'minuscula'"
       />
       <ng-container
       [ngTemplateOutlet]="formError"

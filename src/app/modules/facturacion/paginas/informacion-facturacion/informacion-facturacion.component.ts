@@ -17,6 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
@@ -30,7 +31,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-informacion-facturacion',
@@ -42,6 +43,7 @@ import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     NgbDropdownModule,
+    InputValueCaseDirective
   ],
   templateUrl: './informacion-facturacion.component.html',
   styleUrl: './informacion-facturacion.component.css',
@@ -140,13 +142,6 @@ export class InformacionFacturacionComponent extends General implements OnInit {
         validator: MultiplesEmailValidator.validarCorreos(['correo']),
       }
     );
-
-    this.formularioInformacion.get('correo')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const lowerCaseValue = value.toLowerCase();
-        this.formularioInformacion.get('correo')?.setValue(lowerCaseValue, { emitEvent: false });
-      }
-    });
   }
 
   consultarCiudad(event: any) {
