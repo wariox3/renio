@@ -351,6 +351,8 @@ export const locale = {
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
           CONSECUTIVO: 'Consecutivo',
           RESOLUCION: 'Resolución',
+          CUENTAPAGAR: 'Cuenta pagar',
+          CUENTACOBRAR: 'Cuenta cobrar',
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Información comercial',

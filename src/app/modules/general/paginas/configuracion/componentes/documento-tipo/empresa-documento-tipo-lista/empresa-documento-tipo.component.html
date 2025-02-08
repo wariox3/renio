@@ -3,16 +3,20 @@
     <div class="table-responsive-sm">
       <table id="tableDetalles" class="table table-bordered table-row-gray-500">
         <thead>
-          <tr>
-            <th class="bg-gray-100" style="width: 50px">Id</th>
-            <th class="bg-gray-100">Nombre</th>
-            <th class="bg-gray-100">Consecutivo</th>
-            <th class="bg-gray-100">Resolucion</th>
-            <th class="bg-gray-100">Número</th>
-            <th class="bg-gray-100">Prefijo</th>
-            <th class="bg-gray-100">Venta</th>
-            <th class="bg-gray-100">Compra</th>
-            <th class="bg-gray-100" style="width: 50px"></th>
+          <tr class="bg-gray-100">
+            <th style="width: 50px">Id</th>
+            <th>Nombre</th>
+            <th>Consecutivo</th>
+            <th>Resolución</th>
+            <th>Número</th>
+            <th>Prefijo</th>
+            <th>Venta</th>
+            <th>Compra</th>
+            <th>Cod</th>
+            <th>Cuenta cobrar</th>
+            <th>Cod</th>
+            <th>Cuenta pagar</th>
+            <th style="width: 50px"></th>
           </tr>
         </thead>
         <tbody>
@@ -35,10 +39,22 @@
               {{ documentoTipo.resolucion_prefijo }}
             </td>
             <td class="w-45px text-center">
-              {{ documentoTipo.venta ? 'SI' : 'NO' }}
+              {{ documentoTipo.venta | siNo }}
             </td>
             <td class="w-45px text-center">
-              {{ documentoTipo.compra ? 'SI' : 'NO' }}
+              {{ documentoTipo.compra | siNo }}
+            </td>
+            <td class="w-45px text-center">
+              {{ documentoTipo.cuenta_cobrar_codigo }}
+            </td>
+            <td>
+              {{ documentoTipo.cuenta_cobrar_nombre }}
+            </td>
+            <td class="w-45px text-center">
+              {{ documentoTipo.cuenta_pagar_codigo }}
+            </td>
+            <td>
+              {{ documentoTipo.cuenta_pagar_nombre }}
             </td>
             <td class="w-45px text-center">
               <label (click)="navegarEditar(documentoTipo, content)" class="cursor-pointer">
