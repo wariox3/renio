@@ -120,8 +120,7 @@ export class CuentasComponent
     const filtros = [];
 
     if (!valor) {
-      return this.emitirLineaVacia.emit();
-      //this.formularioItem.get('cuenta_venta')?.setValue(null);
+      this.emitirLineaVacia.emit();
     }
 
     // la busqueda es por codigo
