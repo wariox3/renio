@@ -348,6 +348,10 @@ export default class ItemFormularioComponent extends General implements OnInit {
           propiedad: 'permite_movimiento',
           valor1: true,
         },
+        {
+          propiedad: 'cuenta_cuenta_id',
+          valor1: 4105
+        }
       ],
       limite: 10,
       desplazar: 0,
@@ -393,6 +397,10 @@ export default class ItemFormularioComponent extends General implements OnInit {
         {
           propiedad: 'permite_movimiento',
           valor1: true,
+        },
+        {
+          propiedad: 'cuenta_cuenta_id',
+          valor1: 4105
         },
         ...filtros,
       ],
