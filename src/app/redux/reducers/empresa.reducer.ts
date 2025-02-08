@@ -7,7 +7,8 @@ import {
   empresaActualizacionImangenAction,
   empresaLimpiarAction,
   empresaActualizacionRededocIdAction,
-  empresaActualizacionAsisteneElectronico
+  empresaActualizacionAsisteneElectronico,
+  empresaActualizacionAsistenePredeterminado
 } from '@redux/actions/empresa.actions';
 import { getCookie } from 'typescript-cookie';
 
@@ -41,7 +42,8 @@ let estadoInicializado: Empresa = {
   identificacion_id: 0,
   rededoc_id: '',
   ciudad_nombre: '',
-  asistente_electronico: false
+  asistente_electronico: false,
+  asistente_predeterminado: false
 };
 
 const initialState: Empresa = ContenedorDatos
@@ -78,6 +80,12 @@ export const empresaReducer = createReducer(
     ...state,
     ...{
       asistente_electronico,
+    },
+  })),
+  on(empresaActualizacionAsistenePredeterminado, (state, {asistente_predeterminado}) => ({
+    ...state,
+    ...{
+      asistente_predeterminado,
     },
   })),
 );
