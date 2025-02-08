@@ -12,6 +12,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   empresaActionInit,
   empresaActualizacionAsisteneElectronico,
+  empresaActualizacionAsistenePredeterminado,
 } from '@redux/actions/empresa.actions';
 import { obtenerMenuSeleccion } from '@redux/selectors/menu.selectors';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -23,7 +24,7 @@ import { InicioInventarioComponent } from '@modulos/inventario/paginas/inicio/in
 import { InicioHumanoComponent } from '@modulos/humano/paginas/inicio/inicio-humano/inicio-humano.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { InicioGeneralComponent } from '@modulos/general/paginas/inicio/inicio-general/inicio-general.component';
-import { FakeLoadFullScreenComponent } from "../../comun/componentes/fake-load-full-screen/fake-load-full-screen.component";
+import { FakeLoadFullScreenComponent } from '../../comun/componentes/fake-load-full-screen/fake-load-full-screen.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,15 +46,16 @@ import { FakeLoadFullScreenComponent } from "../../comun/componentes/fake-load-f
     InicioCarteraComponent,
     InicioGeneralComponent,
     InicioTransporteComponent,
-    FakeLoadFullScreenComponent
-],
+    FakeLoadFullScreenComponent,
+  ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: { class: 'd-block' },
 })
 export class DashboardComponent extends General implements OnInit {
   ruta = 'general';
   asistente_electronico: boolean;
-  visualizarFakeLoad = signal(false)
+  asistente_predeterminado: boolean;
+  visualizarFakeLoad = signal(false);
 
   constructor(
     private httpService: HttpService,
@@ -79,6 +81,8 @@ export class DashboardComponent extends General implements OnInit {
       .getDetalle<Empresa>(`general/empresa/1/`)
       .subscribe((empresa) => {
         this.asistente_electronico = empresa.asistente_electronico;
+        this.asistente_predeterminado = empresa.asistente_predeterminado;
+
         this.store.dispatch(empresaActionInit({ empresa }));
         this.changeDetectorRef.detectChanges();
       });
@@ -95,21 +99,33 @@ export class DashboardComponent extends General implements OnInit {
     });
   }
 
-  configuracionRapida() {
+  finalizarProcesoPredeterminado() {
+    this.empresaService
+      .finalizarProcesoPredeterminado()
+      .subscribe((respuesta) => {
+        this.store.dispatch(
+          empresaActualizacionAsistenePredeterminado({
+            asistente_predeterminado: respuesta.asistente_termiando,
+          })
+        );
+        this.consultarInformacion();
+      });
+  }
 
+  configuracionRapida() {
     this.alertaService
       .confimarConfigracionPrederminada()
       .pipe(
         switchMap((respuesta) => {
           if (respuesta.isConfirmed) {
-            this.visualizarFakeLoad.update(() => true)
+            this.visualizarFakeLoad.update(() => true);
             return this.empresaService.configuracionPredeterminada();
           }
           return EMPTY;
         }),
         tap((respuesta: any) => {
           if (respuesta) {
-            this.visualizarFakeLoad.update(() => false)
+            this.visualizarFakeLoad.update(() => false);
             this.alertaService.mensajaExitoso(respuesta.mensaje);
           }
         })

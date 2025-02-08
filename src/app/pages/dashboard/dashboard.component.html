@@ -71,7 +71,7 @@
   } @case ('general') {
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-12 col-xxl-6">
       @if(asistente_electronico === false ){
       <app-card [visualizarTitulo]="false">
         <section card-body>
@@ -102,11 +102,11 @@
             >
               <!--begin::Title-->
               <div class="fs-2hx fw-bold text-gray-800">
-                <span> Información de la empresa </span>
+                <span> Facturación electrónica</span>
                 <br />
                 <span class="fw-semibold text-gray-600 fs-6 mb-8 d-block">
-                  Completa la información para facturar tus servicios de manera
-                  rápida y fácil
+                  Completa la información de tu empresa y empieza a facturar
+                  electrónicamente
                 </span>
                 <button
                   class="btn btn-light-success"
@@ -115,7 +115,7 @@
                   COMPLETAR
                 </button>
                 <button
-                  class="btn btn-active-light-danger btn-color-danger ms-2"
+                  class="btn btn-light-danger ms-2"
                   placement="end"
                   (click)="finalizarProceso()"
                   ngbTooltip="Omitir este paso hará que tenga que agregar la configuración de forma manual para asegurar un funcionamiento óptimo. Si necesita ayuda, no dude en contactarnos. ¡Estamos aquí para apoyarle!"
@@ -131,7 +131,8 @@
       </app-card>
       }
     </div>
-    <div class="col-sm-6">
+    <div class="col-12 col-xxl-6">
+      @if(asistente_predeterminado === false ){
       <app-card [visualizarTitulo]="false">
         <section card-body>
           <div
@@ -143,14 +144,14 @@
           >
             <!--begin::Illustration-->
             <img
-              class="mx-auto theme-light-show p-0 mx-2"
+              class="img-fluid theme-light-show p-0 mx-2"
               src="../../../assets/media/illustrations/sigma-1/9.png"
               alt=""
               height="250"
               width="250"
             />
             <img
-              class="mx-auto h-150px h-lg-200px theme-dark-show"
+              class="img-fluid h-150px h-lg-200px theme-dark-show"
               src="../../../assets/media/illustrations/sigma-1/9-dark.png"
               alt=""
             />
@@ -170,11 +171,20 @@
                 >
                   IMPLEMENTAR
                 </button>
+                <button
+                  class="btn btn-light-danger ms-2"
+                  placement="end"
+                  (click)="finalizarProcesoPredeterminado()"
+                  ngbTooltip="Omitir este paso hará que tenga que agregar la configuración de forma manual para asegurar un funcionamiento óptimo. Si necesita ayuda, no dude en contactarnos. ¡Estamos aquí para apoyarle!"
+                >
+                  Omitir
+                </button>
               </div>
             </div>
           </div>
         </section>
       </app-card>
+    }
     </div>
   </div>
 

@@ -21,10 +21,7 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import {
-  NgbModal,
-  NgbModalModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorActionActualizarImagen } from '@redux/actions/contenedor.actions';
 import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
@@ -80,6 +77,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
     identificacion_id: 0,
     rededoc_id: '',
     asistente_electronico: false,
+    asistente_predeterminado: false,
   };
 
   constructor(
@@ -89,7 +87,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
   ) {
     super();
     this.initForm();
-
   }
 
   ngOnInit() {

@@ -29,3 +29,8 @@ export const empresaActualizacionAsisteneElectronico = createAction(
   '[Empresa] actualizar asistente electronico',
   props<{ asistente_electronico: boolean }>()
 );
+
+export const empresaActualizacionAsistenePredeterminado = createAction(
+  '[Empresa] actualizar asistente predeterminado',
+  props<{ asistente_predeterminado: boolean }>()
+);
