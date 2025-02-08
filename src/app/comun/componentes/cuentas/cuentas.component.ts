@@ -15,6 +15,8 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
+import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,6 +40,8 @@ export class CuentasComponent
   @Input() cuentaNombre: string = '';
   @Input() documentoEnlazado: boolean;
   @Input() campoInvalido: any = false;
+  @Input() iniciarFocusInputBusqueda: boolean = true;
+  @Input() filtrosExternos: Filtros[];
   @Output() emitirArrCuentas: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
@@ -57,8 +61,10 @@ export class CuentasComponent
   }
 
   ngAfterViewInit() {
-    if (this.inputItem?.nativeElement.value === '') {
-      this.inputItem?.nativeElement.focus();
+    if(this.iniciarFocusInputBusqueda){
+      if (this.inputItem?.nativeElement.value === '') {
+        this.inputItem?.nativeElement.focus();
+      }
     }
   }
 
@@ -112,6 +118,11 @@ export class CuentasComponent
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
     const filtros = [];
+
+    if (!valor) {
+      return this.emitirLineaVacia.emit();
+      //this.formularioItem.get('cuenta_venta')?.setValue(null);
+    }
 
     // la busqueda es por codigo
     if (!isNaN(valorCasteado)) {
