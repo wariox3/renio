@@ -99,6 +99,7 @@ export const locale = {
         EVENTOSDIAN: 'Eventos DIAN',
         CONTENEDORES: 'Contenedores',
         SALDOINICIAL: 'Saldo inicial',
+        CONTABILIZAR: 'Contabilizar'
       },
     },
     FORMULARIOS: {
@@ -1110,6 +1111,7 @@ export const locale = {
         EXIGE_BASE: 'Exige base',
         EXIGE_GRUPO: 'Exige grupo',
         EXIGE_TERCERO: 'Exige tercero',
+        EXIGE_CONTACTO: 'Exige contacto',
         PERMITE_MOVIMIENTO: 'Permite movimiento',
       },
       COMPROBANTE: {

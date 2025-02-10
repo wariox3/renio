@@ -705,7 +705,7 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'EXIGE_TERCERO',
+        nombre: 'EXIGE_CONTACTO',
         campoTipo: 'Booleano',
         visibleTabla: true,
         visibleFiltro: true,
