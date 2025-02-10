@@ -8,17 +8,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-editar/empresa-documento-tipo-editar.component';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-empresa-documento-tipo',
   templateUrl: './empresa-documento-tipo.component.html',
-  styleUrls: ['./empresa-documento-tipo.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     TranslateModule,
     CardComponent,
     EmpresaDocumentoTipoEditarComponent,
+    SiNoPipe
   ],
 })
 export class DocumentoDocumentoTipoComponent

@@ -15,6 +15,8 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
+import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,6 +40,8 @@ export class CuentasComponent
   @Input() cuentaNombre: string = '';
   @Input() documentoEnlazado: boolean;
   @Input() campoInvalido: any = false;
+  @Input() iniciarFocusInputBusqueda: boolean = true;
+  @Input() filtrosExternos: Filtros[];
   @Output() emitirArrCuentas: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
@@ -57,8 +61,10 @@ export class CuentasComponent
   }
 
   ngAfterViewInit() {
-    if (this.inputItem?.nativeElement.value === '') {
-      this.inputItem?.nativeElement.focus();
+    if (this.iniciarFocusInputBusqueda) {
+      if (this.inputItem?.nativeElement.value === '') {
+        this.inputItem?.nativeElement.focus();
+      }
     }
   }
 
@@ -99,6 +105,11 @@ export class CuentasComponent
       modelo: 'ConCuenta',
       serializador: 'ListaAutocompletar',
     };
+    if (this.filtrosExternos) {
+      if (this.filtrosExternos.length) {
+        arrFiltros.filtros = [...arrFiltros.filtros, ...this.filtrosExternos];
+      }
+    }
 
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
@@ -111,7 +122,11 @@ export class CuentasComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    const filtros = [];
+    let filtros = [];
+
+    if (!valor) {
+      this.emitirLineaVacia.emit();
+    }
 
     // la busqueda es por codigo
     if (!isNaN(valorCasteado)) {
@@ -125,6 +140,12 @@ export class CuentasComponent
         propiedad: 'nombre__icontains',
         valor1: `${valor}`,
       });
+    }
+
+    if (this.filtrosExternos) {
+      if (this.filtrosExternos.length) {
+        filtros = [...filtros, ...this.filtrosExternos];
+      }
     }
 
     let arrFiltros: ParametrosFiltros = {

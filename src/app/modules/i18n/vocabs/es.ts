@@ -99,6 +99,7 @@ export const locale = {
         EVENTOSDIAN: 'Eventos DIAN',
         CONTENEDORES: 'Contenedores',
         SALDOINICIAL: 'Saldo inicial',
+        CONTABILIZAR: 'Contabilizar'
       },
     },
     FORMULARIOS: {
@@ -147,6 +148,7 @@ export const locale = {
           NOTIFICANDO: 'Notificando',
           ZIP: 'Zip',
           CERRAR: 'Cerrar',
+          IMPUESTOS: 'Impuestos',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -350,6 +352,8 @@ export const locale = {
           FACTURAELECTRONICABUSCARCODIGOURL: 'Aprende a encontrarlo',
           CONSECUTIVO: 'Consecutivo',
           RESOLUCION: 'Resolución',
+          CUENTAPAGAR: 'Cuenta pagar',
+          CUENTACOBRAR: 'Cuenta cobrar',
         },
         CONTACTO: {
           INFORMACIONCOMERCIAL: 'Información comercial',
@@ -435,7 +439,8 @@ export const locale = {
             INVENTARIO: 'Inventario',
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
-            CUENTAVENTA: 'Cuenta venta'
+            CUENTAVENTA: 'Cuenta venta',
+            CUENTACOBRAR: 'Cuenta compra'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
@@ -1107,6 +1112,7 @@ export const locale = {
         EXIGE_BASE: 'Exige base',
         EXIGE_GRUPO: 'Exige grupo',
         EXIGE_TERCERO: 'Exige tercero',
+        EXIGE_CONTACTO: 'Exige contacto',
         PERMITE_MOVIMIENTO: 'Permite movimiento',
       },
       COMPROBANTE: {
@@ -1311,6 +1317,7 @@ export const locale = {
       CARGANDO: 'Cargando',
       EVENTOCOMPLEADO: 'Evento dian completado',
       ACTUALIZARINFORMACION: 'Se actualizó la información',
+      CARGANDOCONFIGURACIONINICIAL: 'Cargando configuración inicial ...',
     },
     PAGOS: {
       MENSAJECONFIRMACION: '¡ Gracias por realizar el pago de tu suscripción !',

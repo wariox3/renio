@@ -1,0 +1,161 @@
+<form [formGroup]="formularioDocumentoTipo" (ngSubmit)="enviarFormulario()">
+  <div class="d-flex mb-5 justify-content-between align-items-center">
+    <div
+      class="btn-group btn-sm shadow-sm"
+      role="group"
+      aria-label="Basic example"
+    >
+      <app-comun-btn-atras *ngIf="!ocultarBtnAtras" />
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        #btnGuardar
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+      ></button>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.TITULOS.EMPRESA.CONSECUTIVO"
+        class="form-label required"
+      ></label>
+      <input
+        formControlName="consecutivo"
+        class="form-control bg-transparent"
+        type="email"
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid':
+            formularioDocumentoTipo.controls['consecutivo'].touched &&
+            formularioDocumentoTipo.controls['consecutivo'].invalid,
+          'is-valid':
+            formularioDocumentoTipo.controls['consecutivo'].touched &&
+            formularioDocumentoTipo.controls['consecutivo'].valid
+        }"
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioDocumentoTipo.controls['consecutivo']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '10',
+          control: formularioDocumentoTipo.controls['consecutivo']
+        }"
+      ></ng-container>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.TITULOS.EMPRESA.RESOLUCION"
+        class="form-label"
+      ></label>
+      <select
+        class="form-select"
+        formControlName="resolucion"
+        [ngClass]="{
+          'is-invalid':
+            formularioDocumentoTipo.controls['resolucion'].touched &&
+            formularioDocumentoTipo.controls['resolucion'].invalid,
+          'is-valid':
+            formularioDocumentoTipo.controls['resolucion'].touched &&
+            formularioDocumentoTipo.controls['resolucion'].valid
+        }"
+      >
+        <option value="">Sin resolución</option>
+        <option
+          [value]="resolucion.resolucion_id"
+          *ngFor="let resolucion of arrResoluciones"
+        >
+          {{ resolucion.resolucion_prefijo }}
+          {{ resolucion.resolucion_numero }}
+        </option>
+      </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioDocumentoTipo.controls['resolucion']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '100',
+          control: formularioDocumentoTipo.controls['resolucion']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+          control: formularioDocumentoTipo.controls['resolucion']
+        }"
+      ></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.TITULOS.EMPRESA.CUENTACOBRAR"
+        class="form-label"
+      ></label>
+      <app-comun-cuentas
+        [iniciarFocusInputBusqueda]="false"
+        [cuentaCodigo]="formularioDocumentoTipo.value.cuenta_cobrar_codigo"
+        [cuentaNombre]="formularioDocumentoTipo.value.cuenta_cobrar_nombre"
+        [campoInvalido]="
+          formularioDocumentoTipo.get('cuenta_cobrar')?.touched &&
+          formularioDocumentoTipo.get('cuenta_cobrar')?.invalid
+        "
+        (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+        (emitirLineaVacia)="actualizarCuentaCobrarNull()"
+      ></app-comun-cuentas>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <label
+        translate="FORMULARIOS.TITULOS.EMPRESA.CUENTAPAGAR"
+        class="form-label"
+      ></label>
+      <app-comun-cuentas
+        [iniciarFocusInputBusqueda]="false"
+        [cuentaCodigo]="formularioDocumentoTipo.value.cuenta_pagar_codigo"
+        [cuentaNombre]="formularioDocumentoTipo.value.cuenta_pagar_nombre"
+        [campoInvalido]="
+          formularioDocumentoTipo.get('cuenta_pagar')?.touched &&
+          formularioDocumentoTipo.get('cuenta_pagar')?.invalid
+        "
+        (emitirArrCuentas)="agregarCuentaPagarSeleccionado($event)"
+        (emitirLineaVacia)="actualizarCuentaPagarNull()"
+      ></app-comun-cuentas>
+    </div>
+  </div>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -21,20 +22,16 @@ import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-i
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import {
-  NgbModal,
-  NgbModalModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorActionActualizarImagen } from '@redux/actions/contenedor.actions';
-import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
-import { obtenerEmpresaInformacion } from '@redux/selectors/empresa.selectors';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-contenedor-editar',
   templateUrl: './contenedor-editar.component.html',
+  styleUrl: './contenedor-editar.component.scss',
   standalone: true,
   imports: [
     RouterModule,
@@ -54,7 +51,12 @@ export class ContenedorEditarComponent extends General implements OnInit {
   };
   arrPlanes: Plan[] = [];
   informacionPlan: any = '';
-  planSeleccionado: Number = 2;
+  planSeleccionado: number = 2;
+
+  public informacionPlanes = this.contenedorService.informacionPlan;
+  public planesAgrupadosPorTipo = signal<Plan[]>([]);
+  public activePlanTab = signal<'F' | 'E'>('F');
+
   @Input() contenedor_id!: number;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
@@ -80,6 +82,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
     identificacion_id: 0,
     rededoc_id: '',
     asistente_electronico: false,
+    asistente_predeterminado: false,
   };
 
   constructor(
@@ -89,7 +92,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
   ) {
     super();
     this.initForm();
-
   }
 
   ngOnInit() {
@@ -126,12 +128,26 @@ export class ContenedorEditarComponent extends General implements OnInit {
         }),
         tap((respuestaPlanes) => {
           this.arrPlanes = respuestaPlanes;
+          this.cambiarTipoPlanes('F');
+          this.seleccionarTabDependiendoPlan();
           this.changeDetectorRef.detectChanges();
         })
       )
       .subscribe();
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  public seleccionarTabDependiendoPlan() {
+    const contieneId = this.planesAgrupadosPorTipo().some(
+      (plan) => plan.id === this.planSeleccionado
+    );
+
+    if (contieneId) {
+      this.cambiarTipoPlanes('F');
+    } else {
+      this.cambiarTipoPlanes('E');
+    }
   }
 
   initForm() {
@@ -180,10 +196,9 @@ export class ContenedorEditarComponent extends General implements OnInit {
     }
   }
 
-  seleccionarPlan(plan_id: any) {
-    this.planSeleccionado = plan_id;
-    let posicion: keyof typeof this.contenedorService.informacionPlan = plan_id;
-    this.informacionPlan = this.contenedorService.informacionPlan[posicion];
+  seleccionarPlan(plan: Plan) {
+    this.planSeleccionado = plan.id;
+    this.formularioContenedor.get('plan_id')?.setValue(plan.id);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -228,5 +243,12 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
   getImageUrl(baseImageUrl: string): string {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
+  }
+
+  public cambiarTipoPlanes(planTipo: 'F' | 'E') {
+    this.activePlanTab.set(planTipo);
+    this.planesAgrupadosPorTipo.update(() => {
+      return this.arrPlanes.filter((plan) => plan.plan_tipo_id === planTipo);
+    });
   }
 }

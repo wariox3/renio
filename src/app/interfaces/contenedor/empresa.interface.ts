@@ -20,4 +20,5 @@ export interface Empresa {
   identificacion_id: number;
   rededoc_id: string;
   asistente_electronico: boolean;
+  asistente_predeterminado: boolean;
 }

@@ -188,6 +188,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
+            tipo_registro: detalle.tipo_registro,
             documento_afectado_documento_tipo_nombre: [
               detalle.documento_afectado_documento_tipo_nombre,
             ],
@@ -429,6 +430,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
+        tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
         documento_afectado_documento_tipo_nombre: [
           documentoSeleccionado.documento_tipo_nombre,
@@ -578,6 +580,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarLinea() {
     const detalleFormGroup = this.formBuilder.group({
       id: [null],
+      tipo_registro: ['C'],
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
       cuenta_nombre: [null],

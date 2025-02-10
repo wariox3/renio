@@ -1,0 +1,24 @@
+<form [formGroup]="formularioImpuestoEditarCuenta" (ngSubmit)="enviarFormulario()">
+  <div class="row mb-5">
+    <div class="col-md-12 col-sm-12">
+      <label class="form-label">Cuenta</label>
+      <app-comun-cuentas
+        [cuentaCodigo]="formularioImpuestoEditarCuenta.value.cuenta_codigo"
+        [cuentaNombre]="formularioImpuestoEditarCuenta.value.cuenta_nombre"
+        [campoInvalido]="
+          formularioImpuestoEditarCuenta.get('cuenta_id')?.touched &&
+          formularioImpuestoEditarCuenta.get('cuenta_id')?.invalid
+        "
+        (emitirArrCuentas)="agregarCuentaSeleccionado($event)"
+      ></app-comun-cuentas>
+    </div>
+
+  </div>
+  <div class=" d-flex justify-content-end">
+      <button
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+        type="submit"
+        class="btn btn-primary btn-sm"
+      ></button>
+  </div>
+</form>

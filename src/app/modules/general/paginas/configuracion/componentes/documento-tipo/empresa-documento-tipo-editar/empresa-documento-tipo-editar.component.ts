@@ -19,9 +19,10 @@ import { GeneralService } from '@comun/services/general.service';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
-import { BtnAtrasComponent } from '../../../../../comun/componentes/btn-atras/btn-atras.component';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',
@@ -33,7 +34,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     ReactiveFormsModule,
     CommonModule,
     TranslateModule,
-  ],
+    CuentasComponent
+],
 })
 export class EmpresaDocumentoTipoEditarComponent
   extends General
@@ -68,6 +70,12 @@ export class EmpresaDocumentoTipoEditarComponent
     this.formularioDocumentoTipo = this.formBuilder.group({
       consecutivo: ['', Validators.compose([Validators.required])],
       resolucion: [''],
+      cuenta_pagar: [''],
+      cuenta_pagar_codigo: [''],
+      cuenta_pagar_nombre: [''],
+      cuenta_cobrar: [''],
+      cuenta_cobrar_codigo: [''],
+      cuenta_cobrar_nombre: [''],
     });
   }
 
@@ -90,7 +98,7 @@ export class EmpresaDocumentoTipoEditarComponent
         this.empresaService
           .actualizarDocumentoTipo(resolucionId, {
             ...this.formularioDocumentoTipo.value,
-            ...tipoResolucion,
+            ...{tipoResolucion},
           })
           .subscribe((respuesta: any) => {
             this.formularioDocumentoTipo.patchValue({
@@ -153,8 +161,46 @@ export class EmpresaDocumentoTipoEditarComponent
       this.formularioDocumentoTipo.patchValue({
         consecutivo: respuesta[1].consecutivo,
         resolucion: respuesta[1].resolucion_id,
+        cuenta_pagar: respuesta[1].cuenta_pagar_id,
+        cuenta_pagar_codigo: respuesta[1].cuenta_pagar_codigo,
+        cuenta_pagar_nombre: respuesta[1].cuenta_pagar_nombre,
+        cuenta_cobrar: respuesta[1].cuenta_cobrar_id,
+        cuenta_cobrar_codigo: respuesta[1].cuenta_cobrar_codigo,
+        cuenta_cobrar_nombre: respuesta[1].cuenta_cobrar_nombre,
       });
       this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  agregarCuentaPagarSeleccionado(cuenta: any) {
+    this.formularioDocumentoTipo.patchValue({
+      cuenta_pagar: cuenta.cuenta_id,
+      cuenta_pagar_codigo: cuenta.cuenta_codigo,
+      cuenta_pagar_nombre: cuenta.cuenta_nombre,
+    });
+  }
+
+  agregarCuentaCobrarSeleccionado(cuenta: any) {
+    this.formularioDocumentoTipo.patchValue({
+      cuenta_cobrar: cuenta.cuenta_id,
+      cuenta_cobrar_codigo: cuenta.cuenta_codigo,
+      cuenta_cobrar_nombre: cuenta.cuenta_nombre,
+    });
+  }
+
+  actualizarCuentaCobrarNull(){
+    this.formularioDocumentoTipo.patchValue({
+      cuenta_cobrar: null,
+      cuenta_cobrar_codigo: null,
+      cuenta_cobrar_nombre: null,
+    });
+  }
+
+  actualizarCuentaPagarNull(){
+    this.formularioDocumentoTipo.patchValue({
+      cuenta_pagar: null,
+      cuenta_pagar_codigo: null,
+      cuenta_pagar_nombre: null,
     });
   }
 }

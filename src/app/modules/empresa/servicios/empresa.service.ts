@@ -109,4 +109,15 @@ export class EmpresaService {
       null
     );
   }
+
+  finalizarProcesoPredeterminado() {
+    return this.httpService.post<{ asistente_termiando: boolean }>(
+      'general/empresa/terminar-asistente-predeterminado/',
+      null
+    );
+  }
+
+  configuracionPredeterminada(){
+    return this.httpService.post<{mensaje: string}>('general/funcionalidad/predeterminado/', null)
+  }
 }

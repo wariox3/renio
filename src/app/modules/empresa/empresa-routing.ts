@@ -46,13 +46,6 @@ export const routes: Route[] = [
             './paginas/empresa-configuracion/empresa-configuracion.component'
           ).then((c) => c.EmpresaConfiguracionComponent),
       },
-      {
-        path: 'documento_tipo',
-        loadComponent: () =>
-          import(
-            './paginas/documento-tipo/empresa-documento-tipo-lista/empresa-documento-tipo.component'
-          ).then((c) => c.DocumentoDocumentoTipoComponent),
-      },
     ],
   },
   {

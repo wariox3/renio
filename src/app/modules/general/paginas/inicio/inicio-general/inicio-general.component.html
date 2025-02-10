@@ -1,18 +1,18 @@
-<div class="row mb-4">
-  <div class="col-lg-6 mb-3">
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title">Cuentas por cobrar</h5>
-        <p class="card-text">
-          ${{ arrResumenCobrar?.resumen?.saldo_pendiente | number }}
-        </p>
+<div class="row">
+  <div class="col-12 col-xl-6 d-flex flex-column mb-3 mb-xl-0">
+    <div class="card mb-3 flex-grow-1">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+          <h5 class="card-title">Cuentas por cobrar</h5>
+          <p class="card-text">
+            ${{ arrResumenCobrar?.resumen?.saldo_pendiente | number }}
+          </p>
+        </div>
         <div class="d-flex justify-content-between">
           <div>
             <small class="text-success">Vigentes</small>
             <p>
-              ${{
-                arrResumenCobrar?.resumen_vigente?.saldo_pendiente | number
-              }}
+              ${{ arrResumenCobrar?.resumen_vigente?.saldo_pendiente | number }}
             </p>
             <small
               >{{
@@ -24,9 +24,7 @@
           <div>
             <small class="text-danger">Vencidas</small>
             <p>
-              ${{
-                arrResumenCobrar?.resumen_vencido?.saldo_pendiente | number
-              }}
+              ${{ arrResumenCobrar?.resumen_vencido?.saldo_pendiente | number }}
             </p>
             <small
               >{{
@@ -38,21 +36,19 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-lg-6 mb-3">
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title">Cuentas por pagar</h5>
-        <p class="card-text">
-          ${{ arrResumenPagar?.resumen?.saldo_pendiente | number }}
-        </p>
+    <div class="card flex-grow-1">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+          <h5 class="card-title">Cuentas por pagar</h5>
+          <p class="card-text">
+            ${{ arrResumenPagar?.resumen?.saldo_pendiente | number }}
+          </p>
+        </div>
         <div class="d-flex justify-content-between">
           <div>
             <small class="text-success">Vigentes</small>
             <p>
-              ${{
-                arrResumenPagar?.resumen_vigente?.saldo_pendiente | number
-              }}
+              ${{ arrResumenPagar?.resumen_vigente?.saldo_pendiente | number }}
             </p>
             <small
               >{{
@@ -64,9 +60,7 @@
           <div>
             <small class="text-danger">Vencidas</small>
             <p>
-              ${{
-                arrResumenPagar?.resumen_vencido?.saldo_pendiente | number
-              }}
+              ${{ arrResumenPagar?.resumen_vencido?.saldo_pendiente | number }}
             </p>
             <small
               >{{
@@ -79,10 +73,8 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-12">
-    <div class="card">
+  <div class="col-12 col-xl-6">
+    <div class="card h-100">
       <div class="card-body">
         <h5 class="card-title">Total de ventas</h5>
         <div>

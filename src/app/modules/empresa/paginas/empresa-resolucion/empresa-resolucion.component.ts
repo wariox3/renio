@@ -25,6 +25,13 @@ export class EmpresaResolucionComponent extends General implements OnInit {
     resolucion_prefijo: '',
     venta: false,
     compra: false,
+    cuenta_cobrar_codigo: '',
+    cuenta_cobrar_id: 0,
+    cuenta_cobrar_nombre: '',
+    cuenta_pagar_codigo: null,
+    cuenta_pagar_id: null,
+    cuenta_pagar_nombre: null,
+    operacion: 0
   };
   @Output() emitirRegistroGuardado: EventEmitter<any> = new EventEmitter();
 

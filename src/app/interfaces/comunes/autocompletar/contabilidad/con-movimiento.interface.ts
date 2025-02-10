@@ -9,4 +9,5 @@ export interface RegistroAutocompletarConMovimiento {
   base: string;
   debito: string;
   credito: string;
+  detalle?: string
 }

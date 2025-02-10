@@ -58,6 +58,42 @@
     </div>
   </div>
 </form>
+<div class="row mb-5">
+  <div class="col-12">
+    <ul
+      ngbNav
+      #nav="ngbNav"
+      [(activeId)]="tabActive"
+      class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+    >
+      <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+        <a
+          class="nav-link"
+          [ngClass]="{ 'text-primary': tabActive === 1 }"
+          ngbNavLink
+          data-bs-toggle="tab"
+          translate="FORMULARIOS.TITULOS.EMPRESA.DOCUMENTOS"
+        ></a>
+        <ng-template ngbNavContent>
+          <app-empresa-documento-tipo></app-empresa-documento-tipo>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+        <a
+          class="nav-link"
+          [ngClass]="{ 'text-primary': tabActive === 2 }"
+          ngbNavLink
+          data-bs-toggle="tab"
+          translate="FORMULARIOS.BOTONES.COMUNES.IMPUESTOS"
+          ></a>
+        <ng-template ngbNavContent>
+          <app-impuestos-lista></app-impuestos-lista>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>
 <ng-template
   #formError
   let-control="control"

@@ -278,7 +278,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.contenedorId = contenedor_id;
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
+      size: 'xl',
     });
     this.changeDetectorRef.detectChanges();
   }

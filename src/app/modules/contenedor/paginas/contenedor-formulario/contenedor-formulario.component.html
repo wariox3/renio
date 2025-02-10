@@ -4,6 +4,7 @@
       <label class="form-label required"> Nombre de la empresa </label>
       <input
         formControlName="nombre"
+        placeholder="Nombre"
         class="form-control bg-transparent"
         type="text"
         autocomplete="off"
@@ -149,7 +150,7 @@
       </div>
     </div>
   </div>
-  <div class="row mb-10">
+  <div class="row mb-8">
     <div class="col-md-6 col-sm-12">
       <label
         translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
@@ -159,6 +160,7 @@
         formControlName="correo"
         class="form-control bg-transparent"
         type="email"
+        placeholder="empresa@example.com"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
@@ -206,6 +208,7 @@
         formControlName="telefono"
         class="form-control bg-transparent"
         type="text"
+        placeholder="3145557869"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
@@ -243,100 +246,71 @@
       ></ng-container>
     </div>
   </div>
-  <!--begin::Alert-->
-  <div class="alert alert-primary d-flex align-items-center p-5">
-    <!--begin::Icon-->
 
-    <i class="ki-duotone ki-information-3 fs-2hx text-primary me-4">
-      <span class="path1"></span>
-      <span class="path2"></span>
-      <span class="path3"></span>
-    </i>
-
-    <!--end::Icon-->
-
-    <!--begin::Wrapper-->
-    <div class="d-flex flex-column">
-      <!--begin::Content-->
-      <span
-        >En unos días tendremos habilitados nuestros planes de ERP y todas sus
-        funcionalidades.</span
-      >
-      <!--end::Content-->
-    </div>
-    <!--end::Wrapper-->
-  </div>
-  <!--end::Alert-->
-  <div class="row mb-10">
-    <div class="col-md-12 col-sm-12">
-      <label class="form-label required">Planes </label>
-      <div
-        class="row row-cols-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4 g-9"
-        data-kt-buttons="true"
-        data-kt-buttons-target="[data-kt-button='true']"
-        data-kt-initialized="1"
-      >
-        <div class="col" *ngFor="let plan of arrPlanes">
-          <label
-            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex align-items-center text-start p-5"
-            [ngClass]="{
-              active: planSeleccionado === plan.id,
-            }"
-            data-kt-button="true"
-            (click)="seleccionarPlan(plan)"
-          >
-            <span
-              class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1"
-            >
-              <input
-                class="form-check-input"
-                type="radio"
-                name="plan_id"
-                formControlName="plan_id"
-                [value]="plan.id"
-                checked="checked"
-              />
-            </span>
-            <div class="ms-5 w-100 d-flex justify-content-between flex-wrap">
-              <div class="fs-7 fw-bold text-gray-800 flex-shrink-1">
-                {{ plan.nombre }}
-              </div>
-              <div class="fs-7 fw-bold text-gray-800">
-                ${{ plan.precio | number : "1.0-0" }}
-              </div>
-            </div>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-10">
-    <div class="col-md-12 col-sm-12">
-      <label class="form-label"
-        >Información plan
-        <i class="ki-duotone ki-information-5 fs-3">
-          <span class="path1"></span>
-          <span class="path2"></span>
-          <span class="path3"></span>
-        </i>
-      </label>
-      <div id="informacionPlan" class="mb-10">
-        <!--begin::Item-->
-        <div
-          class="d-flex flex-stack p-2 border"
-          *ngFor="let item of informacionPlan"
+  <div class="row mb-2">
+    <div class="row container justify-content-center">
+      <div class="tabs">
+        <button
+          type="button"
+          class="tab-button"
+          (click)="cambiarTipoPlanes('F')"
+          [class.active]="activePlanTab() === 'F'"
         >
-          <span class="fw-semibold fs-6 text-gray-500 text-start pe-3">{{
-            item | translate
-          }}</span>
-          <i class="ki-duotone ki-check-circle fs-1 text-success">
-            <span class="path1"></span>
-            <span class="path2"></span>
-          </i>
-        </div>
+          <i class="bi bi-building me-1"></i>
+          Facturación
+        </button>
+        <button
+          [class.active]="activePlanTab() === 'E'"
+          type="button"
+          class="tab-button"
+          (click)="cambiarTipoPlanes('E')"
+        >
+          <i
+            class="bi bi-database me-1 icon"
+            [class.active]="'erp' === 'erp'"
+          ></i>
+          Planes ERP
+        </button>
       </div>
     </div>
   </div>
+
+  <div class="row mb-10">
+    <div class="container py-5">
+      <div class="row g-4 justify-content-center">
+        <!-- Featured Card -->
+
+        @for (plan of planesAgrupadosPorTipo(); track $index) {
+        <div class="col-lg-3">
+          <div
+            class="card h-100 p-3 pricing-card position-relative overflow-hidden"
+            (click)="seleccionarPlan(plan)"
+            [class.active]="planSeleccionado === plan.id"
+          >
+            <div class="card-body p-5">
+              <h4 class="fw-bold mb-4 card__title">{{ plan.nombre }}</h4>
+              <div class="mb-4">
+                <span class="card__price"
+                  >${{ plan.precio | number : "1.0-0" }}</span
+                >
+                <span class="text-muted">/mes</span>
+              </div>
+              <ul class="list-unstyled mb-4">
+                @for (item of informacionPlanes[plan.id]; track $index) {
+                <li class="mb-3 d-flex align-items-center">
+                  <i class="bi bi-check-lg text-success me-2"></i>
+                  {{ item | translate }}
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
   <div
     class="fv-row d-flex"
     [ngClass]="{
