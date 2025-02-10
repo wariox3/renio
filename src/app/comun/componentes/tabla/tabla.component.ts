@@ -177,6 +177,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
             this.datosFiltrados[key][buscarClave] = {
               valor: this.datos[key][buscarClave],
               campoTipo: this.columnasVibles[clave].campoTipo,
+              stylePersonalizado: this.columnasVibles[clave].stylePersonalizado,
+              classPersonalizado: this.columnasVibles[clave].classPersonalizado,
               aplicaFormatoNumerico: this.columnasVibles[clave]
                 .aplicaFormatoNumerico
                 ? true
@@ -463,5 +465,12 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   solicitarConsultarTabla() {
     this.emitirConsultarLista.emit(true);
+  }
+
+  obtenerClasesCss(item: any): { [key: string]: boolean } {
+    return {
+      'cursor-pointer user-select-none': item.ordenable,
+      [item.classPersonalizado || '']: !!item.classPersonalizado
+    };
   }
 }

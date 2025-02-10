@@ -15,5 +15,7 @@ export type MapeoDocumentos = {
     aplicaFormatoNumerico?: boolean;
     alinearAlaIzquierda?: boolean;
     campoTipo: CampoTipo;
+    stylePersonalizado?: { [key: string]: string } | null; // Para estilos css en línea tr
+    classPersonalizado?: string;  // Para clases css en línea tr
   }[];
 };
