@@ -70,12 +70,12 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'utilidad',
+        // },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -214,9 +214,9 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -344,9 +344,9 @@ export const initialState: MenuItem = {
         {
           nombre: 'utilidad',
         },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -525,12 +525,12 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'utilidad',
+        // },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -710,9 +710,9 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -891,15 +891,15 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
-        {
-          nombre: 'informe',
-        },
+        // {
+        //   nombre: 'utilidad',
+        // },
+        // {
+        //   nombre: 'proceso',
+        // },
+        // {
+        //   nombre: 'informe',
+        // },
       ],
     },
     {
@@ -964,12 +964,12 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
+        // {
+        //   nombre: 'utilidad',
+        // },
+        // {
+        //   nombre: 'proceso',
+        // },
         {
           nombre: 'informe',
           children: [
@@ -1002,21 +1002,21 @@ export const initialState: MenuItem = {
             },
           ],
         },
-        {
-          nombre: 'documento',
-        },
-        {
-          nombre: 'administracion',
-        },
-        {
-          nombre: 'utilidad',
-        },
-        {
-          nombre: 'proceso',
-        },
-        {
-          nombre: 'informe',
-        },
+        // {
+        //   nombre: 'documento',
+        // },
+        // {
+        //   nombre: 'administracion',
+        // },
+        // {
+        //   nombre: 'utilidad',
+        // },
+        // {
+        //   nombre: 'proceso',
+        // },
+        // {
+        //   nombre: 'informe',
+        // },
       ],
     },
   ],
