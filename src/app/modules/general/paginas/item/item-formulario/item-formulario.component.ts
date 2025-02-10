@@ -349,8 +349,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
           valor1: true,
         },
         {
-          propiedad: 'cuenta_cuenta_id',
-          valor1: 4105
+          propiedad: 'cuenta_clase',
+          valor1: 4
         }
       ],
       limite: 10,
@@ -399,8 +399,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
           valor1: true,
         },
         {
-          propiedad: 'cuenta_cuenta_id',
-          valor1: 4105
+          propiedad: 'cuenta_clase',
+          valor1: 4
         },
         ...filtros,
       ],
