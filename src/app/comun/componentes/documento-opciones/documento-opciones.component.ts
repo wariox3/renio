@@ -16,6 +16,7 @@ import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/contabilidad/con-movimiento.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TamanoArchivoPipe } from '@pipe/tamano-archivo.pipe';
@@ -46,6 +47,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
   public documentoId: number;
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
+  public parametrosConsulta: ParametrosFiltros = {
+    limite: 50,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 0,
+    modelo: 'ConMovimiento',
+    filtros: []
+  };
 
   @Input() opcionesDesaprobarBoton: {
     deshabilitado: boolean;
@@ -69,6 +78,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.documentoId = parametro.detalle;
+      this.parametrosConsulta.filtros = [
+        {
+          propiedad: 'documento_id',
+          valor1: this.documentoId,
+        },
+      ];
+      this.parametrosConsulta.modelo = this.opciones.modelo
     });
   }
 
@@ -103,7 +119,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private _abirModal(content: any) {
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
+      size: 'xl',
     });
   }
 
@@ -208,6 +224,22 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
+  cambiarOrdemiento(ordenamiento: string) {
+    (this.parametrosConsulta.ordenamientos[0] = ordenamiento),
+       this._consultarInformacionTabla();
+  }
+
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    this.parametrosConsulta.limite = data.desplazamiento;
+    this.parametrosConsulta.desplazar = data.limite;
+    this._consultarInformacionTabla();
+  }
+
+  cambiarDesplazamiento(desplazamiento: number) {
+    this.parametrosConsulta.desplazar = desplazamiento;
+    this._consultarInformacionTabla();
+  }
+
   confirmarEliminarArchivo(id: number, index: number) {
     this.alertaService
       .confirmar({
@@ -294,17 +326,12 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   private _consultarInformacionTabla() {
+    console.log();
+
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>({
-        filtros: [
-          {
-            propiedad: 'documento_id',
-            valor1: this.documentoId,
-          },
-        ],
-        modelo: this.opciones.modelo,
-      })
+      .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(this.parametrosConsulta)
       .subscribe((respuesta) => {
+        this.cantidadRegistros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros.map((documento) => ({
           id: documento.id,
           fecha: documento.fecha,
@@ -316,6 +343,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           base: documento.base,
           debito: documento.debito,
           credito: documento.credito,
+          detalle: documento.detalle,
         }));
       });
   }
