@@ -46,6 +46,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public listaArchivos: ArchivoRespuesta[] = [];
   public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
   public documentoId: number;
+  public totalDebito = 0;
+  public totalCredito = 0;
+
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
   public parametrosConsulta: ParametrosFiltros = {
     limite: 50,
@@ -221,6 +224,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       modelo: this.opciones.modelo,
       excel: true,
       limite: 5000,
+      serializador: 'Excel'
     });
   }
 
@@ -326,8 +330,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   private _consultarInformacionTabla() {
-    console.log();
-
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(this.parametrosConsulta)
       .subscribe((respuesta) => {
@@ -345,6 +347,10 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           credito: documento.credito,
           detalle: documento.detalle,
         }));
+
+        this.totalDebito = this.arrDocumentos.reduce((total, doc) => total + (doc.debito || 0), 0);
+        this.totalCredito = this.arrDocumentos.reduce((total, doc) => total + (doc.credito || 0), 0);
+
       });
   }
 }
