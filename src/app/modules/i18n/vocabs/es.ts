@@ -439,7 +439,8 @@ export const locale = {
             INVENTARIO: 'Inventario',
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
-            CUENTAVENTA: 'Cuenta venta'
+            CUENTAVENTA: 'Cuenta venta',
+            CUENTACOBRAR: 'Cuenta cobrar'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
