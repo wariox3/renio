@@ -463,13 +463,6 @@
               formularioItem.get('cuenta_compra')?.touched &&
               formularioItem.get('cuenta_compra')?.invalid
             "
-            [filtrosExternos]="[
-            {
-              propiedad: 'cuenta_clase',
-              operador: 'exact',
-              valor1: 4,
-            },
-          ]"
             (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
             (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
           ></app-comun-cuentas>
