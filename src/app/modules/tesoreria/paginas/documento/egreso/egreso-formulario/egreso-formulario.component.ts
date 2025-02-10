@@ -189,6 +189,7 @@ export default class EgresoFormularioComponent
             : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
+            tipo_registro: detalle.tipo_registro,
             documento_afectado: [detalle.documento_afectado_id],
             numero: [numero],
             contacto: [detalle.contacto_id],
@@ -412,6 +413,7 @@ export default class EgresoFormularioComponent
   agregarLinea() {
     const detalleFormGroup = this.formBuilder.group({
       id: [null],
+      tipo_registro: ['C'],
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
       cuenta_nombre: [null],
@@ -552,6 +554,7 @@ export default class EgresoFormularioComponent
 
       const detalleFormGroup = this.formBuilder.group({
         id: [null],
+        tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
