@@ -4,10 +4,8 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -18,20 +16,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ItemService } from '@modulos/general/servicios/item.service';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { tap } from 'rxjs';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ItemService } from '@modulos/general/servicios/item.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-item-formulario',
@@ -79,9 +77,23 @@ export default class ItemFormularioComponent extends General implements OnInit {
     this.iniciarFormulario();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
+    } else {
+      this._getCuentaLista([
+        {
+          propiedad: 'permite_movimiento',
+          valor1: true,
+        },
+        {
+          propiedad: 'cuenta_clase',
+          valor1: 4,
+        },
+      ]).subscribe({
+        next: (respuesta) => {
+          this.arrCuentasLista = respuesta.registros;
+          this._sugerirCampoCuentaVenta();
+        },
+      });
     }
-
-    this._getCuentaLista([]);
   }
 
   iniciarFormulario() {
@@ -322,16 +334,15 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   private _getCuentaLista(filtros: Filtros[]) {
-    this._generalService
-      .consultarDatosAutoCompletar({
-        modelo: 'ConCuenta',
-        filtros,
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-      });
+    return this._generalService.consultarDatosAutoCompletar({
+      modelo: 'ConCuenta',
+      serializador: 'ListaAutocompletar',
+      limite: 10,
+      desplazar: 0,
+      ordenamientos: ['codigo'],
+      limite_conteo: 10000,
+      filtros,
+    });
   }
 
   consultarCuentas(event: any) {
@@ -341,17 +352,13 @@ export default class ItemFormularioComponent extends General implements OnInit {
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          propiedad: 'codigo__startswith',
-          valor1: `${valorBusqueda}`,
-        },
-        {
           propiedad: 'permite_movimiento',
           valor1: true,
         },
         {
           propiedad: 'cuenta_clase',
-          valor1: 4
-        }
+          valor1: 4,
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -400,7 +407,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
         },
         {
           propiedad: 'cuenta_clase',
-          valor1: 4
+          valor1: 4,
         },
         ...filtros,
       ],
@@ -436,5 +443,14 @@ export default class ItemFormularioComponent extends General implements OnInit {
     this.formularioItem.get('cuenta_venta')?.setValue(cuenta.cuenta_id);
     this.cuentaNombre = cuenta.cuenta_nombre;
     this.cuentaCodigo = cuenta.cuenta_codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _sugerirCampoCuentaVenta() {
+    if (this.arrCuentasLista.length > 0) {
+      const registroSugerido = this.arrCuentasLista[0];
+
+      this.agregarCuenta(registroSugerido);
+    }
   }
 }
