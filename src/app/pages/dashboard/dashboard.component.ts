@@ -126,6 +126,7 @@ export class DashboardComponent extends General implements OnInit {
         tap((respuesta: any) => {
           if (respuesta) {
             this.visualizarFakeLoad.update(() => false);
+            this.consultarInformacion();
             this.alertaService.mensajaExitoso(respuesta.mensaje);
           }
         })
