@@ -2058,5 +2058,13 @@ export const documentos: MapeoDocumentos = {
       aplicaFormatoNumerico: true,
       ordenable: false,
     },
+    {
+      nombre: 'DETALLE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      aplicaFormatoNumerico: false,
+      ordenable: false,
+    },
   ],
 };

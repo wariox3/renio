@@ -52,6 +52,9 @@
         [visualizarBtnColumnas]="false"
         [visualizarBtnExportarZip]="false"
         (emitirExportarExcel)="descargarExcel()"
+        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+        (emitirOrdenamiento)="cambiarOrdemiento($event)"
+        (emitirPaginacion)="cambiarPaginacion($event)"
       >
         <section botones-extra-derecha>
           @if(documento?.estado_contabilizado) {
