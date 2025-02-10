@@ -68,6 +68,12 @@ export const initialState: MenuItem = {
               ],
               archivoImportacionLista: 'GenContacto.xlsx',
             },
+            {
+              nombre: 'CuentaBanco',
+              tipo: 'administrador',
+              data: { modelo: 'GenCuentaBanco' },
+              modulo: 'cartera',
+            },
           ],
         },
         {
