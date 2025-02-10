@@ -440,7 +440,7 @@ export const locale = {
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
             CUENTAVENTA: 'Cuenta venta',
-            CUENTACOBRAR: 'Cuenta cobrar'
+            CUENTACOBRAR: 'Cuenta compra'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
