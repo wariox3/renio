@@ -438,13 +438,41 @@
                 class="dropdown-menu"
               >
                 <ng-container *ngFor="let cuenta of arrCuentasLista">
-                  <button (click)="agregarCuenta(cuenta)" type="button" ngbDropdownItem>
+                  <button
+                    (click)="agregarCuenta(cuenta)"
+                    type="button"
+                    ngbDropdownItem
+                  >
                     {{ cuenta.cuenta_codigo }} {{ cuenta.cuenta_nombre }}
                   </button>
                 </ng-container>
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.CUENTACOBRAR"
+            class="form-label"
+          ></label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaCobrarCodigo"
+            [cuentaNombre]="cuentaCobrarNombre"
+            [campoInvalido]="
+              formularioItem.get('cuenta_compra')?.touched &&
+              formularioItem.get('cuenta_compra')?.invalid
+            "
+            [filtrosExternos]="[
+            {
+              propiedad: 'cuenta_clase',
+              operador: 'exact',
+              valor1: 4,
+            },
+          ]"
+            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
+          ></app-comun-cuentas>
         </div>
       </div>
     </section>

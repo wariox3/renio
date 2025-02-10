@@ -61,7 +61,7 @@ export class CuentasComponent
   }
 
   ngAfterViewInit() {
-    if(this.iniciarFocusInputBusqueda){
+    if (this.iniciarFocusInputBusqueda) {
       if (this.inputItem?.nativeElement.value === '') {
         this.inputItem?.nativeElement.focus();
       }
@@ -105,6 +105,11 @@ export class CuentasComponent
       modelo: 'ConCuenta',
       serializador: 'ListaAutocompletar',
     };
+    if (this.filtrosExternos) {
+      if (this.filtrosExternos.length) {
+        arrFiltros.filtros = [...arrFiltros.filtros, ...this.filtrosExternos];
+      }
+    }
 
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
@@ -117,7 +122,7 @@ export class CuentasComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    const filtros = [];
+    let filtros = [];
 
     if (!valor) {
       this.emitirLineaVacia.emit();
@@ -135,6 +140,12 @@ export class CuentasComponent
         propiedad: 'nombre__icontains',
         valor1: `${valor}`,
       });
+    }
+
+    if (this.filtrosExternos) {
+      if (this.filtrosExternos.length) {
+        filtros = [...filtros, ...this.filtrosExternos];
+      }
     }
 
     let arrFiltros: ParametrosFiltros = {

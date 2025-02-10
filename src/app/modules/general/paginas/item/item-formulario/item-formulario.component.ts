@@ -30,6 +30,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
+import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
 
 @Component({
   selector: 'app-item-formulario',
@@ -46,7 +47,8 @@ import { tap } from 'rxjs';
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     NgbDropdownModule,
-  ],
+    CuentasComponent
+],
   providers: [provideNgxMask()],
 })
 export default class ItemFormularioComponent extends General implements OnInit {
@@ -58,6 +60,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
   arrImpuestos: any[] = [];
   cuentaCodigo = '';
   cuentaNombre = '';
+  cuentaCobrarCodigo = '';
+  cuentaCobrarNombre = '';
   @Input() informacionFormulario: any;
   @Input() itemTipo: 'compra' | 'venta' = 'venta';
   @Input() ocultarBtnAtras = false;
@@ -115,6 +119,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
       inventario: [false],
       impuestos: this.formBuilder.array([]),
       cuenta_venta: [null],
+      cuenta_compra: [null],
     });
   }
 
@@ -287,10 +292,13 @@ export default class ItemFormularioComponent extends General implements OnInit {
           producto: respuesta.item.producto,
           servicio: respuesta.item.servicio,
           cuenta_venta: respuesta.item.cuenta_venta_id,
+          cuenta_compra: respuesta.item.cuenta_compra_id,
         });
 
         this.cuentaCodigo = respuesta.item.cuenta_venta_codigo;
         this.cuentaNombre = respuesta.item.cuenta_venta_nombre;
+        this.cuentaCobrarCodigo = respuesta.item.cuenta_compra_codigo;
+        this.cuentaCobrarNombre = respuesta.item.cuenta_compra_nombre;
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
 
@@ -452,5 +460,19 @@ export default class ItemFormularioComponent extends General implements OnInit {
 
       this.agregarCuenta(registroSugerido);
     }
+  }
+
+  agregarCuentaCobrarSeleccionado(cuenta: any){
+    this.formularioItem.get('cuenta_compra')?.setValue(cuenta.cuenta_id);
+    this.cuentaCobrarNombre = cuenta.cuenta_nombre;
+    this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaCobrarSeleccionado(){
+    this.formularioItem.get('cuenta_compra')?.setValue(null);
+    this.cuentaCobrarNombre = '';
+    this.cuentaCobrarCodigo = '';
+    this.changeDetectorRef.detectChanges();
   }
 }

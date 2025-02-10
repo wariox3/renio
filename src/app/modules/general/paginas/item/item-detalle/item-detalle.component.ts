@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { General } from '@comun/clases/general';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-import { ItemService } from '@modulos/general/servicios/item.service';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { ItemService } from '@modulos/general/servicios/item.service';
+import { SiNoPipe } from '@pipe/si-no.pipe';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-item-detalle',
@@ -19,10 +18,10 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
     CardComponent,
     BtnAtrasComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    SiNoPipe
 ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
