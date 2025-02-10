@@ -1,62 +1,7 @@
 <div class="container-fluid" style="--bs-gutter-x: 0">
   @switch (ruta) { @case ('compra') {
   <app-inicio-compra></app-inicio-compra>
-  } @case ('venta') { @if(asistente_electronico === false ){
-  <app-card [visualizarTitulo]="false">
-    <section card-body>
-      <div
-        class="d-flex justify-content-between bgi-no-repeat bgi-size-cover bgi-position-x-center pb-0"
-        style="
-          background-position: 100% 50%;
-          background-image: url('../../../../assets/media/stock/900x600/42.png');
-        "
-      >
-        <!--begin::Illustration-->
-        <img
-          class="mx-auto theme-light-show p-0 mx-2"
-          src="../../../assets/media/illustrations/sigma-1/4.png"
-          alt=""
-          height="250"
-          width="250"
-        />
-        <img
-          class="mx-auto h-150px h-lg-200px theme-dark-show"
-          src="../../../assets/media/illustrations/sigma-1/4-dark.png"
-          alt=""
-        />
-        <!--end::Illustration-->
-        <!--begin::Wrapper-->
-        <div class="flex-grow-1 mx-2 justify-content-center align-self-center">
-          <!--begin::Title-->
-          <div class="fs-2hx fw-bold text-gray-800">
-            <span> Completa la información de la empresa </span>
-            <br />
-            <span class="fw-semibold text-gray-600 fs-6 mb-8 d-block">
-              Completa la información para facturar tus servicios de manera
-              rápida y fácil
-            </span>
-            <button
-              class="btn btn-light-success"
-              [routerLink]="['/empresa/configuracion_inicial']"
-            >
-              COMPLETAR
-            </button>
-            <button
-              class="btn btn-active-light-danger btn-color-danger ms-2"
-              placement="end"
-              (click)="finalizarProceso()"
-              ngbTooltip="Omitir este paso hará que tenga que agregar la configuración de forma manual para asegurar un funcionamiento óptimo. Si necesita ayuda, no dude en contactarnos. ¡Estamos aquí para apoyarle!"
-            >
-              Omitir
-            </button>
-          </div>
-          <!--end::Title-->
-        </div>
-        <!--begin::Wrapper-->
-      </div>
-    </section>
-  </app-card>
-  }
+  } @case ('venta') {
   <app-inicio-venta></app-inicio-venta>
   } @case ('contabilidad') {
   <app-inicio-contabilidad></app-inicio-contabilidad>
@@ -184,7 +129,7 @@
           </div>
         </section>
       </app-card>
-    }
+      }
     </div>
   </div>
 
@@ -201,7 +146,6 @@
           background-image: url('../../../../assets/media/stock/900x600/42.png');
         "
       >
-        <!--begin::Illustration-->
         <img
           class="mx-auto theme-light-show p-0 mx-2"
           src="../../../assets/media/illustrations/sigma-1/4.png"
@@ -214,10 +158,8 @@
           src="../../../assets/media/illustrations/sigma-1/4-dark.png"
           alt=""
         />
-        <!--end::Illustration-->
-        <!--begin::Wrapper-->
+
         <div class="flex-grow-1 mx-2 justify-content-center align-self-center">
-          <!--begin::Title-->
           <div class="fs-2hx fw-bold text-gray-800">
             <span> Completa la información de la empresa </span>
             <br />
@@ -240,9 +182,7 @@
               Omitir
             </button>
           </div>
-          <!--end::Title-->
         </div>
-        <!--begin::Wrapper-->
       </div>
     </section>
   </app-card>
