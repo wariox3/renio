@@ -2006,6 +2006,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
+      stylePersonalizado: { width: '120px'}
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -2015,6 +2016,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
+      stylePersonalizado: { width: '300px'}
     },
     {
       nombre: 'CUENTA',
@@ -2065,6 +2067,7 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: false,
       aplicaFormatoNumerico: false,
       ordenable: false,
+      stylePersonalizado: { width: '300px'}
     },
   ],
 };
