@@ -332,7 +332,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([Validators.required, Validators.maxLength(50)]),
         ],
         tipo_persona: [1, Validators.compose([Validators.required])],
-        regimen: ['', Validators.compose([Validators.required])],
+        regimen: [1, Validators.compose([Validators.required])],
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
