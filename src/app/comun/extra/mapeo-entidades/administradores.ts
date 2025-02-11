@@ -697,6 +697,20 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: false,
         ordenable: false,
       },
+      {
+        nombre: 'CUENTA_CODIGO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CUENTA_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
     ],
   },
   ConCuenta: {

@@ -1075,6 +1075,8 @@ export const locale = {
         NUMERO_CUENTA: 'Cuenta',
         CUENTA_BANCO_TIPO_NOMBRE: 'Tipo',
         CUENTA_BANCO_CLASE_NOMBRE: 'Clase',
+        CUENTA_CODIGO: 'Cod',
+        CUENTA_NOMBRE: 'Nombre',
       },
       GRUPO: {
         ID: 'ID',
