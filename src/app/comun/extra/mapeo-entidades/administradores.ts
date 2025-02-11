@@ -626,6 +626,34 @@ export const mapeo: MapeoAdministrador = {
       },
     ]
   },
+  HumSucursal:{
+    modulo: 'humano',
+    modelo: 'HumSucursal',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CODIGO',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+    ]
+   },
   GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',

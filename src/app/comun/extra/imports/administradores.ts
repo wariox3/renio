@@ -102,6 +102,16 @@ export const Componentes: Partial<FormulariosDetalles>  = {
       '../../../modules/humano/paginas/administrador/cargo/cargo-formulario/cargo-formulario.component'
     ),
   },
+  HumSucursal: {
+    modulo: 'humano',
+    modelo: 'HumSucural',
+    detalle: async () => await import(
+      '../../../modules/humano/paginas/administrador/sucursal/sucursal-detalle/sucursal-detalle.component'
+    ),
+    formulario: async () => await import(
+      '../../../modules/humano/paginas/administrador/sucursal/sucursal-formulario/sucursal-formulario.component'
+    ),
+  },
   GenSede: {
     modulo: 'general',
     modelo: 'sede',
