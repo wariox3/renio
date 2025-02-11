@@ -99,7 +99,9 @@ export const locale = {
         EVENTOSDIAN: 'Eventos DIAN',
         CONTENEDORES: 'Contenedores',
         SALDOINICIAL: 'Saldo inicial',
-        CONTABILIZAR: 'Contabilizar'
+        CONTABILIZAR: 'Contabilizar',
+        HUMSUCURSAL: 'Sucursal',
+        SUCURSAL: 'Sucursal'
       },
     },
     FORMULARIOS: {
@@ -1161,6 +1163,11 @@ export const locale = {
         FECHADESDE: 'Fecha desde',
         FECHAHASTA: 'Fecha hasta',
       },
+      SUCURSAL: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+        CODIGO: 'Código',
+      }
     },
     TEMA: {
       CLARO: 'Claro',

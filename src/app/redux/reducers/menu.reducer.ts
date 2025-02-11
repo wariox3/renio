@@ -346,7 +346,7 @@ export const initialState: MenuItem = {
               archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
-        },  
+        },
         {
           nombre: 'utilidad',
           children: [
@@ -523,7 +523,6 @@ export const initialState: MenuItem = {
               nombre: 'CONTRATO',
               tipo: 'administrador',
               data: { modelo: 'HumContrato' },
-              archivoImportacionLista: 'GenContacto.xlsx',
               modulo: 'humano',
             },
             {
@@ -536,6 +535,12 @@ export const initialState: MenuItem = {
               nombre: 'CARGO',
               tipo: 'administrador',
               data: { modelo: 'HumCargo' },
+              modulo: 'humano',
+            },
+            {
+              nombre: 'SUCURSAL',
+              tipo: 'administrador',
+              data: { modelo: 'HumSucursal' },
               modulo: 'humano',
             },
           ],
