@@ -25,6 +25,11 @@ export class ContabilizarService {
         valor1: false,
       },
       {
+        propiedad: 'estado_aprobado',
+        operador: 'exact',
+        valor1: true,
+      },
+      {
         propiedad: 'documento_tipo__contabilidad',
         operador: 'exact',
         valor1: true,
@@ -36,6 +41,11 @@ export class ContabilizarService {
       propiedad: 'estado_contabilizado',
       operador: 'exact',
       valor1: false,
+    },
+    {
+      propiedad: 'estado_aprobado',
+      operador: 'exact',
+      valor1: true,
     },
     {
       propiedad: 'documento_tipo__contabilidad',
