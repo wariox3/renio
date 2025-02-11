@@ -26,6 +26,7 @@ import {
   RegistroAutocompletarGenCuentaBancoClase,
   RegistroAutocompletarGenCuentaBancoTipo,
 } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -40,7 +41,8 @@ import {
     NgSelectModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    CuentasComponent
+],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +56,8 @@ export default class CuentaBancoFormularioComponent
   arrCuentasBancos: any[];
   selectedDateIndex: number = -1;
   visualizarCampoNumeroCuenta = false;
+  public cuentaCobrarCodigo = '';
+  public cuentaCobrarNombre = '';
   public ciudadDropdown: NgbDropdown;
   private readonly _generalService = inject(GeneralService);
 
@@ -109,6 +113,7 @@ export default class CuentaBancoFormularioComponent
       numero_cuenta: [null, Validators.compose([Validators.maxLength(50)])],
       cuenta_banco_tipo: [null, Validators.compose([Validators.required])],
       cuenta_banco_clase: ['', Validators.compose([Validators.required])],
+      cuenta: [''],
     });
   }
 
@@ -157,8 +162,11 @@ export default class CuentaBancoFormularioComponent
           cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
           nombre: respuesta.nombre,
           numero_cuenta: respuesta.numero_cuenta,
+          cuenta: respuesta.cuenta_id
         });
 
+      this.cuentaCobrarCodigo = respuesta.cuenta_codigo
+        this.cuentaCobrarNombre = respuesta.cuenta_nombre
         if (respuesta.cuenta_banco_tipo_id !== 3) {
           this.visualizarCampoNumeroCuenta = true;
           this.formularioCuentaBanco
@@ -241,6 +249,20 @@ export default class CuentaBancoFormularioComponent
         }
       }
     }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarCuentaSeleccionado(cuenta: any){
+    this.formularioCuentaBanco.get('cuenta')?.setValue(cuenta.cuenta_id);
+    this.cuentaCobrarNombre = cuenta.cuenta_nombre;
+    this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaSeleccionado(){
+    this.formularioCuentaBanco.get('cuenta')?.setValue(null);
+    this.cuentaCobrarNombre = '';
+    this.cuentaCobrarCodigo = '';
     this.changeDetectorRef.detectChanges();
   }
 }
