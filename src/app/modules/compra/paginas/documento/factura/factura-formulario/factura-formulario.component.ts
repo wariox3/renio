@@ -1005,12 +1005,17 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   }
 
   autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {
+    const comentario =
+      respuestaFacturaCompra.comentario.length <= 0
+        ? null
+        : respuestaFacturaCompra.comentario;
+
     this.formularioFactura.patchValue({
       referencia_numero: respuestaFacturaCompra.referencia_numero,
       referencia_cue: respuestaFacturaCompra.referencia_cue,
       referencia_prefijo: respuestaFacturaCompra.referencia_prefijo,
       fecha: respuestaFacturaCompra.fecha,
-      comentario: respuestaFacturaCompra.comentario,
+      comentario,
     });
 
     this._asignarContactoAFormulario(respuestaFacturaCompra.contacto);

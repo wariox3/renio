@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   inject,
   Input,
@@ -30,7 +32,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { tap } from 'rxjs';
-import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
+import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 
 @Component({
   selector: 'app-item-formulario',
@@ -47,11 +49,14 @@ import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuent
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     NgbDropdownModule,
-    CuentasComponent
-],
+    CuentasComponent,
+  ],
   providers: [provideNgxMask()],
 })
-export default class ItemFormularioComponent extends General implements OnInit {
+export default class ItemFormularioComponent
+  extends General
+  implements OnInit, AfterViewInit
+{
   private readonly _generalService = inject(GeneralService);
 
   arrCuentasLista: any[];
@@ -69,6 +74,8 @@ export default class ItemFormularioComponent extends General implements OnInit {
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
+  @ViewChild('inputNombre', { read: ElementRef })
+  inputNombre: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -98,6 +105,15 @@ export default class ItemFormularioComponent extends General implements OnInit {
         },
       });
     }
+  }
+
+  ngAfterViewInit() {
+    if(this.accion === 'nuevo'){
+      if (this.inputNombre?.nativeElement.value === '') {
+        this.inputNombre?.nativeElement.focus();
+      }
+    }
+
   }
 
   iniciarFormulario() {
@@ -462,14 +478,14 @@ export default class ItemFormularioComponent extends General implements OnInit {
     }
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any){
+  agregarCuentaCobrarSeleccionado(cuenta: any) {
     this.formularioItem.get('cuenta_compra')?.setValue(cuenta.cuenta_id);
     this.cuentaCobrarNombre = cuenta.cuenta_nombre;
     this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
-  limpiarCuentaCobrarSeleccionado(){
+  limpiarCuentaCobrarSeleccionado() {
     this.formularioItem.get('cuenta_compra')?.setValue(null);
     this.cuentaCobrarNombre = '';
     this.cuentaCobrarCodigo = '';

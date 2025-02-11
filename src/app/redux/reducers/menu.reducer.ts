@@ -349,6 +349,14 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'utilidad',
+          children: [
+            {
+              nombre: 'CONTABILIZAR',
+              tipo: 'utilidad',
+              modulo: 'contabilidad',
+              url: 'contabilidad/utilidad/contabilizar',
+            },
+          ],
         },
         // {
         //   nombre: 'proceso',
@@ -515,6 +523,19 @@ export const initialState: MenuItem = {
               nombre: 'CONTRATO',
               tipo: 'administrador',
               data: { modelo: 'HumContrato' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_entidad.xlsx',
+                  name: 'Entidades',
+                },
+                { 
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
+              archivoImportacionLista: 'HumContrato.xlsx',
               modulo: 'humano',
             },
             {
@@ -527,6 +548,12 @@ export const initialState: MenuItem = {
               nombre: 'CARGO',
               tipo: 'administrador',
               data: { modelo: 'HumCargo' },
+              modulo: 'humano',
+            },
+            {
+              nombre: 'SUCURSAL',
+              tipo: 'administrador',
+              data: { modelo: 'HumSucursal' },
               modulo: 'humano',
             },
           ],

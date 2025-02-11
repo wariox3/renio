@@ -62,7 +62,7 @@ export class ImpuestoEditarComponent extends General implements OnInit {
       .consultarDetalle(this.impuestoInformacion.id)
       .subscribe((respuesta) => {
         this.formularioImpuestoEditarCuenta.patchValue({
-          cuenta_id: respuesta.id,
+          cuenta_id: respuesta.cuenta_id,
           cuenta_codigo: respuesta.cuenta_codigo,
           cuenta_nombre: respuesta.cuenta_nombre,
         });
@@ -84,8 +84,6 @@ export class ImpuestoEditarComponent extends General implements OnInit {
     this._impuestoService
       .actualizarCuenta(this.impuestoInformacion.id, {
         cuenta: this.formularioImpuestoEditarCuenta.get('cuenta_id')?.value,
-        nombre: this.impuestoInformacion.nombre,
-        nombre_extendido: this.impuestoInformacion.nombre_extendido,
       })
       .subscribe(() => {
         this.emitirGuardoRegistro.emit(true); // necesario para cerrar el modal que está en editarEmpresa

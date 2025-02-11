@@ -748,143 +748,6 @@
           ></ng-container>
         </div>
       </div>
-
-      <div class="row mb-2">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
-            class="form-label"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="banco"
-            [ngClass]="{
-              'is-invalid':
-                formularioContacto.controls['banco'].touched &&
-                formularioContacto.controls['banco'].invalid,
-              'is-valid':
-                formularioContacto.controls['banco'].touched &&
-                formularioContacto.controls['banco'].valid
-            }"
-          >
-            <option value="">Seleccionar...</option>
-            <ng-container *ngFor="let banco of arrBancos">
-              <option
-                [value]="banco.id"
-                [selected]="banco.id === formularioContacto.value.banco"
-              >
-                {{ banco.nombre }}
-              </option>
-            </ng-container>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContacto.controls['banco']
-            }"
-          ></ng-container>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROCUENTA"
-            class="form-label"
-          ></label>
-          <input
-            formControlName="numero_cuenta"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioContacto.controls['numero_cuenta'].touched &&
-                formularioContacto.controls['numero_cuenta'].invalid,
-              'is-valid':
-                formularioContacto.controls['numero_cuenta'].touched &&
-                formularioContacto.controls['numero_cuenta'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContacto.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '20',
-              control: formularioContacto.controls['numero_cuenta']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
-            class="form-label"
-          ></label>
-          <select
-            formControlName="cuenta_banco_clase"
-            class="form-select form-select"
-            [ngClass]="{
-              'is-invalid':
-                formularioContacto.controls['cuenta_banco_clase'].touched &&
-                formularioContacto.controls['cuenta_banco_clase'].invalid,
-              'is-valid':
-                formularioContacto.controls['cuenta_banco_clase'].touched &&
-                formularioContacto.controls['cuenta_banco_clase'].valid
-            }"
-          >
-            @for (item of arrCuentasBancos; track $index) {
-            <option
-              [value]="item.cuenta_banco_clase_id"
-              [selected]="
-                item.cuenta_banco_clase_id ===
-                formularioContacto.value.cuenta_banco_clase
-              "
-            >
-              {{ item.cuenta_banco_clase_nombre }}
-            </option>
-            }
-          </select>
-
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContacto.controls['cuenta_banco_clase']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioContacto.controls['cuenta_banco_clase']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioContacto.controls['cuenta_banco_clase']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-
       <div class="row mb-8">
         <div>
           <div class="form-check form-check-custom form-check-solid mb-2">
@@ -1098,6 +961,140 @@
       <div class="row mb-2">
         <div class="col-md-6 col-sm-12">
           <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
+            class="form-label"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="banco"
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['banco'].touched &&
+                formularioContacto.controls['banco'].invalid,
+              'is-valid':
+                formularioContacto.controls['banco'].touched &&
+                formularioContacto.controls['banco'].valid
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of arrBancos">
+              <option
+                [value]="banco.id"
+                [selected]="banco.id === formularioContacto.value.banco"
+              >
+                {{ banco.nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['banco']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROCUENTA"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="numero_cuenta"
+            class="form-control bg-transparent"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['numero_cuenta'].touched &&
+                formularioContacto.controls['numero_cuenta'].invalid,
+              'is-valid':
+                formularioContacto.controls['numero_cuenta'].touched &&
+                formularioContacto.controls['numero_cuenta'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['numero_cuenta']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioContacto.controls['numero_cuenta']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
+            class="form-label"
+          ></label>
+          <select
+            formControlName="cuenta_banco_clase"
+            class="form-select form-select"
+            [ngClass]="{
+              'is-invalid':
+                formularioContacto.controls['cuenta_banco_clase'].touched &&
+                formularioContacto.controls['cuenta_banco_clase'].invalid,
+              'is-valid':
+                formularioContacto.controls['cuenta_banco_clase'].touched &&
+                formularioContacto.controls['cuenta_banco_clase'].valid
+            }"
+          >
+            @for (item of arrCuentasBancos; track $index) {
+            <option
+              [value]="item.cuenta_banco_clase_id"
+              [selected]="
+                item.cuenta_banco_clase_id ===
+                formularioContacto.value.cuenta_banco_clase
+              "
+            >
+              {{ item.cuenta_banco_clase_nombre }}
+            </option>
+            }
+          </select>
+
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioContacto.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioContacto.controls['cuenta_banco_clase']
+            }"
+          ></ng-container>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <label
             translate="FORMULARIOS.CAMPOS.GENERAL.CONTACTO.PLAZOPAGO"
             class="form-label required"
           ></label>
@@ -1125,6 +1122,9 @@
             </option>
           </select>
         </div>
+      </div>
+      <div class="row mb-4">
+
       </div>
     </section>
   </app-card>

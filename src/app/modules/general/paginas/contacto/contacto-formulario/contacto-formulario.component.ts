@@ -97,7 +97,7 @@ export default class ContactDetalleComponent extends General implements OnInit {
   arrPrecios: RegistroAutocompletarGenPrecio[];
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
-  filtroIdentificacionSignal = signal(0);
+  filtroIdentificacionSignal = signal(1);
   identificacionIdApiDetalleSignal = signal(0);
 
   filteredIdentificacionSignal = computed(() =>
@@ -331,8 +331,8 @@ export default class ContactDetalleComponent extends General implements OnInit {
           null,
           Validators.compose([Validators.required, Validators.maxLength(50)]),
         ],
-        tipo_persona: ['', Validators.compose([Validators.required])],
-        regimen: ['', Validators.compose([Validators.required])],
+        tipo_persona: [1, Validators.compose([Validators.required])],
+        regimen: [1, Validators.compose([Validators.required])],
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
         plazo_pago: [1, Validators.compose([Validators.required])],
@@ -627,6 +627,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.arrBancos = respuesta[6].registros;
       this.arrCuentasBancos = respuesta[7].registros;
       this.changeDetectorRef.detectChanges();
+      this.formularioContacto.patchValue({
+        identificacion:
+          this.filteredIdentificacionSignal()[0].identificacion_id,
+      });
     });
   }
 
