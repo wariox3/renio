@@ -346,9 +346,17 @@ export const initialState: MenuItem = {
               archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
-        },
+        },  
         {
           nombre: 'utilidad',
+          children: [
+            {
+              nombre: 'CONTABILIZAR',
+              tipo: 'utilidad',
+              modulo: 'contabilidad',
+              url: 'contabilidad/utilidad/contabilizar',
+            },
+          ],
         },
         // {
         //   nombre: 'proceso',

@@ -333,6 +333,7 @@ export const locale = {
           INFORMACIONFACTURACION: 'Información de facturación',
           PRODUCTOCUENTA: 'Item / Cuenta',
           DESCARTAR: 'Descartar',
+          CONTABILIZAR: 'Contabilizar'
         },
         GENERAL: {
           ITEM: {

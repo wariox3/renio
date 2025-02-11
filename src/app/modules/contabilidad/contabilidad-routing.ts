@@ -39,6 +39,16 @@ export const routes: Route[] = [
       },
     ],
   },
+  {
+    path: 'utilidad',
+    children: [
+      {
+        path: 'contabilizar',
+        loadComponent: () =>
+          import('./paginas/utilidades/contabilizar/contabilizar.component'),
+      },
+    ],
+  },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },
 ];
