@@ -523,7 +523,19 @@ export const initialState: MenuItem = {
               nombre: 'CONTRATO',
               tipo: 'administrador',
               data: { modelo: 'HumContrato' },
-              archivoImportacionLista: 'GenContacto.xlsx',
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_entidad.xlsx',
+                  name: 'Entidades',
+                },
+                { 
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
+              archivoImportacionLista: 'HumContrato.xlsx',
               modulo: 'humano',
             },
             {
