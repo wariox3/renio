@@ -23,11 +23,18 @@ import { TamanoArchivoPipe } from '@pipe/tamano-archivo.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize } from 'rxjs';
 import { TablaComponent } from '../tabla/tabla.component';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 
 @Component({
   selector: 'app-comun-documento-opciones',
   standalone: true,
-  imports: [CommonModule, NgbDropdownModule, TablaComponent, TamanoArchivoPipe],
+  imports: [
+    CommonModule,
+    NgbDropdownModule,
+    TablaComponent,
+    TamanoArchivoPipe,
+    AnimationFadeInUpDirective,
+  ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
 })
@@ -56,7 +63,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     ordenamientos: [],
     limite_conteo: 0,
     modelo: 'ConMovimiento',
-    filtros: []
+    filtros: [],
   };
 
   @Input() opcionesDesaprobarBoton: {
@@ -87,7 +94,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           valor1: this.documentoId,
         },
       ];
-      this.parametrosConsulta.modelo = this.opciones.modelo
+      this.parametrosConsulta.modelo = this.opciones.modelo;
     });
   }
 
@@ -224,13 +231,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       modelo: this.opciones.modelo,
       excel: true,
       limite: 5000,
-      serializador: 'Excel'
+      serializador: 'Excel',
     });
   }
 
   cambiarOrdemiento(ordenamiento: string) {
     (this.parametrosConsulta.ordenamientos[0] = ordenamiento),
-       this._consultarInformacionTabla();
+      this._consultarInformacionTabla();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
@@ -331,7 +338,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   private _consultarInformacionTabla() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(this.parametrosConsulta)
+      .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(
+        this.parametrosConsulta
+      )
       .subscribe((respuesta) => {
         this.cantidadRegistros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros.map((documento) => ({
@@ -348,9 +357,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           detalle: documento.detalle,
         }));
 
-        this.totalDebito = this.arrDocumentos.reduce((total, doc) => total + (doc.debito || 0), 0);
-        this.totalCredito = this.arrDocumentos.reduce((total, doc) => total + (doc.credito || 0), 0);
-
+        this.totalDebito = this.arrDocumentos.reduce(
+          (total, doc) => total + (doc.debito || 0),
+          0
+        );
+        this.totalCredito = this.arrDocumentos.reduce(
+          (total, doc) => total + (doc.credito || 0),
+          0
+        );
       });
   }
 }
