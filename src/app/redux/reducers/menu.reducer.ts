@@ -523,6 +523,7 @@ export const initialState: MenuItem = {
               nombre: 'CONTRATO',
               tipo: 'administrador',
               data: { modelo: 'HumContrato' },
+              archivoImportacionLista: 'GenContacto.xlsx',
               modulo: 'humano',
             },
             {
