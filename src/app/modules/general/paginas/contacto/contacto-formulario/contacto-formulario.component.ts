@@ -133,7 +133,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
-
     this._iniciarSuscripcionesFormularioContacto();
   }
 
@@ -282,11 +281,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([Validators.required, Validators.maxLength(1)]),
         ],
         identificacion: ['', Validators.compose([Validators.required])],
-        nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
+        nombre_corto: [null, Validators.compose([Validators.maxLength(200), Validators.required])],
         nombre1: [
           null,
           Validators.compose([
-            Validators.required,
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
             Validators.maxLength(50),
           ]),
@@ -301,7 +299,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         apellido1: [
           null,
           Validators.compose([
-            Validators.required,
             Validators.maxLength(50),
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
@@ -475,6 +472,16 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.activatedRoute.snapshot.queryParams['detalle'] &&
         this.ocultarBtnAtras === false
       ) {
+
+        if(this.formularioContacto.get('tipo_persona')?.value == 1){
+          this.formularioContacto.patchValue({
+            nombre1: null,
+            nombre2: null,
+            apellido1: null,
+            apellido2: null,
+          });
+        }
+
         this._contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
           .subscribe((respuesta) => {
@@ -752,4 +759,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
       this.formularioContacto.controls['ciudad_nombre'].setValue(null);
     }
   }
+
+
 }
