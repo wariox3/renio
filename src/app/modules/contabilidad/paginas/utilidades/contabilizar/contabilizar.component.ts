@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -33,6 +39,8 @@ export default class ContabilizarComponent extends General implements OnInit {
   public registrosSeleccionados =
     this._contabilizarService.registrosSeleccionados;
 
+  @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
+
   constructor() {
     super();
   }
@@ -57,13 +65,16 @@ export default class ContabilizarComponent extends General implements OnInit {
     if (this.registrosSeleccionados().length > 0) {
       this._contabilizarService.ejecutarContabilizarTodos().subscribe({
         next: () => {
+          this.checkboxAll.nativeElement.checked = false;
           this.consultarLista();
           this.alertaService.mensajaExitoso(
             'Registros contabilizados con exito!'
           );
         },
         error: () => {
+          this.checkboxAll.nativeElement.checked = false;
           this._contabilizarService.reiniciarRegistrosSeleccionados();
+          this.consultarLista();
           this.changeDetectorRef.detectChanges();
         },
       });
