@@ -6,6 +6,7 @@ import { Impuesto } from '@modulos/general/interfaces/impuesto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImpuestoEditarComponent } from '../impuesto-editar/impuesto-editar.component';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-impuestos-lista',
@@ -15,6 +16,7 @@ import { ImpuestoEditarComponent } from '../impuesto-editar/impuesto-editar.comp
     CommonModule,
     TranslateModule,
     ImpuestoEditarComponent,
+    SiNoPipe
   ],
   templateUrl: './impuestos-lista.component.html',
 })
