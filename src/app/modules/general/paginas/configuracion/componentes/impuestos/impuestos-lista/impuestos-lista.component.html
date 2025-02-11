@@ -9,6 +9,8 @@
             <th>Nombre extendido</th>
             <th>Porcentaje</th>
             <th>Operación</th>
+            <th>Compra</th>
+            <th>Venta</th>
             <th>Cod</th>
             <th>Cuenta</th>
             <th style="width: 50px"></th>
@@ -27,6 +29,12 @@
             <td>{{ impuesto.porcentaje }} %</td>
             <td>
               {{ impuesto.operacion }}
+            </td>
+            <td>
+              {{ impuesto.compra | siNo }}
+            </td>
+            <td>
+              {{ impuesto.venta | siNo }}
             </td>
             <td>
               {{ impuesto.cuenta_codigo }}
