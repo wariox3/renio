@@ -63,4 +63,20 @@ export const utilidades: MapeoUtilidades = {
       ordenable: true,
     },
   ],
+  contabilizar: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+  ],
 };
