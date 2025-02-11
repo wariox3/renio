@@ -529,10 +529,20 @@ export const initialState: MenuItem = {
                     'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_entidad.xlsx',
                   name: 'Entidades',
                 },
-                { 
+                {
                   endpoint:
                     'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
                   name: 'Ciudades',
+                },
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_tipo_cotizante.xlsx',
+                  name: 'Tipo cotizante',
+                },
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_subtipo_cotizante.xlsx',
+                  name: 'Subtipo cotizante',
                 },
               ],
               archivoImportacionLista: 'HumContrato.xlsx',
