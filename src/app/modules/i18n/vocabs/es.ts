@@ -518,7 +518,7 @@ export const locale = {
           METODOPAGO: 'Método de pago',
           CUE: 'Cue',
           REFERENCIA_NUMERO: 'Número',
-          REFERENCIA_CUE: 'cue',
+          REFERENCIA_CUE: 'Cue',
           REFERENCIA_PREFIJO: 'Prefijo',
           CUNE: 'Cune',
           NUMERO: 'Número',

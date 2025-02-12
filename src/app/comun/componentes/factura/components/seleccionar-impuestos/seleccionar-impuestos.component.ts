@@ -52,7 +52,7 @@ export class SeleccionarImpuestosComponent
     limite: 10,
     limite_conteo: 10000,
     desplazar: 0,
-    ordenamientos: [],
+    ordenamientos: ['impuesto_tipo_id', 'id'],
     modelo: 'GenImpuesto',
     serializador: 'ListaAutocompletar',
   };
