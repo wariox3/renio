@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
+import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -37,8 +37,8 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     BaseEstadosComponent,
     DetallesTotalesComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
-],
+    DocumentoOpcionesComponent,
+  ],
 })
 export default class FacturaRecurrenteDetalleComponent extends General {
   active: Number;
@@ -95,6 +95,7 @@ export default class FacturaRecurrenteDetalleComponent extends General {
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
+        this._reniciarCamposTotales();
 
         this.totalAfectado = respuesta.documento.afectado;
         respuesta.documento.detalles.map((item: any) => {
@@ -118,6 +119,15 @@ export default class FacturaRecurrenteDetalleComponent extends General {
         });
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  private _reniciarCamposTotales() {
+    this.totalCantidad = 0;
+    this.totalDescuento = 0;
+    this.subtotalGeneral = 0;
+    this.totalNetoGeneral = 0;
+    this.totalGeneral = 0;
+    this.totalBase = 0;
   }
 
   aprobar() {
