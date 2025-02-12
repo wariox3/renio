@@ -43,4 +43,6 @@ export interface ProgramacionContrato {
   fecha_ultimo_pago: string | null;
   fecha_ultimo_pago_prima: string | null;
   fecha_ultimo_pago_cesantia: string | null;
+  tiempo_id: number;
+  tiempo_nombre: string | null;
 }

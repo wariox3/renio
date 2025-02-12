@@ -919,6 +919,8 @@ export class FormularioProductosComponent
       fecha_vence: documentoFactura.fecha_vence,
       metodo_pago: documentoFactura.metodo_pago_id,
       metodo_pago_nombre: documentoFactura.metodo_pago_nombre,
+      forma_pago: documentoFactura.forma_pago_id,
+      forma_pago_nombre: documentoFactura.forma_pago_nombre,
       orden_compra: documentoFactura.orden_compra,
       comentario: documentoFactura.comentario,
       plazo_pago: documentoFactura.plazo_pago_id,

@@ -1,0 +1,92 @@
+<form [formGroup]="formularioFormaPago" (ngSubmit)="enviarFormulario()">
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
+  <app-card>
+    <section card-titulo>
+      <ng-container *ngIf="tituloFijo; else tituliNoFijo">
+        {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+        {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
+      </ng-container>
+      <ng-template #tituliNoFijo>
+        <app-comun-titulo-accion></app-comun-titulo-accion>
+      </ng-template>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.FORMAPAGO.NOMBRE"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="nombre"
+            class="form-control bg-transparent"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFormaPago.controls['nombre'].touched &&
+                formularioFormaPago.controls['nombre'].invalid,
+              'is-valid':
+                formularioFormaPago.controls['nombre'].touched &&
+                formularioFormaPago.controls['nombre'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFormaPago.controls['nombre']
+            }"
+          ></ng-container>
+          <!-- <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '10',
+              control: formularioFormaPago.controls['prefijo']
+            }"
+          ></ng-container> -->
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
+            class="form-label"
+          ></label>
+          <app-comun-cuentas
+            [style]="'height: 3.4rem;'"
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaCodigo"
+            [cuentaNombre]="cuentaNombre"
+            [campoInvalido]="
+              formularioFormaPago.get('cuenta')?.touched &&
+              formularioFormaPago.get('cuenta')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

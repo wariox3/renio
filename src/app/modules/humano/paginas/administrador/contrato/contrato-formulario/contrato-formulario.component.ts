@@ -44,6 +44,7 @@ import { RegistroAutocompletarHumEntidad } from '@interfaces/comunes/autocomplet
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { RegistroAutocompletarHumTiempo } from '@interfaces/comunes/autocompletar/humano/hum-tiempo.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -86,6 +87,7 @@ export default class ContratoFormularioComponent
   autocompletarSucursal: RegistroAutocompletarHumSucursal[] = [];
   autocompletarTipoCotizante: RegistroAutocompletarHumTipoCotizante[] = [];
   autocompletarCargo: RegistroAutocompletarHumCargo[] = [];
+  autocompletarTiempo: RegistroAutocompletarHumTiempo[] = [];
   camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -190,6 +192,7 @@ export default class ContratoFormularioComponent
         entidad_caja: [null, Validators.required],
         entidad_pension: [null, Validators.required],
         entidad_cesantias: [null, Validators.required],
+        tiempo: [1, Validators.required],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -329,6 +332,13 @@ export default class ContratoFormularioComponent
           modelo: 'HumEntidad',
           serializador: 'ListaAutocompletar',
         }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTiempo>(
+        {
+          filtros: [],
+          modelo: 'HumTiempo',
+          serializador: 'ListaAutocompletar',
+        }
       )
     ).subscribe((respuesta) => {
       this.arrGrupo = respuesta[0].registros;
@@ -344,6 +354,7 @@ export default class ContratoFormularioComponent
       this.arrEntidadPension = respuesta?.[10].registros;
       this.arrEntidadCaja = respuesta?.[11].registros;
       this.arrEntidadCesantias = respuesta?.[12].registros;
+      this.autocompletarTiempo = respuesta?.[13].registros;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -475,6 +486,7 @@ export default class ContratoFormularioComponent
           entidad_caja: respuesta.entidad_caja_id,
           entidad_pension: respuesta.entidad_pension_id,
           entidad_cesantias: respuesta.entidad_cesantias_id,
+          tiempo: respuesta.tiempo_id
         });
 
         this._modificarFechasContratoIndefinido(respuesta.fecha_desde);

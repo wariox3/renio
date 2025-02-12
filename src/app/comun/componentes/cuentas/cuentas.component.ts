@@ -36,6 +36,7 @@ export class CuentasComponent
 {
   cuentaSeleccionada: any | null = null;
   arrCuentasLista: any[];
+  @Input() style: string = ''
   @Input() cuentaCodigo: string = '';
   @Input() cuentaNombre: string = '';
   @Input() documentoEnlazado: boolean;
