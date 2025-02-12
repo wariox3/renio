@@ -138,6 +138,8 @@ export interface DocumentoFacturaRespuesta {
   documento_tipo_id: number;
   metodo_pago_id: number;
   metodo_pago_nombre: string;
+  forma_pago_id: number;
+  forma_pago_nombre: string;
   estado_anulado: boolean;
   comentario: any;
   estado_electronico: boolean;

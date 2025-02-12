@@ -45,6 +45,8 @@ export class FormularioFacturaService {
             Validators.pattern(/^[a-z-0-9.-_]*$/),
           ]),
         ],
+        forma_pago: [null],
+        forma_pago_nombre: [''],
         metodo_pago: [1, Validators.required],
         metodo_pago_nombre: [''],
         total: [0],

@@ -44,6 +44,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -66,6 +68,7 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
     SoloNumerosDirective,
     ImportarPersonalizadoComponent,
     NgbDropdownModule,
+    NgSelectModule,
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -74,6 +77,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   public acumuladorImpuesto: AcumuladorImpuestos = {};
   public modoEdicion: boolean = false;
+  public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
 
   informacionFormulario: any;
   formularioFactura: FormGroup;
@@ -202,11 +206,18 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
         }
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenFormaPago>(
+        {
+          modelo: 'GenFormaPago',
+          serializador: 'ListaAutocompletar',
+        }
       )
     ).pipe(
       tap((respuesta) => {
         this.arrMetodosPago = respuesta[0].registros;
         this.arrPlazoPago = respuesta[1].registros;
+        this.formaPagoLista = respuesta[2].registros;
         this.changeDetectorRef.detectChanges();
       })
     );

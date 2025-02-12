@@ -252,49 +252,22 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
+        <div class="col-md-6 col-sm-12">
           <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="metodo_pago"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].invalid,
-              'is-valid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].valid
-            }"
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
           >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.metodo_pago_id"
-              [selected]="
-                metodoPago.metodo_pago_id ===
-                formularioFactura.controls.metodo_pago_id
-              "
-            >
-              {{ metodoPago.metodo_pogo_nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['metodo_pago']
-            }"
-          ></ng-container>
+          </label>
+          <ng-select
+            [items]="formaPagoLista"
+            bindLabel="forma_pago_nombre"
+            bindValue="forma_pago_id"
+            formControlName="forma_pago"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
@@ -439,7 +412,7 @@
             }"
           ></ng-container>
         </div>
-        
+
         <div class="col-md-3 col-sm-12">
           <label
             class="form-label"
@@ -495,8 +468,7 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row">
-      </div>
+      <div class="row"></div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
