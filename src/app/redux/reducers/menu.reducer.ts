@@ -205,7 +205,10 @@ export const initialState: MenuItem = {
               nombre: 'FORMAPAGO',
               tipo: 'administrador',
               modulo: 'compra',
-              data: { modelo: 'GenFormaPago' },
+              data: {
+                modelo: 'GenFormaPago',
+                ordenamiento: 'id',
+              },
             },
           ],
         },
