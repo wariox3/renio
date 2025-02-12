@@ -539,6 +539,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
+          FORMAPAGO: 'Forma pago'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
