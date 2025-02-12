@@ -408,6 +408,61 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-md-3 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_PREFIJO"
+          ></label>
+          <input
+            formControlName="referencia_prefijo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['referencia_prefijo'].touched &&
+                formularioFactura.controls['referencia_prefijo'].invalid,
+              'is-valid':
+                formularioFactura.controls['referencia_prefijo'].touched &&
+                formularioFactura.controls['referencia_prefijo'].valid
+            }"
+          />
+
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '50',
+              control: formularioFactura.controls['referencia_prefijo']
+            }"
+          ></ng-container>
+        </div>
+        
+        <div class="col-md-3 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_NUMERO"
+          ></label>
+          <input
+            formControlName="referencia_numero"
+            class="form-control"
+            type="number"
+            min="0"
+            appSoloNumeros
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['referencia_numero'].touched &&
+                formularioFactura.controls['referencia_numero'].invalid,
+              'is-valid':
+                formularioFactura.controls['referencia_numero'].touched &&
+                formularioFactura.controls['referencia_numero'].valid
+            }"
+          />
+        </div>
+
         <div class="col-md-6 col-sm-12">
           <label
             class="form-label"
@@ -439,61 +494,8 @@
             }"
           ></ng-container>
         </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_NUMERO"
-          ></label>
-          <input
-            formControlName="referencia_numero"
-            class="form-control"
-            type="number"
-            min="0"
-            appSoloNumeros
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['referencia_numero'].touched &&
-                formularioFactura.controls['referencia_numero'].invalid,
-              'is-valid':
-                formularioFactura.controls['referencia_numero'].touched &&
-                formularioFactura.controls['referencia_numero'].valid
-            }"
-          />
-        </div>
       </div>
       <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_PREFIJO"
-          ></label>
-          <input
-            formControlName="referencia_prefijo"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['referencia_prefijo'].touched &&
-                formularioFactura.controls['referencia_prefijo'].invalid,
-              'is-valid':
-                formularioFactura.controls['referencia_prefijo'].touched &&
-                formularioFactura.controls['referencia_prefijo'].valid
-            }"
-          />
-
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioFactura.controls['referencia_prefijo']
-            }"
-          ></ng-container>
-        </div>
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
