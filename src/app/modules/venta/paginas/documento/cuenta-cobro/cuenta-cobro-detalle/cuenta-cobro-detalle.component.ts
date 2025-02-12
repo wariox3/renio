@@ -99,6 +99,7 @@ export default class CuentaCobroDetalleComponent extends General {
         this.documento = respuesta.documento;
         this.totalAfectado = respuesta.documento.afectado;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
+        this._reniciarCamposTotales();
 
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
@@ -122,6 +123,16 @@ export default class CuentaCobroDetalleComponent extends General {
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  private _reniciarCamposTotales() {
+    this.totalCantidad = 0;
+    this.totalDescuento = 0;
+    this.subtotalGeneral = 0;
+    this.totalNetoGeneral = 0;
+    this.totalGeneral = 0;
+    this.totalBase = 0;
+  }
+
 
   itemDesaprobadoEvent() {
     this.consultardetalle();
