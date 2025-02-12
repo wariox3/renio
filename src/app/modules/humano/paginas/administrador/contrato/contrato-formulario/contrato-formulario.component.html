@@ -313,29 +313,44 @@
       </div>
 
       <div class="row mb-5">
-        <!-- Selector cargo -->
+        <!-- Selector tipo tiempo -->
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.TIEMPO"
           ></label>
-          <ng-select
-            [items]="autocompletarCargo"
-            bindLabel="cargo_nombre"
-            bindValue="cargo_id"
-            formControlName="cargo"
-            notFoundText="Sin elementos"
-            (change)="seleccionarCargoAdcional($event)"
-            placeholder="Selecciona un elemento"
-            class="select2Custom"
+          <select
+            class="form-select"
+            formControlName="tiempo"
+            [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['tiempo'].touched &&
+                formularioContrato.controls['tiempo'].invalid,
+              'is-valid':
+                formularioContrato.controls['tiempo'].touched &&
+                formularioContrato.controls['tiempo'].valid
+            }"
           >
-          </ng-select>
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let tiempo of autocompletarTiempo"
+              [value]="tiempo.tiempo_id"
+              [selected]="
+                tiempo.tiempo_id ===
+                formularioContrato.controls['tiempo']!.value
+              "
+            >
+              {{ tiempo.tiempo_nombre }}
+            </option>
+          </select>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['cargo']
+              control: formularioContrato.controls['tiempo']
             }"
           ></ng-container>
         </div>
@@ -366,6 +381,34 @@
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioContrato.controls['salario']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <!-- Selector cargo -->
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CARGO"
+          ></label>
+          <ng-select
+            [items]="autocompletarCargo"
+            bindLabel="cargo_nombre"
+            bindValue="cargo_id"
+            formControlName="cargo"
+            notFoundText="Sin elementos"
+            (change)="seleccionarCargoAdcional($event)"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContrato.controls['cargo']
             }"
           ></ng-container>
         </div>
