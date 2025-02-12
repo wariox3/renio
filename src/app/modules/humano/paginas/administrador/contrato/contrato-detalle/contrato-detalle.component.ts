@@ -14,14 +14,12 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { FechasService } from '@comun/services/fechas.service';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
 import { ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { TranslateModule } from '@ngx-translate/core';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-contrato-detalle',
@@ -44,7 +42,6 @@ export default class ContratoDetalleComponent
 {
   private _formBuilder = inject(FormBuilder);
   private _modalService = inject(NgbModal);
-  private _fechasService = inject(FechasService);
   private _httpService = inject(HttpService);
 
   public formularioTerminar: FormGroup;
@@ -98,7 +95,9 @@ export default class ContratoDetalleComponent
     entidad_salud_nombre: '',
     fecha_ultimo_pago: null,
     fecha_ultimo_pago_prima: null,
-    fecha_ultimo_pago_cesantia: null
+    fecha_ultimo_pago_cesantia: null,
+    tiempo_id: 0,
+    tiempo_nombre: null
   };
 
   ngOnInit() {
