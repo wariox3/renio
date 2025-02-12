@@ -97,10 +97,10 @@ export const initialState: MenuItem = {
     },
     {
       nombre: 'compra',
-      menuOpen: true,
       children: [
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'FACTURACOMPRA',
@@ -238,7 +238,6 @@ export const initialState: MenuItem = {
     },
     {
       nombre: 'contabilidad',
-      menuOpen: true,
       children: [
         {
           nombre: 'independientes',
@@ -283,6 +282,7 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'documento',
+          menuOpen: true,
           children: [
             {
               nombre: 'ASIENTO',
@@ -447,7 +447,6 @@ export const initialState: MenuItem = {
         },
         {
           nombre: 'seguridadSocial',
-          menuOpen: true,
           children: [
             {
               nombre: 'APORTE',
