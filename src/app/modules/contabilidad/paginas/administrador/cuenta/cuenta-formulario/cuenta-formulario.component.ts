@@ -106,7 +106,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
       cuenta_grupo: [null, [Validators.required]],
       cuenta_cuenta: [null, [Validators.required]],
       exige_base: [false],
-      exige_tercero: [false],
+      exige_contacto: [false],
       exige_grupo: [false],
       permite_movimiento: [false],
     });
@@ -169,7 +169,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
           codigo: respuesta.codigo,
           nombre: respuesta.nombre,
           exige_base: respuesta.exige_base,
-          exige_tercero: respuesta.exige_tercero,
+          exige_contacto: respuesta.exige_contacto,
           exige_grupo: respuesta.exige_grupo,
           permite_movimiento: respuesta.permite_movimiento,
           cuenta_clase: respuesta.cuenta_clase_id,

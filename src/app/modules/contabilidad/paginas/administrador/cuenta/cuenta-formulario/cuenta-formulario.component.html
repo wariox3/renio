@@ -237,25 +237,25 @@
             />
             <label class="form-check-label" for="exige_base">Exige base</label>
           </div>
-          <!-- Exige tercero check -->
+          <!-- Exige contacto check -->
           <div class="form-check form-check-custom form-check-solid">
             <input
               class="form-check-input"
               type="checkbox"
               value="1"
-              id="exige_tercero"
-              formControlName="exige_tercero"
+              id="exige_contacto"
+              formControlName="exige_contacto"
               [ngClass]="{
                 'is-invalid':
-                  formularioConCuenta.controls['exige_tercero'].touched &&
-                  formularioConCuenta.controls['exige_tercero'].invalid,
+                  formularioConCuenta.controls['exige_contacto'].touched &&
+                  formularioConCuenta.controls['exige_contacto'].invalid,
                 'is-valid':
-                  formularioConCuenta.controls['exige_tercero'].touched &&
-                  formularioConCuenta.controls['exige_tercero'].valid
+                  formularioConCuenta.controls['exige_contacto'].touched &&
+                  formularioConCuenta.controls['exige_contacto'].valid
               }"
             />
-            <label class="form-check-label" for="exige_tercero"
-              >Exige tercero</label
+            <label class="form-check-label" for="exige_contacto"
+              >Exige contacto</label
             >
           </div>
           <!-- Exige grupo check -->

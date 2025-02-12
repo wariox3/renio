@@ -35,7 +35,7 @@ export default class CuentaDetalleComponent extends General implements OnInit {
     codigo: '',
     exige_base: false,
     exige_grupo: false,
-    exige_tercero: false,
+    exige_contacto: false,
     permite_movimiento: false,
     cuenta_clase: null,
     cuenta_clase_id: 0,
