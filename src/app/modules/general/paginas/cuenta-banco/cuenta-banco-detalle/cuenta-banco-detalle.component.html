@@ -17,29 +17,40 @@
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRECORTO"
           ></td>
-          <td >{{ documento_banco.nombre }}</td>
+          <td>{{ documento_banco.nombre }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NUMEROCUENTA"
           ></td>
-          <td >{{ documento_banco.numero_cuenta }}</td>
+          <td>{{ documento_banco.numero_cuenta }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOTIPO"
           ></td>
-          <td >{{ documento_banco.cuenta_banco_tipo_nombre }}</td>
+          <td>{{ documento_banco.cuenta_banco_tipo_nombre }}</td>
         </tr>
         <tr>
           <td
-          class="fw-bold text-gray-800 fs-6 bg-gray-100"
-          translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
-        ></td>
-        <td >{{ documento_banco.cuenta_banco_clase_nombre }}</td>
+            class="fw-bold text-gray-800 fs-6 bg-gray-100"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
+          ></td>
+          <td>{{ documento_banco.cuenta_banco_clase_nombre }}</td>
         </tr>
+        <tr>
+          <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Cuenta</td>
+          <td colspan="5">
+            {{
+              documento_banco.cuenta_nombre
+                ? documento_banco.cuenta_codigo + " - " + documento_banco.cuenta_nombre
+                : ""
+            }}
+          </td>
+        </tr>
+      </tbody>
     </table>
   </section>
 </app-card>

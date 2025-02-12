@@ -7,8 +7,10 @@ import {
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   computed,
+  ElementRef,
   EventEmitter,
   inject,
   Input,
@@ -77,11 +79,14 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
     CardComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
   providers: [provideNgxMask()],
 })
-export default class ContactDetalleComponent extends General implements OnInit {
+export default class ContactDetalleComponent
+  extends General
+  implements OnInit, AfterViewInit
+{
   formularioContacto: FormGroup;
   informacionContacto: any;
   arrCiudades: RegistroAutocompletarGenCiudad[];
@@ -115,6 +120,10 @@ export default class ContactDetalleComponent extends General implements OnInit {
   @Output() emitirGuardoRegistro: EventEmitter<Contacto> = new EventEmitter();
   @ViewChild(NgbDropdown, { static: true })
   public ciudadDropdown: NgbDropdown;
+  @ViewChild('inputNombre1', { read: ElementRef })
+  inputNombre1: ElementRef<HTMLInputElement>;
+  @ViewChild('inputNombreCorto', { read: ElementRef })
+  inputNombreCorto: ElementRef<HTMLInputElement>;
   private readonly _generalService = inject(GeneralService);
   private readonly _contactoService = inject(ContactoService);
 
@@ -133,8 +142,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
-
     this._iniciarSuscripcionesFormularioContacto();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.inputNombreCorto?.nativeElement.value === '') {
+      this.inputNombreCorto?.nativeElement.focus();
+    }
   }
 
   private _iniciarSuscripcionesFormularioContacto() {
@@ -282,11 +296,13 @@ export default class ContactDetalleComponent extends General implements OnInit {
           Validators.compose([Validators.required, Validators.maxLength(1)]),
         ],
         identificacion: ['', Validators.compose([Validators.required])],
-        nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
+        nombre_corto: [
+          null,
+          Validators.compose([Validators.maxLength(200), Validators.required]),
+        ],
         nombre1: [
           null,
           Validators.compose([
-            Validators.required,
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
             Validators.maxLength(50),
           ]),
@@ -301,7 +317,6 @@ export default class ContactDetalleComponent extends General implements OnInit {
         apellido1: [
           null,
           Validators.compose([
-            Validators.required,
             Validators.maxLength(50),
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
           ]),
@@ -475,6 +490,15 @@ export default class ContactDetalleComponent extends General implements OnInit {
         this.activatedRoute.snapshot.queryParams['detalle'] &&
         this.ocultarBtnAtras === false
       ) {
+        if (this.formularioContacto.get('tipo_persona')?.value == 1) {
+          this.formularioContacto.patchValue({
+            nombre1: null,
+            nombre2: null,
+            apellido1: null,
+            apellido2: null,
+          });
+        }
+
         this._contactoService
           .actualizarDatosContacto(this.detalle, this.formularioContacto.value)
           .subscribe((respuesta) => {
@@ -730,6 +754,11 @@ export default class ContactDetalleComponent extends General implements OnInit {
             apellido1: null,
             apellido2: null,
           });
+        } else {
+          //2 natural
+          setTimeout(() => {
+            this.inputNombre1?.nativeElement.focus();
+          }, 1);
         }
         this.changeDetectorRef.detectChanges();
       });

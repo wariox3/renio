@@ -12,8 +12,8 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
 
 @Component({
   selector: 'app-nota-debito-detalle',
@@ -33,8 +33,8 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     BaseEstadosComponent,
     DetallesTotalesComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
-],
+    DocumentoOpcionesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
   active: Number;
@@ -87,6 +87,7 @@ export default class FacturaDetalleComponent extends General {
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
+        this._reniciarCamposTotales();
 
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
@@ -112,6 +113,15 @@ export default class FacturaDetalleComponent extends General {
       });
   }
 
+  private _reniciarCamposTotales() {
+    this.totalCantidad = 0;
+    this.totalDescuento = 0;
+    this.subtotalGeneral = 0;
+    this.totalNetoGeneral = 0;
+    this.totalGeneral = 0;
+    this.totalBase = 0;
+  }
+
   aprobar() {
     this.alertaService
       .confirmarSinReversa()
@@ -129,7 +139,7 @@ export default class FacturaDetalleComponent extends General {
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
-            this.documento = respuestaConsultaDetalle.documento;;
+            this.documento = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
             );
