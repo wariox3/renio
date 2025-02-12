@@ -211,6 +211,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         {
           modelo: 'GenFormaPago',
           serializador: 'ListaAutocompletar',
+          ordenamientos: ['id'],
         }
       )
     ).pipe(
