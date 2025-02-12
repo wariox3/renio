@@ -26,7 +26,7 @@ import {
   RegistroAutocompletarGenCuentaBancoClase,
   RegistroAutocompletarGenCuentaBancoTipo,
 } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
-import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
+import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -41,8 +41,8 @@ import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuent
     NgSelectModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    CuentasComponent
-],
+    CuentasComponent,
+  ],
   templateUrl: './cuenta-banco-formulario.component.html',
   styleUrl: './cuenta-banco-formulario.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -120,6 +120,14 @@ export default class CuentaBancoFormularioComponent
   enviarFormulario() {
     if (this.formularioCuentaBanco.valid) {
       if (this.detalle) {
+
+        if (this.formularioCuentaBanco.get('cuenta_banco_tipo')?.value === 3) {
+          this.formularioCuentaBanco.patchValue({
+            numero_cuenta: null,
+            cuenta_banco_clase: null,
+          });
+        }
+
         this.cuentaBancoService
           .actualizarDatos(this.detalle, this.formularioCuentaBanco.value)
           .subscribe((respuesta) => {
@@ -162,11 +170,11 @@ export default class CuentaBancoFormularioComponent
           cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
           nombre: respuesta.nombre,
           numero_cuenta: respuesta.numero_cuenta,
-          cuenta: respuesta.cuenta_id
+          cuenta: respuesta.cuenta_id,
         });
 
-      this.cuentaCobrarCodigo = respuesta.cuenta_codigo
-        this.cuentaCobrarNombre = respuesta.cuenta_nombre
+        this.cuentaCobrarCodigo = respuesta.cuenta_codigo;
+        this.cuentaCobrarNombre = respuesta.cuenta_nombre;
         if (respuesta.cuenta_banco_tipo_id !== 3) {
           this.visualizarCampoNumeroCuenta = true;
           this.formularioCuentaBanco
@@ -244,6 +252,9 @@ export default class CuentaBancoFormularioComponent
           this.formularioCuentaBanco
             .get('numero_cuenta')
             ?.setValidators([Validators.maxLength(50)]);
+          this.formularioCuentaBanco
+            .get('numero_cuenta')
+            ?.updateValueAndValidity();
           this.changeDetectorRef.detectChanges();
           this.formularioCuentaBanco.get('cuenta_banco_clase')?.setValue(null);
         }
@@ -252,14 +263,14 @@ export default class CuentaBancoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarCuentaSeleccionado(cuenta: any){
+  agregarCuentaSeleccionado(cuenta: any) {
     this.formularioCuentaBanco.get('cuenta')?.setValue(cuenta.cuenta_id);
     this.cuentaCobrarNombre = cuenta.cuenta_nombre;
     this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
-  limpiarCuentaSeleccionado(){
+  limpiarCuentaSeleccionado() {
     this.formularioCuentaBanco.get('cuenta')?.setValue(null);
     this.cuentaCobrarNombre = '';
     this.cuentaCobrarCodigo = '';
