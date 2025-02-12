@@ -13,6 +13,7 @@ export type Modelo =
   | 'GenAsesor'
   | 'GenSede'
   | 'GenContacto'
+  | 'GenFormaPago'
   | 'GenPlazoPago'
   | 'GenBanco'
   | 'GenEmpleado'
