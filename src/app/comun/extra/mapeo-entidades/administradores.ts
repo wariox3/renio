@@ -832,6 +832,41 @@ export const mapeo: MapeoAdministrador = {
       },
     ],
   },
+  GenFormaPago: {
+    modulo: 'general',
+    modelo: 'GenFormaPago',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CUENTA_CODIGO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'CUENTA_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+    ],
+  },
   InvAlmacen: {
     modulo: 'inventario',
     modelo: 'InvAlamacen',

@@ -101,7 +101,9 @@ export const locale = {
         SALDOINICIAL: 'Saldo inicial',
         CONTABILIZAR: 'Contabilizar',
         HUMSUCURSAL: 'Sucursal',
-        SUCURSAL: 'Sucursal'
+        SUCURSAL: 'Sucursal',
+        FORMAPAGO: 'Forma pago',
+        GENFORMAPAGO: 'Forma pago',
       },
     },
     FORMULARIOS: {
@@ -335,7 +337,7 @@ export const locale = {
           INFORMACIONFACTURACION: 'Información de facturación',
           PRODUCTOCUENTA: 'Item / Cuenta',
           DESCARTAR: 'Descartar',
-          CONTABILIZAR: 'Contabilizar'
+          CONTABILIZAR: 'Contabilizar',
         },
         GENERAL: {
           ITEM: {
@@ -443,7 +445,7 @@ export const locale = {
             EXISTENCIA: 'Existencia',
             DISPONIBLE: 'Disponible',
             CUENTAVENTA: 'Cuenta venta',
-            CUENTACOBRAR: 'Cuenta compra'
+            CUENTACOBRAR: 'Cuenta compra',
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
@@ -463,6 +465,10 @@ export const locale = {
             CONSECUTIVOHASTA: 'Consecutivo hasta',
             PRODUCCION: 'Producción',
             PRUEBA: 'Prueba',
+          },
+          FORMAPAGO: {
+            NOMBRE: 'Nombre',
+            CUENTANOMBRE: 'Cuenta'
           },
           PRECIO: {
             TIPO: 'Tipo',
@@ -988,6 +994,12 @@ export const locale = {
         FECHA_DESDE: 'Fecha desde',
         FECHA_HASTA: 'Fecha hasta',
       },
+      FORMAPAGO: {
+        ID: 'ID',
+        NOMBRE: 'Nombre',
+        CUENTA_NOMBRE: 'Cuenta nombre',
+        CUENTA_CODIGO: 'Cuenta código',
+      },
       ASESOR: {
         ID: 'ID',
         NOMBRE_CORTO: 'Nombre',
@@ -1169,7 +1181,7 @@ export const locale = {
         ID: 'ID',
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
-      }
+      },
     },
     TEMA: {
       CLARO: 'Claro',
