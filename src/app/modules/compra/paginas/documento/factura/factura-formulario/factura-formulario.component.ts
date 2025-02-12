@@ -218,6 +218,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.arrMetodosPago = respuesta[0].registros;
         this.arrPlazoPago = respuesta[1].registros;
         this.formaPagoLista = respuesta[2].registros;
+        this._sugerirPrimerValorFormaPago();
         this.changeDetectorRef.detectChanges();
       })
     );
@@ -1066,6 +1067,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this.formularioFactura
         .get('fecha_vence')
         ?.setValue(this.formularioFactura.get('fecha')?.value);
+    }
+  }
+
+  private _sugerirPrimerValorFormaPago() {
+    if (!this.detalle) {
+      if (this.formaPagoLista.length > 0) {
+        this.formularioFactura.patchValue({
+          forma_pago: this.formaPagoLista?.[0].forma_pago_id,
+        });
+      }
     }
   }
 }
