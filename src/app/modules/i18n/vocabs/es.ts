@@ -809,7 +809,7 @@ export const locale = {
         NETO: 'Neto',
         ESTADO_APROBADO_ABREVIATURA: 'Apr',
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
-        ESTADO_ELECTRONICO_ABREVIATURA: 'Elec',
+        ESTADO_ELECTRONICO_ABREVIATURA: 'Ele',
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
         CONTACTO: 'Contacto',
