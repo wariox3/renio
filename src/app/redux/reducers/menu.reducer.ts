@@ -341,6 +341,13 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               archivoImportacionLista: 'ConCuenta.xlxs',
               data: { modelo: 'ConCuenta', ordenamiento: 'codigo' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
             },
             // {
             //   nombre: 'COMPROBANTE',
@@ -352,6 +359,13 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               modulo: 'contabilidad',
               data: { modelo: 'ConGrupo' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
