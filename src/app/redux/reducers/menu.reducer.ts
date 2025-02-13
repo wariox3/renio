@@ -62,7 +62,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -184,7 +184,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -329,7 +329,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -539,7 +539,7 @@ export const initialState: MenuItem = {
                 },
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
                 {
@@ -711,7 +711,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -850,7 +850,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -1007,7 +1007,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
