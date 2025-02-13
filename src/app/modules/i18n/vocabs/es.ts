@@ -810,6 +810,7 @@ export const locale = {
         ESTADO_APROBADO_ABREVIATURA: 'Apr',
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
         ESTADO_ELECTRONICO_ABREVIATURA: 'Ele',
+        ESTADO_CONTABILIZADO_ABREVIATURA: 'Con',
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
         CONTACTO: 'Contacto',
