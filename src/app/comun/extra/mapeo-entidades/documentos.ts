@@ -546,11 +546,12 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
-      campoTipo: 'Fk',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
+      campoTipo: 'CharField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
-      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
