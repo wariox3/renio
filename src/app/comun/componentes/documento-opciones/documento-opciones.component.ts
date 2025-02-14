@@ -370,7 +370,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           0
         );
 
-        this.changeDetectorRef.detach();
+        this.changeDetectorRef.detectChanges();
       });
   }
 }
