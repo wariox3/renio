@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -15,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './detalles-totales.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetallesTotalesComponent implements OnInit {
+export class DetallesTotalesComponent implements OnChanges {
   @Input() detalles: any[];
   @Input() totalBase: number;
   @Input() totalCantidad: number;
@@ -29,8 +31,13 @@ export class DetallesTotalesComponent implements OnInit {
     [string: string]: { operado: number; total: number };
   } = {};
 
-  ngOnInit(): void {
-    this._acumularImpuestos(this.detalles);
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    if (changes['detalles']) {
+      this._limpiarImpuestos();
+      this._acumularImpuestos(this.detalles);
+    }
   }
 
   private _acumularImpuestos(documentos: any[]) {
@@ -53,5 +60,9 @@ export class DetallesTotalesComponent implements OnInit {
     });
 
     return this.acumuladorImpuestos;
+  }
+
+  private _limpiarImpuestos() {
+    this.acumuladorImpuestos = {};
   }
 }
