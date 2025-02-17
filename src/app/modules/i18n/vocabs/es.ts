@@ -813,6 +813,7 @@ export const locale = {
         ESTADO_CONTABILIZADO_ABREVIATURA: 'Con',
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
+        ESTADO_CONTABILIZADO: 'Contabilizado',
         CONTACTO: 'Contacto',
         CLIENTE: 'Cliente',
         ESTADO: 'Estado',
