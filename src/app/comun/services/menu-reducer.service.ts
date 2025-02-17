@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { Store } from '@ngrx/store';
-import { obtenerMenuInformacion } from '@redux/selectors/menu.selectors';
+import { obtenerMenuInformacion, obtenerMenuSeleccion } from '@redux/selectors/menu.selectors';
 import { map, of, switchMap, tap } from 'rxjs';
 
 @Injectable({
@@ -11,6 +11,10 @@ export class MenuReducerService {
   private _store = inject(Store);
 
   constructor() {}
+
+  public getMenuSeleccionado() {
+    return this._store.select(obtenerMenuSeleccion)
+  }
 
   public getModuloItemInformacion(modulo: string, alias: string) {
     return this._store.select(obtenerMenuInformacion).pipe(
