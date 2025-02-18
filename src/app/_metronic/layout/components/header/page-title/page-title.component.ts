@@ -14,6 +14,7 @@ import { MenuReducerService } from '@comun/services/menu-reducer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { PageInfoService, PageLink } from '../../../core/page-info.service';
+import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
 
 interface Breadcrumb {
   label: string | null;
