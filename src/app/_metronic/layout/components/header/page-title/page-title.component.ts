@@ -58,50 +58,6 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
     this._initializeBreadcrumbs();
   }
 
-  // private _init() {
-  //   this._activatedRoute.queryParams.subscribe((value) => {
-  //     this._menuReducerService.getMenuSeleccionado().subscribe((valor) => {
-  //       this._menuReducerService
-  //         .getModuloItemInformacion(valor, value.alias)
-  //         .subscribe((response) => {
-  //           let menuTipo = this._transformarMenuTipo(response?.tipo);
-  //           let modelo = null;
-
-  //           if (response?.nombre !== undefined) {
-  //             modelo = this._translateService.instant(
-  //               `MENU.FUNCIONALIDAD.${response?.nombre.toLocaleUpperCase()}`
-  //             );
-  //           }
-
-  //           this.breadcrumbSignal.set([
-  //             {
-  //               label: valor,
-  //               url: valor,
-  //             },
-  //           ]);
-
-  //           if (menuTipo) {
-  //             this.breadcrumbSignal.update((prevBreadcrumb) => [
-  //               ...prevBreadcrumb,
-  //               {
-  //                 label: menuTipo,
-  //               },
-  //             ]);
-  //           }
-
-  //           if (modelo) {
-  //             this.breadcrumbSignal.update((prevBreadcrumb) => [
-  //               ...prevBreadcrumb,
-  //               {
-  //                 label: modelo,
-  //               },
-  //             ]);
-  //           }
-  //         });
-  //     });
-  //   });
-  // }
-
   private _initializeBreadcrumbs(): void {
     let breadcrumbs: Breadcrumb[] = [];
 
@@ -111,9 +67,10 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
           this._menuReducerService.getMenuSeleccionado().pipe(
             switchMap((menuSeleccionado) => {
               breadcrumbs = [];
+              const url = this._transformarMenuUrl(menuSeleccionado);
               breadcrumbs.push({
                 label: menuSeleccionado,
-                url: menuSeleccionado,
+                url,
               });
               return this._menuReducerService.getModuloItemInformacion(
                 menuSeleccionado,
@@ -145,6 +102,15 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
 
         this.breadcrumbSignal.set(breadcrumbs);
       });
+  }
+
+  private _transformarMenuUrl(url: string | undefined) {
+    switch (url) {
+      case 'general':
+        return 'dashboard';
+      default:
+        return url;
+    }
   }
 
   private _transformarMenuTipo(tipo: string | undefined) {
