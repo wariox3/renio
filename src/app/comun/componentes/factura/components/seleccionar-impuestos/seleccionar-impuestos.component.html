@@ -11,9 +11,9 @@
     </div>
     <div class="col-4 d-flex align-items-end flex-column justify-content-center">
       <div ngbDropdown container="body" #ImpuestoDropdown="ngbDropdown" class="d-inline-flex gap-1 align-self-start">
-        <input type="text" formControlName="impuestos" ngbDropdownAnchor class="cursor-pointer w-100"
-          (focus)="consultarImpuesto(); ImpuestoDropdown.open()" appSoloNumeros />
-        <i class="ki-duotone ki-down fs-2" (click)="consultarImpuesto(); ImpuestoDropdown.open()"></i>
+        <!-- <input type="text" formControlName="impuestos" ngbDropdownAnchor class=" w-50"
+          (focus)="consultarImpuesto(); ImpuestoDropdown.open()" appSoloNumeros /> -->
+        <i class="ki-duotone ki-down fs-2 cursor-pointer" (click)="consultarImpuesto(); ImpuestoDropdown.open()" ngbDropdownAnchor></i>
 
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu z-3 position-absolute p-3 rounded-3">
           <ng-container *ngFor="let impuesto of listaDeImpuestosSeleccionables$ | async">

@@ -18,3 +18,14 @@ input{
 .dropdown-menu {
   z-index: 1;
 }
+
+
+.dropdown-toggle {
+  padding-right: 50px;
+}
+
+
+.dropdown-toggle::after {
+  display: none !important;
+  content: none !important;
+}
