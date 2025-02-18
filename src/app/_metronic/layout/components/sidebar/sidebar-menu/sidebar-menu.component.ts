@@ -13,11 +13,13 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
+import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { asignarArchivoImportacionLista } from '@redux/actions/archivo-importacion.actions';
+import { configuracionVisualizarAppsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import {
   ActualizarDataItem,
@@ -31,8 +33,6 @@ import {
 } from '@redux/selectors/menu.selectors';
 import { filter, switchMap, tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -77,7 +77,7 @@ export class SidebarMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(
-      configuracionVisualizarAction({
+      configuracionVisualizarAppsAction({
         configuracion: {
           visualizarApps: true,
         },

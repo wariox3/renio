@@ -20,17 +20,20 @@
         <!-- end::Separator -->
       </ng-container>
 
-      @for (breadcrumb of breadcrumbSignal(); track $index; let first = $first,
-      last = $last) {
-      <span
-        [routerLink]="breadcrumb.url"
-        [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
-        appAnimationFadeinLeft
-        >{{ breadcrumb.label | titlecase }}</span
-      >
-      @if (!last) {
-      <span appAnimationFadeinLeft> / </span>
-      } }
+      @if(visualizarBreadcrumb$ | async){
+        @for (breadcrumb of breadcrumbSignal(); track $index; let first = $first,
+        last = $last) {
+        <span
+          [routerLink]="breadcrumb.url"
+          [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
+          appAnimationFadeinLeft
+          >{{ breadcrumb.label | titlecase }}</span
+        >
+        @if (!last) {
+        <span appAnimationFadeinLeft> / </span>
+        } }
+      }
+
     </span>
     <!-- end::Description -->
   </h1>

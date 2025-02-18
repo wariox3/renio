@@ -1,25 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { obtenerContenedorNombre } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerUsuarioId,
   obtenerUsuarioImagen,
-  obtenerUsuarioUserName,
   obtenerUsuarioNombreCompleto,
   obtenerUsuarioNombreCorto,
   obtenerUsuarioTelefono,
+  obtenerUsuarioUserName,
 } from '@redux/selectors/usuario.selectors';
-
-import { General } from '@comun/clases/general';
-import { ResumenService } from './services/resumen.service';
-import { switchMap, tap } from 'rxjs';
-import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 import { AsyncPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
+import { General } from '@comun/clases/general';
+import { TranslateModule } from '@ngx-translate/core';
+import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
+import { switchMap, tap } from 'rxjs';
 import { KeeniconComponent } from '../../_metronic/shared/keenicon/keenicon.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
+import { ResumenService } from './services/resumen.service';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 
 @Component({
     selector: 'app-profile',
@@ -36,7 +35,7 @@ import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/car
         AsyncPipe,
     ],
 })
-export class ProfileComponent extends General {
+export class ProfileComponent extends General implements OnInit, OnDestroy {
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   contenedorNombre = this.store.select(obtenerContenedorNombre);
   usuarioCorreo = this.store.select(obtenerUsuarioUserName);
@@ -46,6 +45,14 @@ export class ProfileComponent extends General {
 
   constructor(private resumenService: ResumenService) {
     super();
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(configuracionVisualizarBreadCrumbsAction({
+      configuracion: {
+        visualizarBreadCrumbs: false
+      }
+    }))
   }
 
   recuperarBase64(event: any) {
@@ -96,5 +103,16 @@ export class ProfileComponent extends General {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.alertaService.cerrarMensajes();
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: true,
+        },
+      })
+    );
   }
 }

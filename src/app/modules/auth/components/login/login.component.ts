@@ -15,7 +15,7 @@ import { environment } from '@env/environment';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { configutacionActionInit } from '@redux/actions/configuracion.actions';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
@@ -226,10 +226,11 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           this.store.dispatch(ContenedorActionInit({ contenedor }));
           this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
           this.store.dispatch(
-            configuracionVisualizarAction({
+            configutacionActionInit({
               configuracion: {
-                visualizarApps: true,
-              },
+                visualizarApps: false,
+                visualizarBreadCrumbs: false
+              }
             })
           );
           this.router.navigate(['/dashboard']);
@@ -237,6 +238,14 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
       }
 
     } else {
+      this.store.dispatch(
+        configutacionActionInit({
+          configuracion: {
+            visualizarApps: false,
+            visualizarBreadCrumbs: false
+          }
+        })
+      );
       this.router.navigate(['/contenedor/lista']);
     }
   }

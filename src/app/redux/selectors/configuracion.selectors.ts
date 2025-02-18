@@ -7,3 +7,8 @@ export const obtenerConfiguracionVisualizarApp = createSelector(
   Configuracion,
   (Configuracion) => Configuracion.visualizarApps
 );
+
+export const obtenerConfiguracionVisualizarBreadCrumbs = createSelector(
+  Configuracion,
+  (Configuracion) => Configuracion.visualizarBreadCrumbs
+);

@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
+import { Configuracion } from '@interfaces/configuracion/configuracion';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import {
+  configuracionVisualizarAppsAction,
+  configuracionVisualizarBreadCrumbsAction,
+  configutacionActionInit,
+} from '@redux/actions/configuracion.actions';
 import { tap } from 'rxjs/operators';
-import { setCookie } from 'typescript-cookie';
+import { getCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class ConfiguracionEffects {
-  guardarConenedor$ = createEffect(
+  guardarConfiguracion$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(configuracionVisualizarAction),
+        ofType(configutacionActionInit),
         tap((action) => {
           let calcularTresHoras = new Date(
             new Date().getTime() + 3 * 60 * 60 * 1000
@@ -27,6 +32,68 @@ export class ConfiguracionEffects {
               expires: calcularTresHoras,
               path: '/',
             });
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  // Efecto para actualizar la cookie de visualizarApps
+  actualizarVisualizarApps$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(configuracionVisualizarAppsAction),
+        tap((action) => {
+          let coockieConfiguracion = getCookie('configuracion');
+          if (coockieConfiguracion) {
+            let jsonConfiguracion: Configuracion =
+              JSON.parse(coockieConfiguracion);
+            jsonConfiguracion = {
+              ...jsonConfiguracion,
+              visualizarApps: action.configuracion.visualizarApps,
+            };
+
+            if (environment.production) {
+              setCookie('configuracion', JSON.stringify(jsonConfiguracion), {
+                path: '/',
+                domain: environment.dominioApp,
+              });
+            } else {
+              setCookie('configuracion', JSON.stringify(jsonConfiguracion), {
+                path: '/',
+              });
+            }
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  actualizarVisualizarBreadCrumbs$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(configuracionVisualizarBreadCrumbsAction),
+        tap((action) => {
+          let coockieConfiguracion = getCookie('configuracion');
+          if (coockieConfiguracion) {
+            if (coockieConfiguracion) {
+              let jsonConfiguracion: Configuracion =
+                JSON.parse(coockieConfiguracion);
+                jsonConfiguracion = {
+                  ...jsonConfiguracion,
+                  visualizarBreadCrumbs: action.configuracion.visualizarBreadCrumbs,
+                };
+              if (environment.production) {
+                setCookie('configuracion', JSON.stringify(jsonConfiguracion), {
+                  path: '/',
+                  domain: environment.dominioApp,
+                });
+              } else {
+                setCookie('configuracion', JSON.stringify(jsonConfiguracion), {
+                  path: '/',
+                });
+              }
+            }
           }
         })
       ),
