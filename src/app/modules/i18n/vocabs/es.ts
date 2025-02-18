@@ -910,6 +910,8 @@ export const locale = {
         CONT: 'Cont',
         INGRESOBASECOTIZACION: 'Base cotización',
         INGRESOBASEPRESTACION: 'Base prestación',
+        BASE_COTIZACION: 'Base cotización',
+        BASE_PRESTACION: 'Base prestación',
         ESTADOELECTRONICO: 'Estado electrónico',
         DOCUMENTO_TIPO_NOMBRE: 'Documento tipo nombre',
         PORCENTAJE: 'Porcentaje',
@@ -947,6 +949,8 @@ export const locale = {
         TIPODOCUMENTO: 'Tipo documento',
         EMPLEADOS: 'Empleados',
         LINEAS: 'Lineas',
+        HORA:'Hora',
+        DOCUMENTO_CONTACTO_NOMBRE_CORTO: 'Empleado'
       },
       ITEM: {
         ID: 'ID',
