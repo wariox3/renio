@@ -5,7 +5,7 @@ import { noRequiereToken } from '@interceptores/token.interceptor';
 import { Usuario } from '@interfaces/usuario/usuario';
 import { Token } from '@modulos/auth/interfaces/token.interface';
 import { Store } from '@ngrx/store';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import { configuracionVisualizarAppsAction, configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -213,9 +213,16 @@ export class AuthService implements OnDestroy {
     );
     if (window.location.host.includes(environment.dominioApp)) {
       this.store.dispatch(
-        configuracionVisualizarAction({
+        configuracionVisualizarAppsAction({
           configuracion: {
             visualizarApps: true,
+          },
+        })
+      );
+      this.store.dispatch(
+        configuracionVisualizarBreadCrumbsAction({
+          configuracion: {
+            visualizarBreadCrumbs: true,
           },
         })
       );

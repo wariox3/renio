@@ -2,10 +2,15 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   Renderer2,
   type OnInit,
 } from '@angular/core';
-import { CardComponent } from '../../../../comun/componentes/card/card.component';
+import { General } from '@comun/clases/general';
+import { FechasService } from '@comun/services/fechas.service';
+import { environment } from '@env/environment';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
+import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
 import {
   NgbActiveModal,
   NgbDropdownModule,
@@ -13,18 +18,15 @@ import {
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  Factura,
-  Consumo,
-} from '../../../../interfaces/facturacion/Facturacion';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { BehaviorSubject, zip } from 'rxjs';
-import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
-import { environment } from '@env/environment';
-import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
-import { FechasService } from '@comun/services/fechas.service';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import {
+  Consumo,
+  Factura,
+} from '@interfaces/facturacion/Facturacion';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
 import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';
 
@@ -43,11 +45,11 @@ import { InformacionFacturacionComponent } from '../informacion-facturacion/info
     NgbDropdownModule,
     InformacionFacturacionComponent,
     NgbModalModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
   providers: [NgbActiveModal],
 })
-export class FacturacionComponent extends General implements OnInit {
+export class FacturacionComponent extends General implements OnInit, OnDestroy {
   constructor(
     private facturacionService: FacturacionService,
     public fechaServices: FechasService,
@@ -72,6 +74,13 @@ export class FacturacionComponent extends General implements OnInit {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: false,
+        },
+      })
+    );
     this.consultarInformacion();
   }
 
@@ -266,5 +275,16 @@ export class FacturacionComponent extends General implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
       });
+  }
+
+  ngOnDestroy(): void {
+    this.alertaService.cerrarMensajes();
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: true,
+        },
+      })
+    );
   }
 }

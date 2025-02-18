@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { getCookie } from 'typescript-cookie';
-import { environment } from '@env/environment';
 import {
-  configuracionVisualizarAction,
+  configuracionVisualizarAppsAction,
+  configuracionVisualizarBreadCrumbsAction,
   configutacionActionInit,
 } from '@redux/actions/configuracion.actions';
+import { getCookie } from 'typescript-cookie';
 
 let contenedorDatos: any;
 
@@ -12,6 +12,7 @@ contenedorDatos = getCookie(`configuracion`);
 
 let estadoInicializado = {
   visualizarApps: false,
+  visualizarBreadCrumbs: false
 };
 
 export const initialState = contenedorDatos
@@ -26,12 +27,16 @@ export const configuracionReducer = createReducer(
       ...configuracion,
     };
   }),
-  on(configuracionVisualizarAction, (state, { configuracion }) => {
+  on(configuracionVisualizarAppsAction, (state, { configuracion }) => {
     return {
       ...state,
-      ...{
-        visualizarApps: configuracion.visualizarApps,
-      },
+      visualizarApps: configuracion.visualizarApps,
+    };
+  }),
+  on(configuracionVisualizarBreadCrumbsAction, (state, { configuracion }) => {
+    return {
+      ...state,
+      visualizarBreadCrumbs: configuracion.visualizarBreadCrumbs,
     };
   })
 );

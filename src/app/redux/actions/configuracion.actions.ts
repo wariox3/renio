@@ -6,7 +6,12 @@ export const configutacionActionInit = createAction(
   props<{ configuracion: Configuracion }>()
 );
 
-export const configuracionVisualizarAction = createAction(
+export const configuracionVisualizarAppsAction = createAction(
   '[Configuracion] actualizar visualizar apps',
-  props<{ configuracion: Configuracion }>()
+  props<{ configuracion: {visualizarApps: boolean} }>()
+);
+
+export const configuracionVisualizarBreadCrumbsAction = createAction(
+  '[Configuracion] actualizar BreadCrumbs',
+  props<{ configuracion: { visualizarBreadCrumbs: boolean } }>()
 );

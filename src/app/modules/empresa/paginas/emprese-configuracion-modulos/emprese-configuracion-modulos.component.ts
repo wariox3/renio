@@ -14,6 +14,7 @@ import { ConfiguracionTransporteComponent } from '@modulos/transporte/paginas/co
 import { ConfiguracionVentaComponent } from '@modulos/venta/paginas/configuracion/configuracion-venta.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import { obtenerMenuModulos } from '@redux/selectors/menu.selectors';
@@ -47,6 +48,13 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
   menuSeleccionado: AplicacionModulo = 'general'
 
   ngOnInit() {
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: false,
+        },
+      })
+    );
     this.store
       .select(obtenerConfiguracionVisualizarApp)
       .pipe(
@@ -69,5 +77,12 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
 
   ngOnDestroy(): void {
     this.alertaService.cerrarMensajes()
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: true,
+        },
+      })
+    );
   }
 }

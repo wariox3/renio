@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
-  signal,
+  signal
 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { General } from '@comun/clases/general';
+import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { MenuReducerService } from '@comun/services/menu-reducer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { PageInfoService, PageLink } from '../../../core/page-info.service';
-import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
+import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
+import { CapitalizePipe } from '@pipe/capitalize.pipe';
 
 interface Breadcrumb {
   label: string | null;
@@ -25,16 +26,15 @@ interface Breadcrumb {
 @Component({
   selector: 'app-page-title',
   templateUrl: './page-title.component.html',
-  imports: [CommonModule, AnimationFadeInLeftDirective, RouterLink],
+  imports: [CommonModule, AnimationFadeInLeftDirective, RouterLink, CapitalizePipe],
   standalone: true,
 })
 export class PageTitleComponent extends General implements OnInit, OnDestroy {
-  private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private unsubscribe: Subscription[] = [];
   private readonly _menuReducerService = inject(MenuReducerService);
   private readonly _translateService = inject(TranslateService);
-  private readonly _destroyRef = inject(DestroyRef);
+  public visualizarBreadcrumb$: Observable<boolean>
 
   public breadcrumbSignal = signal<Breadcrumb[]>([]);
 
@@ -56,6 +56,8 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
     this.bc$ = this.pageInfo.breadcrumbs.asObservable();
 
     this._initializeBreadcrumbs();
+
+    this.visualizarBreadcrumb$ = this.store.select(obtenerConfiguracionVisualizarBreadCrumbs)
   }
 
   private _initializeBreadcrumbs(): void {

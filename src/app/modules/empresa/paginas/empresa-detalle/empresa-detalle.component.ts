@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { empresaActualizacionImangenAction } from '@redux/actions/empresa.actions';
@@ -14,6 +14,7 @@ import { SharedModule } from '../../../../_metronic/shared/shared.module';
 import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { RouterModule } from '@angular/router';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 
 @Component({
   selector: 'app-empresa-detalle',
@@ -28,7 +29,10 @@ import { Empresa } from '@interfaces/contenedor/empresa.interface';
     RouterModule,
   ],
 })
-export class EmpresaDetalleComponent extends General implements OnInit {
+export class EmpresaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   empresa_id = this.activatedRoute.snapshot.paramMap.get('empresacodigo')!;
   obtenerEmpresaImagen$ = this.store.select(obtenerEmpresaImagen);
   informacionEmpresa: Empresa = {
@@ -60,6 +64,13 @@ export class EmpresaDetalleComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: false,
+        },
+      })
+    );
     this.store
       .select(obtenerEmpresaInformacion)
       .subscribe((empresa) => (this.informacionEmpresa = empresa));
@@ -101,5 +112,16 @@ export class EmpresaDetalleComponent extends General implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.alertaService.cerrarMensajes();
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: true,
+        },
+      })
+    );
   }
 }
