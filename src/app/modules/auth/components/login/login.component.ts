@@ -228,8 +228,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           this.store.dispatch(
             configutacionActionInit({
               configuracion: {
-                visualizarApps: false,
-                visualizarBreadCrumbs: false
+                visualizarApps: true,
+                visualizarBreadCrumbs: true
               }
             })
           );
