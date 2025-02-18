@@ -27,7 +27,7 @@
           [routerLink]="breadcrumb.url"
           [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
           appAnimationFadeinLeft
-          >{{ breadcrumb.label | titlecase }}</span
+          >{{ breadcrumb.label | appCapitalizePipe }}</span
         >
         @if (!last) {
         <span appAnimationFadeinLeft> / </span>

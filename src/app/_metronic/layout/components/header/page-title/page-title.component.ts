@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription, switchMap } from 'rxjs';
 import { PageInfoService, PageLink } from '../../../core/page-info.service';
 import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
+import { CapitalizePipe } from '@pipe/capitalize.pipe';
 
 interface Breadcrumb {
   label: string | null;
@@ -25,7 +26,7 @@ interface Breadcrumb {
 @Component({
   selector: 'app-page-title',
   templateUrl: './page-title.component.html',
-  imports: [CommonModule, AnimationFadeInLeftDirective, RouterLink],
+  imports: [CommonModule, AnimationFadeInLeftDirective, RouterLink, CapitalizePipe],
   standalone: true,
 })
 export class PageTitleComponent extends General implements OnInit, OnDestroy {
