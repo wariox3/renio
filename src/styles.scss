@@ -151,6 +151,10 @@ table {
   cursor: pointer;
 }
 
+.cursor-disabled {
+  cursor: not-allowed;
+}
+
 .encabezadoDetalle {
   display: grid;
   grid-template-columns: 2fr 1fr;
