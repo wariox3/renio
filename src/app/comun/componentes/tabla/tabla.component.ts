@@ -243,6 +243,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     }
   }
 
+  deshabilitarBotonDerecha() {
+    return this.cantidad_registros <= this.al;
+  }
+
+  deshabilitarBotonIzquierda() {
+    return this.lado < 1;
+  }
+
   botonExtra(nombreComponente: BotonesExtras) {
     this.emitirClickBotonExtra.emit(nombreComponente);
   }
@@ -476,7 +484,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   obtenerClasesCss(item: any): { [key: string]: boolean } {
     return {
       'cursor-pointer user-select-none': item.ordenable,
-      [item.classPersonalizado || '']: !!item.classPersonalizado
+      [item.classPersonalizado || '']: !!item.classPersonalizado,
     };
   }
 }
