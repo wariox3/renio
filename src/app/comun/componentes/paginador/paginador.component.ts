@@ -2,10 +2,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  signal,
-  SimpleChanges,
+  signal
 } from '@angular/core';
 
 @Component({
@@ -78,5 +76,13 @@ export class PaginadorComponent {
         limite: this.lado(),
       });
     }
+  }
+
+  deshabilitarBotonDerecha(){
+    return this._cantidadRegistros() <= this.al();
+  }
+
+  deshabilitarBotonIzquierda() {
+    return this.lado() < 1;
   }
 }
