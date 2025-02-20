@@ -73,38 +73,29 @@
             ></ng-container>
           </div>
         </section>
-        <!-- <section class="row mb-5">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.TITULOS.COMUNES.ANIO"
-          ></label>
-          <div class="col-md-6">
-            <input
-              formControlName="anio"
-              class="form-control"
-              min="0"
-              type="number"
-              [ngClass]="{
-                'is-invalid':
-                  formularioFiltros.controls['anio'].touched &&
-                  formularioFiltros.controls['anio'].invalid,
-                'is-valid':
-                  formularioFiltros.controls['anio'].touched &&
-                  formularioFiltros.controls['anio'].valid
-              }"
-              appSoloNumeros
-            />
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'required',
-                message:
-                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioFiltros.controls['anio']
-              }"
-            ></ng-container>
+        <section class="row mb-5">
+          <div class="col-md-6 col-sm-12">
+            <div class="form-check form-check-custom form-check-solid">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="cierre"
+                formControlName="cierre"
+                [ngClass]="{
+                  'is-invalid':
+                  formularioFiltros.controls['cierre'].touched &&
+                    formularioFiltros.controls['cierre'].invalid,
+                  'is-valid':
+                  formularioFiltros.controls['cierre'].touched &&
+                  formularioFiltros.controls['cierre'].valid
+                }"
+              />
+              <label class="form-check-label" for="cierre">
+                Incluir periodo cierre
+              </label>
+            </div>
           </div>
-        </section> -->
+        </section>
         <section class="d-flex justify-content-end">
           <button
             translate="FORMULARIOS.TITULOS.COMUNES.FILTRAR"
