@@ -1048,52 +1048,15 @@ export const initialState: MenuItem = {
         },
       ],
     },
-    {
-      nombre: 'transporte',
-      menuOpen: true,
-      children: [
-        {
-          nombre: '',
-          esIndependiente: true,
-          children: [
-            {
-              nombre: 'GUIA',
-              tipo: 'independiente',
-              urlIndependientes: {
-                lista: 'transporte/guia',
-              },
-              consultaHttp: false,
-              modulo: 'transporte',
-            },
-          ],
-        },
-        // {
-        //   nombre: 'documento',
-        // },
-        // {
-        //   nombre: 'administracion',
-        // },
-        // {
-        //   nombre: 'utilidad',
-        // },
-        // {
-        //   nombre: 'proceso',
-        // },
-        // {
-        //   nombre: 'informe',
-        // },
-      ],
-    },
   ],
   modulos: [
     'compra',
-    'venta',
-    'contabilidad',
-    'cartera',
-    'humano',
-    'inventario',
     'tesoreria',
-    'transporte',
+    'venta',
+    'cartera',
+    'inventario',
+    'humano',
+    'contabilidad',
   ],
   dataMapeo: [],
   dataItem: {
