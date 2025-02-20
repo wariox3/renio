@@ -130,6 +130,7 @@ export class BalancePruebaComponent extends General implements OnInit {
         // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
+        cierre: []
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -155,6 +156,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     // const anio = this.formularioFiltros.get('anio')?.value;
     const fechaDesde = this.formularioFiltros.get('fecha_desde')?.value;
     const fechaHasta = this.formularioFiltros.get('fecha_hasta')?.value;
+    const cierre = this.formularioFiltros.get('cierre')?.value;
 
     this._parametrosConsulta.filtros.push({
       propiedad: 'fecha_desde__gte',
@@ -172,6 +174,12 @@ export class BalancePruebaComponent extends General implements OnInit {
       busquedaAvanzada: 'false',
       modeloBusquedaAvanzada: '',
       campo: 'fecha_hasta',
+    });
+
+    this._parametrosConsulta.filtros.push({
+      propiedad: 'cierre',
+      operador: 'exact',
+      valor1: cierre,
     });
   }
 
