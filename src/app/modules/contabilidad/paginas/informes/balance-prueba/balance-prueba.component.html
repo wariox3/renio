@@ -81,16 +81,8 @@
                 type="checkbox"
                 id="cierre"
                 formControlName="cierre"
-                [ngClass]="{
-                  'is-invalid':
-                  formularioFiltros.controls['cierre'].touched &&
-                    formularioFiltros.controls['cierre'].invalid,
-                  'is-valid':
-                  formularioFiltros.controls['cierre'].touched &&
-                  formularioFiltros.controls['cierre'].valid
-                }"
               />
-              <label class="form-check-label" for="cierre">
+              <label class="form-check-label text-gray-700 fw-bold" for="cierre">
                 Incluir periodo cierre
               </label>
             </div>
