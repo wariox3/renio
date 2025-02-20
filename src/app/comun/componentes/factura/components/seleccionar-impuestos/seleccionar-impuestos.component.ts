@@ -116,6 +116,7 @@ export class SeleccionarImpuestosComponent
   }
 
   consultarImpuesto() {
+    this.alertaService.cerrarMensajes()
     switch (this.formularioTipo) {
       case 'compra':
         this.arrParametrosConsulta.filtros = [

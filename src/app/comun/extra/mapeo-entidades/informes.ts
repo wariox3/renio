@@ -404,10 +404,12 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'CONTACTO',
+      nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
       campoTipo: 'CharField',
-      visibleFiltro: false,
       visibleTabla: true,
+      visibleFiltro: true,
       ordenable: false,
     },
     // {

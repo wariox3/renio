@@ -99,17 +99,17 @@ export default class ContratoFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
   filtrosPermanentesEmpleado: FiltrosAplicados = {
@@ -416,7 +416,9 @@ export default class ContratoFormularioComponent
 
     if (campo === 'fecha_desde') {
       const fecha = dato.target.value;
-      this._modificarFechasContratoIndefinido(fecha);
+      if(fecha !== ''){
+        this._modificarFechasContratoIndefinido(fecha);
+      }
     }
 
     if (campo === 'contacto') {
@@ -486,7 +488,7 @@ export default class ContratoFormularioComponent
           entidad_caja: respuesta.entidad_caja_id,
           entidad_pension: respuesta.entidad_pension_id,
           entidad_cesantias: respuesta.entidad_cesantias_id,
-          tiempo: respuesta.tiempo_id
+          tiempo: respuesta.tiempo_id,
         });
 
         this._modificarFechasContratoIndefinido(respuesta.fecha_desde);
@@ -529,7 +531,7 @@ export default class ContratoFormularioComponent
   }
 
   cambioDeContratoTipo(event: Event) {
-    const selector = event.target as HTMLInputElement;
+    const selector = event.target as HTMLSelectElement;
 
     if (selector.value === '1') {
       this.formularioContrato.patchValue({

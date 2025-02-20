@@ -2,6 +2,7 @@
   <button
     class="btn btn-sm btn-icon btn-secondary p-2"
     (click)="disminuirDesplazamiento()"
+    [disabled]="deshabilitarBotonIzquierda()"
   >
     <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
       ><span class="path1"></span><span class="path2"></span
@@ -20,6 +21,7 @@
   <button
     class="btn btn-sm btn-icon btn-secondary p-2"
     (click)="aumentarDesplazamiento()"
+    [disabled]="deshabilitarBotonDerecha()"
   >
     <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
       ><span class="path1"></span><span class="path2"></span

@@ -30,5 +30,5 @@ import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-e
 })
 
 export class EmpresaConfiguracionComponent {
- 
+
 }

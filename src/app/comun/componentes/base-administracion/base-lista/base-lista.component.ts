@@ -65,6 +65,7 @@ export class BaseListaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.alertaService.cerrarMensajes();
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.arrParametrosConsulta.desplazar = 0
       this.arrParametrosConsulta.ordenamientos = [];
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;

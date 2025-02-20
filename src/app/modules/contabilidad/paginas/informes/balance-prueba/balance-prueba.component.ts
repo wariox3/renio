@@ -67,7 +67,8 @@ export class BalancePruebaComponent extends General implements OnInit {
     serializador: 'Informe',
     filtros: [
       {
-        propiedad: 'fecha_desde__gte',
+        propiedad: 'fecha_desde',
+        operador: 'gte',
         valor1: '2024-12-01',
         tipo: 'DateField',
         busquedaAvanzada: 'false',
@@ -75,7 +76,8 @@ export class BalancePruebaComponent extends General implements OnInit {
         campo: 'fecha_desde',
       },
       {
-        propiedad: 'fecha_hasta__lte',
+        propiedad: 'fecha_hasta',
+        operador: 'lte',
         valor1: '2024-12-31',
         tipo: 'DateField',
         busquedaAvanzada: 'false',
@@ -130,6 +132,7 @@ export class BalancePruebaComponent extends General implements OnInit {
         // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
+        cierre: [],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -155,9 +158,11 @@ export class BalancePruebaComponent extends General implements OnInit {
     // const anio = this.formularioFiltros.get('anio')?.value;
     const fechaDesde = this.formularioFiltros.get('fecha_desde')?.value;
     const fechaHasta = this.formularioFiltros.get('fecha_hasta')?.value;
+    const cierre = this.formularioFiltros.get('cierre')?.value;
 
     this._parametrosConsulta.filtros.push({
-      propiedad: 'fecha_desde__gte',
+      propiedad: 'fecha_desde',
+      operador: 'gte',
       valor1: fechaDesde,
       tipo: 'DateField',
       busquedaAvanzada: 'false',
@@ -166,12 +171,19 @@ export class BalancePruebaComponent extends General implements OnInit {
     });
 
     this._parametrosConsulta.filtros.push({
-      propiedad: 'fecha_hasta__lte',
+      propiedad: 'fecha_hasta',
+      operador: 'lte',
       valor1: fechaHasta,
       tipo: 'DateField',
       busquedaAvanzada: 'false',
       modeloBusquedaAvanzada: '',
       campo: 'fecha_hasta',
+    });
+
+    this._parametrosConsulta.filtros.push({
+      propiedad: 'cierre',
+      operador: 'exact',
+      valor1: cierre,
     });
   }
 

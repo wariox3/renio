@@ -78,6 +78,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.alertaService.cerrarMensajes()
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this.arrParametrosConsulta.desplazar = 0
       this.arrParametrosConsulta.ordenamientos = [];
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;
@@ -122,6 +123,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.arrItems = [];
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
+
         const filtroGuardado = localStorage.getItem(this.nombreFiltro);
         const filtroPermanenteStr = localStorage.getItem(`${this.nombreFiltro}_filtro_lista_fijo`);
 
@@ -168,10 +170,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             });
         } else {
           let baseUrl = 'general/funcionalidad/lista/';
-          this.arrParametrosConsulta = {
-            modelo: parametro.documento_clase,
-            ordenamientos: [],
-          };
+          this.arrParametrosConsulta.modelo = parametro.documento_clase
+          this.arrParametrosConsulta.ordenamientos = []
 
           if (filtroGuardado !== null) {
             this.arrParametrosConsulta.filtros = [
@@ -194,6 +194,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           } else {
             delete this.arrParametrosConsulta.serializador;
           }
+
           this.httpService
             .post<{
               cantidad_registros: number;

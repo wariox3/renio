@@ -80,6 +80,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   101: [
     {
@@ -146,6 +154,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -222,6 +238,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   103: [
     {
@@ -292,6 +316,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ELECTRONICO',
       nombreAbreviado: 'ESTADO_ELECTRONICO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -377,6 +409,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   200: [
     {
@@ -447,6 +487,14 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
       ordenable: false,
     },
   ],
@@ -521,6 +569,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: false,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   300: [
     {
@@ -546,11 +602,12 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
-      campoTipo: 'Fk',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'contacto__nombre_corto',
+      campoTipo: 'CharField',
       visibleTabla: true,
-      visibleFiltro: false,
+      visibleFiltro: true,
       ordenable: false,
-      esFk: true,
     },
     {
       nombre: 'SUBTOTAL',
@@ -587,6 +644,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -663,6 +728,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   302: [
     {
@@ -729,6 +802,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -814,6 +895,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   304: [
     {
@@ -880,6 +969,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -956,6 +1053,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   401: [
     {
@@ -1022,6 +1127,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1098,6 +1211,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   501: [
     {
@@ -1164,6 +1285,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1242,6 +1371,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1357,6 +1494,14 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'ESTADO_ANULADO',
       nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -1508,6 +1653,14 @@ export const documentos: MapeoDocumentos = {
       nombre: 'ESTADO_ELECTRONICO',
       nombreAbreviado: 'ELE',
       toolTip: 'ESTADOELECTRONICO',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'ESTADO_CONTABILIZADO',
+      nombreAbreviado: 'ESTADO_CONTABILIZADO_ABREVIATURA',
       campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
@@ -2006,7 +2159,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: true,
-      stylePersonalizado: { width: '120px'}
+      stylePersonalizado: { width: '120px' },
     },
     {
       nombre: 'CONTACTO_NOMBRE_CORTO',
@@ -2016,7 +2169,7 @@ export const documentos: MapeoDocumentos = {
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
-      stylePersonalizado: { width: '300px'}
+      stylePersonalizado: { width: '300px' },
     },
     {
       nombre: 'CUENTA',
@@ -2067,7 +2220,7 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: false,
       aplicaFormatoNumerico: false,
       ordenable: false,
-      stylePersonalizado: { width: '300px'}
+      stylePersonalizado: { width: '300px' },
     },
   ],
 };

@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -9,9 +9,14 @@ import { environment } from '@env/environment';
 import { Contenedor } from '@interfaces/usuario/contenedor';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
+import {
+  configuracionVisualizarAppsAction,
+  configuracionVisualizarBreadCrumbsAction,
+} from '@redux/actions/configuracion.actions';
 import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { empresaLimpiarAction } from '@redux/actions/empresa.actions';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
 import {
   obtenerUsuarioFechaLimitePago,
   obtenerUsuarioId,
@@ -27,10 +32,8 @@ import {
   tap,
 } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
-import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
-import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
-import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -81,7 +84,9 @@ export class ContenedorListaComponent extends General implements OnInit {
       }://${environment.dominioApp.slice(1)}/contenedor/lista`;
     }
 
-    this.store.dispatch(asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' }));
+    this.store.dispatch(
+      asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' })
+    );
 
     this.consultarLista();
     this.limpiarEmpresa();
@@ -146,6 +151,7 @@ export class ContenedorListaComponent extends General implements OnInit {
       .contenedorConectar(subdominio)
       .pipe(
         tap((respuesta) => {
+          this.alertaService.cerrarMensajes();
           const contenedor: Contenedor = {
             nombre: respuesta.nombre,
             imagen:
@@ -171,15 +177,20 @@ export class ContenedorListaComponent extends General implements OnInit {
           };
           this.store.dispatch(ContenedorActionInit({ contenedor }));
           this.store.dispatch(
-            configuracionVisualizarAction({
+            configuracionVisualizarAppsAction({
               configuracion: {
                 visualizarApps: true,
               },
             })
           );
           this.store.dispatch(
-            selecionModuloAction({ seleccion: 'general' })
+            configuracionVisualizarBreadCrumbsAction({
+              configuracion: {
+                visualizarBreadCrumbs: true,
+              },
+            })
           );
+          this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
           this.visualizarLoader[i] = false;
           this.changeDetectorRef.detectChanges();
           if (environment.production) {
@@ -261,9 +272,16 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   limpiarEmpresa() {
     this.store.dispatch(
-      configuracionVisualizarAction({
+      configuracionVisualizarAppsAction({
         configuracion: {
           visualizarApps: false,
+        },
+      })
+    );
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: false,
         },
       })
     );

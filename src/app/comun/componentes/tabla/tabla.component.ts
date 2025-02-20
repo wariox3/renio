@@ -108,6 +108,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
+      this._reiniciarPaginador()
       this.claveLocalStore = `itemNombre_tabla`;
       this.tipo = parametro.itemTipo;
       this.changeDetectorRef.detectChanges();
@@ -130,6 +131,11 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         changes.confirmacionRegistrosEliminado.currentValue;
     }
     this.construirTabla();
+  }
+
+  private _reiniciarPaginador(){
+    this.lado = 0;
+    this.al = 50;
   }
 
   private _limpiarTablaSelectores() {
@@ -235,6 +241,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.lado = nuevoValor <= 1 ? 0 : nuevoValor;
       this.emitirDesplazamiento.emit(this.lado);
     }
+  }
+
+  deshabilitarBotonDerecha() {
+    return this.cantidad_registros <= this.al;
+  }
+
+  deshabilitarBotonIzquierda() {
+    return this.lado < 1;
   }
 
   botonExtra(nombreComponente: BotonesExtras) {
@@ -470,7 +484,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   obtenerClasesCss(item: any): { [key: string]: boolean } {
     return {
       'cursor-pointer user-select-none': item.ordenable,
-      [item.classPersonalizado || '']: !!item.classPersonalizado
+      [item.classPersonalizado || '']: !!item.classPersonalizado,
     };
   }
 }

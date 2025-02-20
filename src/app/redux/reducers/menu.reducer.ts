@@ -62,7 +62,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -184,7 +184,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -329,7 +329,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -341,6 +341,13 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               archivoImportacionLista: 'ConCuenta.xlxs',
               data: { modelo: 'ConCuenta', ordenamiento: 'codigo' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
             },
             // {
             //   nombre: 'COMPROBANTE',
@@ -352,6 +359,13 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               modulo: 'contabilidad',
               data: { modelo: 'ConGrupo' },
+              maestros: [
+                {
+                  endpoint:
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                  name: 'Ciudades',
+                },
+              ],
               archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
@@ -539,7 +553,7 @@ export const initialState: MenuItem = {
                 },
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
                 {
@@ -711,7 +725,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -850,7 +864,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -1007,7 +1021,7 @@ export const initialState: MenuItem = {
               maestros: [
                 {
                   endpoint:
-                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/ciudades.xlsx',
+                    'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
                   name: 'Ciudades',
                 },
               ],
@@ -1034,52 +1048,15 @@ export const initialState: MenuItem = {
         },
       ],
     },
-    {
-      nombre: 'transporte',
-      menuOpen: true,
-      children: [
-        {
-          nombre: '',
-          esIndependiente: true,
-          children: [
-            {
-              nombre: 'GUIA',
-              tipo: 'independiente',
-              urlIndependientes: {
-                lista: 'transporte/guia',
-              },
-              consultaHttp: false,
-              modulo: 'transporte',
-            },
-          ],
-        },
-        // {
-        //   nombre: 'documento',
-        // },
-        // {
-        //   nombre: 'administracion',
-        // },
-        // {
-        //   nombre: 'utilidad',
-        // },
-        // {
-        //   nombre: 'proceso',
-        // },
-        // {
-        //   nombre: 'informe',
-        // },
-      ],
-    },
   ],
   modulos: [
     'compra',
-    'venta',
-    'contabilidad',
-    'cartera',
-    'humano',
-    'inventario',
     'tesoreria',
-    'transporte',
+    'venta',
+    'cartera',
+    'inventario',
+    'humano',
+    'contabilidad',
   ],
   dataMapeo: [],
   dataItem: {

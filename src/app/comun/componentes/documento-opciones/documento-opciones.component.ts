@@ -286,6 +286,10 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
         this._consultarInformacionTabla();
         this.alertaService.mensajaExitoso('El documento se ha contabilizado!');
       },
+      error: () => {
+        this.itemDesaprobadoEvent.emit();
+        this._consultarInformacionTabla();
+      },
     });
   }
 
@@ -365,6 +369,8 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           (total, doc) => total + (doc.credito || 0),
           0
         );
+
+        this.changeDetectorRef.detectChanges();
       });
   }
 }

@@ -23,6 +23,7 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.actions';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 
 @Component({
     selector: 'app-user-inner',
@@ -118,6 +119,13 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarAmiEmpresaConfiguracion(){
+    this.store.dispatch(
+      configuracionVisualizarBreadCrumbsAction({
+        configuracion: {
+          visualizarBreadCrumbs: false,
+        },
+      })
+    );
     this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
       this.router.navigate([`/empresa/configuracion_modulos/${empresa_id}/`]);
     });
