@@ -142,6 +142,7 @@
                       <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
@@ -162,6 +163,9 @@
                       <td>
                         {{ documento.cuenta_codigo }}
                         {{ documento.cuenta_nombre }}
+                      </td>
+                      <td>
+                        {{ documento.grupo_nombre }}
                       </td>
                       <td>
                         {{ documento.naturaleza }}

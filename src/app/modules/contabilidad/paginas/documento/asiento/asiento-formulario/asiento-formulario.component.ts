@@ -191,6 +191,7 @@ export default class AsientoFormularioComponent
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
             cuenta_nombre: detalle.cuenta_nombre,
+            grupo: detalle.grupo_id,
             naturaleza: detalle.naturaleza,
             base_impuesto: detalle.base_impuesto,
             detalle: detalle.detalle,
@@ -369,34 +370,44 @@ export default class AsientoFormularioComponent
   }
 
   agregarLinea() {
-    // se realiza lo siguiente para sugerir al usuario el contacto seleccionado en las lineas agregadas
-    const contacto =
-      this.formularioAsiento.get('contacto')?.value !== ''
-        ? this.formularioAsiento.get('contacto')?.value
+    if (this.formularioAsiento.get('contacto')?.value !== '') {
+      // se realiza lo siguiente para sugerir al usuario el contacto seleccionado en las lineas agregadas
+      const contacto =
+        this.formularioAsiento.get('contacto')?.value !== ''
+          ? this.formularioAsiento.get('contacto')?.value
+          : null;
+
+      const contactoNombre =
+        this.formularioAsiento.get('contactoNombre')?.value !== ''
+          ? this.formularioAsiento.get('contactoNombre')?.value
+          : null;
+
+      const grupo = this.formularioAsiento.get('grupo_contabilidad')?.value
+        ? this.formularioAsiento.get('grupo_contabilidad')?.value
         : null;
 
-    const contactoNombre =
-      this.formularioAsiento.get('contactoNombre')?.value !== ''
-        ? this.formularioAsiento.get('contactoNombre')?.value
-        : null;
-
-    const detalleFormGroup = this.formBuilder.group({
-      id: [null],
-      tipo_registro: ['C'],
-      cuenta: [null, Validators.compose([Validators.required])],
-      cuenta_codigo: [null],
-      cuenta_nombre: [null],
-      naturaleza: [null],
-      documento_afectado: [null],
-      numero: [null],
-      contacto: [contacto],
-      contacto_nombre_corto: [contactoNombre],
-      precio: [0, Validators.compose([Validators.required])],
-      detalle: [null],
-      seleccionado: [false],
-      base_impuesto: [0],
-    });
-    this.detalles.push(detalleFormGroup);
+      const detalleFormGroup = this.formBuilder.group({
+        id: [null],
+        tipo_registro: ['C'],
+        cuenta: [null, Validators.compose([Validators.required])],
+        cuenta_codigo: [null],
+        cuenta_nombre: [null],
+        naturaleza: [null],
+        documento_afectado: [null],
+        numero: [null],
+        grupo: [grupo],
+        contacto: [contacto],
+        contacto_nombre_corto: [contactoNombre],
+        precio: [0, Validators.compose([Validators.required])],
+        detalle: [null],
+        seleccionado: [false],
+        base_impuesto: [0],
+      });
+      
+      this.detalles.push(detalleFormGroup);
+    } else {
+      this.alertaService.mensajeError('Error', 'Debe seleccionar un contacto');
+    }
   }
 
   agregarCuentaSeleccionado(cuenta: any, index: number) {
