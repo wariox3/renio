@@ -82,7 +82,10 @@
                 id="cierre"
                 formControlName="cierre"
               />
-              <label class="form-check-label text-gray-700 fw-bold" for="cierre">
+              <label
+                class="form-check-label text-gray-700 fw-bold"
+                for="cierre"
+              >
                 Incluir periodo cierre
               </label>
             </div>
@@ -142,6 +145,15 @@
             <td>{{ item.debito | currency : "$" }}</td>
             <td>{{ item.credito | currency : "$" }}</td>
             <td>{{ item.saldo_actual | currency : "$" }}</td>
+          </tr>
+          } @if (cuentasAgrupadas.length > 0) {
+          <tr>
+            <td></td>
+            <td style="text-align: left" class="fw-bold">Total</td>
+            <td></td>
+            <td>{{ totalDebito | currency : "$" }}</td>
+            <td>{{ totalCredito | currency : "$" }}</td>
+            <td></td>
           </tr>
           }
         </tbody>

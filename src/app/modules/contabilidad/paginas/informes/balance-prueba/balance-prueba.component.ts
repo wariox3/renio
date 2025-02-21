@@ -93,6 +93,9 @@ export class BalancePruebaComponent extends General implements OnInit {
 
   public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
   public formularioFiltros: FormGroup;
+  public totalDebito: number = 0;
+  public totalCredito: number = 0;
+
   private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
 
@@ -147,9 +150,20 @@ export class BalancePruebaComponent extends General implements OnInit {
     this.contabilidadInformesService.consultarBalances(parametros).subscribe({
       next: (respuesta) => {
         this.cuentasAgrupadas = respuesta.registros;
+        this.reiniciarTotales();
+        this.cuentasAgrupadas.forEach((cuenta) => {
+          this.totalCredito += cuenta.credito || 0;
+          this.totalDebito += cuenta.debito || 0;
+        });
+
         this.changeDetectorRef.detectChanges();
       },
     });
+  }
+
+  private reiniciarTotales() {
+    this.totalCredito = 0;
+    this.totalDebito = 0;
   }
 
   private _construirFiltros() {
