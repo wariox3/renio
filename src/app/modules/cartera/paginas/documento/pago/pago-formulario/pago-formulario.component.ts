@@ -643,7 +643,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     if (detallesArray.length > 0) {
       detallesArray.controls.forEach((control: AbstractControl) => {
-        if (control.get('documento_afectado')?.value === null) {
+        if (control.get('documento_afectado')?.value === null && control.get('id')?.value === null) {
           control.patchValue({
             contacto:
               this.formularioFactura.get('contacto')?.value !== ''
