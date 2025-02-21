@@ -228,10 +228,7 @@
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
-            <option
-              *ngFor="let grupo of arrGrupo"
-              [value]="grupo.grupo_id"
-            >
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.grupo_id">
               {{ grupo.grupo_nombre }}
             </option>
           </select>
@@ -281,7 +278,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 1}"
+                [ngClass]="{ 'text-primary': active === 1 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -304,14 +301,36 @@
                   >
                     <thead>
                       <tr class="bg-gray-100">
-                        <th [translate]="'LISTAS.DOCUMENTO.ID'" style="width: 50px"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.NUMERO'" style="width: 100px"></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.ID'"
+                          style="width: 50px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.NUMERO'"
+                          style="width: 100px"
+                        ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'" style="width: 100px"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.BASE'" style="width: 100px"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.VALOR'" style="width: 100px"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.DETALLE'" style="width: 100px"></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.GRUPO'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.BASE'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.VALOR'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.DETALLE'"
+                          style="width: 100px"
+                        ></th>
                         <th class="text-center" style="width: 50px"></th>
                       </tr>
                     </thead>
@@ -375,6 +394,19 @@
                                 agregarCuentaSeleccionado($event, i)
                               "
                             ></app-comun-cuentas>
+                          </td>
+                          <td>
+                            <select
+                              formControlName="grupo"
+                              class="form-select form-select-sm"
+                            >
+                              <option
+                                *ngFor="let grupo of arrGrupo"
+                                [value]="grupo.grupo_id"
+                              >
+                                {{ grupo.grupo_nombre }}
+                              </option>
+                            </select>
                           </td>
                           <td>
                             <ng-container
@@ -508,7 +540,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 2}"
+                [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
