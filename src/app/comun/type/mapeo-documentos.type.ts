@@ -1,7 +1,6 @@
 import { CampoTipo } from "./mapeo-campo.type";
 
-export type MapeoDocumentos = {
-  [key: number | string]: {
+export type MapeoDocumento = {
     nombre: string;
     nombreAbreviado?: string;
     nombreAbreviadoFiltro?: string;
@@ -17,5 +16,9 @@ export type MapeoDocumentos = {
     campoTipo: CampoTipo;
     stylePersonalizado?: { [key: string]: string } | null; // Para estilos css en línea tr
     classPersonalizado?: string;  // Para clases css en línea tr
-  }[];
+};
+
+
+export type MapeoDocumentos = {
+  [key: number | string]: MapeoDocumento[];
 };
