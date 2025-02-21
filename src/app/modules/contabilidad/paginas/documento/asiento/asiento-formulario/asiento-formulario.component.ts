@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
@@ -82,17 +83,17 @@ export default class AsientoFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
 
@@ -173,10 +174,19 @@ export default class AsientoFormularioComponent
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             documento_afectado: [detalle.documento_afectado_id],
+            tipo_registro: detalle.tipo_registro,
             numero: [detalle.numero],
-            contacto: [detalle.documento_afectado_contacto_nombre_corto],
-            contacto_nombre_corto: [detalle.contacto_nombre_corto],
-            total: [detalle.total],
+            contacto: [
+              detalle.documento_afectado_contacto_id
+                ? detalle.documento_afectado_contacto_id
+                : detalle.contacto_id,
+            ],
+            contacto_nombre_corto: [
+              detalle.documento_afectado_id
+                ? detalle.documento_afectado_contacto_nombre_corto
+                : detalle.contacto_nombre_corto,
+            ],
+            precio: [detalle.precio],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
@@ -257,6 +267,7 @@ export default class AsientoFormularioComponent
       this.formularioAsiento
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
+      this._actualizarDetallesContactoSinDocumentoAfectado();
     }
 
     if (campo === 'contacto-ver-mas') {
@@ -328,7 +339,7 @@ export default class AsientoFormularioComponent
     this.total = 0;
     const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('total')?.value || 0;
+      const pago = detalleControl.get('precio')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
         this.totalCredito += parseInt(pago);
@@ -358,17 +369,29 @@ export default class AsientoFormularioComponent
   }
 
   agregarLinea() {
+    // se realiza lo siguiente para sugerir al usuario el contacto seleccionado en las lineas agregadas
+    const contacto =
+      this.formularioAsiento.get('contacto')?.value !== ''
+        ? this.formularioAsiento.get('contacto')?.value
+        : null;
+
+    const contactoNombre =
+      this.formularioAsiento.get('contactoNombre')?.value !== ''
+        ? this.formularioAsiento.get('contactoNombre')?.value
+        : null;
+
     const detalleFormGroup = this.formBuilder.group({
       id: [null],
+      tipo_registro: ['C'],
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
       cuenta_nombre: [null],
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
-      contacto: [null],
-      contacto_nombre_corto: [null],
-      total: [0, Validators.compose([Validators.required])],
+      contacto: [contacto],
+      contacto_nombre_corto: [contactoNombre],
+      precio: [0, Validators.compose([Validators.required])],
       detalle: [null],
       seleccionado: [false],
       base_impuesto: [0],
@@ -444,6 +467,37 @@ export default class AsientoFormularioComponent
       this.arrComprobantes = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
       this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  private _actualizarDetallesContactoSinDocumentoAfectado() {
+    const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
+
+    if (detallesArray.length <= 0) {
+      return false;
+    }
+
+    detallesArray.controls.forEach((control: AbstractControl) => {
+      if (control.get('documento_afectado')?.value === null) {
+        const contacto =
+          this.formularioAsiento.get('contacto')?.value !== ''
+            ? this.formularioAsiento.get('contacto')?.value
+            : null;
+
+        const contactoNombre =
+          this.formularioAsiento.get('contactoNombre')?.value !== ''
+            ? this.formularioAsiento.get('contactoNombre')?.value
+            : null;
+
+        control.patchValue({
+          contacto: contacto,
+          contacto_nombre_corto: contactoNombre,
+        });
+
+        this.formularioAsiento.markAsTouched();
+        this.formularioAsiento.markAsDirty();
+        this.changeDetectorRef.detectChanges();
+      }
     });
   }
 }

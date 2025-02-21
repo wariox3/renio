@@ -304,15 +304,15 @@
                   >
                     <thead>
                       <tr class="bg-gray-100">
-                        <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.ID'" style="width: 50px"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NUMERO'" style="width: 100px"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.VALOR'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
-                        <th class="w-100px text-center"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'" style="width: 100px"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.BASE'" style="width: 100px"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.VALOR'" style="width: 100px"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DETALLE'" style="width: 100px"></th>
+                        <th class="text-center" style="width: 50px"></th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -422,18 +422,18 @@
                           </td>
                           <td class="w-100px">
                             <input
-                              formControlName="total"
+                              formControlName="precio"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (change)="actualizarDetalle(i, 'total', $event)"
+                              (change)="actualizarDetalle(i, 'precio', $event)"
                               appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
-                                  detalle.get('total')?.touched &&
-                                  detalle.get('total')?.invalid,
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid,
                                 'is-valid':
-                                  detalle.get('total')?.touched &&
-                                  detalle.get('total')?.invalid
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid
                               }"
                             />
                             <ng-container
@@ -443,7 +443,7 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('total')
+                                control: detalle.get('precio')
                               }"
                             ></ng-container>
                           </td>
