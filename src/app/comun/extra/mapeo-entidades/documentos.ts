@@ -657,6 +657,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'ESTADO_ELECTRONICO_EVENTO',
+      nombreAbreviado: 'ESTADO_ELECTRONICO_EVENTO_ABREVIATURA',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   301: [
     {
