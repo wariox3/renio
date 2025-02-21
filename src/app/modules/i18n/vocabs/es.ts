@@ -815,7 +815,7 @@ export const locale = {
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
         ESTADO_CONTABILIZADO: 'Contabilizado',
-        ESTADO_ELECTRONICO_EVENTO: 'Evento',
+        ESTADO_ELECTRONICO_EVENTO: 'Evento DIAN',
         CONTACTO: 'Contacto',
         CLIENTE: 'Cliente',
         ESTADO: 'Estado',
