@@ -478,7 +478,7 @@ export default class AsientoFormularioComponent
     }
 
     detallesArray.controls.forEach((control: AbstractControl) => {
-      if (control.get('documento_afectado')?.value === null) {
+      if (control.get('id')?.value === null) {
         const contacto =
           this.formularioAsiento.get('contacto')?.value !== ''
             ? this.formularioAsiento.get('contacto')?.value
