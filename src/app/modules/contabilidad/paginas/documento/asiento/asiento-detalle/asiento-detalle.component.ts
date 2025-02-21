@@ -151,13 +151,13 @@ export default class PagoDetalleComponent extends General {
   getTotalDebito(): number {
     return this.detalles
       .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
-      .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+      .reduce((total, detalle) => total + detalle.precio, 0); // Acumular los valores de 'pago'
   }
 
   // Obtener total de créditos
   getTotalCredito(): number {
     return this.detalles
       .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
-      .reduce((total, detalle) => total + detalle.total, 0); // Acumular los valores de 'pago'
+      .reduce((total, detalle) => total + detalle.precio, 0); // Acumular los valores de 'pago'
   }
 }
