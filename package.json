@@ -88,6 +88,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "mini-css-extract-plugin": "^2.7.2",
+    "prettier": "^3.5.1",
     "rtlcss-webpack-plugin": "4.0.7",
     "sass-loader": "^13.2.0",
     "typescript": "~5.4.5",

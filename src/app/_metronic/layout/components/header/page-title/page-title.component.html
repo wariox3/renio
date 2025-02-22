@@ -4,7 +4,7 @@
     class="page-heading d-flex text-dark fw-bold fs-3 my-0"
     [ngClass]="{
       'flex-column justify-content-center': appPageTitleDirection,
-      'align-items-center': !appPageTitleDirection
+      'align-items-center': !appPageTitleDirection,
     }"
   >
     <!-- begin::Description -->
@@ -20,20 +20,41 @@
         <!-- end::Separator -->
       </ng-container>
 
-      @if(visualizarBreadcrumb$ | async){
-        @for (breadcrumb of breadcrumbSignal(); track $index; let first = $first,
-        last = $last) {
-        <span
-          [routerLink]="breadcrumb.url"
-          [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
-          appAnimationFadeinLeft
-          >{{ breadcrumb.label | appCapitalizePipe }}</span
-        >
-        @if (!last) {
-        <span appAnimationFadeinLeft> / </span>
-        } }
+      @if (visualizarBreadcrumb$ | async) {
+        @for (
+          breadcrumb of breadcrumbSignal();
+          track $index;
+          let first = $first,
+          last = $last
+        ) {
+          <span
+            #breadcrumbsText
+            [routerLink]="breadcrumb.url"
+            [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
+            appAnimationFadeinLeft
+            >{{ breadcrumb.label | appCapitalizePipe }}</span
+          >
+          @if (!last) {
+            <span appAnimationFadeinLeft> / </span>
+          } @else {
+            @if (!visualizarIconoCopiado()) {
+              <i
+                class="ki-outline ki-copy ms-3 cursor-pointer fs-3"
+                ngbTooltip="Copiar"
+                (click)="copiarbreadcrumbsText()"
+                appAnimationFadeinLeft
+              ></i>
+            } @else {
+              <i
+                class="ki-duotone ki-copy-success cursor-pointer ms-3 text-success fs-3"
+              >
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+            }
+          }
+        }
       }
-
     </span>
     <!-- end::Description -->
   </h1>
