@@ -37,6 +37,13 @@ export const routes: Route[] = [
             './paginas/informes/balance-prueba/balance-prueba.component'
           ).then((c) => c.BalancePruebaComponent),
       },
+      {
+        path: 'balance_prueba_contacto',
+        loadComponent: () =>
+          import(
+            './paginas/informes/balance-prueba-contacto/balance-prueba-contacto.component'
+          ).then((c) => c.BalancePruebaContactoComponent),
+      },
     ],
   },
   {
