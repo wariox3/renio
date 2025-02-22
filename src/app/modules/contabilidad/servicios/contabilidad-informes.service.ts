@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { RespuestaInformeBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import {
+  RespuestaInformeBalancePrueba,
+  RespuestaInformeBalancePruebaTerceros,
+} from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +17,14 @@ export class ContabilidadInformesService extends Subdominio {
   consultarBalances(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePrueba>(
       `contabilidad/movimiento/informe-balance-prueba/`,
-      parametros
+      parametros,
+    );
+  }
+
+  consultarBalancesTerceros(parametros: any = {}) {
+    return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
+      `contabilidad/movimiento/informe-balance-prueba-tercero/`,
+      parametros,
     );
   }
 }

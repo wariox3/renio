@@ -2,6 +2,10 @@ export interface RespuestaInformeBalancePrueba {
   registros: MovimientoBalancePrueba[];
 }
 
+export interface RespuestaInformeBalancePruebaTerceros {
+  registros: MovimientoBalancePruebaTercero[];
+}
+
 export interface MovimientoBalancePrueba {
   id: number;
   codigo: string;
@@ -16,4 +20,10 @@ export interface MovimientoBalancePrueba {
   vr_credito_anterior: number | null;
   debito: number | null;
   credito: number | null;
+}
+
+export interface MovimientoBalancePruebaTercero
+  extends MovimientoBalancePrueba {
+  contacto_id: number;
+  contacto_nombre: string;
 }

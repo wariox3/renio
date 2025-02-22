@@ -19,7 +19,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -55,11 +55,11 @@ interface DataAgrupada {
     TranslateModule,
     BtnExportarComponent,
   ],
-  templateUrl: './balance-prueba.component.html',
-  styleUrl: './balance-prueba.component.scss',
+  templateUrl: './balance-prueba-contacto.component.html',
+  styleUrl: './balance-prueba-contacto.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalancePruebaComponent extends General implements OnInit {
+export class BalancePruebaContactoComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
   private _parametrosConsulta: any = {
@@ -91,7 +91,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
+  public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
@@ -147,7 +147,7 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   private _consultarInformes(parametros: any) {
-    this.contabilidadInformesService.consultarBalances(parametros).subscribe({
+    this.contabilidadInformesService.consultarBalancesTerceros(parametros).subscribe({
       next: (respuesta) => {
         this.cuentasAgrupadas = respuesta.registros;
         this.reiniciarTotales();
@@ -220,13 +220,6 @@ export class BalancePruebaComponent extends General implements OnInit {
   aplicarFiltro() {
     this._construirFiltros();
     this._consultarInformes(this._parametrosConsulta);
-  }
-
-  imprimir() {
-    this._httpService.descargarArchivo(
-      'contabilidad/movimiento/imprimir/',
-      this._parametrosConsulta
-    );
   }
 
   descargarExcel() {
