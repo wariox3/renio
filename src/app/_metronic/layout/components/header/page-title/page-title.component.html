@@ -9,7 +9,7 @@
   >
     <!-- begin::Description -->
     <span
-      class="page-desc text-muted fs-7 fw-semibold"
+      class="page-desc text-muted fs-7 fw-semibold d-flex align-items-center gap-1"
       [ngClass]="{ 'pt-2': appPageTitleDirection === 'column' }"
     >
       <ng-container *ngIf="appPageTitleDirection === 'row'">
@@ -39,14 +39,13 @@
           } @else {
             @if (!visualizarIconoCopiado()) {
               <i
-                class="ki-outline ki-copy ms-3 cursor-pointer fs-3"
+                class="ki-outline ki-copy ms-3 cursor-pointer fs-4"
                 ngbTooltip="Copiar"
                 (click)="copiarbreadcrumbsText()"
-                appAnimationFadeinLeft
               ></i>
             } @else {
               <i
-                class="ki-duotone ki-copy-success cursor-pointer ms-3 text-success fs-3"
+                class="ki-duotone ki-copy-success ms-3 cursor-pointer text-success fs-4"
               >
                 <span class="path1"></span>
                 <span class="path2"></span>
