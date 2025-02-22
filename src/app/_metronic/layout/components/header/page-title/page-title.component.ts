@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
-  signal
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { General } from '@comun/clases/general';
@@ -16,6 +20,8 @@ import { Observable, Subscription, switchMap } from 'rxjs';
 import { PageInfoService, PageLink } from '../../../core/page-info.service';
 import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
 import { CapitalizePipe } from '@pipe/capitalize.pipe';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 
 interface Breadcrumb {
   label: string | null;
@@ -26,7 +32,14 @@ interface Breadcrumb {
 @Component({
   selector: 'app-page-title',
   templateUrl: './page-title.component.html',
-  imports: [CommonModule, AnimationFadeInLeftDirective, RouterLink, CapitalizePipe],
+  imports: [
+    CommonModule,
+    AnimationFadeInLeftDirective,
+    RouterLink,
+    CapitalizePipe,
+    NgbTooltipModule,
+    ClipboardModule,
+  ],
   standalone: true,
 })
 export class PageTitleComponent extends General implements OnInit, OnDestroy {
@@ -34,13 +47,14 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   private readonly _menuReducerService = inject(MenuReducerService);
   private readonly _translateService = inject(TranslateService);
-  public visualizarBreadcrumb$: Observable<boolean>
-
+  private readonly _clipboardService = inject(ClipboardService);
+  public visualizarBreadcrumb$: Observable<boolean>;
+  public visualizarIconoCopiado = signal(false);
   public breadcrumbSignal = signal<Breadcrumb[]>([]);
-
   @Input() appPageTitleDirection: string = '';
   @Input() appPageTitleBreadcrumb: boolean;
   @Input() appPageTitleDescription: boolean;
+  @ViewChildren('breadcrumbsText') breadcrumbsText!: QueryList<ElementRef>;
 
   title$: Observable<string>;
   description$: Observable<string>;
@@ -57,7 +71,9 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
 
     this._initializeBreadcrumbs();
 
-    this.visualizarBreadcrumb$ = this.store.select(obtenerConfiguracionVisualizarBreadCrumbs)
+    this.visualizarBreadcrumb$ = this.store.select(
+      obtenerConfiguracionVisualizarBreadCrumbs,
+    );
   }
 
   private _initializeBreadcrumbs(): void {
@@ -76,11 +92,11 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
               });
               return this._menuReducerService.getModuloItemInformacion(
                 menuSeleccionado,
-                queryParams.alias
+                queryParams.alias,
               );
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe((response) => {
         if (response) {
@@ -89,7 +105,7 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
 
           if (response?.nombre) {
             modelo = this._translateService.instant(
-              `MENU.FUNCIONALIDAD.${response?.nombre.toLocaleUpperCase()}`
+              `MENU.FUNCIONALIDAD.${response?.nombre.toLocaleUpperCase()}`,
             );
           }
 
@@ -130,5 +146,14 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  copiarbreadcrumbsText() {
+    this.visualizarIconoCopiado.update(() => true);
+    const text = this.breadcrumbsText
+      .map((el) => el.nativeElement.innerText)
+      .join(' / ');
+    this._clipboardService.copy(text);
+    setTimeout(() => this.visualizarIconoCopiado.update(() => false), 500);
   }
 }
