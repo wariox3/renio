@@ -962,6 +962,7 @@ export const locale = {
         INVENTARIO: 'Inventario',
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
+        REMISION: 'Remisión'
       },
       ITEM: {
         ID: 'ID',
