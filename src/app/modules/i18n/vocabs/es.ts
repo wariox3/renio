@@ -90,6 +90,7 @@ export const locale = {
         NOMINAELECTRONICA: 'Nomina electrónica',
         NOMINADETALLE: 'Nomina detalle',
         BALANCEPRUEBA: 'Balance de prueba',
+        BALANCEPRUEBAPORCONTACTO: 'Balance de prueba por contacto',
         FACTURARECURRENTE: 'Factura recurrente',
         CARGO: 'Cargo',
         HUMCARGO: 'Cargo',
@@ -104,6 +105,7 @@ export const locale = {
         SUCURSAL: 'Sucursal',
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
+        EXISTENCIA: 'Existencia',
       },
     },
     FORMULARIOS: {
@@ -468,7 +470,7 @@ export const locale = {
           },
           FORMAPAGO: {
             NOMBRE: 'Nombre',
-            CUENTANOMBRE: 'Cuenta'
+            CUENTANOMBRE: 'Cuenta',
           },
           PRECIO: {
             TIPO: 'Tipo',
@@ -540,7 +542,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
-          FORMAPAGO: 'Forma pago'
+          FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -811,9 +813,11 @@ export const locale = {
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
         ESTADO_ELECTRONICO_ABREVIATURA: 'Ele',
         ESTADO_CONTABILIZADO_ABREVIATURA: 'Con',
+        ESTADO_ELECTRONICO_EVENTO_ABREVIATURA: 'Eve',
         ESTADO_APROBADO: 'Aprobado',
         ESTADO_ANULADO: 'Anulado',
         ESTADO_CONTABILIZADO: 'Contabilizado',
+        ESTADO_ELECTRONICO_EVENTO: 'Evento DIAN',
         CONTACTO: 'Contacto',
         CLIENTE: 'Cliente',
         ESTADO: 'Estado',
@@ -949,8 +953,16 @@ export const locale = {
         TIPODOCUMENTO: 'Tipo documento',
         EMPLEADOS: 'Empleados',
         LINEAS: 'Lineas',
-        HORA:'Hora',
-        DOCUMENTO_CONTACTO_NOMBRE_CORTO: 'Empleado'
+        HORA: 'Hora',
+        DOCUMENTO_CONTACTO_NOMBRE_CORTO: 'Empleado',
+        REFERENCIA: 'Referencia',
+        COSTO: 'Costo',
+        PRODUCTO: 'Producto',
+        SERVICIO: 'Servicio',
+        INVENTARIO: 'Inventario',
+        EXISTENCIA: 'Existencia',
+        DISPONIBLE: 'Disponible',
+        REMISION: 'Remisión'
       },
       ITEM: {
         ID: 'ID',
@@ -1177,6 +1189,7 @@ export const locale = {
         NOMBRE: 'Nombre',
         ANTERIOR: 'Anterior',
         DEBITO: 'Debito',
+        CONTACTO: 'Contacto',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
       },

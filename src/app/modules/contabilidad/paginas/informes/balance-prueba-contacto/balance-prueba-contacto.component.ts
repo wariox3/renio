@@ -4,7 +4,6 @@ import {
   Component,
   inject,
   OnInit,
-  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,12 +19,11 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { finalize } from 'rxjs';
 
 interface DataAgrupada {
   [cuentaClaseId: number | string]: {
@@ -57,11 +55,11 @@ interface DataAgrupada {
     TranslateModule,
     BtnExportarComponent,
   ],
-  templateUrl: './balance-prueba.component.html',
-  styleUrl: './balance-prueba.component.scss',
+  templateUrl: './balance-prueba-contacto.component.html',
+  styleUrl: './balance-prueba-contacto.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalancePruebaComponent extends General implements OnInit {
+export class BalancePruebaContactoComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
   private _parametrosConsulta: any = {
@@ -93,11 +91,10 @@ export class BalancePruebaComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
+  public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
-  public cargandoCuentas = signal<boolean>(false);
 
   private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
@@ -150,10 +147,8 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   private _consultarInformes(parametros: any) {
-    this.cargandoCuentas.set(true);
     this.contabilidadInformesService
-      .consultarBalances(parametros)
-      .pipe(finalize(() => this.cargandoCuentas.set(false)))
+      .consultarBalancesTerceros(parametros)
       .subscribe({
         next: (respuesta) => {
           this.cuentasAgrupadas = respuesta.registros;
@@ -229,20 +224,15 @@ export class BalancePruebaComponent extends General implements OnInit {
     this._consultarInformes(this._parametrosConsulta);
   }
 
-  imprimir() {
-    this._httpService.descargarArchivo('contabilidad/movimiento/informe-balance-prueba/', {
-      ...this._parametrosConsulta,
-      pdf: true,
-    });
-  }
-
   descargarExcel() {
-    this._descargarArchivosService.descargarExcel({
-      ...this._parametrosConsulta,
-      limite: 5000,
-      excel: true,
-    },
-  'contabilidad/movimiento/informe-balance-prueba/');
+    this._descargarArchivosService.descargarExcel(
+      {
+        ...this._parametrosConsulta,
+        limite: 5000,
+        excel: true,
+      },
+      'contabilidad/movimiento/informe-balance-prueba-tercero/',
+    );
   }
 
   fechaDesdeMenorQueFechaHasta(

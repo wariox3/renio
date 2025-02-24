@@ -73,10 +73,15 @@
       <tbody>
         <tr>
           <td
+          class="fw-bold text-gray-800 fs-6 bg-gray-100"
+          translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
+        ></td>
+        <td>{{ asiento.numero }}</td>
+          <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="LISTAS.DOCUMENTO.CONTACTO"
           ></td>
-          <td colspan="5">{{ asiento.contacto_nombre_corto }}</td>
+          <td colspan="3">{{ asiento.contacto_nombre_corto }}</td>
         </tr>
         <tr>
           <td
@@ -142,6 +147,7 @@
                       <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
@@ -164,13 +170,16 @@
                         {{ documento.cuenta_nombre }}
                       </td>
                       <td>
+                        {{ documento.grupo_nombre }}
+                      </td>
+                      <td>
                         {{ documento.naturaleza }}
                       </td>
                       <td class="text-end">
                         {{ documento.base_impuesto | number }}
                       </td>
                       <td class="text-end">
-                        {{ documento.total | number }}
+                        {{ documento.precio | number }}
                       </td>
                       <td>
                         {{ documento.detalle }}
