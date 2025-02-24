@@ -351,20 +351,20 @@
                           </td>
                           <td class="w-100px">
                             <input
-                              formControlName="pago"
+                              formControlName="precio"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (change)="actualizarDetalle(i, 'pago', $event)"
+                              (change)="actualizarDetalle(i, 'precio', $event)"
                               type="number"
                               appSoloNumeros
                               [permiteDecimales]="true"
                               [ngClass]="{
                                 'is-invalid':
-                                  detalle.get('pago')?.touched &&
-                                  detalle.get('pago')?.invalid,
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid,
                                 'is-valid':
-                                  detalle.get('pago')?.touched &&
-                                  detalle.get('pago')?.invalid
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid
                               }"
                             />
                             <ng-container
@@ -374,7 +374,7 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('pago')
+                                control: detalle.get('precio')
                               }"
                             ></ng-container>
                           </td>
