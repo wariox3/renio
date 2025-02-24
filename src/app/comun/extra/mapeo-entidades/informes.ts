@@ -1075,7 +1075,21 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'EXISTENCIA',
       campoTipo: 'IntegerField',
-      visibleTabla: false,
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'REMISION',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'DISPONIBLE',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
     },
