@@ -11,6 +11,7 @@ export type MapeoAdministrador = {
       nombreAbreviado?: string;
       nombreAbreviadoFiltro?: string;
       nombreFiltroRelacion?: string;
+      toolTip?: string;
       visibleTabla: boolean;
       visibleFiltro: boolean;
       ordenable: boolean;
