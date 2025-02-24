@@ -108,7 +108,7 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
     this._construirFiltros();
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] })
+        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] }),
       );
       this._consultarInformes(this._parametrosConsulta);
     });
@@ -140,25 +140,27 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
           'fecha_desde',
-          'fecha_hasta'
+          'fecha_hasta',
         ),
-      }
+      },
     );
   }
 
   private _consultarInformes(parametros: any) {
-    this.contabilidadInformesService.consultarBalancesTerceros(parametros).subscribe({
-      next: (respuesta) => {
-        this.cuentasAgrupadas = respuesta.registros;
-        this.reiniciarTotales();
-        this.cuentasAgrupadas.forEach((cuenta) => {
-          this.totalCredito += cuenta.credito || 0;
-          this.totalDebito += cuenta.debito || 0;
-        });
+    this.contabilidadInformesService
+      .consultarBalancesTerceros(parametros)
+      .subscribe({
+        next: (respuesta) => {
+          this.cuentasAgrupadas = respuesta.registros;
+          this.reiniciarTotales();
+          this.cuentasAgrupadas.forEach((cuenta) => {
+            this.totalCredito += cuenta.credito || 0;
+            this.totalDebito += cuenta.debito || 0;
+          });
 
-        this.changeDetectorRef.detectChanges();
-      },
-    });
+          this.changeDetectorRef.detectChanges();
+        },
+      });
   }
 
   private reiniciarTotales() {
@@ -227,14 +229,15 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
       {
         ...this._parametrosConsulta,
         limite: 5000,
+        excel: true,
       },
-      'contabilidad/movimiento/excel/'
+      'contabilidad/movimiento/informe-balance-prueba-tercero/',
     );
   }
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
-    fechaHasta: string
+    fechaHasta: string,
   ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;

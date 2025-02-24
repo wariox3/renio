@@ -230,20 +230,19 @@ export class BalancePruebaComponent extends General implements OnInit {
   }
 
   imprimir() {
-    this._httpService.descargarArchivo(
-      'contabilidad/movimiento/imprimir/',
-      this._parametrosConsulta,
-    );
+    this._httpService.descargarArchivo('contabilidad/movimiento/informe-balance-prueba/', {
+      ...this._parametrosConsulta,
+      pdf: true,
+    });
   }
 
   descargarExcel() {
-    this._descargarArchivosService.descargarExcel(
-      {
-        ...this._parametrosConsulta,
-        limite: 5000,
-      },
-      'contabilidad/movimiento/excel/',
-    );
+    this._descargarArchivosService.descargarExcel({
+      ...this._parametrosConsulta,
+      limite: 5000,
+      excel: true,
+    },
+  'contabilidad/movimiento/informe-balance-prueba/');
   }
 
   fechaDesdeMenorQueFechaHasta(
