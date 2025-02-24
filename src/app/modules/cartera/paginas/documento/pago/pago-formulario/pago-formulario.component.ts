@@ -204,7 +204,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
                 ? detalle.documento_afectado_contacto_nombre_corto
                 : detalle.contacto_nombre_corto,
             ],
-            pago: [detalle.pago],
+            precio: [detalle.precio],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
@@ -438,7 +438,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto_nombre: [documentoSeleccionado.contacto_nombre],
-        pago: [documentoSeleccionado.pendiente],
+        precio: [documentoSeleccionado.pendiente],
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
@@ -548,12 +548,12 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.total = 0;
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('pago')?.value || 0;
+      const precio = detalleControl.get('precio')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += parseFloat(pago);
+        this.totalCredito += parseFloat(precio);
       } else {
-        this.totalDebito += parseFloat(pago);
+        this.totalDebito += parseFloat(precio);
       }
       this.changeDetectorRef.detectChanges();
     });
@@ -597,7 +597,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
           ? this.formularioFactura.get('contactoNombre')?.value
           : null,
       ],
-      pago: [null, Validators.compose([Validators.required])],
+      precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
     this.detalles.push(detalleFormGroup);
