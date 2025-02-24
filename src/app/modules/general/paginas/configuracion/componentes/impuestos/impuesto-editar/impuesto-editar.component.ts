@@ -70,6 +70,14 @@ export class ImpuestoEditarComponent extends General implements OnInit {
       });
   }
 
+  limpiarCuentaSeleccionada() {
+    this.formularioImpuestoEditarCuenta.patchValue({
+      cuenta_id: '',
+      cuenta_codigo: '',
+      cuenta_nombre: '',
+    });
+  }
+
   agregarCuentaSeleccionado(cuenta: any) {
     this.formularioImpuestoEditarCuenta.patchValue({
       cuenta_id: cuenta.cuenta_id,

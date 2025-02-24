@@ -123,14 +123,14 @@ export default class EgresoDetalleComponent extends General implements OnInit {
   getTotalDebito(): number {
     return this.detalles
       .filter((detalle) => detalle.naturaleza === 'D') // Filtrar naturaleza 'D'
-      .reduce((total, detalle) => total + detalle.pago, 0); // Acumular los valores de 'pago'
+      .reduce((total, detalle) => total + detalle.precio, 0); // Acumular los valores de 'pago'
   }
 
   // Obtener total de créditos
   getTotalCredito(): number {
     return this.detalles
       .filter((detalle) => detalle.naturaleza === 'C') // Filtrar naturaleza 'C'
-      .reduce((total, detalle) => total + detalle.pago, 0); // Acumular los valores de 'pago'
+      .reduce((total, detalle) => total + detalle.precio, 0); // Acumular los valores de 'pago'
   }
 
   aprobar() {

@@ -35,7 +35,7 @@ export class CuentasComponent
   implements AfterViewInit, OnChanges
 {
   cuentaSeleccionada: any | null = null;
-  arrCuentasLista: any[];
+  arrCuentasLista: any[] = []
   @Input() style: string = ''
   @Input() cuentaCodigo: string = '';
   @Input() cuentaNombre: string = '';
