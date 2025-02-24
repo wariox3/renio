@@ -24,7 +24,7 @@
         aria-labelledby="dropdownBasic1"
         class="dropdown-menu"
       >
-      @if (arrCuentasLista?.length) {
+      @if (arrCuentasLista.length) {
         <ng-container *ngFor="let cuenta of arrCuentasLista">
           <button (click)="agregarCuenta(cuenta)" type="button" ngbDropdownItem>
             {{ cuenta.cuenta_codigo }} {{ cuenta.cuenta_nombre }}
