@@ -968,9 +968,17 @@ export const initialState: MenuItem = {
         // {
         //   nombre: 'proceso',
         // },
-        // {
-        //   nombre: 'informe',
-        // },
+        {
+          nombre: 'informe',
+          children: [
+            {
+              nombre: 'EXISTENCIA',
+              tipo: 'informe',
+              modulo: 'inventario',
+              url: 'inventario/informe/existencia',
+            },
+          ],
+        },
       ],
     },
     {

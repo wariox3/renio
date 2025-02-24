@@ -62,7 +62,7 @@ const Routing: Routes = [
     path: 'inventario',
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/inventario/inventario.routes').then((m) => m.routes),
   },
   {
     path: 'tesoreria',
