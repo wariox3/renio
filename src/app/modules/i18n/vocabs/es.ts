@@ -105,6 +105,7 @@ export const locale = {
         SUCURSAL: 'Sucursal',
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
+        EXISTENCIA: 'Existencia',
       },
     },
     FORMULARIOS: {
@@ -469,7 +470,7 @@ export const locale = {
           },
           FORMAPAGO: {
             NOMBRE: 'Nombre',
-            CUENTANOMBRE: 'Cuenta'
+            CUENTANOMBRE: 'Cuenta',
           },
           PRECIO: {
             TIPO: 'Tipo',
@@ -541,7 +542,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
-          FORMAPAGO: 'Forma pago'
+          FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -952,8 +953,15 @@ export const locale = {
         TIPODOCUMENTO: 'Tipo documento',
         EMPLEADOS: 'Empleados',
         LINEAS: 'Lineas',
-        HORA:'Hora',
-        DOCUMENTO_CONTACTO_NOMBRE_CORTO: 'Empleado'
+        HORA: 'Hora',
+        DOCUMENTO_CONTACTO_NOMBRE_CORTO: 'Empleado',
+        REFERENCIA: 'Referencia',
+        COSTO: 'Costo',
+        PRODUCTO: 'Producto',
+        SERVICIO: 'Servicio',
+        INVENTARIO: 'Inventario',
+        EXISTENCIA: 'Existencia',
+        DISPONIBLE: 'Disponible',
       },
       ITEM: {
         ID: 'ID',
