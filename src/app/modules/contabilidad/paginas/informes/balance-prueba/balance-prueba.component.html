@@ -20,7 +20,7 @@
                   formularioFiltros.controls['fecha_desde'].invalid,
                 'is-valid':
                   formularioFiltros.controls['fecha_desde'].touched &&
-                  formularioFiltros.controls['fecha_desde'].valid
+                  formularioFiltros.controls['fecha_desde'].valid,
               }"
             />
             <ng-container
@@ -29,7 +29,7 @@
                 validation: 'required',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioFiltros.controls['fecha_desde']
+                control: formularioFiltros.controls['fecha_desde'],
               }"
             ></ng-container>
           </div>
@@ -50,7 +50,7 @@
                   formularioFiltros.errors?.fechaInvalida,
                 'is-valid':
                   formularioFiltros.controls['fecha_hasta'].touched &&
-                  formularioFiltros.controls['fecha_hasta'].valid
+                  formularioFiltros.controls['fecha_hasta'].valid,
               }"
             />
             <div *ngIf="formularioFiltros.errors?.fechaInvalida">
@@ -68,7 +68,7 @@
                 validation: 'required',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioFiltros.controls['fecha_hasta']
+                control: formularioFiltros.controls['fecha_hasta'],
               }"
             ></ng-container>
           </div>
@@ -119,7 +119,13 @@
         ></button>
       </div>
     </div>
-    <div class="table-responsive">
+    <div
+      class="table-responsive"
+      [ngClass]="{ 'table-loading': cargandoCuentas() }"
+    >
+      @if (cargandoCuentas()) {
+        <div class="table-loading-message" style="margin-top: 2rem;">Cargando...</div>
+      }
       <table
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
@@ -138,23 +144,24 @@
         </thead>
         <tbody>
           @for (item of cuentasAgrupadas; track $index) {
-          <tr>
-            <td>{{ item.codigo }}</td>
-            <td style="text-align: left">{{ item.nombre }}</td>
-            <td>{{ item.saldo_anterior | currency : "$" }}</td>
-            <td>{{ item.debito | currency : "$" }}</td>
-            <td>{{ item.credito | currency : "$" }}</td>
-            <td>{{ item.saldo_actual | currency : "$" }}</td>
-          </tr>
-          } @if (cuentasAgrupadas.length > 0) {
-          <tr>
-            <td></td>
-            <td style="text-align: left" class="fw-bold">Total</td>
-            <td></td>
-            <td>{{ totalDebito | currency : "$" }}</td>
-            <td>{{ totalCredito | currency : "$" }}</td>
-            <td></td>
-          </tr>
+            <tr>
+              <td>{{ item.codigo }}</td>
+              <td style="text-align: left">{{ item.nombre }}</td>
+              <td>{{ item.saldo_anterior | currency: "$" }}</td>
+              <td>{{ item.debito | currency: "$" }}</td>
+              <td>{{ item.credito | currency: "$" }}</td>
+              <td>{{ item.saldo_actual | currency: "$" }}</td>
+            </tr>
+          }
+          @if (cuentasAgrupadas.length > 0) {
+            <tr>
+              <td></td>
+              <td style="text-align: left" class="fw-bold">Total</td>
+              <td></td>
+              <td>{{ totalDebito | currency: "$" }}</td>
+              <td>{{ totalCredito | currency: "$" }}</td>
+              <td></td>
+            </tr>
           }
         </tbody>
       </table>

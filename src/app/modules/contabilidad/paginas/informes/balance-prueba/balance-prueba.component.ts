@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -24,6 +25,7 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { finalize } from 'rxjs';
 
 interface DataAgrupada {
   [cuentaClaseId: number | string]: {
@@ -95,6 +97,7 @@ export class BalancePruebaComponent extends General implements OnInit {
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
+  public cargandoCuentas = signal<boolean>(false);
 
   private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
@@ -108,7 +111,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     this._construirFiltros();
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] })
+        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] }),
       );
       this._consultarInformes(this._parametrosConsulta);
     });
@@ -140,25 +143,29 @@ export class BalancePruebaComponent extends General implements OnInit {
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
           'fecha_desde',
-          'fecha_hasta'
+          'fecha_hasta',
         ),
-      }
+      },
     );
   }
 
   private _consultarInformes(parametros: any) {
-    this.contabilidadInformesService.consultarBalances(parametros).subscribe({
-      next: (respuesta) => {
-        this.cuentasAgrupadas = respuesta.registros;
-        this.reiniciarTotales();
-        this.cuentasAgrupadas.forEach((cuenta) => {
-          this.totalCredito += cuenta.credito || 0;
-          this.totalDebito += cuenta.debito || 0;
-        });
+    this.cargandoCuentas.set(true);
+    this.contabilidadInformesService
+      .consultarBalances(parametros)
+      .pipe(finalize(() => this.cargandoCuentas.set(false)))
+      .subscribe({
+        next: (respuesta) => {
+          this.cuentasAgrupadas = respuesta.registros;
+          this.reiniciarTotales();
+          this.cuentasAgrupadas.forEach((cuenta) => {
+            this.totalCredito += cuenta.credito || 0;
+            this.totalDebito += cuenta.debito || 0;
+          });
 
-        this.changeDetectorRef.detectChanges();
-      },
-    });
+          this.changeDetectorRef.detectChanges();
+        },
+      });
   }
 
   private reiniciarTotales() {
@@ -225,7 +232,7 @@ export class BalancePruebaComponent extends General implements OnInit {
   imprimir() {
     this._httpService.descargarArchivo(
       'contabilidad/movimiento/imprimir/',
-      this._parametrosConsulta
+      this._parametrosConsulta,
     );
   }
 
@@ -235,13 +242,13 @@ export class BalancePruebaComponent extends General implements OnInit {
         ...this._parametrosConsulta,
         limite: 5000,
       },
-      'contabilidad/movimiento/excel/'
+      'contabilidad/movimiento/excel/',
     );
   }
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
-    fechaHasta: string
+    fechaHasta: string,
   ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
