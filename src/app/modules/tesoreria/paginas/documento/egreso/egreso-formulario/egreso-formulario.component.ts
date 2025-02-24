@@ -194,7 +194,7 @@ export default class EgresoFormularioComponent
             numero: [numero],
             contacto: [detalle.contacto_id],
             contacto_nombre: [detalle.contacto_nombre_corto],
-            pago: [detalle.pago],
+            precio: [detalle.precio],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
@@ -226,12 +226,12 @@ export default class EgresoFormularioComponent
     this.total = 0;
     const detallesArray = this.formularioEgreso.get('detalles') as FormArray;
     detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('pago')?.value || 0;
+      const precio = detalleControl.get('precio')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += parseFloat(pago);
+        this.totalCredito += parseFloat(precio);
       } else {
-        this.totalDebito += parseFloat(pago);
+        this.totalDebito += parseFloat(precio);
       }
       this.changeDetectorRef.detectChanges();
     });
@@ -422,7 +422,7 @@ export default class EgresoFormularioComponent
       numero: [null],
       contacto: [null],
       contacto_nombre: [null],
-      pago: [null, Validators.compose([Validators.required])],
+      precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
     });
     this.detalles.push(detalleFormGroup);
@@ -559,7 +559,7 @@ export default class EgresoFormularioComponent
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto_nombre: [documentoSeleccionado.contacto_nombre],
-        pago: [documentoSeleccionado.pendiente],
+        precio: [documentoSeleccionado.pendiente],
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
