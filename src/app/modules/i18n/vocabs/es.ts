@@ -312,6 +312,7 @@ export const locale = {
           LISTA: 'Lista',
           DETALLES: 'Detalles',
           OTRAINFROMACION: 'Otra información',
+          MASINFROMACION: 'Más información',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
           PRECIO: 'Precio',

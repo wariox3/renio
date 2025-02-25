@@ -1,7 +1,17 @@
 <form [formGroup]="formularioEntrada" (ngSubmit)="enviarFormulario()">
   <app-comun-encabezado-formulario-nuevo
     [estadoAprobado]="false"
-  ></app-comun-encabezado-formulario-nuevo>
+  >
+  @if (detalle) {
+    <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+      <app-importar-detalles
+        [estadoHabilitado]="estado_aprobado"
+        [aplicarUrlInventario]="true"
+        (emitirDetallesAgregados)="consultardetalle()"
+      ></app-importar-detalles>
+    </div>
+    }
+</app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
@@ -47,41 +57,6 @@
           </app-comun-alamacenes>
         </div>
       </div>
-      @if (!detalle) {
-        <div class="row mb-5">
-          <div class="col-md-12 col-sm-12">
-            <label
-              class="form-label"
-              translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-            ></label>
-            <textarea
-              formControlName="comentario"
-              class="form-control"
-              id="exampleFormControlTextarea1"
-              (blur)="modificarCampoFormulario('comentario', null)"
-              rows="3"
-              [ngClass]="{
-                'is-invalid':
-                  formularioEntrada.controls['comentario'].touched &&
-                  formularioEntrada.controls['comentario'].invalid,
-                'is-valid':
-                  formularioEntrada.controls['comentario'].touched &&
-                  formularioEntrada.controls['comentario'].valid,
-              }"
-            ></textarea>
-            <ng-container
-              [ngTemplateOutlet]="formError"
-              [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message:
-                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                cantidadCaracteres: '500',
-                control: formularioEntrada.controls['comentario'],
-              }"
-            ></ng-container>
-          </div>
-        </div>
-      }
       <div class="row mb-5">
         <div class="col-12">
           <ul
@@ -295,46 +270,43 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFROMACION"
               ></a>
               <ng-template ngbNavContent>
-
-                @if (detalle) {
-                  <div class="row mb-5">
-                    <div class="col-md-12 col-sm-12">
-                      <label
-                        class="form-label"
-                        translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-                      ></label>
-                      <textarea
-                        formControlName="comentario"
-                        class="form-control"
-                        id="exampleFormControlTextarea1"
-                        (blur)="modificarCampoFormulario('comentario', null)"
-                        rows="3"
-                        [ngClass]="{
-                          'is-invalid':
-                            formularioEntrada.controls['comentario'].touched &&
-                            formularioEntrada.controls['comentario'].invalid,
-                          'is-valid':
-                            formularioEntrada.controls['comentario'].touched &&
-                            formularioEntrada.controls['comentario'].valid,
-                        }"
-                      ></textarea>
-                      <ng-container
-                        [ngTemplateOutlet]="formError"
-                        [ngTemplateOutletContext]="{
-                          validation: 'maxlength',
-                          message:
-                            'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-                          cantidadCaracteres: '500',
-                          control: formularioEntrada.controls['comentario'],
-                        }"
-                      ></ng-container>
-                    </div>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioEntrada.controls['comentario'].touched &&
+                          formularioEntrada.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioEntrada.controls['comentario'].touched &&
+                          formularioEntrada.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioEntrada.controls['comentario'],
+                      }"
+                    ></ng-container>
                   </div>
-                }
-
+                </div>
               </ng-template>
             </li>
           </ul>
