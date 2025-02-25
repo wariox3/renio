@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
@@ -12,6 +13,7 @@ import { finalize, forkJoin, tap } from 'rxjs';
 export class ContabilizarService {
   private readonly _generalService = inject(GeneralService);
   private readonly _httpService = inject(HttpService);
+  private readonly _documentoService = inject(DocumentoService);
   private readonly _parametrosConsulta = signal<ParametrosFiltros>({
     limite: 50,
     desplazar: 0,
@@ -62,13 +64,13 @@ export class ContabilizarService {
   public consultarListaContabilizar() {
     return this._generalService
       .consultarDatosAutoCompletar<RespuestaContabilizarLista>(
-        this._parametrosConsulta()
+        this._parametrosConsulta(),
       )
       .pipe(
         tap((respuesta) => {
           this.cantidadRegistros.set(respuesta.cantidad_registros);
           this.contabilizarLista.set(respuesta.registros);
-        })
+        }),
       );
   }
 
@@ -81,10 +83,8 @@ export class ContabilizarService {
     });
   }
 
-  public contabilizarTodos(id: number) {
-    return this._httpService.post('general/documento/contabilizar/', {
-      id,
-    });
+  public contabilizarTodos(ids: number[]) {
+    return this._documentoService.contabilizar({ ids });
   }
 
   public actualizarFiltrosParametros(filtros: Filtros[]) {
@@ -106,15 +106,7 @@ export class ContabilizarService {
   }
 
   public ejecutarContabilizarTodos() {
-    const peticiones = this.registrosSeleccionados().map((id) =>
-      this.contabilizarTodos(id)
-    );
-
-    return forkJoin(peticiones).pipe(
-      finalize(() => {
-        this.reiniciarRegistrosSeleccionados();
-      })
-    );
+    return this.contabilizarTodos(this.registrosSeleccionados());
   }
 
   public aplicarFiltros(filtros: Filtros[]) {
@@ -153,7 +145,7 @@ export class ContabilizarService {
 
   public removerIdRegistrosSeleccionados(id: number) {
     const itemsFiltrados = this.registrosSeleccionados().filter(
-      (item) => item !== id
+      (item) => item !== id,
     );
     this.registrosSeleccionados.set(itemsFiltrados);
   }

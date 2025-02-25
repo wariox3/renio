@@ -55,7 +55,7 @@ export class FechasService {
     const primerDiaDelSiguienteMes = new Date(
       date.getFullYear(),
       date.getMonth() + 1,
-      1
+      1,
     );
 
     // Restar un día al primer día del próximo mes para obtener el último día del mes actual
@@ -79,14 +79,14 @@ export class FechasService {
     const primerDiaDelMesSiguiente = new Date(
       fechaActual.getFullYear(),
       mesSiguiente,
-      1
+      1,
     );
 
     // Obtenemos los componentes de la fecha (año, mes y día)
     const año = primerDiaDelMesSiguiente.getFullYear();
     const mes = String(primerDiaDelMesSiguiente.getMonth() + 1).padStart(
       2,
-      '0'
+      '0',
     ); // Agregamos ceros iniciales si el mes es menor a 10
     const dia = String(primerDiaDelMesSiguiente.getDate()).padStart(2, '0'); // Agregamos ceros iniciales si el día es menor a 10
 
@@ -110,7 +110,7 @@ export class FechasService {
           const primerDiaDelMes = new Date(
             fechaActual.getFullYear(),
             fechaActual.getMonth(),
-            1
+            1,
           );
 
           const diaActual = fechaActual.getDate();
@@ -119,7 +119,7 @@ export class FechasService {
           const anioActual = fechaActual.getFullYear();
 
           resultado = `del ${primerDia} al ${diaActual} de ${mesActual} de ${anioActual}.`;
-        })
+        }),
       )
       .subscribe();
     return resultado;
@@ -139,7 +139,7 @@ export class FechasService {
         const primerDiaDelMes = new Date(
           fechaActual.getFullYear(),
           fechaActual.getMonth(),
-          1
+          1,
         );
 
         const diaActual = fechaActual.getDate();
@@ -155,7 +155,7 @@ export class FechasService {
         }
 
         return mensaje;
-      })
+      }),
     );
   }
 
@@ -168,5 +168,14 @@ export class FechasService {
       .getDate()
       .toString()
       .padStart(2, '0')}`;
+  }
+
+  obtenerFechaActualFormateada(): string {
+    const fecha = new Date();
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11, por eso sumamos 1
+    const dia = String(fecha.getDate()).padStart(2, '0');
+
+    return `${año}-${mes}-${dia}`;
   }
 }
