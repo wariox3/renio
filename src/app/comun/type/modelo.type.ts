@@ -17,6 +17,7 @@ export type Modelo =
   | 'GenPlazoPago'
   | 'GenBanco'
   | 'GenEmpleado'
+  | 'GenDocumentoTipo'
   | 'GenCuentaBancoClase'
   | 'GenCuentaBanco'
   | 'GenResolucion'
