@@ -161,7 +161,7 @@ export interface DocumentoFacturaRespuesta {
   contrato_id: any;
   detalles: DocumentoFacturaDetalleRespuesta[];
   pagos: PagoRespuestaFormulario[];
-  referencia_cue:string;
+  referencia_cue: string;
   referencia_numero: number;
   referencia_prefijo: string;
 }
@@ -207,5 +207,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   concepto_nombre: string;
   tipo_registro: string;
   credito_id: any;
+  grupo_id: number;
+  grupo_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
 }

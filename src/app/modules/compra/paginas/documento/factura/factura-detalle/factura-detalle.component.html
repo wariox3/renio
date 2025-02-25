@@ -42,11 +42,11 @@
       </button>
       <app-comun-documento-opciones
         [opciones]="{
-          modelo: 'ConMovimiento'
+          modelo: 'ConMovimiento',
         }"
         (itemDesaprobadoEvent)="consultardetalle()"
         [opcionesDesaprobarBoton]="{
-          deshabilitado: !documento.estado_aprobado || documento.estado_anulado
+          deshabilitado: !documento.estado_aprobado || documento.estado_anulado,
         }"
         [documento]="documento"
       ></app-comun-documento-opciones>
@@ -201,7 +201,13 @@
                           {{ detalle.cuenta_nombre }}
                         </td>
                         <td style="width: 10rem">
-                          {{ detalle.cantidad }}
+                          @if (detalle.tipo_registro === "C") {
+                            {{
+                              detalle.naturaleza === "D" ? "Débito" : "Crédito"
+                            }}
+                          } @else {
+                            {{ detalle.cantidad }}
+                          }
                         </td>
                         <td class="text-end">
                           {{ detalle.precio | number }}
@@ -214,14 +220,18 @@
                           {{ detalle.subtotal | number }}
                         </td>
                         <td class="text-center">
-                          <ul
-                            *ngFor="
-                              let impuesto of detalle.impuestos;
-                              let i = index
-                            "
-                          >
-                            <li>{{ impuesto.impuesto_nombre_extendido }}</li>
-                          </ul>
+                          @if (detalle.tipo_registro === "C") {
+                            {{ detalle.grupo_nombre }}
+                          } @else {
+                            <ul
+                              *ngFor="
+                                let impuesto of detalle.impuestos;
+                                let i = index
+                              "
+                            >
+                              <li>{{ impuesto.impuesto_nombre_extendido }}</li>
+                            </ul>
+                          }
                         </td>
                         <td class="text-end">
                           {{ detalle.total | number }}
@@ -249,15 +259,15 @@
     </div>
     <div class="row">
       <div class="d-flex justify-content-end mb-5">
-        @if(documento.detalles.length || !documento.estado_anulado){
-        <app-detalles-totales
-          [detalles]="documento.detalles"
-          [totalBase]="totalBase"
-          [subtotalGeneral]="subtotalGeneral"
-          [totalImpuestos]="totalImpuestos"
-          [totalGeneral]="totalGeneral"
-          [totalCantidad]="totalCantidad"
-        ></app-detalles-totales>
+        @if (documento.detalles.length || !documento.estado_anulado) {
+          <app-detalles-totales
+            [detalles]="documento.detalles"
+            [totalBase]="totalBase"
+            [subtotalGeneral]="subtotalGeneral"
+            [totalImpuestos]="totalImpuestos"
+            [totalGeneral]="totalGeneral"
+            [totalCantidad]="totalCantidad"
+          ></app-detalles-totales>
         }
       </div>
     </div>
