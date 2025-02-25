@@ -280,7 +280,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   contabilizar() {
-    this._documentoService.contabilizar({ id: this.documento.id }).subscribe({
+    this._documentoService.contabilizar({ ids: [this.documento.id] }).subscribe({
       next: () => {
         this.itemDesaprobadoEvent.emit();
         this._consultarInformacionTabla();
@@ -295,7 +295,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   descontabilizar() {
     this._documentoService
-      .descontabilizar({ id: this.documento.id })
+      .descontabilizar({ ids: [this.documento.id] })
       .subscribe({
         next: () => {
           this.itemDesaprobadoEvent.emit();

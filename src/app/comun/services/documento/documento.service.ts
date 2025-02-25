@@ -11,11 +11,11 @@ export class DocumentoService {
     return this._httpService.post('general/documento/desaprobar/', payload);
   }
 
-  contabilizar(payload: { id: number }) {
+  contabilizar(payload: { ids: number[] }) {
     return this._httpService.post('general/documento/contabilizar/', payload);
   }
 
-  descontabilizar(payload: { id: number }) {
+  descontabilizar(payload: { ids: number[] }) {
     return this._httpService.post(
       'general/documento/descontabilizar/',
       payload
