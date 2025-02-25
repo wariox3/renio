@@ -203,7 +203,11 @@
                         <td style="width: 10rem">
                           @if (detalle.tipo_registro === "C") {
                             {{
-                              detalle.naturaleza === "D" ? "Débito" : "Crédito"
+                              detalle.naturaleza === null
+                                ? ""
+                                : detalle.naturaleza === "D"
+                                  ? "Débito"
+                                  : "Crédito"
                             }}
                           } @else {
                             {{ detalle.cantidad }}
