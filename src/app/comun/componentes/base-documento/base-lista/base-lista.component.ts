@@ -15,7 +15,13 @@ import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, combineLatest, finalize, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  finalize,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 
 @Component({
@@ -29,7 +35,7 @@ import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filt
     BaseFiltroComponent,
     TablaComponent,
     ModalDinamicoComponent,
-],
+  ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
@@ -63,22 +69,22 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarBtnImportar = true;
   visualizarBtnExportarZip: boolean;
 
-  public mostrarVentanaCargando$: BehaviorSubject<boolean>
+  public mostrarVentanaCargando$: BehaviorSubject<boolean>;
 
   constructor(
     private httpService: HttpService,
     private descargarArchivosService: DescargarArchivosService,
     private modalService: NgbModal,
-    private modalDinamicoService: ModalDinamicoService
+    private modalDinamicoService: ModalDinamicoService,
   ) {
     super();
-    this.mostrarVentanaCargando$ = new BehaviorSubject(false)
+    this.mostrarVentanaCargando$ = new BehaviorSubject(false);
   }
 
   ngOnInit(): void {
-    this.alertaService.cerrarMensajes()
+    this.alertaService.cerrarMensajes();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.arrParametrosConsulta.desplazar = 0
+      this.arrParametrosConsulta.desplazar = 0;
       this.arrParametrosConsulta.ordenamientos = [];
       this.visualizarColumnaEditar =
         parametro.visualizarColumnaEditar === 'no' ? false : true;
@@ -91,7 +97,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       this.visualizarBtnImportar =
         parametro.visualizarBtnImportar === 'no' ? false : true;
       this.visualizarBtnExportarZip =
-      parametro.visualizarBtnExportarZip === 'si' ?  true : false;
+        parametro.visualizarBtnExportarZip === 'si' ? true : false;
 
       this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
       this.modelo = parametro.itemNombre!;
@@ -119,17 +125,18 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   consultarLista() {
-    this.mostrarVentanaCargando$.next(true)
+    this.mostrarVentanaCargando$.next(true);
     this.arrItems = [];
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
-
         const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-        const filtroPermanenteStr = localStorage.getItem(`${this.nombreFiltro}_filtro_lista_fijo`);
+        const filtroPermanenteStr = localStorage.getItem(
+          `${this.nombreFiltro}_filtro_lista_fijo`,
+        );
 
         let consultaHttp: string = parametro.consultaHttp!;
         let ordenamientoFijo: any[] = parametro?.ordenamiento;
-        let filtroPermamente: any = []
+        let filtroPermamente: any = [];
         if (filtroPermanenteStr !== null) {
           filtroPermamente = JSON.parse(filtroPermanenteStr);
         }
@@ -160,7 +167,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           this.httpService
             .post<{
               registros: any;
-              cantidad_registros: number
+              cantidad_registros: number;
             }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
             .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
             .subscribe((respuesta) => {
@@ -170,8 +177,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             });
         } else {
           let baseUrl = 'general/funcionalidad/lista/';
-          this.arrParametrosConsulta.modelo = parametro.documento_clase
-          this.arrParametrosConsulta.ordenamientos = []
+          this.arrParametrosConsulta.modelo = parametro.documento_clase;
+          this.arrParametrosConsulta.ordenamientos = [];
 
           if (filtroGuardado !== null) {
             this.arrParametrosConsulta.filtros = [
@@ -272,47 +279,53 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      this.activatedRoute.queryParams.subscribe((parametro) => {
-        this.mostrarVentanaCargando$.next(true);
+      this.activatedRoute.queryParams
+        .subscribe((parametro) => {
+          this.mostrarVentanaCargando$.next(true);
 
-        const consultaHttp = parametro.consultaHttp;
-        if (consultaHttp === 'si') {
-          this.httpService
-            .post('general/documento/eliminar/', { documentos: data })
-            .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-            .subscribe((respuesta: any) => {
-              this.alertaService.mensajaExitoso(respuesta.mensaje);
-              this.consultarLista();
+          const consultaHttp = parametro.consultaHttp;
+          if (consultaHttp === 'si') {
+            this.httpService
+              .post('general/documento/eliminar/', { documentos: data })
+              .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+              .subscribe((respuesta: any) => {
+                this.alertaService.mensajaExitoso(respuesta.mensaje);
+                this.consultarLista();
+              });
+          } else {
+            let modelo = this.modelo.toLowerCase();
+            let modulo = localStorage.getItem('ruta');
+            let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+            if (
+              eliminarPrefijos.includes(
+                this.modelo.toLowerCase().substring(0, 3),
+              )
+            ) {
+              modelo = this.modelo
+                .toLowerCase()
+                .substring(3, this.modelo.length);
+            }
+            const eliminarSolicitudes = data.map((id) => {
+              return this.httpService.delete(
+                `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
+                {},
+              );
             });
-        } else {
-          let modelo = this.modelo.toLowerCase();
-          let modulo = localStorage.getItem('ruta');
-          let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-          if (
-            eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
-          ) {
-            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+            combineLatest(eliminarSolicitudes)
+              .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+              .subscribe((respuesta: any) => {
+                this.alertaService.mensajaExitoso('Registro eliminado');
+                this.confirmacionRegistrosEliminado = true;
+                this.changeDetectorRef.detectChanges();
+                this.consultarLista();
+              });
           }
-          const eliminarSolicitudes = data.map((id) => {
-            return this.httpService.delete(
-              `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
-              {}
-            );
-          });
-          combineLatest(eliminarSolicitudes)
-          .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-          .subscribe((respuesta: any) => {
-            this.alertaService.mensajaExitoso('Registro eliminado');
-            this.confirmacionRegistrosEliminado = true;
-            this.changeDetectorRef.detectChanges();
-            this.consultarLista();
-          });
-        }
-      }).unsubscribe();
+        })
+        .unsubscribe();
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
   }
@@ -347,13 +360,14 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
       excel: true,
+      serializador: 'Excel',
       ...{
         limite: 5000,
       },
     });
   }
 
-  descargarZip(){
+  descargarZip() {
     this.descargarArchivosService.descargarZipDocumentos({
       ...this.arrParametrosConsulta,
       zip: true,
@@ -367,5 +381,4 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
 }
