@@ -10,25 +10,25 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
-  selector: 'app-comun-contactos',
+  selector: 'app-comun-alamacenes',
   standalone: true,
   imports: [CommonModule, TranslateModule, NgbDropdownModule],
-  templateUrl: './contactos.component.html',
-  styleUrl: './contactos.component.scss',
+  templateUrl: './alamacenes.component.html',
+  styleUrl: './almacenes.component.scss'
 })
-export class ContactosComponent extends General {
+export class AlmacenesComponent extends General {
   itemSeleccionado: any | null = null;
-  arrContactos: any[];
-  @Input() contactoNombre: string = '';
+  arrAlmacenes: any[];
+  @Input() almacenNombre: string = '';
   @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
-  @Output() emitirContacto: EventEmitter<any> = new EventEmitter();
+  @Output() emitirAlmacen: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
@@ -45,18 +45,18 @@ export class ContactosComponent extends General {
     }
   }
 
-  agregarContacto(item: any) {
+  agregarAlmacen(item: any) {
     this.itemSeleccionado = item;
-    this.contactoNombre = item.contacto_nombre_corto;
-    this.emitirContacto.emit(item);
+    this.almacenNombre = item.almacen_nombre;
+    this.emitirAlmacen.emit(item);
   }
 
-  consultarContactos(event: any) {
+  consultarAlmacenes(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>({
         filtros: [
           {
-            propiedad: 'nombre_corto__icontains',
+            propiedad: 'nombre__icontains',
             valor1: `${event?.target.value}`,
           },
         ],
@@ -64,21 +64,21 @@ export class ContactosComponent extends General {
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
-        modelo: 'GenContacto',
+        modelo: 'InvAlmacen',
         serializador: 'ListaAutocompletar',
       })
       .subscribe((respuesta) => {
-        this.arrContactos = respuesta.registros;
+        this.arrAlmacenes = respuesta.registros;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   aplicarFiltrosContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
+      .consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>({
         filtros: [
           {
-            propiedad: 'nombre_corto__icontains',
+            propiedad: 'nombre__icontains',
             valor1: `${event?.target.value}`,
           },
         ],
@@ -86,13 +86,13 @@ export class ContactosComponent extends General {
         desplazar: 0,
         ordenamientos: [],
         limite_conteo: 10000,
-        modelo: 'GenContacto',
+        modelo: 'InvAlmacen',
         serializador: 'ListaAutocompletar',
       })
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+          this.arrAlmacenes = respuesta.registros;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
         })

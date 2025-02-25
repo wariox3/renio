@@ -86,6 +86,12 @@ export class SeleccionarProductoComponent
     }
   }
 
+  validarValor(){
+    if(this.inputItem.nativeElement.value === ''){
+      this.emitirLineaVacia.emit(true)
+    }
+  }
+
   agregarItem(item: any) {
     let parametrosConsulta = {
       id: item.item_id,
