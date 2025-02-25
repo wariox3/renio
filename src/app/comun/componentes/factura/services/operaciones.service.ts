@@ -42,6 +42,7 @@ export class OperacionesService {
       | 'cantidad'
       | 'total_bruto'
       | 'descuento'
+      | 'precio'
   ) {
     return this.redondear(
       detalle.reduce((acc, curVal) => {
