@@ -340,6 +340,7 @@ export const locale = {
           PRODUCTOCUENTA: 'Item / Cuenta',
           DESCARTAR: 'Descartar',
           CONTABILIZAR: 'Contabilizar',
+          NATURALEZA: 'Naturaleza'
         },
         GENERAL: {
           ITEM: {
