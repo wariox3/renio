@@ -19,8 +19,13 @@ export const routes: Route[] = [
       {
         path: 'existencia',
         loadComponent: () =>
+          import('./paginas/informes/existencia/existencia.component'),
+      },
+      {
+        path: 'historial_movimientos',
+        loadComponent: () =>
           import(
-            './paginas/informes/existencia/existencia.component'
+            './paginas/informes/historial-movimientos/historial-movimientos.component'
           ),
       },
     ],

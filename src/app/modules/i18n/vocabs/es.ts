@@ -106,6 +106,7 @@ export const locale = {
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
         EXISTENCIA: 'Existencia',
+        HISTORIALMOVIMIENTOS: 'Historial movimientos'
       },
     },
     FORMULARIOS: {
