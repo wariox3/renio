@@ -977,6 +977,12 @@ export const initialState: MenuItem = {
               modulo: 'inventario',
               url: 'inventario/informe/existencia',
             },
+            {
+              nombre: 'HISTORIALMOVIMIENTOS',
+              tipo: 'informe',
+              modulo: 'inventario',
+              url: 'inventario/informe/historial_movimientos',
+            },
           ],
         },
       ],

@@ -22,6 +22,12 @@
                 (click)="contabilizarTodos()"
                 translate="FORMULARIOS.TITULOS.FACTURACION.CONTABILIZAR"
               ></button>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                id="dropdownBasic1"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DESCONTABILIZAR"
+              ></button>
             </div>
           </div>
         </div>
@@ -118,4 +124,20 @@
       </section>
     </section>
   </app-card>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4
+        class="modal-title"
+        id="modal-basic-title"
+        translate="FORMULARIOS.TITULOS.COMUNES.DESCONTABILIZAR"
+      ></h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body"></div>
+  </ng-template>
 </div>
