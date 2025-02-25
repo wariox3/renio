@@ -38,6 +38,7 @@ import {
   tap,
   zip,
 } from 'rxjs';
+import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
 
 @Component({
   selector: 'app-entrada-formulario',
@@ -55,7 +56,8 @@ import {
     NgbNavModule,
     SoloNumerosDirective,
     SeleccionarProductoComponent,
-  ],
+    ImportarDetallesComponent
+],
   templateUrl: './entrada-formulario.component.html',
   styleUrl: './entrada-formulario.component.scss',
 })
@@ -63,6 +65,9 @@ export default class EntradaFormularioComponent
   extends General
   implements OnInit
 {
+consultardetalle() {
+throw new Error('Method not implemented.');
+}
   private _formBuilder = inject(FormBuilder);
   private _entradaService = inject(EntradaService);
   private _formularioEntradaService = inject(FormularioEntradaService);

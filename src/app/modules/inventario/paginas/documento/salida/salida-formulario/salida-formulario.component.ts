@@ -16,6 +16,7 @@ import { ContactosComponent } from '@comun/componentes/contactos/contactos.compo
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SeleccionarProductoComponent } from '@comun/componentes/factura/components/seleccionar-producto/seleccionar-producto.component';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
@@ -55,7 +56,8 @@ import {
     NgbNavModule,
     SoloNumerosDirective,
     SeleccionarProductoComponent,
-  ],
+    ImportarDetallesComponent
+],
   templateUrl: './salida-formulario.component.html',
   styleUrl: './salida-formulario.component.scss',
 })
@@ -98,6 +100,66 @@ export default class SalidaFormularioComponent
 
   get detallesEliminados(): FormArray {
     return this.formularioSalida.get('detalles_eliminados') as FormArray;
+  }
+
+
+  consultardetalle() {
+    // this.facturaService
+    //   .consultarDetalle(this.detalle)
+    //   .subscribe((respuesta: any) => {
+    //     this.estado_aprobado = respuesta.documento.estado_aprobado;
+    //     this.formularioAsiento.patchValue({
+    //       contacto: respuesta.documento.contacto_id,
+    //       contactoNombre: respuesta.documento.contacto_nombre_corto,
+    //       fecha: respuesta.documento.fecha,
+    //       comentario: respuesta.documento.comentario,
+    //       total: respuesta.documento.total,
+    //       soporte: respuesta.documento.soporte,
+    //       comprobante: respuesta.documento.comprobante_id,
+    //       comprobante_nombre: respuesta.documento.comprobante_nombre,
+    //       grupo_contabilidad: respuesta.documento.grupo_contabilidad_id,
+    //       grupo_contabilidad_nombre:
+    //         respuesta.documento.grupo_contabilidad_nombre,
+    //     });
+
+    //     this.detalles.clear();
+    //     respuesta.documento.detalles.forEach((detalle: any) => {
+    //       const detalleFormGroup = this.formBuilder.group({
+    //         id: [detalle.id],
+    //         documento_afectado: [detalle.documento_afectado_id],
+    //         tipo_registro: detalle.tipo_registro,
+    //         numero: [detalle.numero],
+    //         contacto: [
+    //           detalle.documento_afectado_contacto_id
+    //             ? detalle.documento_afectado_contacto_id
+    //             : detalle.contacto_id,
+    //         ],
+    //         contacto_nombre_corto: [
+    //           detalle.documento_afectado_id
+    //             ? detalle.documento_afectado_contacto_nombre_corto
+    //             : detalle.contacto_nombre_corto,
+    //         ],
+    //         precio: [detalle.precio],
+    //         seleccionado: [false],
+    //         cuenta: detalle.cuenta,
+    //         cuenta_codigo: detalle.cuenta_codigo,
+    //         cuenta_nombre: detalle.cuenta_nombre,
+    //         grupo: detalle.grupo_id,
+    //         naturaleza: detalle.naturaleza,
+    //         base_impuesto: detalle.base_impuesto,
+    //         detalle: detalle.detalle,
+    //       });
+    //       this.detalles.push(detalleFormGroup);
+    //     });
+    //     if (respuesta.documento.estado_aprobado) {
+    //       this.formularioAsiento.disable();
+    //     } else {
+    //       this.formularioAsiento.markAsPristine();
+    //       this.formularioAsiento.markAsUntouched();
+    //     }
+    //     this.calcularTotales();
+    //     this.changeDetectorRef.detectChanges();
+    //   });
   }
 
   enviarFormulario() {
