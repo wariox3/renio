@@ -848,7 +848,7 @@ export const locale = {
         PENDIENTE: 'Saldo',
         CONTACTO_ID: 'Cód',
         COMENTARIO: 'Comentario',
-        ESTADO_ELECTRONICO: 'Electronico',
+        ESTADO_ELECTRONICO: 'Electrónico',
         ESTADO_ELECTRONICO_ENVIADO: 'Estado electronico enviado',
         ESTADO_ELECTRONICO_NOTIFICADO: 'Estado electronico notificado',
         SOPORTE: 'Soporte',
