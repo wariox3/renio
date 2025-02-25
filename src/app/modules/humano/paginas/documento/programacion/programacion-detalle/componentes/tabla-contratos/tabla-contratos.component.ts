@@ -54,7 +54,9 @@ export class TablaContratosComponent extends General implements OnInit {
   private _programacionDetalleService = inject(ProgramacionDetalleService);
   private _tablaContratosService = inject(TablaContratosService);
 
-  cantidadRegistros = computed(() => this._tablaContratosService.cantidadRegistros());
+  cantidadRegistros = computed(() =>
+    this._tablaContratosService.cantidadRegistros(),
+  );
   ordenadoTabla = signal('');
   cargandoContratos = signal(false);
   isCheckedSeleccionarTodos =
@@ -185,7 +187,13 @@ export class TablaContratosComponent extends General implements OnInit {
       modelo,
       serializador: 'Excel',
       excel: true,
-      filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
+      filtros: [
+        {
+          propiedad: 'programacion_id',
+          operador: 'exact',
+          valor1: this.programacion.id,
+        },
+      ],
       limite: 10000,
     };
     let filtroDetalleContratos = localStorage.getItem(`documento_programacion`);
@@ -209,6 +217,7 @@ export class TablaContratosComponent extends General implements OnInit {
       filtros: [
         {
           propiedad: 'programacion_detalle__programacion_id',
+          operador: 'exact',
           valor1: this.programacion.id,
         },
       ],
@@ -227,6 +236,7 @@ export class TablaContratosComponent extends General implements OnInit {
       filtros: [
         {
           propiedad: 'documento__programacion_detalle__programacion_id',
+          operador: 'exact',
           valor1: this.programacion.id,
         },
       ],
@@ -250,7 +260,7 @@ export class TablaContratosComponent extends General implements OnInit {
         finalize(() => {
           this.cargandoContratos.set(false);
           this.emitirEventoConsultarLista.emit();
-        })
+        }),
       )
       .subscribe();
   }
@@ -266,7 +276,7 @@ export class TablaContratosComponent extends General implements OnInit {
           finalize(() => {
             this.isCheckedSeleccionarTodos.set(false);
             this.emitirEventoConsultarLista.emit();
-          })
+          }),
         )
         .subscribe(() => {
           this.alertaService.mensajaExitoso('Registro eliminado');
@@ -274,7 +284,7 @@ export class TablaContratosComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
     this.registrosAEliminar.set([]);

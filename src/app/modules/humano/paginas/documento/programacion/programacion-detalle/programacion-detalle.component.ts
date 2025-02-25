@@ -179,7 +179,7 @@ export default class ProgramacionDetalleComponent
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private adicionalService: AdicionalService,
-    private programacionDetalleService: ProgramacionDetalleService
+    private programacionDetalleService: ProgramacionDetalleService,
   ) {
     super();
     this._inicializarBusqueda();
@@ -197,7 +197,7 @@ export default class ProgramacionDetalleComponent
         distinctUntilChanged(),
         switchMap((valor: string) => {
           return this.consultarContratosPorNombre(valor);
-        })
+        }),
       )
       .subscribe();
   }
@@ -226,26 +226,26 @@ export default class ProgramacionDetalleComponent
         }),
         switchMap(() =>
           this._tablaContratosService.consultarListaContratos(
-            this.arrParametrosConsulta
-          )
+            this.arrParametrosConsulta,
+          ),
         ),
         map((respuesta: any) =>
           respuesta.registros.map((registro: TablaRegistroLista) => ({
             ...registro,
             selected: false,
-          }))
+          })),
         ),
         tap((registros: any) => {
           this.cantidadRegistrosProgramacionDetalle = registros.length;
           this.arrProgramacionDetalle = registros;
-        })
+        }),
       )
       .subscribe(() => {
         this.changeDetectorRef.detectChanges();
       });
 
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: FiltrosDetalleProgramacionContratos })
+      ActualizarMapeo({ dataMapeo: FiltrosDetalleProgramacionContratos }),
     );
   }
 
@@ -268,7 +268,7 @@ export default class ProgramacionDetalleComponent
       modelo: 'HumProgramacionDetalle',
     };
     const filtroDetalleContratos = localStorage.getItem(
-      `documento_programacion`
+      `documento_programacion`,
     );
     if (filtroDetalleContratos !== null) {
       let filtroPermamente = JSON.parse(filtroDetalleContratos);
@@ -376,17 +376,17 @@ export default class ProgramacionDetalleComponent
         switchMap((respuesta) =>
           respuesta
             ? this.programacionService.consultarDetalle(this.detalle)
-            : EMPTY
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.programacion = respuestaConsultaDetalle;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -396,7 +396,7 @@ export default class ProgramacionDetalleComponent
       this.programacionDetalleService
         .actualizarDetalles(
           this.registroSeleccionado,
-          this.formularioEditarDetalleProgramacion.value
+          this.formularioEditarDetalleProgramacion.value,
         )
         .subscribe(() => {
           this.alertaService.mensajaExitoso('Se actualizó la información');
@@ -410,7 +410,7 @@ export default class ProgramacionDetalleComponent
       this.adicionalService
         .actualizarDatosAdicional(
           this.registroAdicionalSeleccionado,
-          this.formularioAdicionalProgramacion.value
+          this.formularioAdicionalProgramacion.value,
         )
         .subscribe(() => {
           this.consultarAdicionalesTab();
@@ -449,7 +449,7 @@ export default class ProgramacionDetalleComponent
         finalize(() => {
           this.cargandoContratos = false;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe(() => {
         this.consultarDatos();
@@ -469,7 +469,7 @@ export default class ProgramacionDetalleComponent
           this.generando = false;
           this.tablaContratosComponent.consultarDatos();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
@@ -489,7 +489,7 @@ export default class ProgramacionDetalleComponent
           this.dropdown.close();
           this.tablaContratosComponent.consultarDatos();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe(() => {
         this.consultarDatos();
@@ -730,14 +730,14 @@ export default class ProgramacionDetalleComponent
 
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>(
-        arrFiltros
+        arrFiltros,
       )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrConceptos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -788,7 +788,7 @@ export default class ProgramacionDetalleComponent
           this.arrContratos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       );
   }
 
@@ -816,7 +816,7 @@ export default class ProgramacionDetalleComponent
           this.arrContratos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       )
       .subscribe();
   }
@@ -950,7 +950,7 @@ export default class ProgramacionDetalleComponent
           .pipe(
             finalize(() => {
               this.isCheckedSeleccionarTodos = false;
-            })
+            }),
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
@@ -960,7 +960,7 @@ export default class ProgramacionDetalleComponent
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
 
@@ -977,7 +977,7 @@ export default class ProgramacionDetalleComponent
           .pipe(
             finalize(() => {
               this.isCheckedSeleccionarTodosAdicional = false;
-            })
+            }),
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
@@ -987,7 +987,7 @@ export default class ProgramacionDetalleComponent
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
 
@@ -1054,7 +1054,7 @@ export default class ProgramacionDetalleComponent
           this.cantidadRegistrosProgramacionDetalle =
             respuestaDetalle.cantidad_registros;
           this.pagoDetalles = respuestaDetalle.registros;
-        })
+        }),
       )
       .subscribe();
   }
@@ -1071,11 +1071,17 @@ export default class ProgramacionDetalleComponent
       modelo,
       serializador: 'Excel',
       excel: true,
-      filtros: [{ propiedad: 'programacion_id', valor1: this.programacion.id }],
+      filtros: [
+        {
+          propiedad: 'programacion_id',
+          operador: 'exact',
+          valor1: this.programacion.id,
+        },
+      ],
       limite: 10000,
     };
     const filtroDetalleContratos = localStorage.getItem(
-      `documento_programacion`
+      `documento_programacion`,
     );
     if (filtroDetalleContratos !== null) {
       let filtroPermamente = JSON.parse(filtroDetalleContratos);
@@ -1099,6 +1105,7 @@ export default class ProgramacionDetalleComponent
       filtros: [
         {
           propiedad: 'programacion_detalle__programacion_id',
+          operador: 'exact',
           valor1: this.programacion.id,
         },
       ],
@@ -1119,6 +1126,7 @@ export default class ProgramacionDetalleComponent
       filtros: [
         {
           propiedad: 'documento__programacion_detalle__programacion_id',
+          operador: 'exact',
           valor1: this.programacion.id,
         },
       ],
@@ -1150,7 +1158,7 @@ export default class ProgramacionDetalleComponent
           this.notificando = false;
           this.dropdown.close();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe(() => {
         this.consultarDatos();
@@ -1159,7 +1167,7 @@ export default class ProgramacionDetalleComponent
 
   editarNominaProgramacionDetalleResumen(index: number) {
     this.visualizarBtnGuardarNominaProgramacionDetalleResumen.update(
-      (valor) => !valor
+      (valor) => !valor,
     );
     let registros = this.pagoDetalles.map((pago: any, indexPago: number) => {
       if (indexPago === index) {
@@ -1180,7 +1188,7 @@ export default class ProgramacionDetalleComponent
 
   retirarNominaProgramacionDetalleResumen(index: number) {
     this.pagoDetalles = this.pagoDetalles.filter(
-      (pago: any, indexPago: number) => indexPago !== index
+      (pago: any, indexPago: number) => indexPago !== index,
     );
     this.changeDetectorRef.detectChanges();
   }
