@@ -39,6 +39,7 @@ import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
+import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -52,6 +53,7 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
     SeleccionarProductoComponent,
     NgbTooltipModule,
     CuentasComponent,
+    SeleccionarGrupoComponent,
   ],
   providers: [KeyValuePipe],
   templateUrl: './formulario-productos.component.html',
@@ -138,6 +140,10 @@ export class FormularioProductosComponent
       });
   }
 
+  onSeleccionarGrupoChange(id: string, indexFormulario: number) {
+    this.detalles.controls[indexFormulario].get('grupo')?.setValue(id);
+  }
+
   eliminarItem(indexFormulario: number) {
     const itemsActualizados = this.detalles.value.filter(
       (detalleFormulario: any, index: number) => {
@@ -145,7 +151,7 @@ export class FormularioProductosComponent
           this._registrarItemDetalleEliminado(detalleFormulario.id);
         }
         return index !== indexFormulario;
-      }
+      },
     );
 
     this._impuestoCache = [];
@@ -156,7 +162,7 @@ export class FormularioProductosComponent
       this.agregarNuevoItem(item.tipo_registro);
       const subtotal = this._operaciones.calcularSubtotal(
         item.cantidad,
-        item.precio
+        item.precio,
       );
       this.detalles.controls[i].patchValue({
         id: item.id || null,
@@ -169,6 +175,8 @@ export class FormularioProductosComponent
         subtotal,
         item_nombre: item.item_nombre,
         total: item.precio * 1,
+        naturaleza: item.naturaleza,
+        grupo: item.grupo,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -216,6 +224,7 @@ export class FormularioProductosComponent
       ],
       descuento: [0],
       subtotal: [0],
+      grupo: [null],
       total: [0],
       impuesto: [0],
       impuesto_operado: [0],
@@ -227,6 +236,7 @@ export class FormularioProductosComponent
       impuestos_eliminados: this._formBuilder.array([]),
       id: [null],
       tipo_registro: [tipo_registro],
+      naturaleza: [null],
     });
 
     // Agregar validadores dinámicos en función de tipo_registro
@@ -255,7 +265,7 @@ export class FormularioProductosComponent
    */
   recibirItemSeleccionado(
     item: DocumentoDetalleFactura,
-    indexFormulario: number
+    indexFormulario: number,
   ) {
     const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
     this._limpiarPosicionEnImpuestoCache(indexFormulario);
@@ -263,7 +273,7 @@ export class FormularioProductosComponent
 
     const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
       this.formularioTipo,
-      item
+      item,
     );
 
     this.detalles.controls[indexFormulario].patchValue({
@@ -279,7 +289,7 @@ export class FormularioProductosComponent
     this.changeDetectorRef.detectChanges();
 
     const impuestosAdaptados = item.impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true)
+      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true),
     );
 
     this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
@@ -294,7 +304,7 @@ export class FormularioProductosComponent
 
   private _discriminarPrecioPorTipo(
     formularioTipo: 'venta' | 'compra',
-    item: DocumentoDetalleFactura
+    item: DocumentoDetalleFactura,
   ) {
     return formularioTipo === 'compra' ? item.costo : item.precio;
   }
@@ -319,7 +329,7 @@ export class FormularioProductosComponent
    */
   recibirCuentaSeleccionada(
     item: DocumentoDetalleFactura,
-    indexFormulario: number
+    indexFormulario: number,
   ) {
     this._reiniciarSelectorCuenta(indexFormulario);
 
@@ -327,6 +337,7 @@ export class FormularioProductosComponent
       cuenta: item.cuenta_id,
       cuenta_codigo: item.cuenta_codigo,
       cuenta_nombre: item.cuenta_nombre,
+      cantidad: 1,
     });
 
     this.changeDetectorRef.detectChanges();
@@ -352,10 +363,10 @@ export class FormularioProductosComponent
    */
   recibirImpuestosModificados(
     impuestos: ImpuestoRespuestaConsulta[],
-    indexFormulario: number
+    indexFormulario: number,
   ) {
     const impuestosAdaptados = impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion)
+      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion),
     );
 
     this._registrarImpuestosEliminados(impuestosAdaptados, indexFormulario);
@@ -369,7 +380,7 @@ export class FormularioProductosComponent
   // acumulador impuestos
   private _eliminarPosicionImpuestoCache(indexFormulario: number) {
     this._impuestoCache = this._impuestoCache.filter(
-      (_, i) => indexFormulario !== i
+      (_, i) => indexFormulario !== i,
     );
   }
 
@@ -389,7 +400,7 @@ export class FormularioProductosComponent
     indexFormulario: number,
     impuestoNombre: string,
     impuestoTotal: number,
-    impuestoOperacion: number
+    impuestoOperacion: number,
   ) {
     this._impuestoCache = this._impuestoCache.map((impuestoGuardado, i) => {
       if (i === indexFormulario) {
@@ -465,29 +476,29 @@ export class FormularioProductosComponent
     total += this._operaciones.sumarTotales(this.detalles.value, 'total');
     descuento += this._operaciones.sumarTotales(
       this.detalles.value,
-      'descuento'
+      'descuento',
     );
     subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
     impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
     impuestoRetencion += this._operaciones.sumarTotales(
       this.detalles.value,
-      'impuesto_retencion'
+      'impuesto_retencion',
     );
     totalBruto += this._operaciones.sumarTotales(
       this.detalles.value,
-      'total_bruto'
+      'total_bruto',
     );
     impuestoOperado += this._operaciones.sumarTotales(
       this.detalles.value,
-      'impuesto_operado'
+      'impuesto_operado',
     );
     totalCantidad += this._operaciones.sumarTotales(
       this.detalles.value,
-      'cantidad'
+      'cantidad',
     );
     baseImpuesto += this._operaciones.sumarTotales(
       this.detalles.value,
-      'base_impuesto'
+      'base_impuesto',
     );
 
     // impuesto total
@@ -520,7 +531,7 @@ export class FormularioProductosComponent
   // funciones formulario detalle
   private _actualizarCantidadItem(
     indexFormulario: number,
-    nuevaCantidad: number
+    nuevaCantidad: number,
   ) {
     //valorCero
 
@@ -545,7 +556,7 @@ export class FormularioProductosComponent
 
   private _actualizarDescuentoItem(
     indexFormulario: number,
-    nuevoDescuento: number
+    nuevoDescuento: number,
   ) {
     const impuestos =
       this.detalles.controls[indexFormulario].get('impuestos')?.value;
@@ -559,7 +570,7 @@ export class FormularioProductosComponent
   private _calcularSubtotal(
     indexFormulario: number,
     nuevaCantidad?: number,
-    nuevoPrecio?: number
+    nuevoPrecio?: number,
   ) {
     const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
     const cantidad =
@@ -571,7 +582,7 @@ export class FormularioProductosComponent
 
     const subtotalCalculado = this._operaciones.calcularSubtotal(
       cantidad,
-      precio
+      precio,
     );
 
     formularioDetalle.patchValue({
@@ -581,7 +592,7 @@ export class FormularioProductosComponent
 
   private _actualizarImpuestoItem(
     impuestos: ImpuestoFormulario[],
-    indexFormulario: number
+    indexFormulario: number,
   ) {
     this._limpiarImpuestos(indexFormulario);
     this._calcularSubtotal(indexFormulario);
@@ -615,7 +626,7 @@ export class FormularioProductosComponent
 
     const descuentoCalculado = this._operaciones.calcularDescuento(
       subtotal,
-      porcentajeDescuento
+      porcentajeDescuento,
     );
 
     formularioDetalle.patchValue({
@@ -627,7 +638,7 @@ export class FormularioProductosComponent
     impuesto: ImpuestoFormulario,
     indexFormulario: number,
     impuestoCalculado: number,
-    impuestoOperado: number
+    impuestoOperado: number,
   ) {
     const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
     const subtotal = formularioDetalle.get('subtotal')?.value;
@@ -635,13 +646,13 @@ export class FormularioProductosComponent
     const impuestoFormulario = this._obtenerImpuestoFormulario(indexFormulario);
     const impuestoRespuesta = impuestoFormulario.value.find(
       (imp: ImpuestoRespuestaConsulta) =>
-        imp.impuesto_nombre === impuesto.impuesto_nombre
+        imp.impuesto_nombre === impuesto.impuesto_nombre,
     );
 
     if (!impuestoRespuesta) {
       const baseCalculada = this._operaciones.calcularBase(
         subtotal,
-        impuesto.porcentaje_base
+        impuesto.porcentaje_base,
       );
 
       const brutoCalculado =
@@ -650,7 +661,7 @@ export class FormularioProductosComponent
       this._asignarBaseImpuestoDetalle(
         impuesto,
         baseCalculada,
-        formularioDetalle
+        formularioDetalle,
       );
 
       formularioDetalle.patchValue({
@@ -664,7 +675,7 @@ export class FormularioProductosComponent
         base: baseCalculada,
       };
       impuestoFormulario.push(
-        this._formBuilder.control<ImpuestoFormulario>(impuestoConTotales)
+        this._formBuilder.control<ImpuestoFormulario>(impuestoConTotales),
       );
     }
   }
@@ -672,7 +683,7 @@ export class FormularioProductosComponent
   private _asignarBaseImpuestoDetalle(
     impuesto: ImpuestoFormulario,
     baseCalculada: number,
-    formularioDetalle: FormGroup
+    formularioDetalle: FormGroup,
   ) {
     if (impuesto.impuesto_operacion > 0) {
       formularioDetalle.patchValue({
@@ -683,7 +694,7 @@ export class FormularioProductosComponent
 
   private _calcularBruto(
     impuesto: ImpuestoFormulario,
-    impuestoOperado: number
+    impuestoOperado: number,
   ): number {
     if (impuesto.impuesto_operacion > 0) {
       return impuestoOperado;
@@ -694,7 +705,7 @@ export class FormularioProductosComponent
 
   private _calcularImpuestoTotalItem(
     indexFormulario: number,
-    impuesto: ImpuestoFormulario
+    impuesto: ImpuestoFormulario,
   ) {
     const detalleFormulario = this._obtenerDetalleFormulario(indexFormulario);
     const impuestoOperadoAcumulado =
@@ -706,25 +717,25 @@ export class FormularioProductosComponent
 
     const baseCalculada = this._operaciones.calcularBase(
       subtotal,
-      impuesto.porcentaje_base
+      impuesto.porcentaje_base,
     );
     const impuestoCalculado = this._operaciones.calcularImpuesto(
       baseCalculada,
-      impuesto.porcentaje
+      impuesto.porcentaje,
     );
     const impuestoOperado = this._operaciones.calcularImpuestoOperado(
       impuestoCalculado,
-      impuesto.impuesto_operacion
+      impuesto.impuesto_operacion,
     );
 
     const impuestTotal = this._operaciones.redondear(
       impuestoOperado + impuestoOperadoAcumulado,
-      2
+      2,
     );
 
     const { impuestoIva, impuestoRetencion } = this._calcularImpuestosDetalles(
       impuesto,
-      impuestoOperado
+      impuestoOperado,
     );
 
     detalleFormulario.patchValue({
@@ -737,20 +748,20 @@ export class FormularioProductosComponent
       indexFormulario,
       impuesto.impuesto_nombre_extendido,
       impuestoCalculado,
-      impuesto.impuesto_operacion
+      impuesto.impuesto_operacion,
     );
 
     this._agregarImpuestoItem(
       impuesto,
       indexFormulario,
       impuestoCalculado,
-      impuestoOperado
+      impuestoOperado,
     );
   }
 
   private _calcularImpuestosDetalles(
     impuesto: ImpuestoFormulario,
-    impuestoOperado: number
+    impuestoOperado: number,
   ): {
     impuestoIva: number;
     impuestoRetencion: number;
@@ -775,11 +786,11 @@ export class FormularioProductosComponent
 
     const totalCalculado = this._operaciones.calcularTotal(
       subtotal,
-      impuestoOperado
+      impuestoOperado,
     );
     const totalBrutoCalculado = this._operaciones.calcularTotal(
       subtotal,
-      totalBruto
+      totalBruto,
     );
 
     detalleFormulario.patchValue({
@@ -813,7 +824,7 @@ export class FormularioProductosComponent
   // funciones formulario impuestos
   private _registrarImpuestosEliminados(
     impuestosActualizados: ImpuestoFormulario[],
-    indexFormulario: number
+    indexFormulario: number,
   ) {
     if (!this.modoEdicion) {
       return;
@@ -837,7 +848,7 @@ export class FormularioProductosComponent
 
     // Mapeamos los ids de los impuestos actualizados para crear un set
     const idsImpuestosActualizados = new Set(
-      impuestosActualizados.map((impuesto) => impuesto.id)
+      impuestosActualizados.map((impuesto) => impuesto.id),
     );
 
     //
@@ -872,7 +883,7 @@ export class FormularioProductosComponent
   }
 
   private _cargarDocumentoReferencia(
-    documentoFactura: DocumentoFacturaRespuesta
+    documentoFactura: DocumentoFacturaRespuesta,
   ) {
     if (this.mostrarDocumentoReferencia) {
       this.formularioFactura.patchValue({
@@ -933,7 +944,7 @@ export class FormularioProductosComponent
   }
 
   private _poblarDocumentoDetalle(
-    documentoDetalle: DocumentoFacturaDetalleRespuesta[]
+    documentoDetalle: DocumentoFacturaDetalleRespuesta[],
   ) {
     documentoDetalle.forEach((detalle, indexFormulario) => {
       const documentoDetalleGrupo = this._formBuilder.group({
@@ -980,11 +991,13 @@ export class FormularioProductosComponent
         impuestos_eliminados: this._formBuilder.array([]),
         id: [detalle.id],
         tipo_registro: [detalle.tipo_registro],
+        grupo: detalle.grupo_id,
+        naturaleza: detalle.naturaleza,
       });
 
       this.detalles.push(documentoDetalleGrupo);
       const impuestosAdaptados = detalle.impuestos.map((impuesto) =>
-        this._adapterService.adaptarImpuestoDesdeConsultaDetalle(impuesto)
+        this._adapterService.adaptarImpuestoDesdeConsultaDetalle(impuesto),
       );
 
       this._agregarCampoImpuestoACache(indexFormulario);

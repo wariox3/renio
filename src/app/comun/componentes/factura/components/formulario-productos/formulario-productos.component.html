@@ -1,34 +1,34 @@
 <div [formGroup]="formularioFactura">
-  @if(!estadoAprobado){
-  <div class="d-flex justify-content-end mb-2">
-    <div class="btn-group btn-sm shadow-sm">
-      @if(visualizarAgregarCuenta){
-      <button
-        (click)="agregarNuevoItem('C')"
-        class="btn btn-sm btn-primary"
-        type="button"
-        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARCUENTA"
-      ></button>
-      }
-      <button
-        (click)="agregarNuevoItem('I')"
-        class="btn btn-sm btn-primary"
-        type="button"
-        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-      ></button>
+  @if (!estadoAprobado) {
+    <div class="d-flex justify-content-end mb-2">
+      <div class="btn-group btn-sm shadow-sm">
+        @if (visualizarAgregarCuenta) {
+          <button
+            (click)="agregarNuevoItem('C')"
+            class="btn btn-sm btn-primary"
+            type="button"
+            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARCUENTA"
+          ></button>
+        }
+        <button
+          (click)="agregarNuevoItem('I')"
+          class="btn btn-sm btn-primary"
+          type="button"
+          translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+        ></button>
+      </div>
     </div>
-  </div>
   }
   <div class="table-responsive-sm">
     <table id="tableDetalles" class="table table-bordered table-sm">
       <thead>
         <tr class="bg-gray-100">
           <th class="w-40px">Id</th>
-          @if(visualizarAgregarCuenta){
-          <th class="w-40px">Tipo</th>
-          <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOCUENTA"></th>
+          @if (visualizarAgregarCuenta) {
+            <th class="w-40px">Tipo</th>
+            <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTOCUENTA"></th>
           } @else {
-          <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
+            <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
           }
           <th
             class="w-50px"
@@ -65,66 +65,76 @@
         >
           <tr>
             <td class="w-40px">{{ detalle.value.id }}</td>
-            @if(visualizarAgregarCuenta){
-            <td class="w-40px">
-              {{ detalle.value.tipo_registro === "C" ? "Cuenta" : "Item" }}
-            </td>
+            @if (visualizarAgregarCuenta) {
+              <td class="w-40px">
+                {{ detalle.value.tipo_registro === "C" ? "Cuenta" : "Item" }}
+              </td>
             }
             <td class="">
-              @if(detalle.value.tipo_registro === "C" ){
-              <app-comun-cuentas
-                [cuentaCodigo]="detalle.value.cuenta_codigo"
-                [cuentaNombre]="detalle.value.cuenta_nombre"
-                [campoInvalido]="
-                  detalle.get('cuenta')?.touched &&
-                  detalle.get('cuenta')?.hasError('required')
-                "
-                (emitirArrCuentas)="recibirCuentaSeleccionada($event, i)"
-              ></app-comun-cuentas>
+              @if (detalle.value.tipo_registro === "C") {
+                <app-comun-cuentas
+                  [cuentaCodigo]="detalle.value.cuenta_codigo"
+                  [cuentaNombre]="detalle.value.cuenta_nombre"
+                  [campoInvalido]="
+                    detalle.get('cuenta')?.touched &&
+                    detalle.get('cuenta')?.hasError('required')
+                  "
+                  (emitirArrCuentas)="recibirCuentaSeleccionada($event, i)"
+                ></app-comun-cuentas>
               } @else {
-              <app-seleccionar-producto
-                [itemNombre]="detalle.value.item_nombre"
-                [estadoAprobado]="estadoAprobado"
-                [campoInvalido]="
-                  detalle.get('item')?.touched &&
-                  detalle.get('item')?.hasError('required')
-                "
-                (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
-                [formularioTipo]="formularioTipo"
-              ></app-seleccionar-producto>
+                <app-seleccionar-producto
+                  [itemNombre]="detalle.value.item_nombre"
+                  [estadoAprobado]="estadoAprobado"
+                  [campoInvalido]="
+                    detalle.get('item')?.touched &&
+                    detalle.get('item')?.hasError('required')
+                  "
+                  (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
+                  [formularioTipo]="formularioTipo"
+                ></app-seleccionar-producto>
               }
             </td>
             <td>
-              <input
-                type="number"
-                [value]="detalle.value.cantidad"
-                formControlName="cantidad"
-                (focus)="onCantidadChange(i)"
-                class="form-control-sm"
-                [attr.disabled]="estadoAprobado"
-                [readonly]="estadoAprobado"
-                [ngClass]="{
-                  'disabled-cursor bg-transparent': estadoAprobado,
-                  'text-white': themeValue === 'dark' && estadoAprobado
-                }"
-                rows="1"
-                spellcheck="true"
-                appSoloNumeros
-                min="0"
-              />
-              <div
-                *ngIf="
-                  (detalle.get('cantidad')?.touched &&
-                    detalle.get('cantidad')?.hasError('valorCero')) ||
-                  detalle.get('cantidad')?.invalid
-                "
-              >
-                <div class="fv-plugins-message-container">
-                  <div class="fv-help-block">
-                    <span role="alert"> Valor no permitido. </span>
+              @if (detalle.value.tipo_registro === "C") {
+                <select
+                  formControlName="naturaleza"
+                  class="form-select form-select-sm"
+                >
+                  <option value="D">Débito</option>
+                  <option value="C">Crédito</option>
+                </select>
+              } @else {
+                <input
+                  type="number"
+                  [value]="detalle.value.cantidad"
+                  formControlName="cantidad"
+                  (focus)="onCantidadChange(i)"
+                  class="form-control-sm"
+                  [attr.disabled]="estadoAprobado"
+                  [readonly]="estadoAprobado"
+                  [ngClass]="{
+                    'disabled-cursor bg-transparent': estadoAprobado,
+                    'text-white': themeValue === 'dark' && estadoAprobado,
+                  }"
+                  rows="1"
+                  spellcheck="true"
+                  appSoloNumeros
+                  min="0"
+                />
+                <div
+                  *ngIf="
+                    (detalle.get('cantidad')?.touched &&
+                      detalle.get('cantidad')?.hasError('valorCero')) ||
+                    detalle.get('cantidad')?.invalid
+                  "
+                >
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <span role="alert"> Valor no permitido. </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              }
             </td>
             <td>
               <input
@@ -139,7 +149,7 @@
                   'text-white': themeValue === 'dark' && estadoAprobado,
                   'is-invalid':
                     detalle.get('precio')?.touched &&
-                    detalle.get('precio')?.hasError('valorCero')
+                    detalle.get('precio')?.hasError('valorCero'),
                 }"
                 rows="1"
                 spellcheck="true"
@@ -160,40 +170,54 @@
               </div>
             </td>
             <td>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                [value]="detalle.value.porcentaje_descuento"
-                formControlName="porcentaje_descuento"
-                (focus)="onDescuentoChange(i)"
-                class="form-control-sm"
-                [attr.disabled]="estadoAprobado"
-                [readonly]="estadoAprobado"
-                [ngClass]="{
-                  'disabled-cursor bg-transparent': estadoAprobado,
-                  'text-white': themeValue === 'dark' && estadoAprobado
-                }"
-                rows="1"
-                spellcheck="true"
-                appSoloNumeros
-                min="0"
-              />
-              <div
-                *ngIf="
-                  (detalle.get('porcentaje_descuento')?.touched &&
-                    detalle
-                      .get('porcentaje_descuento')
-                      ?.hasError('valorCero')) ||
-                  detalle.get('porcentaje_descuento')?.invalid
-                "
-              >
-                <div class="fv-plugins-message-container">
-                  <div class="fv-help-block">
-                    <span role="alert"> Valor no permitido. </span>
+              @if (detalle.value.tipo_registro === "I") {
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  [value]="detalle.value.porcentaje_descuento"
+                  formControlName="porcentaje_descuento"
+                  (focus)="onDescuentoChange(i)"
+                  class="form-control-sm"
+                  [attr.disabled]="estadoAprobado"
+                  [readonly]="estadoAprobado"
+                  [ngClass]="{
+                    'disabled-cursor bg-transparent': estadoAprobado,
+                    'text-white': themeValue === 'dark' && estadoAprobado,
+                  }"
+                  rows="1"
+                  spellcheck="true"
+                  appSoloNumeros
+                  min="0"
+                />
+                <div
+                  *ngIf="
+                    (detalle.get('porcentaje_descuento')?.touched &&
+                      detalle
+                        .get('porcentaje_descuento')
+                        ?.hasError('valorCero')) ||
+                    detalle.get('porcentaje_descuento')?.invalid
+                  "
+                >
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <span role="alert"> Valor no permitido. </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              } @else {
+                <input
+                  type="number"
+                  formControlName="porcentaje_descuento"
+                  class="form-control-sm"
+                  [attr.disabled]="true"
+                  [readonly]="true"
+                  [disabled]="true"
+                  class="disabled-cursor bg-transparent"
+                  rows="1"
+                  spellcheck="true"
+                />
+              }
             </td>
             <td>
               <input
@@ -205,23 +229,29 @@
                 class="form-control-sm"
                 [ngClass]="{
                   'disabled-cursor bg-transparent': estadoAprobado,
-                  'text-white bg-transparent': themeValue === 'dark'
+                  'text-white bg-transparent': themeValue === 'dark',
                 }"
                 readonly
                 [value]="detalle.value.subtotal"
               />
             </td>
             <td>
-              @if(detalle.value.tipo_registro === "I" || cuentasConImpuestos){
-
-              <app-seleccionar-impuestos
-                [visualizarImpuestosVenta]="true"
-                [formularioTipo]="formularioTipo"
-                (emitirImpuestosModificados)="
-                  recibirImpuestosModificados($event, i)
-                "
-                [impuestosSeleccionados]="detalles.controls[i].value.impuestos"
-              ></app-seleccionar-impuestos>
+              @if (detalle.value.tipo_registro === "I" || cuentasConImpuestos) {
+                <app-seleccionar-impuestos
+                  [visualizarImpuestosVenta]="true"
+                  [formularioTipo]="formularioTipo"
+                  (emitirImpuestosModificados)="
+                    recibirImpuestosModificados($event, i)
+                  "
+                  [impuestosSeleccionados]="
+                    detalles.controls[i].value.impuestos
+                  "
+                ></app-seleccionar-impuestos>
+              } @else if (detalle.value.tipo_registro === "C") {
+                <app-seleccionar-grupo
+                  (selectChange)="onSeleccionarGrupoChange($event, i)"
+                  [valorInicial]="detalle.value.grupo"
+                ></app-seleccionar-grupo>
               }
             </td>
             <td>
@@ -234,7 +264,7 @@
                 class="form-control-sm"
                 [ngClass]="{
                   'bg-transparent': estadoAprobado,
-                  'text-white': themeValue === 'dark' && estadoAprobado
+                  'text-white': themeValue === 'dark' && estadoAprobado,
                 }"
                 [value]="detalle.value.total"
               />
