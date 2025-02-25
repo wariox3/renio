@@ -128,7 +128,7 @@ export default class AporteDetalleComponent
   constructor(
     private aporteService: AporteService,
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
+    private descargarArchivosService: DescargarArchivosService,
   ) {
     super();
   }
@@ -204,7 +204,7 @@ export default class AporteDetalleComponent
         finalize(() => {
           this.generando = false;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe((respuesta) => {
         this.consultarDatos();
@@ -225,7 +225,7 @@ export default class AporteDetalleComponent
           //this.reiniciarSelectoresEliminar();
           //this.dropdown.close();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe(() => {
         this.consultarDatos();
@@ -237,24 +237,24 @@ export default class AporteDetalleComponent
   aprobar() {
     this.alertaService
       .confirmarSinReversa()
-      .pipe(
-        switchMap((respuesta) => {
-          if (respuesta.isConfirmed) {
-            return this.httpService.post('humano/programacion/aprobar/', {
-              id: this.detalle,
-            });
-          }
-          return of(false);
-        }),
-        tap((respuesta) => {
-          if (respuesta !== false) {
-            this.alertaService.mensajaExitoso('Documento aprobado');
-            this.aporte.estado_aprobado = true;
-            this.consultarDatos();
-            this.changeDetectorRef.detectChanges();
-          }
-        })
-      )
+      .pipe
+      // switchMap((respuesta) => {
+      //   if (respuesta.isConfirmed) {
+      //     return this.httpService.post('humano/programacion/aprobar/', {
+      //       id: this.detalle,
+      //     });
+      //   }
+      //   return of(false);
+      // }),
+      // tap((respuesta) => {
+      //   if (respuesta !== false) {
+      //     this.alertaService.mensajaExitoso('Documento aprobado');
+      //     this.aporte.estado_aprobado = true;
+      //     this.consultarDatos();
+      //     this.changeDetectorRef.detectChanges();
+      //   }
+      // })
+      ()
       .subscribe();
   }
 
@@ -276,11 +276,11 @@ export default class AporteDetalleComponent
           (registro: TablaRegistroLista) => ({
             ...registro,
             selected: false,
-          })
+          }),
         );
 
         this.store.dispatch(
-          ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteContratos })
+          ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteContratos }),
         );
 
         this.changeDetectorRef.detectChanges();
@@ -312,7 +312,7 @@ export default class AporteDetalleComponent
         finalize(() => {
           this.cargandoContratos = false;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe(() => {
         this.consultarDatos();
@@ -328,7 +328,7 @@ export default class AporteDetalleComponent
           .pipe(
             finalize(() => {
               this.isCheckedSeleccionarTodos = false;
-            })
+            }),
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
@@ -338,7 +338,7 @@ export default class AporteDetalleComponent
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
 
