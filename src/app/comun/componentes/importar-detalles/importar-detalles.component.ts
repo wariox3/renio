@@ -105,7 +105,7 @@ export class ImportarDetallesComponent extends General {
         break;
     }
     if(this.aplicarUrlInventario){
-      	url = 'general/documento/importar-detalle-inventario'
+      	url = 'general/documento/importar-detalle-inventario/'
     }
     this.httpService
       .post<ImportarDetalles>(url, {
