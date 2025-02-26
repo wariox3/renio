@@ -1,14 +1,13 @@
 import { CommonModule, KeyValuePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import {
   FormArray,
@@ -16,30 +15,23 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule,
-  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
+import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import {
   DocumentoDetalleFactura,
-  DocumentoFacturaDetalleRespuesta,
   DocumentoFacturaRespuesta,
   ImpuestoFormulario,
-  ImpuestoRespuestaConsulta,
-  PagoFormulario,
+  ImpuestoRespuestaConsulta
 } from '@interfaces/comunes/factura/factura.interface';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
-import { CuentasComponent } from '../../../cuentas/cuentas.component';
-import { AdapterService } from '../../services/adapter.service';
 import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
-import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -52,8 +44,6 @@ import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grup
     SeleccionarImpuestosComponent,
     SeleccionarProductoComponent,
     NgbTooltipModule,
-    CuentasComponent,
-    SeleccionarGrupoComponent,
   ],
   providers: [KeyValuePipe],
   templateUrl: './formulario-productos.component.html',
@@ -64,7 +54,19 @@ export class FormularioProductosComponent
   extends General
   implements OnDestroy, OnInit
 {
-  @Input({ required: true }) formularioFactura!: FormGroup;
+  private _formBuilder = inject(FormBuilder);
+  private _formularioFacturaService = inject(FormularioFacturaService);
+  private _operaciones = inject(OperacionesService);
+  private _keyValue = inject(KeyValuePipe);
+  private _facturaService = inject(FacturaService);
+  private _unsubscribe$ = new Subject<void>();
+  private _impuestoCache: {
+    [string: string]: { operado: number; total: number };
+  }[] = this._formularioFacturaService.impuestoCache;
+
+  public formularioFactura = this._formularioFacturaService.form;
+  public themeValue = localStorage.getItem('kt_theme_mode_value');
+
   @Input() formularioTipo: 'venta' | 'compra' = 'venta';
   @Input({ required: true }) modoEdicion: boolean = false;
   @Input() mostrarDocumentoReferencia: boolean = false;
@@ -81,19 +83,6 @@ export class FormularioProductosComponent
     [string: string]: { operado: number; total: number };
   }>;
 
-  private _formBuilder = inject(FormBuilder);
-  private _adapterService = inject(AdapterService);
-  private _operaciones = inject(OperacionesService);
-  private _keyValue = inject(KeyValuePipe);
-  private _facturaService = inject(FacturaService);
-  private _changeDetector = inject(ChangeDetectorRef);
-  private _unsubscribe$ = new Subject<void>();
-  private _impuestoCache: {
-    [string: string]: { operado: number; total: number };
-  }[] = [];
-
-  public themeValue = localStorage.getItem('kt_theme_mode_value');
-
   constructor() {
     super();
     this.emitirEnviarFormulario = new EventEmitter<void>();
@@ -103,39 +92,70 @@ export class FormularioProductosComponent
 
   ngOnInit(): void {
     this._cargarVista();
+    // this._formularioFacturaService.emitirImpuestoCalculados$.subscribe(
+    //   (valor) => {
+    //     this.emitirImpuestosAcumulados.emit(valor);
+    //   },
+    // );
   }
 
   // listeners
   onCantidadChange(i: number) {
-    this.detalles.controls[i]
-      .get('cantidad')
-      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    // this.detalles.controls[i]
+    //   .get('cantidad')
+    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    //   .subscribe((valor: string) => {
+    //     if (valor) {
+    //       this._actualizarCantidadItem(i, Number(valor));
+    //     }
+    //   });
+    this._formularioFacturaService
+      .onCantidadChange(i)
+      ?.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: string) => {
         if (valor) {
-          this._actualizarCantidadItem(i, Number(valor));
+          this._formularioFacturaService.actualizarCantidadItem(i);
         }
       });
   }
 
   onPrecioChange(i: number) {
-    this.detalles.controls[i]
-      .get('precio')
-      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    // this.detalles.controls[i]
+    //   .get('precio')
+    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    //   .subscribe((valor: string) => {
+    //     if (valor) {
+    //       this._actualizarPrecioItem(i, Number(valor));
+    //     }
+    //   });
+
+    this._formularioFacturaService
+      .onPrecioChange(i)
+      ?.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: string) => {
         if (valor) {
-          this._actualizarPrecioItem(i, Number(valor));
+          this._formularioFacturaService.actualizarPrecioItem(i);
         }
       });
   }
 
   onDescuentoChange(i: number) {
-    this.detalles.controls[i]
-      .get('porcentaje_descuento')
-      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    // this.detalles.controls[i]
+    //   .get('porcentaje_descuento')
+    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
+    //   .subscribe((valor: number | null) => {
+    //     const nuevoValor = valor || 0;
+    //     if (nuevoValor >= 0) {
+    //       this._actualizarDescuentoItem(i, Number(nuevoValor));
+    //     }
+    //   });
+    this._formularioFacturaService
+      .onDescuentoChange(i)
+      ?.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: number | null) => {
         const nuevoValor = valor || 0;
         if (nuevoValor >= 0) {
-          this._actualizarDescuentoItem(i, Number(nuevoValor));
+          this._formularioFacturaService.actualizarDescuentoItem(i);
         }
       });
   }
@@ -145,115 +165,117 @@ export class FormularioProductosComponent
   }
 
   eliminarItem(indexFormulario: number) {
-    const itemsActualizados = this.detalles.value.filter(
-      (detalleFormulario: any, index: number) => {
-        if (indexFormulario === index) {
-          this._registrarItemDetalleEliminado(detalleFormulario.id);
-        }
-        return index !== indexFormulario;
-      },
-    );
+    this._formularioFacturaService.eliminarItem(indexFormulario);
+    // const itemsActualizados = this.detalles.value.filter(
+    //   (detalleFormulario: any, index: number) => {
+    //     if (indexFormulario === index) {
+    //       this._registrarItemDetalleEliminado(detalleFormulario.id);
+    //     }
+    //     return index !== indexFormulario;
+    //   },
+    // );
 
-    this._impuestoCache = [];
-    this.acumuladorImpuestos = {};
+    // this._impuestoCache = [];
+    // this.acumuladorImpuestos = {};
 
-    this.detalles.clear();
-    itemsActualizados.forEach((item: any, i: number) => {
-      this.agregarNuevoItem(item.tipo_registro);
-      const subtotal = this._operaciones.calcularSubtotal(
-        item.cantidad,
-        item.precio,
-      );
-      this.detalles.controls[i].patchValue({
-        id: item.id || null,
-        cuenta: item.cuenta,
-        cuenta_codigo: item.cuenta_codigo,
-        cuenta_nombre: item.cuenta_nombre,
-        precio: item.precio,
-        item: item.item,
-        cantidad: item.cantidad,
-        subtotal,
-        item_nombre: item.item_nombre,
-        total: item.precio * 1,
-        naturaleza: item.naturaleza,
-        grupo: item.grupo,
-      });
-      this._agregarCampoImpuestoACache(i);
-      this._actualizarImpuestoItem(item.impuestos, i);
-    });
+    // this.detalles.clear();
+    // itemsActualizados.forEach((item: any, i: number) => {
+    //   this.agregarNuevoItem(item.tipo_registro);
+    //   const subtotal = this._operaciones.calcularSubtotal(
+    //     item.cantidad,
+    //     item.precio,
+    //   );
+    //   this.detalles.controls[i].patchValue({
+    //     id: item.id || null,
+    //     cuenta: item.cuenta,
+    //     cuenta_codigo: item.cuenta_codigo,
+    //     cuenta_nombre: item.cuenta_nombre,
+    //     precio: item.precio,
+    //     item: item.item,
+    //     cantidad: item.cantidad,
+    //     subtotal,
+    //     item_nombre: item.item_nombre,
+    //     total: item.precio * 1,
+    //     naturaleza: item.naturaleza,
+    //     grupo: item.grupo,
+    //   });
+    //   this._agregarCampoImpuestoACache(i);
+    //   this._actualizarImpuestoItem(item.impuestos, i);
+    // });
 
-    this._limpiarFormularioTotales();
-    this._actualizarFormulario();
-    this._limpiarImpuestosAcumulados();
+    // this._limpiarFormularioTotales();
+    // this._actualizarFormulario();
+    // this._limpiarImpuestosAcumulados();
   }
 
   /**
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
   agregarNuevoItem(tipo_registro: String) {
-    const detalleFormGroup = this._formBuilder.group({
-      cuenta: [null],
-      cuenta_codigo: [null],
-      cuenta_nombre: [null],
-      item: [null],
-      item_nombre: [null],
-      cantidad: [
-        0,
-        [
-          validarPrecio(),
-          Validators.min(1),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      precio: [
-        0,
-        [
-          validarPrecio(),
-          Validators.min(0.1),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      porcentaje_descuento: [
-        0,
-        [
-          validarDescuento(),
-          Validators.min(0),
-          Validators.max(100),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      descuento: [0],
-      subtotal: [0],
-      grupo: [null],
-      total: [0],
-      impuesto: [0],
-      impuesto_operado: [0],
-      impuesto_retencion: [0],
-      total_bruto: [0],
-      neto: [0],
-      base_impuesto: [0],
-      impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
-      impuestos_eliminados: this._formBuilder.array([]),
-      id: [null],
-      tipo_registro: [tipo_registro],
-      naturaleza: [null],
-    });
+    // const detalleFormGroup = this._formBuilder.group({
+    //   cuenta: [null],
+    //   cuenta_codigo: [null],
+    //   cuenta_nombre: [null],
+    //   item: [null],
+    //   item_nombre: [null],
+    //   cantidad: [
+    //     0,
+    //     [
+    //       validarPrecio(),
+    //       Validators.min(1),
+    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+    //     ],
+    //   ],
+    //   precio: [
+    //     0,
+    //     [
+    //       validarPrecio(),
+    //       Validators.min(0.1),
+    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+    //     ],
+    //   ],
+    //   porcentaje_descuento: [
+    //     0,
+    //     [
+    //       validarDescuento(),
+    //       Validators.min(0),
+    //       Validators.max(100),
+    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+    //     ],
+    //   ],
+    //   descuento: [0],
+    //   subtotal: [0],
+    //   grupo: [null],
+    //   total: [0],
+    //   impuesto: [0],
+    //   impuesto_operado: [0],
+    //   impuesto_retencion: [0],
+    //   total_bruto: [0],
+    //   neto: [0],
+    //   base_impuesto: [0],
+    //   impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
+    //   impuestos_eliminados: this._formBuilder.array([]),
+    //   id: [null],
+    //   tipo_registro: [tipo_registro],
+    //   naturaleza: [null],
+    // });
 
-    // Agregar validadores dinámicos en función de tipo_registro
-    if (tipo_registro === 'C') {
-      detalleFormGroup.get('cuenta')?.setErrors({ required: true });
-      detalleFormGroup.get('cuenta')?.markAsTouched();
-    } else if (tipo_registro === 'I') {
-      detalleFormGroup.get('item')?.setErrors({ required: true });
-      detalleFormGroup.get('item')?.markAsTouched();
-    }
+    // // Agregar validadores dinámicos en función de tipo_registro
+    // if (tipo_registro === 'C') {
+    //   detalleFormGroup.get('cuenta')?.setErrors({ required: true });
+    //   detalleFormGroup.get('cuenta')?.markAsTouched();
+    // } else if (tipo_registro === 'I') {
+    //   detalleFormGroup.get('item')?.setErrors({ required: true });
+    //   detalleFormGroup.get('item')?.markAsTouched();
+    // }
 
-    // Actualizar los validadores dinámicos
-    // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
-    // detalleFormGroup.get('item')?.updateValueAndValidity();
-    this._impuestoCache.push({});
-    this.detalles.push(detalleFormGroup);
-    this.detalles?.markAllAsTouched();
+    // // Actualizar los validadores dinámicos
+    // // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
+    // // detalleFormGroup.get('item')?.updateValueAndValidity();
+    // this._impuestoCache.push({});
+    // this.detalles.push(detalleFormGroup);
+    // this.detalles?.markAllAsTouched();
+    this._formularioFacturaService.agregarNuevoItem(tipo_registro);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -267,38 +289,42 @@ export class FormularioProductosComponent
     item: DocumentoDetalleFactura,
     indexFormulario: number,
   ) {
-    const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
-    this._limpiarPosicionEnImpuestoCache(indexFormulario);
-    this._reiniciarSelectorItem(indexFormulario);
+    // const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
+    // this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    // this._reiniciarSelectorItem(indexFormulario);
 
-    const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
-      this.formularioTipo,
+    // const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
+    //   this.formularioTipo,
+    //   item,
+    // );
+
+    // this.detalles.controls[indexFormulario].patchValue({
+    //   precio: precioDiscriminadoPorTipo,
+    //   item: item.id,
+    //   cantidad: 1,
+    //   subtotal,
+    //   porcentaje_descuento: 0,
+    //   item_nombre: item.nombre,
+    //   total: precioDiscriminadoPorTipo * 1,
+    // });
+
+    // this.changeDetectorRef.detectChanges();
+
+    // const impuestosAdaptados = item.impuestos.map((impuesto) =>
+    //   this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true),
+    // );
+
+    // this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
+    // this._limpiarImpuestosAcumulados();
+    // this._limpiarFormularioTotales();
+    // this._actualizarFormulario();
+
+    // this.formularioFactura?.markAsDirty();
+    // this.formularioFactura?.markAsTouched();
+    this._formularioFacturaService.recibirItemSeleccionado(
       item,
+      indexFormulario,
     );
-
-    this.detalles.controls[indexFormulario].patchValue({
-      precio: precioDiscriminadoPorTipo,
-      item: item.id,
-      cantidad: 1,
-      subtotal,
-      porcentaje_descuento: 0,
-      item_nombre: item.nombre,
-      total: precioDiscriminadoPorTipo * 1,
-    });
-
-    this.changeDetectorRef.detectChanges();
-
-    const impuestosAdaptados = item.impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true),
-    );
-
-    this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
-    this._limpiarImpuestosAcumulados();
-    this._limpiarFormularioTotales();
-    this._actualizarFormulario();
-
-    this.formularioFactura?.markAsDirty();
-    this.formularioFactura?.markAsTouched();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -365,16 +391,21 @@ export class FormularioProductosComponent
     impuestos: ImpuestoRespuestaConsulta[],
     indexFormulario: number,
   ) {
-    const impuestosAdaptados = impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion),
-    );
+    // const impuestosAdaptados = impuestos.map((impuesto) =>
+    //   this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion),
+    // );
 
-    this._registrarImpuestosEliminados(impuestosAdaptados, indexFormulario);
-    this._eliminarImpuestoEnCache(indexFormulario);
-    this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
-    this._limpiarImpuestosAcumulados();
-    this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    // this._registrarImpuestosEliminados(impuestosAdaptados, indexFormulario);
+    // this._eliminarImpuestoEnCache(indexFormulario);
+    // this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
+    // this._limpiarImpuestosAcumulados();
+    // this._limpiarFormularioTotales();
+    // this._actualizarFormulario();
+    this._formularioFacturaService.recibirImpuestosModificados(
+      impuestos,
+      indexFormulario,
+    );
+    this.changeDetectorRef.detectChanges();
   }
 
   // acumulador impuestos
@@ -875,138 +906,13 @@ export class FormularioProductosComponent
   }
 
   private _poblarFormulario(documentoFactura: DocumentoFacturaRespuesta) {
-    this._poblarDocumento(documentoFactura);
-    this._poblarDocumentoDetalle(documentoFactura.detalles);
-    this._cargarDocumentoReferencia(documentoFactura);
-    this._cargarPagos(documentoFactura);
-    this._changeDetector.detectChanges();
-  }
-
-  private _cargarDocumentoReferencia(
-    documentoFactura: DocumentoFacturaRespuesta,
-  ) {
-    if (this.mostrarDocumentoReferencia) {
-      this.formularioFactura.patchValue({
-        documento_referencia: documentoFactura.documento_referencia_id,
-        documento_referencia_numero:
-          documentoFactura.documento_referencia_numero,
-      });
-    }
-  }
-
-  private _cargarPagos(documentoFactura: DocumentoFacturaRespuesta) {
-    if (!documentoFactura.pagos.length) {
-      return null;
-    }
-
-    documentoFactura.pagos.forEach((pago) => {
-      const pagoFormGroup = this._formBuilder.group({
-        id: pago.id,
-        cuenta_banco: pago.cuenta_banco_id,
-        cuenta_banco_nombre: pago.cuenta_banco_nombre,
-        pago: pago.pago,
-      });
-
-      this.pagos.push(pagoFormGroup);
-    });
-
-    this._calcularTotalPagos();
-  }
-
-  private _calcularTotalPagos() {
-    let total: number = 0;
-    this.pagos.value.forEach((pagoRealizado: PagoFormulario) => {
-      total += pagoRealizado.pago;
-    });
-
-    this.totalAfectado.setValue(total);
-  }
-
-  private _poblarDocumento(documentoFactura: DocumentoFacturaRespuesta) {
-    this.formularioFactura.patchValue({
-      contacto: documentoFactura.contacto_id,
-      contactoNombre: documentoFactura.contacto_nombre_corto,
-      fecha: documentoFactura.fecha,
-      fecha_vence: documentoFactura.fecha_vence,
-      metodo_pago: documentoFactura.metodo_pago_id,
-      metodo_pago_nombre: documentoFactura.metodo_pago_nombre,
-      forma_pago: documentoFactura.forma_pago_id,
-      forma_pago_nombre: documentoFactura.forma_pago_nombre,
-      orden_compra: documentoFactura.orden_compra,
-      comentario: documentoFactura.comentario,
-      plazo_pago: documentoFactura.plazo_pago_id,
-      numero: documentoFactura.numero,
-      cue: documentoFactura.cue,
-      referencia_cue: documentoFactura.referencia_cue,
-      referencia_numero: documentoFactura.referencia_numero,
-      referencia_prefijo: documentoFactura.referencia_prefijo,
-    });
-  }
-
-  private _poblarDocumentoDetalle(
-    documentoDetalle: DocumentoFacturaDetalleRespuesta[],
-  ) {
-    documentoDetalle.forEach((detalle, indexFormulario) => {
-      const documentoDetalleGrupo = this._formBuilder.group({
-        cuenta: [detalle.cuenta],
-        cuenta_codigo: [detalle.cuenta_codigo],
-        cuenta_nombre: [detalle.cuenta_nombre],
-        item: [detalle.item],
-        item_nombre: [detalle.item_nombre],
-        cantidad: [
-          detalle.cantidad,
-          [
-            validarPrecio(),
-            Validators.min(1),
-            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-          ],
-        ],
-        precio: [
-          detalle.precio,
-          [
-            validarPrecio(),
-            Validators.min(0.1),
-            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-          ],
-        ],
-        porcentaje_descuento: [
-          detalle.porcentaje_descuento,
-          [
-            validarDescuento(),
-            Validators.min(0),
-            Validators.max(100),
-            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-          ],
-        ],
-        descuento: [detalle.descuento],
-        subtotal: [detalle.subtotal],
-        total_bruto: [detalle.total_bruto],
-        total: [detalle.total],
-        neto: [0], //TODO: preguntar por que el neto no se esta devolviendo
-        base_impuesto: [detalle.base_impuesto],
-        impuesto: [detalle.impuesto],
-        impuesto_operado: [detalle.impuesto_operado],
-        impuesto_retencion: [detalle.impuesto_retencion],
-        impuestos: this._formBuilder.array([]),
-        impuestos_eliminados: this._formBuilder.array([]),
-        id: [detalle.id],
-        tipo_registro: [detalle.tipo_registro],
-        grupo: detalle.grupo_id,
-        naturaleza: detalle.naturaleza,
-      });
-
-      this.detalles.push(documentoDetalleGrupo);
-      const impuestosAdaptados = detalle.impuestos.map((impuesto) =>
-        this._adapterService.adaptarImpuestoDesdeConsultaDetalle(impuesto),
-      );
-
-      this._agregarCampoImpuestoACache(indexFormulario);
-      this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
-    });
-
-    this._limpiarImpuestosAcumulados();
-    this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    this._formularioFacturaService.poblarDocumento(documentoFactura);
+    this._formularioFacturaService.poblarDocumentoDetalle(
+      documentoFactura.detalles,
+    );
+    this._formularioFacturaService.cargarDocumentoReferencia(documentoFactura);
+    this._formularioFacturaService.cargarPagos(documentoFactura);
+    this.changeDetectorRef.detectChanges();
   }
 
   private _cargarVista() {
