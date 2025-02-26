@@ -75,7 +75,7 @@ export default class SalidaFormularioComponent
 
   public formularioSalida: FormGroup;
   public active: Number;
-  public estado_aprobado: false;
+  public estado_aprobado = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');
   public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
   public total = signal(0);
@@ -104,62 +104,7 @@ export default class SalidaFormularioComponent
 
 
   consultardetalle() {
-    // this.facturaService
-    //   .consultarDetalle(this.detalle)
-    //   .subscribe((respuesta: any) => {
-    //     this.estado_aprobado = respuesta.documento.estado_aprobado;
-    //     this.formularioAsiento.patchValue({
-    //       contacto: respuesta.documento.contacto_id,
-    //       contactoNombre: respuesta.documento.contacto_nombre_corto,
-    //       fecha: respuesta.documento.fecha,
-    //       comentario: respuesta.documento.comentario,
-    //       total: respuesta.documento.total,
-    //       soporte: respuesta.documento.soporte,
-    //       comprobante: respuesta.documento.comprobante_id,
-    //       comprobante_nombre: respuesta.documento.comprobante_nombre,
-    //       grupo_contabilidad: respuesta.documento.grupo_contabilidad_id,
-    //       grupo_contabilidad_nombre:
-    //         respuesta.documento.grupo_contabilidad_nombre,
-    //     });
-
-    //     this.detalles.clear();
-    //     respuesta.documento.detalles.forEach((detalle: any) => {
-    //       const detalleFormGroup = this.formBuilder.group({
-    //         id: [detalle.id],
-    //         documento_afectado: [detalle.documento_afectado_id],
-    //         tipo_registro: detalle.tipo_registro,
-    //         numero: [detalle.numero],
-    //         contacto: [
-    //           detalle.documento_afectado_contacto_id
-    //             ? detalle.documento_afectado_contacto_id
-    //             : detalle.contacto_id,
-    //         ],
-    //         contacto_nombre_corto: [
-    //           detalle.documento_afectado_id
-    //             ? detalle.documento_afectado_contacto_nombre_corto
-    //             : detalle.contacto_nombre_corto,
-    //         ],
-    //         precio: [detalle.precio],
-    //         seleccionado: [false],
-    //         cuenta: detalle.cuenta,
-    //         cuenta_codigo: detalle.cuenta_codigo,
-    //         cuenta_nombre: detalle.cuenta_nombre,
-    //         grupo: detalle.grupo_id,
-    //         naturaleza: detalle.naturaleza,
-    //         base_impuesto: detalle.base_impuesto,
-    //         detalle: detalle.detalle,
-    //       });
-    //       this.detalles.push(detalleFormGroup);
-    //     });
-    //     if (respuesta.documento.estado_aprobado) {
-    //       this.formularioAsiento.disable();
-    //     } else {
-    //       this.formularioAsiento.markAsPristine();
-    //       this.formularioAsiento.markAsUntouched();
-    //     }
-    //     this.calcularTotales();
-    //     this.changeDetectorRef.detectChanges();
-    //   });
+    this._cargarFormulario(this.detalle);
   }
 
   enviarFormulario() {
@@ -503,6 +448,7 @@ export default class SalidaFormularioComponent
   }
 
   private _poblarFormulario(documentoFactura: DocumentoInventarioRespuesta) {
+    this.estado_aprobado = documentoFactura.estado_aprobado
     this._poblarDocumento(documentoFactura);
     this._poblarDocumentoDetalle(documentoFactura.detalles);
     this.changeDetectorRef.detectChanges();

@@ -1,17 +1,15 @@
 <form [formGroup]="formularioEntrada" (ngSubmit)="enviarFormulario()">
-  <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="false"
-  >
-  @if (detalle) {
-    <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
-      <app-importar-detalles
-        [estadoHabilitado]="estado_aprobado"
-        [aplicarUrlInventario]="true"
-        (emitirDetallesAgregados)="consultardetalle()"
-      ></app-importar-detalles>
-    </div>
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+    @if (detalle) {
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <app-importar-detalles
+          [estadoHabilitado]="estado_aprobado"
+          [aplicarUrlInventario]="true"
+          (emitirDetallesAgregados)="consultardetalle()"
+        ></app-importar-detalles>
+      </div>
     }
-</app-comun-encabezado-formulario-nuevo>
+  </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion></app-comun-titulo-accion>
