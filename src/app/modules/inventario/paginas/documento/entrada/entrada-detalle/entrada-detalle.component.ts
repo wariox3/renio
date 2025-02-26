@@ -5,9 +5,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
-import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -17,7 +15,6 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { KeysPipe } from '@pipe/keys.pipe';
 import { EMPTY, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -33,9 +30,9 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     CardComponent,
     BtnAtrasComponent,
     BaseEstadosComponent,
-    DetallesTotalesComponent,
     TituloAccionComponent,
-  ],
+    DocumentoOpcionesComponent
+],
   templateUrl: './entrada-detalle.component.html',
   styleUrls: ['./entrada-detalle.component.scss']
 
@@ -72,6 +69,10 @@ export default class EntradaDetalleComponent extends General {
     private _modalService: NgbModal,
   ) {
     super();
+    this.consultardetalle();
+  }
+
+  itemDesaprobadoEvent() {
     this.consultardetalle();
   }
 
