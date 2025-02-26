@@ -109,7 +109,7 @@ export default class EgresoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
   }
@@ -130,8 +130,8 @@ export default class EgresoFormularioComponent
         {
           modelo: 'GenCuentaBanco',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).subscribe((respuesta: any) => {
       this.arrBancos = respuesta[0]?.registros;
       this.changeDetectorRef.detectChanges();
@@ -200,6 +200,7 @@ export default class EgresoFormularioComponent
             cuenta_codigo: detalle.cuenta_codigo,
             cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
+            cantidad: detalle.cantidad,
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -261,7 +262,7 @@ export default class EgresoFormularioComponent
                     detalle: respuesta.documento.id,
                   },
                 });
-              })
+              }),
             )
             .subscribe();
         } else {
@@ -282,7 +283,7 @@ export default class EgresoFormularioComponent
       } else {
         this.alertaService.mensajeError(
           'Error',
-          'El total no puede ser negativo'
+          'El total no puede ser negativo',
         );
       }
     } else {
@@ -312,7 +313,7 @@ export default class EgresoFormularioComponent
         tap((respuesta) => {
           this.arrContactos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -337,7 +338,7 @@ export default class EgresoFormularioComponent
     if (this.formularioEgreso.get('contacto')?.value !== '') {
       this.consultarDocumentos();
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
+        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] }),
       );
       this.arrDocumentosSeleccionados = [];
       this.agregarDocumentoSeleccionarTodos = false;
@@ -424,6 +425,7 @@ export default class EgresoFormularioComponent
       contacto_nombre: [null],
       precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
+      cantidad: [0],
     });
     this.detalles.push(detalleFormGroup);
   }
@@ -545,11 +547,11 @@ export default class EgresoFormularioComponent
 
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
-        (documento: any) => documento.id === id
+        (documento: any) => documento.id === id,
       );
 
       const naturaleza = this._definirNaturaleza(
-        documentoSeleccionado.documento_tipo_operacion
+        documentoSeleccionado.documento_tipo_operacion,
       );
 
       const detalleFormGroup = this.formBuilder.group({
@@ -564,6 +566,7 @@ export default class EgresoFormularioComponent
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
         naturaleza,
+        cantidad: [0],
       });
       this.detalles.push(detalleFormGroup);
     });

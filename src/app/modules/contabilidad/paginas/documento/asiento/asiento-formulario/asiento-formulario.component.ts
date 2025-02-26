@@ -102,7 +102,7 @@ export default class AsientoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
   }
@@ -195,6 +195,7 @@ export default class AsientoFormularioComponent
             naturaleza: detalle.naturaleza,
             base_impuesto: detalle.base_impuesto,
             detalle: detalle.detalle,
+            cantidad: detalle.cantidad,
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -229,7 +230,7 @@ export default class AsientoFormularioComponent
                     detalle: respuesta.documento.id,
                   },
                 });
-              })
+              }),
             )
             .subscribe();
         } else {
@@ -250,7 +251,7 @@ export default class AsientoFormularioComponent
       } else {
         this.alertaService.mensajeError(
           'Error',
-          'El total no puede ser negativo'
+          'El total no puede ser negativo',
         );
       }
     } else {
@@ -301,7 +302,7 @@ export default class AsientoFormularioComponent
         tap((respuesta) => {
           this.arrContactos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -402,8 +403,9 @@ export default class AsientoFormularioComponent
         detalle: [null],
         seleccionado: [false],
         base_impuesto: [0],
+        cantidad: [0],
       });
-      
+
       this.detalles.push(detalleFormGroup);
     } else {
       this.alertaService.mensajeError('Error', 'Debe seleccionar un contacto');
@@ -462,7 +464,7 @@ export default class AsientoFormularioComponent
           limite_conteo: 10000,
           modelo: 'ConComprobante',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
         {
@@ -472,8 +474,8 @@ export default class AsientoFormularioComponent
           limite_conteo: 10000,
           modelo: 'ConGrupo',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).subscribe((respuesta: any) => {
       this.arrComprobantes = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
