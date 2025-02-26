@@ -245,6 +245,26 @@
               Inventario
             </label>
           </div>
+          <div class="form-check form-check-custom form-check-solid mt-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="negativo"
+              formControlName="negativo"
+              [ngClass]="{
+                'is-invalid':
+                  formularioItem.controls['negativo'].touched &&
+                  formularioItem.controls['negativo'].invalid,
+                'is-valid':
+                  formularioItem.controls['negativo'].touched &&
+                  formularioItem.controls['negativo'].valid
+              }"
+            />
+            <label class="form-check-label text-gray-700" for="negativo">
+              Negativo
+            </label>
+          </div>
         </div>
       </div>
     </section>

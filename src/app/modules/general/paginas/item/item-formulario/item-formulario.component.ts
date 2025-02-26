@@ -132,7 +132,8 @@ export default class ItemFormularioComponent
       productoServicio: ['producto'],
       producto: [true],
       servicio: [false],
-      inventario: [false],
+      inventario: [true],
+      negativo: [false],
       impuestos: this.formBuilder.array([]),
       cuenta_venta: [null],
       cuenta_compra: [null],
@@ -307,6 +308,7 @@ export default class ItemFormularioComponent
           inventario: respuesta.item.inventario,
           producto: respuesta.item.producto,
           servicio: respuesta.item.servicio,
+          negativo: respuesta.item.negativo,
           cuenta_venta: respuesta.item.cuenta_venta_id,
           cuenta_compra: respuesta.item.cuenta_compra_id,
         });
