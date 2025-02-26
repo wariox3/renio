@@ -109,7 +109,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
   }
@@ -184,8 +184,8 @@ export default class PagoFormularioComponent extends General implements OnInit {
           const numero = detalle.documento_afectado_numero
             ? detalle.documento_afectado_numero
             : detalle.numero
-            ? detalle.numero
-            : null;
+              ? detalle.numero
+              : null;
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             tipo_registro: detalle.tipo_registro,
@@ -205,6 +205,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
                 : detalle.contacto_nombre_corto,
             ],
             precio: [detalle.precio],
+            cantidad: [detalle.cantidad],
             seleccionado: [false],
             cuenta: detalle.cuenta,
             cuenta_codigo: detalle.cuenta_codigo,
@@ -244,7 +245,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
                     detalle: respuesta.documento.id,
                   },
                 });
-              })
+              }),
             )
             .subscribe();
         } else {
@@ -265,7 +266,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       } else {
         this.alertaService.mensajeError(
           'Error',
-          'El total no puede ser negativo'
+          'El total no puede ser negativo',
         );
       }
     } else {
@@ -296,7 +297,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     if (this.formularioFactura.get('contacto')?.value !== '') {
       this.consultarDocumentos();
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
+        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] }),
       );
       this.totalSeleccionado = 0;
       this.arrDocumentosSeleccionados = [];
@@ -335,7 +336,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         tap((respuesta) => {
           this.arrContactos = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -421,11 +422,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
   agregarDocumentosPago() {
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
-        (documento) => documento.id === id
+        (documento) => documento.id === id,
       );
 
       const naturaleza = this._definirNaturaleza(
-        documentoSeleccionado.documento_tipo_operacion
+        documentoSeleccionado.documento_tipo_operacion,
       );
 
       const detalleFormGroup = this.formBuilder.group({
@@ -443,6 +444,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         cuenta: [documentoSeleccionado.cuenta],
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
         naturaleza: [naturaleza],
+        cantidad: [0],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -503,7 +505,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
     this.totalSeleccionado = 0;
     this.arrDocumentosSeleccionados.map((id) => {
       let documentoSeleccionado = this.arrDocumentos.find(
-        (documento: any) => documento.id === id
+        (documento: any) => documento.id === id,
       );
       this.totalSeleccionado += documentoSeleccionado.total;
     });
@@ -584,6 +586,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       cuenta: [null, Validators.compose([Validators.required])],
       cuenta_codigo: [null],
       cuenta_nombre: [null],
+      cantidad: [0],
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
@@ -643,7 +646,10 @@ export default class PagoFormularioComponent extends General implements OnInit {
     const detallesArray = this.formularioFactura.get('detalles') as FormArray;
     if (detallesArray.length > 0) {
       detallesArray.controls.forEach((control: AbstractControl) => {
-        if (control.get('documento_afectado')?.value === null && control.get('id')?.value === null) {
+        if (
+          control.get('documento_afectado')?.value === null &&
+          control.get('id')?.value === null
+        ) {
           control.patchValue({
             contacto:
               this.formularioFactura.get('contacto')?.value !== ''
@@ -665,7 +671,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   toggleMostrarTodosLosClientes() {
     this.mostrarTodosLosClientes.update(
       (mostrarTodosLosClientes) =>
-        (mostrarTodosLosClientes = !mostrarTodosLosClientes)
+        (mostrarTodosLosClientes = !mostrarTodosLosClientes),
     );
     this.consultarDocumentos();
   }
