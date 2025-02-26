@@ -164,6 +164,8 @@ export interface DocumentoFacturaRespuesta {
   referencia_cue: string;
   referencia_numero: number;
   referencia_prefijo: string;
+  almacen_id: number;
+  almacen_nombre: string;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {

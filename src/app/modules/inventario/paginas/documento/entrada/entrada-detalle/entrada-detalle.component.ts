@@ -92,6 +92,7 @@ export default class EntradaDetalleComponent extends General {
           this.total.update(() => this.totalCantidad()*this.totalPrecio());
           this.changeDetectorRef.detectChanges();
         });
+        this.changeDetectorRef.detectChanges();
       });
   }
 

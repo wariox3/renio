@@ -49,6 +49,8 @@ export class FormularioFacturaService {
         forma_pago_nombre: [''],
         metodo_pago: [1, Validators.required],
         metodo_pago_nombre: [''],
+        almacen: [null],
+        almacen_nombre: [''],
         total: [0],
         subtotal: [0],
         base_impuesto: [0],
