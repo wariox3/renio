@@ -48,6 +48,19 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
       </button>
+      <div class="btn-group">
+        <app-comun-documento-opciones
+          [opciones]="{
+            modelo: 'ConMovimiento',
+          }"
+          (itemDesaprobadoEvent)="itemDesaprobadoEvent()"
+          [opcionesDesaprobarBoton]="{
+            deshabilitado:
+              !documento.estado_aprobado || documento.estado_anulado,
+          }"
+          [documento]="documento"
+        ></app-comun-documento-opciones>
+      </div>
     </div>
   </section>
   <section class="encabezadoDetalleEstados">

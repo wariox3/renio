@@ -5,6 +5,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -29,7 +30,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     BtnAtrasComponent,
     BaseEstadosComponent,
     TituloAccionComponent,
-  ],
+    DocumentoOpcionesComponent
+],
   templateUrl: './salida-detalle.component.html',
   styleUrls: ['./salida-detalle.component.scss']
 
@@ -67,6 +69,10 @@ export default class SalidaDetalleComponent extends General {
     private _facturaService: FacturaService,
   ) {
     super();
+    this.consultardetalle();
+  }
+
+  itemDesaprobadoEvent() {
     this.consultardetalle();
   }
 
