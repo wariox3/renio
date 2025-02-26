@@ -940,6 +940,8 @@ export class FormularioProductosComponent
       referencia_cue: documentoFactura.referencia_cue,
       referencia_numero: documentoFactura.referencia_numero,
       referencia_prefijo: documentoFactura.referencia_prefijo,
+      almacen: documentoFactura.almacen_id,
+      almacen_nombre : documentoFactura.almacen_nombre
     });
   }
 

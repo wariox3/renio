@@ -54,6 +54,8 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { AlmacenesComponent } from '@comun/componentes/alamacenes/almacenes.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -76,6 +78,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    AlmacenesComponent
   ],
 })
 export default class FacturaDetalleComponent extends General implements OnInit {
@@ -100,6 +103,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   public arrAsesor: RegistroAutocompletarGenAsesor[] = [];
   public arrSede: RegistroAutocompletarGenSede[] = [];
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
   public requiereSede: boolean = false;
   public camposBuscarAvanzado = [
@@ -147,6 +151,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value
       );
+      this.almacenSeleccionado(this.arrAlmacenes[0])
+      this.changeDetectorRef.detectChanges();
     });
 
     this.active = 1; // navigation tab
@@ -665,6 +671,21 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  almacenSeleccionado(almacen: any) {
+    this.formularioFactura.patchValue({
+      almacen: almacen.almacen_id,
+      almacen_nombre: almacen.almacen_nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
   private _consultarInformacion() {
     return zip(
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
@@ -691,7 +712,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           serializador: 'ListaAutocompletar',
         }
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1)
+      this._empresaService.obtenerConfiguracionEmpresa(1),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
+        {
+          limite: 1,
+          modelo: 'InvAlmacen',
+          serializador: 'ListaAutocompletar',
+        }
+      )
     ).pipe(
       tap((respuesta) => {
         this.arrMetodosPago = respuesta[0].registros;
@@ -700,7 +728,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.arrSede = respuesta[3].registros;
         this.requiereAsesor = respuesta[4].venta_asesor;
         this.requiereSede = respuesta[4].venta_sede;
-        this.changeDetectorRef.detectChanges();
+        this.arrAlmacenes = respuesta[5].registros;
       })
     );
   }
