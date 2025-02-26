@@ -65,9 +65,7 @@ export default class EntradaFormularioComponent
   extends General
   implements OnInit
 {
-consultardetalle() {
-throw new Error('Method not implemented.');
-}
+
   private _formBuilder = inject(FormBuilder);
   private _entradaService = inject(EntradaService);
   private _formularioEntradaService = inject(FormularioEntradaService);
@@ -78,7 +76,7 @@ throw new Error('Method not implemented.');
 
   public formularioEntrada: FormGroup;
   public active: Number;
-  public estado_aprobado: false;
+  public estado_aprobado = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');
   public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
   public total = signal(0);
@@ -103,6 +101,10 @@ throw new Error('Method not implemented.');
 
   get detallesEliminados(): FormArray {
     return this.formularioEntrada.get('detalles_eliminados') as FormArray;
+  }
+
+  consultardetalle() {
+    this._cargarFormulario(this.detalle)
   }
 
   enviarFormulario() {
@@ -449,6 +451,7 @@ throw new Error('Method not implemented.');
   }
 
   private _poblarFormulario(documentoFactura: DocumentoInventarioRespuesta) {
+    this.estado_aprobado = documentoFactura.estado_aprobado
     this._poblarDocumento(documentoFactura);
     this._poblarDocumentoDetalle(documentoFactura.detalles);
     this.changeDetectorRef.detectChanges();
@@ -467,6 +470,7 @@ throw new Error('Method not implemented.');
   }
 
   private _poblarDocumentoDetalle(documentoDetalle: any[]) {
+    this.detalles.clear();
     documentoDetalle.forEach((detalle, indexFormulario) => {
       const documentoDetalleGrupo = this._formBuilder.group({
         id: [detalle.id],
@@ -493,6 +497,8 @@ throw new Error('Method not implemented.');
       });
       this.detalles.push(documentoDetalleGrupo);
     });
+    this._actualizarFormulario();
+    this.changeDetectorRef.detectChanges();
   }
 
   private _actualizarDetallesContactoSinDocumentoAfectado() {
