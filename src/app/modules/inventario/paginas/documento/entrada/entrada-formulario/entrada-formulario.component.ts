@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { AlmacenesComponent } from '@comun/componentes/alamacenes/almacenes.component';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
