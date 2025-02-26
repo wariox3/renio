@@ -302,7 +302,7 @@
         </div>
         <div class="col-md-3 col-sm-12">
           <label class="form-label">Almacen</label>
-          <app-comun-alamacenes
+          <app-comun-almacenes
             [almacenNombre]="formularioFactura.get('almacen_nombre')?.value"
             [campoInvalido]="
               formularioFactura.controls['almacen'].touched &&
@@ -311,7 +311,7 @@
             (emitirAlmacen)="almacenSeleccionado($event)"
             (emitirLineaVacia)="limpiarCampoAlmacen($event)"
           >
-          </app-comun-alamacenes>
+          </app-comun-almacenes>
         </div>
       </div>
       @if (requiereAsesor || requiereSede) {

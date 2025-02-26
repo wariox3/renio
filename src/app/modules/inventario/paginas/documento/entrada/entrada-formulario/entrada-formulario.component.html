@@ -43,7 +43,7 @@
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label class="form-label required">Almacen</label>
-          <app-comun-alamacenes
+          <app-comun-almacenes
             [almacenNombre]="formularioEntrada.get('almacenNombre')?.value"
             [campoInvalido]="
               formularioEntrada.controls['almacen'].touched &&
@@ -52,7 +52,7 @@
             (emitirAlmacen)="almacenSeleccionado($event)"
             (emitirLineaVacia)="limpiarCampoAlmacen($event)"
           >
-          </app-comun-alamacenes>
+          </app-comun-almacenes>
         </div>
       </div>
       <div class="row mb-5">
@@ -131,7 +131,8 @@
                             ></app-seleccionar-producto>
                           </td>
                           <td>
-                            <app-comun-alamacenes
+                            <app-comun-almacenes
+                              [inputSm]="true"
                               [almacenNombre]="detalle.value.almacenNombre"
                               [campoInvalido]="
                                 detalle.get('almacen')?.touched &&
@@ -143,7 +144,7 @@
                               (emitirLineaVacia)="
                                 limpiarCampoAlmacenDetalle($event, i)
                               "
-                            ></app-comun-alamacenes>
+                            ></app-comun-almacenes>
                           </td>
                           <td>
                             <input

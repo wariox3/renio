@@ -11,11 +11,12 @@
       (blur)="validarValor()"
       [disabled]="estadoAprobado"
       [readonly]="estadoAprobado"
-      [ngClass]="{ 'disabled-cursor': estadoAprobado }"
       [value]="almacenNombre"
       [ngClass]="{
         'is-invalid': campoInvalido,
-        'is-valid': itemSeleccionado !== null
+        'is-valid': itemSeleccionado !== null,
+        'disabled-cursor': estadoAprobado,
+        'form-select-sm': inputSm
       }"
     />
     <div

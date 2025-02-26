@@ -54,7 +54,7 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { AlmacenesComponent } from '@comun/componentes/alamacenes/almacenes.component';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({

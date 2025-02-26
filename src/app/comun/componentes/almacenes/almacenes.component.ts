@@ -16,10 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
-  selector: 'app-comun-alamacenes',
+  selector: 'app-comun-almacenes',
   standalone: true,
   imports: [CommonModule, TranslateModule, NgbDropdownModule],
-  templateUrl: './alamacenes.component.html',
+  templateUrl: './almacenes.component.html',
   styleUrl: './almacenes.component.scss'
 })
 export class AlmacenesComponent extends General {
@@ -28,6 +28,7 @@ export class AlmacenesComponent extends General {
   @Input() almacenNombre: string = '';
   @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
+  @Input() inputSm = false;
   @Output() emitirAlmacen: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
