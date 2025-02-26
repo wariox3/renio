@@ -4,8 +4,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  signal,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   FormArray,
@@ -23,11 +22,11 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -47,14 +46,13 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
-import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
+import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -74,7 +72,6 @@ import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.compone
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    SoloNumerosDirective,
     ImportarPersonalizadoComponent,
     NgbDropdownModule,
     NgSelectModule,
@@ -89,10 +86,12 @@ export default class FacturaDetalleComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public formularioTipo = this._formularioFacturaService.formularioTipo;
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
-  public modoEdicion: boolean = false;
   public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
 
   informacionFormulario: any;
   formularioFactura: FormGroup;
@@ -125,7 +124,6 @@ export default class FacturaDetalleComponent
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
-  estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
@@ -167,7 +165,7 @@ export default class FacturaDetalleComponent
 
   ngOnInit() {
     this.formularioFactura = this._formularioFacturaService.form;
-
+    this.formularioTipo.set('compra');
     this.active = 1;
 
     if (this.parametrosUrl) {
@@ -176,10 +174,10 @@ export default class FacturaDetalleComponent
 
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.modoEdicion = true;
+      this.modoEdicion.set(true);
       // this.consultardetalle();
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
       this.consultarInformacion().subscribe(() => {
         this._actualizarPlazoPago(
           this.formularioFactura.get('plazo_pago')?.value,
@@ -913,7 +911,7 @@ export default class FacturaDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
-        this.estado_aprobado = respuesta.documento.estado_aprobado;
+        // this.estado_aprobado = respuesta.documento.estado_aprobado;
 
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,

@@ -1,4 +1,4 @@
-import { CommonModule, KeyValuePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import {
   FormArray,
@@ -15,7 +15,7 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
@@ -23,7 +23,7 @@ import {
   DocumentoDetalleFactura,
   DocumentoFacturaRespuesta,
   ImpuestoFormulario,
-  ImpuestoRespuestaConsulta
+  ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -45,7 +45,6 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
     SeleccionarProductoComponent,
     NgbTooltipModule,
   ],
-  providers: [KeyValuePipe],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,7 +56,6 @@ export class FormularioProductosComponent
   private _formBuilder = inject(FormBuilder);
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _operaciones = inject(OperacionesService);
-  private _keyValue = inject(KeyValuePipe);
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
   private _impuestoCache: {
@@ -66,37 +64,24 @@ export class FormularioProductosComponent
 
   public formularioFactura = this._formularioFacturaService.form;
   public themeValue = localStorage.getItem('kt_theme_mode_value');
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
 
-  @Input() formularioTipo: 'venta' | 'compra' = 'venta';
-  @Input({ required: true }) modoEdicion: boolean = false;
   @Input() mostrarDocumentoReferencia: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
-  @Input() estadoAprobado: boolean = false;
-  @Input() visualizarAgregarCuenta = false;
   @Input() permiteCantidadCero = false;
-  @Input({ required: true }) acumuladorImpuestos: {
-    [string: string]: { operado: number; total: number };
-  } = {};
+  @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Output() emitirEnviarFormulario: EventEmitter<void>;
   @Output() emitirDocumentoDetalle: EventEmitter<DocumentoFacturaRespuesta>;
-  @Output() emitirImpuestosAcumulados: EventEmitter<{
-    [string: string]: { operado: number; total: number };
-  }>;
 
   constructor() {
     super();
     this.emitirEnviarFormulario = new EventEmitter<void>();
-    this.emitirImpuestosAcumulados = new EventEmitter();
     this.emitirDocumentoDetalle = new EventEmitter();
   }
 
   ngOnInit(): void {
     this._cargarVista();
-    // this._formularioFacturaService.emitirImpuestoCalculados$.subscribe(
-    //   (valor) => {
-    //     this.emitirImpuestosAcumulados.emit(valor);
-    //   },
-    // );
   }
 
   // listeners
@@ -462,33 +447,29 @@ export class FormularioProductosComponent
   }
 
   private _calcularImpuestosAcumulados() {
-    this._impuestoCache?.forEach((impuesto) => {
-      if (Object.keys(impuesto).length) {
-        const impuestoTransformado = this._keyValue.transform(impuesto);
-
-        for (let { key, value } of impuestoTransformado) {
-          if (!this.acumuladorImpuestos[key]) {
-            this.acumuladorImpuestos[key] = { total: 0, operado: 0 };
-            this.acumuladorImpuestos[key].operado = value.operado;
-          }
-
-          if (value.operado > 0) {
-            this.acumuladorImpuestos[key].total += value.total;
-          } else {
-            this.acumuladorImpuestos[key].total -= value.total;
-          }
-        }
-
-        this.emitirImpuestosAcumulados.emit(this.acumuladorImpuestos);
-      }
-    });
+    // this._impuestoCache?.forEach((impuesto) => {
+    //   if (Object.keys(impuesto).length) {
+    //     const impuestoTransformado = this._keyValue.transform(impuesto);
+    //     for (let { key, value } of impuestoTransformado) {
+    //       if (!this.acumuladorImpuestos[key]) {
+    //         this.acumuladorImpuestos[key] = { total: 0, operado: 0 };
+    //         this.acumuladorImpuestos[key].operado = value.operado;
+    //       }
+    //       if (value.operado > 0) {
+    //         this.acumuladorImpuestos[key].total += value.total;
+    //       } else {
+    //         this.acumuladorImpuestos[key].total -= value.total;
+    //       }
+    //     }
+    //     this.emitirImpuestosAcumulados.emit(this.acumuladorImpuestos);
+    //   }
+    // });
   }
 
   private _limpiarImpuestosAcumulados() {
-    this.acumuladorImpuestos = {};
-    this.emitirImpuestosAcumulados.emit(this.acumuladorImpuestos);
-
-    this._calcularImpuestosAcumulados();
+    // this.acumuladorImpuestos = {};
+    // this.emitirImpuestosAcumulados.emit(this.acumuladorImpuestos);
+    // this._calcularImpuestosAcumulados();
   }
 
   // funciones documento formulario
@@ -844,55 +825,7 @@ export class FormularioProductosComponent
     impuestos.clear();
   }
 
-  private _registrarItemDetalleEliminado(id: string | null) {
-    if (!this.modoEdicion || !id) {
-      return null;
-    }
-
-    this.detallesEliminados.value.push(id);
-  }
-
   // funciones formulario impuestos
-  private _registrarImpuestosEliminados(
-    impuestosActualizados: ImpuestoFormulario[],
-    indexFormulario: number,
-  ) {
-    if (!this.modoEdicion) {
-      return;
-    }
-
-    const impuestosActuales = this._obtenerImpuestoFormulario(indexFormulario);
-    const impuestosEliminados =
-      this._obtenerImpuestosEliminados(indexFormulario);
-
-    // validamos que los impuestos recibidos no esten en 0
-    if (impuestosActualizados.length <= 0) {
-      // agregar lo que que queda en impuestos actuales a los eliminados
-      impuestosActuales.value.forEach((impuestoActual: ImpuestoFormulario) => {
-        if (impuestoActual.id) {
-          impuestosEliminados.value.push(impuestoActual.id);
-        }
-      });
-
-      return;
-    }
-
-    // Mapeamos los ids de los impuestos actualizados para crear un set
-    const idsImpuestosActualizados = new Set(
-      impuestosActualizados.map((impuesto) => impuesto.id),
-    );
-
-    //
-    impuestosActuales.value.forEach((impuestoActual: ImpuestoFormulario) => {
-      if (!impuestoActual.id) {
-        return;
-      }
-
-      if (!idsImpuestosActualizados.has(impuestoActual.id)) {
-        impuestosEliminados.value.push(impuestoActual.id);
-      }
-    });
-  }
 
   // cargar vista
   private _cargarFormulario(id: number) {
@@ -906,6 +839,7 @@ export class FormularioProductosComponent
   }
 
   private _poblarFormulario(documentoFactura: DocumentoFacturaRespuesta) {
+    this.estadoAprobado.set(documentoFactura.estado_aprobado);
     this._formularioFacturaService.poblarDocumento(documentoFactura);
     this._formularioFacturaService.poblarDocumentoDetalle(
       documentoFactura.detalles,
@@ -917,11 +851,11 @@ export class FormularioProductosComponent
 
   private _cargarVista() {
     if (this.detalle) {
-      this.modoEdicion = true;
+      this.modoEdicion.set(true);
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this._cargarFormulario(this.detalle);
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
     }
   }
 

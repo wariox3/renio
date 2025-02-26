@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -7,8 +7,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AdapterService } from '@comun/componentes/factura/services/adapter.service';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
+import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import {
   AcumuladorImpuestos,
   DocumentoDetalleFactura,
@@ -18,11 +21,8 @@ import {
   ImpuestoRespuestaConsulta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FechasService } from '../fechas.service';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
-import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
-import { AdapterService } from '@comun/componentes/factura/services/adapter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +34,13 @@ export class FormularioFacturaService {
   private _operaciones = inject(OperacionesService);
   private formSubject = new BehaviorSubject<FormGroup>(this.createForm());
 
-  // public emitirImpuestoCalculados$ = new Subject<{
-  //   [string: string]: { operado: number; total: number };
-  // }>();
-  public impuestoCache: {
-    [string: string]: { operado: number; total: number };
-  }[] = [];
-
-  public formularioTipo: 'venta' | 'compra' = 'venta'; // conectar
-  public mostrarDocumentoReferencia = true; // conectar
-  public modoEdicion = true; // conectar
+  public impuestoCache: AcumuladorImpuestos[] = [];
+  public formularioTipo = signal<'venta' | 'compra'>('venta'); // conectar
+  public mostrarDocumentoReferencia = signal<boolean>(false); // conectar
+  public modoEdicion = signal<boolean>(false);
   public form$ = this.formSubject.asObservable();
   public acumuladorImpuestos = signal<AcumuladorImpuestos>({});
+  public estadoAprobado = signal<boolean>(false);
 
   constructor() {}
 
@@ -319,7 +314,7 @@ export class FormularioFacturaService {
     this._reiniciarSelectorItem(indexFormulario);
 
     const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
-      this.formularioTipo,
+      this.formularioTipo(),
       item,
     );
 
@@ -332,12 +327,11 @@ export class FormularioFacturaService {
       item_nombre: item.nombre,
       total: precioDiscriminadoPorTipo * 1,
     });
-    
 
     // this.changeDetectorRef.detectChanges();
 
     const impuestosAdaptados = item.impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion, true),
+      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion(), true),
     );
 
     this._actualizarImpuestoItem(impuestosAdaptados, indexFormulario);
@@ -360,7 +354,7 @@ export class FormularioFacturaService {
     indexFormulario: number,
   ) {
     const impuestosAdaptados = impuestos.map((impuesto) =>
-      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion),
+      this._adapterService.adaptarImpuesto(impuesto, this.modoEdicion()),
     );
 
     this._registrarImpuestosEliminados(impuestosAdaptados, indexFormulario);
@@ -936,7 +930,7 @@ export class FormularioFacturaService {
   }
 
   cargarDocumentoReferencia(documentoFactura: DocumentoFacturaRespuesta) {
-    if (this.mostrarDocumentoReferencia) {
+    if (this.mostrarDocumentoReferencia()) {
       this.form.patchValue({
         documento_referencia: documentoFactura.documento_referencia_id,
         documento_referencia_numero:

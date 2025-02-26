@@ -1,6 +1,7 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  <pre>{{ formularioFactura.value | json }}</pre>
   <section class="d-flex align-items-center gap-4">
-    <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+    <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estadoAprobado()">
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <div ngbDropdown>
           <button
@@ -402,18 +403,11 @@
                   (emitirDocumentoDetalle)="
                     recibirDocumentoDetalleRespuesta($event)
                   "
-                  (emitirImpuestosAcumulados)="
-                    actualizarImpuestosAcumulados($event)
-                  "
-                  [acumuladorImpuestos]="{}"
-                  [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion"
                   [formularioTipo]="'compra'"
-                  [visualizarAgregarCuenta]="true"
                 ></app-formulario-productos>
               </ng-template>
             </li>
-            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+            <li [ngbNavItem]="2" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
                 [ngClass]="{ 'text-primary': active === 2 }"
@@ -425,7 +419,7 @@
                 <app-factura-cuenta />
               </ng-template>
             </li>
-            <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+            <li [ngbNavItem]="3" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
                 [ngClass]="{ 'text-primary': active === 3 }"

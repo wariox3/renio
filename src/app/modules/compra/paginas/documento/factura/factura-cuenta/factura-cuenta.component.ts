@@ -37,10 +37,12 @@ export class FacturaCuentaComponent
 
   public _formularioFacturaService = inject(FormularioFacturaService);
   public formularioFactura = this._formularioFacturaService.form;
-  public estadoAprobado = false;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public themeValue = localStorage.getItem('kt_theme_mode_value');
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.changeDetectorRef.detectChanges();
+  }
 
   ngOnDestroy() {
     this._unsubscribe$.next();

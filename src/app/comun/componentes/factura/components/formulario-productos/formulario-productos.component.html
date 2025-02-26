@@ -1,5 +1,5 @@
 <div [formGroup]="formularioFactura">
-  @if (!estadoAprobado) {
+  @if (!estadoAprobado()) {
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         <button
@@ -43,7 +43,7 @@
             class="w-100px"
             translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
           ></th>
-          <th class="w-100px text-center" *ngIf="!estadoAprobado"></th>
+          <th class="w-100px text-center" *ngIf="!estadoAprobado()"></th>
         </tr>
       </thead>
       <tbody formArrayName="detalles">
@@ -57,7 +57,7 @@
               <td class="">
                 <app-seleccionar-producto
                   [itemNombre]="detalle.value.item_nombre"
-                  [estadoAprobado]="estadoAprobado"
+                  [estadoAprobado]="estadoAprobado()"
                   [campoInvalido]="
                     detalle.get('item')?.touched &&
                     detalle.get('item')?.hasError('required')
@@ -73,11 +73,11 @@
                   formControlName="cantidad"
                   (focus)="onCantidadChange(i)"
                   class="form-control-sm"
-                  [attr.disabled]="estadoAprobado"
-                  [readonly]="estadoAprobado"
+                  [attr.disabled]="estadoAprobado()"
+                  [readonly]="estadoAprobado()"
                   [ngClass]="{
-                    'disabled-cursor bg-transparent': estadoAprobado,
-                    'text-white': themeValue === 'dark' && estadoAprobado,
+                    'disabled-cursor bg-transparent': estadoAprobado(),
+                    'text-white': themeValue === 'dark' && estadoAprobado(),
                   }"
                   rows="1"
                   spellcheck="true"
@@ -103,12 +103,12 @@
                   type="number"
                   formControlName="precio"
                   (focus)="onPrecioChange(i)"
-                  [attr.disabled]="estadoAprobado"
-                  [readonly]="estadoAprobado"
+                  [attr.disabled]="estadoAprobado()"
+                  [readonly]="estadoAprobado()"
                   class="form-control-sm"
                   [ngClass]="{
-                    'disabled-cursor bg-transparent': estadoAprobado,
-                    'text-white': themeValue === 'dark' && estadoAprobado,
+                    'disabled-cursor bg-transparent': estadoAprobado(),
+                    'text-white': themeValue === 'dark' && estadoAprobado(),
                     'is-invalid':
                       detalle.get('precio')?.touched &&
                       detalle.get('precio')?.hasError('valorCero'),
@@ -140,11 +140,11 @@
                   formControlName="porcentaje_descuento"
                   (focus)="onDescuentoChange(i)"
                   class="form-control-sm"
-                  [attr.disabled]="estadoAprobado"
-                  [readonly]="estadoAprobado"
+                  [attr.disabled]="estadoAprobado()"
+                  [readonly]="estadoAprobado()"
                   [ngClass]="{
-                    'disabled-cursor bg-transparent': estadoAprobado,
-                    'text-white': themeValue === 'dark' && estadoAprobado,
+                    'disabled-cursor bg-transparent': estadoAprobado(),
+                    'text-white': themeValue === 'dark' && estadoAprobado(),
                   }"
                   rows="1"
                   spellcheck="true"
@@ -176,7 +176,7 @@
                   class="disabled-cursor bg-transparent"
                   class="form-control-sm"
                   [ngClass]="{
-                    'disabled-cursor bg-transparent': estadoAprobado,
+                    'disabled-cursor bg-transparent': estadoAprobado(),
                     'text-white bg-transparent': themeValue === 'dark',
                   }"
                   readonly
@@ -204,13 +204,13 @@
                   class="disabled-cursor"
                   class="form-control-sm"
                   [ngClass]="{
-                    'bg-transparent': estadoAprobado,
-                    'text-white': themeValue === 'dark' && estadoAprobado,
+                    'bg-transparent': estadoAprobado(),
+                    'text-white': themeValue === 'dark' && estadoAprobado(),
                   }"
                   [value]="detalle.value.total"
                 />
               </td>
-              <td class="text-center" *ngIf="!estadoAprobado">
+              <td class="text-center" *ngIf="!estadoAprobado()">
                 <i
                   class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                   (click)="eliminarItem(i)"

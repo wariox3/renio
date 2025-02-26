@@ -518,12 +518,6 @@
                   (emitirDocumentoDetalle)="
                     recibirDocumentoDetalleRespuesta($event)
                   "
-                  (emitirImpuestosAcumulados)="
-                    actualizarImpuestosAcumulados($event)
-                  "
-                  [acumuladorImpuestos]="acumuladorImpuesto"
-                  [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion"
                   [formularioTipo]="'venta'"
                 ></app-formulario-productos>
               </ng-template>
@@ -538,11 +532,11 @@
               ></a>
               <ng-template ngbNavContent>
                 <!--  <app-factura-formulario-pagos [formularioFactura]="formularioFactura"
-                  [estadoAprobado]="estado_aprobado"></app-factura-formulario-pagos> -->
+                  [estadoAprobado]="estadoAprobado()"></app-factura-formulario-pagos> -->
                 <div>
                   <div
                     class="d-flex justify-content-end mb-2"
-                    *ngIf="!estado_aprobado"
+                    *ngIf="!estadoAprobado()"
                   >
                     <button
                       (click)="agregarPago()"
@@ -574,7 +568,7 @@
                             <td class="">
                               <app-comun-cuenta-banco
                                 [itemNombre]="pago.value.cuenta_banco_nombre"
-                                [estado_aprobado]="estado_aprobado"
+                                [estado_aprobado]="estadoAprobado()"
                                 [campoInvalido]="
                                   pago.get('cuenta_banco')?.touched &&
                                   pago.get('cuenta_banco')?.invalid
@@ -592,14 +586,14 @@
                                 (change)="
                                   actualizarDetallePago(i, 'pago', $event)
                                 "
-                                [attr.disabled]="estado_aprobado"
-                                [readonly]="estado_aprobado"
+                                [attr.disabled]="estadoAprobado()"
+                                [readonly]="estadoAprobado()"
                                 class="form-control-sm"
                                 [ngClass]="{
                                   'disabled-cursor bg-transparent':
-                                    estado_aprobado,
+                                    estadoAprobado(),
                                   'text-white':
-                                    theme_value === 'dark' && estado_aprobado,
+                                    theme_value === 'dark' && estadoAprobado(),
                                   'is-invalid':
                                     pago.get('pago')?.touched &&
                                     pago.get('pago')?.value === 0,
@@ -625,7 +619,7 @@
                               </div>
                             </td>
 
-                            <td class="text-center" *ngIf="!estado_aprobado">
+                            <td class="text-center" *ngIf="!estadoAprobado()">
                               <i
                                 class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                                 (click)="eliminarPago(i, pago.value.id)"
@@ -661,7 +655,7 @@
                   {{ formularioFactura.value.subtotal | currency: "$" }}
                 </td>
               </tr>
-              @for (impuesto of acumuladorImpuesto | keyvalue; track $index) {
+              @for (impuesto of acumuladorImpuesto() | keyvalue; track $index) {
                 <tr>
                   <td class="text-end">{{ impuesto.key }}</td>
                   <td class="text-end">
@@ -669,7 +663,7 @@
                   </td>
                 </tr>
               }
-              <tr *ngIf="(acumuladorImpuesto | keyvalue).length">
+              <tr *ngIf="(acumuladorImpuesto() | keyvalue).length">
                 <td
                   class="text-end"
                   translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
