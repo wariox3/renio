@@ -196,7 +196,7 @@ export class FormularioProductosComponent
   /**
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
-  agregarNuevoItem(tipo_registro: String) {
+  agregarNuevoItem(tipo_registro: string) {
     // const detalleFormGroup = this._formBuilder.group({
     //   cuenta: [null],
     //   cuenta_codigo: [null],

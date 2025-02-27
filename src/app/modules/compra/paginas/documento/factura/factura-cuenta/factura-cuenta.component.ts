@@ -6,7 +6,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cuentas.component';
@@ -36,7 +41,7 @@ export class FacturaCuentaComponent
   private _unsubscribe$ = new Subject<void>();
 
   public _formularioFacturaService = inject(FormularioFacturaService);
-  public formularioFactura = this._formularioFacturaService.form;
+  public formularioFactura: FormGroup;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public themeValue = localStorage.getItem('kt_theme_mode_value');
 
@@ -45,10 +50,13 @@ export class FacturaCuentaComponent
   }
 
   ngOnInit(): void {
-    this._formularioFacturaService.form$.subscribe((value) => {
-      console.log(value);
-      this.changeDetectorRef.markForCheck();
-    });
+    this._formularioFacturaService.form$
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((form) => {
+        console.log(form.value);
+
+        this.formularioFactura = form;
+      });
   }
 
   ngOnDestroy() {
@@ -60,7 +68,7 @@ export class FacturaCuentaComponent
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
-  agregarNuevoItem(tipo_registro: String) {
+  agregarNuevoItem(tipo_registro: string) {
     this._formularioFacturaService.agregarNuevoItem(tipo_registro);
     this.changeDetectorRef.detectChanges();
   }

@@ -1,6 +1,7 @@
 <select
   #selectGrupo
-  class="form-select form-select-sm"
+  class="form-select"
+  [ngClass]="{ 'form-select-sm': !grande }"
   (change)="onSelectChange($event)"
   [(ngModel)]="valorInicial"
 >

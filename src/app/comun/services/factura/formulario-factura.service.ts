@@ -93,6 +93,7 @@ export class FormularioFacturaService {
         sede: [''],
         descuento: [0],
         sede_nombre: [null],
+        grupo_contabilidad: [null],
         plazo_pago: [1, Validators.required],
         detalles: this._formBuilder.array([]),
         pagos: this._formBuilder.array([]),
@@ -232,7 +233,9 @@ export class FormularioFacturaService {
   /**
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
-  agregarNuevoItem(tipo_registro: String) {
+  agregarNuevoItem(tipo_registro: string) {
+    const tipoSugerido = this._sugerirGrupo(tipo_registro);
+
     const detalleFormGroup = this._formBuilder.group({
       cuenta: [null],
       cuenta_codigo: [null],
@@ -266,7 +269,7 @@ export class FormularioFacturaService {
       ],
       descuento: [0],
       subtotal: [0],
-      grupo: [null],
+      grupo: [tipoSugerido],
       total: [0],
       impuesto: [0],
       impuesto_operado: [0],
@@ -297,6 +300,14 @@ export class FormularioFacturaService {
     this.detalles.push(detalleFormGroup);
     this.detalles?.markAllAsTouched();
     // this.changeDetectorRef.detectChanges();
+  }
+
+  private _sugerirGrupo(tipoRegistro: string) {
+    if (tipoRegistro === 'C') {
+      return this.form.get('grupo_contabilidad')?.value;
+    }
+
+    return null;
   }
 
   /**
@@ -862,6 +873,7 @@ export class FormularioFacturaService {
       referencia_cue: documentoFactura.referencia_cue,
       referencia_numero: documentoFactura.referencia_numero,
       referencia_prefijo: documentoFactura.referencia_prefijo,
+      grupo_contabilidad: documentoFactura.grupo_contabilidad_id,
     });
   }
 

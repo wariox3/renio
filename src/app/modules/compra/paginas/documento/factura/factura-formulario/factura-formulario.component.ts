@@ -47,6 +47,7 @@ import { ImportarPersonalizadoComponent } from '../../../../../../comun/componen
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -71,6 +72,7 @@ import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/f
     NgSelectModule,
     FacturaInformacionExtraComponent,
     FacturaCuentaComponent,
+    SeleccionarGrupoComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -184,6 +186,10 @@ export default class FacturaDetalleComponent
 
   ngOnDestroy(): void {
     this._formularioFacturaService.reiniciarFormulario();
+  }
+
+  onSeleccionarGrupoChange(id: string) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 
   private _actualizarPlazoPago(plazoPagoId: number) {

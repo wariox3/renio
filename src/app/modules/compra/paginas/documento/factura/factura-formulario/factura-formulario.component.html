@@ -301,6 +301,20 @@
           ></ng-container>
         </div>
       </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          >
+          </label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
+          ></app-seleccionar-grupo>
+        </div>
+      </div>
       <div class="row mb-5" *ngIf="visualizarCampoDocumentoReferencia">
         <div
           class="col-md-6 col-sm-12"
@@ -406,7 +420,7 @@
                 ></app-formulario-productos>
               </ng-template>
             </li>
-            <li [ngbNavItem]="2" [destroyOnHide]="false" class="nav-item">
+            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
                 [ngClass]="{ 'text-primary': active === 2 }"

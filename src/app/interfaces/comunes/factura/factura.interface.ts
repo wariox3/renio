@@ -164,6 +164,7 @@ export interface DocumentoFacturaRespuesta {
   referencia_cue: string;
   referencia_numero: number;
   referencia_prefijo: string;
+  grupo_contabilidad_id: number;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {
