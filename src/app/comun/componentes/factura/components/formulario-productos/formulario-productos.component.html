@@ -21,6 +21,10 @@
           <th translate="FORMULARIOS.TITULOS.FACTURACION.ITEM"></th>
           <th
             class="w-50px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+          ></th>
+          <th
+            class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
           ></th>
           <th
@@ -70,6 +74,12 @@
                   (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
                   [formularioTipo]="formularioTipo"
                 ></app-seleccionar-producto>
+              </td>
+              <td>
+                <app-seleccionar-grupo
+                  (selectChange)="onSeleccionarGrupoChange($event, i)"
+                  [valorInicial]="detalle.value.grupo"
+                ></app-seleccionar-grupo>
               </td>
               <td>
                 <app-seleccionar-almacen

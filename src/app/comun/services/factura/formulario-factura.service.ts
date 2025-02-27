@@ -329,7 +329,9 @@ export class FormularioFacturaService {
     }
 
     if (tipo_registro === 'I') {
+      const tipoSugerido = this._sugerirGrupo();
       const { almacenId, almacenNombre } = this._sugerirAlmacen();
+
       detalleFormGroup = this._formBuilder.group({
         cuenta: [null],
         cuenta_codigo: [null],
@@ -369,6 +371,7 @@ export class FormularioFacturaService {
         impuesto_retencion: [0],
         total_bruto: [0],
         neto: [0],
+        grupo: [tipoSugerido],
         base_impuesto: [0],
         almacen: [almacenId],
         almacen_nombre: [almacenNombre],

@@ -35,6 +35,7 @@ import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccio
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
 import { SeleccionarAlmacenComponent } from '../seleccionar-almacen/seleccionar-almacen.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
+import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -48,6 +49,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
     SeleccionarProductoComponent,
     NgbTooltipModule,
     SeleccionarAlmacenComponent,
+    SeleccionarGrupoComponent,
   ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
@@ -149,7 +151,7 @@ export class FormularioProductosComponent
   }
 
   onSeleccionarGrupoChange(id: string, indexFormulario: number) {
-    this.detalles.controls[indexFormulario].get('grupo')?.setValue(id);
+    this._formularioFacturaService.onSeleccionarGrupoChange(id, indexFormulario);
   }
 
   eliminarItem(indexFormulario: number) {
@@ -373,11 +375,7 @@ export class FormularioProductosComponent
     almacen: RegistroAutocompletarInvAlmacen,
     index: number,
   ) {
-    this._formularioFacturaService.onSeleccionarAlmacenChange(
-      almacen,
-      index,
-    );
-
+    this._formularioFacturaService.onSeleccionarAlmacenChange(almacen, index);
   }
 
   /**
