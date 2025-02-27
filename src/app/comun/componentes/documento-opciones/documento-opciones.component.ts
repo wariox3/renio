@@ -429,38 +429,15 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .subscribe();
   }
 
-  agregarDocumentoCambiarGrupo(event: Event, id: number) {
+  actualizarGrupo(event: Event, id: number) {
     const grupo = (event.target as HTMLSelectElement).value;
-    this.arrDocumentosGrupo = this.arrDocumentosGrupo ?? [];
 
-    const index = this.buscarDocumentoPorId(id);
-
-    grupo
-      ? this.agregarOActualizarDocumento(id, grupo, index)
-      : this.eliminarDocumento(index);
+    this._facturaService.actualizarDetalleGrupo(id, {
+      documento: this.detalle,
+      grupo
+     }).subscribe(() => {
+      this.alertaService.mensajaExitoso('Se actualizó la información');
+     })
   }
 
-  private buscarDocumentoPorId(id: number): number {
-    return this.arrDocumentosGrupo.findIndex((doc) => doc.detalle_id === id);
-  }
-
-  private agregarOActualizarDocumento(
-    id: number,
-    grupo: string,
-    index: number,
-  ): void {
-    if (index === -1) {
-      this.arrDocumentosGrupo.push({ grupo, detalle_id: id });
-    } else {
-      this.arrDocumentosGrupo[index].grupo = grupo;
-    }
-  }
-
-  private eliminarDocumento(index: number): void {
-    if (index !== -1) {
-      this.arrDocumentosGrupo.splice(index, 1);
-    }
-  }
-
-  actualizarCorrecciones() {}
 }
