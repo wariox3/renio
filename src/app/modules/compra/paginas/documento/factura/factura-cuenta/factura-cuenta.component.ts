@@ -53,7 +53,6 @@ export class FacturaCuentaComponent
     this._formularioFacturaService.form$
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((form) => {
-        console.log(form.value);
 
         this.formularioFactura = form;
       });
@@ -81,6 +80,17 @@ export class FacturaCuentaComponent
   onPrecioChange(i: number) {
     this._formularioFacturaService
       .onPrecioChange(i)
+      ?.pipe(takeUntil(this._unsubscribe$))
+      .subscribe((valor: string) => {
+        if (valor) {
+          this._formularioFacturaService.actualizarPrecioItem(i);
+        }
+      });
+  }
+
+  onNaturalezaChange(i: number) {
+    this._formularioFacturaService
+      .onNaturalezaChange(i)
       ?.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: string) => {
         if (valor) {

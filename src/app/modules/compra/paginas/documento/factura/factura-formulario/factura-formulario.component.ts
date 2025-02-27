@@ -86,6 +86,8 @@ export default class FacturaDetalleComponent
   public formularioTipo = this._formularioFacturaService.formularioTipo;
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
+  public acumuladorDebitosCreditos =
+    this._formularioFacturaService.acumuladorDebitosCreditos;
   public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
 

@@ -457,6 +457,22 @@
                   {{ formularioFactura.value.totalCantidad }}
                 </td>
               </tr>
+              @for (
+                impuesto of acumuladorDebitosCreditos() | keyvalue;
+                track $index
+              ) {
+                @if (impuesto.value.total > 0) {
+                  <tr>
+                    <td class="text-end">{{ impuesto.key }}</td>
+                    <td class="text-end">
+                      {{
+                        impuesto.value.total * impuesto.value.operado
+                          | currency: "$"
+                      }}
+                    </td>
+                  </tr>
+                }
+              }
               <tr *ngIf="formularioFactura.value.subtotal > 0">
                 <td
                   class="text-end"

@@ -8,6 +8,11 @@ export interface AcumuladorImpuestos {
   [string: string]: { operado: number; total: number };
 }
 
+export interface AcumuladorDebitosCreditos {
+  debitos: { operado: number; total: number };
+  creditos: { operado: number; total: number };
+}
+
 export interface PagoFormulario {
   cuenta_banco: number;
   cuenta_banco_nombre: string;

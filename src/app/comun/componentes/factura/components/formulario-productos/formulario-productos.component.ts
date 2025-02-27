@@ -20,6 +20,7 @@ import {
 import { General } from '@comun/clases/general';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import {
+  AcumuladorImpuestos,
   DocumentoDetalleFactura,
   DocumentoFacturaRespuesta,
   ImpuestoFormulario,
@@ -58,9 +59,8 @@ export class FormularioProductosComponent
   private _operaciones = inject(OperacionesService);
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
-  private _impuestoCache: {
-    [string: string]: { operado: number; total: number };
-  }[] = this._formularioFacturaService.impuestoCache;
+  private _impuestoCache: AcumuladorImpuestos[] =
+    this._formularioFacturaService.impuestoCache;
 
   public formularioFactura = this._formularioFacturaService.form;
   public themeValue = localStorage.getItem('kt_theme_mode_value');

@@ -13,6 +13,7 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.va
 import { validarDescuento } from '@comun/validaciones/validar-descuento.validator';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import {
+  AcumuladorDebitosCreditos,
   AcumuladorImpuestos,
   DocumentoDetalleFactura,
   DocumentoFacturaDetalleRespuesta,
@@ -39,6 +40,16 @@ export class FormularioFacturaService {
   public mostrarDocumentoReferencia = signal<boolean>(false); // conectar
   public modoEdicion = signal<boolean>(false);
   public acumuladorImpuestos = signal<AcumuladorImpuestos>({});
+  public acumuladorDebitosCreditos = signal<AcumuladorDebitosCreditos>({
+    debitos: {
+      total: 0,
+      operado: -1,
+    },
+    creditos: {
+      total: 0,
+      operado: 1,
+    },
+  });
   public estadoAprobado = signal<boolean>(false);
   public form$ = this.formSubject.asObservable();
 
@@ -113,6 +124,10 @@ export class FormularioFacturaService {
 
   onPrecioChange(i: number) {
     return this.detalles.controls[i].get('precio')?.valueChanges;
+  }
+
+  onNaturalezaChange(i: number) {
+    return this.detalles.controls[i].get('naturaleza')?.valueChanges;
   }
 
   onCantidadChange(i: number) {
@@ -234,71 +249,126 @@ export class FormularioFacturaService {
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
   agregarNuevoItem(tipo_registro: string) {
-    const tipoSugerido = this._sugerirGrupo(tipo_registro);
+    let detalleFormGroup: FormGroup;
 
-    const detalleFormGroup = this._formBuilder.group({
-      cuenta: [null],
-      cuenta_codigo: [null],
-      cuenta_nombre: [null],
-      item: [null],
-      item_nombre: [null],
-      cantidad: [
-        0,
-        [
-          validarPrecio(),
-          Validators.min(1),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      precio: [
-        0,
-        [
-          validarPrecio(),
-          Validators.min(0.1),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      porcentaje_descuento: [
-        0,
-        [
-          validarDescuento(),
-          Validators.min(0),
-          Validators.max(100),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
-      ],
-      descuento: [0],
-      subtotal: [0],
-      grupo: [tipoSugerido],
-      total: [0],
-      impuesto: [0],
-      impuesto_operado: [0],
-      impuesto_retencion: [0],
-      total_bruto: [0],
-      neto: [0],
-      base_impuesto: [0],
-      impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
-      impuestos_eliminados: this._formBuilder.array([]),
-      id: [null],
-      tipo_registro: [tipo_registro],
-      naturaleza: [null],
-    });
-
-    // Agregar validadores dinámicos en función de tipo_registro
     if (tipo_registro === 'C') {
+      const tipoSugerido = this._sugerirGrupo(tipo_registro);
+      detalleFormGroup = this._formBuilder.group({
+        cuenta: [null],
+        cuenta_codigo: [null],
+        cuenta_nombre: [null],
+        item: [null],
+        item_nombre: [null],
+        cantidad: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        precio: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(0.1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        porcentaje_descuento: [
+          0,
+          [
+            validarDescuento(),
+            Validators.min(0),
+            Validators.max(100),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        descuento: [0],
+        subtotal: [0],
+        grupo: [tipoSugerido],
+        total: [0],
+        impuesto: [0],
+        impuesto_operado: [0],
+        impuesto_retencion: [0],
+        total_bruto: [0],
+        neto: [0],
+        base_impuesto: [0],
+        impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
+        impuestos_eliminados: this._formBuilder.array([]),
+        id: [null],
+        tipo_registro: [tipo_registro],
+        naturaleza: ['D'],
+      });
+
       detalleFormGroup.get('cuenta')?.setErrors({ required: true });
       detalleFormGroup.get('cuenta')?.markAsTouched();
-    } else if (tipo_registro === 'I') {
+      this.impuestoCache.push({});
+      this.detalles.push(detalleFormGroup);
+      this.detalles?.markAllAsTouched();
+    }
+
+    if (tipo_registro === 'I') {
+      detalleFormGroup = this._formBuilder.group({
+        cuenta: [null],
+        cuenta_codigo: [null],
+        cuenta_nombre: [null],
+        item: [null],
+        item_nombre: [null],
+        cantidad: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        precio: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(0.1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        porcentaje_descuento: [
+          0,
+          [
+            validarDescuento(),
+            Validators.min(0),
+            Validators.max(100),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        descuento: [0],
+        subtotal: [0],
+        total: [0],
+        impuesto: [0],
+        impuesto_operado: [0],
+        impuesto_retencion: [0],
+        total_bruto: [0],
+        neto: [0],
+        base_impuesto: [0],
+        impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
+        impuestos_eliminados: this._formBuilder.array([]),
+        id: [null],
+        tipo_registro: [tipo_registro],
+        naturaleza: [null],
+      });
+
       detalleFormGroup.get('item')?.setErrors({ required: true });
       detalleFormGroup.get('item')?.markAsTouched();
+      this.impuestoCache.push({});
+      this.detalles.push(detalleFormGroup);
+      this.detalles?.markAllAsTouched();
     }
 
     // Actualizar los validadores dinámicos
     // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
     // detalleFormGroup.get('item')?.updateValueAndValidity();
-    this.impuestoCache.push({});
-    this.detalles.push(detalleFormGroup);
-    this.detalles?.markAllAsTouched();
+    // this.impuestoCache.push({});
+    // this.detalles.push(detalleFormGroup);
+    // this.detalles?.markAllAsTouched();
     // this.changeDetectorRef.detectChanges();
   }
 
@@ -509,6 +579,41 @@ export class FormularioFacturaService {
         this.acumuladorImpuestos.set(newAcumulador);
       }
     });
+  }
+
+  // private _calcularDebitosCreditos(indexFormulario: number) {
+  //   const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
+
+  //   if (formularioDetalle.value.tipo_registro === 'C') {
+  //     console.log(formularioDetalle.value);
+  //     switch (formularioDetalle.value.naturaleza) {
+  //       case 'C':
+  //         this._actualizarAcumuladorDebitosCreditos(
+  //           'creditos',
+  //           formularioDetalle.value.total,
+  //         );
+  //         break;
+  //       case 'D':
+  //         this._actualizarAcumuladorDebitosCreditos(
+  //           'debitos',
+  //           formularioDetalle.value.total,
+  //         );
+  //         break;
+  //     }
+  //   }
+  // }
+
+  private _actualizarAcumuladorDebitosCreditos(
+    creditos: number,
+    debitos: number,
+  ) {
+    const currentAcumulador = this.acumuladorDebitosCreditos();
+    const newAccumulador = { ...currentAcumulador };
+
+    newAccumulador['creditos'].total = creditos;
+    newAccumulador['debitos'].total = debitos;
+
+    this.acumuladorDebitosCreditos.set(newAccumulador);
   }
 
   private _limpiarFormularioTotales() {
@@ -774,6 +879,8 @@ export class FormularioFacturaService {
       precio,
     );
 
+    // this._calcularDebitosCreditos(indexFormulario);
+
     formularioDetalle.patchValue({
       subtotal: subtotalCalculado,
     });
@@ -802,7 +909,13 @@ export class FormularioFacturaService {
     let impuestoRetencion = this.form.get('impuesto_retencion')?.value;
     let descuento = this.form.get('descuento')?.value;
 
-    total += this._operaciones.sumarTotales(this.detalles.value, 'total');
+    total += this._operaciones.sumarTotal(this.detalles.value);
+    const { creditos, debitos } = this._operaciones.sumarTotalCuenta(
+      this.detalles.value,
+    );
+
+    this._actualizarAcumuladorDebitosCreditos(creditos, debitos);
+
     descuento += this._operaciones.sumarTotales(
       this.detalles.value,
       'descuento',
@@ -1046,6 +1159,18 @@ export class FormularioFacturaService {
 
   // es importante reiniciar el formulario en el ciclo onDestroy
   reiniciarFormulario(): void {
+    this.impuestoCache = [];
+    this.acumuladorDebitosCreditos.set({
+      debitos: {
+        total: 0,
+        operado: -1,
+      },
+      creditos: {
+        total: 0,
+        operado: 1,
+      },
+    });
+    this.acumuladorImpuestos.set({});
     this.formSubject.next(this.createForm());
   }
 

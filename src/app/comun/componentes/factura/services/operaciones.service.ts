@@ -41,14 +41,54 @@ export class OperacionesService {
       | 'base_impuesto'
       | 'cantidad'
       | 'total_bruto'
-      | 'descuento'
+      | 'descuento',
   ) {
+
     return this.redondear(
       detalle.reduce((acc, curVal) => {
         return acc + curVal[llave];
       }, 0),
-      2
+      2,
     );
+  }
+
+  sumarTotal(detalle: DocumentoFacturaDetalleRespuesta[]) {
+    let total = 0;
+
+    detalle.forEach((detail) => {
+      if (detail?.naturaleza === 'D') {
+        total -= detail.total;
+      } else {
+        total += detail.total;
+      }
+    });
+
+    return total;
+  }
+
+  sumarTotalCuenta(detalle: DocumentoFacturaDetalleRespuesta[]): {
+    debitos: number;
+    creditos: number;
+  } {
+    let debitos = 0;
+    let creditos = 0;
+
+    const detallesTipoCuenta = detalle.filter(
+      (detalil) => detalil.tipo_registro === 'C',
+    );
+
+    detallesTipoCuenta.forEach((detail) => {
+      if (detail.naturaleza === 'C') {
+        creditos += detail.total;
+      } else {
+        debitos += detail.total;
+      }
+    });
+
+    return {
+      debitos,
+      creditos,
+    };
   }
 
   calcularTotal(subtotal: number, impuestoTotal: number) {
