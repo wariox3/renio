@@ -269,7 +269,8 @@ export class FormularioFacturaService {
     let detalleFormGroup: FormGroup;
 
     if (tipo_registro === 'C') {
-      const tipoSugerido = this._sugerirGrupo(tipo_registro);
+      const tipoSugerido = this._sugerirGrupo();
+      
       detalleFormGroup = this._formBuilder.group({
         cuenta: [null],
         cuenta_codigo: [null],
@@ -328,6 +329,7 @@ export class FormularioFacturaService {
     }
 
     if (tipo_registro === 'I') {
+      const { almacenId, almacenNombre } = this._sugerirAlmacen();
       detalleFormGroup = this._formBuilder.group({
         cuenta: [null],
         cuenta_codigo: [null],
@@ -368,8 +370,8 @@ export class FormularioFacturaService {
         total_bruto: [0],
         neto: [0],
         base_impuesto: [0],
-        almacen: [null],
-        almacen_nombre: [''],
+        almacen: [almacenId],
+        almacen_nombre: [almacenNombre],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [null],
@@ -393,12 +395,18 @@ export class FormularioFacturaService {
     // this.changeDetectorRef.detectChanges();
   }
 
-  private _sugerirGrupo(tipoRegistro: string) {
-    if (tipoRegistro === 'C') {
-      return this.form.get('grupo_contabilidad')?.value;
-    }
+  private _sugerirGrupo() {
+    return this.form.get('grupo_contabilidad')?.value;
+  }
 
-    return null;
+  private _sugerirAlmacen() {
+    const almacenId = this.form.get('almacen')?.value;
+    const almacenNombre = this.form.get('almacen_nombre')?.value;
+
+    return {
+      almacenId,
+      almacenNombre,
+    };
   }
 
   /**
