@@ -1,4 +1,5 @@
 <div [formGroup]="formularioFactura">
+  <pre>{{ formularioFactura.value | json }}</pre>
   @if (!estadoAprobado()) {
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">

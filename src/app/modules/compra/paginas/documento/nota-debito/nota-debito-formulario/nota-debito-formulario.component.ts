@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -60,7 +60,10 @@ import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-
     TituloAccionComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General implements OnInit {
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
@@ -71,9 +74,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public mostrarDocumentoReferencia =
     this._formularioFacturaService.mostrarDocumentoReferencia;
+  public formularioFactura = this._formularioFacturaService.form;
 
   informacionFormulario: any;
-  formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -177,7 +180,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     private modalService: NgbModal,
   ) {
     super();
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
@@ -197,6 +199,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
+  }
 
   consultarInformacion() {
     zip(

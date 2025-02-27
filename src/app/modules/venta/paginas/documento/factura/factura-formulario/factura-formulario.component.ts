@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -77,7 +77,10 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     TituloAccionComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General implements OnInit {
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
@@ -86,7 +89,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
 
-  public formularioFactura: FormGroup;
   public active: Number;
   public dataUrl: any;
   public visualizarCampoDocumentoReferencia = false;
@@ -95,6 +97,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public formularioFactura = this._formularioFacturaService.form;
 
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
@@ -139,7 +142,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   constructor() {
     super();
     this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
@@ -164,6 +166,10 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   private _actualizarPlazoPago(plazoPagoId: number) {

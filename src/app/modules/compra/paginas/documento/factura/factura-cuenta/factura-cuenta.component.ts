@@ -40,8 +40,15 @@ export class FacturaCuentaComponent
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public themeValue = localStorage.getItem('kt_theme_mode_value');
 
+  constructor() {
+    super();
+  }
+
   ngOnInit(): void {
-    this.changeDetectorRef.detectChanges();
+    this._formularioFacturaService.form$.subscribe((value) => {
+      console.log(value);
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnDestroy() {

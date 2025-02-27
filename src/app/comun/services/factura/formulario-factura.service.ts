@@ -25,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 import { FechasService } from '../fechas.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class FormularioFacturaService {
   private readonly _fechasService = inject(FechasService);
@@ -38,9 +38,9 @@ export class FormularioFacturaService {
   public formularioTipo = signal<'venta' | 'compra'>('venta'); // conectar
   public mostrarDocumentoReferencia = signal<boolean>(false); // conectar
   public modoEdicion = signal<boolean>(false);
-  public form$ = this.formSubject.asObservable();
   public acumuladorImpuestos = signal<AcumuladorImpuestos>({});
   public estadoAprobado = signal<boolean>(false);
+  public form$ = this.formSubject.asObservable();
 
   constructor() {}
 

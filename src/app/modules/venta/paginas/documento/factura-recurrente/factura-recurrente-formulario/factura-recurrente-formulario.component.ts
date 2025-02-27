@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -70,7 +70,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
@@ -79,9 +79,9 @@ export default class FacturaRecurrenteFormularioComponent
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public formularioFactura = this._formularioFacturaService.form;
 
   informacionFormulario: any;
-  formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -162,7 +162,6 @@ export default class FacturaRecurrenteFormularioComponent
     private modalService: NgbModal,
   ) {
     super();
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
@@ -178,6 +177,10 @@ export default class FacturaRecurrenteFormularioComponent
       this.modoEdicion.set(false);
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   consultarInformacion() {
