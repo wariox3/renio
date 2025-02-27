@@ -6,6 +6,10 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
+  TemplateRef,
+  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
@@ -21,9 +25,13 @@ import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TamanoArchivoPipe } from '@pipe/tamano-archivo.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, finalize } from 'rxjs';
+import { BehaviorSubject, finalize, switchMap, tap } from 'rxjs';
 import { TablaComponent } from '../tabla/tabla.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
+import { PaginadorComponent } from '../paginador/paginador.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -34,6 +42,8 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
     TablaComponent,
     TamanoArchivoPipe,
     AnimationFadeInUpDirective,
+    PaginadorComponent,
+    TranslateModule,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -45,10 +55,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private readonly _documentoService = inject(DocumentoService);
   private readonly _archivosService = inject(ArchivosService);
   private readonly _procesadorArchivosService = inject(
-    ProcesadorArchivosService
+    ProcesadorArchivosService,
   );
+  private _facturaService = inject(FacturaService);
 
+  public arrGrupo: RegistroAutocompletarConGrupo[] = [];
   public arrDocumentos: any[];
+  public arrDocumentosGrupo: { grupo: string; detalle_id: number }[] = [];
   public cantidadRegistros: number;
   public listaArchivos: ArchivoRespuesta[] = [];
   public subiendoArchivo$ = new BehaviorSubject<boolean>(false);
@@ -65,6 +78,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     modelo: 'ConMovimiento',
     filtros: [],
   };
+  public cantidadRegistrosCorregir = signal(0);
 
   @Input() opcionesDesaprobarBoton: {
     deshabilitado: boolean;
@@ -78,6 +92,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
   @Output() recargarDatosEvent: EventEmitter<void>;
+  @ViewChild('corregirContent') corregirContent!: TemplateRef<any>;
 
   constructor() {
     super();
@@ -113,7 +128,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   private _eliminarPosicionBotonesEliminar(index: number) {
     const estados = this.estadosBotonEliminar$.value.filter(
-      (_, i) => i !== index
+      (_, i) => i !== index,
     );
     this.estadosBotonEliminar$.next(estados);
   }
@@ -150,7 +165,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this.listaArchivos = response.registros;
 
           this.listaArchivos.forEach(() =>
-            this._agregarEstadoABotonesEliminar()
+            this._agregarEstadoABotonesEliminar(),
           );
 
           this.changeDetectorRef.detectChanges();
@@ -161,7 +176,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private _submitArchivo(
     base64: string,
     nombreArchivo: string,
-    documentoId: number
+    documentoId: number,
   ) {
     this.subiendoArchivo$.next(true);
     this._archivosService
@@ -173,13 +188,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .pipe(
         finalize(() => {
           this.subiendoArchivo$.next(false);
-        })
+        }),
       )
       .subscribe({
         next: () => {
           this._consultarArchivos();
           this.alertaService.mensajaExitoso(
-            'El archivo se ha cargado exitosamente!'
+            'El archivo se ha cargado exitosamente!',
           );
         },
       });
@@ -213,6 +228,11 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     this._consultarInformacionTabla();
     this._cargarDatosMapeo(this.opciones.modelo);
     this._abirModal(content);
+  }
+
+  consultarInformacionCorregir(content: any) {
+    this._consultarInformacionTablaCorregir();
+    this._cargarDatosMapeo(this.opciones.modelo);
   }
 
   abrirModalArchivos(content: any) {
@@ -280,17 +300,21 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   contabilizar() {
-    this._documentoService.contabilizar({ ids: [this.documento.id] }).subscribe({
-      next: () => {
-        this.itemDesaprobadoEvent.emit();
-        this._consultarInformacionTabla();
-        this.alertaService.mensajaExitoso('El documento se ha contabilizado!');
-      },
-      error: () => {
-        this.itemDesaprobadoEvent.emit();
-        this._consultarInformacionTabla();
-      },
-    });
+    this._documentoService
+      .contabilizar({ ids: [this.documento.id] })
+      .subscribe({
+        next: () => {
+          this.itemDesaprobadoEvent.emit();
+          this._consultarInformacionTabla();
+          this.alertaService.mensajaExitoso(
+            'El documento se ha contabilizado!',
+          );
+        },
+        error: () => {
+          this.itemDesaprobadoEvent.emit();
+          this._consultarInformacionTabla();
+        },
+      });
   }
 
   descontabilizar() {
@@ -301,7 +325,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this.itemDesaprobadoEvent.emit();
           this._consultarInformacionTabla();
           this.alertaService.mensajaExitoso(
-            'El documento se ha descontabilizado!'
+            'El documento se ha descontabilizado!',
           );
         },
       });
@@ -314,14 +338,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .pipe(
         finalize(() => {
           this._toggleEstadoBotonEliminarPorIndex(index);
-        })
+        }),
       )
       .subscribe({
         next: () => {
           this._eliminarPosicionBotonesEliminar(index);
           this._consultarArchivos();
           this.alertaService.mensajaExitoso(
-            'El archivo se eliminó correctamente!'
+            'El archivo se eliminó correctamente!',
           );
         },
       });
@@ -343,7 +367,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private _consultarInformacionTabla() {
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(
-        this.parametrosConsulta
+        this.parametrosConsulta,
       )
       .subscribe((respuesta) => {
         this.cantidadRegistros = respuesta.cantidad_registros;
@@ -363,14 +387,80 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
         this.totalDebito = this.arrDocumentos.reduce(
           (total, doc) => total + (doc.debito || 0),
-          0
+          0,
         );
         this.totalCredito = this.arrDocumentos.reduce(
           (total, doc) => total + (doc.credito || 0),
-          0
+          0,
         );
 
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  private _consultarInformacionTablaCorregir() {
+    this._facturaService
+      .consultarDetalle(this.detalle)
+      .pipe(
+        tap((respuesta: any) => {
+          this.cantidadRegistrosCorregir.set(
+            respuesta.documento.detalles.length,
+          );
+          if(!respuesta.documento.estado_contabilizado){
+            this._abirModal(this.corregirContent);
+            this.arrDocumentos = respuesta.documento.detalles;
+          } else {
+            this.alertaService.mensajeError('Error', "El documento esta contabilizado y no se puede corregir")
+          }
+
+        }),
+        switchMap(() =>
+          this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
+            {
+              modelo: 'ConGrupo',
+              serializador: 'ListaAutocompletar',
+            },
+          ),
+        ),
+        tap((respuestaAutoCompletar) => {
+          this.arrGrupo = respuestaAutoCompletar.registros;
+        }),
+      )
+      .subscribe();
+  }
+
+  agregarDocumentoCambiarGrupo(event: Event, id: number) {
+    const grupo = (event.target as HTMLSelectElement).value;
+    this.arrDocumentosGrupo = this.arrDocumentosGrupo ?? [];
+
+    const index = this.buscarDocumentoPorId(id);
+
+    grupo
+      ? this.agregarOActualizarDocumento(id, grupo, index)
+      : this.eliminarDocumento(index);
+  }
+
+  private buscarDocumentoPorId(id: number): number {
+    return this.arrDocumentosGrupo.findIndex((doc) => doc.detalle_id === id);
+  }
+
+  private agregarOActualizarDocumento(
+    id: number,
+    grupo: string,
+    index: number,
+  ): void {
+    if (index === -1) {
+      this.arrDocumentosGrupo.push({ grupo, detalle_id: id });
+    } else {
+      this.arrDocumentosGrupo[index].grupo = grupo;
+    }
+  }
+
+  private eliminarDocumento(index: number): void {
+    if (index !== -1) {
+      this.arrDocumentosGrupo.splice(index, 1);
+    }
+  }
+
+  actualizarCorrecciones() {}
 }
