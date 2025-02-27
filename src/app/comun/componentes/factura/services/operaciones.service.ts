@@ -43,10 +43,22 @@ export class OperacionesService {
       | 'total_bruto'
       | 'descuento',
   ) {
-
     return this.redondear(
       detalle.reduce((acc, curVal) => {
         return acc + curVal[llave];
+      }, 0),
+      2,
+    );
+  }
+
+  sumarSubtotal(detalle: DocumentoFacturaDetalleRespuesta[]) {
+    const detallesFiltrados = detalle.filter(
+      (detail) => detail.tipo_registro === 'I',
+    );
+
+    return this.redondear(
+      detallesFiltrados.reduce((acc, curVal) => {
+        return acc + curVal['subtotal'];
       }, 0),
       2,
     );
@@ -63,7 +75,7 @@ export class OperacionesService {
       }
     });
 
-    return total;
+    return this.redondear(total, 2);
   }
 
   sumarTotalCuenta(detalle: DocumentoFacturaDetalleRespuesta[]): {
@@ -86,8 +98,8 @@ export class OperacionesService {
     });
 
     return {
-      debitos,
-      creditos,
+      debitos: this.redondear(debitos, 2),
+      creditos: this.redondear(creditos, 2),
     };
   }
 

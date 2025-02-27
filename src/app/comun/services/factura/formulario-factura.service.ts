@@ -941,7 +941,7 @@ export class FormularioFacturaService {
       this.detalles.value,
       'descuento',
     );
-    subtotal += this._operaciones.sumarTotales(this.detalles.value, 'subtotal');
+    subtotal += this._operaciones.sumarSubtotal(this.detalles.value);
     impuesto += this._operaciones.sumarTotales(this.detalles.value, 'impuesto');
     impuestoRetencion += this._operaciones.sumarTotales(
       this.detalles.value,
