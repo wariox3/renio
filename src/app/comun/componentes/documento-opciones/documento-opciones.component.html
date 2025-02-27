@@ -251,13 +251,22 @@
                   {{ arrDocumento.subtotal | number: "1.0-0" }}
                 </td>
                 <td>
-                  <select class="form-select form-select-sm" (change)="agregarDocumentoCambiarGrupo($event,arrDocumento.id )">
+                  <select
+                    class="form-select form-select-sm"
+
+                    (change)="
+                      actualizarGrupo($event, arrDocumento.id)
+                    "
+                  >
                     <option value="">
                       {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
                     </option>
                     <option
                       *ngFor="let grupo of arrGrupo"
                       [value]="grupo.grupo_id"
+                      [selected]="
+                      grupo.grupo_id === arrDocumento.grupo_id
+                    "
                     >
                       {{ grupo.grupo_nombre }}
                     </option>
@@ -269,10 +278,5 @@
         </table>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-sm btn-primary " (click)="actualizarCorrecciones()">
-      Actualizar
-    </button>
   </div>
 </ng-template>
