@@ -478,17 +478,22 @@
                 </td>
               </tr>
               @for (
-                impuesto of acumuladorDebitosCreditos() | keyvalue;
+                debitoCredito of acumuladorDebitosCreditos() | keyvalue;
                 track $index
               ) {
-                @if (impuesto.value.total > 0) {
+                @if (debitoCredito.value.total > 0) {
                   <tr>
-                    <td class="text-end">{{ impuesto.key }}</td>
                     <td class="text-end">
-                      {{
-                        impuesto.value.total * impuesto.value.operado
-                          | currency: "$"
-                      }}
+                      @if (debitoCredito.key === "creditos") {
+                        Créditos
+                      } @else if (debitoCredito.key === "debitos") {
+                        Débitos
+                      } @else {
+                        {{ debitoCredito.key }}
+                      }
+                    </td>
+                    <td class="text-end">
+                      {{ debitoCredito.value.total | currency: "$" }}
                     </td>
                   </tr>
                 }
