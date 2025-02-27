@@ -1,4 +1,5 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  <!-- <pre>{{ formularioFactura.value | json }}</pre> -->
   <section class="d-flex align-items-center gap-4">
     <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estadoAprobado()">
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
@@ -313,6 +314,25 @@
             (selectChange)="onSeleccionarGrupoChange($event)"
             [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
           ></app-seleccionar-grupo>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.ALMACEN"
+            ></label>
+
+            <app-seleccionar-almacen
+              [grande]="true"
+              [itemNombre]="formularioFactura.get('almacen_nombre')?.value"
+              [estadoAprobado]="estadoAprobado()"
+              [campoInvalido]="
+                formularioFactura.get('almacen')?.touched &&
+                formularioFactura.get('almacen')?.hasError('required')
+              "
+              (emitirItemSeleccionado)="recibirAlmacenSeleccionado($event)"
+            ></app-seleccionar-almacen>
+          </div>
         </div>
       </div>
       <div class="row mb-5" *ngIf="visualizarCampoDocumentoReferencia">

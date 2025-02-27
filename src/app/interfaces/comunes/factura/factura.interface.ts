@@ -170,6 +170,8 @@ export interface DocumentoFacturaRespuesta {
   referencia_numero: number;
   referencia_prefijo: string;
   grupo_contabilidad_id: number;
+  almacen_id: number;
+  almacen_nombre: string;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {
@@ -215,5 +217,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   credito_id: any;
   grupo_id: number;
   grupo_nombre: string;
+  almacen_id: number;
+  almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
 }

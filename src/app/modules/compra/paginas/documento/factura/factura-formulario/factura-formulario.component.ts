@@ -48,6 +48,8 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -73,6 +75,7 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
     FacturaInformacionExtraComponent,
     FacturaCuentaComponent,
     SeleccionarGrupoComponent,
+    SeleccionarAlmacenComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -494,6 +497,13 @@ export default class FacturaDetalleComponent
     this.changeDetectorRef.detectChanges();
     this.detalles.removeAt(index);
     this.calcularTotales();
+  }
+
+  recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.get('almacen')?.setValue(almacen.almacen_id);
+    this.formularioFactura
+      .get('almacen_nombre')
+      ?.setValue(almacen.almacen_nombre);
   }
 
   actualizarDetalle(index: number, campo: string, evento: any) {

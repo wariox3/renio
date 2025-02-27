@@ -18,7 +18,11 @@
         <tr class="bg-gray-100">
           <th class="w-40px">Id</th>
 
-          <th translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"></th>
+          <th translate="FORMULARIOS.TITULOS.FACTURACION.ITEM"></th>
+          <th
+            class="w-50px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
+          ></th>
           <th
             class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
@@ -66,6 +70,19 @@
                   (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
                   [formularioTipo]="formularioTipo"
                 ></app-seleccionar-producto>
+              </td>
+              <td>
+                <app-seleccionar-almacen
+                  [itemNombre]="detalle.get('almacen_nombre')?.value"
+                  [estadoAprobado]="estadoAprobado()"
+                  [campoInvalido]="
+                    detalle.get('almacen')?.touched &&
+                    detalle.get('almacen')?.hasError('required')
+                  "
+                  (emitirItemSeleccionado)="
+                    recibirAlmacenSeleccionado($event, i)
+                  "
+                ></app-seleccionar-almacen>
               </td>
               <td>
                 <input

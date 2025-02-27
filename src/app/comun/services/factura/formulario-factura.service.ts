@@ -24,6 +24,7 @@ import {
 } from '@interfaces/comunes/factura/factura.interface';
 import { BehaviorSubject } from 'rxjs';
 import { FechasService } from '../fechas.service';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 
 @Injectable({
   providedIn: 'any',
@@ -104,6 +105,8 @@ export class FormularioFacturaService {
         sede: [''],
         descuento: [0],
         sede_nombre: [null],
+        almacen: [null],
+        almacen_nombre: [''],
         grupo_contabilidad: [null],
         plazo_pago: [1, Validators.required],
         detalles: this._formBuilder.array([]),
@@ -142,6 +145,18 @@ export class FormularioFacturaService {
     this.detalles.controls[indexFormulario].get('grupo')?.setValue(id);
   }
 
+  onSeleccionarAlmacenChange(
+    almacen: RegistroAutocompletarInvAlmacen,
+    indexFormulario: number,
+  ) {
+    this.detalles.controls[indexFormulario]
+      .get('almacen')
+      ?.setValue(almacen.almacen_id);
+    this.detalles.controls[indexFormulario]
+      .get('almacen_nombre')
+      ?.setValue(almacen.almacen_nombre);
+  }
+
   eliminarItem(indexFormulario: number) {
     const itemsActualizados = this.detalles.value.filter(
       (detalleFormulario: any, index: number) => {
@@ -175,6 +190,8 @@ export class FormularioFacturaService {
         total: item.precio * 1,
         naturaleza: item.naturaleza,
         grupo: item.grupo,
+        almacen: item.almacen,
+        almacen_nombre: item.almacen_nombre,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -299,6 +316,8 @@ export class FormularioFacturaService {
         id: [null],
         tipo_registro: [tipo_registro],
         naturaleza: ['D'],
+        almacen: [null],
+        almacen_nombre: [''],
       });
 
       detalleFormGroup.get('cuenta')?.setErrors({ required: true });
@@ -349,6 +368,8 @@ export class FormularioFacturaService {
         total_bruto: [0],
         neto: [0],
         base_impuesto: [0],
+        almacen: [null],
+        almacen_nombre: [''],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [null],
@@ -987,6 +1008,8 @@ export class FormularioFacturaService {
       referencia_numero: documentoFactura.referencia_numero,
       referencia_prefijo: documentoFactura.referencia_prefijo,
       grupo_contabilidad: documentoFactura.grupo_contabilidad_id,
+      almacen: documentoFactura.almacen_id,
+      almacen_nombre: documentoFactura.almacen_nombre,
     });
   }
 
@@ -1038,6 +1061,8 @@ export class FormularioFacturaService {
         tipo_registro: [detalle.tipo_registro],
         grupo: detalle.grupo_id,
         naturaleza: detalle.naturaleza,
+        almacen: detalle.almacen_id,
+        almacen_nombre: detalle.almacen_nombre,
       });
 
       this.detalles.push(documentoDetalleGrupo);

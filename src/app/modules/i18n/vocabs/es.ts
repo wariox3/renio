@@ -106,7 +106,7 @@ export const locale = {
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
         EXISTENCIA: 'Existencia',
-        HISTORIALMOVIMIENTOS: 'Historial movimientos'
+        HISTORIALMOVIMIENTOS: 'Historial movimientos',
       },
     },
     FORMULARIOS: {
@@ -344,7 +344,9 @@ export const locale = {
           PRODUCTOCUENTA: 'Item / Cuenta',
           DESCARTAR: 'Descartar',
           CONTABILIZAR: 'Contabilizar',
-          NATURALEZA: 'Naturaleza'
+          NATURALEZA: 'Naturaleza',
+          ITEM: 'Item',
+          ALMACEN: 'Almacen',
         },
         GENERAL: {
           ITEM: {
@@ -435,6 +437,7 @@ export const locale = {
           CARGO: 'Cargo',
           NOMBRES: 'Nombres',
           NOVEDADREFERENCIA: 'Novedad referencia',
+          ALMACEN: 'Almacen',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -969,7 +972,7 @@ export const locale = {
         INVENTARIO: 'Inventario',
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
-        REMISION: 'Remisión'
+        REMISION: 'Remisión',
       },
       ITEM: {
         ID: 'ID',
@@ -989,7 +992,7 @@ export const locale = {
         REMISION: 'Remisión',
         REMISION_ABREVIATURA: 'Rem',
         NEGATIVO: 'Negativo',
-        NEGATIVO_ABREVIATURA: 'Neg'
+        NEGATIVO_ABREVIATURA: 'Neg',
       },
       CONTACTO: {
         ID: 'ID',

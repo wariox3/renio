@@ -33,6 +33,8 @@ import { FacturaService } from '../../services/factura.service';
 import { OperacionesService } from '../../services/operaciones.service';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
+import { SeleccionarAlmacenComponent } from '../seleccionar-almacen/seleccionar-almacen.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -45,6 +47,7 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
     SeleccionarImpuestosComponent,
     SeleccionarProductoComponent,
     NgbTooltipModule,
+    SeleccionarAlmacenComponent,
   ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
@@ -364,6 +367,17 @@ export class FormularioProductosComponent
     });
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  recibirAlmacenSeleccionado(
+    almacen: RegistroAutocompletarInvAlmacen,
+    index: number,
+  ) {
+    this._formularioFacturaService.onSeleccionarAlmacenChange(
+      almacen,
+      index,
+    );
+
   }
 
   /**
