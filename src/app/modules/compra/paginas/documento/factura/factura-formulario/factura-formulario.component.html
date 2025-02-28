@@ -1,5 +1,4 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <!-- <pre>{{ formularioFactura.value | json }}</pre> -->
   <section class="d-flex align-items-center gap-4">
     <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estadoAprobado()">
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
@@ -311,6 +310,8 @@
           </label>
           <app-seleccionar-grupo
             [grande]="true"
+            [isEdicion]="modoEdicion()"
+            [sugerirPrimerValor]="true"
             (selectChange)="onSeleccionarGrupoChange($event)"
             [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
           ></app-seleccionar-grupo>
@@ -324,6 +325,8 @@
 
             <app-seleccionar-almacen
               [grande]="true"
+              [isEdicion]="modoEdicion()"
+              [sugerirPrimerValor]="true"
               [itemNombre]="formularioFactura.get('almacen_nombre')?.value"
               [estadoAprobado]="estadoAprobado()"
               [campoInvalido]="
@@ -331,6 +334,7 @@
                 formularioFactura.get('almacen')?.hasError('required')
               "
               (emitirItemSeleccionado)="recibirAlmacenSeleccionado($event)"
+              (emitirLineaVacia)="recibirAlmacenVacio()"
             ></app-seleccionar-almacen>
           </div>
         </div>
@@ -446,7 +450,7 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.CUENTA"
+                translate="FORMULARIOS.TITULOS.FACTURACION.CUENTAS"
               ></a>
               <ng-template ngbNavContent>
                 <app-factura-cuenta />

@@ -67,6 +67,8 @@ export class FacturaCuentaComponent
     return this.formularioFactura.get('detalles') as FormArray;
   }
 
+  onBaseImpuestoChange(i: number) {}
+
   agregarNuevoItem(tipo_registro: string) {
     this._formularioFacturaService.agregarNuevoItem(tipo_registro);
     this.changeDetectorRef.detectChanges();
@@ -99,9 +101,7 @@ export class FacturaCuentaComponent
       });
   }
 
-  onDescuentoChange(i: number) {}
-
-  onSeleccionarGrupoChange(event: string, i: number) {
+  onSeleccionarGrupoChange(event: number, i: number) {
     this._formularioFacturaService.onSeleccionarGrupoChange(event, i);
   }
 

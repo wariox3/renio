@@ -141,7 +141,7 @@ export class FormularioFacturaService {
     return this.detalles.controls[i].get('porcentaje_descuento')?.valueChanges;
   }
 
-  onSeleccionarGrupoChange(id: string, indexFormulario: number) {
+  onSeleccionarGrupoChange(id: number, indexFormulario: number) {
     this.detalles.controls[indexFormulario].get('grupo')?.setValue(id);
   }
 
@@ -312,6 +312,7 @@ export class FormularioFacturaService {
         total_bruto: [0],
         neto: [0],
         base_impuesto: [0],
+        base: [0],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [null],
@@ -1074,6 +1075,7 @@ export class FormularioFacturaService {
         tipo_registro: [detalle.tipo_registro],
         grupo: detalle.grupo_id,
         naturaleza: detalle.naturaleza,
+        base: detalle.base,
         almacen: detalle.almacen_id,
         almacen_nombre: detalle.almacen_nombre,
       });

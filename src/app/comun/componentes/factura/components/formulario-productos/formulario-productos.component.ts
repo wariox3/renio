@@ -115,7 +115,7 @@ export class FormularioProductosComponent
       });
   }
 
-  onSeleccionarGrupoChange(id: string, indexFormulario: number) {
+  onSeleccionarGrupoChange(id: number, indexFormulario: number) {
     this._formularioFacturaService.onSeleccionarGrupoChange(
       id,
       indexFormulario,

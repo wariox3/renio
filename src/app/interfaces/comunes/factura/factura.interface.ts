@@ -192,6 +192,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   subtotal: number;
   total_bruto: number;
   base_impuesto: number;
+  base: number;
   impuesto: number;
   impuesto_operado: number;
   impuesto_retencion: number;
