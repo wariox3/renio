@@ -221,3 +221,8 @@ export interface DocumentoFacturaDetalleRespuesta {
   almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
 }
+
+export interface DocumentoInventarioRespuesta extends DocumentoFacturaRespuesta {
+  almacen_id: number;
+  almacen_nombre: string;
+}

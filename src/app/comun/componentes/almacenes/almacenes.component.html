@@ -5,17 +5,18 @@
       type="text"
       formControlName="impuestos"
       ngbDropdownAnchor
-      class="cursor-pointer form-select form-select-sm w-100"
-      (focus)="consultarContactos($event); ItemDropdown.open()"
+      class="cursor-pointer form-select w-100"
+      (focus)="consultarAlmacenes($event); ItemDropdown.open()"
       (keyup)="aplicarFiltrosContactos($event); ItemDropdown.open()"
       (blur)="validarValor()"
       [disabled]="estadoAprobado"
       [readonly]="estadoAprobado"
-      [ngClass]="{ 'disabled-cursor': estadoAprobado }"
-      [value]="contactoNombre"
+      [value]="almacenNombre"
       [ngClass]="{
         'is-invalid': campoInvalido,
-        'is-valid': itemSeleccionado !== null
+        'is-valid': itemSeleccionado !== null,
+        'disabled-cursor': estadoAprobado,
+        'form-select-sm': inputSm
       }"
     />
     <div
@@ -23,16 +24,23 @@
       aria-labelledby="dropdownBasic1"
       class="dropdown-menu dropdown-menu-custom-width"
     >
-      <ng-container *ngFor="let item of arrContactos">
+      <ng-container *ngFor="let item of arrAlmacenes">
         <button
           class="text-wrap"
-          (click)="agregarContacto(item)"
+          (click)="agregarAlmacen(item)"
           type="button"
           ngbDropdownItem
         >
-          {{ item.contacto_nombre_corto }}
+          {{ item.almacen_nombre }}
         </button>
       </ng-container>
     </div>
+  </div>
+</div>
+<div class="fv-plugins-message-container" *ngIf="campoInvalido">
+  <div class="fv-help-block">
+    <span role="alert"
+      >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+    </span>
   </div>
 </div>

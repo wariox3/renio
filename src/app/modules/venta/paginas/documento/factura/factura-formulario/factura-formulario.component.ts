@@ -53,6 +53,8 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -75,6 +77,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    AlmacenesComponent
   ],
 })
 export default class FacturaDetalleComponent
@@ -105,6 +108,7 @@ export default class FacturaDetalleComponent
   public arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   public arrAsesor: RegistroAutocompletarGenAsesor[] = [];
   public arrSede: RegistroAutocompletarGenSede[] = [];
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
   public requiereSede: boolean = false;
   public camposBuscarAvanzado = [
@@ -149,6 +153,8 @@ export default class FacturaDetalleComponent
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
       );
+      this.almacenSeleccionado(this.arrAlmacenes[0])
+      this.changeDetectorRef.detectChanges();
     });
 
     this.active = 1; // navigation tab
@@ -669,6 +675,21 @@ export default class FacturaDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  almacenSeleccionado(almacen: any) {
+    this.formularioFactura.patchValue({
+      almacen: almacen.almacen_id,
+      almacen_nombre: almacen.almacen_nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
   private _consultarInformacion() {
     return zip(
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
@@ -696,6 +717,13 @@ export default class FacturaDetalleComponent
         },
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
+        {
+          limite: 1,
+          modelo: 'InvAlmacen',
+          serializador: 'ListaAutocompletar',
+        }
+      )
     ).pipe(
       tap((respuesta) => {
         this.arrMetodosPago = respuesta[0].registros;
@@ -704,6 +732,7 @@ export default class FacturaDetalleComponent
         this.arrSede = respuesta[3].registros;
         this.requiereAsesor = respuesta[4].venta_asesor;
         this.requiereSede = respuesta[4].venta_sede;
+        this.arrAlmacenes = respuesta[5].registros;
         this.changeDetectorRef.detectChanges();
       }),
     );

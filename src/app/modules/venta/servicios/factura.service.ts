@@ -38,4 +38,8 @@ export class FacturaService {
       documento_id: id,
     });
   }
+
+  actualizarDetalleGrupo(id: number, data: any) {
+      return this.httpService.put<any>(`general/documento_detalle/${id}/`, data);
+    }
 }
