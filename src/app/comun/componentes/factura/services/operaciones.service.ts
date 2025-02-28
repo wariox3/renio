@@ -48,8 +48,60 @@ export class OperacionesService {
       detalle.reduce((acc, curVal) => {
         return acc + curVal[llave];
       }, 0),
-      2
+      2,
     );
+  }
+
+  sumarSubtotal(detalle: DocumentoFacturaDetalleRespuesta[]) {
+    const detallesFiltrados = detalle.filter(
+      (detail) => detail.tipo_registro === 'I',
+    );
+
+    return this.redondear(
+      detallesFiltrados.reduce((acc, curVal) => {
+        return acc + curVal['subtotal'];
+      }, 0),
+      2,
+    );
+  }
+
+  sumarTotal(detalle: DocumentoFacturaDetalleRespuesta[]) {
+    let total = 0;
+
+    detalle.forEach((detail) => {
+      if (detail?.naturaleza === 'D') {
+        total -= detail.total;
+      } else {
+        total += detail.total;
+      }
+    });
+
+    return this.redondear(total, 2);
+  }
+
+  sumarTotalCuenta(detalle: DocumentoFacturaDetalleRespuesta[]): {
+    debitos: number;
+    creditos: number;
+  } {
+    let debitos = 0;
+    let creditos = 0;
+
+    const detallesTipoCuenta = detalle.filter(
+      (detalil) => detalil.tipo_registro === 'C',
+    );
+
+    detallesTipoCuenta.forEach((detail) => {
+      if (detail.naturaleza === 'C') {
+        creditos += detail.total;
+      } else {
+        debitos += detail.total;
+      }
+    });
+
+    return {
+      debitos: this.redondear(debitos, 2),
+      creditos: this.redondear(creditos, 2),
+    };
   }
 
   calcularTotal(subtotal: number, impuestoTotal: number) {

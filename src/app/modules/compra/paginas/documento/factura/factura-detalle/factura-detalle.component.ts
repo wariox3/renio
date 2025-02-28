@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -15,6 +15,8 @@ import { EMPTY, switchMap, tap } from 'rxjs';
 import { BtnAnularComponent } from '../../../../../../comun/componentes/btn-anular/btn-anular.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
+import { DocumentoFacturaDetalleRespuesta } from '@interfaces/comunes/factura/factura.interface';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -68,6 +70,8 @@ export default class FacturaDetalleComponent extends General {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
+  totalDebitos: number = 0;
+  totalCreditos: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
@@ -76,9 +80,11 @@ export default class FacturaDetalleComponent extends General {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  private _operacionesSerive = inject(OperacionesService);
+
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
     this.consultardetalle();
@@ -87,30 +93,44 @@ export default class FacturaDetalleComponent extends General {
   consultardetalle() {
     this.facturaService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.documento = respuesta.documento;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
         this._reniciarCamposTotales();
+        let totalDebitos = 0;
 
-        respuesta.documento.detalles.map((item: any) => {
-          const cantidad = item.cantidad;
-          const precio = item.precio;
-          const porcentajeDescuento = item.descuento;
-          const total = item.total;
-          let subtotal = cantidad * precio;
-          let descuento = (porcentajeDescuento * subtotal) / 100;
-          let subtotalFinal = subtotal - descuento;
+        respuesta.documento.detalles.map(
+          (item: DocumentoFacturaDetalleRespuesta) => {
+            const cantidad = item.cantidad;
+            const precio = item.precio;
+            const porcentajeDescuento = item.porcentaje_descuento;
+            const total = item.total;
+            let subtotal = cantidad * precio;
+            let descuento = (porcentajeDescuento * subtotal) / 100;
+            let subtotalFinal = subtotal - descuento;
 
-          let neto = item.neto || 0;
+            this.totalCantidad += item.cantidad;
+            this.totalDescuento += descuento;
+            this.subtotalGeneral += subtotalFinal;
+            // this.totalNetoGeneral += neto;
+            this.totalBase += item.base_impuesto;
 
-          this.totalCantidad += parseInt(item.cantidad);
-          this.totalDescuento += descuento;
-          this.subtotalGeneral += subtotalFinal;
-          this.totalNetoGeneral += neto;
-          this.totalGeneral += total;
-          this.totalBase += item.base_impuesto;
-          this.changeDetectorRef.detectChanges();
-        });
+            this.changeDetectorRef.detectChanges();
+          },
+        );
+
+        this.totalGeneral = this._operacionesSerive.sumarTotal(
+          respuesta.documento.detalles,
+        );
+
+        const { creditos, debitos } = this._operacionesSerive.sumarTotalCuenta(
+          respuesta.documento.detalles,
+        );
+
+        this.totalDebitos = debitos;
+        this.totalCreditos = creditos;
+        this.subtotalGeneral = respuesta.documento.subtotal;
+
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -137,17 +157,19 @@ export default class FacturaDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -169,10 +191,10 @@ export default class FacturaDetalleComponent extends General {
             this.consultardetalle();
             this._reniciarTotales();
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
           }
-        })
+        }),
       )
       .subscribe();
   }

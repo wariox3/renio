@@ -1,0 +1,45 @@
+<div>
+  <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+    <div>
+      <input
+        #inputItem
+        type="text"
+        ngbDropdownAnchor
+        class="cursor-pointer form-select"
+        (focus)="consultarItems($event); ItemDropdown.open()"
+        (keyup)="aplicarFiltrosItems($event); ItemDropdown.open()"
+        [disabled]="estadoAprobado"
+        [readonly]="estadoAprobado"
+        [value]="itemNombre"
+        [ngClass]="{
+          'is-invalid': campoInvalido,
+          'is-valid': itemSeleccionado !== null,
+          'form-select-sm': !grande,
+        }"
+      />
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu dropdown-menu-custom-width"
+      >
+        <ng-container *ngFor="let almacen of almacenes()">
+          <button
+            class="text-wrap"
+            (click)="agregarItem(almacen)"
+            type="button"
+            ngbDropdownItem
+          >
+            {{ almacen.almacen_nombre }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="fv-plugins-message-container" *ngIf="campoInvalido">
+    <div class="fv-help-block">
+      <span role="alert"
+        >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+      </span>
+    </div>
+  </div>
+</div>

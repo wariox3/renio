@@ -1,6 +1,6 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="estado_aprobado"
+    [estadoAprobado]="estadoAprobado()"
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
@@ -27,7 +27,7 @@
                   formularioFactura.controls['contacto'].invalid,
                 'is-valid':
                   formularioFactura.controls['contacto'].touched &&
-                  formularioFactura.controls['contacto'].valid
+                  formularioFactura.controls['contacto'].valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -86,7 +86,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['contacto']
+              control: formularioFactura.controls['contacto'],
             }"
           ></ng-container>
         </div>
@@ -113,7 +113,7 @@
                 formularioFactura.controls['fecha'].invalid,
               'is-valid':
                 formularioFactura.controls['fecha'].touched &&
-                formularioFactura.controls['fecha'].valid
+                formularioFactura.controls['fecha'].valid,
             }"
             (change)="cambiarFechaVence($event)"
           />
@@ -122,7 +122,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha']
+              control: formularioFactura.controls['fecha'],
             }"
           ></ng-container>
           <div
@@ -176,7 +176,7 @@
                   formularioFactura.controls['documento_referencia_numero']
                     .touched &&
                   formularioFactura.controls['documento_referencia_numero']
-                    .valid
+                    .valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -220,7 +220,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioFactura.controls['documento_referencia']
+              control: formularioFactura.controls['documento_referencia'],
             }"
           ></ng-container>
         </div>
@@ -243,7 +243,7 @@
                 formularioFactura.controls['comentario'].invalid,
               'is-valid':
                 formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].valid
+                formularioFactura.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -253,9 +253,9 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
-              control: formularioFactura.controls['comentario']
+              control: formularioFactura.controls['comentario'],
             }"
-          ></ng-container>
+        ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -269,7 +269,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 1}"
+                [ngClass]="{ 'text-primary': active === 1 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -277,274 +277,9 @@
               <ng-template ngbNavContent>
                 <app-formulario-productos
                   (emitirDocumentoDetalle)="recibirDocumentoDetalle($event)"
-                  [mostrarDocumentoReferencia]="mostrarDocumentoReferencia"
-                  (emitirImpuestosAcumulados)="
-                    actualizarImpuestosAcumulados($event)
-                  "
-                  [acumuladorImpuestos]="acumuladorImpuesto"
-                  [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion"
-                  [formularioFactura]="formularioFactura"
                   [formularioTipo]="'compra'"
                 ></app-formulario-productos>
-                <!-- <div class="table-responsive-sm">
-                  <table
-                    id="tableDetalles"
-                    class="table table-row-dashed table-row-gray-500"
-                  >
-                    <thead>
-                      <tr>
-                        <th class="w-40px">Id</th>
-                        <th
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                        ></th>
-                        <th
-                          class="w-50px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
-                        ></th>
-                        <th
-                          class="w-100px text-center"
-                          *ngIf="!estado_aprobado"
-                        >
-                          <button
-                            (click)="agregarProductos()"
-                            class="btn btn-sm btn-primary"
-                            type="button"
-                            translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                          ></button>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody formArrayName="detalles">
-                      <ng-container
-                        *ngFor="let detalle of detalles.controls; let i = index"
-                        [formGroupName]="i"
-                      >
-                        <tr>
-                          <td class="w-40px">{{ detalle.value.id }}</td>
-                          <td>
-                            <app-comun-productos
-                              [itemNombre]="detalle.value.item_nombre"
-                              [estado_aprobado]="estado_aprobado"
-                              [compra]="true"
-                              [venta]="false"
-                              [campoInvalido]="
-                                detalle.get('item')?.touched &&
-                                detalle.get('item')?.invalid
-                              "
-                              (emitirArrItems)="
-                                agregarItemSeleccionado($event, i)
-                              "
-                              (emitirLineaVacia)="
-                                eliminarProducto(i, detalle.value.id)
-                              "
-                            ></app-comun-productos>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              [value]="detalle.value.cantidad"
-                              formControlName="cantidad"
-                              (change)="
-                                actualizarDetalle(i, 'cantidad', $event)
-                              "
-                              class="form-control-sm"
-                              [attr.disabled]="estado_aprobado"
-                              [readonly]="estado_aprobado"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                          </td>
-                          <td>
-                            <input
-                              formControlName="precio"
-                              [value]="detalle.value.precio"
-                              (change)="actualizarDetalle(i, 'precio', $event)"
-                              [attr.disabled]="estado_aprobado"
-                              [readonly]="estado_aprobado"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                          </td>
-                          <td>
-                            <div class="position-relative">
-                              <input
-                                formControlName="descuento"
-                                [value]="detalle.value.descuento"
-                                (change)="
-                                  actualizarDetalle(i, 'descuento', $event)
-                                "
-                                [attr.disabled]="estado_aprobado"
-                                [readonly]="estado_aprobado"
-                                class="form-control-sm"
-                                [ngClass]="{
-                                  'disabled-cursor bg-transparent':
-                                    estado_aprobado,
-                                  'text-white':
-                                    theme_value === 'dark' && estado_aprobado
-                                }"
-                                rows="1"
-                                spellcheck="true"
-                                appSoloNumeros
-                              />
-                              <div
-                                class="position-absolute translate-middle-y top-50 end-0 me-3"
-                              >
-                                <i class="bi bi-percent"></i>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <input
-                              class="form-control form-control-sm"
-                              disabled
-                              rows="1"
-                              spellcheck="true"
-                              class="disabled-cursor bg-transparent"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white bg-transparent':
-                                  theme_value === 'dark'
-                              }"
-                              readonly
-                              [value]="detalle.value.subtotal"
-                            />
-                          </td>
-                          <td>
-                            <app-comun-impuestos
-                              (emitirImpuestoAgregado)="
-                                agregarImpuesto($event, i, 'agregar')
-                              "
-                              (emitirImpuestoElimiando)="
-                                removerImpuesto($event, i)
-                              "
-                              [arrLista]="detalles.controls[i].value.impuestos"
-                              [estado_aprobado]="!estado_aprobado"
-                              [visualizarImpuestosCompra]="true"
-                            ></app-comun-impuestos>
-                          </td>
-                          <td>
-                            <input
-                              readonly
-                              rows="1"
-                              spellcheck="true"
-                              (blur)="onImpuestoBlur(i, estado_aprobado)"
-                              class="disabled-cursor"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'bg-transparent': estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado
-                              }"
-                              [value]="detalle.value.total"
-                            />
-                          </td>
-                          <td class="text-center" *ngIf="!estado_aprobado">
-                            <i
-                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="eliminarProducto(i, detalle.value.id)"
-                            ></i>
-                          </td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
-                </div> -->
                 <div class="d-flex justify-content-end mb-5">
-                  <!-- <table>
-                    <tr *ngIf="totalCantidad > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                      ></td>
-                      <td class="text-end">{{ totalCantidad }}</td>
-                    </tr>
-                    <tr *ngIf="subtotalGeneral > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                      ></td>
-                      <td class="text-end">
-                        {{ subtotalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalBase > 0">
-                      <td class="text-end">Total base</td>
-                      <td class="text-end">
-                        {{ totalBase | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
-                      <td class="text-end">{{ impuesto.key }}</td>
-                      <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalDescuento > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalDescuento | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="totalImpuestos > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalImpuestos | currency : "$" }}
-                      </td>
-                    </tr>
-                    <tr class="border-top">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                      ></td>
-                      <td class="text-end" style="padding-left: 24px">
-                        {{ totalGeneral | currency : "$" }}
-                      </td>
-                    </tr>
-                  </table> -->
                   <table>
                     <tr *ngIf="formularioFactura.value.totalCantidad > 0">
                       <td
@@ -561,7 +296,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                       ></td>
                       <td class="text-end">
-                        {{ formularioFactura.value.subtotal | currency : "$" }}
+                        {{ formularioFactura.value.subtotal | currency: "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="formularioFactura.value.base_impuesto > 0">
@@ -571,20 +306,22 @@
                       ></td>
                       <td class="text-end">
                         {{
-                          formularioFactura.value.base_impuesto | currency : "$"
+                          formularioFactura.value.base_impuesto | currency: "$"
                         }}
                       </td>
                     </tr>
-                    @for (impuesto of acumuladorImpuesto | keyvalue; track
-                    $index) {
-                    <tr>
-                      <td class="text-end">{{ impuesto.key }}</td>
-                      <td class="text-end">
-                        {{ impuesto.value.total | currency : "$" }}
-                      </td>
-                    </tr>
+                    @for (
+                      impuesto of acumuladorImpuesto() | keyvalue;
+                      track $index
+                    ) {
+                      <tr>
+                        <td class="text-end">{{ impuesto.key }}</td>
+                        <td class="text-end">
+                          {{ impuesto.value.total | currency: "$" }}
+                        </td>
+                      </tr>
                     }
-                    <tr *ngIf="(acumuladorImpuesto | keyvalue).length">
+                    <tr *ngIf="(acumuladorImpuesto() | keyvalue).length">
                       <td
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
@@ -592,7 +329,7 @@
                       <td class="text-end">
                         {{
                           formularioFactura.value.impuesto_operado
-                            | currency : "$"
+                            | currency: "$"
                         }}
                       </td>
                     </tr>
@@ -602,7 +339,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                       ></td>
                       <td class="text-end" style="padding-left: 24px">
-                        {{ formularioFactura.value.total | currency : "$" }}
+                        {{ formularioFactura.value.total | currency: "$" }}
                       </td>
                     </tr>
                     <tr *ngIf="formularioFactura.value.afectado > 0">
@@ -611,7 +348,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"
                       ></td>
                       <td class="text-end" style="padding-left: 24px">
-                        {{ formularioFactura.value.afectado | currency : "$" }}
+                        {{ formularioFactura.value.afectado | currency: "$" }}
                       </td>
                     </tr>
                   </table>
@@ -621,7 +358,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': active === 2}"
+                [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

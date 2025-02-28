@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-seleccionar-grupo',
   standalone: true,
-  imports: [TranslateModule, FormsModule],
+  imports: [TranslateModule, FormsModule, NgClass],
   templateUrl: './seleccionar-grupo.component.html',
   styleUrl: './seleccionar-grupo.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +31,7 @@ export class SeleccionarGrupoComponent extends General implements OnInit {
 
   @Output() selectChange = new EventEmitter<string>();
   @Input() valorInicial: string;
+  @Input() grande: boolean = false;
   @ViewChild('selectGrupo', { read: ElementRef })
   selectGrupo: ElementRef<HTMLInputElement>;
 
