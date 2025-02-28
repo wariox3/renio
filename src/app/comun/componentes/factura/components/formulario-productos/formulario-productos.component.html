@@ -16,13 +16,15 @@
     <table id="tableDetalles" class="table table-bordered table-sm">
       <thead>
         <tr class="bg-gray-100">
-        <th class="w-40px">Id</th>
+          <th class="w-40px">Id</th>
 
           <th translate="FORMULARIOS.TITULOS.FACTURACION.ITEM"></th>
-          <!-- <th
-            class="w-50px"
-            translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
-          ></th> -->
+          @if (formularioTipo === "compra") {
+            <th
+              class="w-50px"
+              translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+            ></th>
+          }
           <th
             class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
@@ -75,12 +77,14 @@
                   [formularioTipo]="formularioTipo"
                 ></app-seleccionar-producto>
               </td>
-              <!-- <td>
-                <app-seleccionar-grupo
-                  (selectChange)="onSeleccionarGrupoChange($event, i)"
-                  [valorInicial]="detalle.value.grupo"
-                ></app-seleccionar-grupo>
-              </td> -->
+              @if (formularioTipo === "compra") {
+                <td>
+                  <app-seleccionar-grupo
+                    (selectChange)="onSeleccionarGrupoChange($event, i)"
+                    [valorInicial]="detalle.value.grupo"
+                  ></app-seleccionar-grupo>
+                </td>
+              }
               <td>
                 <app-seleccionar-almacen
                   [itemNombre]="detalle.get('almacen_nombre')?.value"
