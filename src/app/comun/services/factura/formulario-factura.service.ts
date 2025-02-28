@@ -1021,6 +1021,8 @@ export class FormularioFacturaService {
       grupo_contabilidad: documentoFactura.grupo_contabilidad_id,
       almacen: documentoFactura.almacen_id,
       almacen_nombre: documentoFactura.almacen_nombre,
+      sede: documentoFactura.sede,
+      asesor: documentoFactura.asesor
     });
   }
 
