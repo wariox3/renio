@@ -107,8 +107,6 @@ export class FormularioFacturaService {
         sede: [''],
         descuento: [0],
         sede_nombre: [null],
-        almacen: [null],
-        almacen_nombre: [''],
         grupo_contabilidad: [null],
         plazo_pago: [1, Validators.required],
         detalles: this._formBuilder.array([]),

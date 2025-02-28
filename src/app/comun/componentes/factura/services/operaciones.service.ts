@@ -41,7 +41,8 @@ export class OperacionesService {
       | 'base_impuesto'
       | 'cantidad'
       | 'total_bruto'
-      | 'descuento',
+      | 'descuento'
+      | 'precio'
   ) {
     return this.redondear(
       detalle.reduce((acc, curVal) => {
