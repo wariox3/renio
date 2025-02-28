@@ -314,6 +314,7 @@ export const locale = {
           OTRAINFROMACION: 'Otra información',
           MASINFORMACION: 'Más información',
           CUENTA: 'Cuenta',
+          CUENTAS: 'Cuentas',
           GRUPO: 'Grupo',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',

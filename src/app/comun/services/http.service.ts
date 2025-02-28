@@ -38,6 +38,12 @@ export class HttpService extends Subdominio {
     return this.http.put<T>(url, data);
   }
 
+  // Método PUT
+  public patch<T>(endpoint: string, data: any): Observable<T> {
+    const url = `${this.urlSubDominio}/${endpoint}`;
+    return this.http.patch<T>(url, data);
+  }
+
   // Método DELETE
   public delete(endpoint: string, data: any): Observable<any> {
     const url = `${this.urlSubDominio}/${endpoint}`;

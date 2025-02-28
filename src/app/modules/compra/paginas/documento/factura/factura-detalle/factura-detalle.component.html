@@ -173,6 +173,14 @@
                       ></th>
                       <th
                         class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
                       ></th>
                       <th
@@ -210,17 +218,13 @@
                             {{ detalle.cuenta_nombre }}
                           </td>
                           <td style="width: 10rem">
-                            @if (detalle.tipo_registro === "C") {
-                              {{
-                                detalle.naturaleza === null
-                                  ? ""
-                                  : detalle.naturaleza === "D"
-                                    ? "Débito"
-                                    : "Crédito"
-                              }}
-                            } @else {
-                              {{ detalle.cantidad }}
-                            }
+                            {{ detalle.grupo_nombre }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{ detalle.almacen_nombre }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{ detalle.cantidad }}
                           </td>
                           <td class="text-end">
                             {{ detalle.precio | number }}
@@ -265,7 +269,7 @@
               [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
-              translate="FORMULARIOS.TITULOS.FACTURACION.CUENTA"
+              translate="FORMULARIOS.TITULOS.FACTURACION.CUENTAS"
             ></a>
             <ng-template ngbNavContent>
               <div class="table-responsive-sm">
@@ -286,6 +290,10 @@
                       ></th>
                       <th
                         class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
                       ></th>
                       <th
@@ -295,10 +303,6 @@
                       <th
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
                       ></th>
                       <th
                         class="bg-gray-100"
@@ -327,6 +331,9 @@
                                   : "Crédito"
                             }}
                           </td>
+                          <td>
+                            {{ detalle.grupo_nombre }}
+                          </td>
                           <td class="text-end">
                             {{ detalle.precio | number }}
                           </td>
@@ -336,9 +343,6 @@
                           </td>
                           <td class="text-end">
                             {{ detalle.subtotal | number }}
-                          </td>
-                          <td class="text-center">
-                            {{ detalle.grupo_nombre }}
                           </td>
                           <td class="text-end">
                             {{ detalle.total | number }}

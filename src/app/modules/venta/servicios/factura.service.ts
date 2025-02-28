@@ -40,6 +40,6 @@ export class FacturaService {
   }
 
   actualizarDetalleGrupo(id: number, data: any) {
-      return this.httpService.put<any>(`general/documento_detalle/${id}/`, data);
+      return this.httpService.patch<any>(`general/documento_detalle/${id}/`, data);
     }
 }
