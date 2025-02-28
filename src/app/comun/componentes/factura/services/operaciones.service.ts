@@ -69,7 +69,7 @@ export class OperacionesService {
     let total = 0;
 
     detalle.forEach((detail) => {
-      if (detail?.naturaleza === 'D') {
+      if (detail?.naturaleza === 'C') {
         total -= detail.total;
       } else {
         total += detail.total;
