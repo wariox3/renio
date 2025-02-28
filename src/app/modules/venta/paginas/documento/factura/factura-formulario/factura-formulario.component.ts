@@ -110,7 +110,6 @@ export default class FacturaDetalleComponent
   public arrSede: RegistroAutocompletarGenSede[] = [];
   public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
-  public requiereSede: boolean = false;
   public camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -731,7 +730,6 @@ export default class FacturaDetalleComponent
         this.arrAsesor = respuesta[2].registros;
         this.arrSede = respuesta[3].registros;
         this.requiereAsesor = respuesta[4].venta_asesor;
-        this.requiereSede = respuesta[4].venta_sede;
         this.arrAlmacenes = respuesta[5].registros;
         this.changeDetectorRef.detectChanges();
       }),

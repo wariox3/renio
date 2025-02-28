@@ -314,85 +314,82 @@
           </app-comun-almacenes>
         </div>
       </div>
-      @if (requiereAsesor || requiereSede) {
-        <div class="row mb-5">
-          @if (requiereAsesor) {
-            <div
-              class="col-md-6 col-sm-12"
-              ngbDropdown
-              #MetodoDropdown="ngbDropdown"
+      <div class="row mb-5">
+        <div
+          class="col-md-6 col-sm-12"
+          ngbDropdown
+          #MetodoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="sede"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['sede'].touched &&
+                formularioFactura.controls['sede'].invalid,
+              'is-valid':
+                formularioFactura.controls['sede'].touched &&
+                formularioFactura.controls['sede'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let sede of arrSede"
+              [value]="sede.sede_id"
+              [selected]="
+                sede.sede_id === formularioFactura.controls.sede.value
+              "
             >
-              <label
-                class="form-label"
-                translate="FORMULARIOS.CAMPOS.FACTURA.ASESOR"
-              ></label>
-              <select
-                class="form-select"
-                formControlName="asesor"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioFactura.controls['asesor'].touched &&
-                    formularioFactura.controls['asesor'].invalid,
-                  'is-valid':
-                    formularioFactura.controls['asesor'].touched &&
-                    formularioFactura.controls['asesor'].valid,
-                }"
-              >
-                <option value="">
-                  {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-                </option>
-                <option
-                  *ngFor="let asesor of arrAsesor"
-                  [value]="asesor.asesor_id"
-                  [selected]="
-                    asesor.asesor_id ===
-                    formularioFactura.controls.asesor_id.value
-                  "
-                >
-                  {{ asesor.asesor_nombre_corto }}
-                </option>
-              </select>
-            </div>
-          }
-          @if (requiereSede) {
-            <div
-              class="col-md-6 col-sm-12"
-              ngbDropdown
-              #MetodoDropdown="ngbDropdown"
-            >
-              <label
-                class="form-label"
-                translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
-              ></label>
-              <select
-                class="form-select"
-                formControlName="sede"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioFactura.controls['sede'].touched &&
-                    formularioFactura.controls['sede'].invalid,
-                  'is-valid':
-                    formularioFactura.controls['sede'].touched &&
-                    formularioFactura.controls['sede'].valid,
-                }"
-              >
-                <option value="">
-                  {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-                </option>
-                <option
-                  *ngFor="let sede of arrSede"
-                  [value]="sede.sede_id"
-                  [selected]="
-                    sede.sede_id === formularioFactura.controls.sede_id.value
-                  "
-                >
-                  {{ sede.sede_nombre }}
-                </option>
-              </select>
-            </div>
-          }
+              {{ sede.sede_nombre }}
+            </option>
+          </select>
         </div>
-      }
+        @if (requiereAsesor) {
+          <div
+            class="col-md-6 col-sm-12"
+            ngbDropdown
+            #MetodoDropdown="ngbDropdown"
+          >
+            <label
+              class="form-label"
+              translate="FORMULARIOS.CAMPOS.FACTURA.ASESOR"
+            ></label>
+            <select
+              class="form-select"
+              formControlName="asesor"
+              [ngClass]="{
+                'is-invalid':
+                  formularioFactura.controls['asesor'].touched &&
+                  formularioFactura.controls['asesor'].invalid,
+                'is-valid':
+                  formularioFactura.controls['asesor'].touched &&
+                  formularioFactura.controls['asesor'].valid,
+              }"
+            >
+              <option value="">
+                {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+              </option>
+              <option
+                *ngFor="let asesor of arrAsesor"
+                [value]="asesor.asesor_id"
+                [selected]="
+                  asesor.asesor_id ===
+                  formularioFactura.controls.asesor.value
+                "
+              >
+                {{ asesor.asesor_nombre_corto }}
+              </option>
+            </select>
+          </div>
+        }
+      </div>
+
       @if (visualizarCampoDocumentoReferencia) {
         <div class="row mb-5">
           <div
@@ -616,7 +613,7 @@
             <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{ 'text-primary': active === 2 }"
+                [ngClass]="{ 'text-primary': active === 3 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
@@ -648,7 +645,8 @@
                       [ngTemplateOutletContext]="{
                         validation: 'maxlength',
                         message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
                         cantidadCaracteres: '500',
                         control: formularioFactura.controls['comentario'],
                       }"
