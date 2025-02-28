@@ -141,20 +141,27 @@ export class FormularioFacturaService {
     return this.detalles.controls[i].get('porcentaje_descuento')?.valueChanges;
   }
 
-  onSeleccionarGrupoChange(id: string, indexFormulario: number) {
+  onSeleccionarGrupoChange(id: number, indexFormulario: number) {
     this.detalles.controls[indexFormulario].get('grupo')?.setValue(id);
   }
 
   onSeleccionarAlmacenChange(
-    almacen: RegistroAutocompletarInvAlmacen,
+    almacen: RegistroAutocompletarInvAlmacen | null,
     indexFormulario: number,
   ) {
-    this.detalles.controls[indexFormulario]
-      .get('almacen')
-      ?.setValue(almacen.almacen_id);
-    this.detalles.controls[indexFormulario]
-      .get('almacen_nombre')
-      ?.setValue(almacen.almacen_nombre);
+    if (!almacen) {
+      this.detalles.controls[indexFormulario].get('almacen')?.setValue(null);
+      this.detalles.controls[indexFormulario]
+        .get('almacen_nombre')
+        ?.setValue('');
+    } else {
+      this.detalles.controls[indexFormulario]
+        .get('almacen')
+        ?.setValue(almacen.almacen_id);
+      this.detalles.controls[indexFormulario]
+        .get('almacen_nombre')
+        ?.setValue(almacen.almacen_nombre);
+    }
   }
 
   eliminarItem(indexFormulario: number) {
@@ -190,6 +197,7 @@ export class FormularioFacturaService {
         total: item.precio * 1,
         naturaleza: item.naturaleza,
         grupo: item.grupo,
+        base: item.base,
         almacen: item.almacen,
         almacen_nombre: item.almacen_nombre,
       });
@@ -270,7 +278,7 @@ export class FormularioFacturaService {
 
     if (tipo_registro === 'C') {
       const tipoSugerido = this._sugerirGrupo();
-      
+
       detalleFormGroup = this._formBuilder.group({
         cuenta: [null],
         cuenta_codigo: [null],
@@ -312,6 +320,7 @@ export class FormularioFacturaService {
         total_bruto: [0],
         neto: [0],
         base_impuesto: [0],
+        base: [0, validarPrecio()],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [null],
@@ -551,37 +560,13 @@ export class FormularioFacturaService {
       cantidad: 1,
     });
 
-    // this.changeDetectorRef.detectChanges();
-
     this._agregarNuevoEspacio();
   }
 
   private _limpiarImpuestosAcumulados() {
     this.acumuladorImpuestos.set({});
-    // this.emitirImpuestoCalculados$.next(this.acumuladorImpuestos);
     this._calcularImpuestosAcumulados();
   }
-
-  // private _calcularImpuestosAcumulados() {
-  //   this.impuestoCache?.forEach((impuesto) => {
-  //     if (Object.keys(impuesto).length) {
-  //       const impuestoTransformado = this._transformKeyValue(impuesto);
-
-  //       for (let { key, value } of impuestoTransformado) {
-  //         if (!this.acumuladorImpuestos()[key]) {
-  //           this.acumuladorImpuestos()[key] = { total: 0, operado: 0 };
-  //           this.acumuladorImpuestos()[key].operado = value.operado;
-  //         }
-
-  //         if (value.operado > 0) {
-  //           this.acumuladorImpuestos()[key].total += value.total;
-  //         } else {
-  //           this.acumuladorImpuestos()[key].total -= value.total;
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
 
   private _calcularImpuestosAcumulados() {
     this.impuestoCache?.forEach((impuesto) => {
@@ -612,28 +597,6 @@ export class FormularioFacturaService {
       }
     });
   }
-
-  // private _calcularDebitosCreditos(indexFormulario: number) {
-  //   const formularioDetalle = this._obtenerDetalleFormulario(indexFormulario);
-
-  //   if (formularioDetalle.value.tipo_registro === 'C') {
-  //     console.log(formularioDetalle.value);
-  //     switch (formularioDetalle.value.naturaleza) {
-  //       case 'C':
-  //         this._actualizarAcumuladorDebitosCreditos(
-  //           'creditos',
-  //           formularioDetalle.value.total,
-  //         );
-  //         break;
-  //       case 'D':
-  //         this._actualizarAcumuladorDebitosCreditos(
-  //           'debitos',
-  //           formularioDetalle.value.total,
-  //         );
-  //         break;
-  //     }
-  //   }
-  // }
 
   private _actualizarAcumuladorDebitosCreditos(
     creditos: number,
@@ -737,7 +700,7 @@ export class FormularioFacturaService {
 
     detalleFormulario.patchValue({
       impuesto_operado: impuestTotal,
-      impuesto: impuestoIva + impuestoAcumulado,
+      impuesto: this._operaciones.redondear(impuestoIva + impuestoAcumulado, 2),
       impuesto_retencion: impuestoRetencion + impuestoRetencionAcumulado,
     });
 
@@ -1022,7 +985,7 @@ export class FormularioFacturaService {
       almacen: documentoFactura.almacen_id,
       almacen_nombre: documentoFactura.almacen_nombre,
       sede: documentoFactura.sede,
-      asesor: documentoFactura.asesor
+      asesor: documentoFactura.asesor,
     });
   }
 
@@ -1074,6 +1037,7 @@ export class FormularioFacturaService {
         tipo_registro: [detalle.tipo_registro],
         grupo: detalle.grupo_id,
         naturaleza: detalle.naturaleza,
+        base: detalle.base,
         almacen: detalle.almacen_id,
         almacen_nombre: detalle.almacen_nombre,
       });

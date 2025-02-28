@@ -205,7 +205,11 @@
                       <th class="bg-gray-100" style="width: 50px">Id</th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.ITEM"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
                       ></th>
                       <th
                         class="bg-gray-100"
@@ -241,6 +245,9 @@
                         <td style="width: 50px">{{ detalle.id }}</td>
                         <td class="w-50 text-start">
                           {{ detalle.item_nombre }}
+                        </td>
+                        <td class="text-start" style="width: 10rem">
+                          {{ detalle.almacen_nombre }}
                         </td>
                         <td class="text-end" style="width: 10rem">
                           {{ detalle.cantidad }}

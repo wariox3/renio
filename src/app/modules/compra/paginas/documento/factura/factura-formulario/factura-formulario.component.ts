@@ -193,7 +193,7 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.reiniciarFormulario();
   }
 
-  onSeleccionarGrupoChange(id: string) {
+  onSeleccionarGrupoChange(id: number) {
     this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 
@@ -504,6 +504,11 @@ export default class FacturaDetalleComponent
     this.formularioFactura
       .get('almacen_nombre')
       ?.setValue(almacen.almacen_nombre);
+  }
+
+  recibirAlmacenVacio() {
+    this.formularioFactura.get('almacen')?.setValue(null);
+    this.formularioFactura.get('almacen_nombre')?.setValue('');
   }
 
   actualizarDetalle(index: number, campo: string, evento: any) {

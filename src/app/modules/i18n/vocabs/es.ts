@@ -350,6 +350,8 @@ export const locale = {
           ALMACEN: 'Almacen',
           CREDITOS: 'Créditos',
           DEBITOS: 'Débitos',
+          BASE: 'Base',
+          VALOR: 'Valor',
         },
         GENERAL: {
           ITEM: {

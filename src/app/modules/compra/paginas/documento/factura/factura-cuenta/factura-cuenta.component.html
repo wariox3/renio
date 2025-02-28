@@ -19,26 +19,26 @@
           <th class="w-40px">Id</th>
           <th translate="FORMULARIOS.TITULOS.FACTURACION.CUENTA"></th>
           <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+          ></th>
+          <th
             class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.NATURALEZA"
           ></th>
           <th
             class="w-100px"
-            translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+            translate="FORMULARIOS.TITULOS.FACTURACION.VALOR"
           ></th>
-          <th class="w-100px">
-            <div placement="top" ngbTooltip="Porcentaje descuento">
-              {{ "FORMULARIOS.TITULOS.FACTURACION.DESCUENTO" | translate }}
-            </div>
-          </th>
+          <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.BASE"
+          ></th>
           <th
             class="w-100px"
             translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
           ></th>
-          <th
-            class="w-100px"
-            translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
-          ></th>
+
           <th
             class="w-100px"
             translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
@@ -64,6 +64,12 @@
                   "
                   (emitirArrCuentas)="recibirCuentaSeleccionada($event, i)"
                 ></app-comun-cuentas>
+              </td>
+              <td>
+                <app-seleccionar-grupo
+                  (selectChange)="onSeleccionarGrupoChange($event, i)"
+                  [valorInicial]="detalle.value.grupo"
+                ></app-seleccionar-grupo>
               </td>
               <td>
                 <select
@@ -109,54 +115,37 @@
                 </div>
               </td>
               <td>
-                @if (detalle.value.tipo_registro === "I") {
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    [value]="detalle.value.porcentaje_descuento"
-                    formControlName="porcentaje_descuento"
-                    (focus)="onDescuentoChange(i)"
-                    class="form-control-sm"
-                    [attr.disabled]="estadoAprobado()"
-                    [readonly]="estadoAprobado()"
-                    [ngClass]="{
-                      'disabled-cursor bg-transparent': estadoAprobado(),
-                      'text-white': themeValue === 'dark' && estadoAprobado(),
-                    }"
-                    rows="1"
-                    spellcheck="true"
-                    appSoloNumeros
-                    min="0"
-                  />
-                  <div
-                    *ngIf="
-                      (detalle.get('porcentaje_descuento')?.touched &&
-                        detalle
-                          .get('porcentaje_descuento')
-                          ?.hasError('valorCero')) ||
-                      detalle.get('porcentaje_descuento')?.invalid
-                    "
-                  >
-                    <div class="fv-plugins-message-container">
-                      <div class="fv-help-block">
-                        <span role="alert"> Valor no permitido. </span>
-                      </div>
+                <input
+                  type="number"
+                  formControlName="base"
+                  (focus)="onBaseImpuestoChange(i)"
+                  [attr.disabled]="estadoAprobado()"
+                  [readonly]="estadoAprobado()"
+                  class="form-control-sm"
+                  [ngClass]="{
+                    'disabled-cursor bg-transparent': estadoAprobado(),
+                    'text-white': themeValue === 'dark' && estadoAprobado(),
+                    'is-invalid':
+                      detalle.get('base')?.touched &&
+                      detalle.get('base')?.hasError('valorCero'),
+                  }"
+                  rows="1"
+                  spellcheck="true"
+                  appSoloNumeros
+                />
+                <div
+                  *ngIf="
+                    (detalle.get('base')?.touched &&
+                      detalle.get('base')?.hasError('valorCero')) ||
+                    detalle.get('base')?.invalid
+                  "
+                >
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <span role="alert"> Valor no permitido. </span>
                     </div>
                   </div>
-                } @else {
-                  <input
-                    type="number"
-                    formControlName="porcentaje_descuento"
-                    class="form-control-sm"
-                    [attr.disabled]="true"
-                    [readonly]="true"
-                    [disabled]="true"
-                    class="disabled-cursor bg-transparent"
-                    rows="1"
-                    spellcheck="true"
-                  />
-                }
+                </div>
               </td>
               <td>
                 <input
@@ -174,12 +163,7 @@
                   [value]="detalle.value.subtotal"
                 />
               </td>
-              <td>
-                <app-seleccionar-grupo
-                  (selectChange)="onSeleccionarGrupoChange($event, i)"
-                  [valorInicial]="detalle.value.grupo"
-                ></app-seleccionar-grupo>
-              </td>
+
               <td>
                 <input
                   readonly

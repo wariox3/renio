@@ -286,19 +286,15 @@
                       ></th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.NATURALEZA"
-                      ></th>
-                      <th
-                        class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
                       ></th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.NATURALEZA"
                       ></th>
                       <th
                         class="bg-gray-100"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.VALOR"
                       ></th>
                       <th
                         class="bg-gray-100"
@@ -322,6 +318,9 @@
                             {{ detalle.cuenta_codigo }}
                             {{ detalle.cuenta_nombre }}
                           </td>
+                          <td>
+                            {{ detalle.grupo_nombre }}
+                          </td>
                           <td style="width: 10rem">
                             {{
                               detalle.naturaleza === null
@@ -331,15 +330,8 @@
                                   : "Crédito"
                             }}
                           </td>
-                          <td>
-                            {{ detalle.grupo_nombre }}
-                          </td>
                           <td class="text-end">
                             {{ detalle.precio | number }}
-                          </td>
-                          <td class="text-end" style="width: 10rem">
-                            {{ detalle.porcentaje_descuento }}
-                            <i class="bi bi-percent"></i>
                           </td>
                           <td class="text-end">
                             {{ detalle.subtotal | number }}

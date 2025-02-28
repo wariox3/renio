@@ -115,7 +115,7 @@ export class FormularioProductosComponent
       });
   }
 
-  onSeleccionarGrupoChange(id: string, indexFormulario: number) {
+  onSeleccionarGrupoChange(id: number, indexFormulario: number) {
     this._formularioFacturaService.onSeleccionarGrupoChange(
       id,
       indexFormulario,
@@ -155,7 +155,11 @@ export class FormularioProductosComponent
     almacen: RegistroAutocompletarInvAlmacen,
     index: number,
   ) {
-    this._formularioFacturaService.onSeleccionarAlmacenChange(almacen, index);
+    if (!almacen) {
+      this._formularioFacturaService.onSeleccionarAlmacenChange(null, index);
+    } else {
+      this._formularioFacturaService.onSeleccionarAlmacenChange(almacen, index);
+    }
   }
 
   /**

@@ -3,11 +3,12 @@
     <div>
       <input
         #inputItem
+        [formControl]="searchControl"
         type="text"
         ngbDropdownAnchor
         class="cursor-pointer form-select"
-        (focus)="consultarItems($event); ItemDropdown.open()"
-        (keyup)="aplicarFiltrosItems($event); ItemDropdown.open()"
+        (focus)="ItemDropdown.open()"
+        (keyup)="ItemDropdown.open()"
         [disabled]="estadoAprobado"
         [readonly]="estadoAprobado"
         [value]="itemNombre"
