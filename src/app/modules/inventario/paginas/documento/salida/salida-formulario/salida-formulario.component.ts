@@ -176,6 +176,7 @@ export default class SalidaFormularioComponent
       almacen: [almacen, Validators.compose([Validators.required])],
       almacenNombre: [almacenNombre],
       id: [null],
+      tipo_registro: ['I'],
     });
 
     this.formularioSalida?.markAsDirty();
@@ -490,6 +491,7 @@ export default class SalidaFormularioComponent
             Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
           ],
         ],
+        tipo_registro: [detalle.tipo_registro],
       });
       this.detalles.push(documentoDetalleGrupo);
     });
