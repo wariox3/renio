@@ -91,14 +91,6 @@ export class FormularioProductosComponent
 
   // listeners
   onCantidadChange(i: number) {
-    // this.detalles.controls[i]
-    //   .get('cantidad')
-    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
-    //   .subscribe((valor: string) => {
-    //     if (valor) {
-    //       this._actualizarCantidadItem(i, Number(valor));
-    //     }
-    //   });
     this._formularioFacturaService
       .onCantidadChange(i)
       ?.pipe(takeUntil(this._unsubscribe$))
@@ -110,15 +102,6 @@ export class FormularioProductosComponent
   }
 
   onPrecioChange(i: number) {
-    // this.detalles.controls[i]
-    //   .get('precio')
-    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
-    //   .subscribe((valor: string) => {
-    //     if (valor) {
-    //       this._actualizarPrecioItem(i, Number(valor));
-    //     }
-    //   });
-
     this._formularioFacturaService
       .onPrecioChange(i)
       ?.pipe(takeUntil(this._unsubscribe$))
@@ -130,15 +113,6 @@ export class FormularioProductosComponent
   }
 
   onDescuentoChange(i: number) {
-    // this.detalles.controls[i]
-    //   .get('porcentaje_descuento')
-    //   ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
-    //   .subscribe((valor: number | null) => {
-    //     const nuevoValor = valor || 0;
-    //     if (nuevoValor >= 0) {
-    //       this._actualizarDescuentoItem(i, Number(nuevoValor));
-    //     }
-    //   });
     this._formularioFacturaService
       .onDescuentoChange(i)
       ?.pipe(takeUntil(this._unsubscribe$))
@@ -151,120 +125,20 @@ export class FormularioProductosComponent
   }
 
   onSeleccionarGrupoChange(id: string, indexFormulario: number) {
-    this._formularioFacturaService.onSeleccionarGrupoChange(id, indexFormulario);
+    this._formularioFacturaService.onSeleccionarGrupoChange(
+      id,
+      indexFormulario,
+    );
   }
 
   eliminarItem(indexFormulario: number) {
     this._formularioFacturaService.eliminarItem(indexFormulario);
-    // const itemsActualizados = this.detalles.value.filter(
-    //   (detalleFormulario: any, index: number) => {
-    //     if (indexFormulario === index) {
-    //       this._registrarItemDetalleEliminado(detalleFormulario.id);
-    //     }
-    //     return index !== indexFormulario;
-    //   },
-    // );
-
-    // this._impuestoCache = [];
-    // this.acumuladorImpuestos = {};
-
-    // this.detalles.clear();
-    // itemsActualizados.forEach((item: any, i: number) => {
-    //   this.agregarNuevoItem(item.tipo_registro);
-    //   const subtotal = this._operaciones.calcularSubtotal(
-    //     item.cantidad,
-    //     item.precio,
-    //   );
-    //   this.detalles.controls[i].patchValue({
-    //     id: item.id || null,
-    //     cuenta: item.cuenta,
-    //     cuenta_codigo: item.cuenta_codigo,
-    //     cuenta_nombre: item.cuenta_nombre,
-    //     precio: item.precio,
-    //     item: item.item,
-    //     cantidad: item.cantidad,
-    //     subtotal,
-    //     item_nombre: item.item_nombre,
-    //     total: item.precio * 1,
-    //     naturaleza: item.naturaleza,
-    //     grupo: item.grupo,
-    //   });
-    //   this._agregarCampoImpuestoACache(i);
-    //   this._actualizarImpuestoItem(item.impuestos, i);
-    // });
-
-    // this._limpiarFormularioTotales();
-    // this._actualizarFormulario();
-    // this._limpiarImpuestosAcumulados();
   }
 
   /**
    * Se ejecuta cuando el usuario da clic en agregar nuevo item
    */
   agregarNuevoItem(tipo_registro: string) {
-    // const detalleFormGroup = this._formBuilder.group({
-    //   cuenta: [null],
-    //   cuenta_codigo: [null],
-    //   cuenta_nombre: [null],
-    //   item: [null],
-    //   item_nombre: [null],
-    //   cantidad: [
-    //     0,
-    //     [
-    //       validarPrecio(),
-    //       Validators.min(1),
-    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-    //     ],
-    //   ],
-    //   precio: [
-    //     0,
-    //     [
-    //       validarPrecio(),
-    //       Validators.min(0.1),
-    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-    //     ],
-    //   ],
-    //   porcentaje_descuento: [
-    //     0,
-    //     [
-    //       validarDescuento(),
-    //       Validators.min(0),
-    //       Validators.max(100),
-    //       Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-    //     ],
-    //   ],
-    //   descuento: [0],
-    //   subtotal: [0],
-    //   grupo: [null],
-    //   total: [0],
-    //   impuesto: [0],
-    //   impuesto_operado: [0],
-    //   impuesto_retencion: [0],
-    //   total_bruto: [0],
-    //   neto: [0],
-    //   base_impuesto: [0],
-    //   impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
-    //   impuestos_eliminados: this._formBuilder.array([]),
-    //   id: [null],
-    //   tipo_registro: [tipo_registro],
-    //   naturaleza: [null],
-    // });
-
-    // // Agregar validadores dinámicos en función de tipo_registro
-    // if (tipo_registro === 'C') {
-    //   detalleFormGroup.get('cuenta')?.setErrors({ required: true });
-    //   detalleFormGroup.get('cuenta')?.markAsTouched();
-    // } else if (tipo_registro === 'I') {
-    //   detalleFormGroup.get('item')?.setErrors({ required: true });
-    //   detalleFormGroup.get('item')?.markAsTouched();
-    // }
-
-    // // Actualizar los validadores dinámicos
-    // // detalleFormGroup.get('cuenta')?.updateValueAndValidity();
-    // // detalleFormGroup.get('item')?.updateValueAndValidity();
-    // this._impuestoCache.push({});
-    // this.detalles.push(detalleFormGroup);
-    // this.detalles?.markAllAsTouched();
     this._formularioFacturaService.agregarNuevoItem(tipo_registro);
     this.changeDetectorRef.detectChanges();
   }

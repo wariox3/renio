@@ -24,7 +24,7 @@ export class FacturaService {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<{ documento: DocumentoFacturaRespuesta }>(
+    return this.httpService.getDetalle<{ documento: DocumentoFacturaRespuesta }>(
       `general/documento/${id}/`
     );
   }

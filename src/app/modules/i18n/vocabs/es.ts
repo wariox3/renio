@@ -347,6 +347,8 @@ export const locale = {
           NATURALEZA: 'Naturaleza',
           ITEM: 'Item',
           ALMACEN: 'Almacen',
+          CREDITOS: 'Créditos',
+          DEBITOS: 'Débitos',
         },
         GENERAL: {
           ITEM: {
@@ -552,6 +554,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
+          ALMACEN: 'Almacen',
           FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {
