@@ -77,7 +77,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    AlmacenesComponent
+    AlmacenesComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -152,7 +152,7 @@ export default class FacturaDetalleComponent
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
       );
-      this.almacenSeleccionado(this.arrAlmacenes[0])
+      this.almacenSeleccionado(this.arrAlmacenes[0]);
       this.changeDetectorRef.detectChanges();
     });
 
@@ -715,24 +715,48 @@ export default class FacturaDetalleComponent
           serializador: 'ListaAutocompletar',
         },
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
         {
           limite: 1,
           modelo: 'InvAlmacen',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).pipe(
       tap((respuesta) => {
         this.arrMetodosPago = respuesta[0].registros;
         this.arrPlazoPago = respuesta[1].registros;
         this.arrAsesor = respuesta[2].registros;
         this.arrSede = respuesta[3].registros;
-        this.requiereAsesor = respuesta[4].venta_asesor;
-        this.arrAlmacenes = respuesta[5].registros;
+        this.arrAlmacenes = respuesta[4].registros;
+
+        if (!this.detalle) {
+          this._initSugerencias();
+        }
+
         this.changeDetectorRef.detectChanges();
       }),
     );
+  }
+
+  private _initSugerencias() {
+    this._sugerirSede(0);
+    this._sugeriAsesor(0);
+  }
+
+  private _sugerirSede(posicion: number) {
+    if (this.arrSede.length > 0) {
+      this.formularioFactura.patchValue({
+        sede: this.arrSede?.[posicion].sede_id,
+      });
+    }
+  }
+
+  private _sugeriAsesor(posicion: number) {
+    if (this.arrAsesor.length > 0) {
+      this.formularioFactura.patchValue({
+        asesor: this.arrAsesor?.[posicion].asesor_id,
+      });
+    }
   }
 }

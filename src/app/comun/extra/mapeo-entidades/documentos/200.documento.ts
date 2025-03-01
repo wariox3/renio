@@ -24,12 +24,12 @@ export const documento200: MapeoDocumento[] = [
   },
   {
     nombre: 'CONTACTO_NOMBRE_CORTO',
-    campoTipo: 'Fk',
+    nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+    nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
+    campoTipo: 'CharField',
     visibleTabla: true,
     visibleFiltro: true,
     ordenable: false,
-    esFk: true,
-    modeloFk: 'GenContacto',
   },
   {
     nombre: 'SUBTOTAL',
