@@ -20,6 +20,7 @@
           [visualizarBtnExtra]="botonGenerar"
           [botonesExtras]="botonesExtras"
           [cantidad_registros]="cantidad_registros"
+          [visualizarIdModal]="true"
           [confirmacionRegistrosEliminado]="confirmacionRegistrosEliminado"
           [visualizarBtnNuevo]="visualizarBtnNuevo"
           [visualizarColumnaEditar]="visualizarColumnaEditar"
@@ -56,8 +57,10 @@
       ></button>
     </div>
     <div class="modal-body">
-      <app-modal-dinamico (emitirConsultaLista)="consultaListaModal()" [nombreComponente]="nombreComponente"></app-modal-dinamico>
+      <app-modal-dinamico
+        (emitirConsultaLista)="consultaListaModal()"
+        [nombreComponente]="nombreComponente"
+      ></app-modal-dinamico>
     </div>
   </ng-template>
 </div>
-

@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between my-4">
+  <app-comun-paginador
+    [cantidadRegistros]="cantidadRegistros()"
+    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+    (emitirPaginacion)="cambiarPaginacion($event)"
+  ></app-comun-paginador>
+</div>
+<div class="row">
+  <div class="table-responsive-sm">
+    <table id="tableDetalles" class="table table-bordered table-sm">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="bg-gray-100" style="width: 50px">Id</th>
+          <th class="bg-gray-100">Número</th>
+          <th class="bg-gray-100">Fecha</th>
+          <th class="bg-gray-100">Cuenta</th>
+          <th class="bg-gray-100">Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (documento of documentoDetalles(); track $index) {
+          <tr>
+            <td>
+              {{ documento.id }}
+            </td>
+            <td>
+              {{ documento.documento_numero }}
+            </td>
+            <td>
+              {{ documento.documento_fecha }}
+            </td>
+            <td>
+              @if (documento.cuenta_codigo) {
+                {{ documento.cuenta_codigo }} - {{ documento.cuenta_nombre }}
+              }
+            </td>
+            <td class="text-end">
+              {{ documento.precio | number }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
