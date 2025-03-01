@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
@@ -16,13 +15,7 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'app-configuracion-venta',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    CardComponent,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './configuracion-venta.component.html',
 })
 export class ConfiguracionVentaComponent extends General implements OnInit {
@@ -30,7 +23,7 @@ export class ConfiguracionVentaComponent extends General implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
   ) {
     super();
   }
@@ -77,11 +70,11 @@ export class ConfiguracionVentaComponent extends General implements OnInit {
             if (respuestaActualizacion.actualizacion) {
               this.alertaService.mensajaExitoso(
                 this.translateService.instant(
-                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-                )
+                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+                ),
               );
             }
-          })
+          }),
         )
         .subscribe();
     } else {
