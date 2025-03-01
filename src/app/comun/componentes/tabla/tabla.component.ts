@@ -9,11 +9,13 @@ import {
   Output,
   SimpleChanges,
   inject,
+  signal,
 } from '@angular/core';
 import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   NgbDropdownModule,
+  NgbModal,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
@@ -32,6 +34,7 @@ import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
+import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -50,10 +53,12 @@ import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.comp
     ImportarAdministradorComponent,
     NgbTooltipModule,
     SpinnerLoaderComponent,
+    ModalDocumentoDetallesComponent,
   ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
+  private _modalService = inject(NgbModal);
 
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
@@ -71,6 +76,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   claveLocalStore: string;
   tipo: string;
   btnGrupoResponsive = false;
+  public registroSeleccionadoId = signal<number>(0);
   @Input() encabezado: any;
   @Input() cargando: boolean | null = false;
   @Input() modelo: string;
@@ -78,6 +84,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() cantidad_registros!: number;
   @Input() confirmacionRegistrosEliminado: boolean;
   @Input() visualizarColumnaEditar: boolean = true;
+  @Input() visualizarIdModal: boolean = false;
   @Input() visualizarColumnaDetalle: boolean = true;
   @Input() visualizarColumnaSeleccionar: boolean = true;
   @Input() visualizarBtnImportar: boolean = true;
@@ -108,7 +115,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this._reiniciarPaginador()
+      this._reiniciarPaginador();
       this.claveLocalStore = `itemNombre_tabla`;
       this.tipo = parametro.itemTipo;
       this.changeDetectorRef.detectChanges();
@@ -121,7 +128,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
         if (this.claveLocalStore !== undefined) {
           localStorage.setItem(
             this.claveLocalStore,
-            JSON.stringify(changes.encabezado.currentValue)
+            JSON.stringify(changes.encabezado.currentValue),
           );
         }
       }
@@ -133,7 +140,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.construirTabla();
   }
 
-  private _reiniciarPaginador(){
+  private _reiniciarPaginador() {
     this.lado = 0;
     this.al = 50;
   }
@@ -419,7 +426,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       campo.visibleTabla = true;
     });
     this.store.dispatch(
-      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles })
+      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles }),
     );
 
     // Reconstruye la tabla
@@ -436,7 +443,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       }
     });
     this.store.dispatch(
-      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles })
+      ActualizarCampoMapeo({ dataMapeo: nuevasColumnasVisibles }),
     );
     // Reconstruye la tabla
     this.construirTabla();
@@ -486,5 +493,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       'cursor-pointer user-select-none': item.ordenable,
       [item.classPersonalizado || '']: !!item.classPersonalizado,
     };
+  }
+
+  abrirModal(content: any, id: number) {
+    this.registroSeleccionadoId.set(id);
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
   }
 }
