@@ -715,7 +715,6 @@ export default class FacturaDetalleComponent
           serializador: 'ListaAutocompletar',
         },
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
         {
           limite: 1,
@@ -729,25 +728,35 @@ export default class FacturaDetalleComponent
         this.arrPlazoPago = respuesta[1].registros;
         this.arrAsesor = respuesta[2].registros;
         this.arrSede = respuesta[3].registros;
-        this.requiereAsesor = respuesta[4].venta_asesor;
-        this.arrAlmacenes = respuesta[5].registros;
-        this._initSugerencias();
+        this.arrAlmacenes = respuesta[4].registros;
+
+        if (!this.detalle) {
+          this._initSugerencias();
+        }
+
         this.changeDetectorRef.detectChanges();
       }),
     );
   }
 
   private _initSugerencias() {
-    this._sugerirPrimerValorSede();
+    this._sugerirSede(0);
+    this._sugeriAsesor(0);
   }
 
-  private _sugerirPrimerValorSede() {
-    if (!this.detalle) {
-      if (this.arrSede.length > 0) {
-        this.formularioFactura.patchValue({
-          sede: this.arrSede?.[0].sede_id,
-        });
-      }
+  private _sugerirSede(posicion: number) {
+    if (this.arrSede.length > 0) {
+      this.formularioFactura.patchValue({
+        sede: this.arrSede?.[posicion].sede_id,
+      });
+    }
+  }
+
+  private _sugeriAsesor(posicion: number) {
+    if (this.arrAsesor.length > 0) {
+      this.formularioFactura.patchValue({
+        asesor: this.arrAsesor?.[posicion].asesor_id,
+      });
     }
   }
 }
