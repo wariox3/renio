@@ -298,6 +298,10 @@
                       ></th>
                       <th
                         class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.BASE"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
                       ></th>
                       <th
@@ -332,6 +336,9 @@
                           </td>
                           <td class="text-end">
                             {{ detalle.precio | number }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.base | number }}
                           </td>
                           <td class="text-end">
                             {{ detalle.subtotal | number }}
