@@ -26,6 +26,9 @@ export class DetallesTotalesComponent implements OnChanges {
   @Input() totalGeneral: number;
   @Input() totalAfectado: number;
   @Input() subtotalGeneral: number;
+  @Input() totalDebitos: number;
+  @Input() totalCreditos: number;
+
 
   public acumuladorImpuestos: {
     [string: string]: { operado: number; total: number };

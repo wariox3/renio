@@ -8,6 +8,10 @@ export interface AcumuladorImpuestos {
   [string: string]: { operado: number; total: number };
 }
 
+export interface AcumuladorDebitosCreditos {
+  [string: string]: { operado: number; total: number };
+}
+
 export interface PagoFormulario {
   cuenta_banco: number;
   cuenta_banco_nombre: string;
@@ -119,6 +123,7 @@ export interface DocumentoFacturaRespuesta {
   fecha: string;
   fecha_vence: string;
   fecha_hasta: any;
+  impuesto_operado: number;
   contacto_id: number;
   contacto_numero_identificacion: string;
   contacto_nombre_corto: string;
@@ -164,6 +169,9 @@ export interface DocumentoFacturaRespuesta {
   referencia_cue: string;
   referencia_numero: number;
   referencia_prefijo: string;
+  grupo_contabilidad_id: number;
+  almacen_id: number;
+  almacen_nombre: string;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {
@@ -184,6 +192,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   subtotal: number;
   total_bruto: number;
   base_impuesto: number;
+  base: number;
   impuesto: number;
   impuesto_operado: number;
   impuesto_retencion: number;
@@ -209,5 +218,13 @@ export interface DocumentoFacturaDetalleRespuesta {
   credito_id: any;
   grupo_id: number;
   grupo_nombre: string;
+  almacen_id: number;
+  almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
+}
+
+export interface DocumentoInventarioRespuesta
+  extends DocumentoFacturaRespuesta {
+  almacen_id: number;
+  almacen_nombre: string;
 }

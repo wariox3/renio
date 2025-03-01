@@ -22,6 +22,14 @@
                 (click)="contabilizarTodos()"
                 translate="FORMULARIOS.TITULOS.FACTURACION.CONTABILIZAR"
               ></button>
+              <button
+                type="button"
+                class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary h-100 rounded-end"
+                id="dropdownBasic1"
+                (click)="abrirModal(content)"
+              >
+                Descontabilizar
+              </button>
             </div>
           </div>
         </div>
@@ -118,4 +126,162 @@
       </section>
     </section>
   </app-card>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Descontabilizar</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formularioDescontabilizar">
+        <section class="row mb-5">
+          <div class="col-md-6 col-sm-12">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+            ></label>
+            <input
+              formControlName="fecha_desde"
+              class="form-control"
+              type="date"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioDescontabilizar.controls['fecha_desde'].touched &&
+                  formularioDescontabilizar.controls['fecha_desde'].invalid,
+                'is-valid':
+                  formularioDescontabilizar.controls['fecha_desde'].touched &&
+                  formularioDescontabilizar.controls['fecha_desde'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioDescontabilizar.controls['fecha_desde'],
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+            ></label>
+            <input
+              formControlName="fecha_hasta"
+              class="form-control"
+              type="date"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  (formularioDescontabilizar.controls['fecha_hasta'].touched &&
+                    formularioDescontabilizar.controls['fecha_hasta']
+                      .invalid) ||
+                  formularioDescontabilizar.errors?.fechaInvalida,
+                'is-valid':
+                  formularioDescontabilizar.controls['fecha_hasta'].touched &&
+                  formularioDescontabilizar.controls['fecha_hasta'].valid,
+              }"
+            />
+            <div *ngIf="formularioDescontabilizar.errors?.fechaInvalida">
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    La fecha desde no puede ser mayor que la fecha hasta.
+                  </span>
+                </div>
+              </div>
+            </div>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioDescontabilizar.controls['fecha_hasta'],
+              }"
+            ></ng-container>
+          </div>
+        </section>
+        <section class="row mb-5">
+          <div class="col-md-3 col-sm-12">
+            <label class="form-label"> Número desde</label>
+            <input
+              formControlName="numero_desde"
+              class="form-control"
+              type="number"
+              min="0"
+            />
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <label class="form-label"> Número hasta</label>
+            <input
+              formControlName="numero_hasta"
+              class="form-control"
+              type="number"
+              min="0"
+            />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label class="form-label">Documento tipo</label>
+            <select
+              formControlName="documento_tipo"
+              class="form-select"
+              [value]=""
+            >
+              <option value="">Seleccionar</option>
+              @for (documentoTipo of documentoTipos(); track $index) {
+                <option [value]="documentoTipo.documento_tipo_id">
+                  {{ documentoTipo.documento_tipo_nombre }}
+                </option>
+              }
+            </select>
+          </div>
+        </section>
+        <section class="d-flex justify-content-end">
+          <button
+            type="submit"
+            class="btn btn-sm btn-primary"
+            (click)="enviarFormulario()"
+            [disabled]="
+              formularioDescontabilizar.invalid || descontabilizando()
+            "
+          >
+            @if (descontabilizando()) {
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Cargando...</span>
+              </div>
+              Cargando...
+            } @else {
+              Descontabilizar
+            }
+          </button>
+        </section>
+      </form>
+    </div>
+  </ng-template>
 </div>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

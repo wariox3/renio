@@ -1,0 +1,334 @@
+<form [formGroup]="formularioEntrada" (ngSubmit)="enviarFormulario()">
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+    @if (detalle) {
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <app-importar-detalles
+          [estadoHabilitado]="estado_aprobado"
+          [aplicarUrlInventario]="true"
+          (emitirDetallesAgregados)="consultardetalle()"
+        ></app-importar-detalles>
+      </div>
+    }
+  </app-comun-encabezado-formulario-nuevo>
+  <app-card>
+    <section card-titulo>
+      <app-comun-titulo-accion></app-comun-titulo-accion>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CONTACTO"
+            class="form-label required"
+          ></label>
+          <app-comun-contactos
+            [contactoNombre]="formularioEntrada.get('contactoNombre')?.value"
+            [campoInvalido]="
+              formularioEntrada.controls['contacto'].touched &&
+              formularioEntrada.controls['contacto'].invalid
+            "
+            (emitirContacto)="contactoSeleccionado($event)"
+          >
+          </app-comun-contactos>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEntrada.controls['contacto'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label class="form-label required">Almacen</label>
+          <app-comun-almacenes
+            [almacenNombre]="formularioEntrada.get('almacenNombre')?.value"
+            [campoInvalido]="
+              formularioEntrada.controls['almacen'].touched &&
+              formularioEntrada.controls['almacen'].invalid
+            "
+            (emitirAlmacen)="almacenSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCampoAlmacen($event)"
+          >
+          </app-comun-almacenes>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            [(activeId)]="active"
+            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+          >
+            <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 1 }"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="d-flex justify-content-end mb-5">
+                  <div>
+                    <div
+                      class="d-flex justify-content-end mb-2"
+                      *ngIf="!estado_aprobado"
+                    >
+                      <button
+                        (click)="agregarDetalle()"
+                        class="btn btn-sm btn-primary"
+                        type="button"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive-sm">
+                  <table
+                    id="tableDetalles"
+                    class="table table-bordered table-sm"
+                  >
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th class="w-40px">Id</th>
+                        <th>Ítem</th>
+                        <th>Almacen</th>
+                        <th
+                          class="w-50px"
+                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+                        ></th>
+                        <th
+                          class="w-100px"
+                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+                        ></th>
+                        <th class="w-40px"></th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="detalles">
+                      <ng-container
+                        *ngFor="let detalle of detalles.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <tr>
+                          <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td>
+                            <app-seleccionar-producto
+                              [itemNombre]="detalle.value.item_nombre"
+                              [campoInvalido]="
+                                detalle.get('item')?.touched &&
+                                detalle.get('item')?.hasError('required')
+                              "
+                              (emitirItemSeleccionado)="
+                                recibirItemSeleccionado($event, i)
+                              "
+                              (emitirLineaVacia)="
+                                limpiarCampoItemDetalle($event, i)
+                              "
+                            ></app-seleccionar-producto>
+                          </td>
+                          <td>
+                            <app-comun-almacenes
+                              [inputSm]="true"
+                              [almacenNombre]="detalle.value.almacenNombre"
+                              [campoInvalido]="
+                                detalle.get('almacen')?.touched &&
+                                detalle.get('almacen')?.hasError('required')
+                              "
+                              (emitirAlmacen)="
+                                almacenSeleccionadoDetalle($event, i)
+                              "
+                              (emitirLineaVacia)="
+                                limpiarCampoAlmacenDetalle($event, i)
+                              "
+                            ></app-comun-almacenes>
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              [value]="detalle.value.cantidad"
+                              formControlName="cantidad"
+                              (focus)="onCantidadChange(i)"
+                              class="form-control-sm"
+                              [attr.disabled]="estado_aprobado"
+                              [readonly]="estado_aprobado"
+                              [ngClass]="{
+                                'disabled-cursor bg-transparent':
+                                  estado_aprobado,
+                                'text-white':
+                                  theme_value === 'dark' && estado_aprobado,
+                              }"
+                              rows="1"
+                              spellcheck="true"
+                              appSoloNumeros
+                              min="0"
+                            />
+                            <div
+                              *ngIf="
+                                (detalle.get('cantidad')?.touched &&
+                                  detalle
+                                    .get('cantidad')
+                                    ?.hasError('valorCero')) ||
+                                detalle.get('cantidad')?.invalid
+                              "
+                            >
+                              <div class="fv-plugins-message-container">
+                                <div class="fv-help-block">
+                                  <span role="alert">
+                                    Valor no permitido.
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              min="0"
+                              formControlName="precio"
+                              [attr.disabled]="estado_aprobado"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (focus)="onPrecioChange(i)"
+                              [ngClass]="{
+                                'disabled-cursor bg-transparent':
+                                  estado_aprobado,
+                                'text-white':
+                                  theme_value === 'dark' && estado_aprobado,
+                                'is-invalid':
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.value === 0,
+                              }"
+                              rows="1"
+                              appSoloNumeros
+                              [permiteDecimales]="true"
+                            />
+                            <div
+                              *ngIf="
+                                (detalle.get('precio')?.touched &&
+                                  detalle
+                                    .get('precio')
+                                    ?.hasError('valorCero')) ||
+                                detalle.get('precio ')?.invalid
+                              "
+                            >
+                              <div class="fv-plugins-message-container">
+                                <div class="fv-help-block">
+                                  <span role="alert">
+                                    Valor no permitido.
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td class="text-center" *ngIf="!estado_aprobado">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="eliminarItem(i)"
+                            ></i>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mb-5">
+                  <div class="d-flex justify-content-end mb-5">
+                    <table>
+                      <tr>
+                        <td class="text-end">Total cantidad:</td>
+                        <td class="text-end">
+                          {{ totalCantidad() }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-end">Subtotal:</td>
+                        <td class="text-end">
+                          {{ totalPrecio() | currency: "$" }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="text-end"
+                          translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
+                        ></td>
+                        <td class="text-end">{{ total() | currency: "$" }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2" [destroyOnHide]="false" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 2 }"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioEntrada.controls['comentario'].touched &&
+                          formularioEntrada.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioEntrada.controls['comentario'].touched &&
+                          formularioEntrada.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioEntrada.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

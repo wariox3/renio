@@ -34,6 +34,7 @@ export class ImportarDetallesComponent extends General {
   cargardoDocumento: boolean = false;
   cantidadErrores: number = 0;
   @Input() estadoHabilitado: boolean = false;
+  @Input() aplicarUrlInventario: boolean = false;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -102,6 +103,9 @@ export class ImportarDetallesComponent extends General {
       case 'administrador':
         url = 'general/importar/importar-detalle/';
         break;
+    }
+    if(this.aplicarUrlInventario){
+      	url = 'general/documento/importar-detalle-inventario/'
     }
     this.httpService
       .post<ImportarDetalles>(url, {

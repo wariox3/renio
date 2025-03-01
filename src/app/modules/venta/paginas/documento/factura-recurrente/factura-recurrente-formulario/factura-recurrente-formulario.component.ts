@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -70,17 +70,18 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
-  public modoEdicion: boolean = false;
-  public acumuladorImpuesto: AcumuladorImpuestos = {};
-  public mostrarDocumentoReferencia: boolean = true;
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public acumuladorImpuesto =
+    this._formularioFacturaService.acumuladorImpuestos;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public formularioFactura = this._formularioFacturaService.form;
 
   informacionFormulario: any;
-  formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -115,7 +116,6 @@ export default class FacturaRecurrenteFormularioComponent
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   arrPagosEliminado: number[] = [];
-  estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
@@ -133,17 +133,17 @@ export default class FacturaRecurrenteFormularioComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
   ];
 
@@ -159,10 +159,9 @@ export default class FacturaRecurrenteFormularioComponent
     private httpService: HttpService,
     private facturaService: FacturaService,
     private empresaService: EmpresaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
@@ -173,16 +172,15 @@ export default class FacturaRecurrenteFormularioComponent
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.modoEdicion = true;
-      // this.consultardetalle();
+      this.modoEdicion.set(true);
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
     }
     this.changeDetectorRef.detectChanges();
   }
 
-  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
-    this.acumuladorImpuesto = impuestosAcumulados;
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   consultarInformacion() {
@@ -191,27 +189,27 @@ export default class FacturaRecurrenteFormularioComponent
         {
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
-      this.empresaService.obtenerConfiguracionEmpresa(1)
+      this.empresaService.obtenerConfiguracionEmpresa(1),
     ).subscribe((respuesta) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
@@ -241,7 +239,7 @@ export default class FacturaRecurrenteFormularioComponent
           if (pago.get('pago')?.value === 0) {
             this.alertaService.mensajeError(
               'Error',
-              'Los pagos agregados no puede tener pagos en cero '
+              'Los pagos agregados no puede tener pagos en cero ',
             );
             errores = true;
             this.btnGuardarDisabled = false;
@@ -254,7 +252,7 @@ export default class FacturaRecurrenteFormularioComponent
         if (this.totalAfectado > this.totalGeneral) {
           this.alertaService.mensajeError(
             'Error',
-            'Los pagos agregados son superiores al total de la factura'
+            'Los pagos agregados son superiores al total de la factura',
           );
           this.btnGuardarDisabled = false;
           this.changeDetectorRef.detectChanges();
@@ -285,7 +283,7 @@ export default class FacturaRecurrenteFormularioComponent
                   this.btnGuardarDisabled = false;
                   this.changeDetectorRef.detectChanges();
                   return of(null);
-                })
+                }),
               )
               .subscribe();
           } else {
@@ -297,7 +295,7 @@ export default class FacturaRecurrenteFormularioComponent
             this.facturaService
               .actualizarDatosFactura(
                 this.detalle,
-                this.formularioFactura.value
+                this.formularioFactura.value,
               )
               .pipe(
                 tap((respuesta) => {
@@ -312,7 +310,7 @@ export default class FacturaRecurrenteFormularioComponent
                   this.btnGuardarDisabled = false;
                   this.changeDetectorRef.detectChanges();
                   return of(null);
-                })
+                }),
               )
               .subscribe();
           }
@@ -344,7 +342,7 @@ export default class FacturaRecurrenteFormularioComponent
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos vacios'
+          'contiene campos vacios',
         );
       }
       if (control.get('precio').value == 0) {
@@ -356,7 +354,7 @@ export default class FacturaRecurrenteFormularioComponent
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos en cero'
+          'contiene campos en cero',
         );
       }
     });
@@ -514,13 +512,13 @@ export default class FacturaRecurrenteFormularioComponent
     impuestoTemporales.forEach((impuesto: any) => {
       let baseImpuestoActualizar = this.redondear(
         (subtotal.value * impuesto.porcentaje_base) / 100,
-        2
+        2,
       );
       let totalImpuesto = this.redondear(
         (((subtotal.value * impuesto.porcentaje) / 100) *
           impuesto.porcentaje_base) /
           100,
-        2
+        2,
       );
 
       let impuestoFormGrup = this.formBuilder.group({
@@ -553,10 +551,10 @@ export default class FacturaRecurrenteFormularioComponent
     const impuestoTotalRedondeado = this.redondear(impuestoTotal, 2);
 
     neto.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
+      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2),
     );
     total.patchValue(
-      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2)
+      this.redondear(subtotalValueRedondeado + impuestoTotalRedondeado, 2),
     );
     detalleImpuesto.setValue(impuestoTotalRedondeado);
 
@@ -567,7 +565,7 @@ export default class FacturaRecurrenteFormularioComponent
   agregarImpuesto(
     impuesto: any,
     index: number,
-    accion: 'actualizacion' | 'agregar'
+    accion: 'actualizacion' | 'agregar',
   ) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
@@ -622,7 +620,7 @@ export default class FacturaRecurrenteFormularioComponent
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
-      baseImpuestoRedondeada === null ? 0 : baseImpuestoRedondeada
+      baseImpuestoRedondeada === null ? 0 : baseImpuestoRedondeada,
     );
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -637,7 +635,7 @@ export default class FacturaRecurrenteFormularioComponent
         this.acumuladorImpuestos[impuesto.nombre_extendido].data;
 
       const impuestoExistente = existingData.find(
-        (item: any) => item.index === impuesto.index
+        (item: any) => item.index === impuesto.index,
       );
 
       if (!impuestoExistente) {
@@ -688,13 +686,13 @@ export default class FacturaRecurrenteFormularioComponent
     const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const arrDetalleImpuestosEliminado = detalleFormGroup.get(
-      'impuestos_eliminados'
+      'impuestos_eliminados',
     ) as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
     const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
 
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
-      (item: any) => item.impuesto_id !== impuesto.impuesto_id
+      (item: any) => item.impuesto_id !== impuesto.impuesto_id,
     );
 
     let totalImpuesto =
@@ -757,7 +755,7 @@ export default class FacturaRecurrenteFormularioComponent
 
     this.acumuladorImpuestos[impuesto.nombre_extendido].data =
       this.acumuladorImpuestos[impuesto.nombre_extendido].data.filter(
-        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
+        (impuestoAcumulado: any) => impuestoAcumulado.index !== index,
       );
 
     if (this.acumuladorImpuestos[impuesto.nombre_extendido].data.length === 0) {
@@ -879,7 +877,7 @@ export default class FacturaRecurrenteFormularioComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -910,7 +908,7 @@ export default class FacturaRecurrenteFormularioComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -929,7 +927,7 @@ export default class FacturaRecurrenteFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
-        this.estado_aprobado = respuesta.documento.estado_aprobado;
+        // this.estado_aprobado = respuesta.documento.estado_aprobado;
 
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
@@ -972,7 +970,7 @@ export default class FacturaRecurrenteFormularioComponent
             detalle.impuestos.forEach((impuesto: any) => {
               this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
             });
-          }
+          },
         );
         respuesta.documento.pagos.forEach((pago: any, indexPago: number) => {
           const pagoFormGroup = this.formBuilder.group({
@@ -1121,7 +1119,7 @@ export default class FacturaRecurrenteFormularioComponent
         } else {
           this.alertaService.mensajeError(
             'Error',
-            'El valor ingresado del pago es mayor al total general'
+            'El valor ingresado del pago es mayor al total general',
           );
         }
       }
@@ -1136,7 +1134,7 @@ export default class FacturaRecurrenteFormularioComponent
     if (this.totalAfectado.value > this.totalGeneral.value) {
       this.alertaService.mensajeError(
         'Error',
-        'Los pagos agregados son superiores al total de la factura'
+        'Los pagos agregados son superiores al total de la factura',
       );
 
       pagoFormGroup.get('pago')?.setErrors({ valorCero: true });

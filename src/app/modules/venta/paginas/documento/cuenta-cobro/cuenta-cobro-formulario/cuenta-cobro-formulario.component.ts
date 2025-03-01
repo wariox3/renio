@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -78,7 +78,7 @@ import {
 })
 export default class CuentaCobroFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
@@ -88,12 +88,16 @@ export default class CuentaCobroFormularioComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
 
-  public formularioFactura: FormGroup;
   public active: Number;
-  public estado_aprobado: false;
   public dataUrl: any;
   public visualizarCampoDocumentoReferencia = false;
   public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
+
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public acumuladorImpuesto =
+    this._formularioFacturaService.acumuladorImpuestos;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public formularioFactura = this._formularioFacturaService.form;
 
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
@@ -133,14 +137,11 @@ export default class CuentaCobroFormularioComponent
     },
   ];
 
-  public modoEdicion: boolean = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');
-  public acumuladorImpuesto: AcumuladorImpuestos = {};
 
   constructor() {
     super();
     this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
@@ -153,16 +154,16 @@ export default class CuentaCobroFormularioComponent
 
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.modoEdicion = true;
+      this.modoEdicion.set(true);
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
     }
 
     this.changeDetectorRef.detectChanges();
   }
 
-  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
-    this.acumuladorImpuesto = impuestosAcumulados;
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   get detalles() {
@@ -180,7 +181,7 @@ export default class CuentaCobroFormularioComponent
       if (pago.get('pago')?.value === 0) {
         this.alertaService.mensajeError(
           'Error',
-          'Los pagos agregados no pueden tener pagos en cero'
+          'Los pagos agregados no pueden tener pagos en cero',
         );
         return false; // Detiene la ejecución al encontrar un pago en cero
       }
@@ -193,7 +194,7 @@ export default class CuentaCobroFormularioComponent
     if (this.totalAfectado > this.totalGeneral) {
       this.alertaService.mensajeError(
         'Error',
-        'Los pagos agregados son superiores al total de la factura'
+        'Los pagos agregados son superiores al total de la factura',
       );
 
       return false;
@@ -251,7 +252,7 @@ export default class CuentaCobroFormularioComponent
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
             return of(null);
-          })
+          }),
         )
         .subscribe();
     }
@@ -279,7 +280,7 @@ export default class CuentaCobroFormularioComponent
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {
@@ -300,7 +301,7 @@ export default class CuentaCobroFormularioComponent
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos vacios'
+          'contiene campos vacios',
         );
       }
       if (control.get('precio').value == 0) {
@@ -312,7 +313,7 @@ export default class CuentaCobroFormularioComponent
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos en cero'
+          'contiene campos en cero',
         );
       }
     });
@@ -392,7 +393,7 @@ export default class CuentaCobroFormularioComponent
         } else {
           this.alertaService.mensajeError(
             'Error',
-            'El valor ingresado del pago es mayor al total general'
+            'El valor ingresado del pago es mayor al total general',
           );
         }
       }
@@ -407,7 +408,7 @@ export default class CuentaCobroFormularioComponent
     if (this.totalAfectado.value > this.totalGeneral.value) {
       this.alertaService.mensajeError(
         'Error',
-        'Los pagos agregados son superiores al total de la factura'
+        'Los pagos agregados son superiores al total de la factura',
       );
 
       pagoFormGroup.get('pago')?.setErrors({ valorCero: true });
@@ -467,7 +468,7 @@ export default class CuentaCobroFormularioComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -498,7 +499,7 @@ export default class CuentaCobroFormularioComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -638,27 +639,27 @@ export default class CuentaCobroFormularioComponent
         {
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1)
+      this._empresaService.obtenerConfiguracionEmpresa(1),
     ).subscribe((respuesta) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;

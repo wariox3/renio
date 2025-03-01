@@ -955,6 +955,12 @@ export const initialState: MenuItem = {
           nombre: 'administracion',
           children: [
             {
+              nombre: 'Item',
+              tipo: 'administrador',
+              data: { modelo: 'GenItem' },
+              modulo: 'inventario',
+            },
+            {
               nombre: 'Almacen',
               tipo: 'administrador',
               data: { modelo: 'InvAlmacen' },
@@ -976,6 +982,12 @@ export const initialState: MenuItem = {
               tipo: 'informe',
               modulo: 'inventario',
               url: 'inventario/informe/existencia',
+            },
+            {
+              nombre: 'HISTORIALMOVIMIENTOS',
+              tipo: 'informe',
+              modulo: 'inventario',
+              url: 'inventario/informe/historial_movimientos',
             },
           ],
         },

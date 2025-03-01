@@ -1,6 +1,5 @@
-import { ValorFiltro } from '@comun/type/valor-filtro.type';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -22,7 +21,13 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
@@ -48,12 +53,8 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
-import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
-import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -76,9 +77,13 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    AlmacenesComponent
   ],
 })
-export default class FacturaDetalleComponent extends General implements OnInit {
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
@@ -87,12 +92,15 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
 
-  public formularioFactura: FormGroup;
   public active: Number;
-  public estado_aprobado: false;
   public dataUrl: any;
   public visualizarCampoDocumentoReferencia = false;
   public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public acumuladorImpuesto =
+    this._formularioFacturaService.acumuladorImpuestos;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public formularioFactura = this._formularioFacturaService.form;
 
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
@@ -100,8 +108,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   public arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   public arrAsesor: RegistroAutocompletarGenAsesor[] = [];
   public arrSede: RegistroAutocompletarGenSede[] = [];
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
-  public requiereSede: boolean = false;
   public camposBuscarAvanzado = [
     'id',
     'identificacion_abreviatura',
@@ -132,21 +140,20 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     },
   ];
 
-  public modoEdicion: boolean = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');
-  public acumuladorImpuesto: AcumuladorImpuestos = {};
 
   constructor() {
     super();
     this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
     this._consultarInformacion().subscribe(() => {
       this._actualizarPlazoPago(
-        this.formularioFactura.get('plazo_pago')?.value
+        this.formularioFactura.get('plazo_pago')?.value,
       );
+      this.almacenSeleccionado(this.arrAlmacenes[0])
+      this.changeDetectorRef.detectChanges();
     });
 
     this.active = 1; // navigation tab
@@ -158,12 +165,16 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
 
-      this.modoEdicion = true;
+      this.modoEdicion.set(true);
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   private _actualizarPlazoPago(plazoPagoId: number) {
@@ -177,10 +188,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
   recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
     this._actualizarPlazoPago(evento.plazo_pago_id);
-  }
-
-  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
-    this.acumuladorImpuesto = impuestosAcumulados;
   }
 
   get detalles() {
@@ -198,7 +205,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (pago.get('pago')?.value === 0) {
         this.alertaService.mensajeError(
           'Error',
-          'Los pagos agregados no pueden tener pagos en cero'
+          'Los pagos agregados no pueden tener pagos en cero',
         );
         return false; // Detiene la ejecución al encontrar un pago en cero
       }
@@ -211,7 +218,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.totalAfectado > this.totalGeneral) {
       this.alertaService.mensajeError(
         'Error',
-        'Los pagos agregados son superiores al total de la factura'
+        'Los pagos agregados son superiores al total de la factura',
       );
 
       return false;
@@ -269,7 +276,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
             return of(null);
-          })
+          }),
         )
         .subscribe();
     }
@@ -297,7 +304,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {
@@ -318,7 +325,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos vacios'
+          'contiene campos vacios',
         );
       }
       if (control.get('precio').value == 0) {
@@ -330,7 +337,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en detalles',
-          'contiene campos en cero'
+          'contiene campos en cero',
         );
       }
     });
@@ -410,7 +417,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         } else {
           this.alertaService.mensajeError(
             'Error',
-            'El valor ingresado del pago es mayor al total general'
+            'El valor ingresado del pago es mayor al total general',
           );
         }
       }
@@ -425,7 +432,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     if (this.totalAfectado.value > this.totalGeneral.value) {
       this.alertaService.mensajeError(
         'Error',
-        'Los pagos agregados son superiores al total de la factura'
+        'Los pagos agregados son superiores al total de la factura',
       );
 
       pagoFormGroup.get('pago')?.setErrors({ valorCero: true });
@@ -485,7 +492,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -516,7 +523,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -612,7 +619,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10);
-        const fechaActual = this._convertirFecha(this.formularioFactura.get('fecha')?.value)
+        const fechaActual = this._convertirFecha(
+          this.formularioFactura.get('fecha')?.value,
+        );
 
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
@@ -665,33 +674,55 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  almacenSeleccionado(almacen: any) {
+    this.formularioFactura.patchValue({
+      almacen: almacen.almacen_id,
+      almacen_nombre: almacen.almacen_nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
   private _consultarInformacion() {
     return zip(
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
         {
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1)
+      this._empresaService.obtenerConfiguracionEmpresa(1),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
+        {
+          limite: 1,
+          modelo: 'InvAlmacen',
+          serializador: 'ListaAutocompletar',
+        }
+      )
     ).pipe(
       tap((respuesta) => {
         this.arrMetodosPago = respuesta[0].registros;
@@ -699,9 +730,9 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.arrAsesor = respuesta[2].registros;
         this.arrSede = respuesta[3].registros;
         this.requiereAsesor = respuesta[4].venta_asesor;
-        this.requiereSede = respuesta[4].venta_sede;
+        this.arrAlmacenes = respuesta[5].registros;
         this.changeDetectorRef.detectChanges();
-      })
+      }),
     );
   }
 }

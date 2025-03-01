@@ -26,7 +26,7 @@
                   formularioFactura.controls['contacto'].invalid,
                 'is-valid':
                   formularioFactura.controls['contacto'].touched &&
-                  formularioFactura.controls['contacto'].valid
+                  formularioFactura.controls['contacto'].valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -84,7 +84,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['contacto']
+              control: formularioFactura.controls['contacto'],
             }"
           ></ng-container>
         </div>
@@ -106,7 +106,7 @@
                 formularioFactura.controls['fecha'].invalid,
               'is-valid':
                 formularioFactura.controls['fecha'].touched &&
-                formularioFactura.controls['fecha'].valid
+                formularioFactura.controls['fecha'].valid,
             }"
             (change)="cambiarFechaVence($event)"
           />
@@ -115,7 +115,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha']
+              control: formularioFactura.controls['fecha'],
             }"
           ></ng-container>
           <div
@@ -155,7 +155,7 @@
                 formularioFactura.controls['fecha_vence'].invalid,
               'is-valid':
                 formularioFactura.controls['fecha_vence'].touched &&
-                formularioFactura.controls['fecha_vence'].valid
+                formularioFactura.controls['fecha_vence'].valid,
             }"
           />
           <ng-container
@@ -163,7 +163,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha_vence']
+              control: formularioFactura.controls['fecha_vence'],
             }"
           ></ng-container>
           <div
@@ -199,7 +199,7 @@
                 formularioFactura.controls['plazo_pago'].invalid,
               'is-valid':
                 formularioFactura.controls['plazo_pago'].touched &&
-                formularioFactura.controls['plazo_pago'].valid
+                formularioFactura.controls['plazo_pago'].valid,
             }"
             (change)="capturarDias($event)"
           >
@@ -223,7 +223,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['plazo_pago']
+              control: formularioFactura.controls['plazo_pago'],
             }"
           ></ng-container>
         </div>
@@ -247,7 +247,7 @@
                 formularioFactura.controls['metodo_pago'].invalid,
               'is-valid':
                 formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].valid
+                formularioFactura.controls['metodo_pago'].valid,
             }"
           >
             <option value="">
@@ -269,7 +269,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['metodo_pago']
+              control: formularioFactura.controls['metodo_pago'],
             }"
           ></ng-container>
         </div>
@@ -290,7 +290,7 @@
                 formularioFactura.controls['orden_compra'].invalid,
               'is-valid':
                 formularioFactura.controls['orden_compra'].touched &&
-                formularioFactura.controls['orden_compra'].valid
+                formularioFactura.controls['orden_compra'].valid,
             }"
           />
           <ng-container
@@ -300,7 +300,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioFactura.controls['orden_compra']
+              control: formularioFactura.controls['orden_compra'],
             }"
           ></ng-container>
         </div>
@@ -325,7 +325,7 @@
                 formularioFactura.controls['asesor'].invalid,
               'is-valid':
                 formularioFactura.controls['asesor'].touched &&
-                formularioFactura.controls['asesor'].valid
+                formularioFactura.controls['asesor'].valid,
             }"
           >
             <option value="">
@@ -361,7 +361,7 @@
                 formularioFactura.controls['sede'].invalid,
               'is-valid':
                 formularioFactura.controls['sede'].touched &&
-                formularioFactura.controls['sede'].valid
+                formularioFactura.controls['sede'].valid,
             }"
           >
             <option value="">
@@ -410,7 +410,7 @@
                   formularioFactura.controls['documento_referencia_numero']
                     .touched &&
                   formularioFactura.controls['documento_referencia_numero']
-                    .valid
+                    .valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -453,7 +453,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioFactura.controls['documento_referencia']
+              control: formularioFactura.controls['documento_referencia'],
             }"
           ></ng-container>
         </div>
@@ -476,7 +476,7 @@
                 formularioFactura.controls['comentario'].invalid,
               'is-valid':
                 formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].valid
+                formularioFactura.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -486,7 +486,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
-              control: formularioFactura.controls['comentario']
+              control: formularioFactura.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -509,13 +509,6 @@
               ></a>
               <ng-template ngbNavContent>
                 <app-formulario-productos
-                  (emitirImpuestosAcumulados)="
-                    actualizarImpuestosAcumulados($event)
-                  "
-                  [acumuladorImpuestos]="acumuladorImpuesto"
-                  [estadoAprobado]="estado_aprobado"
-                  [modoEdicion]="modoEdicion"
-                  [formularioFactura]="formularioFactura"
                   [formularioTipo]="'venta'"
                 ></app-formulario-productos>
               </ng-template>
@@ -530,11 +523,11 @@
               ></a>
               <ng-template ngbNavContent>
                 <!--  <app-factura-formulario-pagos [formularioFactura]="formularioFactura"
-                  [estadoAprobado]="estado_aprobado"></app-factura-formulario-pagos> -->
+                  [estadoAprobado]="estadoAprobado()"></app-factura-formulario-pagos> -->
                 <div>
                   <div
                     class="d-flex justify-content-end mb-2"
-                    *ngIf="!estado_aprobado"
+                    *ngIf="!estadoAprobado()"
                   >
                     <button
                       (click)="agregarPago()"
@@ -566,7 +559,7 @@
                             <td class="">
                               <app-comun-cuenta-banco
                                 [itemNombre]="pago.value.cuenta_banco_nombre"
-                                [estado_aprobado]="estado_aprobado"
+                                [estado_aprobado]="estadoAprobado()"
                                 [campoInvalido]="
                                   pago.get('cuenta_banco')?.touched &&
                                   pago.get('cuenta_banco')?.invalid
@@ -584,17 +577,17 @@
                                 (change)="
                                   actualizarDetallePago(i, 'pago', $event)
                                 "
-                                [attr.disabled]="estado_aprobado"
-                                [readonly]="estado_aprobado"
+                                [attr.disabled]="estadoAprobado()"
+                                [readonly]="estadoAprobado()"
                                 class="form-control-sm"
                                 [ngClass]="{
                                   'disabled-cursor bg-transparent':
-                                    estado_aprobado,
+                                    estadoAprobado(),
                                   'text-white':
-                                    theme_value === 'dark' && estado_aprobado,
+                                    theme_value === 'dark' && estadoAprobado(),
                                   'is-invalid':
                                     pago.get('pago')?.touched &&
-                                    pago.get('pago')?.value === 0
+                                    pago.get('pago')?.value === 0,
                                 }"
                                 rows="1"
                                 appSoloNumeros
@@ -617,7 +610,7 @@
                               </div>
                             </td>
 
-                            <td class="text-center" *ngIf="!estado_aprobado">
+                            <td class="text-center" *ngIf="!estadoAprobado()">
                               <i
                                 class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                                 (click)="eliminarPago(i, pago.value.id)"
@@ -650,26 +643,24 @@
                   translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
                 ></td>
                 <td class="text-end">
-                  {{ formularioFactura.value.subtotal | currency : "$" }}
+                  {{ formularioFactura.value.subtotal | currency: "$" }}
                 </td>
               </tr>
-              @for (impuesto of acumuladorImpuesto | keyvalue; track $index) {
-              <tr>
-                <td class="text-end">{{ impuesto.key }}</td>
-                <td class="text-end">
-                  {{ impuesto.value.total | currency : "$" }}
-                </td>
-              </tr>
+              @for (impuesto of acumuladorImpuesto() | keyvalue; track $index) {
+                <tr>
+                  <td class="text-end">{{ impuesto.key }}</td>
+                  <td class="text-end">
+                    {{ impuesto.value.total | currency: "$" }}
+                  </td>
+                </tr>
               }
-              <tr *ngIf="(acumuladorImpuesto | keyvalue).length">
+              <tr *ngIf="(acumuladorImpuesto() | keyvalue).length">
                 <td
                   class="text-end"
                   translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
                 ></td>
                 <td class="text-end">
-                  {{
-                    formularioFactura.value.impuesto_operado | currency : "$"
-                  }}
+                  {{ formularioFactura.value.impuesto_operado | currency: "$" }}
                 </td>
               </tr>
               <tr class="border-top">
@@ -678,7 +669,7 @@
                   translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
                 ></td>
                 <td class="text-end" style="padding-left: 24px">
-                  {{ formularioFactura.value.total | currency : "$" }}
+                  {{ formularioFactura.value.total | currency: "$" }}
                 </td>
               </tr>
               <tr *ngIf="formularioFactura.value.afectado > 0">
@@ -687,7 +678,7 @@
                   translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"
                 ></td>
                 <td class="text-end" style="padding-left: 24px">
-                  {{ formularioFactura.value.afectado | currency : "$" }}
+                  {{ formularioFactura.value.afectado | currency: "$" }}
                 </td>
               </tr>
             </table>

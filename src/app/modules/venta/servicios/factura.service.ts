@@ -24,7 +24,7 @@ export class FacturaService {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<{ documento: DocumentoFacturaRespuesta }>(
+    return this.httpService.getDetalle<{ documento: DocumentoFacturaRespuesta }>(
       `general/documento/${id}/`
     );
   }
@@ -38,4 +38,8 @@ export class FacturaService {
       documento_id: id,
     });
   }
+
+  actualizarDetalleGrupo(id: number, data: any) {
+      return this.httpService.patch<any>(`general/documento_detalle/${id}/`, data);
+    }
 }

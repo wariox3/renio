@@ -106,6 +106,7 @@ export const locale = {
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
         EXISTENCIA: 'Existencia',
+        HISTORIALMOVIMIENTOS: 'Historial movimientos',
       },
     },
     FORMULARIOS: {
@@ -311,6 +312,10 @@ export const locale = {
           LISTA: 'Lista',
           DETALLES: 'Detalles',
           OTRAINFROMACION: 'Otra información',
+          MASINFORMACION: 'Más información',
+          CUENTA: 'Cuenta',
+          CUENTAS: 'Cuentas',
+          GRUPO: 'Grupo',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
           PRECIO: 'Precio',
@@ -340,7 +345,13 @@ export const locale = {
           PRODUCTOCUENTA: 'Item / Cuenta',
           DESCARTAR: 'Descartar',
           CONTABILIZAR: 'Contabilizar',
-          NATURALEZA: 'Naturaleza'
+          NATURALEZA: 'Naturaleza',
+          ITEM: 'Item',
+          ALMACEN: 'Almacen',
+          CREDITOS: 'Créditos',
+          DEBITOS: 'Débitos',
+          BASE: 'Base',
+          VALOR: 'Valor',
         },
         GENERAL: {
           ITEM: {
@@ -431,6 +442,7 @@ export const locale = {
           CARGO: 'Cargo',
           NOMBRES: 'Nombres',
           NOVEDADREFERENCIA: 'Novedad referencia',
+          ALMACEN: 'Almacen',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -545,6 +557,7 @@ export const locale = {
           CUENTA: 'Cuenta',
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
+          ALMACEN: 'Almacen',
           FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {
@@ -848,7 +861,7 @@ export const locale = {
         PENDIENTE: 'Saldo',
         CONTACTO_ID: 'Cód',
         COMENTARIO: 'Comentario',
-        ESTADO_ELECTRONICO: 'Electronico',
+        ESTADO_ELECTRONICO: 'Electrónico',
         ESTADO_ELECTRONICO_ENVIADO: 'Estado electronico enviado',
         ESTADO_ELECTRONICO_NOTIFICADO: 'Estado electronico notificado',
         SOPORTE: 'Soporte',
@@ -965,7 +978,7 @@ export const locale = {
         INVENTARIO: 'Inventario',
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
-        REMISION: 'Remisión'
+        REMISION: 'Remisión',
       },
       ITEM: {
         ID: 'ID',
@@ -985,7 +998,7 @@ export const locale = {
         REMISION: 'Remisión',
         REMISION_ABREVIATURA: 'Rem',
         NEGATIVO: 'Negativo',
-        NEGATIVO_ABREVIATURA: 'Neg'
+        NEGATIVO_ABREVIATURA: 'Neg',
       },
       CONTACTO: {
         ID: 'ID',

@@ -8,6 +8,7 @@
       class="cursor-pointer form-select form-select-sm w-100"
       (focus)="consultarContactos($event); ItemDropdown.open()"
       (keyup)="aplicarFiltrosContactos($event); ItemDropdown.open()"
+      (blur)="validarValor()"
       [disabled]="estadoAprobado"
       [readonly]="estadoAprobado"
       [ngClass]="{ 'disabled-cursor': estadoAprobado }"

@@ -1,0 +1,137 @@
+<form [formGroup]="formularioService.form">
+  <div class="row mb-5">
+    <div class="col-md-3 col-sm-12">
+      <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_PREFIJO"
+      ></label>
+      <input
+        formControlName="referencia_prefijo"
+        class="form-control"
+        type="text"
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid':
+            formularioService.form.controls['referencia_prefijo'].touched &&
+            formularioService.form.controls['referencia_prefijo'].invalid,
+          'is-valid':
+            formularioService.form.controls['referencia_prefijo'].touched &&
+            formularioService.form.controls['referencia_prefijo'].valid,
+        }"
+      />
+
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '50',
+          control: formularioService.form.controls['referencia_prefijo'],
+        }"
+      ></ng-container>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+      <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_NUMERO"
+      ></label>
+      <input
+        formControlName="referencia_numero"
+        class="form-control"
+        type="number"
+        min="0"
+        appSoloNumeros
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid':
+            formularioService.form.controls['referencia_numero'].touched &&
+            formularioService.form.controls['referencia_numero'].invalid,
+          'is-valid':
+            formularioService.form.controls['referencia_numero'].touched &&
+            formularioService.form.controls['referencia_numero'].valid,
+        }"
+      />
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+      <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.FACTURA.REFERENCIA_CUE"
+      ></label>
+      <input
+        formControlName="referencia_cue"
+        class="form-control"
+        type="text"
+        autocomplete="off"
+        [ngClass]="{
+          'is-invalid':
+            formularioService.form.controls['referencia_cue'].touched &&
+            formularioService.form.controls['referencia_cue'].invalid,
+          'is-valid':
+            formularioService.form.controls['referencia_cue'].touched &&
+            formularioService.form.controls['referencia_cue'].valid,
+        }"
+      />
+
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '150',
+          control: formularioService.form.controls['referencia_cue'],
+        }"
+      ></ng-container>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-12 col-sm-12">
+      <label
+        class="form-label"
+        translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+      ></label>
+      <textarea
+        formControlName="comentario"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+        [ngClass]="{
+          'is-invalid':
+            formularioService.form.controls['comentario'].touched &&
+            formularioService.form.controls['comentario'].invalid,
+          'is-valid':
+            formularioService.form.controls['comentario'].touched &&
+            formularioService.form.controls['comentario'].valid,
+        }"
+      ></textarea>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '500',
+          control: formularioService.form.controls['comentario'],
+        }"
+      ></ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

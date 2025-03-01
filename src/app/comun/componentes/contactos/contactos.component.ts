@@ -39,6 +39,12 @@ export class ContactosComponent extends General {
     super();
   }
 
+  validarValor(){
+    if(this.inputItem.nativeElement.value === ''){
+      this.emitirLineaVacia.emit(true)
+    }
+  }
+
   agregarContacto(item: any) {
     this.itemSeleccionado = item;
     this.contactoNombre = item.contacto_nombre_corto;

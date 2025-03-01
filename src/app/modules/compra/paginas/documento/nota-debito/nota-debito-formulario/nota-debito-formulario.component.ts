@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -60,16 +60,23 @@ import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-
     TituloAccionComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General implements OnInit {
-  public modoEdicion: boolean = false;
-  public acumuladorImpuesto: AcumuladorImpuestos = {};
-  public mostrarDocumentoReferencia: boolean = true;
-  public filtrosPermanentesNotaCredito = {};
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
+  public filtrosPermanentesNotaCredito = {};
+  public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public acumuladorImpuesto =
+    this._formularioFacturaService.acumuladorImpuestos;
+  public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public mostrarDocumentoReferencia =
+    this._formularioFacturaService.mostrarDocumentoReferencia;
+  public formularioFactura = this._formularioFacturaService.form;
+
   informacionFormulario: any;
-  formularioFactura: FormGroup;
   active: Number;
   totalCantidad: number = 0;
   totalDescuento: number = 0;
@@ -99,7 +106,6 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
-  estado_aprobado: false;
   dataUrl: any;
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
@@ -171,30 +177,30 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private facturaService: FacturaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
-    this.formularioFactura = this._formularioFacturaService.createForm();
   }
 
   ngOnInit() {
     this.consultarInformacion();
+    this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
     if (this.parametrosUrl) {
       this.dataUrl = this.parametrosUrl;
     }
     if (this.detalle) {
       this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      this.modoEdicion = true;
+      this.modoEdicion.set(true);
     } else {
-      this.modoEdicion = false;
+      this.modoEdicion.set(false);
     }
 
     this.changeDetectorRef.detectChanges();
   }
 
-  actualizarImpuestosAcumulados(impuestosAcumulados: AcumuladorImpuestos) {
-    this.acumuladorImpuesto = impuestosAcumulados;
+  ngOnDestroy(): void {
+    this._formularioFacturaService.reiniciarFormulario();
   }
 
   consultarInformacion() {
@@ -213,7 +219,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
@@ -224,8 +230,8 @@ export default class FacturaDetalleComponent extends General implements OnInit {
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).subscribe((respuesta) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
@@ -257,7 +263,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
                     detalle: respuesta.documento.id,
                   },
                 });
-              })
+              }),
             )
             .subscribe();
         }
@@ -293,7 +299,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.changeDetectorRef.detectChanges();
         this.alertaService.mensajeError(
           'Error en formulario filtros',
-          'contiene campos vacios'
+          'contiene campos vacios',
         );
       }
     });
@@ -489,7 +495,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const base_impuesto: any = detalleFormGroup.get(
-      'base_impuesto'
+      'base_impuesto',
     ) as FormArray;
     const detalleImpuesto = detalleFormGroup.get('impuesto') as FormArray;
     let impuestoTotal: any = 0;
@@ -538,7 +544,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
   agregarImpuesto(
     impuesto: any,
     index: number,
-    accion: 'actualizacion' | 'agregar'
+    accion: 'actualizacion' | 'agregar',
   ) {
     const detalleFormGroup = this.detalles.at(index) as FormGroup;
     const subtotal = detalleFormGroup.get('subtotal') as FormControl;
@@ -588,7 +594,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     });
     impuestoAcumuladoDetalle = impuestoDetalle.value + totalImpuesto;
     baseImpuesto.setValue(
-      baseImpuestoActualizar === null ? 0 : baseImpuestoActualizar
+      baseImpuestoActualizar === null ? 0 : baseImpuestoActualizar,
     );
     arrDetalleImpuestos.push(impuestoFormGrup);
     this.changeDetectorRef.detectChanges();
@@ -603,7 +609,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         this.acumuladorImpuestos[impuesto.nombre_extendido].data;
 
       const impuestoExistente = existingData.find(
-        (item: any) => item.index === impuesto.index
+        (item: any) => item.index === impuesto.index,
       );
 
       if (!impuestoExistente) {
@@ -651,13 +657,13 @@ export default class FacturaDetalleComponent extends General implements OnInit {
     const total = detalleFormGroup.get('total') as FormControl;
     const arrDetalleImpuestos = detalleFormGroup.get('impuestos') as FormArray;
     const arrDetalleImpuestosEliminado = detalleFormGroup.get(
-      'impuestos_eliminados'
+      'impuestos_eliminados',
     ) as FormArray;
     const neto = detalleFormGroup.get('neto') as FormControl;
     const impuestoDetalle = detalleFormGroup.get('impuesto') as FormControl;
 
     let nuevosImpuestos = arrDetalleImpuestos.value.filter(
-      (item: any) => item.impuesto_id !== impuesto.impuesto_id
+      (item: any) => item.impuesto_id !== impuesto.impuesto_id,
     );
 
     let totalImpuesto =
@@ -709,7 +715,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     this.acumuladorImpuestos[impuesto.nombre_extendido].data =
       this.acumuladorImpuestos[impuesto.nombre_extendido].data.filter(
-        (impuestoAcumulado: any) => impuestoAcumulado.index !== index
+        (impuestoAcumulado: any) => impuestoAcumulado.index !== index,
       );
 
     if (this.acumuladorImpuestos[impuesto.nombre_extendido].data.length === 0) {
@@ -846,7 +852,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -882,14 +888,14 @@ export default class FacturaDetalleComponent extends General implements OnInit {
 
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumento>(
-        arrFiltros
+        arrFiltros,
       )
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -908,7 +914,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.informacionDetalle = respuesta.documento;
-        this.estado_aprobado = respuesta.documento.estado_aprobado;
+        // this.estado_aprobado = respuesta.documento.estado_aprobado;
         this.formularioFactura.patchValue({
           contacto: respuesta.documento.contacto_id,
           contactoNombre: respuesta.documento.contacto_nombre_corto,
@@ -962,7 +968,7 @@ export default class FacturaDetalleComponent extends General implements OnInit {
             detalle.impuestos.forEach((impuesto: any) => {
               this.agregarImpuesto(impuesto, indexDetalle, 'actualizacion');
             });
-          }
+          },
         );
         if (respuesta.documento.estado_aprobado) {
           this.formularioFactura.disable();
