@@ -107,6 +107,7 @@ export const mapeo: MapeoAdministrador = {
       {
         nombre: 'CLIENTE',
         nombreAbreviado: 'CLI',
+        toolTip: 'CLIENTE',
         campoTipo: 'Booleano',
         visibleTabla: true,
         visibleFiltro: true,
@@ -115,6 +116,7 @@ export const mapeo: MapeoAdministrador = {
       {
         nombre: 'PROVEEDOR',
         nombreAbreviado: 'PRO',
+        toolTip: 'PROVEEDOR',
         campoTipo: 'Booleano',
         visibleTabla: true,
         visibleFiltro: true,
@@ -123,6 +125,7 @@ export const mapeo: MapeoAdministrador = {
       {
         nombre: 'EMPLEADO',
         nombreAbreviado: 'EMP',
+        toolTip: 'EMPLEADO',
         campoTipo: 'Booleano',
         visibleTabla: true,
         visibleFiltro: true,
