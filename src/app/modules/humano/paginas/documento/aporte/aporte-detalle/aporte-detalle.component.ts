@@ -237,24 +237,24 @@ export default class AporteDetalleComponent
   aprobar() {
     this.alertaService
       .confirmarSinReversa()
-      .pipe
-      // switchMap((respuesta) => {
-      //   if (respuesta.isConfirmed) {
-      //     return this.httpService.post('humano/programacion/aprobar/', {
-      //       id: this.detalle,
-      //     });
-      //   }
-      //   return of(false);
-      // }),
-      // tap((respuesta) => {
-      //   if (respuesta !== false) {
-      //     this.alertaService.mensajaExitoso('Documento aprobado');
-      //     this.aporte.estado_aprobado = true;
-      //     this.consultarDatos();
-      //     this.changeDetectorRef.detectChanges();
-      //   }
-      // })
-      ()
+      .pipe(
+        switchMap((respuesta) => {
+          if (respuesta.isConfirmed) {
+            return this.httpService.post('humano/programacion/aprobar/', {
+              id: this.detalle,
+            });
+          }
+          return of(false);
+        }),
+        tap((respuesta) => {
+          if (respuesta !== false) {
+            this.alertaService.mensajaExitoso('Documento aprobado');
+            this.aporte.estado_aprobado = true;
+            this.consultarDatos();
+            this.changeDetectorRef.detectChanges();
+          }
+        }),
+      )
       .subscribe();
   }
 
