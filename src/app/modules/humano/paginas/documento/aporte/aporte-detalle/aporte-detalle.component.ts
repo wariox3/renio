@@ -240,7 +240,7 @@ export default class AporteDetalleComponent
       .pipe(
         switchMap((respuesta) => {
           if (respuesta.isConfirmed) {
-            return this.httpService.post('humano/programacion/aprobar/', {
+            return this.httpService.post('humano/aporte/aprobar/', {
               id: this.detalle,
             });
           }
