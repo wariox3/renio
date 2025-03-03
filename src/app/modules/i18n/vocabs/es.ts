@@ -980,6 +980,7 @@ export const locale = {
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
         REMISION: 'Remisión',
+        COTIZACION_TOTAL: 'Total'
       },
       ITEM: {
         ID: 'ID',
