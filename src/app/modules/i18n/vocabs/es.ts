@@ -140,7 +140,7 @@ export const locale = {
           GENERAR: 'Generar',
           DESCARGARERRORES: 'Excel errores',
           MENSAJEERRORES:
-            'El archivo tiene más de 100 errores, descargue el excel para ver para ver todo',
+            'El archivo tiene más de 100 errores, descargue el excel para ver todo',
           EJEMPLO: 'Ejemplo',
           VERMAS: 'Ver Más',
           VERMENOS: 'Ver Menos',
