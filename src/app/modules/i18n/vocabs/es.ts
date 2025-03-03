@@ -517,6 +517,7 @@ export const locale = {
             FECHAULTIMOPAGOPRIMA: 'Último pago de prima',
             FECHAULTIMOPAGOCESANTIA: 'Último pago de cesantía',
             TIEMPO: 'Tiempo',
+            FECHAULTIMOPAGOVACACIONES: 'Último pago de vacaciones',
           },
           CUENTABANCO: {
             ID: 'ID',

@@ -1,5 +1,6 @@
 export type Serializador =
 | 'ListaBuscar'
+| 'ParametrosIniciales'
 | 'ListaAutocompletar'
 | 'Informe'
 | 'Referencia'
