@@ -8,12 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { ConPeriodo } from '@modulos/contabilidad/interfaces/contabilidad-periodo.interface';
 import { PeriodoService } from '@modulos/contabilidad/servicios/periodo.service';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   BehaviorSubject,
@@ -22,8 +20,7 @@ import {
   Observable,
   of,
   Subject,
-  takeUntil,
-  tap,
+  takeUntil
 } from 'rxjs';
 
 @Component({
@@ -34,11 +31,9 @@ import {
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImpuestosComponent,
     CardComponent,
-    BtnAtrasComponent,
+    NgbAccordionModule,
     AsyncPipe,
-    ReactiveFormsModule,
     NgbDropdownModule,
   ],
   templateUrl: './periodo-detalle.component.html',

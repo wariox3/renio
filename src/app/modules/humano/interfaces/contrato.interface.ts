@@ -18,6 +18,7 @@ export interface ProgramacionContrato {
   sucursal_nombre: string;
   riesgo_id: number;
   riesgo_nombre: string;
+  fecha_ultimo_pago_vacacion: string
   cargo_id: number;
   cargo_nombre: string;
   tipo_cotizante_id: number;
