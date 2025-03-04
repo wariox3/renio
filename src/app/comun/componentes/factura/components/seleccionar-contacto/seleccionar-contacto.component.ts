@@ -76,11 +76,14 @@ export class SeleccionarContactoComponent
   }
 
   ngOnInit(): void {
-    this.getContactos(this.parametrosConsulta()).subscribe((respuesta) => {
-      this.contactos.set(respuesta.registros);
-    });
     this.searchControl.setValue(this.itemNombre);
     this._initBuscador();
+  }
+
+  initOpciones() {
+     this.getContactos(this.parametrosConsulta()).subscribe((respuesta) => {
+      this.contactos.set(respuesta.registros);
+    });
   }
 
   private _initBuscador() {
@@ -96,7 +99,9 @@ export class SeleccionarContactoComponent
           return this.consultarItems(valor);
         }),
       )
-      .subscribe((resultado) => {});
+      .subscribe((resultado) => {
+        this.contactos.set(resultado.registros);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -124,7 +129,8 @@ export class SeleccionarContactoComponent
       filtros: [
         ...parametrosConsulta.filtros,
         {
-          propiedad: 'nombre__icontains',
+          operador: 'icontains',
+          propiedad: 'nombre_corto',
           valor1: `${event}`,
         },
       ],

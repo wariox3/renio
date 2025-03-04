@@ -32,6 +32,8 @@ import { PaginadorComponent } from '../paginador/paginador.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
+import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -44,6 +46,7 @@ import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar
     AnimationFadeInUpDirective,
     PaginadorComponent,
     TranslateModule,
+    SeleccionarContactoComponent,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -406,13 +409,15 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this.cantidadRegistrosCorregir.set(
             respuesta.documento.detalles.length,
           );
-          if(!respuesta.documento.estado_contabilizado){
+          if (!respuesta.documento.estado_contabilizado) {
             this._abirModal(this.corregirContent);
             this.arrDocumentos = respuesta.documento.detalles;
           } else {
-            this.alertaService.mensajeError('Error', "El documento esta contabilizado y no se puede corregir")
+            this.alertaService.mensajeError(
+              'Error',
+              'El documento esta contabilizado y no se puede corregir',
+            );
           }
-
         }),
         switchMap(() =>
           this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
@@ -432,12 +437,47 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   actualizarGrupo(event: Event, id: number) {
     const grupo = (event.target as HTMLSelectElement).value;
 
-    this._facturaService.actualizarDetalleGrupo(id, {
-      documento: this.detalle,
-      grupo
-     }).subscribe(() => {
-      this.alertaService.mensajaExitoso('Se actualizó la información');
-     })
+    this._facturaService
+      .actualizarDetalleGrupo(id, {
+        documento: this.detalle,
+        grupo,
+      })
+      .subscribe(() => {
+        this.alertaService.mensajaExitoso('Se actualizó la información');
+      });
   }
 
+  actualizarContactoSeleccionado(
+    contacto: RegistroAutocompletarGenContacto,
+    documentoId: number,
+  ) {
+    this._facturaService
+      .actualizarDetalleGrupo(documentoId, {
+        documento: this.detalle,
+        contacto: contacto?.contacto_id || null,
+      })
+      .subscribe(() => {
+        const posicion = this.arrDocumentos.findIndex(
+          (documento) => documento.id === documentoId,
+        );
+        if (posicion >= 0 && contacto) {
+          this.arrDocumentos[posicion].contacto_nombre_corto =
+            contacto?.contacto_nombre_corto || '';
+        }
+        this.alertaService.mensajaExitoso('Se actualizó la información');
+      });
+  }
+
+  actualizarBase(event: Event, id: number) {
+    const base = (event.target as HTMLSelectElement).value;
+
+    this._facturaService
+      .actualizarDetalleGrupo(id, {
+        documento: this.detalle,
+        base,
+      })
+      .subscribe(() => {
+        this.alertaService.mensajaExitoso('Se actualizó la información');
+      });
+  }
 }

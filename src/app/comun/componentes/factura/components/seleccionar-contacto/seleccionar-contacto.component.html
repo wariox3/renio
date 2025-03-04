@@ -7,7 +7,7 @@
         type="text"
         ngbDropdownAnchor
         class="cursor-pointer form-select"
-        (focus)="ItemDropdown.open()"
+        (focus)="initOpciones(); ItemDropdown.open()"
         (keyup)="ItemDropdown.open()"
         [disabled]="estadoAprobado"
         [readonly]="estadoAprobado"

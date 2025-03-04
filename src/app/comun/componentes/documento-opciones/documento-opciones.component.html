@@ -229,7 +229,9 @@
               <td>Cantidad</td>
               <td>Precio</td>
               <td>Subtotal</td>
+              <td class="w-150px">Base</td>
               <td>Grupo</td>
+              <td>Contacto</td>
             </tr>
           </thead>
           <tbody>
@@ -250,13 +252,20 @@
                 <td class="text-end">
                   {{ arrDocumento.subtotal | number: "1.0-0" }}
                 </td>
+                <td class="text-end">
+                  <input
+                    [value]="arrDocumento.base"
+                    type="number"
+                    (blur)="actualizarBase($event, arrDocumento.id)"
+                    formControlName="base"
+                    class="form-control-sm form-control"
+                    appSoloNumeros
+                  />
+                </td>
                 <td>
                   <select
                     class="form-select form-select-sm"
-
-                    (change)="
-                      actualizarGrupo($event, arrDocumento.id)
-                    "
+                    (change)="actualizarGrupo($event, arrDocumento.id)"
                   >
                     <option value="">
                       {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
@@ -264,13 +273,22 @@
                     <option
                       *ngFor="let grupo of arrGrupo"
                       [value]="grupo.grupo_id"
-                      [selected]="
-                      grupo.grupo_id === arrDocumento.grupo_id
-                    "
+                      [selected]="grupo.grupo_id === arrDocumento.grupo_id"
                     >
                       {{ grupo.grupo_nombre }}
                     </option>
                   </select>
+                </td>
+                <td>
+                  <app-seleccionar-contacto
+                    [itemNombre]="arrDocumento.contacto_nombre_corto"
+                    (emitirItemSeleccionado)="
+                      actualizarContactoSeleccionado($event, arrDocumento.id)
+                    "
+                    (emitirLineaVacia)="
+                      actualizarContactoSeleccionado($event, arrDocumento.id)
+                    "
+                  ></app-seleccionar-contacto>
                 </td>
               </tr>
             }
