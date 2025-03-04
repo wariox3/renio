@@ -320,7 +320,7 @@ export class FormularioFacturaService {
         total_bruto: [0],
         neto: [0],
         base_impuesto: [0],
-        base: [0, validarPrecio()],
+        base: [0],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
         id: [null],
