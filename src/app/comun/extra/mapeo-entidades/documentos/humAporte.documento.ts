@@ -51,4 +51,11 @@ export const documentoHumAporte: MapeoDocumento[] = [
     visibleFiltro: false,
     ordenable: false,
   },
+  {
+    nombre: 'COTIZACION_TOTAL',
+    campoTipo: 'IntegerField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: false,
+  },
 ];

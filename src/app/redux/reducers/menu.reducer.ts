@@ -744,6 +744,18 @@ export const initialState: MenuItem = {
               modulo: 'venta',
             },
             {
+              nombre: 'Almacen',
+              tipo: 'administrador',
+              data: { modelo: 'InvAlmacen' },
+              modulo: 'inventario',
+            },
+            {
+              nombre: 'Sede',
+              tipo: 'administrador',
+              data: { modelo: 'GenSede' },
+              modulo: 'general',
+            },
+            {
               nombre: 'PRECIO',
               tipo: 'administrador',
               data: { modelo: 'GenPrecio' },

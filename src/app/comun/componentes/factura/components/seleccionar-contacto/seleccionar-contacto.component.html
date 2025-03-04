@@ -1,0 +1,46 @@
+<div>
+  <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+    <div>
+      <input
+        #inputItem
+        [formControl]="searchControl"
+        type="text"
+        ngbDropdownAnchor
+        class="cursor-pointer form-select"
+        (focus)="initOpciones(); ItemDropdown.open()"
+        (keyup)="ItemDropdown.open()"
+        [disabled]="estadoAprobado"
+        [readonly]="estadoAprobado"
+        [value]="itemNombre"
+        [ngClass]="{
+          'is-invalid': campoInvalido,
+          'is-valid': itemSeleccionado !== null,
+          'form-select-sm': !grande,
+        }"
+      />
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu dropdown-menu-custom-width"
+      >
+        <ng-container *ngFor="let contacto of contactos()">
+          <button
+            class="text-wrap"
+            (click)="agregarItem(contacto)"
+            type="button"
+            ngbDropdownItem
+          >
+            {{ contacto.contacto_nombre_corto }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="fv-plugins-message-container" *ngIf="campoInvalido">
+    <div class="fv-help-block">
+      <span role="alert"
+        >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+      </span>
+    </div>
+  </div>
+</div>

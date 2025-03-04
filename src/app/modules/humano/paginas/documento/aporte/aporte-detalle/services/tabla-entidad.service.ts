@@ -63,8 +63,8 @@ export class TablaEntidadService {
           this.cantidadRegistros.set(respuesta.cantidad_registros);
           this.aporteEntidadLista.set(respuesta.registros);
           const registrosAgrupados = this._groupByTipo(respuesta.registros);
-          this.totalGeneral.set(this.getTotalGeneral());
           this.aporteEntidadListaAgrupada.set(registrosAgrupados);
+          this.totalGeneral.set(this.getTotalGeneral());
         })
       );
   }

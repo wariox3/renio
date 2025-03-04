@@ -15,6 +15,10 @@ export class ContratoService extends Subdominio {
     return this.httpService.post<any[]>(`humano/contrato/`, data);
   }
 
+  guardarParametrosIniciales(data: any) {
+    return this.httpService.post<any>(`humano/contrato/parametros-iniciales/`, data);
+  }
+
   consultarDetalle(id: number) {
     return this.httpService.getDetalle<any>(`humano/contrato/${id}/`);
   }

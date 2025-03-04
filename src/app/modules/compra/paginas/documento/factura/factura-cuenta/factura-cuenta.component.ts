@@ -18,6 +18,8 @@ import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cu
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { Subject, takeUntil } from 'rxjs';
 import { General } from '@comun/clases/general';
+import { SeleccionarContactoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-contacto/seleccionar-contacto.component';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Component({
   selector: 'app-factura-cuenta',
@@ -29,6 +31,7 @@ import { General } from '@comun/clases/general';
     FormsModule,
     CuentasComponent,
     SeleccionarGrupoComponent,
+    SeleccionarContactoComponent,
   ],
   templateUrl: './factura-cuenta.component.html',
   styleUrl: './factura-cuenta.component.scss',
@@ -53,7 +56,6 @@ export class FacturaCuentaComponent
     this._formularioFacturaService.form$
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((form) => {
-
         this.formularioFactura = form;
       });
   }
@@ -107,5 +109,19 @@ export class FacturaCuentaComponent
 
   eliminarItem(i: number) {
     this._formularioFacturaService.eliminarItem(i);
+  }
+
+  recibirContactoSeleccionado(
+    contacto: RegistroAutocompletarGenContacto,
+    index: number,
+  ) {
+    if (!contacto) {
+      this._formularioFacturaService.onSeleccionarContactoChange(null, index);
+    } else {
+      this._formularioFacturaService.onSeleccionarContactoChange(
+        contacto,
+        index,
+      );
+    }
   }
 }

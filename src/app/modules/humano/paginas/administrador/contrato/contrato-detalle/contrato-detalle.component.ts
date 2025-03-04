@@ -15,10 +15,12 @@ import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { FechasService } from '@comun/services/fechas.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -30,8 +32,9 @@ import { TranslateModule } from '@ngx-translate/core';
     BtnAtrasComponent,
     TranslateModule,
     ReactiveFormsModule,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+    NgbDropdownModule,
+  ],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,9 +46,12 @@ export default class ContratoDetalleComponent
   private _formBuilder = inject(FormBuilder);
   private _modalService = inject(NgbModal);
   private _httpService = inject(HttpService);
+  private _fechasService = inject(FechasService);
+  private _generalService = inject(GeneralService);
 
   public formularioTerminar: FormGroup;
   public tituloModal: string = '';
+  public formularioParametrosIniciales: FormGroup;
 
   constructor(private contratoService: ContratoService) {
     super();
@@ -92,12 +98,13 @@ export default class ContratoDetalleComponent
     entidad_pension_id: 0,
     entidad_pension_nombre: '',
     entidad_salud_id: 0,
+    fecha_ultimo_pago_vacacion: '',
     entidad_salud_nombre: '',
     fecha_ultimo_pago: null,
     fecha_ultimo_pago_prima: null,
     fecha_ultimo_pago_cesantia: null,
     tiempo_id: 0,
-    tiempo_nombre: null
+    tiempo_nombre: null,
   };
 
   ngOnInit() {
@@ -118,6 +125,55 @@ export default class ContratoDetalleComponent
         ]),
       ],
     });
+  }
+
+  private _initFormularioParametrosIniciales() {
+    const fechaActual = this._fechasService.obtenerFechaActualFormateada();
+    this.formularioParametrosIniciales = this._formBuilder.group({
+      id: [this.contrato.id],
+      fecha_ultimo_pago: [fechaActual],
+      fecha_ultimo_pago_prima: [fechaActual],
+      fecha_ultimo_pago_cesantia: [fechaActual],
+      fecha_ultimo_pago_vacacion: [fechaActual],
+    });
+  }
+
+  private _consultarListaGeneral() {
+    this._generalService
+      .consultarDatosAutoCompletar<{
+        contrato_id: number;
+        fecha_ultimo_pago: string;
+        fecha_ultimo_pago_prima: string;
+        fecha_ultimo_pago_cesantia: string;
+        fecha_ultimo_pago_vacacion: string;
+      }>({
+        limite: 50,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumContrato',
+        serializador: 'ParametrosIniciales',
+        filtros: [
+          {
+            propiedad: 'id',
+            operador: 'exact',
+            valor1: this.contrato.id,
+          },
+        ],
+      })
+      .subscribe((response) => {
+        const fechaActual = this._fechasService.obtenerFechaActualFormateada();
+        this.formularioParametrosIniciales.patchValue({
+          fecha_ultimo_pago:
+            response.registros[0].fecha_ultimo_pago || fechaActual,
+          fecha_ultimo_pago_prima:
+            response.registros?.[0].fecha_ultimo_pago_prima || fechaActual,
+          fecha_ultimo_pago_cesantia:
+            response.registros?.[0].fecha_ultimo_pago_cesantia || fechaActual,
+          fecha_ultimo_pago_vacacion:
+            response.registros?.[0].fecha_ultimo_pago_vacacion || fechaActual,
+        });
+      });
   }
 
   abrirModal(content: any) {
@@ -149,8 +205,26 @@ export default class ContratoDetalleComponent
         this.formularioTerminar.patchValue({
           fecha_terminacion: this.contrato.fecha_hasta,
         });
-
+        this._initFormularioParametrosIniciales();
         this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  abrirModalParametrosIniciales(content: any) {
+    this._consultarListaGeneral();
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
+    });
+  }
+
+  enviarFormulario() {
+    this.contratoService
+      .guardarParametrosIniciales(this.formularioParametrosIniciales.value)
+      .subscribe((response) => {
+        this._modalService.dismissAll();
+        this.consultardetalle();
+        this.alertaService.mensajaExitoso('Parametros iniciales actualizados!');
       });
   }
 }

@@ -140,7 +140,7 @@ export const locale = {
           GENERAR: 'Generar',
           DESCARGARERRORES: 'Excel errores',
           MENSAJEERRORES:
-            'El archivo tiene más de 100 errores, descargue el excel para ver para ver todo',
+            'El archivo tiene más de 100 errores, descargue el excel para ver todo',
           EJEMPLO: 'Ejemplo',
           VERMAS: 'Ver Más',
           VERMENOS: 'Ver Menos',
@@ -352,6 +352,7 @@ export const locale = {
           DEBITOS: 'Débitos',
           BASE: 'Base',
           VALOR: 'Valor',
+          CONTACTO: 'Contacto',
         },
         GENERAL: {
           ITEM: {
@@ -517,6 +518,7 @@ export const locale = {
             FECHAULTIMOPAGOPRIMA: 'Último pago de prima',
             FECHAULTIMOPAGOCESANTIA: 'Último pago de cesantía',
             TIEMPO: 'Tiempo',
+            FECHAULTIMOPAGOVACACIONES: 'Último pago de vacaciones',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -979,6 +981,7 @@ export const locale = {
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
         REMISION: 'Remisión',
+        COTIZACION_TOTAL: 'Total'
       },
       ITEM: {
         ID: 'ID',

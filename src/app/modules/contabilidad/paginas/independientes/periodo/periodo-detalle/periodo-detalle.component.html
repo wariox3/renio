@@ -1,140 +1,208 @@
 <div class="row periodo-section">
-  <div class="col-sm-12 col-md-3">
+  <div class="col-sm-12">
     <app-card titulo="Periodos">
       <section card-propiedades>
-        <button (click)="abrirModalCrearNuevo(contenidoCrearNuevo)" class="btn btn-primary btn-sm rounded-left-0"
-          type="button">
+        <button
+          (click)="abrirModalCrearNuevo(contenidoCrearNuevo)"
+          class="btn btn-primary btn-sm rounded-left-0"
+          type="button"
+        >
           Nuevo
         </button>
       </section>
       <section card-body>
-        @for(fecha of fechas; track $index) {
-        <button class="btn btn-light w-100 mb-3" (click)="seleccionarAnio(fecha)">
-          {{ fecha }}
-        </button>
-        }
-      </section>
-    </app-card>
-  </div>
-  @if ((periodosFiltradosPorAnio$ | async)?.length) {
-  <div class="col-sm-12 col-md-5">
-    <app-card>
-      <section card-titulo>
-        {{ anioSeleccionado }}
-      </section>
-      <section card-body>
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered table-rounded border gy-2 gs-2 table-vertical-center">
-            <tbody>
-              @for(periodo of periodosFiltradosPorAnio$ | async; track $index) {
-              <tr>
-                <td class="w-100 py-3"
-                  [ngClass]="[periodo.estado_cerrado ? 'cerrado' : periodo.estado_bloqueado ? 'bloqueado': '']">
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="mr-2">
-                      @if(periodo.estado_cerrado) {
-                      <i class="bi bi-check-lg fs-4"></i>
-                      }
-                      @else if(periodo.estado_bloqueado) {
-                      <i class="bi bi-lock fs-4"></i>
-                      } @else {
-                      <i class="bi bi-unlock fs-4"></i>
-                      }
-                    </div>
-                    <span>{{ deNumeroAMes(periodo.mes) }}</span>
-                  </div>
-                </td>
-                <td>
-                  @if(!periodo.estado_cerrado){
-                  <div ngbDropdown container="body" class="d-inline-block" display="dynamic">
-                    <button type="button" class="btn btn-link text-hover-primary p-0" id="dropdownBasic1"
-                      ngbDropdownToggle>
-                      <i class="bi bi-three-dots-vertical fs-lg"></i>
-                    </button>
-                    <div
-                      class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
-                      ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <div ngbAccordion [closeOthers]="true">
+          @for (fecha of fechas; track $index) {
+            <div ngbAccordionItem>
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton (click)="seleccionarAnio(fecha)">
+                  {{ fecha }}
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    @if ((periodosFiltradosPorAnio$ | async)?.length) {
+                      <div class="table-responsive">
+                        <table
+                          class="table table-hover table-bordered table-rounded border gy-2 gs-2 table-vertical-center"
+                        >
+                          <tbody>
+                            @for (
+                              periodo of periodosFiltradosPorAnio$ | async;
+                              track $index
+                            ) {
+                              <tr>
+                                <td
+                                  class="w-100 py-3"
+                                  [ngClass]="[
+                                    periodo.estado_cerrado
+                                      ? 'cerrado'
+                                      : periodo.estado_bloqueado
+                                        ? 'bloqueado'
+                                        : '',
+                                  ]"
+                                >
+                                  <div class="d-flex align-items-center gap-3">
+                                    <div class="mr-2">
+                                      @if (periodo.estado_cerrado) {
+                                        <i class="bi bi-check-lg fs-4"></i>
+                                      } @else if (periodo.estado_bloqueado) {
+                                        <i class="bi bi-lock fs-4"></i>
+                                      } @else {
+                                        <i class="bi bi-unlock fs-4"></i>
+                                      }
+                                    </div>
+                                    <span>{{ deNumeroAMes(periodo.mes) }}</span>
+                                  </div>
+                                </td>
+                                <td>
+                                  @if (!periodo.estado_cerrado) {
+                                    <div
+                                      ngbDropdown
+                                      container="body"
+                                      class="d-inline-block"
+                                      display="dynamic"
+                                    >
+                                      <button
+                                        type="button"
+                                        class="btn btn-link text-hover-primary p-0"
+                                        id="dropdownBasic1"
+                                        ngbDropdownToggle
+                                      >
+                                        <i
+                                          class="bi bi-three-dots-vertical fs-lg"
+                                        ></i>
+                                      </button>
+                                      <div
+                                        class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
+                                        ngbDropdownMenu
+                                        aria-labelledby="dropdownBasic1"
+                                      >
+                                        @if (!periodo.estado_bloqueado) {
+                                          <div class="menu-item px-3">
+                                            <button
+                                              (click)="bloquear(periodo.id)"
+                                              translate="FORMULARIOS.BOTONES.COMUNES.BLOQUEAR"
+                                              class="menu-link px-3 cursor-pointer"
+                                              ngbDropdownItem
+                                            ></button>
+                                          </div>
+                                          <div class="separator my-2"></div>
+                                        }
 
-                      @if (!periodo.estado_bloqueado) {
-                      <div class="menu-item px-3">
-                        <button (click)="bloquear(periodo.id)" translate="FORMULARIOS.BOTONES.COMUNES.BLOQUEAR"
-                          class="menu-link px-3 cursor-pointer" ngbDropdownItem>
-                        </button>
-                      </div>
-                      <div class="separator my-2"></div>
-                      }
+                                        @if (periodo.estado_bloqueado) {
+                                          <div class="menu-item px-3">
+                                            <button
+                                              (click)="desbloquear(periodo.id)"
+                                              class="menu-link px-3 cursor-pointer"
+                                              translate="FORMULARIOS.BOTONES.COMUNES.DESBLOQUEAR"
+                                              ngbDropdownItem
+                                            ></button>
+                                          </div>
+                                          <div class="separator my-2"></div>
+                                        }
 
-                      @if (periodo.estado_bloqueado) {
-                      <div class="menu-item px-3">
-                        <button (click)="desbloquear(periodo.id)" class="menu-link px-3 cursor-pointer"
-                          translate="FORMULARIOS.BOTONES.COMUNES.DESBLOQUEAR" ngbDropdownItem>
-                        </button>
+                                        <div class="menu-item px-3">
+                                          <button
+                                            [disabled]="
+                                              !periodo.estado_bloqueado
+                                            "
+                                            (click)="cerrar(periodo.id)"
+                                            ngbDropdownItem
+                                            class="menu-link px-3 cursor-pointer"
+                                            translate="FORMULARIOS.BOTONES.COMUNES.CERRAR"
+                                          ></button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  }
+                                </td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
                       </div>
-                      <div class="separator my-2"></div>
-                      }
-
-                      <div class="menu-item px-3">
-                        <button [disabled]="!periodo.estado_bloqueado" (click)="cerrar(periodo.id)" ngbDropdownItem
-                          class="menu-link px-3 cursor-pointer" translate="FORMULARIOS.BOTONES.COMUNES.CERRAR">
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  }
-                </td>
-              </tr>
-              }
-            </tbody>
-          </table>
+                    }
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </section>
     </app-card>
   </div>
-  }
 </div>
 
 <!-- Crear periodo -->
 <ng-template #contenidoCrearNuevo let-modal>
-  <div class=" modal-header">
+  <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
       {{ "Nuevo Periodo" }}
     </h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioPeriodo">
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label class="form-label">Año</label>
-          <input placeholder="2024" formControlName="anio" class="form-control" type="number" [ngClass]="{
+          <input
+            placeholder="2024"
+            formControlName="anio"
+            class="form-control"
+            type="number"
+            [ngClass]="{
               'is-invalid':
                 formularioPeriodo.controls['anio'].touched &&
                 formularioPeriodo.controls['anio'].invalid,
               'is-valid':
                 formularioPeriodo.controls['anio'].touched &&
-                formularioPeriodo.controls['anio'].valid
-            }" />
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                formularioPeriodo.controls['anio'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioPeriodo.controls['anio']
-            }"></ng-container>
+              control: formularioPeriodo.controls['anio'],
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <button (click)="modal.dismiss('Cross click')" class="btn btn-secondary btn-sm me-2" type="button">
+        <button
+          (click)="modal.dismiss('Cross click')"
+          class="btn btn-secondary btn-sm me-2"
+          type="button"
+        >
           Cancelar
         </button>
-        @if(creandoPeriodo$ | async) {
-        <button class="btn btn-primary btn-sm" type="button" disabled>
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          <span role="status">Creando...</span>
-        </button>
+        @if (creandoPeriodo$ | async) {
+          <button class="btn btn-primary btn-sm" type="button" disabled>
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              aria-hidden="true"
+            ></span>
+            <span role="status">Creando...</span>
+          </button>
         } @else {
-        <button [disabled]="!formularioPeriodo.valid" type="button" (click)="crearPeriodo()"
-          class="btn btn-sm btn-flex btn-primary" #btnGuardar>
-          Crear
-        </button>
+          <button
+            [disabled]="!formularioPeriodo.valid"
+            type="button"
+            (click)="crearPeriodo()"
+            class="btn btn-sm btn-flex btn-primary"
+            #btnGuardar
+          >
+            Crear
+          </button>
         }
       </div>
     </form>
@@ -142,9 +210,16 @@
 </ng-template>
 
 <!-- error template -->
-<ng-template #formError let-control="control" let-message="message" let-validation="validation"
-  let-cantidadCaracteres="cantidadCaracteres">
-  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
     <div class="fv-plugins-message-container">
       <div class="fv-help-block">
         <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
