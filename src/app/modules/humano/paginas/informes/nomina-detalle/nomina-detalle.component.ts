@@ -123,10 +123,7 @@ export class NominaDetalleComponent extends General  implements OnInit {
       serializador: 'NominaExcel',
       excel: true,
       filtros: [
-        {
-          "propiedad":"documento__documento_tipo__documento_clase_id",
-          "valor1": 701
-        }
+        ...this.arrParametrosConsulta.filtros,
       ],
     };
 

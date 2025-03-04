@@ -58,4 +58,11 @@ export const documentoHumAporte: MapeoDocumento[] = [
     visibleFiltro: false,
     ordenable: false,
   },
+  {
+    nombre: 'ESTADO_APROBADO',
+    campoTipo: 'Booleano',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: false,
+  },
 ];
