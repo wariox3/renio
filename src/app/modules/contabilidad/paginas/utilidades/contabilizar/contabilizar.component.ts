@@ -111,7 +111,7 @@ export default class ContabilizarComponent extends General implements OnInit {
   getDocumentosTipos() {
     this._generalService
       .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoTipo>({
-        limite: 10,
+        limite: 50,
         desplazar: 0,
         ordenamientos: [],
         filtros: [
