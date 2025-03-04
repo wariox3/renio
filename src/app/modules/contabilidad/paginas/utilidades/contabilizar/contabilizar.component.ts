@@ -136,7 +136,7 @@ export default class ContabilizarComponent extends General implements OnInit {
 
   enviarFormulario() {
     const filtros: ParametrosFiltros = {
-      limite: 10,
+      limite: 1000,
       desplazar: 0,
       ordenamientos: [],
       filtros: [
