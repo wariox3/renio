@@ -25,6 +25,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { FechasService } from '../fechas.service';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 
 @Injectable({
   providedIn: 'any',
@@ -164,6 +165,25 @@ export class FormularioFacturaService {
     }
   }
 
+  onSeleccionarContactoChange(
+    contacto: RegistroAutocompletarGenContacto | null,
+    indexFormulario: number,
+  ) {
+    if (!contacto) {
+      this.detalles.controls[indexFormulario].get('contacto')?.setValue(null);
+      this.detalles.controls[indexFormulario]
+        .get('contacto_nombre')
+        ?.setValue('');
+    } else {
+      this.detalles.controls[indexFormulario]
+        .get('contacto')
+        ?.setValue(contacto.contacto_id);
+      this.detalles.controls[indexFormulario]
+        .get('contacto_nombre')
+        ?.setValue(contacto.contacto_nombre_corto);
+    }
+  }
+
   eliminarItem(indexFormulario: number) {
     const itemsActualizados = this.detalles.value.filter(
       (detalleFormulario: any, index: number) => {
@@ -200,6 +220,8 @@ export class FormularioFacturaService {
         base: item.base,
         almacen: item.almacen,
         almacen_nombre: item.almacen_nombre,
+        contacto: item.contacto,
+        contacto_nombre: item.contacto_nombre,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -278,6 +300,7 @@ export class FormularioFacturaService {
 
     if (tipo_registro === 'C') {
       const tipoSugerido = this._sugerirGrupo();
+      const { contactoId, contactoNombre } = this._sugerirContacto();
 
       detalleFormGroup = this._formBuilder.group({
         cuenta: [null],
@@ -310,6 +333,8 @@ export class FormularioFacturaService {
             Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
           ],
         ],
+        contacto: [contactoId],
+        contacto_nombre: [contactoNombre],
         descuento: [0],
         subtotal: [0],
         grupo: [tipoSugerido],
@@ -418,6 +443,16 @@ export class FormularioFacturaService {
     return {
       almacenId,
       almacenNombre,
+    };
+  }
+
+  private _sugerirContacto() {
+    const contactoId = this.form.get('contacto')?.value;
+    const contactoNombre = this.form.get('contactoNombre')?.value;
+
+    return {
+      contactoId,
+      contactoNombre,
     };
   }
 
@@ -1026,7 +1061,7 @@ export class FormularioFacturaService {
         subtotal: [detalle.subtotal],
         total_bruto: [detalle.total_bruto],
         total: [detalle.total],
-        neto: [0], //TODO: preguntar por que el neto no se esta devolviendo
+        neto: [0],
         base_impuesto: [detalle.base_impuesto],
         impuesto: [detalle.impuesto],
         impuesto_operado: [detalle.impuesto_operado],
@@ -1040,6 +1075,8 @@ export class FormularioFacturaService {
         base: detalle.base,
         almacen: detalle.almacen_id,
         almacen_nombre: detalle.almacen_nombre,
+        contacto: detalle.contacto_id,
+        contacto_nombre: detalle.contacto_nombre_corto,
       });
 
       this.detalles.push(documentoDetalleGrupo);

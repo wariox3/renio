@@ -23,6 +23,10 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
           ></th>
           <th
+            class="w-100px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.CONTACTO"
+          ></th>
+          <th
             class="w-50px"
             translate="FORMULARIOS.TITULOS.FACTURACION.NATURALEZA"
           ></th>
@@ -70,6 +74,20 @@
                   (selectChange)="onSeleccionarGrupoChange($event, i)"
                   [valorInicial]="detalle.value.grupo"
                 ></app-seleccionar-grupo>
+              </td>
+              <td>
+                <app-seleccionar-contacto
+                  [itemNombre]="detalle.get('contacto_nombre')?.value"
+                  [estadoAprobado]="estadoAprobado()"
+                  [campoInvalido]="
+                    detalle.get('contacto')?.touched &&
+                    detalle.get('contacto')?.hasError('required')
+                  "
+                  (emitirItemSeleccionado)="
+                    recibirContactoSeleccionado($event, i)
+                  "
+                  (emitirLineaVacia)="recibirContactoSeleccionado($event, i)"
+                ></app-seleccionar-contacto>
               </td>
               <td>
                 <select

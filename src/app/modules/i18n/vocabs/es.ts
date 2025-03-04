@@ -352,6 +352,7 @@ export const locale = {
           DEBITOS: 'Débitos',
           BASE: 'Base',
           VALOR: 'Valor',
+          CONTACTO: 'Contacto',
         },
         GENERAL: {
           ITEM: {
