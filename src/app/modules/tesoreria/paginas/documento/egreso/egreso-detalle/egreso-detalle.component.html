@@ -50,11 +50,11 @@
       </button>
       <app-comun-documento-opciones
         [opciones]="{
-          modelo: 'ConMovimiento'
+          modelo: 'ConMovimiento',
         }"
         (itemDesaprobadoEvent)="consultardetalle()"
         [opcionesDesaprobarBoton]="{
-          deshabilitado: !pago.estado_aprobado || pago.estado_anulado
+          deshabilitado: !pago.estado_aprobado || pago.estado_anulado,
         }"
         [documento]="pago"
       ></app-comun-documento-opciones>
@@ -183,7 +183,9 @@
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.PRECIO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -207,8 +209,14 @@
                       <td>
                         {{ documento.naturaleza }}
                       </td>
+                      <td>
+                        {{ documento.grupo_nombre }}
+                      </td>
                       <td class="text-end">
                         {{ documento.precio | number }}
+                      </td>
+                      <td class="text-end">
+                        {{ documento.base | number }}
                       </td>
                     </tr>
                   </tbody>
@@ -219,7 +227,7 @@
                   <tr *ngIf="getTotalDebito() > 0">
                     <td class="text-end">Débito:</td>
                     <td class="text-end">
-                      {{ getTotalDebito() | currency : "$" }}
+                      {{ getTotalDebito() | currency: "$" }}
                     </td>
                   </tr>
 
@@ -227,7 +235,7 @@
                   <tr *ngIf="getTotalCredito() > 0">
                     <td class="text-end">Crédito:</td>
                     <td class="text-end">
-                      {{ getTotalCredito() | currency : "$" }}
+                      {{ getTotalCredito() | currency: "$" }}
                     </td>
                   </tr>
                   <tr *ngIf="pago.total > 0">
@@ -235,7 +243,7 @@
                       class="text-end"
                       translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                     ></td>
-                    <td class="text-end">{{ pago.total | currency : "$" }}</td>
+                    <td class="text-end">{{ pago.total | currency: "$" }}</td>
                   </tr>
                 </table>
               </div>
@@ -286,7 +294,7 @@
                 'is-valid':
                   formularioGenerarArchivoPlano.controls['tipo_plano']
                     .touched &&
-                  formularioGenerarArchivoPlano.controls['tipo_plano'].valid
+                  formularioGenerarArchivoPlano.controls['tipo_plano'].valid,
               }"
             >
               <option value="" selected>
@@ -301,7 +309,7 @@
                 validation: 'required',
                 message:
                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioGenerarArchivoPlano.controls['tipo_plano']
+                control: formularioGenerarArchivoPlano.controls['tipo_plano'],
               }"
             ></ng-container>
           </div>

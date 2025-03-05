@@ -35,6 +35,7 @@ import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocom
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -57,6 +58,7 @@ import { OperacionesService } from '@comun/componentes/factura/services/operacio
     ContactosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
   ],
 })
 export default class EgresoFormularioComponent
@@ -201,6 +203,8 @@ export default class EgresoFormularioComponent
             cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
             cantidad: detalle.cantidad,
+            grupo: [detalle.grupo_id],
+            base: [detalle.base],
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -434,6 +438,8 @@ export default class EgresoFormularioComponent
       precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
       cantidad: [0],
+      base: [0],
+      grupo: [null],
     });
     this.detalles.push(detalleFormGroup);
   }
@@ -575,6 +581,8 @@ export default class EgresoFormularioComponent
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
         naturaleza,
         cantidad: [0],
+        base: [0],
+        grupo: [null],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -627,5 +635,11 @@ export default class EgresoFormularioComponent
     this.formularioEgreso?.markAsDirty();
     this.formularioEgreso?.markAsTouched();
     this.changeDetectorRef.detectChanges();
+  }
+
+  onSeleccionarGrupoChange(id: number, index: number) {
+    this.detalles.controls[index].patchValue({
+      grupo: id,
+    });
   }
 }
