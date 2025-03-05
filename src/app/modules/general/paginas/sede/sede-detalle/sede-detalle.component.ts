@@ -9,7 +9,7 @@ import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { SedeService } from '@modulos/general/servicios/sede.service';
-import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-sede-detalle',
@@ -25,13 +25,15 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     BtnAtrasComponent,
     NgxMaskDirective,
     NgxMaskPipe,
-    TituloAccionComponent
-],
+    TituloAccionComponent,
+  ],
   providers: [provideNgxMask()],
 })
 export default class AsesorDetalleComponent extends General implements OnInit {
   sede: Sede = {
-    nombre: ''
+    nombre: '',
+    grupo_nombre: '',
+    grupo_id: 0,
   };
 
   constructor(private sedeService: SedeService) {

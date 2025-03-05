@@ -24,7 +24,7 @@
                 formularioSede.controls['nombre'].invalid,
               'is-valid':
                 formularioSede.controls['nombre'].touched &&
-                formularioSede.controls['nombre'].valid
+                formularioSede.controls['nombre'].valid,
             }"
           />
           <ng-container
@@ -32,18 +32,30 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioSede.controls['nombre']
+              control: formularioSede.controls['nombre'],
             }"
           ></ng-container>
           <ng-container
-          [ngTemplateOutlet]="formError"
-          [ngTemplateOutletContext]="{
-            validation: 'maxlength',
-            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-            cantidadCaracteres: '100',
-            control: formularioSede.controls['nombre']
-          }"
-        ></ng-container>
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioSede.controls['nombre'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.GRUPO"
+            class="form-label"
+          ></label>
+          <app-seleccionar-grupo
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioSede.get('grupo')?.value"
+            [grande]="true"
+          ></app-seleccionar-grupo>
         </div>
       </div>
     </section>
