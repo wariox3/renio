@@ -437,6 +437,13 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: true,
       },
+      {
+        nombre: 'GRUPO_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
     ],
   },
   HumContrato: {

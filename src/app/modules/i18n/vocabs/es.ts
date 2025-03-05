@@ -1125,6 +1125,7 @@ export const locale = {
       SEDE: {
         ID: 'ID',
         NOMBRE: 'Nombre',
+        GRUPO_NOMBRE: 'Grupo',
       },
       CUENTABANCO: {
         ID: 'ID',

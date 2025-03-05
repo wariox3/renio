@@ -25,7 +25,7 @@
                   formularioEgreso.controls['contacto'].invalid,
                 'is-valid':
                   formularioEgreso.controls['contacto'].touched &&
-                  formularioEgreso.controls['contacto'].valid
+                  formularioEgreso.controls['contacto'].valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -81,7 +81,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEgreso.controls['contacto']
+              control: formularioEgreso.controls['contacto'],
             }"
           ></ng-container>
         </div>
@@ -103,7 +103,7 @@
                 formularioEgreso.controls['fecha'].invalid,
               'is-valid':
                 formularioEgreso.controls['fecha'].touched &&
-                formularioEgreso.controls['fecha'].valid
+                formularioEgreso.controls['fecha'].valid,
             }"
           />
           <ng-container
@@ -111,7 +111,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEgreso.controls['fecha']
+              control: formularioEgreso.controls['fecha'],
             }"
           ></ng-container>
           <div
@@ -145,7 +145,7 @@
                 formularioEgreso.controls['cuenta_banco'].invalid,
               'is-valid':
                 formularioEgreso.controls['cuenta_banco'].touched &&
-                formularioEgreso.controls['cuenta_banco'].valid
+                formularioEgreso.controls['cuenta_banco'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
@@ -165,7 +165,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEgreso.controls['cuenta_banco']
+              control: formularioEgreso.controls['cuenta_banco'],
             }"
           ></ng-container>
         </div>
@@ -188,7 +188,7 @@
                 formularioEgreso.controls['comentario'].invalid,
               'is-valid':
                 formularioEgreso.controls['comentario'].touched &&
-                formularioEgreso.controls['comentario'].valid
+                formularioEgreso.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -198,7 +198,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
-              control: formularioEgreso.controls['comentario']
+              control: formularioEgreso.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -214,7 +214,7 @@
             <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': tapActivo === 1}"
+                [ngClass]="{ 'text-primary': tapActivo === 1 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
@@ -255,7 +255,9 @@
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                         <th class="w-100px text-center">
                           <label [for]="documentoDetalleSeleccionarTodos">
                             <i
@@ -297,9 +299,7 @@
                           </td>
                           <td>
                             <app-comun-contactos
-                              [contactoNombre]="
-                                detalle.value.contacto_nombre
-                              "
+                              [contactoNombre]="detalle.value.contacto_nombre"
                               (emitirContacto)="
                                 agregarContactoSeleccionado($event, i)
                               "
@@ -349,6 +349,14 @@
                               </select>
                             </ng-template>
                           </td>
+                          <td>
+                            <app-seleccionar-grupo
+                              (selectChange)="
+                                onSeleccionarGrupoChange($event, i)
+                              "
+                              [valorInicial]="detalle.value.grupo"
+                            ></app-seleccionar-grupo>
+                          </td>
                           <td class="w-100px">
                             <input
                               formControlName="precio"
@@ -364,7 +372,7 @@
                                   detalle.get('precio')?.invalid,
                                 'is-valid':
                                   detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.invalid
+                                  detalle.get('precio')?.invalid,
                               }"
                             />
                             <ng-container
@@ -374,9 +382,28 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('precio')
+                                control: detalle.get('precio'),
                               }"
                             ></ng-container>
+                          </td>
+                          <td>
+                            <input
+                              formControlName="base"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'base', $event)"
+                              appSoloNumeros
+                              type="number"
+                              [permiteDecimales]="true"
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                                'is-valid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                              }"
+                            />
                           </td>
                           <td class="w-20px text-center">
                             <label [for]="i">
@@ -417,7 +444,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalCredito | currency : "$" }}
+                        {{ totalCredito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -426,7 +453,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalDebito | currency : "$" }}
+                        {{ totalDebito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -434,7 +461,7 @@
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                       ></td>
-                      <td class="text-end">{{ total | currency : "$" }}</td>
+                      <td class="text-end">{{ total | currency: "$" }}</td>
                     </tr>
                   </table>
                 </div>
@@ -443,7 +470,7 @@
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
               <a
                 class="nav-link"
-                [ngClass]="{'text-primary': tapActivo === 2}"
+                [ngClass]="{ 'text-primary': tapActivo === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"

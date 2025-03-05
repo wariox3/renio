@@ -399,6 +399,24 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               url: 'contabilidad/informe/balance_prueba_contacto',
             },
+            // {
+            //   nombre: 'prueba',
+            //   isSubmenu: true,
+            //   children: [
+            //     {
+            //       nombre: 'BALANCEPRUEBA',
+            //       tipo: 'informe',
+            //       modulo: 'contabilidad',
+            //       url: 'contabilidad/informe/balance_prueba',
+            //     },
+            //     {
+            //       nombre: 'BALANCEPRUEBAPORCONTACTO',
+            //       tipo: 'informe',
+            //       modulo: 'contabilidad',
+            //       url: 'contabilidad/informe/balance_prueba_contacto',
+            //     },
+            //   ]
+            // }
           ],
         },
       ],

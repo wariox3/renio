@@ -14,6 +14,7 @@ import { SedeService } from '@modulos/general/servicios/sede.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { SeleccionarGrupoComponent } from '../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-sede-formulario',
@@ -27,6 +28,7 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
     CardComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
   ],
   providers: [provideNgxMask()],
 })
@@ -38,7 +40,7 @@ export default class AsesorFormularioComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private sedeService: SedeService
+    private sedeService: SedeService,
   ) {
     super();
   }
@@ -57,6 +59,7 @@ export default class AsesorFormularioComponent
         null,
         Validators.compose([Validators.required, Validators.maxLength(100)]),
       ],
+      grupo: [null],
     });
   }
 
@@ -104,14 +107,19 @@ export default class AsesorFormularioComponent
   }
 
   consultarDetalle() {
-    this.sedeService
-      .consultarDetalle(this.detalle)
-      .subscribe((respuesta) => {
-        this.formularioSede.patchValue({
-          nombre: respuesta.nombre,
-        });
-
-        this.changeDetectorRef.detectChanges();
+    this.sedeService.consultarDetalle(this.detalle).subscribe((respuesta) => {
+      this.formularioSede.patchValue({
+        nombre: respuesta.nombre,
+        grupo: respuesta.grupo_id,
       });
+
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioSede.patchValue({
+      grupo: id,
+    });
   }
 }
