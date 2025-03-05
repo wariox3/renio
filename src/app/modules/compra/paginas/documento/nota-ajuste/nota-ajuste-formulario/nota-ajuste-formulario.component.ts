@@ -56,7 +56,10 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
     TituloAccionComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General implements OnInit, OnDestroy {
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
@@ -247,16 +250,10 @@ export default class FacturaDetalleComponent extends General implements OnInit, 
         }
       } else {
         if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
-            .subscribe((respuesta) => {
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
-            });
+          this._formularioFacturaService.submitActualizarFactura(
+            this.detalle,
+            this.parametrosUrl,
+          );
         }
       }
     } else {

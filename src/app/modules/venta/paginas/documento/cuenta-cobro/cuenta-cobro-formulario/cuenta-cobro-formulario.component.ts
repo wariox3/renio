@@ -212,8 +212,6 @@ export default class CuentaCobroFormularioComponent
 
   // Enviar formulario
   formSubmit() {
-    this.botonGuardarDeshabilitado$.next(true);
-
     if (!this.formularioFactura.valid) {
       this._formularioInvalido();
       return null;
@@ -238,23 +236,10 @@ export default class CuentaCobroFormularioComponent
 
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
-      this._facturaService
-        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
-        .pipe(
-          tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
-              },
-            });
-          }),
-          catchError(() => {
-            this.botonGuardarDeshabilitado$.next(false);
-            return of(null);
-          }),
-        )
-        .subscribe();
+      this._formularioFacturaService.submitActualizarFactura(
+        this.detalle,
+        this.parametrosUrl,
+      );
     }
   }
 

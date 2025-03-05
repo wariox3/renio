@@ -26,6 +26,9 @@ import { BehaviorSubject } from 'rxjs';
 import { FechasService } from '../fechas.service';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { Router } from '@angular/router';
+import { informacionMenuItem } from '@interfaces/menu/menu';
 
 @Injectable({
   providedIn: 'any',
@@ -36,7 +39,10 @@ export class FormularioFacturaService {
   private _adapterService = inject(AdapterService);
   private _operaciones = inject(OperacionesService);
   private formSubject = new BehaviorSubject<FormGroup>(this.createForm());
+  private facturaService = inject(FacturaService);
+  private _router = inject(Router);
 
+  public eliminarDetallesIds = signal<number[]>([]);
   public impuestoCache: AcumuladorImpuestos[] = [];
   public formularioTipo = signal<'venta' | 'compra'>('venta'); // conectar
   public mostrarDocumentoReferencia = signal<boolean>(false); // conectar
@@ -232,12 +238,12 @@ export class FormularioFacturaService {
     this._limpiarImpuestosAcumulados();
   }
 
-  private _registrarItemDetalleEliminado(id: string | null) {
+  private _registrarItemDetalleEliminado(id: number | null) {
     if (!this.modoEdicion || !id) {
       return null;
     }
 
-    this.detallesEliminados.value.push(id);
+    this.eliminarDetallesIds.update((ids) => [...ids, id]);
   }
 
   private _agregarCampoImpuestoACache(indexFormulario: number) {
@@ -454,6 +460,26 @@ export class FormularioFacturaService {
       contactoId,
       contactoNombre,
     };
+  }
+
+  submitActualizarFactura(
+    detalleId: number,
+    parametrosUrl: Partial<informacionMenuItem['data']>,
+  ) {
+    this.facturaService
+      .actualizarDatosFactura(detalleId, {
+        ...this.form.value,
+        detalles_eliminados: this.eliminarDetallesIds(),
+      })
+      .subscribe((respuesta) => {
+        this.eliminarDetallesIds.set([]);
+        this._router.navigate(['documento/detalle'], {
+          queryParams: {
+            ...parametrosUrl,
+            detalle: respuesta.documento.id,
+          },
+        });
+      });
   }
 
   /**
