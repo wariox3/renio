@@ -27,7 +27,7 @@
                   formularioFactura.controls['contacto'].invalid,
                 'is-valid':
                   formularioFactura.controls['contacto'].touched &&
-                  formularioFactura.controls['contacto'].valid
+                  formularioFactura.controls['contacto'].valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -83,7 +83,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['contacto']
+              control: formularioFactura.controls['contacto'],
             }"
           ></ng-container>
         </div>
@@ -105,7 +105,7 @@
                 formularioFactura.controls['fecha'].invalid,
               'is-valid':
                 formularioFactura.controls['fecha'].touched &&
-                formularioFactura.controls['fecha'].valid
+                formularioFactura.controls['fecha'].valid,
             }"
           />
           <ng-container
@@ -113,7 +113,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha']
+              control: formularioFactura.controls['fecha'],
             }"
           ></ng-container>
           <div
@@ -149,7 +149,7 @@
                 formularioFactura.controls['cuenta_banco'].invalid,
               'is-valid':
                 formularioFactura.controls['cuenta_banco'].touched &&
-                formularioFactura.controls['cuenta_banco'].valid
+                formularioFactura.controls['cuenta_banco'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
@@ -169,7 +169,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['cuenta_banco']
+              control: formularioFactura.controls['cuenta_banco'],
             }"
           ></ng-container>
         </div>
@@ -192,7 +192,7 @@
                 formularioFactura.controls['comentario'].invalid,
               'is-valid':
                 formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].valid
+                formularioFactura.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -202,7 +202,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
-              control: formularioFactura.controls['comentario']
+              control: formularioFactura.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -256,6 +256,7 @@
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.PAGO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                         <th class="w-100px text-center"></th>
@@ -281,16 +282,16 @@
                             {{ detalle.value.numero }}
                           </td>
                           <td>
-                            @if(detalle.value.documento_afectado){
-                            {{ detalle.value.contacto_nombre }}
+                            @if (detalle.value.documento_afectado) {
+                              {{ detalle.value.contacto_nombre }}
                             } @else {
-                            <app-comun-contactos
-                              [contactoNombre]="detalle.value.contacto_nombre"
-                              (emitirContacto)="
-                                agregarContactoSeleccionado($event, i)
-                              "
-                            >
-                            </app-comun-contactos>
+                              <app-comun-contactos
+                                [contactoNombre]="detalle.value.contacto_nombre"
+                                (emitirContacto)="
+                                  agregarContactoSeleccionado($event, i)
+                                "
+                              >
+                              </app-comun-contactos>
                             }
                           </td>
                           <td class="p-1">
@@ -336,6 +337,14 @@
                               </select>
                             </ng-template>
                           </td>
+                          <td>
+                            <app-seleccionar-grupo
+                              (selectChange)="
+                                onSeleccionarGrupoChange($event, i)
+                              "
+                              [valorInicial]="detalle.value.grupo"
+                            ></app-seleccionar-grupo>
+                          </td>
                           <td class="w-100px">
                             <input
                               formControlName="precio"
@@ -351,7 +360,7 @@
                                   detalle.get('precio')?.invalid,
                                 'is-valid':
                                   detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.invalid
+                                  detalle.get('precio')?.invalid,
                               }"
                             />
                             <ng-container
@@ -361,7 +370,7 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('precio')
+                                control: detalle.get('precio'),
                               }"
                             ></ng-container>
                           </td>
@@ -380,7 +389,7 @@
                                   detalle.get('base')?.invalid,
                                 'is-valid':
                                   detalle.get('base')?.touched &&
-                                  detalle.get('base')?.invalid
+                                  detalle.get('base')?.invalid,
                               }"
                             />
                           </td>
@@ -403,7 +412,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalCredito | currency : "$" }}
+                        {{ totalCredito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -412,7 +421,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalDebito | currency : "$" }}
+                        {{ totalDebito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -420,7 +429,7 @@
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                       ></td>
-                      <td class="text-end">{{ total | currency : "$" }}</td>
+                      <td class="text-end">{{ total | currency: "$" }}</td>
                     </tr>
                   </table>
                 </div>
@@ -480,7 +489,9 @@
       <div class="d-flex align-items-baseline gap-2">
         <i class="bi bi-file-text text-gray-500 fs-3"></i>
         <p class="text-gray-600 fs-4">Recaudo:</p>
-        <p class="text-gray-600 fs-4">{{ totalSeleccionado | number: "1.0-0" }}</p>
+        <p class="text-gray-600 fs-4">
+          {{ totalSeleccionado | number: "1.0-0" }}
+        </p>
       </div>
     </div>
     <div class="row justify-content-between my-3">

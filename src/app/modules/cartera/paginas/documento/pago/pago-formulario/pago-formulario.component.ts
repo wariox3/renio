@@ -36,6 +36,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -57,6 +58,7 @@ import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocom
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     ContactosComponent,
+    SeleccionarGrupoComponent,
   ],
 })
 export default class PagoFormularioComponent extends General implements OnInit {
@@ -212,6 +214,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
             base: [detalle.base],
+            grupo: [detalle.grupo_id],
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -447,6 +450,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         naturaleza: [naturaleza],
         cantidad: [0],
         base: [0],
+        grupo: [null],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -605,6 +609,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
       base: [0],
+      grupo: [null],
     });
     this.detalles.push(detalleFormGroup);
   }
@@ -677,5 +682,11 @@ export default class PagoFormularioComponent extends General implements OnInit {
         (mostrarTodosLosClientes = !mostrarTodosLosClientes),
     );
     this.consultarDocumentos();
+  }
+
+  onSeleccionarGrupoChange(id: number, index: number) {
+    this.detalles.controls[index].patchValue({
+      grupo: id,
+    });
   }
 }
