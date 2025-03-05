@@ -211,6 +211,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
             cuenta_codigo: detalle.cuenta_codigo,
             cuenta_nombre: detalle.cuenta_nombre,
             naturaleza: detalle.naturaleza,
+            base: [detalle.base],
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -445,6 +446,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         cuenta_codigo: [documentoSeleccionado.cuenta_codigo],
         naturaleza: [naturaleza],
         cantidad: [0],
+        base: [0],
       });
       this.detalles.push(detalleFormGroup);
     });
@@ -602,6 +604,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
       ],
       precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
+      base: [0],
     });
     this.detalles.push(detalleFormGroup);
   }
