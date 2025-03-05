@@ -294,7 +294,7 @@ export default class AporteDetalleComponent
       serializador: 'Excel',
       excel: true,
       limite: 10000,
-      ...this.parametrosConsultaContratos.filtros,
+      filtros: [...this.parametrosConsultaContratos.filtros],
     };
 
     this.descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
