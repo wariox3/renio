@@ -421,8 +421,16 @@ export default class EgresoFormularioComponent
       naturaleza: [null],
       documento_afectado: [null],
       numero: [null],
-      contacto: [null],
-      contacto_nombre: [null],
+      contacto: [
+        this.formularioEgreso.get('contacto')?.value !== ''
+          ? this.formularioEgreso.get('contacto')?.value
+          : null,
+      ],
+      contacto_nombre: [
+        this.formularioEgreso.get('contactoNombre')?.value !== ''
+          ? this.formularioEgreso.get('contactoNombre')?.value
+          : null,
+      ],
       precio: [null, Validators.compose([Validators.required])],
       seleccionado: [false],
       cantidad: [0],

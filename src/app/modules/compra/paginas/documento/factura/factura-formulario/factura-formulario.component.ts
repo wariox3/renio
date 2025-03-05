@@ -93,6 +93,8 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.acumuladorDebitosCreditos;
   public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public eliminarDetallesIds =
+    this._formularioFacturaService.eliminarDetallesIds;
 
   informacionFormulario: any;
   formularioFactura: FormGroup;
@@ -278,20 +280,16 @@ export default class FacturaDetalleComponent
 
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
-      this.facturaService
-        .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
-        .subscribe((respuesta) => {
-          this.router.navigate(['documento/detalle'], {
-            queryParams: {
-              ...this.parametrosUrl,
-              detalle: respuesta.documento.id,
-            },
-          });
-        });
+      this._formularioFacturaService.submitActualizarFactura(
+        this.detalle,
+        this.parametrosUrl,
+      );
     }
   }
 
   formSubmit() {
+    console.log(this.eliminarDetallesIds());
+
     if (this.formularioFactura.valid) {
       if (this.detalle !== undefined) {
         this._actualizarFactura();

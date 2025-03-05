@@ -6,13 +6,17 @@ import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { AporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
 import { RespuestaAporteDetalle } from '@modulos/humano/interfaces/respuesta-aporte-detalle';
-import { NgbDropdown, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdown,
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
 import { FiltrosDetalleAporteDetalle } from '../../constantes';
-import { BaseFiltroComponent } from "../../../../../../../../comun/componentes/base-filtro/base-filtro.component";
+import { BaseFiltroComponent } from '../../../../../../../../comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
   selector: 'app-table-detalles',
@@ -24,8 +28,8 @@ import { BaseFiltroComponent } from "../../../../../../../../comun/componentes/b
     CommonModule,
     SiNoPipe,
     NgbTooltipModule,
-    BaseFiltroComponent
-],
+    BaseFiltroComponent,
+  ],
   templateUrl: './table-detalles.component.html',
 })
 export class TableDetallesComponent extends General {
@@ -56,17 +60,17 @@ export class TableDetallesComponent extends General {
     this._generalService
       .consultarDatosLista<AporteDetalle>(this.arrParametrosConsulta())
       .subscribe((respuesta) => {
-        this.cantidadRegistros.set(respuesta.cantidad_registros)
+        this.cantidadRegistros.set(respuesta.cantidad_registros);
         this.arrAporteDetalle.set(
           respuesta.registros.map((registro: any) => ({
             ...registro,
             selected: false,
-          }))
+          })),
         );
         this.changeDetectorRef.detectChanges();
       });
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteDetalle })
+      ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteDetalle }),
     );
   }
 
@@ -124,7 +128,7 @@ export class TableDetallesComponent extends General {
       serializador: 'Excel',
       excel: true,
       limite: 10000,
-      ...this.arrParametrosConsulta().filtros
+      filtros: [...this.arrParametrosConsulta().filtros],
     };
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);

@@ -292,27 +292,10 @@ export default class FacturaRecurrenteFormularioComponent
           }
         } else {
           if (this.validarCamposDetalles() === false) {
-            this.facturaService
-              .actualizarDatosFactura(
-                this.detalle,
-                this.formularioFactura.value,
-              )
-              .pipe(
-                tap((respuesta) => {
-                  this.router.navigate(['documento/detalle'], {
-                    queryParams: {
-                      ...this.parametrosUrl,
-                      detalle: respuesta.documento.id,
-                    },
-                  });
-                }),
-                catchError(() => {
-                  this.btnGuardarDisabled = false;
-                  this.changeDetectorRef.detectChanges();
-                  return of(null);
-                }),
-              )
-              .subscribe();
+            this._formularioFacturaService.submitActualizarFactura(
+              this.detalle,
+              this.parametrosUrl,
+            );
           }
         }
       }

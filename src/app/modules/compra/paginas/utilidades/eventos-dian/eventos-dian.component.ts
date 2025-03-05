@@ -49,6 +49,7 @@ export class EventosDianComponent extends General implements OnInit {
     { propiedad: 'estado_aprobado', valor1: true },
     { propiedad: 'estado_electronico_evento', valor1: false },
     { propiedad: 'estado_electronico_descartado', valor1: false },
+    { propiedad: 'estado_anulado', valor1: false },
   ];
   arrParametrosConsultaLista: ParametrosFiltros = {
     filtros: this.filtroPermanenteLista,

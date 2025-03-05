@@ -144,6 +144,7 @@
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.PRECIO'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,6 +181,9 @@
                       </td>
                       <td class="text-end">
                         {{ documento.precio | number }}
+                      </td>
+                      <td class="text-end">
+                        {{ documento.base | number }}
                       </td>
                     </tr>
                   </tbody>

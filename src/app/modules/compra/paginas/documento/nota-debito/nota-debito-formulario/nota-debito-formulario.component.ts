@@ -269,16 +269,10 @@ export default class FacturaDetalleComponent
         }
       } else {
         if (this.validarCamposDetalles() === false) {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, this.formularioFactura.value)
-            .subscribe((respuesta) => {
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
-                },
-              });
-            });
+          this._formularioFacturaService.submitActualizarFactura(
+            this.detalle,
+            this.parametrosUrl,
+          );
         }
       }
     } else {
