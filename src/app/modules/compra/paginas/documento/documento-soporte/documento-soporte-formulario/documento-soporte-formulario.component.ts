@@ -20,6 +20,7 @@ import { FormularioFacturaService } from '@comun/services/factura/formulario-fac
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
@@ -31,9 +32,14 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
+import { DocumentoSoporteInformacionExtraComponent } from "../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component";
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -53,7 +59,11 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    NgSelectModule,
+    SeleccionarGrupoComponent,
+    SeleccionarAlmacenComponent,
+    DocumentoSoporteInformacionExtraComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -63,6 +73,7 @@ export default class FacturaDetalleComponent
   private _generalService = inject(GeneralService);
 
   public modoEdicion = this._formularioFacturaService.modoEdicion;
+  public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
@@ -175,15 +186,40 @@ export default class FacturaDetalleComponent
           serializador: 'ListaAutocompletar',
         },
       ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenFormaPago>(
+        {
+          modelo: 'GenFormaPago',
+          serializador: 'ListaAutocompletar',
+          ordenamientos: ['id'],
+        },
+      ),
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
+      this.formaPagoLista = respuesta[2].registros;
+      this._sugerirPrimerValorFormaPago();
       this.changeDetectorRef.detectChanges();
     });
   }
 
   get detalles() {
     return this.formularioFactura.get('detalles') as FormArray;
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
+  }
+
+  recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.get('almacen')?.setValue(almacen.almacen_id);
+    this.formularioFactura
+      .get('almacen_nombre')
+      ?.setValue(almacen.almacen_nombre);
+  }
+
+  recibirAlmacenVacio() {
+    this.formularioFactura.get('almacen')?.setValue(null);
+    this.formularioFactura.get('almacen_nombre')?.setValue('');
   }
 
   formSubmit() {
@@ -1050,5 +1086,15 @@ export default class FacturaDetalleComponent
   redondear(valor: number, decimales: number): number {
     const factor = Math.pow(10, decimales);
     return Math.round(valor * factor) / factor;
+  }
+
+  private _sugerirPrimerValorFormaPago() {
+    if (!this.detalle) {
+      if (this.formaPagoLista.length > 0) {
+        this.formularioFactura.patchValue({
+          forma_pago: this.formaPagoLista?.[0].forma_pago_id,
+        });
+      }
+    }
   }
 }

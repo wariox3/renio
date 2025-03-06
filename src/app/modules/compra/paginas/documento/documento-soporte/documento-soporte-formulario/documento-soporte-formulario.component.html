@@ -230,7 +230,7 @@
           ></ng-container>
         </div>
       </div>
-      <div class="row mb-5">
+      <!-- <div class="row mb-5">
         <div
           class="col-md-6 col-sm-12"
           ngbDropdown
@@ -305,6 +305,84 @@
               control: formularioFactura.controls['orden_compra'],
             }"
           ></ng-container>
+        </div>
+      </div> -->
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
+          >
+          </label>
+          <ng-select
+            [items]="formaPagoLista"
+            bindLabel="forma_pago_nombre"
+            bindValue="forma_pago_id"
+            formControlName="forma_pago"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
+          ></label>
+          <input
+            formControlName="orden_compra"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            (blur)="modificarCampoFormulario('orden_compra', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['orden_compra'].touched &&
+                formularioFactura.controls['orden_compra'].invalid,
+              'is-valid':
+                formularioFactura.controls['orden_compra'].touched &&
+                formularioFactura.controls['orden_compra'].valid,
+            }"
+          />
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          >
+          </label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            [isEdicion]="modoEdicion()"
+            [sugerirPrimerValor]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
+          ></app-seleccionar-grupo>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+            <label
+              class="form-label"
+              translate="FORMULARIOS.CAMPOS.COMUNES.ALMACEN"
+            ></label>
+
+            <app-seleccionar-almacen
+              [grande]="true"
+              [isEdicion]="modoEdicion()"
+              [sugerirPrimerValor]="true"
+              [itemNombre]="formularioFactura.get('almacen_nombre')?.value"
+              [estadoAprobado]="estadoAprobado()"
+              [campoInvalido]="
+                formularioFactura.get('almacen')?.touched &&
+                formularioFactura.get('almacen')?.hasError('required')
+              "
+              (emitirItemSeleccionado)="recibirAlmacenSeleccionado($event)"
+              (emitirLineaVacia)="recibirAlmacenVacio()"
+            ></app-seleccionar-almacen>
+          </div>
         </div>
       </div>
       <div class="row mb-5">
@@ -384,39 +462,6 @@
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
               control: formularioFactura.controls['documento_referencia'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].invalid,
-              'is-valid':
-                formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].valid,
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioFactura.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -749,9 +794,11 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
               ></a>
-              <ng-template ngbNavContent> </ng-template>
+              <ng-template ngbNavContent>
+                <app-documento-soporte-informacion-extra></app-documento-soporte-informacion-extra>
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
