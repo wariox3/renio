@@ -1,39 +1,37 @@
-  <section card-body>
-    <table id="tableDetalles" class="table table-bordered table-row-gray-500">
-      <thead>
+<section card-body>
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr>
+        <th class="bg-gray-100 w-45px">Id</th>
+        <th class="bg-gray-100">Nombre</th>
+        <th class="bg-gray-100">Porcentaje</th>
+        <th class="bg-gray-100"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (concepto of conceptosLista(); track concepto.id) {
         <tr>
-          <th class="bg-gray-100" style="width: 10px">Id</th>
-          <th class="bg-gray-100">Nombre</th>
-          <th class="bg-gray-100">Concepto</th>
-          <th class="bg-gray-100"></th>
+          <td class="w-45px">{{ concepto.id }}</td>
+          <td class="w-50 text-start">
+            {{ concepto.nombre }}
+          </td>
+          <td>{{ concepto.porcentaje }} %</td>
+          <td class="w-45px text-center">
+            <label
+              (click)="abrirModal(content, concepto)"
+              class="cursor-pointer"
+            >
+              <i class="ki-duotone ki-notepad-edit hover-primary">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+            </label>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        @for (concepto of conceptosLista(); track concepto.id) {
-          <tr>
-            <td style="width: 10px">{{ concepto.id }}</td>
-            <td class="w-50 text-start">
-              {{ concepto.nombre }}
-            </td>
-            <td>
-              {{ concepto.concepto_tipo_nombre }}
-            </td>
-            <td class="w-45px text-center">
-              <label
-                (click)="abrirModal(content, concepto)"
-                class="cursor-pointer"
-              >
-                <i class="ki-duotone ki-notepad-edit hover-primary">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                </i>
-              </label>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </section>
+      }
+    </tbody>
+  </table>
+</section>
 <ng-template #content let-modal>
   <div class="modal-header">
     <h3>Concepto</h3>

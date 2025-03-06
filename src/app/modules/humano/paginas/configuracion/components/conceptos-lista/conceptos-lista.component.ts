@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { GeneralService } from '@comun/services/general.service';
 import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { Concepto } from '@modulos/contenedor/interfaces/concepto.interface';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
@@ -18,6 +19,8 @@ export class DocumentoDocumentoTipoComponent
   extends General
   implements OnInit, OnDestroy
 {
+  private _generalService = inject(GeneralService);
+
   arrDocumentosTipos: DocumentoTipo[] = [];
   resolucionId: number;
   documentoTipoSeleccionado: any;
@@ -48,9 +51,17 @@ export class DocumentoDocumentoTipoComponent
   // }
 
   private _getConceptos() {
-    this.empresaService.obtenerConceptos().subscribe((respuesta) => {
-      this.conceptosLista.set(respuesta);
-    });
+    this._generalService
+      .consultarDatosAutoCompletar<Concepto>({
+        limite: 1000,
+        desplazar: 0,
+        ordenamientos: [],
+        limite_conteo: 10000,
+        modelo: 'HumConcepto',
+      })
+      .subscribe((respuesta) => {
+        this.conceptosLista.set(respuesta.registros);
+      });
   }
 
   navegarEditar(documentoTipo: any, content: any) {
