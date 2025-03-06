@@ -42,6 +42,7 @@ export type Modelo =
   | 'HumSucursal'
   | 'HumEntidad'
   | 'HumTipoCotizante'
+  | 'HumTipoCosto'
   | 'HumTiempo'
   | 'HumCargo'
   | 'HumPagoTipo'
