@@ -504,6 +504,7 @@ export const locale = {
             SALUD: 'Salud',
             SUCURSAL: 'Sucursal',
             TIPOCOTIZANTE: 'Tipo cotizante',
+            TIPOCOSTO: 'Tipo costo',
             CARGO: 'Cargo',
             SALARIO: 'Salario',
             AUXILIOTRANSPORTE: 'Auxilio transporte',
@@ -519,6 +520,7 @@ export const locale = {
             FECHAULTIMOPAGOCESANTIA: 'Último pago de cesantía',
             TIEMPO: 'Tiempo',
             FECHAULTIMOPAGOVACACIONES: 'Último pago de vacaciones',
+            CONTABILIDAD: 'Contabilidad'
           },
           CUENTABANCO: {
             ID: 'ID',
