@@ -1,23 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { GeneralService } from '@comun/services/general.service';
 import { Impuesto } from '@modulos/general/interfaces/impuesto.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImpuestoEditarComponent } from '../impuesto-editar/impuesto-editar.component';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { ImpuestoEditarComponent } from '../impuesto-editar/impuesto-editar.component';
 
 @Component({
   selector: 'app-impuestos-lista',
   standalone: true,
-  imports: [
-    CardComponent,
-    CommonModule,
-    TranslateModule,
-    ImpuestoEditarComponent,
-    SiNoPipe
-  ],
+  imports: [  CommonModule, TranslateModule, ImpuestoEditarComponent, SiNoPipe],
   templateUrl: './impuestos-lista.component.html',
 })
 export class ImpuestosListaComponent implements OnInit {

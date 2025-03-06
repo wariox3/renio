@@ -1,79 +1,75 @@
-<app-card [titulo]="'FORMULARIOS.TITULOS.EMPRESA.CONFIGURACIONEMPRESA'">
-  <section card-body>
-    <div class="table-responsive-sm">
-      <table id="tableDetalles" class="table table-bordered table-row-gray-500">
-        <thead>
-          <tr class="bg-gray-100">
-            <th style="width: 50px">Id</th>
-            <th>Nombre</th>
-            <th>Nombre extendido</th>
-            <th>Porcentaje</th>
-            <th>Operación</th>
-            <th>Compra</th>
-            <th>Venta</th>
-            <th>Cod</th>
-            <th>Cuenta</th>
-            <th style="width: 50px"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (impuesto of arrImpuestoSignal(); track impuesto.id) {
-          <tr>
-            <td style="width: 50px">{{ impuesto.id }}</td>
-            <td>
-              {{ impuesto.nombre }}
-            </td>
-            <td>
-              {{ impuesto.nombre_extendido }}
-            </td>
-            <td>{{ impuesto.porcentaje }} %</td>
-            <td>
-              {{ impuesto.operacion }}
-            </td>
-            <td>
-              {{ impuesto.compra | siNo }}
-            </td>
-            <td>
-              {{ impuesto.venta | siNo }}
-            </td>
-            <td>
-              {{ impuesto.cuenta_codigo }}
-            </td>
-            <td>
-              {{ impuesto.cuenta_nombre }}
-            </td>
-            <td style="width: 50px">
-              <label
-                (click)="navegarEditar(impuesto, content)"
-                class="cursor-pointer"
-              >
-                <i class="ki-duotone ki-notepad-edit hover-primary">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                </i>
-              </label>
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-    <ng-template #content let-modal>
-      <div class="modal-header">
-        <h3>Editar Impuesto {{ ImpuestoSeleccionado().id }}</h3>
-        <button
-          type="button"
-          class="btn-close"
-          aria-label="Close"
-          (click)="modal.dismiss('Cross click')"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <app-impuesto-editar
-          [impuestoInformacion]="ImpuestoSeleccionado()"
-          (emitirGuardoRegistro)="cerrarModal($event)"
-        ></app-impuesto-editar>
-      </div>
-    </ng-template>
-  </section>
-</app-card>
+<div class="table-responsive-sm">
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr class="bg-gray-100">
+        <th style="width: 50px">Id</th>
+        <th>Nombre</th>
+        <th>Nombre extendido</th>
+        <th>Porcentaje</th>
+        <th>Operación</th>
+        <th>Compra</th>
+        <th>Venta</th>
+        <th>Cod</th>
+        <th>Cuenta</th>
+        <th style="width: 50px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (impuesto of arrImpuestoSignal(); track impuesto.id) {
+        <tr>
+          <td style="width: 50px">{{ impuesto.id }}</td>
+          <td>
+            {{ impuesto.nombre }}
+          </td>
+          <td>
+            {{ impuesto.nombre_extendido }}
+          </td>
+          <td>{{ impuesto.porcentaje }} %</td>
+          <td>
+            {{ impuesto.operacion }}
+          </td>
+          <td>
+            {{ impuesto.compra | siNo }}
+          </td>
+          <td>
+            {{ impuesto.venta | siNo }}
+          </td>
+          <td>
+            {{ impuesto.cuenta_codigo }}
+          </td>
+          <td>
+            {{ impuesto.cuenta_nombre }}
+          </td>
+          <td style="width: 50px">
+            <label
+              (click)="navegarEditar(impuesto, content)"
+              class="cursor-pointer"
+            >
+              <i class="ki-duotone ki-notepad-edit hover-primary">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+            </label>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h3>Editar Impuesto {{ ImpuestoSeleccionado().id }}</h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-impuesto-editar
+      [impuestoInformacion]="ImpuestoSeleccionado()"
+      (emitirGuardoRegistro)="cerrarModal($event)"
+    ></app-impuesto-editar>
+  </div>
+</ng-template>

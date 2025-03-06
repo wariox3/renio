@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { Resolucion } from '@interfaces/general/resolucion.interface';
-import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-editar/empresa-documento-tipo-editar.component';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { EmpresaDocumentoTipoEditarComponent } from '../empresa-documento-tipo-editar/empresa-documento-tipo-editar.component';
 
 @Component({
   selector: 'app-empresa-documento-tipo',
@@ -17,7 +16,6 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
   imports: [
     CommonModule,
     TranslateModule,
-    CardComponent,
     EmpresaDocumentoTipoEditarComponent,
     SiNoPipe
   ],

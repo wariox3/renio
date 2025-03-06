@@ -29,7 +29,7 @@
             formularioConfiguracion.controls['hum_factor'].invalid,
           'is-valid':
             formularioConfiguracion.controls['hum_factor'].touched &&
-            formularioConfiguracion.controls['hum_factor'].valid
+            formularioConfiguracion.controls['hum_factor'].valid,
         }"
       />
       <ng-container
@@ -37,7 +37,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioConfiguracion.controls['hum_factor']
+          control: formularioConfiguracion.controls['hum_factor'],
         }"
       ></ng-container>
       <ng-container
@@ -46,7 +46,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '6',
-          control: formularioConfiguracion.controls['hum_factor']
+          control: formularioConfiguracion.controls['hum_factor'],
         }"
       ></ng-container>
       <ng-container
@@ -54,7 +54,7 @@
         [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioConfiguracion.controls['hum_factor']
+          control: formularioConfiguracion.controls['hum_factor'],
         }"
       ></ng-container>
     </div>
@@ -75,7 +75,7 @@
             formularioConfiguracion.controls['hum_salario_minimo'].invalid,
           'is-valid':
             formularioConfiguracion.controls['hum_salario_minimo'].touched &&
-            formularioConfiguracion.controls['hum_salario_minimo'].valid
+            formularioConfiguracion.controls['hum_salario_minimo'].valid,
         }"
         appSoloNumeros
       />
@@ -84,7 +84,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioConfiguracion.controls['hum_salario_minimo']
+          control: formularioConfiguracion.controls['hum_salario_minimo'],
         }"
       ></ng-container>
       <ng-container
@@ -93,7 +93,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '20',
-          control: formularioConfiguracion.controls['hum_salario_minimo']
+          control: formularioConfiguracion.controls['hum_salario_minimo'],
         }"
       ></ng-container>
     </div>
@@ -114,7 +114,7 @@
           'is-valid':
             formularioConfiguracion.controls['hum_auxilio_transporte']
               .touched &&
-            formularioConfiguracion.controls['hum_auxilio_transporte'].valid
+            formularioConfiguracion.controls['hum_auxilio_transporte'].valid,
         }"
         appSoloNumeros
       />
@@ -123,7 +123,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioConfiguracion.controls['hum_auxilio_transporte']
+          control: formularioConfiguracion.controls['hum_auxilio_transporte'],
         }"
       ></ng-container>
       <ng-container
@@ -132,58 +132,91 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '20',
-          control: formularioConfiguracion.controls['hum_auxilio_transporte']
+          control: formularioConfiguracion.controls['hum_auxilio_transporte'],
         }"
       ></ng-container>
     </div>
   </div>
   <br />
   <div class="row mb-5">
-    <app-card>
-      <section card-titulo>
-        <div>Conceptos nomina</div>
-      </section>
-      <section card-body>
-        <table
-          id="tableDetalles"
-          class="table table-bordered table-row-gray-500"
-        >
-          <thead>
-            <tr>
-              <th class="bg-gray-100" style="width: 10px">Id</th>
-              <th class="bg-gray-100">Nombre</th>
-              <th class="bg-gray-100">Concepto</th>
-              <th class="bg-gray-100"></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (conceptoNomina of arrConceptosNomina; track conceptoNomina.id)
-            {
-            <tr>
-              <td style="width: 10px">{{ conceptoNomina.id }}</td>
-              <td class="w-50 text-start">
-                {{ conceptoNomina.nombre }}
-              </td>
-              <td>
-                {{ conceptoNomina.concepto_nombre }}
-              </td>
-              <td class="w-45px text-center">
-                <label
-                  (click)="abrirModal(content, conceptoNomina)"
-                  class="cursor-pointer"
+    <div class="col-12">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="tabActive"
+        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+      >
+        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 1 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+            >Conceptos nomina</a
+          >
+          <ng-template ngbNavContent>
+            <div class="row mb-5">
+              <section card-body>
+                <table
+                  id="tableDetalles"
+                  class="table table-bordered table-row-gray-500"
                 >
-                  <i class="ki-duotone ki-notepad-edit hover-primary">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                  </i>
-                </label>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </section>
-    </app-card>
+                  <thead>
+                    <tr>
+                      <th class="bg-gray-100" style="width: 10px">Id</th>
+                      <th class="bg-gray-100">Nombre</th>
+                      <th class="bg-gray-100">Concepto</th>
+                      <th class="bg-gray-100"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (
+                      conceptoNomina of arrConceptosNomina;
+                      track conceptoNomina.id
+                    ) {
+                      <tr>
+                        <td style="width: 10px">{{ conceptoNomina.id }}</td>
+                        <td class="w-50 text-start">
+                          {{ conceptoNomina.nombre }}
+                        </td>
+                        <td>
+                          {{ conceptoNomina.concepto_nombre }}
+                        </td>
+                        <td class="w-45px text-center">
+                          <label
+                            (click)="abrirModal(content, conceptoNomina)"
+                            class="cursor-pointer"
+                          >
+                            <i class="ki-duotone ki-notepad-edit hover-primary">
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                            </i>
+                          </label>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </section>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 2 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+          >
+        Conceptos
+        </a>
+          <ng-template ngbNavContent> 
+            <app-conceptos-lista></app-conceptos-lista>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
   </div>
 </form>
 <ng-template
@@ -206,7 +239,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h3>Concepto</h3>
+    <h3>Concepto nomina</h3>
     <button
       type="button"
       class="btn-close"
@@ -247,20 +280,20 @@
                 formularioConcepto.controls['concepto'].invalid,
               'is-valid':
                 formularioConcepto.controls['concepto'].touched &&
-                formularioConcepto.controls['concepto'].valid
+                formularioConcepto.controls['concepto'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
             @for (item of arrConceptosHumano; track $index) {
-            <option
-              [value]="item.concepto_id"
-              [selected]="
-                item.concepto_id === formularioConcepto.value.identificacion
-              "
-              *ngIf="item.concepto_id !== 6"
-            >
-              {{ item.concepto_nombre }}
-            </option>
+              <option
+                [value]="item.concepto_id"
+                [selected]="
+                  item.concepto_id === formularioConcepto.value.identificacion
+                "
+                *ngIf="item.concepto_id !== 6"
+              >
+                {{ item.concepto_nombre }}
+              </option>
             }
           </select>
           <ng-container
@@ -268,7 +301,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConcepto.controls['concepto']
+              control: formularioConcepto.controls['concepto'],
             }"
           ></ng-container>
         </div>
