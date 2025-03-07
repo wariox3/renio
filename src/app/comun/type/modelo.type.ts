@@ -48,6 +48,7 @@ export type Modelo =
   | 'HumPagoTipo'
   | 'HumNovedadTipo'
   | 'HumAporteContrato'
+  | 'HumConceptoCuenta'
   | 'ConCuenta'
   | 'ConCuentaClase'
   | 'ConCuentaGrupo'

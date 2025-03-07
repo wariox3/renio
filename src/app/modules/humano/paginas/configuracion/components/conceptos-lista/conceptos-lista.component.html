@@ -43,64 +43,78 @@
     ></button>
   </div>
   <div class="modal-body">
-    <form>
-      <div class="d-flex mb-5 justify-content-between align-items-center">
-        <div
-          class="btn-group btn-sm shadow-sm"
-          role="group"
-          aria-label="Basic example"
-        >
+    <form [formGroup]="formularioConceptoCuenta" class="mb-5">
+      <div class="row mb-2">
+        <div class="col-md-5 col-sm-12">
+          <label class="form-label required"> Tipo costo </label>
+          <app-seleccionar-tipo-costo
+            (selectChange)="onSeleccionarTipoCostoChange($event)"
+            [valorInicial]="formularioConceptoCuenta.get('tipo_costo')?.value"
+          ></app-seleccionar-tipo-costo>
+        </div>
+        <div class="col-md-5 col-sm-12">
+          <label class="form-label required"> Cuenta </label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaCobrarCodigo"
+            [cuentaNombre]="cuentaCobrarNombre"
+            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-md-2 mt-8">
           <button
             type="submit"
             class="btn btn-primary btn-sm"
             #btnGuardar
-            translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
-          ></button>
+            [disabled]="!formularioConceptoCuenta.valid"
+            (click)="agregarConceptoCuenta()"
+          >
+            Agregar
+          </button>
         </div>
       </div>
-
-      <!-- <div class="row mb-2">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.CONFIGURACIONHUMANO.CONCEPTO"
-            class="form-label required"
-          >
-          </label>
-          <select
-            class="form-select"
-            formControlName="concepto"
-            [ngClass]="{
-              'is-invalid':
-                formularioConcepto.controls['concepto'].touched &&
-                formularioConcepto.controls['concepto'].invalid,
-              'is-valid':
-                formularioConcepto.controls['concepto'].touched &&
-                formularioConcepto.controls['concepto'].valid,
-            }"
-          >
-            <option value="">Seleccionar...</option>
-            @for (item of arrConceptosHumano; track $index) {
-              <option
-                [value]="item.concepto_id"
-                [selected]="
-                  item.concepto_id === formularioConcepto.value.identificacion
-                "
-                *ngIf="item.concepto_id !== 6"
-              >
-                {{ item.concepto_nombre }}
-              </option>
-            }
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConcepto.controls['concepto'],
-            }"
-          ></ng-container>
-        </div>
-      </div> -->
     </form>
+    <div class="row">
+      <div class="table-responsive-sm">
+        <table id="tableDetalles" class="table table-bordered table-sm">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="bg-gray-100" style="width: 50px">Id</th>
+              <td>Tipo costo</td>
+              <td>Cuenta</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cuentaConcepto of cuentaConceptoLista(); track $index) {
+              <tr>
+                <td>
+                  {{ cuentaConcepto.id }}
+                </td>
+                <td>
+                  {{ cuentaConcepto.tipo_costo_nombre }}
+                </td>
+                <td>
+                  <app-comun-cuentas
+                    [iniciarFocusInputBusqueda]="false"
+                    [cuentaCodigo]="cuentaConcepto.cuenta_codigo"
+                    [cuentaNombre]="cuentaConcepto.cuenta_nombre"
+                    (emitirArrCuentas)="
+                      onCambioDeCuenta($event, cuentaConcepto.id)
+                    "
+                  ></app-comun-cuentas>
+                </td>
+                <td class="text-center pt-4">
+                  <i
+                    class="bi bi-trash fs-2 align-self-center cursor-pointer user-select-none text-hover-danger"
+                    (click)="eliminarCuentaConcepto(cuentaConcepto.id)"
+                  ></i>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </ng-template>
