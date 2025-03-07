@@ -76,7 +76,7 @@ export class DocumentoDocumentoTipoComponent
       .consultarDatosAutoCompletar<Concepto>({
         limite: 1000,
         desplazar: 0,
-        ordenamientos: [],
+        ordenamientos: ['id'],
         limite_conteo: 10000,
         modelo: 'HumConcepto',
       })

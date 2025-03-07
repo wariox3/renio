@@ -43,7 +43,7 @@ export class ProvisionListaComponent
       .consultarDatosAutoCompletar<HumConfiguracionProvision>({
         limite: 1000,
         desplazar: 0,
-        ordenamientos: ['id'],
+        ordenamientos: ['orden'],
         limite_conteo: 10000,
         modelo: 'HumConfiguracionProvision',
       })

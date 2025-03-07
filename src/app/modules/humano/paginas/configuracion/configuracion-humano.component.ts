@@ -110,6 +110,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this._generalService
       .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
         modelo: 'HumEntidad',
+        ordenamientos: ['id'],
         filtros: [
           {
             operador: 'exact',
