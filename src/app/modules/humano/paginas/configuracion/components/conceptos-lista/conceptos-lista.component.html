@@ -1,0 +1,120 @@
+<section card-body>
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr>
+        <th class="bg-gray-100 w-45px">Id</th>
+        <th class="bg-gray-100">Nombre</th>
+        <th class="bg-gray-100">Porcentaje</th>
+        <th class="bg-gray-100"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (concepto of conceptosLista(); track concepto.id) {
+        <tr>
+          <td class="w-45px">{{ concepto.id }}</td>
+          <td class="w-50 text-start">
+            {{ concepto.nombre }}
+          </td>
+          <td>{{ concepto.porcentaje }} %</td>
+          <td class="w-45px text-center">
+            <label
+              (click)="abrirModal(content, concepto)"
+              class="cursor-pointer"
+            >
+              <i class="ki-duotone ki-notepad-edit hover-primary">
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+            </label>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h3>Concepto</h3>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioConceptoCuenta" class="mb-5">
+      <div class="row mb-2">
+        <div class="col-md-5 col-sm-12">
+          <label class="form-label required"> Tipo costo </label>
+          <app-seleccionar-tipo-costo
+            (selectChange)="onSeleccionarTipoCostoChange($event)"
+            [valorInicial]="formularioConceptoCuenta.get('tipo_costo')?.value"
+          ></app-seleccionar-tipo-costo>
+        </div>
+        <div class="col-md-5 col-sm-12">
+          <label class="form-label required"> Cuenta </label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaCobrarCodigo"
+            [cuentaNombre]="cuentaCobrarNombre"
+            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-md-2 mt-8">
+          <button
+            type="submit"
+            class="btn btn-primary btn-sm"
+            #btnGuardar
+            [disabled]="!formularioConceptoCuenta.valid"
+            (click)="agregarConceptoCuenta()"
+          >
+            Agregar
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="table-responsive-sm">
+        <table id="tableDetalles" class="table table-bordered table-sm">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="bg-gray-100" style="width: 50px">Id</th>
+              <td>Tipo costo</td>
+              <td>Cuenta</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cuentaConcepto of cuentaConceptoLista(); track $index) {
+              <tr>
+                <td>
+                  {{ cuentaConcepto.id }}
+                </td>
+                <td>
+                  {{ cuentaConcepto.tipo_costo_nombre }}
+                </td>
+                <td>
+                  <app-comun-cuentas
+                    [iniciarFocusInputBusqueda]="false"
+                    [cuentaCodigo]="cuentaConcepto.cuenta_codigo"
+                    [cuentaNombre]="cuentaConcepto.cuenta_nombre"
+                    (emitirArrCuentas)="
+                      onCambioDeCuenta($event, cuentaConcepto.id)
+                    "
+                  ></app-comun-cuentas>
+                </td>
+                <td class="text-center pt-4">
+                  <i
+                    class="bi bi-trash fs-2 align-self-center cursor-pointer user-select-none text-hover-danger"
+                    (click)="eliminarCuentaConcepto(cuentaConcepto.id)"
+                  ></i>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>

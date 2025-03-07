@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
+import { Concepto } from '@modulos/contenedor/interfaces/concepto.interface';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { ConfiguracionEmpresa } from '@modulos/empresa/interfaces/empresa-configuracion.interface';
 
@@ -74,6 +75,10 @@ export class EmpresaService {
 
   obtenerConceptosNomina() {
     return this.httpService.get<any>(`humano/concepto_nomina/`);
+  }
+
+  obtenerConceptos() {
+    return this.httpService.get<Concepto>(`humano/concepto/`);
   }
 
   actualizarDocumentoTipo(documento_tipo_id: Number | string, data: any) {

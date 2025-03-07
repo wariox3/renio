@@ -105,6 +105,8 @@ export default class ContratoDetalleComponent
     fecha_ultimo_pago_cesantia: null,
     tiempo_id: 0,
     tiempo_nombre: null,
+    tipo_costo_id: 0,
+    tipo_costo_nombre: ''
   };
 
   ngOnInit() {

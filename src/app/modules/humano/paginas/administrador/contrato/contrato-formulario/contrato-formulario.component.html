@@ -628,6 +628,7 @@
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
             class="select2Custom"
+            appendTo="body"
           >
           </ng-select>
           <ng-container
@@ -696,6 +697,7 @@
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
             class="select2Custom"
+            appendTo="body"
           >
           </ng-select>
           <ng-container
@@ -724,6 +726,7 @@
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
             class="select2Custom"
+            appendTo="body"
           >
           </ng-select>
           <ng-container
@@ -748,6 +751,7 @@
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
             class="select2Custom"
+            appendTo="body"
           >
           </ng-select>
           <ng-container
@@ -843,6 +847,53 @@
               control: formularioContrato.controls['sucursal']
             }"
           ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
+
+  <app-card>
+    <section card-titulo>
+      {{
+        "FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTABILIDAD"
+          | translate
+      }}
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <!-- Selector tipo costo -->
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.TIPOCOSTO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="tipo_costo"
+            appendTo="body"
+            [ngClass]="{
+              'is-invalid':
+                formularioContrato.controls['tipo_costo'].touched &&
+                formularioContrato.controls['tipo_costo'].invalid,
+              'is-valid':
+                formularioContrato.controls['tipo_costo'].touched &&
+                formularioContrato.controls['tipo_costo'].valid
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let tipo_costo of autocompletarTipoCosto"
+              [value]="tipo_costo.tipo_costo_id"
+              [selected]="
+                tipo_costo.tipo_costo_id ===
+                formularioContrato.controls['tipo_costo']!.value
+              "
+            >
+              {{ tipo_costo.tipo_costo_nombre }}
+            </option>
+          </select>
         </div>
       </div>
     </section>

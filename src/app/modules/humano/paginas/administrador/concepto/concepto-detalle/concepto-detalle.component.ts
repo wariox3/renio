@@ -6,12 +6,18 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Concepto } from '@modulos/contenedor/interfaces/concepto.interface';
 import { ConceptoService } from '@modulos/humano/servicios/concepto.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-concepto-detalle',
   standalone: true,
-  imports: [CommonModule, CardComponent, BtnAtrasComponent, TranslateModule, TituloAccionComponent],
+  imports: [
+    CommonModule,
+    CardComponent,
+    BtnAtrasComponent,
+    TranslateModule,
+    TituloAccionComponent,
+  ],
   templateUrl: './concepto-detalle.component.html',
   styleUrl: './concepto-detalle.component.scss',
 })
@@ -25,7 +31,9 @@ export default class ConceptoDetalleComponent
     porcentaje: '',
     ingreso_base_prestacion: false,
     ingreso_base_cotizacion: false,
-    orden: 0
+    orden: 0,
+    concepto_tipo_id: 0,
+    concepto_tipo_nombre: '',
   };
 
   constructor(private conceptoService: ConceptoService) {
@@ -40,8 +48,8 @@ export default class ConceptoDetalleComponent
     this.conceptoService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta) => {
-        this.concepto = respuesta
-        this.concepto.porcentaje = `${parseFloat(respuesta.porcentaje.replace(",", "."))}`;
+        this.concepto = respuesta;
+        this.concepto.porcentaje = `${parseFloat(respuesta.porcentaje.replace(',', '.'))}`;
         this.changeDetectorRef.detectChanges();
       });
   }

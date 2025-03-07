@@ -8,17 +8,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
+import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
-import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
+import { DocumentoDocumentoTipoComponent } from "./components/conceptos-lista/conceptos-lista.component";
+import { ProvisionListaComponent } from "./components/provision-lista/provision-lista.component";
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -29,10 +30,12 @@ import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/human
     ReactiveFormsModule,
     TranslateModule,
     SoloNumerosDirective,
-    CardComponent,
     NgSelectModule,
     NgbDropdownModule,
-  ],
+    NgbNavModule,
+    DocumentoDocumentoTipoComponent,
+    ProvisionListaComponent
+],
   templateUrl: './configuracion-humano.component.html',
 })
 export class ConfiguracionHumanoComponent extends General implements OnInit {
@@ -41,6 +44,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   arrConceptosNomina: any;
   arrConceptosHumano: RegistroAutocompletarHumConcepto[];
   conceptoSelecionado: any;
+  tabActive = 1;
   public listaEntidadesRiesgo: RegistroHumEntidadLista[] = [];
 
   private readonly _generalService = inject(GeneralService);
@@ -106,6 +110,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this._generalService
       .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
         modelo: 'HumEntidad',
+        ordenamientos: ['id'],
         filtros: [
           {
             operador: 'exact',

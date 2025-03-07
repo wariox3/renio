@@ -46,4 +46,6 @@ export interface ProgramacionContrato {
   fecha_ultimo_pago_cesantia: string | null;
   tiempo_id: number;
   tiempo_nombre: string | null;
+  tipo_costo_id: number;
+  tipo_costo_nombre: string;
 }
