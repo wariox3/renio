@@ -19,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
 import { DocumentoDocumentoTipoComponent } from "./components/conceptos-lista/conceptos-lista.component";
+import { ProvisionListaComponent } from "./components/provision-lista/provision-lista.component";
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -32,7 +33,8 @@ import { DocumentoDocumentoTipoComponent } from "./components/conceptos-lista/co
     NgSelectModule,
     NgbDropdownModule,
     NgbNavModule,
-    DocumentoDocumentoTipoComponent
+    DocumentoDocumentoTipoComponent,
+    ProvisionListaComponent
 ],
   templateUrl: './configuracion-humano.component.html',
 })

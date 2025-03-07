@@ -208,10 +208,23 @@
             ngbNavLink
             data-bs-toggle="tab"
           >
-        Conceptos
-        </a>
-          <ng-template ngbNavContent> 
+            Conceptos
+          </a>
+          <ng-template ngbNavContent>
             <app-conceptos-lista></app-conceptos-lista>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 3 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+          >
+            Provisión
+          </a>
+          <ng-template ngbNavContent>
+            <app-provision-lista></app-provision-lista>
           </ng-template>
         </li>
       </ul>

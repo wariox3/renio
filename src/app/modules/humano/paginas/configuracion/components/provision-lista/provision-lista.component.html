@@ -1,0 +1,40 @@
+<section card-body>
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr>
+        <th class="bg-gray-100 w-45px">Id</th>
+        <th class="bg-gray-100">Tipo</th>
+        <th class="bg-gray-100">Concepto</th>
+        <th class="bg-gray-100">Cuenta credito</th>
+        <th class="bg-gray-100">Cuento debito</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (concepto of conceptosLista(); track concepto.id) {
+        <tr>
+          <td class="w-45px">{{ concepto.id }}</td>
+          <td class="w-50 text-start">
+            {{ concepto.nombre }}
+          </td>
+          <td>{{ concepto.porcentaje }}</td>
+          <td>
+            <app-comun-cuentas
+              [iniciarFocusInputBusqueda]="false"
+              [cuentaCodigo]="''"
+              [cuentaNombre]="''"
+              (emitirArrCuentas)="onCambioDeCuenta($event, concepto.id)"
+            ></app-comun-cuentas>
+          </td>
+          <td>
+            <!-- <app-comun-cuentas
+              [iniciarFocusInputBusqueda]="false"
+              [cuentaCodigo]="concepto.cuenta_codigo"
+              [cuentaNombre]="concepto.cuenta_nombre"
+              (emitirArrCuentas)="onCambioDeCuenta($event, concepto.id)"
+            ></app-comun-cuentas> -->
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
