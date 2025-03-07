@@ -3,35 +3,41 @@
     <thead>
       <tr>
         <th class="bg-gray-100 w-45px">Id</th>
+        <th class="bg-gray-100">Nombre</th>
         <th class="bg-gray-100">Tipo</th>
-        <th class="bg-gray-100">Concepto</th>
-        <th class="bg-gray-100">Cuenta credito</th>
-        <th class="bg-gray-100">Cuento debito</th>
+        <th class="bg-gray-100">Cuento débito</th>
+        <th class="bg-gray-100">Cuenta crédito</th>
       </tr>
     </thead>
     <tbody>
-      @for (concepto of conceptosLista(); track concepto.id) {
+      @for (provision of provisiones(); track provision.id) {
         <tr>
-          <td class="w-45px">{{ concepto.id }}</td>
-          <td class="w-50 text-start">
-            {{ concepto.nombre }}
+          <td class="w-45px">{{ provision.id }}</td>
+          <td class="">
+            {{ provision.tipo }}
           </td>
-          <td>{{ concepto.porcentaje }}</td>
+          <td class="">
+            {{ provision.tipo_costo_nombre }}
+          </td>
           <td>
             <app-comun-cuentas
               [iniciarFocusInputBusqueda]="false"
-              [cuentaCodigo]="''"
-              [cuentaNombre]="''"
-              (emitirArrCuentas)="onCambioDeCuenta($event, concepto.id)"
+              [cuentaCodigo]="provision.cuenta_debito_codigo"
+              [cuentaNombre]="provision.cuenta_debito_nombre"
+              (emitirArrCuentas)="
+                onCambioDeCuenta($event, provision.id, 'cuenta_debito')
+              "
             ></app-comun-cuentas>
           </td>
           <td>
-            <!-- <app-comun-cuentas
+            <app-comun-cuentas
               [iniciarFocusInputBusqueda]="false"
-              [cuentaCodigo]="concepto.cuenta_codigo"
-              [cuentaNombre]="concepto.cuenta_nombre"
-              (emitirArrCuentas)="onCambioDeCuenta($event, concepto.id)"
-            ></app-comun-cuentas> -->
+              [cuentaCodigo]="provision.cuenta_credito_codigo"
+              [cuentaNombre]="provision.cuenta_credito_nombre"
+              (emitirArrCuentas)="
+                onCambioDeCuenta($event, provision.id, 'cuenta_credito')
+              "
+            ></app-comun-cuentas>
           </td>
         </tr>
       }

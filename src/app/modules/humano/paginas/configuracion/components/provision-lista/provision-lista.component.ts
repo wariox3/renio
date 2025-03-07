@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarHumConceptoCuenta } from '@interfaces/comunes/autocompletar/humano/hum-concepto-cuenta.interface';
-import { Concepto } from '@modulos/contenedor/interfaces/concepto.interface';
-import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
-import { ConceptoService } from '@modulos/humano/servicios/concepto.service';
+import { HumConfiguracionProvision } from '@interfaces/comunes/humano/hum-configuracion-lista.interface';
+import { ProvisionService } from '@modulos/humano/servicios/provision.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { CuentasComponent } from "../../../../../../comun/componentes/cuentas/cuentas.component";
+import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cuentas.component';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 
 @Component({
   selector: 'app-provision-lista',
@@ -18,27 +17,16 @@ import { CuentasComponent } from "../../../../../../comun/componentes/cuentas/cu
     CommonModule,
     TranslateModule,
     ReactiveFormsModule,
-    CuentasComponent
-],
+    CuentasComponent,
+  ],
 })
 export class ProvisionListaComponent
   extends General
   implements OnInit, OnDestroy
 {
   private _generalService = inject(GeneralService);
-  private _conceptoService = inject(ConceptoService);
-
-  arrDocumentosTipos: DocumentoTipo[] = [];
-  resolucionId: number;
-  documentoTipoSeleccionado: any;
-  cuentaCobrarCodigo: string = '';
-  cuentaCobrarNombre: string = '';
-  formularioConceptoCuenta: FormGroup;
-  public conceptosLista = signal<Concepto[]>([]);
-  public cuentaConceptoLista = signal<RegistroAutocompletarHumConceptoCuenta[]>(
-    [],
-  );
-  public conceptoSelecionado: Concepto;
+  private _provisionService = inject(ProvisionService);
+  public provisiones = signal<HumConfiguracionProvision[]>([]);
 
   constructor() {
     super();
@@ -52,24 +40,29 @@ export class ProvisionListaComponent
 
   private _getConceptos() {
     this._generalService
-      .consultarDatosAutoCompletar<Concepto>({
+      .consultarDatosAutoCompletar<HumConfiguracionProvision>({
         limite: 1000,
         desplazar: 0,
-        ordenamientos: [],
+        ordenamientos: ['id'],
         limite_conteo: 10000,
         modelo: 'HumConfiguracionProvision',
       })
       .subscribe((respuesta) => {
-        this.conceptosLista.set(respuesta.registros);
+        this.provisiones.set(respuesta.registros);
       });
   }
 
-  onCambioDeCuenta(cuenta: any, cuentaConceptoId: number) {
-    this._conceptoService
-      .actualizarConceptoCuenta(cuentaConceptoId, {
-        cuenta: cuenta.cuenta_id,
+  onCambioDeCuenta(
+    cuenta: RegistroAutocompletarConCuenta,
+    cuentaId: number,
+    campoNombre: 'cuenta_credito' | 'cuenta_debito',
+  ) {
+    this._provisionService
+      .actualizarProvision(cuentaId, {
+        [campoNombre]: cuenta.cuenta_id,
       })
       .subscribe(() => {
+        this._getConceptos();
         this.alertaService.mensajaExitoso('Se actualizo con exito!');
       });
   }
