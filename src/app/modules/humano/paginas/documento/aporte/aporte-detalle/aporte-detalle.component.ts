@@ -458,7 +458,7 @@ export default class AporteDetalleComponent
   }
 
   private _desaprobarDocumento(documentoId: number) {
-    this._documentoService.desaprobarDocumento({ id: documentoId }).subscribe({
+    this.aporteService.desaprobar({ id: documentoId }).subscribe({
       next: () => {
         this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
       },
