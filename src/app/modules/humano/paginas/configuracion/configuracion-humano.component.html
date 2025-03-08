@@ -227,6 +227,19 @@
             <app-provision-lista></app-provision-lista>
           </ng-template>
         </li>
+        <li [ngbNavItem]="4" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': tabActive === 4 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+          >
+            Aporte
+          </a>
+          <ng-template ngbNavContent>
+            <app-aporte-lista></app-aporte-lista>
+          </ng-template>
+        </li>
       </ul>
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>

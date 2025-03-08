@@ -1,0 +1,29 @@
+<section card-body>
+  <table id="tableDetalles" class="table table-bordered table-row-gray-500">
+    <thead>
+      <tr>
+        <th class="bg-gray-100 w-45px">Id</th>
+        <th class="bg-gray-100">Nombre</th>
+        <th class="bg-gray-100">Cuenta</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of provisiones(); track provision.id) {
+        <tr>
+          <td class="w-45px">{{ provision.id }}</td>
+          <td class="">
+            {{ provision.tipo }}
+          </td>
+          <td>
+            <app-comun-cuentas
+              [iniciarFocusInputBusqueda]="false"
+              [cuentaCodigo]="provision.cuenta_codigo"
+              [cuentaNombre]="provision.cuenta_nombre"
+              (emitirArrCuentas)="onCambioDeCuenta($event, provision.id)"
+            ></app-comun-cuentas>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>
