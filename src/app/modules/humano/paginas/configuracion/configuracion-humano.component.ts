@@ -20,6 +20,7 @@ import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
 import { DocumentoDocumentoTipoComponent } from "./components/conceptos-lista/conceptos-lista.component";
 import { ProvisionListaComponent } from "./components/provision-lista/provision-lista.component";
+import { AporteListaComponent } from "./components/aporte-lista/aporte-lista.component";
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -34,7 +35,8 @@ import { ProvisionListaComponent } from "./components/provision-lista/provision-
     NgbDropdownModule,
     NgbNavModule,
     DocumentoDocumentoTipoComponent,
-    ProvisionListaComponent
+    ProvisionListaComponent,
+    AporteListaComponent
 ],
   templateUrl: './configuracion-humano.component.html',
 })

@@ -24,6 +24,7 @@ import { documentoHumCredito } from './documentos/humCredito.documento';
 import { documentoHumNovedad } from './documentos/humNovedad.documento';
 import { documentoHumAporte } from './documentos/humAporte.documento';
 import { documentoConMovimiento } from './documentos/ConMovimiento.documento';
+import { documento703 } from './documentos/703.documento';
 
 export const documentos: MapeoDocumentos = {
   100: documento100,
@@ -45,6 +46,7 @@ export const documentos: MapeoDocumentos = {
   601: documento601,
   701: documento701,
   702: documento702,
+  703: documento703,
   HumProgramacion: documentoHumProgramacion,
   HumAdicional: documentoHumAdicional,
   HumCredito: documentoHumCredito,

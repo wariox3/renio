@@ -11,3 +11,12 @@ export interface HumConfiguracionProvision {
   cuenta_credito_nombre: string;
   cuenta_credito_codigo: string;
 }
+
+export interface HumConfiguracionAporte {
+  id: number;
+  tipo: string;
+  orden: number;
+  cuenta_id: any;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+}

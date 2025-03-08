@@ -78,5 +78,14 @@ export const utilidades: MapeoUtilidades = {
       visibleTabla: true,
       ordenable: true,
     },
+    {
+      nombre: 'DOCUMENTO_TIPO',
+      nombreAbreviadoFiltro: 'DOCUMENTO_TIPO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'documento_tipo__nombre',
+      campoTipo: 'CharField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
   ],
 };

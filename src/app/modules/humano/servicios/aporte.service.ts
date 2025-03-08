@@ -35,6 +35,10 @@ export class AporteService extends Subdominio {
     return this.httpService.post<any>(`humano/aporte/generar/`, data);
   }
 
+  desaprobar(data: any) {
+    return this.httpService.post<any>(`humano/aporte/desaprobar/`, data);
+  }
+
   desgenerar(data: any) {
     return this.httpService.post<any>(`humano/aporte/desgenerar/`, data);
   }
@@ -45,5 +49,12 @@ export class AporteService extends Subdominio {
 
   planoOperador(data: Pick<Aporte, 'id'>) {
     return this.httpService.descargarArchivo(`humano/aporte/plano-operador/`, data);
+  }
+
+  actualizarAporte(id: number, data: { cuenta: string }) {
+    return this.httpService.patch<any>(
+      `humano/configuracion_aporte/${id}/`,
+      data,
+    );
   }
 }
