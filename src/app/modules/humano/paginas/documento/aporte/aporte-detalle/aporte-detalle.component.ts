@@ -36,6 +36,7 @@ import { RespuestaEncabezadoAporteDetalle } from '@modulos/humano/interfaces/apo
 import { PaginadorComponent } from '../../../../../../comun/componentes/paginador/paginador.component';
 import { TableEntidadComponent } from './componentes/table-entidad/table-entidad.component';
 import { TablaEntidadService } from './services/tabla-entidad.service';
+import { DocumentoService } from '@comun/services/documento/documento.service';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -67,6 +68,7 @@ export default class AporteDetalleComponent
   implements OnInit, OnDestroy
 {
   private readonly _tableEntidadService = inject(TablaEntidadService);
+  private readonly _documentoService = inject(DocumentoService);
 
   active: Number;
   aporte: RespuestaEncabezadoAporteDetalle = {
@@ -439,5 +441,27 @@ export default class AporteDetalleComponent
     };
 
     this._consultarContratos(this.parametrosConsultaContratos);
+  }
+
+  confirmarDesaprobarDocumento() {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de desaprobar?',
+        texto: '',
+        textoBotonCofirmacion: 'Si, desaprobar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._desaprobarDocumento(this.detalle);
+        }
+      });
+  }
+
+  private _desaprobarDocumento(documentoId: number) {
+    this._documentoService.desaprobarDocumento({ id: documentoId }).subscribe({
+      next: () => {
+        this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
+      },
+    });
   }
 }

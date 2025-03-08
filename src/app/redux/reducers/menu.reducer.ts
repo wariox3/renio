@@ -547,6 +547,23 @@ export const initialState: MenuItem = {
               consultaHttp: true,
               configuracionExtra: true,
             },
+            {
+              nombre: 'SEGURIDADSOCIAL',
+              tipo: 'documento',
+              modulo: 'humano',
+              data: {
+                documento_clase: 703,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarColumnaEditar: 'no',
+                visualizarBtnNuevo: 'no',
+                visualizarBtnEliminar: 'no',
+                visualizarColumnaSeleccionar: 'no',
+                visualizarBtnImportar: 'no',
+                visualizarBtnExportarZip: 'si',
+              },
+              visualiazarIconoDeracha: false,
+              consultaHttp: true,
+            },
           ],
         },
         {

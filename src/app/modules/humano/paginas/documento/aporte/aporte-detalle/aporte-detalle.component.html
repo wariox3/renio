@@ -21,11 +21,11 @@
         "
       >
         @if (generando) {
-        <div class="spinner-border spinner-border-sm mx-4" role="status">
-          <span class="sr-only">Generando...</span>
-        </div>
+          <div class="spinner-border spinner-border-sm mx-4" role="status">
+            <span class="sr-only">Generando...</span>
+          </div>
         } @else {
-        {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
         }
       </button>
       <button
@@ -65,6 +65,14 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button
+          [disabled]="!aporte.estado_aprobado"
+            ngbDropdownItem
+            (click)="confirmarDesaprobarDocumento()"
+          >
+            Desaprobar
+          </button>
+          <div class="dropdown-divider"></div>
+          <button
             ngbDropdownItem
             (click)="desgenerar()"
             [disabled]="
@@ -72,11 +80,12 @@
             "
           >
             @if (desgenerando) {
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only">Desgenerando...</span>
-            </div>
-            Desgenerando... } @else {
-            {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Desgenerando...</span>
+              </div>
+              Desgenerando...
+            } @else {
+              {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
             }
           </button>
         </div>
@@ -102,10 +111,13 @@
             [disabled]="!aporte.estado_generado"
           >
             @if (desgenerando) {
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only">Desgenerando...</span>
-            </div>
-            Desgenerando... } @else { Plano operador }
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Desgenerando...</span>
+              </div>
+              Desgenerando...
+            } @else {
+              Plano operador
+            }
           </button>
         </div>
       </div>
@@ -356,17 +368,18 @@
                       class="btn btn-sm btn-primary"
                     >
                       @if (cargandoContratos) {
-                      <div
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                      >
-                        <span class="sr-only">Cargando...</span>
-                      </div>
-                      Cargando... } @else {
-                      {{
-                        "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS"
-                          | translate
-                      }}
+                        <div
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                        >
+                          <span class="sr-only">Cargando...</span>
+                        </div>
+                        Cargando...
+                      } @else {
+                        {{
+                          "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS"
+                            | translate
+                        }}
                       }
                     </button>
 
@@ -559,7 +572,7 @@
                         <td
                           [ngClass]="{
                             'marcar-ingreso': aporteDetalle.ingreso,
-                            'marcar-error': aporteDetalle.error_terminacion
+                            'marcar-error': aporteDetalle.error_terminacion,
                           }"
                         >
                           {{ aporteDetalle.fecha_desde }}
@@ -567,19 +580,19 @@
                         <td
                           [ngClass]="{
                             'marcar-ingreso': aporteDetalle.retiro,
-                            'marcar-error': aporteDetalle.error_terminacion
+                            'marcar-error': aporteDetalle.error_terminacion,
                           }"
                         >
                           {{ aporteDetalle.fecha_hasta }}
                         </td>
                         <td class="text-end">
-                          {{ aporteDetalle.base_cotizacion | number : "1.2-2" }}
+                          {{ aporteDetalle.base_cotizacion | number: "1.2-2" }}
                         </td>
                         <td>
                           {{ aporteDetalle.dias }}
                         </td>
                         <td class="text-end">
-                          {{ aporteDetalle.salario | number : "1.2-2" }}
+                          {{ aporteDetalle.salario | number: "1.2-2" }}
                         </td>
                         <td class="w-20px">
                           <label [for]="aporteDetalle.id">

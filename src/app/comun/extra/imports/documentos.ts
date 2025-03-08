@@ -1,6 +1,6 @@
 import { FormulariosDetalles } from '@comun/type/mapeo-formulario-detalle.type';
 
-export const Componentes: Partial<FormulariosDetalles>  = {
+export const Componentes: Partial<FormulariosDetalles> = {
   100: {
     detalle: async () =>
       await import(
@@ -166,9 +166,18 @@ export const Componentes: Partial<FormulariosDetalles>  = {
       await import(
         '../../../modules/humano/paginas/documento/nomina-electronica/nominaElectronicaDetalle/nominaElectronicaDetalle.component'
       ),
-      formulario: function (): Promise<{ default: any; }> {
-        throw new Error('Function not implemented.');
-      }
+    formulario: function (): Promise<{ default: any }> {
+      throw new Error('Function not implemented.');
+    },
+  },
+  703: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/seguridad-social/seguridad-social-detalle.component'
+      ),
+    formulario: function (): Promise<{ default: any }> {
+      throw new Error('Function not implemented.');
+    },
   },
   HumProgramacion: {
     detalle: async () =>
@@ -219,5 +228,5 @@ export const Componentes: Partial<FormulariosDetalles>  = {
       await import(
         '../../../modules/humano/paginas/documento/aporte/aporte-formulario/aporte-formulario.component'
       ),
-  }
+  },
 };
