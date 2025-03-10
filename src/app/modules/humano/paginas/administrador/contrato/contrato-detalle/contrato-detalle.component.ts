@@ -106,7 +106,8 @@ export default class ContratoDetalleComponent
     tiempo_id: 0,
     tiempo_nombre: null,
     tipo_costo_id: 0,
-    tipo_costo_nombre: ''
+    tipo_costo_nombre: '',
+    grupo_contabilidad_nombre: ''
   };
 
   ngOnInit() {

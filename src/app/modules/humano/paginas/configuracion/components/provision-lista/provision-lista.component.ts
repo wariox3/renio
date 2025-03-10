@@ -66,4 +66,10 @@ export class ProvisionListaComponent
         this.alertaService.mensajaExitoso('Se actualizo con exito!');
       });
   }
+
+  mostrarCuentaCredito(provisionNombre: string) {
+    const provisiones = ['PENSION', 'SALUD', 'CAJA', 'RIESGO', 'SENA', 'ICBF'];
+
+    return !provisiones.includes(provisionNombre);
+  }
 }

@@ -46,6 +46,7 @@ import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtro
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RegistroAutocompletarHumTiempo } from '@interfaces/comunes/autocompletar/humano/hum-tiempo.interface';
 import { RegistroAutocompletarHumTipoCosto } from '@interfaces/comunes/autocompletar/humano/hum-tipo-costo.interface';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -62,6 +63,7 @@ import { RegistroAutocompletarHumTipoCosto } from '@interfaces/comunes/autocompl
     BuscarEmpleadoComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
   ],
   templateUrl: './contrato-formulario.component.html',
   styleUrls: ['./contrato-formulario.component.scss'],
@@ -124,7 +126,7 @@ export default class ContratoFormularioComponent
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private contratoService: ContratoService,
-    private contenedorService: ContenedorService
+    private contenedorService: ContenedorService,
   ) {
     super();
   }
@@ -195,14 +197,15 @@ export default class ContratoFormularioComponent
         entidad_pension: [null, Validators.required],
         entidad_cesantias: [null, Validators.required],
         tiempo: [1, Validators.required],
-        tipo_costo: [1]
+        tipo_costo: [1],
+        grupo_contabilidad: [null],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
           'fecha_desde',
-          'fecha_hasta'
+          'fecha_hasta',
         ),
-      }
+      },
     );
   }
 
@@ -243,7 +246,7 @@ export default class ContratoFormularioComponent
                   },
                 });
               });
-            })
+            }),
           )
           .subscribe();
       }
@@ -258,99 +261,98 @@ export default class ContratoFormularioComponent
         {
           modelo: 'HumGrupo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContratoTipo>(
         {
           modelo: 'HumContratoTipo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumRiesgo>(
         {
           modelo: 'HumRiesgo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumPension>(
         {
           modelo: 'HumPension',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSubtipoCotizante>(
         {
           modelo: 'HumSubtipoCotizante',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSalud>(
         {
           modelo: 'HumSalud',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSucursal>(
         {
           modelo: 'HumSucursal',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCotizante>(
         {
           modelo: 'HumTipoCotizante',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumCargo>(
         {
           modelo: 'HumCargo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
         {
           filtros: [{ propiedad: 'salud', valor1: true }],
           modelo: 'HumEntidad',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
         {
           filtros: [{ propiedad: 'pension', valor1: true }],
           modelo: 'HumEntidad',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
         {
           filtros: [{ propiedad: 'caja', valor1: true }],
           modelo: 'HumEntidad',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
         {
           filtros: [{ propiedad: 'cesantias', valor1: true }],
           modelo: 'HumEntidad',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTiempo>(
         {
           filtros: [],
           modelo: 'HumTiempo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCosto>(
         {
           filtros: [],
           modelo: 'HumTipoCosto',
           serializador: 'ListaAutocompletar',
-        }
-      )
-
+        },
+      ),
     ).subscribe((respuesta) => {
       this.arrGrupo = respuesta[0].registros;
       this.arrContratoTipo = respuesta[1].registros;
@@ -395,7 +397,7 @@ export default class ContratoFormularioComponent
         tap((respuesta) => {
           this.arrEmpleados = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -428,7 +430,7 @@ export default class ContratoFormularioComponent
 
     if (campo === 'fecha_desde') {
       const fecha = dato.target.value;
-      if(fecha !== ''){
+      if (fecha !== '') {
         this._modificarFechasContratoIndefinido(fecha);
       }
     }
@@ -501,7 +503,8 @@ export default class ContratoFormularioComponent
           entidad_pension: respuesta.entidad_pension_id,
           entidad_cesantias: respuesta.entidad_cesantias_id,
           tiempo: respuesta.tiempo_id,
-          tipo_costo: respuesta.tipo_costo_id
+          tipo_costo: respuesta.tipo_costo_id,
+          grupo_contabilidad: respuesta.grupo_contabilidad_id,
         });
 
         this._modificarFechasContratoIndefinido(respuesta.fecha_desde);
@@ -515,10 +518,9 @@ export default class ContratoFormularioComponent
       campos: ['hum_salario_minimo'],
     };
     this.httpService
-      .post<{ configuracion: { hum_salario_minimo: number }[] }>(
-        'general/configuracion/consulta/',
-        bodyData
-      )
+      .post<{
+        configuracion: { hum_salario_minimo: number }[];
+      }>('general/configuracion/consulta/', bodyData)
       .subscribe((respuesta) => {
         const salario = respuesta.configuracion[0].hum_salario_minimo;
         this.formularioContrato.patchValue({
@@ -529,7 +531,7 @@ export default class ContratoFormularioComponent
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
-    fechaHasta: string
+    fechaHasta: string,
   ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;
@@ -592,7 +594,7 @@ export default class ContratoFormularioComponent
         tap((respuesta: any) => {
           this.ciudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -620,7 +622,7 @@ export default class ContratoFormularioComponent
         tap((respuesta) => {
           this.autocompletarCargo = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
     this.changeDetectorRef.detectChanges();
@@ -640,5 +642,11 @@ export default class ContratoFormularioComponent
       cargo: item.cargo_id,
     });
     this.changeDetectorRef.detectChanges();
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioContrato.patchValue({
+      grupo_contabilidad: id,
+    });
   }
 }

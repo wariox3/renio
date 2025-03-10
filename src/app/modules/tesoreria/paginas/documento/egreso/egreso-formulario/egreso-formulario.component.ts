@@ -192,6 +192,9 @@ export default class EgresoFormularioComponent
           const detalleFormGroup = this.formBuilder.group({
             id: [detalle.id],
             tipo_registro: detalle.tipo_registro,
+            documento_afectado_documento_tipo_nombre: [
+              detalle.documento_afectado_documento_tipo_nombre,
+            ],
             documento_afectado: [detalle.documento_afectado_id],
             numero: [numero],
             contacto: [detalle.contacto_id],
@@ -572,6 +575,9 @@ export default class EgresoFormularioComponent
         id: [null],
         tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
+        documento_afectado_documento_tipo_nombre: [
+          documentoSeleccionado.documento_tipo_nombre,
+        ],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto_nombre: [documentoSeleccionado.contacto_nombre],

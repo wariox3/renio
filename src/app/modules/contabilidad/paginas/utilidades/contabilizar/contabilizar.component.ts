@@ -40,6 +40,7 @@ import { finalize } from 'rxjs';
   selector: 'app-factura-electronica',
   standalone: true,
   templateUrl: './contabilizar.component.html',
+  styleUrl: './contabilizar.component.scss',
   imports: [
     CommonModule,
     CardComponent,
@@ -60,6 +61,7 @@ export default class ContabilizarComponent extends General implements OnInit {
   private readonly _documentoService = inject(DocumentoService);
 
   public formularioDescontabilizar: FormGroup;
+  public isContabilizando = signal<boolean>(false);
   public descontabilizando = signal<boolean>(false);
   public documentoTipos = signal<RegistroAutocompletarGenDocumentoTipo[]>([]);
   public contabilizarLista = this._contabilizarService.contabilizarLista;
@@ -230,21 +232,29 @@ export default class ContabilizarComponent extends General implements OnInit {
 
   contabilizarTodos() {
     if (this.registrosSeleccionados().length > 0) {
-      this._contabilizarService.ejecutarContabilizarTodos().subscribe({
-        next: () => {
-          this.checkboxAll.nativeElement.checked = false;
-          this.consultarLista();
-          this.alertaService.mensajaExitoso(
-            'Registros contabilizados con exito!',
-          );
-        },
-        error: () => {
-          this.checkboxAll.nativeElement.checked = false;
-          this._contabilizarService.reiniciarRegistrosSeleccionados();
-          this.consultarLista();
-          this.changeDetectorRef.detectChanges();
-        },
-      });
+      this.isContabilizando.set(true);
+      this._contabilizarService
+        .ejecutarContabilizarTodos()
+        .pipe(
+          finalize(() => {
+            this.isContabilizando.set(false);
+          }),
+        )
+        .subscribe({
+          next: () => {
+            this.checkboxAll.nativeElement.checked = false;
+            this.consultarLista();
+            this.alertaService.mensajaExitoso(
+              'Registros contabilizados con exito!',
+            );
+          },
+          error: () => {
+            this.checkboxAll.nativeElement.checked = false;
+            this._contabilizarService.reiniciarRegistrosSeleccionados();
+            this.consultarLista();
+            this.changeDetectorRef.detectChanges();
+          },
+        });
     }
   }
 
@@ -311,18 +321,18 @@ export default class ContabilizarComponent extends General implements OnInit {
   }
 
   fechaDesdeMenorQueFechaHasta(
-      fechaDesde: string,
-      fechaHasta: string,
-    ): ValidatorFn {
-      return (formGroup: AbstractControl): { [key: string]: any } | null => {
-        const desde = formGroup.get(fechaDesde)?.value;
-        const hasta = formGroup.get(fechaHasta)?.value;
-  
-        // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
-        if (desde && hasta && new Date(desde) > new Date(hasta)) {
-          return { fechaInvalida: true };
-        }
-        return null;
-      };
-    }
+    fechaDesde: string,
+    fechaHasta: string,
+  ): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const desde = formGroup.get(fechaDesde)?.value;
+      const hasta = formGroup.get(fechaHasta)?.value;
+
+      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+        return { fechaInvalida: true };
+      }
+      return null;
+    };
+  }
 }
