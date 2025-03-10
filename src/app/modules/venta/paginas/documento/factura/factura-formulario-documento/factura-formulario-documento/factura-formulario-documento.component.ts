@@ -184,7 +184,7 @@ export class FacturaFormularioDocumentoComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -215,7 +215,7 @@ export class FacturaFormularioDocumentoComponent
         tap((respuesta) => {
           this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -298,7 +298,7 @@ export class FacturaFormularioDocumentoComponent
           limite_conteo: 10000,
           modelo: 'GenMetodoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
@@ -309,7 +309,7 @@ export class FacturaFormularioDocumentoComponent
           limite_conteo: 10000,
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
@@ -320,7 +320,7 @@ export class FacturaFormularioDocumentoComponent
           limite_conteo: 10000,
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
         {
@@ -331,9 +331,9 @@ export class FacturaFormularioDocumentoComponent
           limite_conteo: 10000,
           modelo: 'GenSede',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
-      this._empresaService.obtenerConfiguracionEmpresa(1)
+      this._empresaService.obtenerConfiguracionEmpresa(1),
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0].registros;
       this.arrPlazoPago = respuesta[1].registros;
