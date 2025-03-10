@@ -494,6 +494,7 @@ export const locale = {
             FECHAVENCE: 'Fecha vence',
           },
           CONTRATO: {
+            GRUPOCONTABILIDAD: 'Grupo contabilidad',
             FECHADESDE: 'Fecha desde',
             FECHAHASTA: 'Fecha hasta',
             GRUPO: 'Grupo',
@@ -521,7 +522,7 @@ export const locale = {
             FECHAULTIMOPAGOCESANTIA: 'Último pago de cesantía',
             TIEMPO: 'Tiempo',
             FECHAULTIMOPAGOVACACIONES: 'Último pago de vacaciones',
-            CONTABILIDAD: 'Contabilidad'
+            CONTABILIDAD: 'Contabilidad',
           },
           CUENTABANCO: {
             ID: 'ID',
@@ -984,7 +985,7 @@ export const locale = {
         EXISTENCIA: 'Existencia',
         DISPONIBLE: 'Disponible',
         REMISION: 'Remisión',
-        COTIZACION_TOTAL: 'Total'
+        COTIZACION_TOTAL: 'Total',
       },
       ITEM: {
         ID: 'ID',

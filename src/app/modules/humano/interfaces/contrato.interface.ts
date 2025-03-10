@@ -18,7 +18,7 @@ export interface ProgramacionContrato {
   sucursal_nombre: string;
   riesgo_id: number;
   riesgo_nombre: string;
-  fecha_ultimo_pago_vacacion: string
+  fecha_ultimo_pago_vacacion: string;
   cargo_id: number;
   cargo_nombre: string;
   tipo_cotizante_id: number;
@@ -48,4 +48,5 @@ export interface ProgramacionContrato {
   tiempo_nombre: string | null;
   tipo_costo_id: number;
   tipo_costo_nombre: string;
+  grupo_contabilidad_nombre: string;
 }

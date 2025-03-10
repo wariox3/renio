@@ -15,7 +15,7 @@
             identificacion:
               formularioContrato.value.contacto_numero_identificacion,
             empleado: formularioContrato.value.contacto,
-            empleado_nombre: formularioContrato.value.contacto_nombre
+            empleado_nombre: formularioContrato.value.contacto_nombre,
           }"
           [formularioError]="
             (formularioContrato.controls['contacto'].hasError('required') &&
@@ -41,7 +41,7 @@
                 formularioContrato.controls['contrato_tipo'].invalid,
               'is-valid':
                 formularioContrato.controls['contrato_tipo'].touched &&
-                formularioContrato.controls['contrato_tipo'].valid
+                formularioContrato.controls['contrato_tipo'].valid,
             }"
           >
             <option value="">
@@ -63,7 +63,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['contrato_tipo']
+              control: formularioContrato.controls['contrato_tipo'],
             }"
           ></ng-container>
         </div>
@@ -81,7 +81,7 @@
                 formularioContrato.controls['grupo'].invalid,
               'is-valid':
                 formularioContrato.controls['grupo'].touched &&
-                formularioContrato.controls['grupo'].valid
+                formularioContrato.controls['grupo'].valid,
             }"
           >
             <option value="">
@@ -102,7 +102,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['grupo']
+              control: formularioContrato.controls['grupo'],
             }"
           ></ng-container>
         </div>
@@ -126,7 +126,7 @@
                 formularioContrato.controls['fecha_desde'].invalid,
               'is-valid':
                 formularioContrato.controls['fecha_desde'].touched &&
-                formularioContrato.controls['fecha_desde'].valid
+                formularioContrato.controls['fecha_desde'].valid,
             }"
           />
           <ng-container
@@ -134,7 +134,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['fecha_desde']
+              control: formularioContrato.controls['fecha_desde'],
             }"
           ></ng-container>
           <div
@@ -157,44 +157,45 @@
           </div>
         </div>
         <div class="col-12 col-md-6">
-          @if(contratoTipo.value !== '1'){
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"
-          ></label>
-          <input
-            formControlName="fecha_hasta"
-            class="form-control"
-            type="date"
-            autocomplete="off"
-            [min]="fechaDesde.value"
-            [ngClass]="{
-              'is-invalid':
-                (formularioContrato.controls['fecha_hasta'].touched &&
-                  formularioContrato.controls['fecha_hasta'].invalid) ||
-                formularioContrato.errors?.fechaInvalida,
-              'is-valid':
-                formularioContrato.controls['fecha_hasta'].touched &&
-                formularioContrato.controls['fecha_hasta'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['fecha_hasta']
-            }"
-          ></ng-container>
-          <div *ngIf="formularioContrato.errors?.fechaInvalida">
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span role="alert">
-                  La fecha desde no puede ser mayor que la fecha hasta.
-                </span>
+          @if (contratoTipo.value !== "1") {
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHAHASTA"
+            ></label>
+            <input
+              formControlName="fecha_hasta"
+              class="form-control"
+              type="date"
+              autocomplete="off"
+              [min]="fechaDesde.value"
+              [ngClass]="{
+                'is-invalid':
+                  (formularioContrato.controls['fecha_hasta'].touched &&
+                    formularioContrato.controls['fecha_hasta'].invalid) ||
+                  formularioContrato.errors?.fechaInvalida,
+                'is-valid':
+                  formularioContrato.controls['fecha_hasta'].touched &&
+                  formularioContrato.controls['fecha_hasta'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioContrato.controls['fecha_hasta'],
+              }"
+            ></ng-container>
+            <div *ngIf="formularioContrato.errors?.fechaInvalida">
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    La fecha desde no puede ser mayor que la fecha hasta.
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
           }
         </div>
       </div>
@@ -221,7 +222,7 @@
                   formularioContrato.controls['ciudad_contrato'].invalid,
                 'is-valid':
                   formularioContrato.controls['ciudad_contrato'].touched &&
-                  formularioContrato.controls['ciudad_contrato'].valid
+                  formularioContrato.controls['ciudad_contrato'].valid,
               }"
               (focus)="consultarCiudad($event); CiudadContratoDropdown.open()"
               (keyup)="consultarCiudad($event)"
@@ -236,7 +237,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['ciudad_contrato']
+              control: formularioContrato.controls['ciudad_contrato'],
             }"
           ></ng-container>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -277,7 +278,7 @@
                   formularioContrato.controls['ciudad_labora'].invalid,
                 'is-valid':
                   formularioContrato.controls['ciudad_labora'].touched &&
-                  formularioContrato.controls['ciudad_labora'].valid
+                  formularioContrato.controls['ciudad_labora'].valid,
               }"
               (focus)="consultarCiudad($event); CiudadLaboraDropdown.open()"
               (keyup)="consultarCiudad($event)"
@@ -292,7 +293,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['ciudad_labora']
+              control: formularioContrato.controls['ciudad_labora'],
             }"
           ></ng-container>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -328,7 +329,7 @@
                 formularioContrato.controls['tiempo'].invalid,
               'is-valid':
                 formularioContrato.controls['tiempo'].touched &&
-                formularioContrato.controls['tiempo'].valid
+                formularioContrato.controls['tiempo'].valid,
             }"
           >
             <option value="">
@@ -350,7 +351,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['tiempo']
+              control: formularioContrato.controls['tiempo'],
             }"
           ></ng-container>
         </div>
@@ -372,7 +373,7 @@
                 formularioContrato.controls['salario'].invalid,
               'is-valid':
                 formularioContrato.controls['salario'].touched &&
-                formularioContrato.controls['salario'].valid
+                formularioContrato.controls['salario'].valid,
             }"
           />
           <ng-container
@@ -380,7 +381,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['salario']
+              control: formularioContrato.controls['salario'],
             }"
           ></ng-container>
         </div>
@@ -408,7 +409,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['cargo']
+              control: formularioContrato.controls['cargo'],
             }"
           ></ng-container>
         </div>
@@ -430,7 +431,7 @@
                 formularioContrato.controls['comentario'].invalid,
               'is-valid':
                 formularioContrato.controls['comentario'].touched &&
-                formularioContrato.controls['comentario'].valid
+                formularioContrato.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -440,7 +441,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '300',
-              control: formularioContrato.controls['comentario']
+              control: formularioContrato.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -506,7 +507,7 @@
                 formularioContrato.controls['tipo_cotizante'].invalid,
               'is-valid':
                 formularioContrato.controls['tipo_cotizante'].touched &&
-                formularioContrato.controls['tipo_cotizante'].valid
+                formularioContrato.controls['tipo_cotizante'].valid,
             }"
           >
             <option value="">
@@ -528,7 +529,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['tipo_cotizante']
+              control: formularioContrato.controls['tipo_cotizante'],
             }"
           ></ng-container>
         </div>
@@ -547,7 +548,7 @@
                 formularioContrato.controls['subtipo_cotizante'].invalid,
               'is-valid':
                 formularioContrato.controls['subtipo_cotizante'].touched &&
-                formularioContrato.controls['subtipo_cotizante'].valid
+                formularioContrato.controls['subtipo_cotizante'].valid,
             }"
           >
             <option value="">
@@ -569,7 +570,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['subtipo_cotizante']
+              control: formularioContrato.controls['subtipo_cotizante'],
             }"
           ></ng-container>
         </div>
@@ -590,7 +591,7 @@
                 formularioContrato.controls['salud'].invalid,
               'is-valid':
                 formularioContrato.controls['salud'].touched &&
-                formularioContrato.controls['salud'].valid
+                formularioContrato.controls['salud'].valid,
             }"
           >
             <option value="">
@@ -611,7 +612,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['salud']
+              control: formularioContrato.controls['salud'],
             }"
           ></ng-container>
         </div>
@@ -636,7 +637,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['entidad_salud']
+              control: formularioContrato.controls['entidad_salud'],
             }"
           ></ng-container>
         </div>
@@ -658,7 +659,7 @@
                 formularioContrato.controls['pension'].invalid,
               'is-valid':
                 formularioContrato.controls['pension'].touched &&
-                formularioContrato.controls['pension'].valid
+                formularioContrato.controls['pension'].valid,
             }"
           >
             <option value="">
@@ -680,7 +681,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['pension']
+              control: formularioContrato.controls['pension'],
             }"
           ></ng-container>
         </div>
@@ -705,7 +706,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['entidad_pension']
+              control: formularioContrato.controls['entidad_pension'],
             }"
           ></ng-container>
         </div>
@@ -734,7 +735,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['entidad_caja']
+              control: formularioContrato.controls['entidad_caja'],
             }"
           ></ng-container>
         </div>
@@ -759,7 +760,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['entidad_cesantias']
+              control: formularioContrato.controls['entidad_cesantias'],
             }"
           ></ng-container>
         </div>
@@ -781,7 +782,7 @@
                 formularioContrato.controls['riesgo'].invalid,
               'is-valid':
                 formularioContrato.controls['riesgo'].touched &&
-                formularioContrato.controls['riesgo'].valid
+                formularioContrato.controls['riesgo'].valid,
             }"
           >
             <option value="">
@@ -803,7 +804,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['riesgo']
+              control: formularioContrato.controls['riesgo'],
             }"
           ></ng-container>
         </div>
@@ -822,7 +823,7 @@
                 formularioContrato.controls['sucursal'].invalid,
               'is-valid':
                 formularioContrato.controls['sucursal'].touched &&
-                formularioContrato.controls['sucursal'].valid
+                formularioContrato.controls['sucursal'].valid,
             }"
           >
             <option value="">
@@ -844,7 +845,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioContrato.controls['sucursal']
+              control: formularioContrato.controls['sucursal'],
             }"
           ></ng-container>
         </div>
@@ -854,10 +855,7 @@
 
   <app-card>
     <section card-titulo>
-      {{
-        "FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTABILIDAD"
-          | translate
-      }}
+      {{ "FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTABILIDAD" | translate }}
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -877,7 +875,7 @@
                 formularioContrato.controls['tipo_costo'].invalid,
               'is-valid':
                 formularioContrato.controls['tipo_costo'].touched &&
-                formularioContrato.controls['tipo_costo'].valid
+                formularioContrato.controls['tipo_costo'].valid,
             }"
           >
             <option value="">
@@ -894,6 +892,17 @@
               {{ tipo_costo.tipo_costo_nombre }}
             </option>
           </select>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.GRUPOCONTABILIDAD"
+          ></label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioContrato.get('grupo_contabilidad')?.value"
+          ></app-seleccionar-grupo>
         </div>
       </div>
     </section>
