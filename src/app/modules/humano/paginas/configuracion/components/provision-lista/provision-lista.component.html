@@ -30,14 +30,16 @@
             ></app-comun-cuentas>
           </td>
           <td>
-            <app-comun-cuentas
-              [iniciarFocusInputBusqueda]="false"
-              [cuentaCodigo]="provision.cuenta_credito_codigo"
-              [cuentaNombre]="provision.cuenta_credito_nombre"
-              (emitirArrCuentas)="
-                onCambioDeCuenta($event, provision.id, 'cuenta_credito')
-              "
-            ></app-comun-cuentas>
+            @if (mostrarCuentaCredito(provision.tipo)) {
+              <app-comun-cuentas
+                [iniciarFocusInputBusqueda]="false"
+                [cuentaCodigo]="provision.cuenta_credito_codigo"
+                [cuentaNombre]="provision.cuenta_credito_nombre"
+                (emitirArrCuentas)="
+                  onCambioDeCuenta($event, provision.id, 'cuenta_credito')
+                "
+              ></app-comun-cuentas>
+            }
           </td>
         </tr>
       }
