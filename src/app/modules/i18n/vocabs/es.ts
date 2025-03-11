@@ -108,6 +108,7 @@ export const locale = {
         EXISTENCIA: 'Existencia',
         HISTORIALMOVIMIENTOS: 'Historial movimientos',
         SEGURIDADSOCIAL: 'Seguridad social',
+        DEPRECIACION: 'Depreciación',
       },
     },
     FORMULARIOS: {
@@ -157,6 +158,7 @@ export const locale = {
           ZIP: 'Zip',
           CERRAR: 'Cerrar',
           IMPUESTOS: 'Impuestos',
+          CARGARACTIVOS: 'Cargar activos',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',

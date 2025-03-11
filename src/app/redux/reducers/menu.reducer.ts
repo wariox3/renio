@@ -306,6 +306,18 @@ export const initialState: MenuItem = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
+            {
+              nombre: 'DEPRECIACION',
+              tipo: 'documento',
+              modulo: 'contabilidad',
+              data: {
+                documento_clase: 602,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
             // {
             //   nombre: 'MOVIMIENTO',
             //   tipo: 'documento',
