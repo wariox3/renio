@@ -54,7 +54,7 @@ export class LandingpageComponent implements OnInit {
   ];
   formularioContacto: FormGroup;
   fechaActual: Date = new Date();
-  selectedPlan: string = 'facturacion';
+  selectedPlan: string = 'erp';
 
   constructor(
     private activatedRoute: ActivatedRoute,

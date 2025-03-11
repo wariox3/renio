@@ -1298,7 +1298,7 @@ export const locale = {
       NUESTROSPROYECTOS2: 'Diseño de páginas web',
       NUESTROSPROYECTOS3: 'Aplicaciones móviles',
       NUESTROSPROYECTOS4: 'Desarrollo',
-      PRECIOSTITULO: 'Solo paga por lo que uses. Sin pagos anticipados!',
+      PRECIOSTITULO: 'Solo paga por lo que usas. Sin pagos anticipados!',
       PRECIOSMENSAJE1:
         'Ahorre entre miles y millones de dólares utilizando una única herramienta diferente',
       MENSAJEPRECIO: 'Tenemos varias opciones para potenciar tu negocio',
@@ -1367,7 +1367,7 @@ export const locale = {
       CANTIDADDOCUMENTO100: 'Hasta 100 documentos',
       CANTIDADDOCUMENTO500: 'Hasta 500 documentos',
       CANTIDADDOCUMENTOILIMITADO: 'Documentos ilimitados',
-      SOPORTETECNICO: 'Soporte tecnico',
+      SOPORTETECNICO: 'Soporte técnico',
       INGRESOMAXIMO10: 'Ingresos hasta $10.000.000 COP mensuales',
       INGRESOMAXIMO50: 'Ingresos hasta $50.000.000 COP mensuales',
       INGRESOMAXIMO200: 'Ingresos hasta $200.000.000 COP mensuales',
@@ -1384,6 +1384,12 @@ export const locale = {
       NOMINA: 'Nómina',
       TESORERIA: 'Tesorería',
       CARTERA: 'Cartera',
+      COMPRAYFACTURACION: 'Facturación y compras',
+      TESORERIAYCARTERA: 'Tesorería y cartera',
+      SOPORTEESPECIALIZADO: 'Soporte especializado',
+      APIINTEGRACION: 'API integración',
+      TABLEROANALITICA: 'Tablero analítica',
+      POS: 'POS+' 
     },
     MENSAJES: {
       DOCUMENTOAPROBADO: 'Documento aprobado',

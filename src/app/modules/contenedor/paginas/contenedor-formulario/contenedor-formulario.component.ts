@@ -48,7 +48,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
   procesando = false;
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  planSeleccionado: Number = 3;
+  planSeleccionado: Number = 6;
   informacionPlan: any = '';
   arrPlanes: Plan[] = [];
   arrTipoPersona: any[];
@@ -96,7 +96,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       this.store.select(obtenerUsuarioCorreo)
     ).subscribe((respuesta: any) => {
       this.arrPlanes = respuesta[0];
-      this.cambiarTipoPlanes('F');
+      this.cambiarTipoPlanes('E');
       let posicion: keyof typeof this.contenedorService.informacionPlan = 3;
       this.informacionPlan = this.contenedorService.informacionPlan[posicion];
       this.formularioContenedor.get('correo')?.setValue(respuesta[2]);
