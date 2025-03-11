@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   Renderer2,
+  signal,
   type OnInit,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
@@ -23,10 +24,7 @@ import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configu
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { BehaviorSubject, zip } from 'rxjs';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import {
-  Consumo,
-  Factura,
-} from '@interfaces/facturacion/Facturacion';
+import { Consumo, Factura } from '@interfaces/facturacion/Facturacion';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
 import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';
 
@@ -54,11 +52,12 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     private facturacionService: FacturacionService,
     public fechaServices: FechasService,
     private renderer: Renderer2,
-    private contenedorServices: ContenedorService
+    private contenedorServices: ContenedorService,
   ) {
     super();
   }
 
+  public registrosSeleccionados = signal<number[]>([]);
   facturas: Factura[] = [];
   consumos: Consumo[] = [];
   active: number = 1;
@@ -79,7 +78,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         configuracion: {
           visualizarBreadCrumbs: false,
         },
-      })
+      }),
     );
     this.consultarInformacion();
   }
@@ -90,7 +89,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     zip(
       this.facturacionService.facturacion(this.codigoUsuario),
       this.facturacionService.facturacionFechas(this.codigoUsuario, fechaHasta),
-      this.facturacionService.informacionFacturacion(this.codigoUsuario)
+      this.facturacionService.informacionFacturacion(this.codigoUsuario),
     ).subscribe((respuesta) => {
       this.facturas = respuesta[0].movimientos;
       this.consumos = respuesta[1].consumos;
@@ -101,36 +100,56 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       respuesta[1].consumos.map((consumo: Consumo) => {
         this.consumoTotal += consumo.vr_total;
       });
+
+      this.facturas.forEach((factura) => {
+        this.agregarRegistrosPagar(factura);
+      });
       this.changeDetectorRef.detectChanges();
     });
   }
 
-  agregarRegistrosPagar(item: Factura, checkbox: HTMLInputElement) {
+  public idEstaEnLista(id: number): boolean {
+    return this.registrosSeleccionados().indexOf(id) !== -1;
+  }
+
+  public agregarIdARegistrosSeleccionados(id: number) {
+    this.registrosSeleccionados().push(id);
+  }
+
+  public removerIdRegistrosSeleccionados(id: number) {
+    const itemsFiltrados = this.registrosSeleccionados().filter(
+      (item) => item !== id,
+    );
+    this.registrosSeleccionados.set(itemsFiltrados);
+  }
+
+  agregarRegistrosPagar(item: Factura) {
     if (this.informacionFacturacion === null || '') {
       this.alertaService.mensajeError(
         'Error',
-        'Debe seleccionar la información de facturación antes de realizar el pago'
+        'Debe seleccionar la información de facturación antes de realizar el pago',
       );
-      checkbox.checked = false;
       return;
     }
 
     const index = this.arrFacturasSeleccionados.findIndex(
-      (documento) => documento.id === item.id
+      (documento) => documento.id === item.id,
     );
     let valorActualPagar = this.totalPagar.getValue();
 
     if (index !== -1) {
       this.totalPagar.next(
-        valorActualPagar - parseInt(item.vr_saldo_enmascarado)
+        valorActualPagar - parseInt(item.vr_saldo_enmascarado),
       );
       this.arrFacturasSeleccionados.splice(index, 1);
+      this.removerIdRegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     } else {
       this.totalPagar.next(
-        valorActualPagar + parseInt(item.vr_saldo_enmascarado)
+        valorActualPagar + parseInt(item.vr_saldo_enmascarado),
       );
       this.arrFacturasSeleccionados.push(item);
+      this.agregarIdARegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     }
 
@@ -161,7 +180,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     let url = 'http://localhost:4200/estado';
     if (environment.production) {
       url = `${environment.dominioHttp}://${environment.dominioApp.slice(
-        1
+        1,
       )}/estado`;
     }
 
@@ -172,19 +191,19 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         this.renderer.setAttribute(
           script,
           'src',
-          'https://checkout.wompi.co/widget.js'
+          'https://checkout.wompi.co/widget.js',
         );
         this.renderer.setAttribute(script, 'data-render', 'button');
         this.renderer.setAttribute(
           script,
           'data-public-key',
-          environment.llavePublica
+          environment.llavePublica,
         );
         this.renderer.setAttribute(script, 'data-currency', 'COP');
         this.renderer.setAttribute(
           script,
           'data-amount-in-cents',
-          total.toString()
+          total.toString(),
         );
         this.renderer.setAttribute(script, 'data-redirect-url', url);
         this.renderer.setAttribute(script, 'data-reference', referencia);
@@ -258,7 +277,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       .subscribe((respuesta) => {
         if (respuesta) {
           this.alertaService.mensajaExitoso(
-            'Se ha eliminado correctamente la información de facturación'
+            'Se ha eliminado correctamente la información de facturación',
           );
         }
         this.facturacionService
@@ -284,7 +303,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         configuracion: {
           visualizarBreadCrumbs: true,
         },
-      })
+      }),
     );
   }
 }
