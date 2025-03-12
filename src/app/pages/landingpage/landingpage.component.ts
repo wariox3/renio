@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,9 +14,10 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
 import { AlertaService } from '@comun/services/alerta.service';
 import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
 import { TranslationService } from '@modulos/i18n';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { CountUpModule } from 'ngx-countup';
+import { ContactarAsesorComponent } from '../../comun/componentes/contactar-asesor/contactar-asesor.component';
 
 @Component({
   selector: 'app-landingpage',
@@ -33,9 +34,12 @@ import { CountUpModule } from 'ngx-countup';
     FormsModule,
     ReactiveFormsModule,
     InputValueCaseDirective,
+    ContactarAsesorComponent,
   ],
 })
 export class LandingpageComponent implements OnInit {
+  private readonly _modalService = inject(NgbModal);
+
   estadoMenu = false;
   menufijo = false;
   animateFadeDown = false;
@@ -61,7 +65,7 @@ export class LandingpageComponent implements OnInit {
     private translationService: TranslationService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
   ) {}
 
   ngOnInit() {
@@ -95,6 +99,7 @@ export class LandingpageComponent implements OnInit {
       ],
       empresa: [null],
       descripcion: [null],
+      codigoProyecto: [8],
     });
   }
 
@@ -130,18 +135,26 @@ export class LandingpageComponent implements OnInit {
       this.http
         .post(
           'https://semantica.com.co/api/contacto/nuevo',
-          this.formularioContacto.value
+          this.formularioContacto.value,
         )
         .subscribe(() => {
           this.formularioContacto.reset();
           this.formularioContacto.markAsUntouched();
           this.formularioContacto.markAsDirty();
           this.alertaService.mensajaContactoLandinpage(
-            'Hemos enviado su información, uno de nuestros asesores se estará comunicando'
+            'Hemos enviado su información, uno de nuestros asesores se estará comunicando',
           );
         });
     } else {
       this.formularioContacto.markAllAsTouched();
     }
+  }
+
+  abrirModalContactarAsesor(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
   }
 }

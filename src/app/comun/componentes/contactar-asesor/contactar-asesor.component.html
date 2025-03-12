@@ -1,0 +1,198 @@
+<form
+  name="contacto_sitio"
+  method="post"
+  class="form"
+  [formGroup]="formularioContactoNegocio"
+  (ngSubmit)="enviarFormulario()"
+>
+  <div class="row">
+    <div class="col-lg-6 col-md-12 mb-5">
+      <div class="form-group">
+        <input
+          type="text"
+          id="contacto_sitio_nombre"
+          name="contacto_sitio[nombre]"
+          required="required"
+          placeholder="{{ 'LANDINGPAGE.NOMBRE' | translate }}"
+          formControlName="nombre"
+          [ngClass]="{
+            'is-invalid':
+              formularioContactoNegocio.controls['nombre'].touched &&
+              formularioContactoNegocio.controls['nombre'].invalid,
+            'is-valid':
+              formularioContactoNegocio.controls['nombre'].touched &&
+              formularioContactoNegocio.controls['nombre'].valid,
+          }"
+          class="form-control"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContactoNegocio.controls['nombre'],
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 mb-5">
+      <div class="form-group">
+        <input
+          type="text"
+          id="contacto_sitio_correo"
+          name="contacto_sitio[correo]"
+          required="required"
+          placeholder="Correo"
+          placeholder="{{ 'LANDINGPAGE.CORREO' | translate }}"
+          class="form-control"
+          formControlName="correo"
+          [ngClass]="{
+            'is-invalid':
+              formularioContactoNegocio.controls['correo'].touched &&
+              formularioContactoNegocio.controls['correo'].invalid,
+            'is-valid':
+              formularioContactoNegocio.controls['correo'].touched &&
+              formularioContactoNegocio.controls['correo'].valid,
+          }"
+          appInputValuecaseDirective
+          [appInputValueCase]="'minuscula'"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContactoNegocio.controls['correo'],
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'pattern',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+            control: formularioContactoNegocio.controls['correo'],
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 mb-5">
+      <div class="form-group">
+        <input
+          type="text"
+          id="contacto_sitio_telefono"
+          name="contacto_sitio[telefono]"
+          required="required"
+          placeholder="{{ 'LANDINGPAGE.TELEFONO' | translate }}"
+          class="form-control"
+          formControlName="telefono"
+          [ngClass]="{
+            'is-invalid':
+              formularioContactoNegocio.controls['telefono'].touched &&
+              formularioContactoNegocio.controls['telefono'].invalid,
+            'is-valid':
+              formularioContactoNegocio.controls['telefono'].touched &&
+              formularioContactoNegocio.controls['telefono'].valid,
+          }"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioContactoNegocio.controls['telefono'],
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'maxlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+            cantidadCaracteres: '50',
+            control: formularioContactoNegocio.controls['telefono'],
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 mb-5">
+      <div class="form-group">
+        <input
+          type="text"
+          id="contacto_sitio_empresa"
+          name="contacto_sitio[empresa]"
+          placeholder="{{ 'LANDINGPAGE.EMPRESA' | translate }}"
+          class="form-control"
+          formControlName="empresa"
+          [ngClass]="{
+            'is-invalid':
+              formularioContactoNegocio.controls['empresa'].touched &&
+              formularioContactoNegocio.controls['empresa'].invalid,
+            'is-valid':
+              formularioContactoNegocio.controls['empresa'].touched &&
+              formularioContactoNegocio.controls['empresa'].valid,
+          }"
+        />
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="form-group">
+        <textarea
+          id="contacto_sitio_descripcion"
+          name="contacto_sitio[descripcion]"
+          placeholder="{{ 'LANDINGPAGE.DESCRIPCION' | translate }}"
+          cols="30"
+          rows="6"
+          class="form-control"
+          formControlName="descripcion"
+          [ngClass]="{
+            'is-invalid':
+              formularioContactoNegocio.controls['descripcion'].touched &&
+              formularioContactoNegocio.controls['descripcion'].invalid,
+            'is-valid':
+              formularioContactoNegocio.controls['descripcion'].touched &&
+              formularioContactoNegocio.controls['descripcion'].valid,
+          }"
+        ></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-content-center mt-2">
+    <button
+      type="submit"
+      id="contacto_sitio_guardar"
+      name="contacto_sitio[guardar]"
+      class="btn btn-primary"
+    >
+      {{ "LANDINGPAGE.GUARDAR" | translate }}
+    </button>
+  </div>
+  <input
+    type="hidden"
+    id="token"
+    name="token"
+    value="03AAYGu2Rn9RWFV7-W4Qa__K4zfQwO3VhEcTqzlu6jXJ0ca_UZ5SXUW4jPhoj-zU4RRZm1eVvvQZHzVZHeON7wtLH8jIUT6kAp80ec7YOXZW5FiJ5y4XseeJcFM1Tw6Y_lyqicC9t-CiyBW8_DkeQgL5kM-MRE798ZLK4zsWfHyA1iuOO7IzL0_lzdmPO_GsOW6UB7ZInX1804pVQPljFuTRcln1Z6CpckBqpO0-aha8sZFwCqm0enynLJ92HtwvDtrb_vwT_ue6rH4vTJXK6U8SQLt4_BCjPm2b8yQjgclgNxQYK_lgDBFXy8ijYZxc1nMSOti4xN-IskxN13672wD2ZcB-u1-EOMEIEzdB99CCOcm3CxyfngLRtkdR-USyy_oNIvwRwtm0hM8gcYyRd7v8em99N7pBLA9JxgqOY5N0DcwLqPUWoa-bpNfTLBqWhawl0sftuW8JGGWrwQ42UsKwQvMkYUNWL0YOyP9aMzkp0Li2NZ-okwC_6nJcTSA_IgVgOQSnhYu2GWNx4BjJfTH8iIFZgYlvZMdTT_1vhapfGlvD2VGXYrEUc"
+  />
+  <input type="hidden" name="action" value="registro" />
+  <input
+    type="hidden"
+    id="contacto_sitio__token"
+    name="contacto_sitio[_token]"
+    value="cd77473d.J_STScsSbV95awceHWXgXnHHxtLYQmpaf5bb2ucp2jE.arC-GIV7IA0eIH9YdgC6FRaP8KebdQdiR_CQg9Zoq3lGlucIuk1eGjAycA"
+  />
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

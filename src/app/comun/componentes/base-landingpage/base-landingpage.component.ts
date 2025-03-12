@@ -1,10 +1,11 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '@modulos/i18n';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ContactarAsesorComponent } from "../contactar-asesor/contactar-asesor.component";
 
 interface LanguageFlag {
   lang: string;
@@ -22,12 +23,14 @@ interface LanguageFlag {
     RouterModule,
     TranslateModule,
     NgbDropdownModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ContactarAsesorComponent
 ],
   templateUrl: './base-landingpage.component.html',
   styleUrls: ['./base-landingpage.component.scss'],
 })
 export class BaseLandingpageComponent implements OnInit {
+  private readonly _modalService = inject(NgbModal)
   fechaActual: Date = new Date();
   estadoMenu = false;
   menufijo = false;
@@ -106,5 +109,13 @@ export class BaseLandingpageComponent implements OnInit {
       element!.getBoundingClientRect().top + window.pageYOffset + yOffset;
     // Utiliza la función `scrollTo` del objeto `window` para desplazar la ventana del navegador hacia una posición específica
     window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  abrirModalContactarAsesor(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
   }
 }

@@ -992,9 +992,7 @@
                         <div class="d-flex flex-stack mb-5">
                           <span
                             class="fw-semibold fs-6 text-gray-800 text-start pe-3"
-                            >{{
-                              "LANDINGPAGE.NOMINA" | translate
-                            }}</span
+                            >{{ "LANDINGPAGE.NOMINA" | translate }}</span
                           >
                           <i class="ki-duotone ki-cross-circle fs-1"
                             ><span class="path1"></span
@@ -2452,11 +2450,12 @@
           </div>
           <!--end::Content-->
           <!--begin::Link-->
-          <a
-            routerLink="/auth/login"
+          <button
+            (click)="abrirModalContactarAsesor(modalContactarAsesor)"
             class="btn btn-lg btn-outline border-2 btn-outline-white flex-shrink-0 my-2"
-            >{{ "LANDINGPAGE.COMPRAR" | translate }}</a
           >
+            {{ "LANDINGPAGE.COMPRAR" | translate }}
+          </button>
           <!--end::Link-->
         </div>
         <!--end::Highlight-->
@@ -2487,3 +2486,17 @@
     </ng-template>
   </section>
 </app-base-landingpage>
+<ng-template #modalContactarAsesor let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Contactar asesor</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-contactar-asesor></app-contactar-asesor>
+  </div>
+</ng-template>
