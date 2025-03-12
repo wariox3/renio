@@ -57,6 +57,9 @@ export type Modelo =
   | 'ConCuentaCuenta'
   | 'ConCuentaSubcuenta'
   | 'ConComprobante'
+  | 'ConMetodoDepreciacion'
   | 'ConGrupo'
+  | 'ConActivoGrupo'
+  | 'ConActivo'
   | 'ConMovimiento'
   | 'InvAlmacen';

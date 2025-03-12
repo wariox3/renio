@@ -204,7 +204,7 @@ export class DocumentoDocumentoTipoComponent
       })
       .subscribe(() => {
         this.alertaService.mensajaExitoso('Se actualizo con exito!');
-        this._consultarCuentaConceptoPorConceptoId(this.conceptoSelecionado.id);
+        this._consultarCuentaConceptoPorConceptoId(this.conceptoSelecionado.id); 
       });
   }
 

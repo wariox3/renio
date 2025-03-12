@@ -380,6 +380,20 @@ export const initialState: MenuItem = {
               ],
               archivoImportacionLista: 'ConGrupo.xml',
             },
+            {
+              nombre: 'ACTIVO',
+              tipo: 'administrador',
+              modulo: 'contabilidad',
+              data: { modelo: 'ConActivo' },
+              maestros: [
+                // {
+                //   endpoint:
+                //     'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                //   name: 'Ciudades',
+                // },
+              ],
+              // archivoImportacionLista: 'ConGrupo.xml',
+            },
           ],
         },
         {
