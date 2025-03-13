@@ -506,9 +506,10 @@ export default class DepreciacionFormularioComponent
   }
 
   cargarActivos() {
-    const fecha = this.formularioAsiento.get('fecha')?.value as string;
-    this._depreciacionService.cargarActivos(fecha).subscribe((response) => {
-      console.log(response);
-    });
+    this._depreciacionService
+      .cargarActivos(this.detalle)
+      .subscribe((response) => {
+        this.consultardetalle();
+      });
   }
 }

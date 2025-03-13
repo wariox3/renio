@@ -10,9 +10,9 @@ export class DepreciacionService extends Subdominio {
     super();
   }
 
-  cargarActivos(fecha: string) {
-    return this.httpService.post<any>(`general/documento/cargar_activo/`, {
-      fecha,
+  cargarActivos(id: number) {
+    return this.httpService.post<any>(`general/documento/cargar-activo/`, {
+      id,
     });
   }
 
