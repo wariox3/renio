@@ -376,7 +376,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
         filtros,
         limite: 50,
         desplazar: 0,
-        ordenamientos: [],
+        ordenamientos: ['numero'],
         limite_conteo: 10000,
         modelo: 'GenDocumento',
         serializador: 'Adicionar',
