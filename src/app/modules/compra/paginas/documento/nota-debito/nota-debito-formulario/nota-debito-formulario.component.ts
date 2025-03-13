@@ -38,6 +38,7 @@ import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -58,7 +59,8 @@ import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    SeleccionarGrupoComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -201,6 +203,10 @@ export default class FacturaDetalleComponent
 
   ngOnDestroy(): void {
     this._formularioFacturaService.reiniciarFormulario();
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 
   consultarInformacion() {
