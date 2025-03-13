@@ -170,6 +170,18 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/contabilidad/paginas/administrador/cuenta/cuenta-formulario/cuenta-formulario.component'
       ),
   },
+  ConActivo: {
+    modulo: 'contabilidad',
+    modelo: 'ConActivo',
+    detalle: async () =>
+      await import(
+        '../../../modules/contabilidad/paginas/administrador/activo/activo-detalle/activo-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/paginas/administrador/activo/activo-formulario/activo-formulario.component'
+      ),
+  },
   ConComprobante: {
     modulo: 'contabilidad',
     modelo: 'ConComprobante',

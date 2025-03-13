@@ -1,0 +1,423 @@
+<form [formGroup]="formularioConActivo" (ngSubmit)="formSubmit()">
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="false"
+  ></app-comun-encabezado-formulario-nuevo>
+  <app-card>
+    <section card-titulo>
+      <app-comun-titulo-accion></app-comun-titulo-accion>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CODIGO"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="codigo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['codigo'].touched &&
+                formularioConActivo.controls['codigo'].invalid,
+              'is-valid':
+                formularioConActivo.controls['codigo'].touched &&
+                formularioConActivo.controls['codigo'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConActivo.controls['codigo'],
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '20',
+              control: formularioConActivo.controls['codigo'],
+            }"
+          ></ng-container>
+        </div>
+        <!-- Nombre -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.NOMBRE"
+            class="form-label required"
+          ></label>
+          <input
+            formControlName="nombre"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['nombre'].touched &&
+                formularioConActivo.controls['nombre'].invalid,
+              'is-valid':
+                formularioConActivo.controls['nombre'].touched &&
+                formularioConActivo.controls['nombre'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConActivo.controls['nombre'],
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioConActivo.controls['nombre'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHACOMPRA"
+            class="form-label"
+          ></label>
+          <input
+            #fechaDesde
+            formControlName="fecha_compra"
+            class="form-control bg-transparent"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['fecha_compra'].touched &&
+                formularioConActivo.controls['fecha_compra'].invalid,
+              'is-valid':
+                formularioConActivo.controls['fecha_compra'].touched &&
+                formularioConActivo.controls['fecha_compra'].valid,
+            }"
+          />
+        </div>
+        <!-- Nombre -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.MARCA"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="marca"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['marca'].touched &&
+                formularioConActivo.controls['marca'].invalid,
+              'is-valid':
+                formularioConActivo.controls['marca'].touched &&
+                formularioConActivo.controls['marca'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioConActivo.controls['marca'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHAACTIVACION"
+            class="form-label"
+          ></label>
+          <input
+            #fechaDesde
+            formControlName="fecha_activacion"
+            class="form-control bg-transparent"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['fecha_activacion'].touched &&
+                formularioConActivo.controls['fecha_activacion'].invalid,
+              'is-valid':
+                formularioConActivo.controls['fecha_activacion'].touched &&
+                formularioConActivo.controls['fecha_activacion'].valid,
+            }"
+          />
+        </div>
+        <!-- Nombre -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.SERIE"
+            class="form-label"
+          ></label>
+          <input
+            formControlName="serie"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['serie'].touched &&
+                formularioConActivo.controls['serie'].invalid,
+              'is-valid':
+                formularioConActivo.controls['serie'].touched &&
+                formularioConActivo.controls['serie'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '100',
+              control: formularioConActivo.controls['serie'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <!-- Codigo -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHABAJA"
+            class="form-label"
+          ></label>
+          <input
+            #fechaDesde
+            formControlName="fecha_baja"
+            class="form-control bg-transparent"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConActivo.controls['fecha_baja'].touched &&
+                formularioConActivo.controls['fecha_baja'].invalid,
+              'is-valid':
+                formularioConActivo.controls['fecha_baja'].touched &&
+                formularioConActivo.controls['fecha_baja'].valid,
+            }"
+          />
+        </div>
+        <!-- Nombre -->
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.MODELO"
+            class="form-label"
+          ></label>
+          <input
+            type=""
+            min="0"
+            number
+            formControlName="modelo"
+            class="form-control"
+            rows="1"
+            appSoloNumeros
+          />
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.GRUPO"
+            class="form-label required"
+          ></label>
+          <app-seleccionar-activo-grupo
+            [grande]="true"
+            (selectChange)="onSeleccionarActivoGrupoChange($event)"
+            [valorInicial]="formularioConActivo.get('activo_grupo')?.value"
+          ></app-seleccionar-activo-grupo>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConActivo.controls['activo_grupo'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.METODODEPRECIACION"
+            class="form-label required"
+          ></label>
+          <app-seleccionar-metodo-depreciacion
+            [grande]="true"
+            (selectChange)="onSeleccionarMetodoDepreciacionChange($event)"
+            [sugerirPrimerValor]="true"
+            [isEdicion]="!!this.detalle"
+            [valorInicial]="
+              formularioConActivo.get('metodo_depreciacion')?.value
+            "
+          ></app-seleccionar-metodo-depreciacion>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConActivo.controls['metodo_depreciacion'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.VALORCOMPRA"
+            class="form-label"
+          ></label>
+          <input
+            type=""
+            min="0"
+            number
+            formControlName="valor_compra"
+            class="form-control"
+            rows="1"
+            appSoloNumeros
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.DEPRECIACIONINICIAL"
+            class="form-label"
+          ></label>
+          <input
+            type=""
+            min="0"
+            number
+            formControlName="depreciacion_inicial"
+            class="form-control"
+            rows="1"
+            appSoloNumeros
+          />
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.DURACIONENMESES"
+            class="form-label"
+          ></label>
+          <input
+            type=""
+            min="0"
+            number
+            formControlName="duracion"
+            class="form-control"
+            rows="1"
+            appSoloNumeros
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+        </div>
+      </div>
+    </section>
+  </app-card>
+
+  <app-card>
+    <section card-titulo>Contabilidad</section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.CUENTAGASTO"
+            class="form-label required"
+          ></label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaGastoCodigo"
+            [cuentaNombre]="cuentaGastoNombre"
+            [campoInvalido]="
+              formularioConActivo.get('cuenta_gasto')?.touched &&
+              formularioConActivo.get('cuenta_gasto')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaGastoSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaGastoSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.CUENTADEPRECIACION"
+            class="form-label required"
+          ></label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaDepreciacionCodigo"
+            [cuentaNombre]="cuentaDepreciacionNombre"
+            [campoInvalido]="
+              formularioConActivo.get('cuenta_depreciacion')?.touched &&
+              formularioConActivo.get('cuenta_depreciacion')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaDepreciacionSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaDepreciacionSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.GRUPO"
+            class="form-label required"
+          ></label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioConActivo.get('grupo')?.value"
+          ></app-seleccionar-grupo>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConActivo.controls['grupo'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12"></div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

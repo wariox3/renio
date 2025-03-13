@@ -1,4 +1,4 @@
-import { MapeoAdministrador } from "@comun/type/mapeo-administradores.type";
+import { MapeoAdministrador } from '@comun/type/mapeo-administradores.type';
 
 export const mapeo: MapeoAdministrador = {
   GenContacto: {
@@ -488,7 +488,7 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: false,
         esFk: true,
-        modeloFk: 'GenContacto'
+        modeloFk: 'GenContacto',
       },
       {
         nombre: 'FECHA_DESDE',
@@ -658,9 +658,9 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: false,
       },
-    ]
+    ],
   },
-  HumSucursal:{
+  HumSucursal: {
     modulo: 'humano',
     modelo: 'HumSucursal',
     tipo: 'Administrador',
@@ -686,8 +686,8 @@ export const mapeo: MapeoAdministrador = {
         visibleFiltro: true,
         ordenable: true,
       },
-    ]
-   },
+    ],
+  },
   GenCuentaBanco: {
     modulo: 'general',
     modelo: 'CuentaBanco',
@@ -895,6 +895,83 @@ export const mapeo: MapeoAdministrador = {
       {
         nombre: 'CUENTA_NOMBRE',
         campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+    ],
+  },
+  ConActivo: {
+    modulo: 'contabilidad',
+    modelo: 'ConActivo',
+    tipo: 'Administrador',
+    datos: [
+      {
+        nombre: 'ID',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'CODIGO',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: true,
+        ordenable: true,
+      },
+      {
+        nombre: 'FECHA_COMPRA',
+        campoTipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'FECHA_ACTIVACION',
+        campoTipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'FECHA_BAJA',
+        campoTipo: 'DateField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'GRUPO_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'ACTIVO_GRUPO_NOMBRE',
+        campoTipo: 'CharField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'VALOR_COMPRA',
+        campoTipo: 'IntegerField',
+        visibleTabla: true,
+        visibleFiltro: false,
+        ordenable: false,
+      },
+      {
+        nombre: 'DEPRECIACION_INICIAL',
+        campoTipo: 'IntegerField',
         visibleTabla: true,
         visibleFiltro: false,
         ordenable: false,

@@ -24,7 +24,7 @@
           class="landing-header"
           [ngClass]="{
             menufijo: menufijo === true,
-            'fade-down': animateFadeDown
+            'fade-down': animateFadeDown,
           }"
           [attr.data-kt-sticky]="true"
           [attr.data-kt-sticky-name]="'landing-header'"
@@ -77,7 +77,7 @@
                 <div
                   class="d-lg-block p-5 p-lg-0"
                   [ngClass]="{
-                    'drawer drawer-start drawer-on': estadoMenu === true
+                    'drawer drawer-start drawer-on': estadoMenu === true,
                   }"
                   data-kt-drawer="true"
                   data-kt-drawer-name="landing-menu"
@@ -247,11 +247,11 @@
             </h1>
             <!--end::Title-->
             <!--begin::Action-->
-            <a
-              routerLink="/auth/login"
+            <button
+              (click)="abrirModalContactarAsesor(modalContactarAsesor)"
               class="btn btn-primary"
               translate="LANDINGPAGE.PRUEBAREDDOC"
-            ></a>
+            ></button>
             <!--end::Action-->
           </div>
           <!--end::Heading-->
@@ -592,7 +592,7 @@
               <span
                 class="mx-5 fs-6 fw-semibold text-gray-600 pt-1"
                 [routerLink]="'/inicio'"
-                >&copy; {{ fechaActual | date : "yyyy" }} Semantica Digital
+                >&copy; {{ fechaActual | date: "yyyy" }} Semantica Digital
                 SAS</span
               >
               <!--end::Logo image-->
@@ -669,3 +669,17 @@
 </script>
 <!--end::Theme mode setup on page load-->
 <!--begin::Root-->
+<ng-template #modalContactarAsesor let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Contactar asesor</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-contactar-asesor></app-contactar-asesor>
+  </div>
+</ng-template>

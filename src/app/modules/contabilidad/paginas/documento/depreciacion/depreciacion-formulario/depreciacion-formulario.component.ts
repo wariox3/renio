@@ -1,4 +1,4 @@
-  import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -11,16 +11,16 @@ import {
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
-import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/contabilidad/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -30,15 +30,13 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { DepreciacionService } from '@modulos/contabilidad/servicios/depreciacion.service';
 
 @Component({
   selector: 'app-pago-formulario',
   standalone: true,
-  templateUrl: './asiento-formulario.component.html',
-  styleUrls: ['./asiento-formulario.component.scss'],
+  templateUrl: './depreciacion-formulario.component.html',
+  styleUrls: ['./depreciacion-formulario.component.scss'],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -47,16 +45,13 @@ import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    SoloNumerosDirective,
-    CuentasComponent,
     ContactDetalleComponent,
-    ContactosComponent,
     ImportarDetallesComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
   ],
 })
-export default class AsientoFormularioComponent
+export default class DepreciacionFormularioComponent
   extends General
   implements OnInit
 {
@@ -98,6 +93,7 @@ export default class AsientoFormularioComponent
   ];
 
   private readonly _generalService = inject(GeneralService);
+  private readonly _depreciacionService = inject(DepreciacionService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -128,7 +124,6 @@ export default class AsientoFormularioComponent
 
     this.formularioAsiento = this.formBuilder.group({
       empresa: [1],
-      soporte: ['', Validators.compose([Validators.required])],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
       fecha: [
@@ -142,10 +137,6 @@ export default class AsientoFormularioComponent
       ],
       comentario: [null],
       total: [0],
-      comprobante: ['', Validators.compose([Validators.required])],
-      comprobante_nombre: [''],
-      grupo_contabilidad: [''],
-      grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -193,7 +184,7 @@ export default class AsientoFormularioComponent
             cuenta_nombre: detalle.cuenta_nombre,
             grupo: detalle.grupo_id,
             naturaleza: detalle.naturaleza,
-            base: detalle.base,
+            base_impuesto: detalle.base_impuesto,
             detalle: detalle.detalle,
             cantidad: detalle.cantidad,
           });
@@ -219,7 +210,7 @@ export default class AsientoFormularioComponent
               ...this.formularioAsiento.value,
               ...{
                 numero: null,
-                documento_tipo: 13,
+                documento_tipo: 23,
               },
             })
             .pipe(
@@ -402,7 +393,7 @@ export default class AsientoFormularioComponent
         precio: [0, Validators.compose([Validators.required])],
         detalle: [null],
         seleccionado: [false],
-        base: [0],
+        base_impuesto: [0],
         cantidad: [0],
       });
 
@@ -512,5 +503,13 @@ export default class AsientoFormularioComponent
         this.changeDetectorRef.detectChanges();
       }
     });
+  }
+
+  cargarActivos() {
+    this._depreciacionService
+      .cargarActivos(this.detalle)
+      .subscribe((response) => {
+        this.consultardetalle();
+      });
   }
 }

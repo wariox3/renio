@@ -306,6 +306,18 @@ export const initialState: MenuItem = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
+            {
+              nombre: 'DEPRECIACION',
+              tipo: 'documento',
+              modulo: 'contabilidad',
+              data: {
+                documento_clase: 602,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
             // {
             //   nombre: 'MOVIMIENTO',
             //   tipo: 'documento',
@@ -367,6 +379,20 @@ export const initialState: MenuItem = {
                 },
               ],
               archivoImportacionLista: 'ConGrupo.xml',
+            },
+            {
+              nombre: 'ACTIVO',
+              tipo: 'administrador',
+              modulo: 'contabilidad',
+              data: { modelo: 'ConActivo' },
+              maestros: [
+                // {
+                //   endpoint:
+                //     'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_ciudades.xlsx',
+                //   name: 'Ciudades',
+                // },
+              ],
+              // archivoImportacionLista: 'ConGrupo.xml',
             },
           ],
         },
