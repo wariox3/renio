@@ -392,7 +392,7 @@ export const initialState: MenuItem = {
                 //   name: 'Ciudades',
                 // },
               ],
-              archivoImportacionLista: 'ConGrupo.xml',
+              archivoImportacionLista: 'ConActivo.xml',
             },
           ],
         },
