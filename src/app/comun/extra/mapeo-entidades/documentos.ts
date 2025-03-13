@@ -25,6 +25,7 @@ import { documentoHumNovedad } from './documentos/humNovedad.documento';
 import { documentoHumAporte } from './documentos/humAporte.documento';
 import { documentoConMovimiento } from './documentos/ConMovimiento.documento';
 import { documento703 } from './documentos/703.documento';
+import { documento105 } from './documentos/105.documento';
 
 export const documentos: MapeoDocumentos = {
   100: documento100,
@@ -32,6 +33,7 @@ export const documentos: MapeoDocumentos = {
   102: documento102,
   103: documento103,
   104: documento104,
+  105: documento105,
   200: documento200,
   201: documento201,
   300: documento300,

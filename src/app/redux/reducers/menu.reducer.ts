@@ -727,6 +727,19 @@ export const initialState: MenuItem = {
               consultaHttp: true,
             },
             {
+              nombre: 'FACTURAPOS',
+              tipo: 'documento',
+              modulo: 'venta',
+              data: {
+                documento_clase: 105,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnExportarZip: 'si',
+                visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
+            {
               nombre: 'NOTACREDITO',
               documentacionId: 1015,
               tipo: 'documento',

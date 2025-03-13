@@ -52,7 +52,7 @@ export const locale = {
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
-        EMPLEADO: 'Empleado',
+        EMPLEADO: 'Empleado', 
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
         DOCUMENTOSOPORTE: 'Documento soporte',
@@ -111,6 +111,7 @@ export const locale = {
         DEPRECIACION: 'Depreciación',
         CONACTIVO: 'Activo',
         ACTIVO: 'Activo',
+        FACTURAPOS: 'Factura POS',
       },
     },
     FORMULARIOS: {
