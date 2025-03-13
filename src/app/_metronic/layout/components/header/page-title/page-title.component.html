@@ -27,13 +27,28 @@
           let first = $first,
           last = $last
         ) {
-          <span
-            #breadcrumbsText
-            [routerLink]="breadcrumb.url"
-            [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
-            appAnimationFadeinLeft
-            >{{ breadcrumb.label | appCapitalizePipe }}</span
-          >
+          @if (first) {
+            <span
+              #breadcrumbsText
+              [routerLink]="breadcrumb.url"
+              [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
+              appAnimationFadeinLeft
+              >{{
+                "MENU.TITULOS." + breadcrumb.label
+                  | uppercase
+                  | translate
+                  | appCapitalizePipe
+              }}</span
+            >
+          } @else {
+            <span
+              #breadcrumbsText
+              [routerLink]="breadcrumb.url"
+              [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
+              appAnimationFadeinLeft
+              >{{ breadcrumb.label | appCapitalizePipe }}</span
+            >
+          }
           @if (!last) {
             <span appAnimationFadeinLeft> / </span>
           } @else {
