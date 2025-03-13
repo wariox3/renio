@@ -60,7 +60,7 @@ export const locale = {
         DOCUMENTOELECTRONICO: 'Documento electrónico',
         NOTAAJUSTE: 'Nota de ajuste',
         CUENTABANCO: 'Cuenta banco',
-        PROGRAMACION: 'Programacion',
+        PROGRAMACION: 'Programación',
         CONCEPTO: 'Concepto',
         HUMCONCEPTO: 'Concepto',
         GRUPO: 'Grupo',
