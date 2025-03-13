@@ -1433,7 +1433,7 @@ export const locale = {
       SOPORTEESPECIALIZADO: 'Soporte especializado',
       APIINTEGRACION: 'API integración',
       TABLEROANALITICA: 'Tablero analítica',
-      POS: 'POS+',
+      POS: 'Inventario y POS+',
     },
     MENSAJES: {
       DOCUMENTOAPROBADO: 'Documento aprobado',
