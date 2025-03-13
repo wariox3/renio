@@ -42,6 +42,7 @@ export class LandingpageComponent implements OnInit {
 
   estadoMenu = false;
   menufijo = false;
+  activeTab: number = 0;
   animateFadeDown = false;
   language: LanguageFlag;
   langs = [
@@ -101,6 +102,10 @@ export class LandingpageComponent implements OnInit {
       descripcion: [null],
       codigoProyecto: [8],
     });
+  }
+
+  setActiveTab(tab: number): void {
+    this.activeTab = tab;
   }
 
   abrirMenu() {

@@ -1,7 +1,7 @@
 <app-base-landingpage>
   <section contenido>
     <!--begin::How It Works Section-->
-    <div class="mb-n10 mb-lg-n20 z-index-2">
+    <div class="mb-n10 mb-10 mb-lg-n20 z-index-2">
       <!--begin::Container-->
       <div class="container">
         <!--begin::Heading-->
@@ -142,8 +142,420 @@
     </div>
     <!--end::How It Works Section-->
     <!--begin::Statistics Section-->
-    <div class="mt-sm-n10">
+    <div class="mt-sm-n20 mt-20" style="margin-top: 13rem !important">
       <!--begin::Curve top-->
+      <div class="mb-lg-n15 position-relative z-index-2">
+        <!--begin::Container-->
+        <div class="container">
+          <!--begin::Card-->
+          <div
+            class="card"
+            style="
+              filter: drop-shadow(0px 0px 40px rgba(68, 81, 96, 0.08));
+              min-height: 52rem;
+            "
+          >
+            <!--begin::Card body-->
+            <div class="card-body p-lg-20">
+              <!--begin::Heading-->
+              <div class="text-center mb-5 mb-lg-10">
+                <!--begin::Title-->
+                <h3
+                  class="fs-2hx text-gray-900 mb-5"
+                  id="portfolio"
+                  data-kt-scroll-offset="{default: 100, lg: 250}"
+                >
+                  Que contiene nuestro software
+                </h3>
+                <!--end::Title-->
+              </div>
+              <!--end::Heading-->
+
+              <!--begin::Tabs wrapper-->
+              <div class="d-flex flex-center mb-5 mb-lg-15">
+                <!--begin::Tabs-->
+                <ul
+                  class="nav border-transparent flex-center fs-5 fw-bold"
+                  role="tablist"
+                >
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 0 }"
+                      (click)="setActiveTab(0)"
+                    >
+                      Compras y ventas
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 1 }"
+                      (click)="setActiveTab(1)"
+                    >
+                      Tesorería y cartera
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 2 }"
+                      (click)="setActiveTab(2)"
+                    >
+                      Inventario
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 3 }"
+                      (click)="setActiveTab(3)"
+                    >
+                      POS+
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 4 }"
+                      (click)="setActiveTab(4)"
+                    >
+                      Nómina
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <a
+                      class="nav-link text-gray-500 text-active-primary px-3 px-lg-6"
+                      [ngClass]="{ active: activeTab === 5 }"
+                      (click)="setActiveTab(5)"
+                    >
+                      Contabilidad
+                    </a>
+                  </li>
+                </ul>
+                <!--end::Tabs-->
+              </div>
+              <!--end::Tabs wrapper-->
+
+              <!--begin::Tabs content-->
+              <div class="tab-content">
+                <!--begin::Tab pane-->
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 0 }"
+                  id="kt_landing_projects_latest"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Latest -->
+                  <div class="row g-10">
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/1.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Mantener en orden las compras y ventas es esencial
+                            para que tu negocio funcione sin problemas. Con
+                            Reddoc, este proceso se vuelve mucho más sencillo:
+                            podrás llevar un control eficiente de lo que
+                            adquieres, lo que vendes y cómo manejas tu
+                            inventario, evitando pérdidas y mejorando la
+                            rentabilidad.
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>
+                              Registra tus compras y ventas de manera rápida y
+                              sencilla.
+                            </li>
+                            <li>
+                              Automatiza tu proceso con las facturas
+                              recurrentes.
+                            </li>
+                            <li>
+                              Genera documentos electrónicos sin complicaciones.
+                            </li>
+                            <li>
+                              Accede a informes en tiempo real para tomar
+                              mejores decisiones.
+                            </li>
+                          </ul>
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Así, en lugar de preocuparte por los números, puedes
+                            enfocarte en lo más importante: hacer crecer tu
+                            negocio.
+                          </p>
+                        </div>
+
+                        <!-- <div class="col-lg-6">
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end::Tab pane-->
+
+                <!--begin::Tab pane-->
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 1 }"
+                  id="kt_landing_projects_web_design"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Web Design -->
+                  <div class="row g-10">
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Llevar el control de la cartera y la tesorería es
+                            clave para que tu negocio esté siempre en orden. La
+                            cartera se encarga de los cobros y pagos, asegurando
+                            un flujo de efectivo constante, mientras que la
+                            tesorería te ayuda a organizar recursos, optimizar
+                            fondos y mantener liquidez.
+                          </p>
+                          <br />
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Con herramientas como Reddoc, puedes automatizar
+                            estos procesos, simplificando la gestión financiera
+                            y asegurando un control total y sin complicaciones.
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>Gestiona tus pagos y tus cobros</li>
+                            <li>Controla los vencimientos</li>
+                            <li>
+                              Obtén informes detallados sobre estados de cuenta
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/2.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <!--end::Tab pane-->
+
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 2 }"
+                  id="kt_landing_projects_web_design"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Web Design -->
+                  <div class="row g-10">
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/3.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Con Reddoc, llevar el control de tu inventario es
+                            más fácil. Podrás registrar entradas y salidas en
+                            tiempo real, asegurarte de que tu stock esté siempre
+                            actualizado y generar informes para entender mejor
+                            el movimiento de tus productos y tomar decisiones
+                            estratégicas.
+                          </p>
+                          <br />
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Todo se integra con tu negocio, desde compras y
+                            ventas hasta contabilidad y POS, para que tomes
+                            decisiones más inteligentes y tu empresa sea más
+                            eficiente.
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>Control de existencias</li>
+                            <li>Actualización del inventario en tiempo real</li>
+                            <li>Seguimiento de movimientos</li>
+                            <li>Control de costos</li>
+                            <li>
+                              Informes detallados y análisis sobre el movimiento
+                              de inventarios
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 3 }"
+                  id="kt_landing_projects_web_design"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Web Design -->
+                  <div class="row g-10">
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Facilita tus ventas con un POS ágil y eficiente
+                          </p>
+                          <br />
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Vender nunca había sido tan fácil. Con el módulo POS
+                            de Reddoc, puedes procesar transacciones de manera
+                            rápida y sin complicaciones, manteniendo todo
+                            sincronizado con tu inventario y contabilidad.
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>Registra ventas en segundos</li>
+                            <li>Acepta múltiples métodos de pago</li>
+                            <li>Genera facturas electrónicas al instante</li>
+                            <li>
+                              Mantén tu inventario actualizado automáticamente
+                            </li>
+                            <li>Accede a reportes de ventas en tiempo real</li>
+                          </ul>
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Ya sea en tu tienda física o en línea, Reddoc POS te
+                            ayuda a mejorar la experiencia de tus clientes y a
+                            optimizar la gestión de tu negocio.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/2.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 4 }"
+                  id="kt_landing_projects_web_design"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Web Design -->
+                  <div class="row g-10">
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/3.svg"
+                        alt=""
+                      />
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Manejar la nómina puede parecer complicado, pero con
+                            Reddoc es fácil y sin estrés. Podrás administrar
+                            pagos, generar nóminas electrónicas automáticamente
+                            y asegurarte de cumplir con las normativas vigentes.
+                            Todo está organizado para que ahorres tiempo y te
+                            enfoques en lo realmente importante: tu equipo y tu
+                            negocio.
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>Genera la nómina fácilmente</li>
+                            <li>Líquida seguridad social sin errores</li>
+                            <li>Accede a informes detallados en tiempo real</li>
+                            <li>Cumple con la normativa sin complicaciones</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="tab-pane fade"
+                  [ngClass]="{ 'active show': activeTab === 5 }"
+                  id="kt_landing_projects_web_design"
+                  role="tabpanel"
+                >
+                  <!-- Contenido del tab Web Design -->
+                  <div class="row g-10">
+                    <div class="col-lg-6">
+                      <div class="row g-10 mb-10">
+                        <div class="col-12">
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Sabemos que lidiar con números, facturas e impuestos
+                            puede ser todo un desafío, pero es fundamental para
+                            mantener la estabilidad de tu negocio. Con Reddoc,
+                            llevar tu contabilidad será pan comido. Tendrás una
+                            visión clara de tus compras, ventas e inventario
+                            para tomar decisiones con confianza, además de un
+                            registro detallado de tus transacciones para una
+                            auditoría sin complicaciones
+                          </p>
+                          <ul class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            <li>Accesibilidad remota</li>
+                            <li>Intuitivo y fácil de usar</li>
+                            <li>Automatización de documentos</li>
+                            <li>Variedad de informes financieros</li>
+                            <li>
+                              Simplificación del cumplimiento de obligaciones
+                              fiscales
+                            </li>
+                          </ul>
+                          <p class="fw-semibold fs-6 fs-lg-4 text-muted">
+                            Así, en lugar de perder tiempo con papeleo, puedes
+                            enfocarte en hacer crecer tu negocio con la
+                            tranquilidad de que tus finanzas están en orden.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-6 d-flex align-items-center justify-content-center flex-column"
+                    >
+                      <img
+                        style="width: 100%; height: 24rem !important"
+                        src="assets/media/svg/illustrations/easy/1.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end::Tabs content-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Card-->
+        </div>
+        <!--end::Container-->
+      </div>
 
       <!--end::Curve top-->
       <!--begin::Wrapper-->
@@ -1185,7 +1597,6 @@
                           </i>
                         </div>
 
-                        
                         <div class="d-flex flex-stack mb-5">
                           <span
                             class="fw-semibold fs-6 text-white opacity-75 text-start pe-3"
@@ -1392,7 +1803,7 @@
                             <span class="path2"></span>
                           </i>
                         </div>
-                      
+
                         <div class="d-flex flex-stack mb-5">
                           <span
                             class="fw-semibold fs-6 text-gray-800 text-start pe-3"
