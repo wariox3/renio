@@ -193,7 +193,7 @@ export default class AsientoFormularioComponent
             cuenta_nombre: detalle.cuenta_nombre,
             grupo: detalle.grupo_id,
             naturaleza: detalle.naturaleza,
-            base_impuesto: detalle.base_impuesto,
+            base: detalle.base,
             detalle: detalle.detalle,
             cantidad: detalle.cantidad,
           });
@@ -402,7 +402,7 @@ export default class AsientoFormularioComponent
         precio: [0, Validators.compose([Validators.required])],
         detalle: [null],
         seleccionado: [false],
-        base_impuesto: [0],
+        base: [0],
         cantidad: [0],
       });
 
