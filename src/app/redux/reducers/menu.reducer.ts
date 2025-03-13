@@ -808,13 +808,13 @@ export const initialState: MenuItem = {
               nombre: 'Almacen',
               tipo: 'administrador',
               data: { modelo: 'InvAlmacen' },
-              modulo: 'inventario',
+              modulo: 'venta',
             },
             {
               nombre: 'Sede',
               tipo: 'administrador',
               data: { modelo: 'GenSede' },
-              modulo: 'general',
+              modulo: 'venta',
             },
             {
               nombre: 'PRECIO',
