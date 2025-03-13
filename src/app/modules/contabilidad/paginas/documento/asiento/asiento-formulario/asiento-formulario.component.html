@@ -400,6 +400,9 @@
                               formControlName="grupo"
                               class="form-select form-select-sm"
                             >
+                            <option value="">
+                              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+                            </option>
                               <option
                                 *ngFor="let grupo of arrGrupo"
                                 [value]="grupo.grupo_id"
@@ -435,20 +438,20 @@
                           </td>
                           <td class="w-100px">
                             <input
-                              formControlName="base_impuesto"
+                              formControlName="base"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
                               (change)="
-                                actualizarDetalle(i, 'base_impuesto', $event)
+                                actualizarDetalle(i, 'base', $event)
                               "
                               appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
-                                  detalle.get('base_impuesto')?.touched &&
-                                  detalle.get('base_impuesto')?.invalid,
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
                                 'is-valid':
-                                  detalle.get('base_impuesto')?.touched &&
-                                  detalle.get('base_impuesto')?.invalid
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid
                               }"
                             />
                           </td>
