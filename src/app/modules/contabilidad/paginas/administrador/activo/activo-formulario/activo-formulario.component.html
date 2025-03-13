@@ -265,6 +265,8 @@
           <app-seleccionar-metodo-depreciacion
             [grande]="true"
             (selectChange)="onSeleccionarMetodoDepreciacionChange($event)"
+            [sugerirPrimerValor]="true"
+            [isEdicion]="!!this.detalle"
             [valorInicial]="
               formularioConActivo.get('metodo_depreciacion')?.value
             "
@@ -314,7 +316,7 @@
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.DURACION"
+            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.DURACIONENMESES"
             class="form-label"
           ></label>
           <input
@@ -328,21 +330,6 @@
           />
         </div>
         <div class="col-md-6 col-sm-12">
-          <!-- <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.CUENTACOBRAR"
-            class="form-label"
-          ></label>
-          <app-comun-cuentas
-            [iniciarFocusInputBusqueda]="false"
-            [cuentaCodigo]="cuentaCobrarCodigo"
-            [cuentaNombre]="cuentaCobrarNombre"
-            [campoInvalido]="
-              formularioItem.get('cuenta_compra')?.touched &&
-              formularioItem.get('cuenta_compra')?.invalid
-            "
-            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
-            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
-          ></app-comun-cuentas> -->
         </div>
       </div>
     </section>
@@ -374,7 +361,7 @@
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.GENERAL.ACTIVO.CUENTADEPRECIACION"
-            class="form-label"
+            class="form-label required"
           ></label>
           <app-comun-cuentas
             [iniciarFocusInputBusqueda]="false"

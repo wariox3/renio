@@ -564,6 +564,7 @@ export const locale = {
             METODODEPRECIACION: 'Método depreciación',
             CUENTAGASTO: 'Cuenta gasto',
             CUENTADEPRECIACION: 'Cuenta depreciación',
+            DURACIONENMESES: 'Duración en meses',
           },
         },
         FACTURA: {
@@ -1340,7 +1341,8 @@ export const locale = {
       NUESTROSPROYECTOS2: 'Diseño de páginas web',
       NUESTROSPROYECTOS3: 'Aplicaciones móviles',
       NUESTROSPROYECTOS4: 'Desarrollo',
-      PRECIOSTITULO: 'Paga únicamente por lo que uses, ¡sin costos anticipados ni sorpresas!',
+      PRECIOSTITULO:
+        'Paga únicamente por lo que uses, ¡sin costos anticipados ni sorpresas!',
       PRECIOSMENSAJE1:
         'Ahorre entre miles y millones de dólares utilizando una única herramienta diferente',
       MENSAJEPRECIO: 'Tenemos varias opciones para potenciar tu negocio',
