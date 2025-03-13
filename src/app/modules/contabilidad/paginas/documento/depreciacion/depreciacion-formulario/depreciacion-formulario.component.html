@@ -1,13 +1,5 @@
 <form [formGroup]="formularioAsiento" (ngSubmit)="formSubmit()">
   <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
-    @if (detalle) {
-      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
-        <app-importar-detalles
-          [estadoHabilitado]="estado_aprobado"
-          (emitirDetallesAgregados)="consultardetalle()"
-        ></app-importar-detalles>
-      </div>
-    }
   </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
@@ -160,16 +152,18 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
               ></a>
               <ng-template ngbNavContent>
-                <div class="d-flex justify-content-end my-3">
-                  <div class="btn-group contenedor-btn-group">
-                    <button
-                      (click)="cargarActivos()"
-                      class="btn btn-sm btn-primary"
-                      type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.CARGARACTIVOS"
-                    ></button>
+                @if (detalle) {
+                  <div class="d-flex justify-content-end my-3">
+                    <div class="btn-group contenedor-btn-group">
+                      <button
+                        (click)="cargarActivos()"
+                        class="btn btn-sm btn-primary"
+                        type="button"
+                        translate="FORMULARIOS.BOTONES.COMUNES.CARGARACTIVOS"
+                      ></button>
+                    </div>
                   </div>
-                </div>
+                }
                 <div class="table-responsive-sm">
                   <table
                     id="tableDetalles"

@@ -124,7 +124,6 @@ export default class DepreciacionFormularioComponent
 
     this.formularioAsiento = this.formBuilder.group({
       empresa: [1],
-      soporte: ['', Validators.compose([Validators.required])],
       contacto: ['', Validators.compose([Validators.required])],
       contactoNombre: [''],
       fecha: [
@@ -138,10 +137,6 @@ export default class DepreciacionFormularioComponent
       ],
       comentario: [null],
       total: [0],
-      comprobante: ['', Validators.compose([Validators.required])],
-      comprobante_nombre: [''],
-      grupo_contabilidad: [''],
-      grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -215,7 +210,7 @@ export default class DepreciacionFormularioComponent
               ...this.formularioAsiento.value,
               ...{
                 numero: null,
-                documento_tipo: 13,
+                documento_tipo: 23,
               },
             })
             .pipe(
