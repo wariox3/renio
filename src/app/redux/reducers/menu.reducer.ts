@@ -180,7 +180,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-id',
               },
               modulo: 'compra',
-              archivoImportacionLista: 'GenContacto.xlsx',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Contacto',
@@ -826,7 +826,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-id',
               },
               modulo: 'venta',
-              archivoImportacionLista: 'GenContacto.xlsx',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Almacen',
@@ -982,7 +982,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-id',
               },
               modulo: 'general',
-              archivoImportacionLista: 'GenContacto.xlsx',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Sede',
@@ -1060,7 +1060,7 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               data: { modelo: 'GenItem', ordenamiento: '-id' },
               modulo: 'inventario',
-              archivoImportacionLista: 'GenContacto.xlsx',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Almacen',
