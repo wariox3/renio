@@ -175,6 +175,11 @@
                           [translate]="'LISTAS.DOCUMENTO.ID'"
                           style="width: 50px"
                         ></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.ACTIVOID'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CODIGO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.NOMBRE'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DIAS'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.PRECIO'"></th>
                         <th class="text-center" style="width: 50px"></th>
                       </tr>
                     </thead>
@@ -185,6 +190,21 @@
                       >
                         <tr>
                           <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td class="text-start">
+                            {{ detalle.value.activo }}
+                          </td>
+                          <td class="text-start">
+                            {{ detalle.value.activo_codigo }}
+                          </td>
+                          <td class="text-start">
+                            {{ detalle.value.activo_nombre }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.value.dias }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.value.precio | number }}
+                          </td>
                           <td class="text-center" *ngIf="!estado_aprobado">
                             <i
                               class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
@@ -201,27 +221,13 @@
                     <tr>
                       <td
                         class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalCredito | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalDebito | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                       ></td>
-                      <td class="text-end">{{ total | currency: "$" }}</td>
+                      <td class="text-end">
+                        {{
+                          formularioAsiento.get("total")?.value | currency: "$"
+                        }}
+                      </td>
                     </tr>
                   </table>
                 </div>
