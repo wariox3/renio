@@ -44,8 +44,26 @@ export class InicioGeneralComponent extends General implements OnInit {
   public chartOptions: Partial<ChartOptions>;
   ruta = localStorage.getItem('ruta')!;
   arrVentaDiaria: any;
-  arrResumenCobrar: RespuestaResumen;
-  arrResumenPagar: RespuestaResumen;
+  arrResumenCobrar: RespuestaResumen = {
+    resumen: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
+    vencido: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
+  };
+  arrResumenPagar: RespuestaResumen = {
+    resumen: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
+    vencido: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
+  };
   series: any = [];
   dates: any = [];
 
