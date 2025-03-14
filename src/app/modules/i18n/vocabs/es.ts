@@ -52,7 +52,7 @@ export const locale = {
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
-        EMPLEADO: 'Empleado', 
+        EMPLEADO: 'Empleado',
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
         DOCUMENTOSOPORTE: 'Documento soporte',
@@ -483,6 +483,9 @@ export const locale = {
             REMISION: 'Remisión',
             CUENTAVENTA: 'Cuenta venta',
             CUENTACOBRAR: 'Cuenta compra',
+            VENTA: 'Venta',
+            FAVORITO: 'Favorito',
+            INACTIVO: 'Inactivo'
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',

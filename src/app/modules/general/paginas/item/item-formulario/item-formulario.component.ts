@@ -79,7 +79,7 @@ export default class ItemFormularioComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private itemService: ItemService
+    private itemService: ItemService,
   ) {
     super();
   }
@@ -108,12 +108,11 @@ export default class ItemFormularioComponent
   }
 
   ngAfterViewInit() {
-    if(this.accion === 'nuevo'){
+    if (this.accion === 'nuevo') {
       if (this.inputNombre?.nativeElement.value === '') {
         this.inputNombre?.nativeElement.focus();
       }
     }
-
   }
 
   iniciarFormulario() {
@@ -137,6 +136,9 @@ export default class ItemFormularioComponent
       impuestos: this.formBuilder.array([]),
       cuenta_venta: [null],
       cuenta_compra: [null],
+      favorito: [false],
+      inactivo: [false],
+      venta: [false]
     });
   }
 
@@ -156,7 +158,7 @@ export default class ItemFormularioComponent
             {
               ...this.formularioItem.value,
               ...{ impuestos_eliminados: this.arrImpuestosEliminado },
-            }
+            },
           )
           .subscribe((respuesta) => {
             this.formularioItem.patchValue({
@@ -175,7 +177,7 @@ export default class ItemFormularioComponent
               arrImpuesto.push(
                 this.formBuilder.group({
                   impuesto: impuesto,
-                })
+                }),
               );
             });
             this.arrImpuestos = respuesta.item.impuestos;
@@ -201,7 +203,7 @@ export default class ItemFormularioComponent
                 const impuestosDiscriminados =
                   this._discriminarImpuestosPorTipo(
                     this.itemTipo,
-                    respuesta?.item?.impuestos
+                    respuesta?.item?.impuestos,
                   );
 
                 const respuestaItem = {
@@ -222,7 +224,7 @@ export default class ItemFormularioComponent
                   });
                 });
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -233,13 +235,13 @@ export default class ItemFormularioComponent
 
   private _discriminarImpuestosPorTipo(
     itemTipo: 'venta' | 'compra',
-    impuestosItem: any[]
+    impuestosItem: any[],
   ) {
     switch (itemTipo) {
       case 'compra':
         return this._filtrarImpuestosPorNombre(
           'impuesto_compra',
-          impuestosItem
+          impuestosItem,
         );
       case 'venta':
       default:
@@ -249,7 +251,7 @@ export default class ItemFormularioComponent
 
   private _filtrarImpuestosPorNombre(
     nombreImpuesto: string,
-    impuestosItem: any[]
+    impuestosItem: any[],
   ) {
     return impuestosItem.filter((item) => item[nombreImpuesto]);
   }
@@ -273,7 +275,7 @@ export default class ItemFormularioComponent
 
     let nuevosImpuestos = arrImpuesto.value.filter(
       (item: any) =>
-        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
+        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id,
     );
 
     // Limpiar el FormArray actual
@@ -309,6 +311,9 @@ export default class ItemFormularioComponent
           producto: respuesta.item.producto,
           servicio: respuesta.item.servicio,
           negativo: respuesta.item.negativo,
+          venta: respuesta.item.venta,
+          favorito: respuesta.item.favorito,
+          inactivo: respuesta.item.inactivo,
           cuenta_venta: respuesta.item.cuenta_venta_id,
           cuenta_compra: respuesta.item.cuenta_compra_id,
         });
@@ -326,7 +331,7 @@ export default class ItemFormularioComponent
           arrImpuesto.push(
             this.formBuilder.group({
               impuesto: impuesto,
-            })
+            }),
           );
         });
         this.arrImpuestos = respuesta.item.impuestos;
@@ -451,7 +456,7 @@ export default class ItemFormularioComponent
         tap((respuesta) => {
           this.arrCuentasLista = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
