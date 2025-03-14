@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -34,6 +34,7 @@ import {
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -51,10 +52,11 @@ import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contened
     SkeletonLoadingComponent,
     ContenedorInvitacionComponent,
     ContenedorEditarComponent,
+    FormsModule
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
-  arrContenedores: Contenedor[] = [];
+  contenedores = signal<Contenedor[]>([]);
   fechaActual = new Date();
   usuarioFechaLimitePago: Date;
   dominioApp = environment.dominioApp;
@@ -65,11 +67,12 @@ export class ContenedorListaComponent extends General implements OnInit {
   visualizarLoader: boolean[] = [];
   contenedorId: number;
   procesando = false;
+  searchTerm: string = '';
 
   constructor(
     private contenedorService: ContenedorService,
     private subdominioService: SubdominioService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
   }
@@ -85,7 +88,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     }
 
     this.store.dispatch(
-      asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' })
+      asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' }),
     );
 
     this.consultarLista();
@@ -97,7 +100,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     ]).subscribe((respuesta) => {
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
       this.usuarioFechaLimitePago.setDate(
-        this.usuarioFechaLimitePago.getDate() + 1
+        this.usuarioFechaLimitePago.getDate() + 1,
       );
       this.usuarioSaldo = respuesta[1];
 
@@ -121,26 +124,26 @@ export class ContenedorListaComponent extends General implements OnInit {
       .select(obtenerUsuarioId)
       .pipe(
         switchMap((respuestaUsuarioId) =>
-          this.contenedorService.lista(respuestaUsuarioId)
+          this.contenedorService.lista(respuestaUsuarioId),
         ),
         tap((respuestaLista) => {
           respuestaLista.contenedores.forEach(() =>
-            this.visualizarLoader.push(false)
+            this.visualizarLoader.push(false),
           );
           this.VisalizarMensajeBloqueo = !!respuestaLista.contenedores.find(
-            (contenedor) => contenedor.acceso_restringido === true
+            (contenedor) => contenedor.acceso_restringido === true,
           );
-          this.arrContenedores = respuestaLista.contenedores;
+          this.contenedores.set(respuestaLista.contenedores);
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         }),
         catchError(({ error }) => {
           this.alertaService.mensajeError(
             'Error consulta',
-            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`
+            `Código: ${error.codigo} <br/> Mensaje: ${error.mensaje}`,
           );
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }
@@ -181,14 +184,14 @@ export class ContenedorListaComponent extends General implements OnInit {
               configuracion: {
                 visualizarApps: true,
               },
-            })
+            }),
           );
           this.store.dispatch(
             configuracionVisualizarBreadCrumbsAction({
               configuracion: {
                 visualizarBreadCrumbs: true,
               },
-            })
+            }),
           );
           this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
           this.visualizarLoader[i] = false;
@@ -203,7 +206,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           this.visualizarLoader[i] = false;
           this.changeDetectorRef.detectChanges();
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }
@@ -224,7 +227,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         mensajes['FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORSUBTITULO'],
         mensajes['FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINARCONTENEDORAYUDA'],
         mensajes['FORMULARIOS.BOTONES.COMUNES.ELIMINAR'],
-        mensajes['FORMULARIOS.BOTONES.COMUNES.CANCELAR']
+        mensajes['FORMULARIOS.BOTONES.COMUNES.CANCELAR'],
       )
       .then((respuesta) => {
         if (respuesta.isConfirmed) {
@@ -237,22 +240,22 @@ export class ContenedorListaComponent extends General implements OnInit {
                 tap(() => {
                   this.alertaService.mensajaExitoso(
                     this.translateService.instant(
-                      'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION'
-                    )
+                      'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION',
+                    ),
                   );
                   this.consultarLista();
                 }),
                 debounceTime(500),
                 finalize(() => {
                   this.procesando = false;
-                })
+                }),
               )
               .subscribe();
           } else {
             this.procesando = false;
             this.alertaService.mensajeError(
               'Error',
-              'El nombre ingresado con es valido'
+              'El nombre ingresado con es valido',
             );
           }
         }
@@ -262,7 +265,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   navegarAinvitaciones(empresa: Contenedor) {
     this.router.navigateByUrl(
       `/contenedor/${empresa.contenedor_id}/invitacion/nuevo`,
-      { state: { empresa: empresa } }
+      { state: { empresa: empresa } },
     );
   }
 
@@ -276,14 +279,14 @@ export class ContenedorListaComponent extends General implements OnInit {
         configuracion: {
           visualizarApps: false,
         },
-      })
+      }),
     );
     this.store.dispatch(
       configuracionVisualizarBreadCrumbsAction({
         configuracion: {
           visualizarBreadCrumbs: false,
         },
-      })
+      }),
     );
     this.store.dispatch(empresaLimpiarAction());
   }
@@ -299,5 +302,15 @@ export class ContenedorListaComponent extends General implements OnInit {
       size: 'xl',
     });
     this.changeDetectorRef.detectChanges();
+  }
+
+  get filteredContenedores() {
+    if (!this.searchTerm) {
+      return this.contenedores(); // Si no hay término de búsqueda, devuelve todos los items
+    }
+
+    return this.contenedores().filter((item) =>
+      item?.nombre  ?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
+    );
   }
 }
