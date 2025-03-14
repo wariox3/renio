@@ -144,7 +144,7 @@ export default class ActivoFormularioComponent
           duracion: respuesta.duracion,
           valor_compra: respuesta.valor_compra,
           depreciacion_inicial: respuesta.depreciacion_inicial,
-          activo_grupo: respuesta.activo_grupo,
+          activo_grupo: respuesta.activo_grupo_id,
           metodo_depreciacion: respuesta.metodo_depreciacion,
           cuenta_gasto: respuesta.cuenta_gasto,
           cuenta_depreciacion: respuesta.cuenta_depreciacion,

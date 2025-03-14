@@ -212,7 +212,7 @@ export class AlertaService {
   confimarConfigracionPrederminada(): Observable<SweetAlertResult> {
     return from(
       Swal.fire({
-        title: 'Configuración rapida',
+        title: 'Configuración rápida',
         text: ' Establece los valores predeterminados y haz que el sistema funcione al instante.',
         icon: 'info',
         showCancelButton: true,

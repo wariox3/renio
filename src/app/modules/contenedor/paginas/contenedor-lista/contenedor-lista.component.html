@@ -18,56 +18,70 @@
           [disabled]="!habilitarContenedores"
         ></button>
       </div>
+
       <div class="card-body">
+        <div class="mb-3">
+          <div class="position-relative" style="width: 100%; max-width: 23rem">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por nombre..."
+              [(ngModel)]="searchTerm"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+        </div>
         <!--begin::Table container-->
         <div class="table-responsive">
           <!--begin::Table-->
           <table class="table table-hover">
             <!--begin::Table head-->
-            @if(arrContenedores.length > 0) {
-            <thead>
-              <tr class="bg-gray-100">
-                <th
-                  class="min-w-120px text-center"
-                  translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
-                ></th>
-                <th
-                  class="min-w-150px text-center"
-                  translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
-                ></th>
-                <th
-                  translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
-                  class="min-w-100px text-center"
-                ></th>
-                <th colspan="2"></th>
-              </tr>
-            </thead>
+            @if (contenedores().length > 0) {
+              <thead>
+                <tr class="bg-gray-100">
+                  <th
+                    class="min-w-120px text-center"
+                    translate="FORMULARIOS.TITULOS.COMUNES.NOMBRE"
+                  ></th>
+                  <th
+                    class="min-w-150px text-center"
+                    translate="FORMULARIOS.TITULOS.COMUNES.PLAN"
+                  ></th>
+                  <th
+                    translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"
+                    class="min-w-100px text-center"
+                  ></th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
             }
             <tbody>
               <ng-container
-                *ngIf="arrContenedores.length > 0; else sinContenedores"
+                *ngIf="contenedores().length > 0; else sinContenedores"
               >
                 <tr
-                  *ngFor="let contenedor of arrContenedores; let i = index"
+                  *ngFor="let contenedor of filteredContenedores; let i = index"
                   appAnimationFadeinUp
                   [animacionDelay]="i + 1"
                   style="height: calc(82px - 0.6rem) !important"
                 >
                   <td class="px-2">
                     <div class="d-flex align-items-center gap-3">
-                      @if(contenedor.imagen){
-                      <img
-                        [src]="
-                          !contenedor.imagen.includes('logo_defecto')
-                            ? getImageUrl(contenedor.imagen)
-                            : contenedor.imagen
-                        "
-                        alt="Error al cargar logo"
-                        width="120"
-                        height="120"
-                        style="min-width: 120px"
-                        class="img-thumbnail"
-                      />
+                      @if (contenedor.imagen) {
+                        <img
+                          [src]="
+                            !contenedor.imagen.includes('logo_defecto')
+                              ? getImageUrl(contenedor.imagen)
+                              : contenedor.imagen
+                          "
+                          alt="Error al cargar logo"
+                          width="120"
+                          height="120"
+                          style="min-width: 120px"
+                          class="img-thumbnail"
+                        />
                       }
                       <div class="d-flex flex-column gap-2">
                         <span class="text-dark fw-bolder fs-6">{{
@@ -79,14 +93,14 @@
                             {{ contenedor.rol }}
                           </span>
                         </div>
-                        @if(contenedor.acceso_restringido){
-                        <span
-                          class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
-                        >
-                          El acceso a este contenedor está temporalmente
-                          suspendido. Por favor, revise su cuenta o la del
-                          propietario para solucionar el inconveniente
-                        </span>
+                        @if (contenedor.acceso_restringido) {
+                          <span
+                            class="badge badge-light-danger fs-8 fw-bold text-wrap text-start"
+                          >
+                            El acceso a este contenedor está temporalmente
+                            suspendido. Por favor, revise su cuenta o la del
+                            propietario para solucionar el inconveniente
+                          </span>
                         }
                       </div>
                     </div>
@@ -114,33 +128,31 @@
                     <div
                       class="h-100 d-flex flex-column justify-content-center"
                     >
-                      @if(visualizarLoader[i]){
-                      <button
-                        class="btn btn-sm btn-bg-primary btn-color-white"
-                        type="button"
-                        disabled
-                      >
-                        <span
-                          class="spinner-border spinner-border-sm me-1"
-                          aria-hidden="true"
-                        ></span>
-                        <span
-                          role="status"
-                          translate="LISTAS.COMUNES.CARGANDO"
-                        ></span>
-                      </button>
+                      @if (visualizarLoader[i]) {
+                        <button
+                          class="btn btn-sm btn-bg-primary btn-color-white"
+                          type="button"
+                          disabled
+                        >
+                          <span
+                            class="spinner-border spinner-border-sm me-1"
+                            aria-hidden="true"
+                          ></span>
+                          <span
+                            role="status"
+                            translate="LISTAS.COMUNES.CARGANDO"
+                          ></span>
+                        </button>
                       } @else {
-                      <button
-                        translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
-                        class="btn btn-bg-primary btn-color-white"
-                        (click)="
-                          seleccionarEmpresa(contenedor.subdominio, i)
-                        "
-                        [disabled]="
-                          contenedor.acceso_restringido &&
-                          contenedor.rol !== 'control'
-                        "
-                      ></button>
+                        <button
+                          translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
+                          class="btn btn-bg-primary btn-color-white"
+                          (click)="seleccionarEmpresa(contenedor.subdominio, i)"
+                          [disabled]="
+                            contenedor.acceso_restringido &&
+                            contenedor.rol !== 'control'
+                          "
+                        ></button>
                       }
                     </div>
                   </td>
@@ -252,7 +264,7 @@
                     class="d-flex justify-content-between bgi-no-repeat bgi-size-cover bgi-position-x-center pb-0"
                     style="
                       background-position: 100% 50%;
-                      background-image: url('../../../../assets/media/stock/900x600/42.png');
+                      background-image: url(&quot;../../../../assets/media/stock/900x600/42.png&quot;);
                     "
                   >
                     <!--begin::Illustration-->
@@ -308,10 +320,12 @@
   <!--end::Col-->
 </div>
 
-@if(procesando){
-<div class="fake-loading">
-  <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINANDOCONTENDOR"></span>
-</div>
+@if (procesando) {
+  <div class="fake-loading">
+    <span
+      translate="FORMULARIOS.MENSAJES.CONTENEDOR.ELIMINANDOCONTENDOR"
+    ></span>
+  </div>
 }
 
 <!--end::Alert-->

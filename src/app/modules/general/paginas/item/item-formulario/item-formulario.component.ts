@@ -8,6 +8,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -77,9 +78,14 @@ export default class ItemFormularioComponent
   @ViewChild('inputNombre', { read: ElementRef })
   inputNombre: ElementRef<HTMLInputElement>;
 
+  public valorInventarioDefecto = signal<boolean>(false);
+  public valorServicioDefecto = signal<boolean>(false);
+  public valorProductoDefecto = signal<boolean>(false);
+  public itemEnUso = signal<boolean>(false)
+
   constructor(
     private formBuilder: FormBuilder,
-    private itemService: ItemService
+    private itemService: ItemService,
   ) {
     super();
   }
@@ -88,6 +94,7 @@ export default class ItemFormularioComponent
     this.iniciarFormulario();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
+      this._consultarItemUso(this.detalle);
     } else {
       this._getCuentaLista([
         {
@@ -105,15 +112,67 @@ export default class ItemFormularioComponent
         },
       });
     }
+
+    this._initCamposReactivos();
   }
 
   ngAfterViewInit() {
-    if(this.accion === 'nuevo'){
+    if (this.accion === 'nuevo') {
       if (this.inputNombre?.nativeElement.value === '') {
         this.inputNombre?.nativeElement.focus();
       }
     }
+  }
 
+  private _consultarItemUso(id: number) {
+    this.itemService.consultarItemUso(id).subscribe((response) => {
+      if (response.uso) {
+        this._inhabilitarCampos();
+      }
+    });
+  }
+
+  private _inhabilitarCampos() {
+    this.itemEnUso.set(true);
+    this.formularioItem.get('inventario')?.disable();
+    this.formularioItem.get('productoServicio')?.disable();
+  }
+
+  private _initCamposReactivos() {
+    this._handleCampoServicio();
+    this._handleCampoInventario();
+  }
+
+  private _handleCampoServicio() {
+    this.formularioItem.get('servicio')?.valueChanges.subscribe((value) => {
+      const inventarioControl = this.formularioItem.get('inventario');
+
+      if (value) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        if (!this.detalle) {
+          inventarioControl?.setValue(true, {
+            emitEvent: false,
+          });
+        } else {
+          inventarioControl?.setValue(this.valorInventarioDefecto(), {
+            emitEvent: false,
+          });
+        }
+      }
+    });
+  }
+
+  private _handleCampoInventario() {
+    this.formularioItem.get('inventario')?.valueChanges.subscribe((value) => {
+      const esServicio = this.formularioItem.get('servicio')?.value;
+      const inventarioControl = this.formularioItem.get('inventario');
+      if (esServicio) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        inventarioControl?.setValue(value, { emitEvent: false });
+      }
+    });
   }
 
   iniciarFormulario() {
@@ -137,6 +196,9 @@ export default class ItemFormularioComponent
       impuestos: this.formBuilder.array([]),
       cuenta_venta: [null],
       cuenta_compra: [null],
+      favorito: [false],
+      inactivo: [false],
+      venta: [false],
     });
   }
 
@@ -156,7 +218,7 @@ export default class ItemFormularioComponent
             {
               ...this.formularioItem.value,
               ...{ impuestos_eliminados: this.arrImpuestosEliminado },
-            }
+            },
           )
           .subscribe((respuesta) => {
             this.formularioItem.patchValue({
@@ -175,18 +237,16 @@ export default class ItemFormularioComponent
               arrImpuesto.push(
                 this.formBuilder.group({
                   impuesto: impuesto,
-                })
+                }),
               );
             });
             this.arrImpuestos = respuesta.item.impuestos;
             this.arrImpuestosEliminado = [];
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
-                queryParams: {
-                  ...parametro,
-                  detalle: respuesta.item.id,
-                },
+              let parametrosActuales = { ...parametro };
+              this.router.navigate([`/administrador/lista`], {
+                queryParams: { ...parametrosActuales },
               });
             });
             this.changeDetectorRef.detectChanges();
@@ -201,7 +261,7 @@ export default class ItemFormularioComponent
                 const impuestosDiscriminados =
                   this._discriminarImpuestosPorTipo(
                     this.itemTipo,
-                    respuesta?.item?.impuestos
+                    respuesta?.item?.impuestos,
                   );
 
                 const respuestaItem = {
@@ -214,15 +274,13 @@ export default class ItemFormularioComponent
                 this.emitirGuardoRegistro.emit(respuestaItem); // necesario para cerrar el modal que está en editarEmpresa
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`/administrador/detalle`], {
-                    queryParams: {
-                      ...parametro,
-                      detalle: respuesta.item.id,
-                    },
+                  let parametrosActuales = { ...parametro };
+                  this.router.navigate([`/administrador/lista`], {
+                    queryParams: { ...parametrosActuales },
                   });
                 });
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -233,13 +291,13 @@ export default class ItemFormularioComponent
 
   private _discriminarImpuestosPorTipo(
     itemTipo: 'venta' | 'compra',
-    impuestosItem: any[]
+    impuestosItem: any[],
   ) {
     switch (itemTipo) {
       case 'compra':
         return this._filtrarImpuestosPorNombre(
           'impuesto_compra',
-          impuestosItem
+          impuestosItem,
         );
       case 'venta':
       default:
@@ -249,7 +307,7 @@ export default class ItemFormularioComponent
 
   private _filtrarImpuestosPorNombre(
     nombreImpuesto: string,
-    impuestosItem: any[]
+    impuestosItem: any[],
   ) {
     return impuestosItem.filter((item) => item[nombreImpuesto]);
   }
@@ -273,7 +331,7 @@ export default class ItemFormularioComponent
 
     let nuevosImpuestos = arrImpuesto.value.filter(
       (item: any) =>
-        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id
+        item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id,
     );
 
     // Limpiar el FormArray actual
@@ -298,6 +356,9 @@ export default class ItemFormularioComponent
     this.itemService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        this.valorInventarioDefecto.set(respuesta.item.inventario);
+        this.valorProductoDefecto.set(respuesta.item.producto);
+        this.valorServicioDefecto.set(respuesta.item.servicio);
         this.formularioItem.patchValue({
           codigo: respuesta.item.codigo,
           nombre: respuesta.item.nombre,
@@ -309,6 +370,9 @@ export default class ItemFormularioComponent
           producto: respuesta.item.producto,
           servicio: respuesta.item.servicio,
           negativo: respuesta.item.negativo,
+          venta: respuesta.item.venta,
+          favorito: respuesta.item.favorito,
+          inactivo: respuesta.item.inactivo,
           cuenta_venta: respuesta.item.cuenta_venta_id,
           cuenta_compra: respuesta.item.cuenta_compra_id,
         });
@@ -326,7 +390,7 @@ export default class ItemFormularioComponent
           arrImpuesto.push(
             this.formBuilder.group({
               impuesto: impuesto,
-            })
+            }),
           );
         });
         this.arrImpuestos = respuesta.item.impuestos;
@@ -343,11 +407,11 @@ export default class ItemFormularioComponent
         this.formularioItem.get(campo)?.setValue(null);
       }
     }
-    if (campo === 'producto') {
+    if (campo === 'producto' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('servicio')?.setValue(false);
     }
-    if (campo === 'servicio') {
+    if (campo === 'servicio' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('producto')?.setValue(false);
     }
@@ -451,7 +515,7 @@ export default class ItemFormularioComponent
         tap((respuesta) => {
           this.arrCuentasLista = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }

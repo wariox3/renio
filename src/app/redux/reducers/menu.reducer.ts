@@ -8,7 +8,7 @@ import {
 } from '../actions/menu.actions';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 let nombreSeleccion: AplicacionModulo = localStorage.getItem(
-  'ruta'
+  'ruta',
 ) as AplicacionModulo;
 
 export const initialState: MenuItem = {
@@ -175,8 +175,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'Item',
               tipo: 'administrador',
-              data: { modelo: 'GenItem' },
+              data: {
+                modelo: 'GenItem',
+                ordenamiento: '-id',
+              },
               modulo: 'compra',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Contacto',
@@ -392,7 +396,7 @@ export const initialState: MenuItem = {
                 //   name: 'Ciudades',
                 // },
               ],
-              // archivoImportacionLista: 'ConGrupo.xml',
+              archivoImportacionLista: 'ConActivo.xml',
             },
           ],
         },
@@ -611,7 +615,10 @@ export const initialState: MenuItem = {
             {
               nombre: 'CONTRATO',
               tipo: 'administrador',
-              data: { modelo: 'HumContrato' },
+              data: {
+                modelo: 'HumContrato',
+                ordenamiento: 'id',
+              },
               maestros: [
                 {
                   endpoint:
@@ -724,6 +731,19 @@ export const initialState: MenuItem = {
               consultaHttp: true,
             },
             {
+              nombre: 'FACTURAPOS',
+              tipo: 'documento',
+              modulo: 'venta',
+              data: {
+                documento_clase: 105,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnExportarZip: 'si',
+                visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
+            {
               nombre: 'NOTACREDITO',
               documentacionId: 1015,
               tipo: 'documento',
@@ -801,20 +821,24 @@ export const initialState: MenuItem = {
             {
               nombre: 'ITEM',
               tipo: 'administrador',
-              data: { modelo: 'GenItem' },
+              data: {
+                modelo: 'GenItem',
+                ordenamiento: '-id',
+              },
               modulo: 'venta',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Almacen',
               tipo: 'administrador',
               data: { modelo: 'InvAlmacen' },
-              modulo: 'inventario',
+              modulo: 'venta',
             },
             {
               nombre: 'Sede',
               tipo: 'administrador',
               data: { modelo: 'GenSede' },
-              modulo: 'general',
+              modulo: 'venta',
             },
             {
               nombre: 'PRECIO',
@@ -953,8 +977,12 @@ export const initialState: MenuItem = {
             {
               nombre: 'Item',
               tipo: 'administrador',
-              data: { modelo: 'GenItem' },
+              data: {
+                modelo: 'GenItem',
+                ordenamiento: '-id',
+              },
               modulo: 'general',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Sede',
@@ -1030,8 +1058,9 @@ export const initialState: MenuItem = {
             {
               nombre: 'Item',
               tipo: 'administrador',
-              data: { modelo: 'GenItem' },
+              data: { modelo: 'GenItem', ordenamiento: '-id' },
               modulo: 'inventario',
+              archivoImportacionLista: 'GenItem.xlsx',
             },
             {
               nombre: 'Almacen',
@@ -1180,5 +1209,5 @@ export const menuReducer = createReducer(
   on(ActualizarDataItem, (state, { dataItem }) => ({
     ...state,
     dataItem,
-  }))
+  })),
 );

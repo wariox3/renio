@@ -13,7 +13,7 @@ import { TituloAccionComponent } from "../../../../../../comun/componentes/titul
 import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
 
 @Component({
-  selector: 'app-asiento-detalle',
+  selector: 'app-depreciacion-detalle',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,9 +26,9 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     TituloAccionComponent,
     DocumentoOpcionesComponent
 ],
-  templateUrl: './asiento-detalle.component.html',
+  templateUrl: './depreciacion-detalle.component.html',
 })
-export default class PagoDetalleComponent extends General {
+export default class DepreciacionDetalleComponent extends General {
   asiento: any = {
     contacto_id: '',
     descuento: '',
