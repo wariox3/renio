@@ -18,6 +18,7 @@ import {
 } from 'ng-apexcharts';
 import { zip } from 'rxjs';
 import { dashboardService } from '@modulos/general/servicios/dashboard.service';
+import { RespuestaResumen } from '@modulos/general/interfaces/resumen';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -43,8 +44,8 @@ export class InicioGeneralComponent extends General implements OnInit {
   public chartOptions: Partial<ChartOptions>;
   ruta = localStorage.getItem('ruta')!;
   arrVentaDiaria: any;
-  arrResumenCobrar: any;
-  arrResumenPagar: any;
+  arrResumenCobrar: RespuestaResumen;
+  arrResumenPagar: RespuestaResumen;
   series: any = [];
   dates: any = [];
 
@@ -60,8 +61,8 @@ export class InicioGeneralComponent extends General implements OnInit {
   consultarInformacionDashboard() {
     zip(
       this.dashboardService.resumenCobrar(''),
-      this.dashboardService.resumenPagar('')
-    ).subscribe((respuesta: any) => {
+      this.dashboardService.resumenPagar(''),
+    ).subscribe((respuesta) => {
       this.arrResumenCobrar = respuesta[0];
       this.arrResumenPagar = respuesta[1];
       this.changeDetectorRef.detectChanges();
@@ -70,10 +71,10 @@ export class InicioGeneralComponent extends General implements OnInit {
 
   initializeChart() {
     this.dashboardService.ventaPorDia('').subscribe((respuesta) => {
-      this.arrVentaDiaria = respuesta.resumen
+      this.arrVentaDiaria = respuesta.resumen;
 
       this.dates = this.arrVentaDiaria.map(
-        (item: any) => item.dia.split('-')[2]
+        (item: any) => item.dia.split('-')[2],
       );
       this.series = this.arrVentaDiaria.map((item: any) => item.total);
 
