@@ -11,7 +11,7 @@ export interface Activo {
   duracion: number;
   valor_compra: number;
   depreciacion_inicial: number;
-  activo_grupo: number;
+  activo_grupo_id: number;
   metodo_depreciacion: number;
   cuenta_gasto: number;
   cuenta_depreciacion: number;
