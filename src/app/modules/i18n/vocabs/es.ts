@@ -485,7 +485,7 @@ export const locale = {
             CUENTACOBRAR: 'Cuenta compra',
             VENTA: 'Venta',
             FAVORITO: 'Favorito',
-            INACTIVO: 'Inactivo'
+            INACTIVO: 'Inactivo',
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
@@ -1041,6 +1041,12 @@ export const locale = {
         NEGATIVO_ABREVIATURA: 'Neg',
         PRODUCTO_ABREVIATURA: 'Prod',
         SERVICIO_ABREVIATURA: 'Serv',
+        VENTA_ABREVIATURA: 'Ven',
+        FAVORITO_ABREVIATURA: 'Fav',
+        INACTIVO_ABREVIATURA: 'Ina',
+        INACTIVO: 'Inactivo',
+        FAVORITO: 'Favorito',
+        VENTA: 'Venta',
       },
       CONTACTO: {
         ID: 'ID',

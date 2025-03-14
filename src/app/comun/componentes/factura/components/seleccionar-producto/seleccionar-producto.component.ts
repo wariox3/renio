@@ -69,7 +69,7 @@ export class SeleccionarProductoComponent
 
   constructor(
     private httpService: HttpService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
   }
@@ -86,9 +86,9 @@ export class SeleccionarProductoComponent
     }
   }
 
-  validarValor(){
-    if(this.inputItem.nativeElement.value === ''){
-      this.emitirLineaVacia.emit(true)
+  validarValor() {
+    if (this.inputItem.nativeElement.value === '') {
+      this.emitirLineaVacia.emit(true);
     }
   }
 
@@ -131,8 +131,14 @@ export class SeleccionarProductoComponent
     let arrFiltros: ParametrosFiltros = {
       filtros: [
         {
-          propiedad: 'nombre__icontains',
+          propiedad: 'nombre',
+          operador: 'icontains',
           valor1: `${event?.target.value}`,
+        },
+        {
+          propiedad: 'inactivo',
+          operador: 'exact',
+          valor1: false,
         },
       ],
       limite: 10,
@@ -158,6 +164,11 @@ export class SeleccionarProductoComponent
           propiedad: 'nombre__icontains',
           valor1: `${event?.target.value}`,
         },
+        {
+          propiedad: 'inactivo',
+          operador: 'exact',
+          valor1: false,
+        },
       ],
       limite: 10,
       desplazar: 0,
@@ -175,7 +186,7 @@ export class SeleccionarProductoComponent
           this.arrItemsLista = respuesta.registros;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }

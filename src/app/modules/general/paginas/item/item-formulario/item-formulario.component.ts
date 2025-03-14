@@ -78,7 +78,10 @@ export default class ItemFormularioComponent
   @ViewChild('inputNombre', { read: ElementRef })
   inputNombre: ElementRef<HTMLInputElement>;
 
-  public valorInventarioDefecto: boolean = false;
+  public valorInventarioDefecto = signal<boolean>(false);
+  public valorServicioDefecto = signal<boolean>(false);
+  public valorProductoDefecto = signal<boolean>(false);
+  public itemEnUso = signal<boolean>(false)
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,6 +94,7 @@ export default class ItemFormularioComponent
     this.iniciarFormulario();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
+      this._consultarItemUso(this.detalle);
     } else {
       this._getCuentaLista([
         {
@@ -108,6 +112,7 @@ export default class ItemFormularioComponent
         },
       });
     }
+
     this._initCamposReactivos();
   }
 
@@ -117,6 +122,20 @@ export default class ItemFormularioComponent
         this.inputNombre?.nativeElement.focus();
       }
     }
+  }
+
+  private _consultarItemUso(id: number) {
+    this.itemService.consultarItemUso(id).subscribe((response) => {
+      if (response.uso) {
+        this._inhabilitarCampos();
+      }
+    });
+  }
+
+  private _inhabilitarCampos() {
+    this.itemEnUso.set(true);
+    this.formularioItem.get('inventario')?.disable();
+    this.formularioItem.get('productoServicio')?.disable();
   }
 
   private _initCamposReactivos() {
@@ -136,7 +155,7 @@ export default class ItemFormularioComponent
             emitEvent: false,
           });
         } else {
-          inventarioControl?.setValue(this.valorInventarioDefecto, {
+          inventarioControl?.setValue(this.valorInventarioDefecto(), {
             emitEvent: false,
           });
         }
@@ -150,6 +169,8 @@ export default class ItemFormularioComponent
       const inventarioControl = this.formularioItem.get('inventario');
       if (esServicio) {
         inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        inventarioControl?.setValue(value, { emitEvent: false });
       }
     });
   }
@@ -335,7 +356,9 @@ export default class ItemFormularioComponent
     this.itemService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
-        this.valorInventarioDefecto = respuesta.item.inventario;
+        this.valorInventarioDefecto.set(respuesta.item.inventario);
+        this.valorProductoDefecto.set(respuesta.item.producto);
+        this.valorServicioDefecto.set(respuesta.item.servicio);
         this.formularioItem.patchValue({
           codigo: respuesta.item.codigo,
           nombre: respuesta.item.nombre,
@@ -384,11 +407,11 @@ export default class ItemFormularioComponent
         this.formularioItem.get(campo)?.setValue(null);
       }
     }
-    if (campo === 'producto') {
+    if (campo === 'producto' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('servicio')?.setValue(false);
     }
-    if (campo === 'servicio') {
+    if (campo === 'servicio' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('producto')?.setValue(false);
     }

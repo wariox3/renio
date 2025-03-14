@@ -339,6 +339,15 @@
           </div>
         </div>
       </div>
+      @if (itemEnUso()) {
+        <section>
+          <div class="alert alert-warning p-2" role="alert">
+            <i class="bi bi-exclamation-triangle text-warning"></i>
+            Este ítem ya fue usado en un documento; algunas de sus propiedades no
+            se pueden editar.
+          </div>
+        </section>
+      }
     </section>
   </app-card>
 
