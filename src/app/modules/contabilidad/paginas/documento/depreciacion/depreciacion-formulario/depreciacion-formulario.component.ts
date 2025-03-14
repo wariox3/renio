@@ -187,6 +187,10 @@ export default class DepreciacionFormularioComponent
             base_impuesto: detalle.base_impuesto,
             detalle: detalle.detalle,
             cantidad: detalle.cantidad,
+            activo: detalle.activo_id,
+            activo_codigo: detalle.activo_codigo,
+            activo_nombre: detalle.activo_nombre,
+            dias: detalle.dias,
           });
           this.detalles.push(detalleFormGroup);
         });
@@ -196,54 +200,47 @@ export default class DepreciacionFormularioComponent
           this.formularioAsiento.markAsPristine();
           this.formularioAsiento.markAsUntouched();
         }
-        this.calcularTotales();
+        // this.calcularTotales();
         this.changeDetectorRef.detectChanges();
       });
   }
 
   formSubmit() {
     if (this.formularioAsiento.valid) {
-      if (this.formularioAsiento.get('total')?.value >= 0) {
-        if (this.detalle == undefined) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioAsiento.value,
-              ...{
-                numero: null,
-                documento_tipo: 23,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              }),
-            )
-            .subscribe();
-        } else {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioAsiento.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
+      if (this.detalle == undefined) {
+        this.facturaService
+          .guardarFactura({
+            ...this.formularioAsiento.value,
+            ...{
+              numero: null,
+              documento_tipo: 23,
+            },
+          })
+          .pipe(
+            tap((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });
-            });
-        }
+            }),
+          )
+          .subscribe();
       } else {
-        this.alertaService.mensajeError(
-          'Error',
-          'El total no puede ser negativo',
-        );
+        this.facturaService
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioAsiento.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
+          .subscribe((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          });
       }
     } else {
       this.formularioAsiento.markAllAsTouched();
@@ -311,7 +308,7 @@ export default class DepreciacionFormularioComponent
       this.detalles.removeAt(index);
     }
 
-    this.calcularTotales();
+    // this.calcularTotales();
     this.agregarDocumentoSeleccionarTodos =
       !this.agregarDocumentoSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
@@ -323,29 +320,29 @@ export default class DepreciacionFormularioComponent
     if (evento.target.value === '') {
       detalleFormGroup.get(campo)?.patchValue(0);
     }
-    this.calcularTotales();
+    // this.calcularTotales();
   }
 
-  calcularTotales() {
-    this.totalCredito = 0;
-    this.totalDebito = 0;
-    this.total = 0;
-    const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
-    detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('precio')?.value || 0;
-      const naturaleza = detalleControl.get('naturaleza')?.value;
-      if (naturaleza === 'C') {
-        this.totalCredito += parseInt(pago);
-      } else {
-        this.totalDebito += parseInt(pago);
-      }
-      this.changeDetectorRef.detectChanges();
-    });
-    this.total += this.totalCredito - this.totalDebito;
-    this.formularioAsiento.patchValue({
-      total: this.total,
-    });
-  }
+  // calcularTotales() {
+  //   this.totalCredito = 0;
+  //   this.totalDebito = 0;
+  //   this.total = 0;
+  //   const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
+  //   detallesArray.controls.forEach((detalleControl) => {
+  //     const pago = detalleControl.get('precio')?.value || 0;
+  //     const naturaleza = detalleControl.get('naturaleza')?.value;
+  //     if (naturaleza === 'C') {
+  //       this.totalCredito += parseInt(pago);
+  //     } else {
+  //       this.totalDebito += parseInt(pago);
+  //     }
+  //     this.changeDetectorRef.detectChanges();
+  //   });
+  //   this.total += this.totalCredito - this.totalDebito;
+  //   this.formularioAsiento.patchValue({
+  //     total: this.total,
+  //   });
+  // }
 
   agregarRegistrosEliminar(index: number, id: number) {
     // Busca el índice del registro en el array de registros a eliminar
