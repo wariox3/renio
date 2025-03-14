@@ -8,6 +8,7 @@ import {
   Input,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -77,6 +78,8 @@ export default class ItemFormularioComponent
   @ViewChild('inputNombre', { read: ElementRef })
   inputNombre: ElementRef<HTMLInputElement>;
 
+  public valorInventarioDefecto: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private itemService: ItemService,
@@ -105,6 +108,7 @@ export default class ItemFormularioComponent
         },
       });
     }
+    this._initCamposReactivos();
   }
 
   ngAfterViewInit() {
@@ -113,6 +117,41 @@ export default class ItemFormularioComponent
         this.inputNombre?.nativeElement.focus();
       }
     }
+  }
+
+  private _initCamposReactivos() {
+    this._handleCampoServicio();
+    this._handleCampoInventario();
+  }
+
+  private _handleCampoServicio() {
+    this.formularioItem.get('servicio')?.valueChanges.subscribe((value) => {
+      const inventarioControl = this.formularioItem.get('inventario');
+
+      if (value) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        if (!this.detalle) {
+          inventarioControl?.setValue(true, {
+            emitEvent: false,
+          });
+        } else {
+          inventarioControl?.setValue(this.valorInventarioDefecto, {
+            emitEvent: false,
+          });
+        }
+      }
+    });
+  }
+
+  private _handleCampoInventario() {
+    this.formularioItem.get('inventario')?.valueChanges.subscribe((value) => {
+      const esServicio = this.formularioItem.get('servicio')?.value;
+      const inventarioControl = this.formularioItem.get('inventario');
+      if (esServicio) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      }
+    });
   }
 
   iniciarFormulario() {
@@ -138,7 +177,7 @@ export default class ItemFormularioComponent
       cuenta_compra: [null],
       favorito: [false],
       inactivo: [false],
-      venta: [false]
+      venta: [false],
     });
   }
 
@@ -184,11 +223,9 @@ export default class ItemFormularioComponent
             this.arrImpuestosEliminado = [];
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
-                queryParams: {
-                  ...parametro,
-                  detalle: respuesta.item.id,
-                },
+              let parametrosActuales = { ...parametro };
+              this.router.navigate([`/administrador/lista`], {
+                queryParams: { ...parametrosActuales },
               });
             });
             this.changeDetectorRef.detectChanges();
@@ -216,11 +253,9 @@ export default class ItemFormularioComponent
                 this.emitirGuardoRegistro.emit(respuestaItem); // necesario para cerrar el modal que está en editarEmpresa
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`/administrador/detalle`], {
-                    queryParams: {
-                      ...parametro,
-                      detalle: respuesta.item.id,
-                    },
+                  let parametrosActuales = { ...parametro };
+                  this.router.navigate([`/administrador/lista`], {
+                    queryParams: { ...parametrosActuales },
                   });
                 });
               }
@@ -300,6 +335,7 @@ export default class ItemFormularioComponent
     this.itemService
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
+        this.valorInventarioDefecto = respuesta.item.inventario;
         this.formularioItem.patchValue({
           codigo: respuesta.item.codigo,
           nombre: respuesta.item.nombre,

@@ -1039,6 +1039,8 @@ export const locale = {
         REMISION_ABREVIATURA: 'Rem',
         NEGATIVO: 'Negativo',
         NEGATIVO_ABREVIATURA: 'Neg',
+        PRODUCTO_ABREVIATURA: 'Prod',
+        SERVICIO_ABREVIATURA: 'Serv',
       },
       CONTACTO: {
         ID: 'ID',
