@@ -1,6 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { KeeniconComponent } from '../../../../../shared/keenicon/keenicon.component';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-quick-links-inner',
@@ -14,4 +15,8 @@ export class QuickLinksInnerComponent {
   @HostBinding('attr.data-kt-menu') dataKtMenu = 'true';
 
   constructor() {}
+
+  navegarPos(){
+    window.open(`${environment.dominioHttp}://POS${environment.dominioApp}/`, '_blank', 'noopener,noreferrer');
+  }
 }
