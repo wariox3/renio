@@ -238,20 +238,19 @@ export default class ContabilizarComponent extends General implements OnInit {
         .pipe(
           finalize(() => {
             this.isContabilizando.set(false);
+            this.checkboxAll.nativeElement.checked = false;
+            this._contabilizarService.reiniciarRegistrosSeleccionados();
+            this.consultarLista();
+            this.changeDetectorRef.detectChanges();
           }),
         )
         .subscribe({
           next: () => {
-            this.checkboxAll.nativeElement.checked = false;
-            this.consultarLista();
             this.alertaService.mensajaExitoso(
               'Registros contabilizados con exito!',
             );
           },
           error: () => {
-            this.checkboxAll.nativeElement.checked = false;
-            this._contabilizarService.reiniciarRegistrosSeleccionados();
-            this.consultarLista();
             this.changeDetectorRef.detectChanges();
           },
         });

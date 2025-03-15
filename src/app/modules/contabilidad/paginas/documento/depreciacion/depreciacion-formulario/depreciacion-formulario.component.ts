@@ -31,6 +31,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DepreciacionService } from '@modulos/contabilidad/servicios/depreciacion.service';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -46,9 +47,9 @@ import { DepreciacionService } from '@modulos/contabilidad/servicios/depreciacio
     NgbNavModule,
     BuscarAvanzadoComponent,
     ContactDetalleComponent,
-    ImportarDetallesComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
   ],
 })
 export default class DepreciacionFormularioComponent
@@ -137,6 +138,7 @@ export default class DepreciacionFormularioComponent
       ],
       comentario: [null],
       total: [0],
+      grupo_contabilidad: ['', Validators.compose([Validators.required])],
       detalles: this.formBuilder.array([]),
     });
   }
@@ -508,5 +510,13 @@ export default class DepreciacionFormularioComponent
       .subscribe((response) => {
         this.consultardetalle();
       });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    if (!id) {
+      this.formularioAsiento.get('grupo_contabilidad')?.setValue('');
+    } else {
+      this.formularioAsiento.get('grupo_contabilidad')?.setValue(id);
+    }
   }
 }

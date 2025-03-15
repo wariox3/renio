@@ -22,17 +22,17 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     TranslateModule,
     BaseFiltroComponent,
   ],
-  templateUrl: './nomina-detalle.component.html'
+  templateUrl: './nomina-detalle.component.html',
 })
-export class NominaDetalleComponent extends General  implements OnInit {
+export class NominaDetalleComponent extends General implements OnInit {
   private _descargarArchivosService = inject(DescargarArchivosService);
   arrDocumentos: any = [];
   cantidad_registros!: number;
   filtroPermanente: Filtros[] = [
     {
-      "propiedad":"documento__documento_tipo__documento_clase_id",
-      "valor1": 701
-    }
+      propiedad: 'documento__documento_tipo__documento_clase_id',
+      valor1: 701,
+    },
   ];
   arrParametrosConsulta: ParametrosFiltros = {
     modelo: 'GenDocumentoDetalle',
@@ -45,14 +45,13 @@ export class NominaDetalleComponent extends General  implements OnInit {
   };
   private readonly _generalService = inject(GeneralService);
 
-
   constructor() {
-   super();
+    super();
   }
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['humano_nomina_detalle'] })
+        ActualizarMapeo({ dataMapeo: documentos['humano_nomina_detalle'] }),
       );
       this.consultarLista();
     });
@@ -63,12 +62,13 @@ export class NominaDetalleComponent extends General  implements OnInit {
     this._generalService
       .consultarDatosLista(this.arrParametrosConsulta)
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.registros?.length;
+        this.cantidad_registros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros?.map((documento: any) => ({
           id: documento.id,
           documento_id: documento.documento_id,
-          documento_contacto_id:  documento.documento_contacto_id,
-          documento_contacto_numero_identificacion:  documento.documento_contacto_numero_identificacion,
+          documento_contacto_id: documento.documento_contacto_id,
+          documento_contacto_numero_identificacion:
+            documento.documento_contacto_numero_identificacion,
           documento_contacto_nombre_corto: documento.documento_contacto_nombre,
           documento_fecha: documento.documento_fecha,
           documento_fecha_hasta: documento.documento_fecha_hasta,
@@ -80,7 +80,7 @@ export class NominaDetalleComponent extends General  implements OnInit {
           pago: documento.pago,
           base_cotizacion: documento.base_cotizacion,
           base_prestacion: documento.base_prestacion,
-          base_impuesto: documento.base_impuesto
+          base_impuesto: documento.base_impuesto,
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -116,15 +116,13 @@ export class NominaDetalleComponent extends General  implements OnInit {
     this.consultarLista();
   }
 
-
   descargarExcel() {
     const params = {
-      modelo : 'GenDocumentoDetalle',
+      modelo: 'GenDocumentoDetalle',
+      limite: this.cantidad_registros,
       serializador: 'NominaExcel',
       excel: true,
-      filtros: [
-        ...this.arrParametrosConsulta.filtros,
-      ],
+      filtros: [...this.arrParametrosConsulta.filtros],
     };
 
     this._descargarArchivosService.descargarExcelDocumentos(params);
