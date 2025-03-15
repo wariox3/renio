@@ -6,6 +6,7 @@ import { UserInnerComponent } from '../../../../partials/layout/extras/dropdown-
 import { ThemeModeSwitcherComponent } from '../../../../partials/layout/theme-mode-switcher/theme-mode-switcher.component';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 import { QuickLinksInnerComponent } from 'src/app/_metronic/partials/layout/extras/dropdown-inner/quick-links-inner/quick-links-inner.component';
+import { obtenerContenedorSeleccion } from '@redux/selectors/contenedor.selectors';
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +32,8 @@ export class NavbarComponent implements OnInit {
   userAvatarClass: string = 'symbol-35px symbol-md-40px';
   btnIconClass: string = 'fs-2 fs-md-1';
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
+  contenedorSeleccion$ = this.store.select(obtenerContenedorSeleccion)
+
 
   constructor(private store: Store) {}
 
