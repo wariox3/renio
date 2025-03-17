@@ -429,6 +429,12 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               url: 'contabilidad/informe/balance_prueba_contacto',
             },
+            {
+              nombre: 'AUXILIARCUENTA',
+              tipo: 'informe',
+              modulo: 'contabilidad',
+              url: 'contabilidad/informe/auxiliar_cuenta',
+            }
             // {
             //   nombre: 'prueba',
             //   isSubmenu: true,

@@ -112,6 +112,7 @@ export const locale = {
         CONACTIVO: 'Activo',
         ACTIVO: 'Activo',
         FACTURAPOS: 'Factura POS',
+        AUXILIARCUENTA: 'Auxiliar cuenta',
       },
     },
     FORMULARIOS: {

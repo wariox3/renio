@@ -44,6 +44,13 @@ export const routes: Route[] = [
             './paginas/informes/balance-prueba-contacto/balance-prueba-contacto.component'
           ).then((c) => c.BalancePruebaContactoComponent),
       },
+      {
+        path: 'auxiliar_cuenta',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-cuenta/auxiliar-cuenta.component'
+          ).then((c) => c.AuxiliarCuentaComponent),
+      },
     ],
   },
   {
