@@ -1228,6 +1228,29 @@ export default class ProgramacionDetalleComponent
     this.consultarDatos();
   }
 
+  confirmarDesaprobarDocumento() {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de desaprobar?',
+        texto: '',
+        textoBotonCofirmacion: 'Si, desaprobar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._desaprobarDocumento(this.detalle);
+        }
+      });
+  }
+
+  private _desaprobarDocumento(documentoId: number) {
+    this.programacionService.desaprobar({ id: documentoId }).subscribe({
+      next: () => {
+        this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
+        this.consultarDatos();
+      },
+    });
+  }
+
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();

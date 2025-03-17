@@ -112,6 +112,10 @@ export const locale = {
         CONACTIVO: 'Activo',
         ACTIVO: 'Activo',
         FACTURAPOS: 'Factura POS',
+        AUXILIARCUENTA: 'Auxiliar cuenta',
+        AUXILIARTERCERO: 'Auxiliar tercero',
+        AUXILIARGENERAL: 'Auxiliar general',
+        BASE: 'Base',
       },
     },
     FORMULARIOS: {
@@ -463,6 +467,7 @@ export const locale = {
           METODODEPRECIACION: 'Método depreciación',
           CUENTAGASTO: 'Cuenta gasto',
           CUENTADEPRECIACION: 'Cuenta depreciación',
+          SEDE: 'Sede',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',

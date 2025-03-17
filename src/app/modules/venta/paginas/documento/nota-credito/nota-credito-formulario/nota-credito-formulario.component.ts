@@ -31,9 +31,10 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -71,6 +72,7 @@ export default class FacturaDetalleComponent
   public mostrarDocumentoReferencia =
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public formularioFactura = this._formularioFacturaService.form;
+  public arrSede: RegistroAutocompletarGenSede[] = [];
 
   informacionFormulario: any;
   active: Number;
@@ -181,6 +183,7 @@ export default class FacturaDetalleComponent
   }
 
   ngOnInit() {
+    this._consultarInformacion().subscribe();
     this.active = 1;
     this.mostrarDocumentoReferencia.set(true);
     if (this.parametrosUrl) {
@@ -1086,6 +1089,38 @@ export default class FacturaDetalleComponent
 
   recibirDocumentoDetalle(documento: DocumentoFacturaRespuesta) {
     this._inicializarFormulario(`${documento.contacto_id}`);
+  }
+
+  private _consultarInformacion() {
+    return zip(
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
+        {
+          modelo: 'GenSede',
+          serializador: 'ListaAutocompletar',
+        },
+      ),
+    ).pipe(
+      tap((respuesta) => {
+        this.arrSede = respuesta[0].registros;
+        if (!this.detalle) {
+          this._initSugerencias();
+        }
+
+        this.changeDetectorRef.detectChanges();
+      }),
+    );
+  }
+
+  private _initSugerencias() {
+    this._sugerirSede(0);
+  }
+
+  private _sugerirSede(posicion: number) {
+    if (this.arrSede.length > 0) {
+      this.formularioFactura.patchValue({
+        sede: this.arrSede?.[posicion].sede_id,
+      });
+    }
   }
 
   private _limpiarDocumentoReferencia(contactoId: string) {

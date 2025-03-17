@@ -652,7 +652,24 @@ export default class CuentaCobroFormularioComponent
       this.arrSede = respuesta[3].registros;
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
+
+      if (!this.detalle) {
+        this._initSugerencias();
+      }
+
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  private _initSugerencias() {
+    this._sugerirSede(0);
+  }
+
+  private _sugerirSede(posicion: number) {
+    if (this.arrSede.length > 0) {
+      this.formularioFactura.patchValue({
+        sede: this.arrSede?.[posicion].sede_id,
+      });
+    }
   }
 }

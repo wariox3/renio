@@ -10,7 +10,7 @@ export const routes: Route[] = [
     path: '',
     loadChildren: () =>
       import('../../pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
+        (m) => m.DashboardModule,
       ),
   },
   {
@@ -43,6 +43,34 @@ export const routes: Route[] = [
           import(
             './paginas/informes/balance-prueba-contacto/balance-prueba-contacto.component'
           ).then((c) => c.BalancePruebaContactoComponent),
+      },
+      {
+        path: 'auxiliar_cuenta',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-cuenta/auxiliar-cuenta.component'
+          ).then((c) => c.AuxiliarCuentaComponent),
+      },
+      {
+        path: 'auxiliar_tercero',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-tercero/auxiliar-tercero.component'
+          ).then((c) => c.AuxiliarTerceroComponent),
+      },
+      {
+        path: 'auxiliar_general',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-general/auxiliar-general.component'
+          ).then((c) => c.AxiliarGeneralComponent),
+      },
+      {
+        path: 'base',
+        loadComponent: () =>
+          import(
+            './paginas/informes/base/base.component'
+          ).then((c) => c.BaseComponent),
       },
     ],
   },

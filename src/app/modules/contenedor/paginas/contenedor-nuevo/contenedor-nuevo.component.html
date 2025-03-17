@@ -13,6 +13,16 @@
     </app-card>
   </div>
 </div>
-<div *ngIf="procesando" class="fake-loading">
-  <span translate="FORMULARIOS.MENSAJES.CONTENEDOR.CREARCONTENEDOR"></span>
+<div *ngIf="procesando">
+  <app-secuencial-loader
+    [texts]="[
+      'Estamos creando su contenedor...',
+      'Creando bases de datos...',
+      'Configurando datos iniciales...',
+      'Configurando dominio...',
+      'Ya estamos terminando...',
+    ]"
+    [interval]="15000"
+  >
+  </app-secuencial-loader>
 </div>

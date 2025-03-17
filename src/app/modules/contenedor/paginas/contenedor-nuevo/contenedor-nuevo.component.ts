@@ -11,6 +11,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContenedorFormularioComponent } from '../contenedor-formulario/contenedor-formulario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { SecuencialLoaderComponent } from "../../../../comun/componentes/ui/secuencial-loader/secuencial-loader.component";
 
 @Component({
   selector: 'app-contenedor-nuevo',
@@ -25,7 +26,8 @@ import { NgIf } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-  ],
+    SecuencialLoaderComponent
+],
 })
 export class ContenedorNuevoComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
