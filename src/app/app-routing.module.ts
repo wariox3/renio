@@ -71,7 +71,48 @@ export const routes: Routes = [
         (c) => c.ContruccionComponent
       ),
   },
-
+  {
+    path: 'compras-ventas',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'tesoreria-cartera',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'inventario',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'pos',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'nomina',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
+  {
+    path: 'contabilidad',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
   {
     path: 'foro',
     loadComponent: () =>
