@@ -69,7 +69,7 @@ export class NominaElectronicaComponent extends General implements OnInit {
         this.arrParametrosConsulta,
       )
       .subscribe((respuesta) => {
-        this.cantidad_registros = respuesta.registros?.length;
+        this.cantidad_registros = respuesta.cantidad_registros;
         this.arrDocumentos = respuesta.registros?.map((documento) => ({
           id: documento.id,
           numero: documento.numero,
@@ -127,6 +127,7 @@ export class NominaElectronicaComponent extends General implements OnInit {
   descargarExcel() {
     const params = {
       modelo: 'GenDocumento',
+      limite: this.cantidad_registros,
       serializador: 'Nomina',
       excel: true,
       filtros: [...this.arrParametrosConsulta.filtros],
