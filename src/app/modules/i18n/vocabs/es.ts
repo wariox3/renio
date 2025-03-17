@@ -1461,6 +1461,7 @@ export const locale = {
       APIINTEGRACION: 'API integración',
       TABLEROANALITICA: 'Tablero analítica',
       POS: 'Inventario y POS+',
+      CONTACTAR: 'Contactar',
     },
     MENSAJES: {
       DOCUMENTOAPROBADO: 'Documento aprobado',
