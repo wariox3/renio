@@ -58,6 +58,13 @@ export const routes: Route[] = [
             './paginas/informes/auxiliar-tercero/auxiliar-tercero.component'
           ).then((c) => c.AuxiliarTerceroComponent),
       },
+      {
+        path: 'auxiliar_general',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-general/auxiliar-general.component'
+          ).then((c) => c.AxiliarGeneralComponent),
+      },
     ],
   },
   {

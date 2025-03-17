@@ -114,6 +114,7 @@ export const locale = {
         FACTURAPOS: 'Factura POS',
         AUXILIARCUENTA: 'Auxiliar cuenta',
         AUXILIARTERCERO: 'Auxiliar tercero',
+        AUXILIARGENERAL: 'Auxiliar general',
       },
     },
     FORMULARIOS: {

@@ -440,7 +440,13 @@ export const initialState: MenuItem = {
               tipo: 'informe',
               modulo: 'contabilidad',
               url: 'contabilidad/informe/auxiliar_tercero',
-            }
+            },
+            {
+              nombre: 'AUXILIARGENERAL',
+              tipo: 'informe',
+              modulo: 'contabilidad',
+              url: 'contabilidad/informe/auxiliar_general',
+            },
             // {
             //   nombre: 'prueba',
             //   isSubmenu: true,
