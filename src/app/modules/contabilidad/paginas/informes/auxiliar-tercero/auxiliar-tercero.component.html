@@ -110,22 +110,9 @@
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
-        <button
-          type="submit"
-          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-          #btnGuardar
-          translate="FORMULARIOS.BOTONES.COMUNES.PDF"
-          (click)="imprimir()"
-        ></button>
       </div>
     </div>
-    <div
-      class="table-responsive"
-      [ngClass]="{ 'table-loading': cargandoCuentas() }"
-    >
-      @if (cargandoCuentas()) {
-        <div class="table-loading-message" style="margin-top: 2rem;">Cargando...</div>
-      }
+    <div class="table-responsive">
       <table
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
@@ -133,6 +120,10 @@
           <tr class="text-gray-800 bg-gray-100">
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO"
+            ></th>
             <th
               class="text-center"
               translate="LISTAS.CONMOVIENTO.ANTERIOR"
@@ -147,6 +138,7 @@
             <tr>
               <td>{{ item.codigo }}</td>
               <td style="text-align: left">{{ item.nombre }}</td>
+              <td style="text-align: left">{{ item.contacto_nombre }}</td>
               <td>{{ item.saldo_anterior | currency: "$" }}</td>
               <td>{{ item.debito | currency: "$" }}</td>
               <td>{{ item.credito | currency: "$" }}</td>
@@ -157,6 +149,7 @@
             <tr>
               <td></td>
               <td style="text-align: left" class="fw-bold">Total</td>
+              <td></td>
               <td></td>
               <td>{{ totalDebito | currency: "$" }}</td>
               <td>{{ totalCredito | currency: "$" }}</td>

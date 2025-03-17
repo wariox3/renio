@@ -4,7 +4,6 @@ import {
   Component,
   inject,
   OnInit,
-  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,31 +19,11 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { MovimientoAuxiliarCuenta, MovimientoAuxiliarTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { finalize } from 'rxjs';
-
-interface DataAgrupada {
-  [cuentaClaseId: number | string]: {
-    total: {
-      vr_debito: number;
-      vr_credito: number;
-    };
-    [cuentaGrupoId: number]: {
-      [cuentaSubcuentaId: number | string]: {
-        vr_debito: number;
-        vr_credito: number;
-      };
-      total: {
-        vr_debito: number;
-        vr_credito: number;
-      };
-    };
-  };
-}
 
 @Component({
   selector: 'app-auxiliar-tercero',
@@ -93,11 +72,10 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas: MovimientoAuxiliarTercero[] = [];
+  public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
-  public cargandoCuentas = signal<boolean>(false);
 
   private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
@@ -150,10 +128,8 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   }
 
   private _consultarInformes(parametros: any) {
-    this.cargandoCuentas.set(true);
     this.contabilidadInformesService
       .consultarAuxiliarTercero(parametros)
-      .pipe(finalize(() => this.cargandoCuentas.set(false)))
       .subscribe({
         next: (respuesta) => {
           this.cuentasAgrupadas = respuesta.registros;
@@ -227,16 +203,6 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   aplicarFiltro() {
     this._construirFiltros();
     this._consultarInformes(this._parametrosConsulta);
-  }
-
-  imprimir() {
-    this._httpService.descargarArchivo(
-      'contabilidad/movimiento/informe-auxiliar-tercero/',
-      {
-        ...this._parametrosConsulta,
-        pdf: true,
-      },
-    );
   }
 
   descargarExcel() {

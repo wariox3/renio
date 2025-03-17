@@ -39,16 +39,15 @@ export class ContabilidadInformesService extends Subdominio {
   }
 
   consultarAuxiliarTercero(parametros: any = {}) {
-    return this.httpService.post<{ registros: MovimientoAuxiliarTercero[] }>(
+    return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-auxiliar-tercero/`,
       parametros,
     );
   }
 
   consultarAuxiliarGeneral(parametros: any = {}) {
-    return this.httpService.post<{ registros: MovimientoBalancePruebaTercero[] }>(
-      `contabilidad/movimiento/informe-auxiliar-tercero/`,
-      parametros,
-    );
+    return this.httpService.post<{
+      registros: MovimientoBalancePruebaTercero[];
+    }>(`contabilidad/movimiento/informe-auxiliar-tercero/`, parametros);
   }
 }
