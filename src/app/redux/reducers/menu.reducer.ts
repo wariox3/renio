@@ -447,6 +447,12 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               url: 'contabilidad/informe/auxiliar_general',
             },
+            {
+              nombre: 'BASE',
+              tipo: 'informe',
+              modulo: 'contabilidad',
+              url: 'contabilidad/informe/base',
+            },
             // {
             //   nombre: 'prueba',
             //   isSubmenu: true,

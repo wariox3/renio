@@ -65,6 +65,13 @@ export const routes: Route[] = [
             './paginas/informes/auxiliar-general/auxiliar-general.component'
           ).then((c) => c.AxiliarGeneralComponent),
       },
+      {
+        path: 'base',
+        loadComponent: () =>
+          import(
+            './paginas/informes/base/base.component'
+          ).then((c) => c.BaseComponent),
+      },
     ],
   },
   {
