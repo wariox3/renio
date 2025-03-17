@@ -72,42 +72,42 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'compras-ventas',
+    path: 'informacion-compras-ventas',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
       ),
   },
   {
-    path: 'tesoreria-cartera',
+    path: 'informacion-tesoreria-cartera',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
       ),
   },
   {
-    path: 'inventario',
+    path: 'informacion-inventario',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
       ),
   },
   {
-    path: 'pos',
+    path: 'informacion-pos',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
       ),
   },
   {
-    path: 'nomina',
+    path: 'informacion-nomina',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
       ),
   },
   {
-    path: 'contabilidad',
+    path: 'informacion-contabilidad',
     loadComponent: () =>
       import('./pages/contruccion/contruccion.component').then(
         (c) => c.ContruccionComponent
