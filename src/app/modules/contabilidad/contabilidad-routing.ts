@@ -10,7 +10,7 @@ export const routes: Route[] = [
     path: '',
     loadChildren: () =>
       import('../../pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
+        (m) => m.DashboardModule,
       ),
   },
   {
@@ -50,6 +50,13 @@ export const routes: Route[] = [
           import(
             './paginas/informes/auxiliar-cuenta/auxiliar-cuenta.component'
           ).then((c) => c.AuxiliarCuentaComponent),
+      },
+      {
+        path: 'auxiliar_tercero',
+        loadComponent: () =>
+          import(
+            './paginas/informes/auxiliar-tercero/auxiliar-tercero.component'
+          ).then((c) => c.AuxiliarTerceroComponent),
       },
     ],
   },

@@ -113,6 +113,7 @@ export const locale = {
         ACTIVO: 'Activo',
         FACTURAPOS: 'Factura POS',
         AUXILIARCUENTA: 'Auxiliar cuenta',
+        AUXILIARTERCERO: 'Auxiliar tercero',
       },
     },
     FORMULARIOS: {

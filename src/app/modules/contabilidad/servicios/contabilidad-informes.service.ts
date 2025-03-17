@@ -3,6 +3,7 @@ import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import {
   MovimientoAuxiliarCuenta,
+  MovimientoAuxiliarTercero,
   RespuestaInformeBalancePrueba,
   RespuestaInformeBalancePruebaTerceros,
 } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
@@ -32,6 +33,13 @@ export class ContabilidadInformesService extends Subdominio {
   consultarAuxiliarCuenta(parametros: any = {}) {
     return this.httpService.post<{ registros: MovimientoAuxiliarCuenta[] }>(
       `contabilidad/movimiento/informe-auxiliar-cuenta/`,
+      parametros,
+    );
+  }
+
+  consultarAuxiliarTercero(parametros: any = {}) {
+    return this.httpService.post<{ registros: MovimientoAuxiliarTercero[] }>(
+      `contabilidad/movimiento/informe-auxiliar-tercero/`,
       parametros,
     );
   }
