@@ -56,7 +56,7 @@ export class NominaElectronicaComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['humano_nomina_electronica'] })
+        ActualizarMapeo({ dataMapeo: documentos['humano_nomina_electronica'] }),
       );
       this.consultarLista();
     });
@@ -66,7 +66,7 @@ export class NominaElectronicaComponent extends General implements OnInit {
   consultarLista() {
     this._generalService
       .consultarDatosAutoCompletar<NominaElectronica>(
-        this.arrParametrosConsulta
+        this.arrParametrosConsulta,
       )
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.registros?.length;
@@ -129,12 +129,7 @@ export class NominaElectronicaComponent extends General implements OnInit {
       modelo: 'GenDocumento',
       serializador: 'Nomina',
       excel: true,
-      filtros: [
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 702,
-        },
-      ],
+      filtros: [...this.arrParametrosConsulta.filtros],
     };
 
     this._descargarArchivosService.descargarExcelDocumentos(params);
