@@ -467,6 +467,7 @@ export const locale = {
           METODODEPRECIACION: 'Método depreciación',
           CUENTAGASTO: 'Cuenta gasto',
           CUENTADEPRECIACION: 'Cuenta depreciación',
+          SEDE: 'Sede',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
