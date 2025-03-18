@@ -1,0 +1,52 @@
+<div class="">
+  <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
+    <div>
+      <input
+        [style]="style"
+        #inputItem
+        type="text"
+        formControlName="cuentas"
+        ngbDropdownAnchor
+        class="cursor-pointer form-select form-select-sm w-100"
+        (focus)="consultarCuentas($event); ItemDropdown.open()"
+        (keyup)="aplicarFiltrosCuentas($event); ItemDropdown.open()"
+        [disabled]="documentoEnlazado"
+        [readonly]="documentoEnlazado"
+        [ngClass]="{ 'disabled-cursor': documentoEnlazado }"
+        [value]="construirNombre()"
+        [ngClass]="{
+          'is-invalid': campoInvalido,
+          'is-valid': itemSeleccionado !== null,
+        }"
+      />
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+        @if (resoluciones.length) {
+          <ng-container *ngFor="let resolucion of resoluciones">
+            <button
+              (click)="agregar(resolucion)"
+              type="button"
+              ngbDropdownItem
+            >
+              {{ resolucion.resolucion_numero }}
+            </button>
+          </ng-container>
+        } @else {
+          <button ngbDropdownItem type="button">
+            No se encontraron resultados.
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="fv-plugins-message-container" *ngIf="campoInvalido">
+    <div class="fv-help-block">
+      <span role="alert"
+        >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+      </span>
+    </div>
+  </div>
+</div>

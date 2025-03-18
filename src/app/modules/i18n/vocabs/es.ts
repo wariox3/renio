@@ -248,6 +248,7 @@ export const locale = {
           FORMAPRESENTACION: 'Forma presentación',
           PENSION: 'Pension',
           SOLIDARIDAD: 'Solidaridad',
+          RESOLUCION: 'Resolución'
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',

@@ -172,6 +172,8 @@ export interface DocumentoFacturaRespuesta {
   grupo_contabilidad_id: number;
   almacen_id: number;
   almacen_nombre: string;
+  resolucion_id: number;
+  resolucion_numero: number;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {
