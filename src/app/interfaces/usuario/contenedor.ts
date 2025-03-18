@@ -17,7 +17,7 @@ export interface Contenedor {
   telefono: string;
   usuario_id: number;
   usuarios: number;
-  usuarios_base: number | null;
+  usuarios_base: number;
   acceso_restringido: boolean;
 }
 
