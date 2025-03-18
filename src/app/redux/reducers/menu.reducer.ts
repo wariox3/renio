@@ -453,6 +453,12 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               url: 'contabilidad/informe/base',
             },
+            {
+              nombre: 'CERTIFICADORETENCION',
+              tipo: 'informe',
+              modulo: 'contabilidad',
+              url: 'contabilidad/informe/certificado_retencion',
+            },
             // {
             //   nombre: 'prueba',
             //   isSubmenu: true,

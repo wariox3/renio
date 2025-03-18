@@ -24,6 +24,13 @@ export class ContabilidadInformesService extends Subdominio {
     );
   }
 
+  consultarCertificadoRetencion(parametros: any = {}) {
+    return this.httpService.post<RespuestaInformeBalancePrueba>(
+      `contabilidad/movimiento/informe-certificado-retencion/`,
+      parametros,
+    );
+  }
+
   consultarBalancesTerceros(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-balance-prueba-tercero/`,

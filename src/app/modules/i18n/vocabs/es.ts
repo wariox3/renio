@@ -115,6 +115,7 @@ export const locale = {
         AUXILIARCUENTA: 'Auxiliar cuenta',
         AUXILIARTERCERO: 'Auxiliar tercero',
         AUXILIARGENERAL: 'Auxiliar general',
+        CERTIFICADORETENCION: 'Certificado retención',
         BASE: 'Base',
       },
     },
