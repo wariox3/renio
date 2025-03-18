@@ -39,6 +39,7 @@ import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -59,7 +60,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    SeleccionarGrupoComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -1016,5 +1018,9 @@ export default class FacturaDetalleComponent
         documento_referencia_numero: null,
         documento_referencia: null,
       });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 }

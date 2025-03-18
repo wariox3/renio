@@ -225,6 +225,24 @@
           ></ng-container>
         </div>
       </div>
+
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          >
+          </label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            [isEdicion]="modoEdicion()"
+            [sugerirPrimerValor]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
+          ></app-seleccionar-grupo>
+        </div>
+      </div>
+
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
