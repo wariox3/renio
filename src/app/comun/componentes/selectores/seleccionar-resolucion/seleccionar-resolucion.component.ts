@@ -41,7 +41,8 @@ export class SeleccionarResolucionComponent
   @Input() campoInvalido: any = false;
   @Input() iniciarFocusInputBusqueda: boolean = true;
   @Input() filtrosExternos: Filtros[];
-  @Output() itemSeleccionadoEvent: EventEmitter<RegistroAutocompletarGenResolucion | null> =
+  @Output()
+  itemSeleccionadoEvent: EventEmitter<RegistroAutocompletarGenResolucion | null> =
     new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @ViewChild('inputItem', { read: ElementRef })
@@ -110,13 +111,17 @@ export class SeleccionarResolucionComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    let filtros: Filtros[] = [
-      {
-        propiedad: 'numero',
-        operador: 'exact',
-        valor1: valorCasteado,
-      },
-    ];
+    let filtros: Filtros[] = [];
+
+    if (valorCasteado) {
+      filtros = [
+        {
+          propiedad: 'numero',
+          operador: 'contains',
+          valor1: valorCasteado,
+        },
+      ];
+    }
 
     if (!valor) {
       this.itemSeleccionadoEvent.emit(null);
@@ -143,7 +148,6 @@ export class SeleccionarResolucionComponent
         arrFiltros,
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.resoluciones = respuesta.registros;
           this.inputItem.nativeElement.focus();

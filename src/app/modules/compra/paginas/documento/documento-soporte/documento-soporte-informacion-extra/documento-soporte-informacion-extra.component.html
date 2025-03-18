@@ -10,9 +10,14 @@
         [style]="'height: 3.4rem;'"
         [iniciarFocusInputBusqueda]="false"
         [valorInicial]="formularioFactura.get('resolucion_numero')?.value"
-        (itemSeleccionadoEvent)="
-          agregarResolucionSeleccionado($event)
-        "
+        (itemSeleccionadoEvent)="agregarResolucionSeleccionado($event)"
+        [filtrosExternos]="[
+          {
+            operador: 'exact',
+            propiedad: 'compra',
+            valor1: true,
+          },
+        ]"
       ></app-seleccionar-resolucion>
     </div>
   </div>
