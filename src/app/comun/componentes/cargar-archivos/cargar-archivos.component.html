@@ -1,0 +1,92 @@
+@if (listaArchivos.length > 0) {
+  <table id="tableDetalles" class="table table-bordered table-sm">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="bg-gray-100" style="width: 50px">Id</th>
+        <th class="bg-gray-100">Fecha</th>
+        <th class="bg-gray-100">Nombre</th>
+        <th class="bg-gray-100">Tamaño</th>
+        <th class="bg-gray-100" style="width: 50px"></th>
+        <th class="bg-gray-100" style="width: 50px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (archivo of listaArchivos; track $index) {
+        <tr>
+          <td class="w-40px">{{ archivo.id }}</td>
+          <td>{{ archivo.fecha | date: "YYYY-MM-d h:mm a" }}</td>
+          <td>{{ archivo.nombre }}</td>
+          <td>{{ archivo.tamano | tamanoArchivo }}</td>
+          <td>
+            <button
+              style="padding-top: 0; padding-bottom: 0; font-weight: bold"
+              (click)="descargarArchivo(archivo)"
+              class="btn"
+            >
+              <i class="bi bi-download"></i>
+            </button>
+          </td>
+          <td class="text-center">
+            @if ((estadosBotonEliminar$ | async)?.[$index]) {
+              <div
+                class="spinner-border spinner-border-sm text-danger"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            } @else {
+              <button
+                style="padding-top: 0; padding-bottom: 0; font-weight: bold"
+                class="btn"
+                (click)="confirmarEliminarArchivo(archivo.id, $index)"
+              >
+                <i class="bi bi-trash delete-btn"></i>
+              </button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <div class="text-center">
+    <p>No has cargado archivos aún.</p>
+  </div>
+}
+
+<div class="mt-5">
+  @if (subiendoArchivo$ | async) {
+    <button class="btn btn-sm btn-primary" type="button" disabled>
+      <span
+        class="spinner-border spinner-border-sm me-2"
+        aria-hidden="true"
+      ></span>
+      <span role="status">Subiendo...</span>
+    </button>
+  } @else {
+    @if (archivoTipo === 2) {
+      <input
+        type="file"
+        #input
+        class="input"
+        accept=".png, .jpg, .jpeg"
+        (change)="cargarArchivo($event)"
+      />
+      <button class="btn btn-primary btn-sm" (click)="input.click()">
+        <i class="bi bi-upload"></i>
+        Cargar archivo
+      </button>
+    } @else {
+      <input
+        type="file"
+        #input
+        class="input"
+        (change)="cargarArchivo($event)"
+      />
+      <button class="btn btn-primary btn-sm" (click)="input.click()">
+        <i class="bi bi-upload"></i>
+        Cargar archivo
+      </button>
+    }
+  }
+</div>

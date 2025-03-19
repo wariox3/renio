@@ -3,6 +3,24 @@
     <div class="btn-group btn-sm shadow-sm">
       <app-comun-btn-atras />
     </div>
+    <div ngbDropdown class="d-inline-block">
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        Opciones
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button
+          ngbDropdownItem
+          (click)="abrirModalImagenes(subirImagenesContent)"
+        >
+          Imagenes
+        </button>
+      </div>
+    </div>
   </section>
 </div>
 <app-card>
@@ -144,3 +162,21 @@
     </table>
   </section>
 </app-card>
+<ng-template #subirImagenesContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Archivos</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-cargar-archivos
+      [archivoTipo]="2"
+      [modeloNombre]="modelo"
+      [codigo]="this.detalle"
+    ></app-cargar-archivos>
+  </div>
+</ng-template>

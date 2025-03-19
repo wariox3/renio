@@ -9,9 +9,9 @@ import {
   signal,
   TemplateRef,
   ViewChild,
-  viewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { ArchivosService } from '@comun/services/archivos/archivos.service';
 import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
@@ -19,21 +19,20 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Modelo } from '@comun/type/modelo.type';
+import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/contabilidad/con-movimiento.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TamanoArchivoPipe } from '@pipe/tamano-archivo.pipe';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, finalize, switchMap, tap } from 'rxjs';
-import { TablaComponent } from '../tabla/tabla.component';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
-import { PaginadorComponent } from '../paginador/paginador.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
+import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { PaginadorComponent } from '../paginador/paginador.component';
+import { TablaComponent } from '../tabla/tabla.component';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -42,11 +41,11 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
     CommonModule,
     NgbDropdownModule,
     TablaComponent,
-    TamanoArchivoPipe,
     AnimationFadeInUpDirective,
     PaginadorComponent,
     TranslateModule,
     SeleccionarContactoComponent,
+    CargarArchivosComponent,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -116,30 +115,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  private _agregarEstadoABotonesEliminar() {
-    const estados = [...this.estadosBotonEliminar$.value, false];
-    this.estadosBotonEliminar$.next(estados);
-  }
-
-  private _toggleEstadoBotonEliminarPorIndex(index: number) {
-    const estados = [...this.estadosBotonEliminar$.value];
-    if (index >= 0 && index < estados.length) {
-      estados[index] = !estados[index];
-      this.estadosBotonEliminar$.next(estados);
-    }
-  }
-
-  private _eliminarPosicionBotonesEliminar(index: number) {
-    const estados = this.estadosBotonEliminar$.value.filter(
-      (_, i) => i !== index,
-    );
-    this.estadosBotonEliminar$.next(estados);
-  }
-
-  private _limpiarBotonesEliminar() {
-    this.estadosBotonEliminar$.next([]);
-  }
-
   getEstadosBotonEliminar$() {
     return this.estadosBotonEliminar$.asObservable();
   }
@@ -148,82 +123,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
-    });
-  }
-
-  private _consultarArchivos() {
-    this._generalService
-      .consultarDatosAutoCompletar<ArchivoRespuesta>({
-        modelo: 'GenArchivo',
-        filtros: [
-          {
-            propiedad: 'documento_id',
-            valor1: this.documentoId,
-          },
-        ],
-      })
-      .subscribe({
-        next: (response) => {
-          this._limpiarBotonesEliminar();
-          this.listaArchivos = response.registros;
-
-          this.listaArchivos.forEach(() =>
-            this._agregarEstadoABotonesEliminar(),
-          );
-
-          this.changeDetectorRef.detectChanges();
-        },
-      });
-  }
-
-  private _submitArchivo(
-    base64: string,
-    nombreArchivo: string,
-    documentoId: number,
-  ) {
-    this.subiendoArchivo$.next(true);
-    this._archivosService
-      .cargarArchivoGeneral({
-        archivoBase64: base64,
-        nombreArchivo,
-        documentoId,
-      })
-      .pipe(
-        finalize(() => {
-          this.subiendoArchivo$.next(false);
-        }),
-      )
-      .subscribe({
-        next: () => {
-          this._consultarArchivos();
-          this.alertaService.mensajaExitoso(
-            'El archivo se ha cargado exitosamente!',
-          );
-        },
-      });
-  }
-
-  cargarArchivo(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const name = file.name;
-
-      // Usamos el servicio para convertir el archivo a Base64
-      this._procesadorArchivosService
-        .convertToBase64(file)
-        .then((base64) => {
-          this._submitArchivo(base64, name, this.documentoId);
-        })
-        .catch((error) => {
-          console.error('Error al procesar el archivo:', error);
-        });
-    }
-  }
-
-  descargarArchivo(archivo: ArchivoRespuesta) {
-    this._archivosService.descargarArchivoGeneral({
-      id: archivo.id,
     });
   }
 
@@ -239,7 +138,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   abrirModalArchivos(content: any) {
-    this._consultarArchivos();
     this._abirModal(content);
   }
 
@@ -272,20 +170,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   cambiarDesplazamiento(desplazamiento: number) {
     this.parametrosConsulta.desplazar = desplazamiento;
     this._consultarInformacionTabla();
-  }
-
-  confirmarEliminarArchivo(id: number, index: number) {
-    this.alertaService
-      .confirmar({
-        titulo: '¿Estas seguro de eliminar?',
-        texto: 'Esta acción no se puede revertir.',
-        textoBotonCofirmacion: 'Si, eliminar',
-      })
-      .then((respuesta) => {
-        if (respuesta.isConfirmed) {
-          this._eliminarArchivo(id, index);
-        }
-      });
   }
 
   confirmarDesaprobarDocumento() {
@@ -329,26 +213,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           this._consultarInformacionTabla();
           this.alertaService.mensajaExitoso(
             'El documento se ha descontabilizado!',
-          );
-        },
-      });
-  }
-
-  private _eliminarArchivo(archivoId: number, index: number) {
-    this._toggleEstadoBotonEliminarPorIndex(index);
-    this._archivosService
-      .eliminarArchivoGeneral({ id: archivoId })
-      .pipe(
-        finalize(() => {
-          this._toggleEstadoBotonEliminarPorIndex(index);
-        }),
-      )
-      .subscribe({
-        next: () => {
-          this._eliminarPosicionBotonesEliminar(index);
-          this._consultarArchivos();
-          this.alertaService.mensajaExitoso(
-            'El archivo se eliminó correctamente!',
           );
         },
       });

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -8,6 +8,8 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CargarArchivosComponent } from '../../../../../comun/componentes/cargar-archivos/cargar-archivos.component';
 
 @Component({
   selector: 'app-item-detalle',
@@ -21,10 +23,14 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
     CardComponent,
     BtnAtrasComponent,
     TituloAccionComponent,
-    SiNoPipe
-],
+    SiNoPipe,
+    NgbDropdownModule,
+    CargarArchivosComponent,
+  ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
+  private readonly _modalService = inject(NgbModal);
+
   arrImpuestosEliminado: number[] = [];
   item: any = {
     nombre: '',
@@ -49,6 +55,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
   constructor(private itemService: ItemService) {
     super();
   }
+
   ngOnInit() {
     this.consultardetalle();
   }
@@ -63,10 +70,25 @@ export default class ItemDetalleComponent extends General implements OnInit {
   }
 
   get impuestosVenta() {
-    return this.item.impuestos.filter((impuesto: any) => impuesto.impuesto_venta);
+    return this.item.impuestos.filter(
+      (impuesto: any) => impuesto.impuesto_venta,
+    );
   }
 
   get impuestosCompra() {
-    return this.item.impuestos.filter((impuesto: any) => impuesto.impuesto_compra);
+    return this.item.impuestos.filter(
+      (impuesto: any) => impuesto.impuesto_compra,
+    );
+  }
+
+  abrirModalImagenes(content: any) {
+    this._abirModal(content);
+  }
+
+  private _abirModal(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
   }
 }
