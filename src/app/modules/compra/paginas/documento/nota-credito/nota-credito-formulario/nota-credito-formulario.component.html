@@ -273,7 +273,7 @@
               cantidadCaracteres: '500',
               control: formularioFactura.controls['comentario'],
             }"
-        ></ng-container>
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
@@ -297,80 +297,6 @@
                   (emitirDocumentoDetalle)="recibirDocumentoDetalle($event)"
                   [formularioTipo]="'compra'"
                 ></app-formulario-productos>
-                <div class="d-flex justify-content-end mb-5">
-                  <table>
-                    <tr *ngIf="formularioFactura.value.totalCantidad > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
-                      ></td>
-                      <td class="text-end">
-                        {{ formularioFactura.value.totalCantidad }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="formularioFactura.value.subtotal > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
-                      ></td>
-                      <td class="text-end">
-                        {{ formularioFactura.value.subtotal | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="formularioFactura.value.base_impuesto > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALBASE"
-                      ></td>
-                      <td class="text-end">
-                        {{
-                          formularioFactura.value.base_impuesto | currency: "$"
-                        }}
-                      </td>
-                    </tr>
-                    @for (
-                      impuesto of acumuladorImpuesto() | keyvalue;
-                      track $index
-                    ) {
-                      <tr>
-                        <td class="text-end">{{ impuesto.key }}</td>
-                        <td class="text-end">
-                          {{ impuesto.value.total | currency: "$" }}
-                        </td>
-                      </tr>
-                    }
-                    <tr *ngIf="(acumuladorImpuesto() | keyvalue).length">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
-                      ></td>
-                      <td class="text-end">
-                        {{
-                          formularioFactura.value.impuesto_operado
-                            | currency: "$"
-                        }}
-                      </td>
-                    </tr>
-                    <tr class="border-top">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
-                      ></td>
-                      <td class="text-end" style="padding-left: 24px">
-                        {{ formularioFactura.value.total | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr *ngIf="formularioFactura.value.afectado > 0">
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"
-                      ></td>
-                      <td class="text-end" style="padding-left: 24px">
-                        {{ formularioFactura.value.afectado | currency: "$" }}
-                      </td>
-                    </tr>
-                  </table>
-                </div>
               </ng-template>
             </li>
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
@@ -379,12 +305,111 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.CUENTAS"
+              ></a>
+              <ng-template ngbNavContent>
+                <app-factura-cuenta />
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 3 }"
+                ngbNavLink
+                data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
               ></a>
               <ng-template ngbNavContent> </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          <div class="d-flex justify-content-end mb-5">
+            <table>
+              <tr *ngIf="formularioFactura.value.totalCantidad > 0">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"
+                ></td>
+                <td class="text-end">
+                  {{ formularioFactura.value.totalCantidad }}
+                </td>
+              </tr>
+              @for (
+                debitoCredito of acumuladorDebitosCreditos() | keyvalue;
+                track $index
+              ) {
+                @if (debitoCredito.value.total > 0) {
+                  <tr>
+                    <td class="text-end">
+                      @if (debitoCredito.key === "creditos") {
+                        Créditos
+                      } @else if (debitoCredito.key === "debitos") {
+                        Débitos
+                      } @else {
+                        {{ debitoCredito.key }}
+                      }
+                    </td>
+                    <td class="text-end">
+                      {{ debitoCredito.value.total | currency: "$" }}
+                    </td>
+                  </tr>
+                }
+              }
+              <tr *ngIf="formularioFactura.value.subtotal > 0">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"
+                ></td>
+                <td class="text-end">
+                  {{ formularioFactura.value.subtotal | currency: "$" }}
+                </td>
+              </tr>
+              <tr *ngIf="formularioFactura.value.base_impuesto > 0">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALBASE"
+                ></td>
+                <td class="text-end">
+                  {{ formularioFactura.value.base_impuesto | currency: "$" }}
+                </td>
+              </tr>
+              @for (impuesto of acumuladorImpuesto() | keyvalue; track $index) {
+                <tr>
+                  <td class="text-end">{{ impuesto.key }}</td>
+                  <td class="text-end">
+                    {{ impuesto.value.total | currency: "$" }}
+                  </td>
+                </tr>
+              }
+              <tr *ngIf="(acumuladorImpuesto() | keyvalue).length">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"
+                ></td>
+                <td class="text-end">
+                  {{ formularioFactura.value.impuesto_operado | currency: "$" }}
+                </td>
+              </tr>
+              <tr class="border-top">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"
+                ></td>
+                <td class="text-end" style="padding-left: 24px">
+                  {{ formularioFactura.value.total | currency: "$" }}
+                </td>
+              </tr>
+              <tr *ngIf="formularioFactura.value.afectado > 0">
+                <td
+                  class="text-end"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"
+                ></td>
+                <td class="text-end" style="padding-left: 24px">
+                  {{ formularioFactura.value.afectado | currency: "$" }}
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </section>
