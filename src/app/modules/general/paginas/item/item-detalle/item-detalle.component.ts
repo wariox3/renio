@@ -10,6 +10,8 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CargarArchivosComponent } from '../../../../../comun/componentes/cargar-archivos/cargar-archivos.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CargarImagenComponent } from '../../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 
 @Component({
   selector: 'app-item-detalle',
@@ -26,11 +28,14 @@ import { CargarArchivosComponent } from '../../../../../comun/componentes/cargar
     SiNoPipe,
     NgbDropdownModule,
     CargarArchivosComponent,
+    ImageCropperModule,
+    CargarImagenComponent,
   ],
 })
 export default class ItemDetalleComponent extends General implements OnInit {
   private readonly _modalService = inject(NgbModal);
-
+  srcResult: string = 'src/assets/media/avatars/blank.png';
+  imageChangedEvent: any = '';
   arrImpuestosEliminado: number[] = [];
   item: any = {
     nombre: '',
@@ -90,5 +95,39 @@ export default class ItemDetalleComponent extends General implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+  }
+
+  recuperarBase64(base64: string) {
+    this.itemService
+      .cargarImagen(this.detalle, base64)
+      .subscribe((response) => {
+        this.consultardetalle();
+        this.alertaService.mensajaExitoso(response.mensaje);
+      });
+  }
+
+  eliminarLogo(event: boolean) {
+    // this.store
+    //   .select(obtenerUsuarioId)
+    //   .pipe(
+    //     switchMap((codigoUsuario) =>
+    //       this.resumenService.eliminarImagen(codigoUsuario)
+    //     ),
+    //     tap((respuestaEliminarImagen) => {
+    //       if (respuestaEliminarImagen.limpiar) {
+    //         this.store.dispatch(
+    //           usuarioActionActualizarImagen({
+    //             imagen: respuestaEliminarImagen.imagen,
+    //           })
+    //         );
+    //         this.alertaService.mensajaExitoso(
+    //           this.translateService.instant(
+    //             'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
+    //           )
+    //         );
+    //       }
+    //     })
+    //   )
+    //   .subscribe();
   }
 }

@@ -30,6 +30,15 @@
     <app-comun-titulo-accion></app-comun-titulo-accion>
   </section>
   <section card-body>
+    <div
+      class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
+    >
+      <app-cargar-imagen
+        [recibirImagen]="item.imagen"
+        (dataFormulario)="recuperarBase64($event)"
+        (eliminarLogo)="eliminarLogo($event)"
+      ></app-cargar-imagen>
+    </div>
     <table class="table table-bordered table-sm">
       <tbody>
         <tr>
