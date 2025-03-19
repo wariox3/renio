@@ -11,7 +11,11 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ConPeriodo } from '@modulos/contabilidad/interfaces/contabilidad-periodo.interface';
 import { PeriodoService } from '@modulos/contabilidad/servicios/periodo.service';
-import { NgbAccordionModule, NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAccordionModule,
+  NgbDropdownModule,
+  NgbModal,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   BehaviorSubject,
@@ -20,8 +24,9 @@ import {
   Observable,
   of,
   Subject,
-  takeUntil
+  takeUntil,
 } from 'rxjs';
+import { PeriodoInconsistenciasComponent } from '../periodo-inconsistencias/periodo-inconsistencias.component';
 
 @Component({
   selector: 'app-movimiento-formulario',
@@ -35,6 +40,7 @@ import {
     NgbAccordionModule,
     AsyncPipe,
     NgbDropdownModule,
+    PeriodoInconsistenciasComponent,
   ],
   templateUrl: './periodo-detalle.component.html',
   styleUrl: './periodo-detalle.component.scss',
@@ -47,6 +53,7 @@ export class PeriodoDetalleComponent
   private _destroy$ = new Subject<void>();
 
   public formularioPeriodo: FormGroup;
+  public periodoSeleccionado: ConPeriodo;
   public creandoPeriodo$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   periodos$: Observable<ConPeriodo[]>;
@@ -56,7 +63,7 @@ export class PeriodoDetalleComponent
 
   constructor(
     private periodoService: PeriodoService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
     this.inicializarFormulario();
@@ -79,7 +86,7 @@ export class PeriodoDetalleComponent
       .crearPeriodo(this.formularioPeriodo.value)
       .pipe(
         takeUntil(this._destroy$),
-        finalize(() => this.creandoPeriodo$.next(false))
+        finalize(() => this.creandoPeriodo$.next(false)),
       )
       .subscribe(() => {
         this.modalService.dismissAll();
@@ -95,7 +102,7 @@ export class PeriodoDetalleComponent
         return respuesta
           .filter((item) => item.anio === anio)
           .sort((a, b) => b.mes - a.mes);
-      })
+      }),
     );
   }
 
@@ -152,7 +159,7 @@ export class PeriodoDetalleComponent
       .consultarDetalle()
       .pipe(
         takeUntil(this._destroy$),
-        map((respuesta) => respuesta.sort((a, b) => b.anio - a.anio))
+        map((respuesta) => respuesta.sort((a, b) => b.anio - a.anio)),
       )
       .subscribe((respuesta) => {
         this.periodos$ = of(respuesta);
@@ -165,5 +172,17 @@ export class PeriodoDetalleComponent
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.unsubscribe();
+  }
+
+  abrirModalInconsistencias(content: any, periodo: ConPeriodo) {
+    this.periodoSeleccionado = periodo;
+    this._abirModal(content);
+  }
+
+  private _abirModal(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
   }
 }

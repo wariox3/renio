@@ -167,6 +167,7 @@ export const locale = {
           CERRAR: 'Cerrar',
           IMPUESTOS: 'Impuestos',
           CARGARACTIVOS: 'Cargar activos',
+          VERINCONSISTENCIAS: 'Ver inconsistencias',
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -249,7 +250,7 @@ export const locale = {
           FORMAPRESENTACION: 'Forma presentación',
           PENSION: 'Pension',
           SOLIDARIDAD: 'Solidaridad',
-          RESOLUCION: 'Resolución'
+          RESOLUCION: 'Resolución',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
