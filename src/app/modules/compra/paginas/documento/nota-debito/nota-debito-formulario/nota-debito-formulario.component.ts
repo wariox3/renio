@@ -39,6 +39,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
+import { FacturaCuentaComponent } from "../../factura/factura-cuenta/factura-cuenta.component";
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -59,7 +60,8 @@ import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/f
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    SeleccionarGrupoComponent
+    SeleccionarGrupoComponent,
+    FacturaCuentaComponent
 ],
 })
 export default class FacturaDetalleComponent
@@ -74,6 +76,8 @@ export default class FacturaDetalleComponent
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public acumuladorDebitosCreditos =
+    this._formularioFacturaService.acumuladorDebitosCreditos;
   public mostrarDocumentoReferencia =
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public formularioFactura = this._formularioFacturaService.form;
@@ -290,23 +294,39 @@ export default class FacturaDetalleComponent
   validarCamposDetalles() {
     let errores = false;
     Object.values(this.detalles.controls).find((control: any) => {
-      if (control.get('item').value === null) {
-        control.markAsTouched(); // Marcar el control como 'touched'
-        control.markAsDirty();
-        errores = true;
-        this.detalles.markAllAsTouched();
-        this.detalles.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-        this.alertaService.mensajeError(
-          'Error en formulario filtros',
-          'contiene campos vacios',
-        );
+      let tipo_registro = control.get('tipo_registro').value;
+
+      if (tipo_registro === 'I') {
+        if (control.get('item').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo item no puede estar vacío',
+          );
+        }
+      } else if (tipo_registro === 'C') {
+        if (control.get('cuenta').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo cuenta no puede estar vacío',
+          );
+        }
       }
     });
     this.changeDetectorRef.detectChanges();
     return errores;
   }
-
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
       item: [null, Validators.compose([Validators.required])],

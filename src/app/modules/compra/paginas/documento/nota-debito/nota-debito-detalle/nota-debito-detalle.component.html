@@ -123,96 +123,108 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
             ></a>
             <ng-template ngbNavContent>
-              <table
-                id="tableDetalles"
-                class="table table-bordered table-row-gray-500"
-              >
-                <thead>
-                  <tr style="height: 3rem">
-                    <th class="bg-gray-100" style="width: 50px">Id</th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                    ></th>
-                    <th
-                      class="bg-gray-100"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
-                    ></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container
-                    *ngFor="let detalle of documento.detalles; let i = index"
-                  >
+              <div class="table-responsive-sm">
+                <table
+                  id="tableDetalles"
+                  class="table table-bordered table-row-gray-500"
+                >
+                  <thead>
                     <tr>
-                      <td style="width: 50px">{{ detalle.id }}</td>
-                      <td class="w-50 text-start">
-                        {{ detalle.item_nombre }}
-                      </td>
-                      <td class="text-start">
-                        {{ detalle.grupo_nombre }}
-                      </td>
-                      <td class="text-start">
-                        {{ detalle.almacen_nombre }}
-                      </td>
-                      <td class="text-end" style="width: 10rem">
-                        {{ detalle.cantidad }}
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.precio | number }}
-                      </td>
-                      <td class="text-end" style="width: 10rem">
-                        {{ detalle.porcentaje_descuento }}
-                        <i class="bi bi-percent"></i>
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.subtotal | number }}
-                      </td>
-                      <td class="">
-                        <ul
-                          *ngFor="
-                            let impuesto of detalle.impuestos;
-                            let i = index
-                          "
-                        >
-                          <li>{{ impuesto.impuesto_nombre_extendido }}</li>
-                        </ul>
-                      </td>
-                      <td class="text-end">
-                        {{ detalle.total | number }}
-                      </td>
+                      <th class="bg-gray-100" style="width: 50px">Id</th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.ITEM"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
+                      ></th>
                     </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="let detalle of documento.detalles; let i = index"
+                    >
+                      @if (detalle.tipo_registro === "I") {
+                        <tr>
+                          <td style="width: 50px">{{ detalle.id }}</td>
+                          <td class="w-50 text-start">
+                            {{ detalle.item_nombre }}
+                            {{ detalle.cuenta_codigo }}
+                            {{ detalle.cuenta_nombre }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{ detalle.grupo_nombre }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{ detalle.almacen_nombre }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{ detalle.cantidad }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.precio | number }}
+                          </td>
+                          <td class="text-end" style="width: 10rem">
+                            {{ detalle.porcentaje_descuento }}
+                            <i class="bi bi-percent"></i>
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.subtotal | number }}
+                          </td>
+                          <td class="text-center">
+                            @if (detalle.tipo_registro === "C") {
+                              {{ detalle.grupo_nombre }}
+                            } @else {
+                              <ul
+                                *ngFor="
+                                  let impuesto of detalle.impuestos;
+                                  let i = index
+                                "
+                              >
+                                <li>
+                                  {{ impuesto.impuesto_nombre_extendido }}
+                                </li>
+                              </ul>
+                            }
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.total | number }}
+                          </td>
+                        </tr>
+                      }
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
             </ng-template>
           </li>
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
@@ -221,7 +233,105 @@
               [ngClass]="{ 'text-primary': active === 2 }"
               ngbNavLink
               data-bs-toggle="tab"
-              translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+              translate="FORMULARIOS.TITULOS.FACTURACION.CUENTAS"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive-sm">
+                <table
+                  id="tableDetalles"
+                  class="table table-bordered table-row-gray-500"
+                >
+                  <thead>
+                    <tr>
+                      <th class="bg-gray-100" style="width: 50px">Id</th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CUENTA"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.GRUPO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CONTACTO"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.NATURALEZA"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.VALOR"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.BASE"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
+                      ></th>
+                      <th
+                        class="bg-gray-100"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
+                      ></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="let detalle of documento.detalles; let i = index"
+                    >
+                      @if (detalle.tipo_registro === "C") {
+                        <tr>
+                          <td style="width: 50px">{{ detalle.id }}</td>
+                          <td class="w-50 text-start">
+                            {{ detalle.item_nombre }}
+                            {{ detalle.cuenta_codigo }}
+                            {{ detalle.cuenta_nombre }}
+                          </td>
+                          <td>
+                            {{ detalle.grupo_nombre }}
+                          </td>
+                          <td>
+                            {{ detalle.contacto_nombre_corto }}
+                          </td>
+                          <td style="width: 10rem">
+                            {{
+                              detalle.naturaleza === null
+                                ? ""
+                                : detalle.naturaleza === "D"
+                                  ? "Débito"
+                                  : "Crédito"
+                            }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.precio | number }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.base | number }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.subtotal | number }}
+                          </td>
+                          <td class="text-end">
+                            {{ detalle.total | number }}
+                          </td>
+                        </tr>
+                      }
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 3 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
             ></a>
             <ng-template ngbNavContent> </ng-template>
           </li>
@@ -239,6 +349,8 @@
             [totalImpuestos]="totalImpuestos"
             [totalGeneral]="totalGeneral"
             [totalCantidad]="totalCantidad"
+            [totalCreditos]="totalCreditos"
+            [totalDebitos]="totalDebitos"
           ></app-detalles-totales>
         }
       </div>

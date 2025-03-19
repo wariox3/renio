@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -13,7 +13,8 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
+import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-nota-debito-detalle',
@@ -33,10 +34,12 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     DetallesTotalesComponent,
     BtnAnularComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
-],
+    DocumentoOpcionesComponent,
+  ],
 })
 export default class FacturaDetalleComponent extends General {
+  private _operacionesService = inject(OperacionesService);
+
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -65,6 +68,8 @@ export default class FacturaDetalleComponent extends General {
   subtotalGeneral: number = 0;
   totalBase: number = 0;
   totalNetoGeneral: number = 0;
+  totalDebitos: number = 0;
+  totalCreditos: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
@@ -76,7 +81,7 @@ export default class FacturaDetalleComponent extends General {
 
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
     this.consultardetalle();
@@ -101,16 +106,29 @@ export default class FacturaDetalleComponent extends General {
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
 
-          let neto = item.neto || 0;
+          // let neto = item.neto || 0;
 
           this.totalCantidad += parseInt(item.cantidad);
           this.totalDescuento += descuento;
           this.subtotalGeneral += subtotalFinal;
-          this.totalNetoGeneral += neto;
-          this.totalGeneral += total;
+          // this.totalNetoGeneral += neto;
+          // this.totalGeneral += total;
           this.totalBase += baseImpuesto;
           this.changeDetectorRef.detectChanges();
         });
+
+        this.totalGeneral = this._operacionesService.sumarTotal(
+          respuesta.documento.detalles,
+        );
+
+        const { creditos, debitos } = this._operacionesService.sumarTotalCuenta(
+          respuesta.documento.detalles,
+        );
+
+        this.totalDebitos = debitos;
+        this.totalCreditos = creditos;
+        this.subtotalGeneral = respuesta.documento.subtotal;
+
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -123,7 +141,6 @@ export default class FacturaDetalleComponent extends General {
     this.totalGeneral = 0;
     this.totalBase = 0;
   }
-
 
   aprobar() {
     this.alertaService
@@ -138,17 +155,19 @@ export default class FacturaDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -204,10 +223,10 @@ export default class FacturaDetalleComponent extends General {
             this.consultardetalle();
             this._reniciarTotales();
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
           }
-        })
+        }),
       )
       .subscribe();
   }
