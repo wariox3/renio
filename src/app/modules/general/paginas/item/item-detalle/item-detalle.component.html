@@ -3,22 +3,24 @@
     <div class="btn-group btn-sm shadow-sm">
       <app-comun-btn-atras />
     </div>
-    <div ngbDropdown class="d-inline-block">
-      <button
-        type="button"
-        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        id="dropdownBasic1"
-        ngbDropdownToggle
-      >
-        Opciones
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <div class="btn-group btn-sm shadow-sm">
+      <div ngbDropdown class="d-inline-block">
         <button
-          ngbDropdownItem
-          (click)="abrirModalImagenes(subirImagenesContent)"
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
         >
-          Imagenes
+          Opciones
         </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            ngbDropdownItem
+            (click)="abrirModalImagenes(subirImagenesContent)"
+          >
+            Imagenes
+          </button>
+        </div>
       </div>
     </div>
   </section>
