@@ -1296,6 +1296,10 @@ export const locale = {
         CONTACTO: 'Contacto',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
+        COMPROBANTE: 'Comprobante',
+        IDENTIFICACION: 'Identificación',
+        NUMERO: 'Número',
+        FECHA: 'Fecha',
       },
       NOVEDAD: {
         ID: 'Id',

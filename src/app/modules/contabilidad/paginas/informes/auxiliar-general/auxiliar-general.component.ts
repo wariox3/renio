@@ -18,31 +18,11 @@ import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-export
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { HttpService } from '@comun/services/http.service';
-import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoAuxiliarGeneral } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-
-interface DataAgrupada {
-  [cuentaClaseId: number | string]: {
-    total: {
-      vr_debito: number;
-      vr_credito: number;
-    };
-    [cuentaGrupoId: number]: {
-      [cuentaSubcuentaId: number | string]: {
-        vr_debito: number;
-        vr_credito: number;
-      };
-      total: {
-        vr_debito: number;
-        vr_credito: number;
-      };
-    };
-  };
-}
 
 @Component({
   selector: 'app-auxiliar-general',
@@ -91,7 +71,7 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
+  public cuentasAgrupadas: MovimientoAuxiliarGeneral[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
