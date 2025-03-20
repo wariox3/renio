@@ -84,3 +84,10 @@ export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
   numero: number;
   fecha: string;
 }
+
+export interface MovimientoAuxiliarTercero
+  extends MovimientoBalancePrueba {
+  contacto_id: number;
+  contacto_nombre: string;
+  contacto_numero_identificacion: string;
+}

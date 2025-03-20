@@ -19,7 +19,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoAuxiliarTercero, MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -72,7 +72,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     limite_conteo: 10000,
   };
 
-  public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
+  public cuentasAgrupadas: MovimientoAuxiliarTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;

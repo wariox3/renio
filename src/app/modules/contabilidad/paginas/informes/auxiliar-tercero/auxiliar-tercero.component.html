@@ -120,6 +120,7 @@
           <tr class="text-gray-800 bg-gray-100">
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.IDENTIFICACION"></th>
             <th
               class="text-center"
               translate="LISTAS.CONMOVIENTO.CONTACTO"
@@ -138,6 +139,7 @@
             <tr>
               <td>{{ item.codigo }}</td>
               <td style="text-align: left">{{ item.nombre }}</td>
+            <td style="text-align: left">{{ item.contacto_numero_identificacion }}</td>
               <td style="text-align: left">{{ item.contacto_nombre }}</td>
               <td>{{ item.saldo_anterior | currency: "$" }}</td>
               <td>{{ item.debito | currency: "$" }}</td>
