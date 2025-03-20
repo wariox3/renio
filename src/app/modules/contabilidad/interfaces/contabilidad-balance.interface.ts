@@ -74,6 +74,7 @@ export interface MovimientoBalancePruebaTercero
   extends MovimientoBalancePrueba {
   contacto_id: number;
   contacto_nombre: string;
+  contacto_numero_identificacion: string;
 }
 
 export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
