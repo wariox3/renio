@@ -62,6 +62,6 @@ export class ContabilidadInformesService extends Subdominio {
   consultarAuxiliarGeneral(parametros: any = {}) {
     return this.httpService.post<{
       registros: MovimientoBalancePruebaTercero[];
-    }>(`contabilidad/movimiento/informe-auxiliar-tercero/`, parametros);
+    }>(`contabilidad/movimiento/informe-auxiliar-general/`, parametros);
   }
 }
