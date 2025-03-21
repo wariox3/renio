@@ -91,6 +91,12 @@ export const initialState: MenuItem = {
               modulo: 'cartera',
               url: 'cartera/informe/cuentas_cobrar',
             },
+            {
+              nombre: 'CUENTASCOBRARCORTE',
+              tipo: 'informe',
+              modulo: 'cartera',
+              url: 'cartera/informe/cuentas_cobrar_corte',
+            },
           ],
         },
       ],

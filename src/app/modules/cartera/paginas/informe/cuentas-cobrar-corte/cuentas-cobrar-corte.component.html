@@ -1,0 +1,32 @@
+<app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+  <section card-body>
+    <app-base-filtro
+      (emitirFiltros)="obtenerFiltros($event)"
+      [persistirFiltros]="false"
+    ></app-base-filtro>
+  </section>
+</app-card>
+<app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+  <section card-body>
+    <div class="table-responsive-sm table-loading">
+      <app-comun-tabla
+        [modelo]="modelo"
+        [datos]="arrDocumentos"
+        [cantidad_registros]="cantidad_registros"
+        [visualizarColumnaEditar]="false"
+        [visualizarColumnaDetalle]="false"
+        [visualizarColumnaSeleccionar]="false"
+        [visualizarBtnImportar]="false"
+        [visualizarBtnExportar]="true"
+        [visualizarBtnNuevo]="false"
+        [visualizarBtnEliminar]="false"
+        [visualizarBtnExportarZip]="false"
+        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
+        (emitirOrdenamiento)="cambiarOrdemiento($event)"
+        (emitirPaginacion)="cambiarPaginacion($event)"
+        (emitirExportarExcel)="descargarExcel()"
+      >
+      </app-comun-tabla>
+    </div>
+  </section>
+</app-card>

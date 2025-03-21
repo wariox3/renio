@@ -52,6 +52,7 @@ export const locale = {
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
+        CUENTASCOBRARCORTE: 'Cuentas por cobrar corte',
         EMPLEADO: 'Empleado',
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
