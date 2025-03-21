@@ -1021,6 +1021,15 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'comprobante_nombre',
+      nombreAbreviadoFiltro: 'COMPROBANTE_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'DOCUMENTO_TIPO__NOMBRE',
+      campoTipo: 'CharField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: false,
+    },
   ],
   existencia: [
     {
