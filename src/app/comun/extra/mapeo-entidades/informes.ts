@@ -1006,6 +1006,22 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
   ],
+  auxiliar_general: [
+    {
+      nombre: 'FECHA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CIERRE',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
   existencia: [
     {
       nombre: 'ID',

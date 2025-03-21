@@ -23,6 +23,7 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 
 @Component({
   selector: 'app-auxiliar-general',
@@ -34,6 +35,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
+    BaseFiltroComponent,
   ],
   templateUrl: './auxiliar-general.component.html',
   styleUrl: './auxiliar-general.component.scss',
@@ -83,15 +85,43 @@ export class AxiliarGeneralComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
+    this._cargarFiltrosPredeterminados();
     this._initFormularioFiltros();
     this._construirFiltros();
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] }),
+        ActualizarMapeo({ dataMapeo: documentos['auxiliar_general'] }),
       );
       this._consultarInformes(this._parametrosConsulta);
     });
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _cargarFiltrosPredeterminados() {
+    const filtroKey = 'contabilidad_auxiliargeneral';
+    const filtroValue = [
+      {
+        propiedad: 'fecha',
+        operadorFiltro: 'range',
+        valor1: '2025-03-21',
+        valor2: '2025-03-21',
+        tipo: 'DateField',
+        busquedaAvanzada: 'false',
+        modeloBusquedaAvanzada: '',
+        operador: 'range',
+        campo: 'fecha',
+      },
+      {
+        propiedad: 'cierre',
+        operadorFiltro: 'false',
+        valor1: false,
+        tipo: 'Booleano',
+        operador: 'exact',
+        campo: 'cierre',
+      },
+    ];
+
+    localStorage.setItem(filtroKey, JSON.stringify(filtroValue));
   }
 
   private _initFormularioFiltros() {

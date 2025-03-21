@@ -2,7 +2,10 @@
   <ng-content select="[base-filtros]"></ng-content>
   <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
     <section card-body>
-      <form [formGroup]="formularioFiltros">
+      <app-base-filtro
+      (emitirFiltros)="obtenerFiltros($event)"
+      ></app-base-filtro>
+      <!-- <form [formGroup]="formularioFiltros">
         <section class="row mb-5">
           <div class="col-md-6 col-sm-12">
             <label
@@ -100,7 +103,7 @@
             (click)="aplicarFiltro()"
           ></button>
         </section>
-      </form>
+      </form> -->
     </section>
   </app-card>
 </div>
@@ -140,7 +143,7 @@
             <td>{{ item.codigo }}</td>
             <td style="text-align: left">{{ item.nombre }}</td>
             <td style="text-align: left">{{ item.contacto_numero_identificacion }}</td>
-            <td style="text-align: left">{{ item.contacto_nombre }}</td>
+            <td style="text-align: left">{{ item.contacto_nombre_corto }}</td>
             <td style="text-align: left">{{ item.comprobante_nombre }}</td>
             <td style="text-align: left">{{ item.numero }}</td>
             <td style="text-align: left">{{ item.fecha }}</td>
