@@ -1032,7 +1032,8 @@ export const locale = {
         ACTIVOID: 'Activo Id',
         ACTIVOCODIGO: 'Activo código',
         ACTIVONOMBRE: 'Activo Nombre',
-        CIERRE: 'Cierre'
+        CIERRE: 'Cierre',
+        COMPROBANTE_ID: 'Comprobante id'
       },
       ITEM: {
         ID: 'ID',

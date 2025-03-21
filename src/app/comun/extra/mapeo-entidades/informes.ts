@@ -1321,8 +1321,6 @@ export const documentos: MapeoDocumentos = {
     },
     {
       nombre: 'comprobante_id',
-      nombreAbreviadoFiltro: 'COMPROBANTE_ID_FILTRO',
-      nombreFiltroRelacion: 'COMPROBANTE__ID',
       campoTipo: 'IntegerField',
       visibleFiltro: true,
       visibleTabla: true,
