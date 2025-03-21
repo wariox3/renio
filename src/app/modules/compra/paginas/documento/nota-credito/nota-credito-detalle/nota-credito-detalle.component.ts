@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -14,6 +14,7 @@ import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-nota-credito-detalle',
@@ -37,6 +38,8 @@ import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/
   ],
 })
 export default class FacturaDetalleComponent extends General {
+  private _operacionesService = inject(OperacionesService)
+
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -65,6 +68,8 @@ export default class FacturaDetalleComponent extends General {
   totalGeneral: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
+  totalDebitos: number = 0;
+  totalCreditos: number = 0;
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
@@ -87,7 +92,7 @@ export default class FacturaDetalleComponent extends General {
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
-        this._reniciarCamposTotales();
+        this._reniciarTotales();
 
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
@@ -99,27 +104,31 @@ export default class FacturaDetalleComponent extends General {
           let descuento = (porcentajeDescuento * subtotal) / 100;
           let subtotalFinal = subtotal - descuento;
 
-          let neto = item.neto || 0;
+          // let neto = item.neto || 0;
 
           this.totalCantidad += parseInt(item.cantidad);
           this.totalDescuento += descuento;
           this.subtotalGeneral += subtotalFinal;
-          this.totalNetoGeneral += neto;
-          this.totalGeneral += total;
+          // this.totalNetoGeneral += neto;
           this.totalBase += baseImpuesto;
+
           this.changeDetectorRef.detectChanges();
         });
+
+        this.totalGeneral = this._operacionesService.sumarTotal(
+          respuesta.documento.detalles,
+        );
+
+        const { creditos, debitos } = this._operacionesService.sumarTotalCuenta(
+          respuesta.documento.detalles,
+        );
+
+        this.totalDebitos = debitos;
+        this.totalCreditos = creditos;
+        this.subtotalGeneral = respuesta.documento.subtotal;
+
         this.changeDetectorRef.detectChanges();
       });
-  }
-
-  private _reniciarCamposTotales() {
-    this.totalCantidad = 0;
-    this.totalDescuento = 0;
-    this.subtotalGeneral = 0;
-    this.totalNetoGeneral = 0;
-    this.totalGeneral = 0;
-    this.totalBase = 0;
   }
 
   aprobar() {
@@ -212,7 +221,7 @@ export default class FacturaDetalleComponent extends General {
       )
       .subscribe();
   }
-
+  
   private _reniciarTotales() {
     this.totalCantidad = 0;
     this.subtotalGeneral = 0;

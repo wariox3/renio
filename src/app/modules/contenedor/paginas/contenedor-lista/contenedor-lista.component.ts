@@ -52,7 +52,7 @@ import { FormsModule } from '@angular/forms';
     SkeletonLoadingComponent,
     ContenedorInvitacionComponent,
     ContenedorEditarComponent,
-    FormsModule
+    FormsModule,
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
@@ -66,6 +66,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   VisalizarMensajeBloqueo = false;
   visualizarLoader: boolean[] = [];
   contenedorId: number;
+  contenedor: Contenedor;
   procesando = false;
   searchTerm: string = '';
 
@@ -295,8 +296,9 @@ export class ContenedorListaComponent extends General implements OnInit {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 
-  abrirModal(content: any, contenedor_id: number) {
+  abrirModal(content: any, contenedor_id: number, contenedor: Contenedor) {
     this.contenedorId = contenedor_id;
+    this.contenedor = contenedor;
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
@@ -310,7 +312,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     }
 
     return this.contenedores().filter((item) =>
-      item?.nombre  ?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
+      item?.nombre?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
     );
   }
 }

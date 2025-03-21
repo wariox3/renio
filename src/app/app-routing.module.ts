@@ -71,7 +71,13 @@ export const routes: Routes = [
         (c) => c.ContruccionComponent
       ),
   },
-
+  {
+    path: 'caracteristicas',
+    loadComponent: () =>
+      import('./pages/contruccion/contruccion.component').then(
+        (c) => c.ContruccionComponent
+      ),
+  },
   {
     path: 'foro',
     loadComponent: () =>

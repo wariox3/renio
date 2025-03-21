@@ -9,7 +9,7 @@
       <span class="mx-1"> {{ contenedorNombre }} </span>
     </section>
     <section card-body>
-      <div class="row">
+      <div class="row mb-5">
         <div class="col-md-12 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.COMUNES.CORREO"
@@ -26,7 +26,7 @@
                 formularioEmpresaInvitacion.controls['nombre'].invalid,
               'is-valid':
                 formularioEmpresaInvitacion.controls['nombre'].touched &&
-                formularioEmpresaInvitacion.controls['nombre'].valid
+                formularioEmpresaInvitacion.controls['nombre'].valid,
             }"
           />
           <ng-container
@@ -34,7 +34,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpresaInvitacion.controls['nombre']
+              control: formularioEmpresaInvitacion.controls['nombre'],
             }"
           ></ng-container>
           <ng-container
@@ -44,7 +44,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: 3,
-              control: formularioEmpresaInvitacion.controls['nombre']
+              control: formularioEmpresaInvitacion.controls['nombre'],
             }"
           ></ng-container>
           <ng-container
@@ -54,7 +54,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: 255,
-              control: formularioEmpresaInvitacion.controls['nombre']
+              control: formularioEmpresaInvitacion.controls['nombre'],
             }"
           ></ng-container>
 
@@ -64,16 +64,26 @@
               validation: 'pattern',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-              control: formularioEmpresaInvitacion.controls['nombre']
+              control: formularioEmpresaInvitacion.controls['nombre'],
             }"
           ></ng-container>
         </div>
       </div>
+      @if (contenedorAlcanzoMaxUsuarios()) {
+        <section>
+          <div class="alert alert-info p-2" role="alert">
+            <i class="bi bi-exclamation-triangle text-info"></i>
+            Este contenedor ha alcanzado el límite de invitaciones. No es posible
+            agregar más personas.
+          </div>
+        </section>
+      }
     </section>
     <section card-footer>
       <div appAnimationFadeinUp class="card-footer">
         <div class="d-flex justify-content-end">
           <button
+            [disabled]="contenedorAlcanzoMaxUsuarios()"
             translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITAR"
             type="submit"
             class="btn btn-primary btn-sm"

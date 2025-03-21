@@ -186,7 +186,8 @@
                               (click)="
                                 abrirModal(
                                   contentModalInvitados,
-                                  contenedor.contenedor_id
+                                  contenedor.contenedor_id,
+                                  contenedor
                                 )
                               "
                             >
@@ -204,7 +205,8 @@
                               (click)="
                                 abrirModal(
                                   ModalEditar,
-                                  contenedor.contenedor_id
+                                  contenedor.contenedor_id,
+                                  contenedor
                                 )
                               "
                             >
@@ -342,6 +344,7 @@
   <div class="modal-body">
     <app-contenedor-invitacion
       [contenedorCodigo]="contenedorId"
+      [contenedor]="contenedor"
     ></app-contenedor-invitacion>
   </div>
 </ng-template>

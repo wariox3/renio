@@ -16,20 +16,36 @@ export class ArchivosService {
       documento_id: payload.documentoId,
       nombre_archivo: payload.nombreArchivo,
       archivo_base64: payload.archivoBase64,
+      archivo_tipo_id: 1,
+    });
+  }
+
+  cargarArchivoImagen(payload: {
+    modelo: string | null;
+    codigo: number | null;
+    nombreArchivo: string;
+    archivoBase64: string;
+    archivoTipoId: number;
+    documentoId: number | null;
+  }) {
+    return this._httpService.post('general/archivo/cargar/', {
+      modelo: payload.modelo,
+      codigo: payload.codigo,
+      nombre_archivo: payload.nombreArchivo,
+      archivo_base64: payload.archivoBase64,
+      archivo_tipo_id: payload.archivoTipoId,
+      documento_id: payload.documentoId,
     });
   }
 
   descargarArchivoGeneral(payload: { id: number }) {
     return this._httpService.descargarArchivo(
       'general/archivo/descargar/',
-      payload
+      payload,
     );
   }
 
   eliminarArchivoGeneral(payload: { id: number }) {
-    return this._httpService.delete(
-      `general/archivo/${payload.id}/`,
-      payload
-    );
+    return this._httpService.delete(`general/archivo/${payload.id}/`, payload);
   }
 }

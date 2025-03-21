@@ -23,6 +23,13 @@ export const routes: Route[] = [
             './paginas/informe/cuentas-cobrar/cuentas-cobrar.component'
           ).then((c) => c.CuentasCobrarComponent),
       },
+      {
+        path: 'cuentas_cobrar_corte',
+        loadComponent: () =>
+          import(
+            './paginas/informe/cuentas-cobrar-corte/cuentas-cobrar-corte.component'
+          ).then((c) => c.CuentasCobrarCorteComponent),
+      },
     ],
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },

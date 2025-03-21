@@ -73,5 +73,22 @@ export interface MovimientoAuxiliarGeneral {
 export interface MovimientoBalancePruebaTercero
   extends MovimientoBalancePrueba {
   contacto_id: number;
-  contacto_nombre: string;
+  contacto_nombre_corto: string;
+  contacto_numero_identificacion: string;
+}
+
+export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
+  contacto_id: number;
+  contacto_nombre_corto: string;
+  comprobante_nombre: string;
+  contacto_numero_identificacion: string;
+  numero: number;
+  fecha: string;
+}
+
+export interface MovimientoAuxiliarTercero
+  extends MovimientoBalancePrueba {
+  contacto_id: number;
+  contacto_nombre_corto: string;
+  contacto_numero_identificacion: string;
 }

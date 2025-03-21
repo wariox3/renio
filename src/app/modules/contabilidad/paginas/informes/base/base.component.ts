@@ -23,6 +23,8 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-base',
@@ -34,6 +36,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
+    BaseFiltroComponent,
   ],
   templateUrl: './base.component.html',
   styleUrl: './base.component.scss',
@@ -45,26 +48,7 @@ export class BaseComponent extends General implements OnInit {
   private _parametrosConsulta: any = {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
-    filtros: [
-      {
-        propiedad: 'fecha_desde',
-        operador: 'gte',
-        valor1: '2024-12-01',
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        campo: 'fecha_desde',
-      },
-      {
-        propiedad: 'fecha_hasta',
-        operador: 'lte',
-        valor1: '2024-12-31',
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        campo: 'fecha_hasta',
-      },
-    ],
+    filtros: [],
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -75,6 +59,7 @@ export class BaseComponent extends General implements OnInit {
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
+  public filtroKey = 'contabilidad_base';
 
   private _descargarArchivosService = inject(DescargarArchivosService);
 
@@ -83,15 +68,56 @@ export class BaseComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
+    this._cargarFiltrosPredeterminados();
     this._initFormularioFiltros();
     this._construirFiltros();
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['balance_prueba'] }),
+        ActualizarMapeo({ dataMapeo: documentos['base'] }),
       );
       this._consultarInformes(this._parametrosConsulta);
     });
     this.changeDetectorRef.detectChanges();
+  }
+
+  private _cargarFiltrosPredeterminados() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+
+    // Primer día del mes actual
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+      .toISOString()
+      .split('T')[0];
+
+    // Último día del mes actual
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
+      .toISOString()
+      .split('T')[0];
+
+    const filtroValue = [
+      {
+        propiedad: 'fecha',
+        operadorFiltro: 'range',
+        valor1: firstDayOfMonth,
+        valor2: lastDayOfMonth,
+        tipo: 'DateField',
+        busquedaAvanzada: 'false',
+        modeloBusquedaAvanzada: '',
+        operador: 'range',
+        campo: 'fecha',
+      },
+      {
+        propiedad: 'cierre',
+        operadorFiltro: 'false',
+        valor1: false,
+        tipo: 'Booleano',
+        operador: 'exact',
+        campo: 'cierre',
+      },
+    ];
+
+    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
   }
 
   private _initFormularioFiltros() {
@@ -148,36 +174,16 @@ export class BaseComponent extends General implements OnInit {
   private _construirFiltros() {
     this._limpiarFiltros();
 
-    // const anio = this.formularioFiltros.get('anio')?.value;
-    const fechaDesde = this.formularioFiltros.get('fecha_desde')?.value;
-    const fechaHasta = this.formularioFiltros.get('fecha_hasta')?.value;
-    const cierre = this.formularioFiltros.get('cierre')?.value;
+    const filtroGuardado = localStorage.getItem(this.filtroKey);
 
-    this._parametrosConsulta.filtros.push({
-      propiedad: 'fecha_desde',
-      operador: 'gte',
-      valor1: fechaDesde,
-      tipo: 'DateField',
-      busquedaAvanzada: 'false',
-      modeloBusquedaAvanzada: '',
-      campo: 'fecha_desde',
-    });
+    if (filtroGuardado) {
+      const parametrosConsulta: ParametrosFiltros = {
+        ...this._parametrosConsulta,
+        filtros: [...JSON.parse(filtroGuardado)],
+      };
 
-    this._parametrosConsulta.filtros.push({
-      propiedad: 'fecha_hasta',
-      operador: 'lte',
-      valor1: fechaHasta,
-      tipo: 'DateField',
-      busquedaAvanzada: 'false',
-      modeloBusquedaAvanzada: '',
-      campo: 'fecha_hasta',
-    });
-
-    this._parametrosConsulta.filtros.push({
-      propiedad: 'cierre',
-      operador: 'exact',
-      valor1: cierre,
-    });
+      this._parametrosConsulta = parametrosConsulta;
+    }
   }
 
   private _limpiarFiltros() {

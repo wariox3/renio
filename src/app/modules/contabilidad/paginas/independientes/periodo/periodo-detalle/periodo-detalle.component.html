@@ -36,11 +36,13 @@
                                 <td
                                   class="w-100 py-3"
                                   [ngClass]="[
-                                    periodo.estado_cerrado
-                                      ? 'cerrado'
-                                      : periodo.estado_bloqueado
-                                        ? 'bloqueado'
-                                        : '',
+                                    periodo.estado_inconsistencia
+                                      ? 'inconsistencia'
+                                      : periodo.estado_cerrado
+                                        ? 'cerrado'
+                                        : periodo.estado_bloqueado
+                                          ? 'bloqueado'
+                                          : '',
                                   ]"
                                 >
                                   <div class="d-flex align-items-center gap-3">
@@ -54,6 +56,11 @@
                                       }
                                     </div>
                                     <span>{{ deNumeroAMes(periodo.mes) }}</span>
+                                    @if (periodo.estado_inconsistencia) {
+                                      <span class="badge badge-danger badge-sm">
+                                        El periodo tiene inconsistencias
+                                      </span>
+                                    }
                                   </div>
                                 </td>
                                 <td>
@@ -79,6 +86,19 @@
                                         ngbDropdownMenu
                                         aria-labelledby="dropdownBasic1"
                                       >
+                                        <div class="menu-item px-3">
+                                          <button
+                                            (click)="
+                                              abrirModalInconsistencias(
+                                                verInconsistenciasContent,
+                                                periodo
+                                              )
+                                            "
+                                            translate="FORMULARIOS.BOTONES.COMUNES.VERINCONSISTENCIAS"
+                                            class="menu-link px-3 cursor-pointer"
+                                            ngbDropdownItem
+                                          ></button>
+                                        </div>
                                         @if (!periodo.estado_bloqueado) {
                                           <div class="menu-item px-3">
                                             <button
@@ -226,4 +246,21 @@
       </div>
     </div>
   </ng-container>
+</ng-template>
+
+<ng-template #verInconsistenciasContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Archivos</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-periodo-inconsistencias
+      [periodo]="periodoSeleccionado"
+    ></app-periodo-inconsistencias>
+  </div>
 </ng-template>

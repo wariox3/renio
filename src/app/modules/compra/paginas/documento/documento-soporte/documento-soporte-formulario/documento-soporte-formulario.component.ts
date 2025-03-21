@@ -40,6 +40,7 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
 import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { DocumentoSoporteInformacionExtraComponent } from "../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component";
+import { SeleccionarResolucionComponent } from "../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component";
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -62,7 +63,8 @@ import { DocumentoSoporteInformacionExtraComponent } from "../documento-soporte-
     NgSelectModule,
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
-    DocumentoSoporteInformacionExtraComponent
+    DocumentoSoporteInformacionExtraComponent,
+    SeleccionarResolucionComponent
 ],
 })
 export default class FacturaDetalleComponent

@@ -68,9 +68,16 @@ export const routes: Route[] = [
       {
         path: 'base',
         loadComponent: () =>
+          import('./paginas/informes/base/base.component').then(
+            (c) => c.BaseComponent,
+          ),
+      },
+      {
+        path: 'certificado_retencion',
+        loadComponent: () =>
           import(
-            './paginas/informes/base/base.component'
-          ).then((c) => c.BaseComponent),
+            './paginas/informes/certificado-retencion/certificado-retencion.component'
+          ).then((c) => c.CertificadoRetencionComponent),
       },
     ],
   },

@@ -12,21 +12,21 @@ export class FacturaService {
   guardarFactura(data: any) {
     return this.httpService.post<{ documento: DocumentoFacturaRespuesta }>(
       'general/documento/',
-      data
+      data,
     );
   }
 
   actualizarDatosFactura(id: number, data: any) {
     return this.httpService.put<{ documento: DocumentoFacturaRespuesta }>(
       `general/documento/${id}/`,
-      data
+      data,
     );
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<{ documento: DocumentoFacturaRespuesta }>(
-      `general/documento/${id}/`
-    );
+    return this.httpService.getDetalle<{
+      documento: DocumentoFacturaRespuesta;
+    }>(`general/documento/${id}/`);
   }
 
   aprobar(data: number) {
@@ -40,6 +40,16 @@ export class FacturaService {
   }
 
   actualizarDetalleGrupo(id: number, data: any) {
-      return this.httpService.patch<any>(`general/documento_detalle/${id}/`, data);
-    }
+    return this.httpService.patch<any>(
+      `general/documento_detalle/${id}/`,
+      data,
+    );
+  }
+
+  cargarResultados(data: any) {
+    return this.httpService.post<any>(
+      'genera/documento/cargar-resultado/',
+      data,
+    );
+  }
 }

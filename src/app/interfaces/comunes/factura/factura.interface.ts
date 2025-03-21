@@ -139,7 +139,6 @@ export interface DocumentoFacturaRespuesta {
   base_cotizacion: number;
   base_prestacion: number;
   salario: number;
-  estado_aprobado: boolean;
   documento_tipo_id: number;
   metodo_pago_id: number;
   metodo_pago_nombre: string;
@@ -172,6 +171,13 @@ export interface DocumentoFacturaRespuesta {
   grupo_contabilidad_id: number;
   almacen_id: number;
   almacen_nombre: string;
+  resolucion_id: number;
+  resolucion_numero: number;
+  grupo_contabilidad_nombre: string;
+  cuenta_id: number;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  estado_aprobado: boolean;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {

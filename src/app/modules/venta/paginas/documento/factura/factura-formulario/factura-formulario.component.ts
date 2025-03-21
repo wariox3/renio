@@ -55,6 +55,8 @@ import {
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -78,6 +80,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     AlmacenesComponent,
+    SeleccionarResolucionComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -743,6 +746,22 @@ export default class FacturaDetalleComponent
     if (this.arrAsesor.length > 0) {
       this.formularioFactura.patchValue({
         asesor: this.arrAsesor?.[posicion].asesor_id,
+      });
+    }
+  }
+
+  agregarResolucionSeleccionado(
+    resolucion: RegistroAutocompletarGenResolucion | null,
+  ) {
+    if (resolucion) {
+      this.formularioFactura.patchValue({
+        resolucion: resolucion?.resolucion_id,
+        resolucion_numero: resolucion?.resolucion_numero,
+      });
+    } else {
+      this.formularioFactura.patchValue({
+        resolucion: null,
+        resolucion_numero: '',
       });
     }
   }

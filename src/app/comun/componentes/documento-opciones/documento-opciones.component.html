@@ -120,7 +120,11 @@
     ></button>
   </div>
   <div class="modal-body">
-    @if (listaArchivos.length > 0) {
+    <app-cargar-archivos
+      [archivoTipo]="1"
+      [documentoId]="this.detalle"
+    ></app-cargar-archivos>
+    <!-- @if (listaArchivos.length > 0) {
       <table id="tableDetalles" class="table table-bordered table-sm">
         <thead>
           <tr class="bg-gray-100">
@@ -197,7 +201,7 @@
           Cargar archivo
         </button>
       }
-    </div>
+    </div> -->
   </div>
 </ng-template>
 

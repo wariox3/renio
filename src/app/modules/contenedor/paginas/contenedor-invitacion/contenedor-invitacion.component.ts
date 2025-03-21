@@ -1,11 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ContenedorUsuariosInvicionAceptada } from '@interfaces/usuario/contenedor';
+import {
+  Contenedor,
+  ContenedorUsuariosInvicionAceptada,
+} from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -24,7 +33,7 @@ import { tap } from 'rxjs';
     ReactiveFormsModule,
     CommonModule,
     AnimationFadeInUpDirective,
-]
+  ],
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
   arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];
@@ -32,10 +41,11 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   contenedorNombre: string;
   usuarioCodigo = 0;
   @Input() contenedorCodigo: number;
+  @Input() contenedor: Contenedor;
 
   constructor(
     private formBuilder: FormBuilder,
-    private contenedorService: ContenedorService
+    private contenedorService: ContenedorService,
   ) {
     super();
   }
@@ -48,8 +58,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   consultarLista() {
-
-      this.contenedorService
+    this.contenedorService
       .listaInvitaciones(this.contenedorCodigo)
       .subscribe((respuesta: any) => {
         this.arrInvitaciones = respuesta.usuarios;
@@ -90,7 +99,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
         })
         .subscribe(() => {
           this.alertaService.mensajaExitoso(
-            `Se ha enviado un correo de invitación.`
+            `Se ha enviado un correo de invitación.`,
           );
           this.consultarLista();
           this.formularioEmpresaInvitacion.reset();
@@ -105,7 +114,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
       .mensajeValidacion(
         'Eliminar usuario de esta contenedor',
         'Este proceso no tiene reversa',
-        'warning'
+        'warning',
       )
       .then(({ isConfirmed }) => {
         if (isConfirmed) {
@@ -115,14 +124,26 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
               tap(() => {
                 this.alertaService.mensajaExitoso(
                   this.translateService.instant(
-                    'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION'
-                  )
+                    'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION',
+                  ),
                 );
                 this.consultarLista();
-              })
+              }),
             )
             .subscribe();
         }
       });
+  }
+
+  contenedorAlcanzoMaxUsuarios() {
+    const isAvailable = this.contenedor.usuarios >= this.contenedor.usuarios_base; 
+    
+    if(isAvailable) {
+      this.formularioEmpresaInvitacion.get('nombre')?.disable()
+    } else {
+      this.formularioEmpresaInvitacion.get('nombre')?.enable()
+    }
+    
+    return isAvailable
   }
 }

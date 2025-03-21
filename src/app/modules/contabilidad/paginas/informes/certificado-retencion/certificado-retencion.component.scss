@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.indent {
+  margin-left: 2rem;
+}
+
+.double-indent {
+  margin-left: 4rem;
+}
+
+.cuenta-col {
+  width: 100%;
+  white-space: nowrap;
+}
+
+th, td {
+  text-align: right;
+}
+
+th:first-child, td:first-child {
+  text-align: left;
+}
+
+.clase {
+  background-color: #b4b4b4;
+}

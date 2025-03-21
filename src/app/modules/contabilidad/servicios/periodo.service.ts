@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { ConPeriodo } from '@modulos/contabilidad/interfaces/contabilidad-periodo.interface';
+import {
+  ConPeriodo,
+  PeriodoInconsistencia,
+} from '@modulos/contabilidad/interfaces/contabilidad-periodo.interface';
 import { PeriodoCierre } from '../interfaces/contabilidad-periodo-cierre.interface';
 import { PeriodoBloquear } from '../interfaces/contabilidad-periodo-bloquear.interface';
 import { PeriodoDesbloquear } from '../interfaces/contabilidad-periodo-desbloquear.interface';
@@ -18,8 +21,21 @@ export class PeriodoService extends Subdominio {
     return this.httpService.getDetalle<ConPeriodo[]>(`contabilidad/periodo/`);
   }
 
+  consultarInconsistencias(anio: number, mes: number) {
+    return this.httpService.post<{ inconsistencia: PeriodoInconsistencia[] }>(
+      `contabilidad/periodo/inconsistencia/`,
+      {
+        anio,
+        mes,
+      },
+    );
+  }
+
   crearPeriodo(data: number) {
-    return this.httpService.post<PeriodoCierre>(`contabilidad/periodo/anio-nuevo/`, data);
+    return this.httpService.post<PeriodoCierre>(
+      `contabilidad/periodo/anio-nuevo/`,
+      data,
+    );
   }
 
   cerrar(id: number) {
@@ -27,7 +43,7 @@ export class PeriodoService extends Subdominio {
       `contabilidad/periodo/cerrar/`,
       {
         id,
-      }
+      },
     );
   }
 
@@ -36,7 +52,7 @@ export class PeriodoService extends Subdominio {
       `contabilidad/periodo/bloquear/`,
       {
         id,
-      }
+      },
     );
   }
 
@@ -45,7 +61,7 @@ export class PeriodoService extends Subdominio {
       `contabilidad/periodo/desbloquear/`,
       {
         id,
-      }
+      },
     );
   }
 }

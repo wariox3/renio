@@ -112,6 +112,8 @@ export class FormularioFacturaService {
         asesor: [''],
         asesor_nombre_corto: [null],
         sede: [''],
+        resolucion: [''],
+        resolucion_numero: [''],
         descuento: [0],
         sede_nombre: [null],
         grupo_contabilidad: [null],
@@ -1047,6 +1049,8 @@ export class FormularioFacturaService {
       almacen_nombre: documentoFactura.almacen_nombre,
       sede: documentoFactura.sede,
       asesor: documentoFactura.asesor,
+      resolucion: documentoFactura.resolucion_id,
+      resolucion_numero: documentoFactura.resolucion_numero,
     });
   }
 

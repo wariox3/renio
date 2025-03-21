@@ -39,6 +39,8 @@ import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -59,6 +61,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
+    FacturaCuentaComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -74,6 +78,8 @@ export default class FacturaDetalleComponent
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public mostrarDocumentoReferencia =
     this._formularioFacturaService.mostrarDocumentoReferencia;
+  public acumuladorDebitosCreditos =
+    this._formularioFacturaService.acumuladorDebitosCreditos;
   public filtrosPermanentesNotaCredito = {};
   public formularioFactura = this._formularioFacturaService.form;
 
@@ -280,17 +286,34 @@ export default class FacturaDetalleComponent
   validarCamposDetalles() {
     let errores = false;
     Object.values(this.detalles.controls).find((control: any) => {
-      if (control.get('item').value === null) {
-        control.markAsTouched(); // Marcar el control como 'touched'
-        control.markAsDirty();
-        errores = true;
-        this.detalles.markAllAsTouched();
-        this.detalles.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-        this.alertaService.mensajeError(
-          'Error en formulario filtros',
-          'contiene campos vacios',
-        );
+      let tipo_registro = control.get('tipo_registro').value;
+
+      if (tipo_registro === 'I') {
+        if (control.get('item').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo item no puede estar vacío',
+          );
+        }
+      } else if (tipo_registro === 'C') {
+        if (control.get('cuenta').value === null) {
+          control.markAsTouched(); // Marcar el control como 'touched'
+          control.markAsDirty();
+          errores = true;
+          this.detalles.markAllAsTouched();
+          this.detalles.markAsDirty();
+          this.changeDetectorRef.detectChanges();
+          this.alertaService.mensajeError(
+            'Error en formulario',
+            'El campo cuenta no puede estar vacío',
+          );
+        }
       }
     });
     this.changeDetectorRef.detectChanges();
@@ -1016,5 +1039,9 @@ export default class FacturaDetalleComponent
         documento_referencia_numero: null,
         documento_referencia: null,
       });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 }

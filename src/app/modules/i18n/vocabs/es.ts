@@ -52,6 +52,7 @@ export const locale = {
         VENTASCLIENTE: 'Ventas por cliente',
         VENTASVENDEDOR: 'Ventas por vendedor',
         CUENTASCOBRAR: 'Cuentas por cobrar',
+        CUENTASCOBRARCORTE: 'Cuentas por cobrar corte',
         EMPLEADO: 'Empleado',
         CONTRATO: 'Contrato',
         HUMCONTRATO: 'Contrato',
@@ -115,7 +116,9 @@ export const locale = {
         AUXILIARCUENTA: 'Auxiliar cuenta',
         AUXILIARTERCERO: 'Auxiliar tercero',
         AUXILIARGENERAL: 'Auxiliar general',
+        CERTIFICADORETENCION: 'Certificado retención',
         BASE: 'Base',
+        CIERRE: 'Cierre',
       },
     },
     FORMULARIOS: {
@@ -166,6 +169,8 @@ export const locale = {
           CERRAR: 'Cerrar',
           IMPUESTOS: 'Impuestos',
           CARGARACTIVOS: 'Cargar activos',
+          VERINCONSISTENCIAS: 'Ver inconsistencias',
+          RESULTADOS: 'Resultados'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -248,6 +253,7 @@ export const locale = {
           FORMAPRESENTACION: 'Forma presentación',
           PENSION: 'Pension',
           SOLIDARIDAD: 'Solidaridad',
+          RESOLUCION: 'Resolución',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -1002,6 +1008,7 @@ export const locale = {
         CONTRATO_ID_FILTRO: '[Contrato] id',
         CUENTA_CODIGO_FILTRO: '[Cuenta] código',
         COMPROBANTE_NOMBRE_FILTRO: '[Comprobante] nombre',
+        COMPROBANTE_ID_FILTRO: '[Comprobante] id',
         DOCUMENTO_NUMERO_FILTRO: '[Documento] número',
         DOCUMENTO_FECHA_FILTRO: '[Documento] fecha',
         TOTAL_BRUTO: 'Total',
@@ -1027,6 +1034,8 @@ export const locale = {
         ACTIVOID: 'Activo Id',
         ACTIVOCODIGO: 'Activo código',
         ACTIVONOMBRE: 'Activo Nombre',
+        CIERRE: 'Cierre',
+        COMPROBANTE_ID: 'Comprobante id',
       },
       ITEM: {
         ID: 'ID',
@@ -1293,6 +1302,10 @@ export const locale = {
         CONTACTO: 'Contacto',
         CREDITO: 'Credito',
         ACTUAL: 'Actual',
+        COMPROBANTE: 'Comprobante',
+        IDENTIFICACION: 'Identificación',
+        NUMERO: 'Número',
+        FECHA: 'Fecha',
       },
       NOVEDAD: {
         ID: 'Id',
@@ -1461,6 +1474,7 @@ export const locale = {
       APIINTEGRACION: 'API integración',
       TABLEROANALITICA: 'Tablero analítica',
       POS: 'Inventario y POS+',
+      CONTACTAR: 'Contactar',
     },
     MENSAJES: {
       DOCUMENTOAPROBADO: 'Documento aprobado',
