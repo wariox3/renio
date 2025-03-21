@@ -1249,6 +1249,22 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
   ],
+  auxiliar_tercero: [
+    {
+      nombre: 'FECHA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CIERRE',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
   balance_prueba_contacto: [
     {
       nombre: 'FECHA',
