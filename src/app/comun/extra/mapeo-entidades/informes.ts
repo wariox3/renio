@@ -1024,7 +1024,7 @@ export const documentos: MapeoDocumentos = {
     {
       nombre: 'comprobante_nombre',
       nombreAbreviadoFiltro: 'COMPROBANTE_NOMBRE_FILTRO',
-      nombreFiltroRelacion: 'DOCUMENTO_TIPO__NOMBRE',
+      nombreFiltroRelacion: 'COMPROBANTE__NOMBRE',
       campoTipo: 'CharField',
       visibleFiltro: true,
       visibleTabla: true,
