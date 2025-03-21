@@ -49,6 +49,7 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this._cargarFiltrosPredeterminados();
+    this._construirFiltros();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
         ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar_corte'] }),
@@ -131,12 +132,28 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: 5000,
-        excel: true,
+    this.descargarArchivosService.descargarExcel(
+      {
+        ...this.arrParametrosConsulta,
+        ...{
+          limite: 5000,
+          excel: true,
+        },
       },
-    });
+      'cartera/informe/pendiente-corte/',
+    );
+  }
+
+  private _construirFiltros() {
+    const filtroGuardado = localStorage.getItem(this.filtroKey);
+
+    if (filtroGuardado) {
+      const parametrosConsulta: ParametrosFiltros = {
+        ...this.arrParametrosConsulta,
+        filtros: [...JSON.parse(filtroGuardado)],
+      };
+
+      this.arrParametrosConsulta = parametrosConsulta;
+    }
   }
 }
