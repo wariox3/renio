@@ -52,26 +52,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   private _parametrosConsulta: any = {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
-    filtros: [
-      {
-        propiedad: 'fecha_desde',
-        operador: 'gte',
-        valor1: '2024-12-01',
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        campo: 'fecha_desde',
-      },
-      {
-        propiedad: 'fecha_hasta',
-        operador: 'lte',
-        valor1: '2024-12-31',
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        campo: 'fecha_hasta',
-      },
-    ],
+    filtros: [],
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
@@ -96,7 +77,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     this._construirFiltros();
     this.activatedRoute.queryParams.subscribe(() => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['auxiliar_cuenta'] }),
+        ActualizarMapeo({ dataMapeo: documentos['auxiliar_tercero'] }),
       );
       this._consultarInformes(this._parametrosConsulta);
     });
